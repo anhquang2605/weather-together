@@ -1,0 +1,19 @@
+import Link from "next/link"
+export default function Navigation() {
+    return(
+        <div>
+            <div>
+                <span>Icon</span>
+            </div>
+            <ul>
+                <li><Link href={`/`}>Home</Link></li>
+                <li><Link href={`/userprofile/1`}>Profile</Link></li>
+            </ul>
+            <div>
+                <Link href="/login">Login</Link>
+                <Link href="/signup">Sign Up</Link>
+                <Link href="/logout">Log out</Link>
+            </div>
+        </div>
+    )
+}
