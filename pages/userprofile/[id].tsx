@@ -1,18 +1,21 @@
 import Head from "next/head";
-import {getUserIds} from "../../libs/users";
+import {getUserIds,getUserData} from "../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 
 interface UserProfileProps {
     id: string;
+    userJSON: any;
   }
 
 export const getStaticProps: GetStaticProps = async ({ params }) =>  {
-    //const userData = await getUserData(params.id);
+    const theuser = await getUserData(params?.id as string);
     return {
       props: {
-        id : params?.id ?? 0,
+        userJSON: JSON.stringify(theuser),
       },
     };
+
+   
   }
 /* export const getStaticPaths : GetStaticPaths = async () => {
     const paths = getUserIds();
@@ -28,13 +31,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: false
     }
   }
-export default function UserProfile({id}:UserProfileProps){
+export default function UserProfile({userJSON}:UserProfileProps){
+  const user:any = JSON.parse(userJSON);
+  const theTitle = `Profile for ${user.name}`;
     return (
         <>
             <Head>
-                <title>User Profile</title>
+                <title>{theTitle}</title>
             </Head>
-            <h1>User Profile for {id} </h1>
+            <h1>User Profile for {user.name} </h1>
         </>
     )
 }

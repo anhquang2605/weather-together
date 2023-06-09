@@ -7,7 +7,7 @@ export default function Navigation() {
             </div>
             <ul>
                 <li><Link href={`/`}>Home</Link></li>
-                <li><Link href={`/userprofile/1`}>Profile</Link></li>
+                <li><Link href={`/userprofile/64828aaf8aaf4d950fc61fae`}>Profile</Link></li>
             </ul>
             <div>
                 <Link href="/login">Login</Link>
