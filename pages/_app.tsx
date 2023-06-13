@@ -4,6 +4,7 @@ import {store} from "../store/store";
 import { Provider } from "react-redux";
 import { AppProps } from 'next/app'
 import RootLayout from "../components/layout";
+import "./../dist/output.css";
 import App from "next/app";
 
 function MyApp({ Component, pageProps }:AppProps) {

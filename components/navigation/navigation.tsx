@@ -1,4 +1,5 @@
 import Link from "next/link"
+import UserMenu from "./usermenu/usermenu"
 export default function Navigation() {
     return(
         <div>
@@ -8,11 +9,13 @@ export default function Navigation() {
             <ul>
                 <li><Link href={`/`}>Home</Link></li>
                 <li><Link href={`/userprofile/64828aaf8aaf4d950fc61fae`}>Profile</Link></li>
+                <li>
+                    <UserMenu />
+                </li>
             </ul>
             <div>
-                <Link href="/login">Login</Link>
-                <Link href="/signup">Sign Up</Link>
-                <Link href="/logout">Log out</Link>
+
+
             </div>
         </div>
     )

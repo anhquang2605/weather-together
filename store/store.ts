@@ -3,8 +3,7 @@ import weatherReducer from './features/weather/weatherSlice';
 import userReducer from './features/user/userSlice';
 export const store = configureStore({
     reducer:{
-        weather:weatherReducer,
-        user:userReducer
+        weather: weatherReducer,
     }
 })
 
