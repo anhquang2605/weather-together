@@ -1,6 +1,6 @@
 import * as mongoDB from "mongodb";
 import { connectDB } from "./../../../libs/mongodb";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 //UTILS
 export async function addUser(userName: string ,password: string, email: string, location: any){
     const db = await connectDB();
