@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <>
     <Head>
-    <link href="./../dist/output.css" rel="stylesheet"/>
+    
     </Head>
       <Navigation/>
       {children}

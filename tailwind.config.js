@@ -1,9 +1,9 @@
 module.exports = {
-    content: ["./**/*.{html,js}"],
+    content: ["./**/*.{html,js,ts,tsx}"],
     theme: {
       extend: {},
     },
     plugins: [
-        require('@tailwindcss/forms'),
+        
     ],
   }
