@@ -1,7 +1,5 @@
 import * as mongoDB from "mongodb";
-const { MongoClient, ServerApiVersion } = require('mongodb');
 import { connectDB } from "./mongodb";
-//UTILS
 export async function getUserIds(){//CHANGES
     try{
         let db = await connectDB() 

@@ -2,8 +2,8 @@ import Head from "next/head";
 import {getUserIds,getUserData} from "../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchUser } from './../../store/features/user/userSlice';
+/* import { useSelector, useDispatch } from 'react-redux';
+import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
     id: string;
     userJSON: any;
