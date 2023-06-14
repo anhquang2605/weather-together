@@ -106,12 +106,12 @@ export default function Register() {
         <>
             <h1>Register</h1>
             <div>
-                {!passwordMatch && <p>Passwords do not match</p>}
-                {!usernameLength && <p>Username must be at least 5 characters long</p>}
-                {!passwordLength && <p>Password must be at least 8 characters long</p>}
-                {!emailValid && <p>Email must be valid</p>}
-                {usernameExists && <p>Username already exists</p>}
-                {emailExists && <p>Email already exists</p>}
+                {!passwordMatch && <p className="text-red-400">Passwords do not match</p>}
+                {!usernameLength && <p className="text-red">Username must be at least 5 characters long</p>}
+                {!passwordLength && <p className="text-red">Password must be at least 8 characters long</p>}
+                {!emailValid && <p className="text-red">Email must be valid</p>}
+                {usernameExists && <p className="text-red">Username already exists</p>}
+                {emailExists && <p className="text-red">Email already exists</p>}
             </div>
             <div className="bg-white md:container md:mx-auto mx-auto shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <input type="text" className="p-4" placeholder="Username" onChange={handleUsernameChange} onBlur={()=>{
