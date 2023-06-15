@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import bcrypt from 'bcryptjs';
+import ApiStatusPop from '../../components/api-status-pop/apistatuspop';
 const API_PREFFIX = "/api";
 export default function Register() {
     //form states
@@ -14,6 +15,8 @@ export default function Register() {
     const [emailValid, setEmailValid] = useState(false)
     const [usernameExists, setUsernameExists] = useState(false)
     const [emailExists, setEmailExists] = useState(false)
+    //api status
+    const [apiStatus, setApiStatus] = useState('');    
 
     //Form state handlers
     const handleUsernameChange = (event:any) => {
@@ -61,7 +64,7 @@ export default function Register() {
         }
     }
     const validateUsernameExists = async () => {
-        const response = await fetch(API_PREFFIX + "/user-by-name?username=" + username);
+        const response = await fetch(API_PREFFIX + "/user-by-name/?username=" + username);
         const data = await response.json();
         const existingUser = data.user;
         if (existingUser) {
@@ -72,7 +75,7 @@ export default function Register() {
     }
 
      const validateEmailExists = async () => {
-        const response = await fetch(API_PREFFIX + "/user-by-email?email=" + email);
+        const response = await fetch(API_PREFFIX + "/user-by-email/?email=" + email);
         const data = await response.json();
         const existingUser = data.user;
         if (existingUser) {
@@ -87,16 +90,23 @@ export default function Register() {
         if (valid) {
             const newUser = {
                 username: username,
-                password: bcrypt.hash(password, 10),
+                password: bcrypt.hashSync(password, 10),
                 email: email
 
             }
+            setApiStatus("Adding user...");
             fetch(API_PREFFIX + "/add-user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(newUser)
+            }).then(response => {
+                if (response.status === 200) {
+                    setApiStatus("User added successfully");
+                } else {
+                    setApiStatus("Error adding user");
+                }
             })
            // addUser(username, password, email, null)
         }
@@ -113,6 +123,7 @@ export default function Register() {
                 {usernameExists && <p className="text-red">Username already exists</p>}
                 {emailExists && <p className="text-red">Email already exists</p>}
             </div>
+            <ApiStatusPop status={apiStatus}/>
             <div className="bg-white md:container md:mx-auto mx-auto shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <input type="text" className="p-4" placeholder="Username" onChange={handleUsernameChange} onBlur={()=>{
                     validateUsername()

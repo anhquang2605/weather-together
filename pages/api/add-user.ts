@@ -4,8 +4,7 @@ import { connectDB } from '../../libs/mongodb'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         const db = await connectDB();
-        console.log(req.body)
-        const user = JSON.parse(req.body);
+        const user = req.body;
         console.log(user);
         if(db){
            db.collection('users').insertOne(user).then(result => {

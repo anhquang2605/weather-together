@@ -5,7 +5,7 @@ export async function getUserIds(){//CHANGES
         let db = await connectDB() 
         if(!db) return [];
         const usersCollection: mongoDB.Collection = await db.collection('users');
-        const ids : string[] = (await usersCollection.find({}, { projection: { _id: 1 } }).toArray()).map(obj => obj._id.toString());
+        const ids : string[] = (await usersCollection.find({}, { projection: { username: 1 } }).toArray()).map(obj => obj._id.toString());
         //in the future, we will have a function that retrieve user ids from the database
         //id must be string
         const paths = ids.map(theid => {
