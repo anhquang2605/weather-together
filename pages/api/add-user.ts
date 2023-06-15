@@ -5,7 +5,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         const db = await connectDB();
         const user = req.body;
-        console.log(user);
         if(db){
            db.collection('users').insertOne(user).then(result => {
             res.status(200).json(result);

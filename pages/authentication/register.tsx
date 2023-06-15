@@ -16,7 +16,11 @@ export default function Register() {
     const [usernameExists, setUsernameExists] = useState(false)
     const [emailExists, setEmailExists] = useState(false)
     //api status
-    const [apiStatus, setApiStatus] = useState('');    
+    const [apiStatus, setApiStatus] = useState({
+        type: "idle",
+        message: ""
+    });
+    const [showAPIPop, setShowAPIPop] = useState(false);    
 
     //Form state handlers
     const handleUsernameChange = (event:any) => {
@@ -30,6 +34,18 @@ export default function Register() {
     }
     const handleEmailChange = (event:any) => {
         setEmail(event.target.value)
+    }
+    const resetAllState = () => {
+        setUsername('')
+        setPassword('')
+        setConfirmPassword('')
+        setEmail('')
+        setPasswordMatch(false)
+        setUsernameLength(false)
+        setPasswordLength(false)
+        setEmailValid(false)
+        setUsernameExists(false)
+        setEmailExists(false)
     }
 
     //form validation
@@ -94,7 +110,11 @@ export default function Register() {
                 email: email
 
             }
-            setApiStatus("Adding user...");
+            setShowAPIPop(true);
+            setApiStatus({
+                type: "loading",
+                message: "Adding user..."
+            });
             fetch(API_PREFFIX + "/add-user", {
                 method: "POST",
                 headers: {
@@ -103,10 +123,20 @@ export default function Register() {
                 body: JSON.stringify(newUser)
             }).then(response => {
                 if (response.status === 200) {
-                    setApiStatus("User added successfully");
+                    setApiStatus(
+                        {
+                            type: "success",
+                            message:"User added successfully"}
+                        );
+                    resetAllState();
                 } else {
-                    setApiStatus("Error adding user");
+                    setApiStatus(
+                        {
+                            type: "error",
+                            message:"Error adding user, please try again later"
+                        });
                 }
+
             })
            // addUser(username, password, email, null)
         }
@@ -123,7 +153,7 @@ export default function Register() {
                 {usernameExists && <p className="text-red">Username already exists</p>}
                 {emailExists && <p className="text-red">Email already exists</p>}
             </div>
-            <ApiStatusPop status={apiStatus}/>
+            <ApiStatusPop status={apiStatus} show={showAPIPop} redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
             <div className="bg-white md:container md:mx-auto mx-auto shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <input type="text" className="p-4" placeholder="Username" onChange={handleUsernameChange} onBlur={()=>{
                     validateUsername()
