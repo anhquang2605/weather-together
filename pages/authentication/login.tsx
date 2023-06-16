@@ -1,5 +1,7 @@
 import { useState } from "react";
 import ApiStatusPop from "./../../components/api-status-pop/apistatuspop";
+import { useDispatch, useSelector } from "react-redux";
+import { userLoaded } from "../../store/features/user/userSlice";
 export default function Login() {
         //api status
         const [apiStatus, setApiStatus] = useState({
@@ -9,6 +11,7 @@ export default function Login() {
         const [reveal, setReveal] = useState(false);
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
+        const dispatch = useDispatch();
         const handleUsernameChange = (e: any) => {
             setUsername(e.target.value);
         }
@@ -36,6 +39,7 @@ export default function Login() {
                         type: "success",
                         message: "Login successful"
                     });
+                    dispatch(userLoaded(JSON.parse(data.data)));
                 } else {
                     setApiStatus({
                         type: "error",

@@ -34,6 +34,26 @@ export async function getUserData(id: string){
     }
 }
 
+export async function getUsernamePaths (){
+    try{
+        let db = await connectDB() 
+        if(!db) return [];
+        const usersCollection: mongoDB.Collection = await db.collection('users');
+        const usernames : string[] = (await usersCollection.find({}, { projection: { username: 1 } }).toArray()).map(obj => obj.username);
+        const paths = usernames.map(username => {
+            return {
+                params: {
+                    username: username
+                }
+            }
+        });
+        return paths;
+    } catch(e) {
+        console.log(e);
+    }
+    return [];
+}
+
 export async function getUserDataByUserName(username: string){
     try{
         let db = await connectDB()

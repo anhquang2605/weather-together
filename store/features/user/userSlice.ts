@@ -9,8 +9,17 @@ export const userSlice = createSlice({
   },
   reducers: {
     // standard reducer logic, with auto-generated action types per reducer
-    
+    userLoaded: (state, action) => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      
+      state.data = action.payload;
+    }
   },  
 });
 
 export default userSlice.reducer;
+
+export const { userLoaded } = userSlice.actions;

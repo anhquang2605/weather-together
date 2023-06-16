@@ -1,16 +1,16 @@
 import Head from "next/head";
-import {getUserIds,getUserData} from "../../libs/users";
+import { getUserDataByUserName, getUsernamePaths} from "../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect } from 'react';
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
-    id: string;
+    username: string;
     userJSON: any;
   }
 
 export const getStaticProps: GetStaticProps = async ({ params }) =>  {
-    const theuser = await getUserData(params?.id as string);
+    const theuser = await getUserDataByUserName(params?.username as string);
     return {
       props: {
         userJSON: JSON.stringify(theuser),
@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) =>  {
     };
 } */
 export const getStaticPaths: GetStaticPaths = async () => {
-    const paths = await getUserIds()
+    const paths = await getUsernamePaths()
     return {
       paths,
       fallback: false
@@ -35,13 +35,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 export default function UserProfile({userJSON}:UserProfileProps){
   const user:any = JSON.parse(userJSON);
-  const theTitle = `Profile for ${user.name}`;
+  const theTitle = `Profile for ${user.username}`;
     return (
         <>
             <Head>
                 <title>{theTitle}</title>
             </Head>
-            <h1>User Profile for {user.name} </h1>
+            <h1>User Profile for {user.username} </h1>
         </>
     )
 }

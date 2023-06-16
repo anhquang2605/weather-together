@@ -1,13 +1,23 @@
 import Link from "next/link"
+import { useSelector } from "react-redux"
 export default function UserMenu() {
+    const user = useSelector((state: any) => state.user);
     return (
         <>
             <span>Small avatar</span>
-            <span>User Name</span>
-            <Link href="/authentication/login">log in</Link>
-            <Link href="/authentication/register">register</Link>
-            <Link href="/authentication/logout">log out</Link>
-            <Link href="/userprofile">user profile</Link>
+            {user.data ?
+                <>
+                    <span>Good morning {user.data.username}</span>
+                    <Link href="/authentication/logout">Log out</Link>
+                    <Link href={"/userprofile/" + (user.data ? user.data.username : "")}>User profile</Link>
+                </>
+                :
+                <>
+                    <Link href="/authentication/login">Log in</Link>
+                    <Link href="/authentication/register">Register</Link>
+                </>
+            }
+
         </>
     )
 }

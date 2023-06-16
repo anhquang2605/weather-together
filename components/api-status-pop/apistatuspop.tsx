@@ -24,7 +24,6 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectButt
         setReveal(show);
     },[show])
     useEffect(() => {
-        console.log(status.type)
         switch(status.type) {
             case "success":
                 setStyle("border-green-300 text-green-700");
