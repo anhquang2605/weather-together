@@ -27,13 +27,13 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectButt
         console.log(status.type)
         switch(status.type) {
             case "success":
-                setStyle("border-green-200 text-green-700");
+                setStyle("border-green-300 text-green-700");
                 break;
             case "error":
-                setStyle("border-red-200 text-red-700");
+                setStyle("border-red-300 text-red-700");
                 break;
             case "loading":
-                setStyle("border-blue-200 text-blue-700");
+                setStyle("border-blue-300 text-blue-700");
                 break;
         }    
     },[status.type])
@@ -41,7 +41,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectButt
     return (
         <div className={"fixed top-0 left-0 w-full h-full " + (reveal? "" : "hidden ")}>
             <div className="bg-gray-700 opacity-90 absolute top-0 left-0 w-full h-full"></div>
-            <div className={"fixed inset-0 bg-white mx-auto my-auto rounded border-2 p-24 sm:w-3/4 md:w-2/4 lg:w-1/4 h-1/4 flex justify-center items-center flex-wrap " + style}>
+            <div className={"fixed inset-0 bg-white mx-auto my-auto rounded border-4 p-24 sm:w-3/4 md:w-2/4 lg:w-1/4 h-1/4 flex justify-center items-center flex-wrap " + style}>
                 <button onClick={()=>{
                     setReveal(false);
                 }} className="absolute top-0 right-0 text-tomato"><IoCloseCircleSharp style={
