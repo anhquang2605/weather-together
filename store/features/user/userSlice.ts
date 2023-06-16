@@ -1,18 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getUserData } from './../../../libs/users'; // replace with your function
-
-// Async action to fetch user data
-export const fetchUser = createAsyncThunk(
-  'user/fetchUser',
-  async (id, { rejectWithValue }) => {
-    try {
-      const user = await getUserData(typeof id === 'string' ? id : "");
-      return JSON.stringify(user);
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -21,20 +7,10 @@ export const userSlice = createSlice({
     status: 'idle',
     error: null,
   },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchUser.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.data = JSON.parse(action.payload);
-      })
-      .addCase(fetchUser.rejected, (state, action) => {
-        state.status = 'failed';
-      });
-  },
+  reducers: {
+    // standard reducer logic, with auto-generated action types per reducer
+    
+  },  
 });
 
 export default userSlice.reducer;
