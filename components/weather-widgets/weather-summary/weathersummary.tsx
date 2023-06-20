@@ -1,5 +1,5 @@
 import { getCurrentWeather } from "../../../libs/weather";
-import { Location } from "../../../types/location";
+import { Location } from "./../../../types/Location";
 import WeatherAnimatedIcon from "../pluggins/weather-animated-icon/weatheranimatedicon";
 import { useEffect} from "react";
 interface WeatherSummaryProps {
@@ -13,7 +13,7 @@ export default function WeatherSummary({location}: WeatherSummaryProps){
             .catch((err) => {
                 console.log(err)
             })
-    })
+    },[])
     return (
         <div className="weather-summary">
             <h5>Weather summary</h5>

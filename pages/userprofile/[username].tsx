@@ -2,6 +2,7 @@ import Head from "next/head";
 import { getUserDataByUserName, getUsernamePaths} from "../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect } from 'react';
+import { User } from "../../types/User";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -34,7 +35,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   }
 export default function UserProfile({userJSON}:UserProfileProps){
-  const user:any = JSON.parse(userJSON);
+  const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
     return (
         <>

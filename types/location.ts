@@ -1,8 +1,10 @@
 export interface Location {
-    name: string,
-    lat?: number,
-    lon?: number,
-    country?: string,
-    code?: string,
-    timezone?: string,
+    postal_code: string,
+    city: string,
+    state: string,
+    state_code: string,
+    country: string,
+    country_code: string,
+    latitude: number,
+    longitude: number,
 }
