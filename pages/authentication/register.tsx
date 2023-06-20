@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEvent, FocusEvent } from 'react'
+import { COUNTRIES } from '../../constants/countries';
 import bcrypt from 'bcryptjs';
 import ApiStatusPop from '../../components/api-status-pop/apistatuspop';
+import * as CITIES from '../../data/cities.json';
+import { getCityFromZipcode } from '../../libs/zipcode';
 const API_PREFFIX = "/api";
 const PW_LENGTH = 8;
+
 export default function Register() {
     //form states
     const [username, setUsername] = useState('')
@@ -13,6 +17,10 @@ export default function Register() {
     const [passwordTouched, setPasswordTouched] = useState(false)
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
     const [emailTouched, setEmailTouched] = useState(false)
+    const [country, setCountry] = useState('')
+    const [zipCode, setZipCode] = useState('')
+    const [city, setCity] = useState('')
+    const [cities, setCities] = useState<string[]>()
     //validation states
     const [passwordMatch, setPasswordMatch] = useState(false)
     const [usernameLength, setUsernameLength] = useState(false)
@@ -20,6 +28,9 @@ export default function Register() {
     const [emailValid, setEmailValid] = useState(false)
     const [usernameExists, setUsernameExists] = useState(false)
     const [emailExists, setEmailExists] = useState(false)
+    const [countrySelected, setCountrySelected] = useState(false)
+    const [suggestionOn, setSuggestionOn] = useState(false)
+    const [citiesSuggestion, setCitiesSuggestion] = useState<string[]>([])
     //password validation states
     const [withAtLeastOneNumber, setWithAtLeastOneNumber] = useState(false)
     const [withAtLeastOneUpperCase, setWithAtLeastOneUpperCase] = useState(false)
@@ -34,23 +45,71 @@ export default function Register() {
         type: "idle",
         message: ""
     });
+    const [zipApiStatus, setZipApiStatus] = useState("idle");
     const [showAPIPop, setShowAPIPop] = useState(false);    
 
     //Form state handlers
-    const handleUsernameChange = (event:any) => {
-        setUsername(event.target.value)
+    const handleUsernameChange = (event:ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        setUsername(target?.value ?? '')
 
     }
-    const handlePasswordChange = (event:any) => {
-        setPassword(event.target.value)
+    const handlePasswordChange = (event:ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        setPassword(target?.value ?? '')
     }
-    const handleConfirmPasswordChange = (event:any) => {
-        setConfirmPassword(event.target.value)
+    const handleConfirmPasswordChange = (event:ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        setConfirmPassword(target?.value ?? '')
 
     }
-    const handleEmailChange = (event:any) => {
-        setEmail(event.target.value)
+    const handleEmailChange = (event:ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        setEmail(target?.value ?? '')
 
+    }
+    const handleCountriesSelect = (event:ChangeEvent) => {
+        const target = event.target as HTMLSelectElement;
+        const theCountry = target?.value ?? ''
+        const countryName = target.options[target.selectedIndex].dataset.name ?? ''
+        if(theCountry !== ''){
+            const cities = CITIES[countryName as keyof typeof CITIES];
+            setCountry(theCountry)
+            setCountrySelected(true)
+            setCities( cities ?? [] )
+        }
+
+    }
+    const handleZipCodeChange = (event:ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        const zipcode = target?.value ?? ''
+        setZipCode(zipcode)
+    }
+    const handleCityChange = async (event:ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        const city = target?.value ?? ''
+        setCity(city)
+        const suggestions = await handleLookUpCity(city)
+        console.log(suggestions)
+        setCitiesSuggestion(suggestions)
+    }
+    const handleLookupZipCode = async (event:FocusEvent<HTMLInputElement>) => {
+        const target = event.target as HTMLInputElement;
+        const zipcode = target?.value ?? ''
+        setZipApiStatus("loading");
+        const dacity = await getCityFromZipcode(zipcode, country);
+        
+        if(!dacity) { setZipApiStatus("failed"); return;}
+        setZipApiStatus("success");
+        setCity(dacity)
+    }
+    const handleLookUpCity = async (city:string) => {
+        setSuggestionOn(true)
+        const citiesList = [...cities ?? []];
+        const filteredCities = citiesList.filter((cityName) => {
+            return cityName.toLowerCase().startsWith(city.toLowerCase())
+        })
+        return filteredCities
     }
     const resetAllState = () => {
         setUsername('')
@@ -75,7 +134,10 @@ export default function Register() {
         setPasswordTouched(false)
         setConfirmPasswordTouched(false)
         setEmailTouched(false)
-
+        setCountry('')
+        setZipCode('')
+        setCity('')
+        setCountrySelected(false)
     }
 
     //form validation
@@ -147,16 +209,16 @@ export default function Register() {
             setEmailExists(false)
         }
     } 
-
+    
     const handleSubmit = (event:any) => {
-        const touched = userNameTouched && passwordTouched && confirmPasswordTouched && emailTouched
+        const touched = userNameTouched && passwordTouched && confirmPasswordTouched && emailTouched && countrySelected
         if(!touched){
             setUserNameTouched(true)
             setPasswordTouched(true)
             setConfirmPasswordTouched(true)
             setEmailTouched(true)
         }
-        const valid = passwordMatch && usernameLength && passwordLength && emailValid && !usernameExists && !emailExists
+        const valid = passwordMatch && usernameLength && passwordLength && emailValid && !usernameExists && !emailExists && countrySelected
         if (valid) {
             const newUser = {
                 username: username,
@@ -260,7 +322,42 @@ export default function Register() {
                     }
                     </p>}
                 </div>
+                <div>
+                    <select onChange={ (event) => {handleCountriesSelect(event) }}>
+                        <option value="">Select a country</option>
+                        {COUNTRIES.map((country, index) => {
+                            return <option data-name={country.name} key={index} value={country.code}>{country.name}</option>
+                        }
+                        )}
+                    </select>
+                    <p className={"text-red-400 " + (countrySelected && "opacity-0")}>Please select a country!</p>
+                </div>
 
+                <div>
+                    <h5 className={countrySelected ? "" : "text-gray-300"}>Enter zip code or City name</h5>
+                    <label></label>
+                    <input type="text" disabled={!countrySelected}  value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />
+                    {zipApiStatus == "loading" && <p className="text-blue-400">Looking up city...</p>}
+                    {zipApiStatus == "failed" && <p className="text-red-400">Error looking up city!</p>}
+                    {zipApiStatus == "success" && <p className="text-green-400">City found!</p>}
+                    {zipApiStatus == "idle" && <p className="opacity-0">Enter zip code or city name</p>}
+                    <div className="relative">
+                        <input type="text" disabled={!countrySelected}  value={city} placeholder="City" onBlur={()=>{setSuggestionOn(false)}} onFocus={(event)=>{
+                            setZipCode('')
+                        }}  onChange={handleCityChange} />
+                        {
+                            suggestionOn && citiesSuggestion.length && <ul className="absolute top-6 bg-white border h-2/3 overflow-y-auto">
+                                {citiesSuggestion.map((city, index) => {
+                                    return <li onClick={(event) => {
+                                        setCity(city)
+                                    }} key={index}>{city}</li>
+                                })}
+                            </ul>
+                        }
+                    </div>
+
+
+                </div>   
                 <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Register</button>
             </div>
         </>
