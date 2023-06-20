@@ -1,9 +1,9 @@
-import { useState, useEffect, ChangeEvent, FocusEvent } from 'react'
+import React, { useState, useEffect, ChangeEvent, FocusEvent } from 'react'
 import { COUNTRIES } from '../../constants/countries';
 import bcrypt from 'bcryptjs';
 import ApiStatusPop from '../../components/api-status-pop/apistatuspop';
 import * as CITIES from '../../data/cities.json';
-import { getCityFromZipcode } from '../../libs/zipcode';
+import { getCityFromZipcode, getDataByZipcode } from '../../libs/zipcode';
 const API_PREFFIX = "/api";
 const PW_LENGTH = 8;
 
@@ -17,10 +17,12 @@ export default function Register() {
     const [passwordTouched, setPasswordTouched] = useState(false)
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
     const [emailTouched, setEmailTouched] = useState(false)
+    const [zipCodeTouched, setZipCodeTouched] = useState(false)
     const [country, setCountry] = useState('')
     const [zipCode, setZipCode] = useState('')
     const [city, setCity] = useState('')
-    const [cities, setCities] = useState<string[]>()
+    //const [cities, setCities] = useState<string[]>()
+    const [location, setLocation] = useState(null)
     //validation states
     const [passwordMatch, setPasswordMatch] = useState(false)
     const [usernameLength, setUsernameLength] = useState(false)
@@ -29,8 +31,10 @@ export default function Register() {
     const [usernameExists, setUsernameExists] = useState(false)
     const [emailExists, setEmailExists] = useState(false)
     const [countrySelected, setCountrySelected] = useState(false)
-    const [suggestionOn, setSuggestionOn] = useState(false)
-    const [citiesSuggestion, setCitiesSuggestion] = useState<string[]>([])
+    const [zipCodeFound, setZipCodeFound] = useState(false)
+    const [countryFound, setCountryFound] = useState(false)
+/*     const [suggestionOn, setSuggestionOn] = useState(false)
+    const [citiesSuggestion, setCitiesSuggestion] = useState<string[]>([]) */
     //password validation states
     const [withAtLeastOneNumber, setWithAtLeastOneNumber] = useState(false)
     const [withAtLeastOneUpperCase, setWithAtLeastOneUpperCase] = useState(false)
@@ -40,6 +44,8 @@ export default function Register() {
     const [validPassword, setValidPassword] = useState(false)
     const [validEmail, setValidEmail] = useState(false)
     const [validPasswordMatch, setValidPasswordMatch] = useState(false)
+    const [validZipCode, setValidZipCode] = useState(false)
+    const [validCountry, setValidCountry] = useState(false)
     //api status
     const [apiStatus, setApiStatus] = useState({
         type: "idle",
@@ -76,7 +82,8 @@ export default function Register() {
             const cities = CITIES[countryName as keyof typeof CITIES];
             setCountry(theCountry)
             setCountrySelected(true)
-            setCities( cities ?? [] )
+            setCountryFound(true)
+            //setCities( cities ?? [] )
         }
 
     }
@@ -85,32 +92,33 @@ export default function Register() {
         const zipcode = target?.value ?? ''
         setZipCode(zipcode)
     }
-    const handleCityChange = async (event:ChangeEvent) => {
+/*     const handleCityChange = async (event:ChangeEvent) => {
         const target = event.target as HTMLInputElement;
         const city = target?.value ?? ''
         setCity(city)
-        const suggestions = await handleLookUpCity(city)
-        console.log(suggestions)
-        setCitiesSuggestion(suggestions)
-    }
+        //const suggestions = await handleLookUpCity(city)
+        //setCitiesSuggestion(suggestions)
+    } */
     const handleLookupZipCode = async (event:FocusEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
         const zipcode = target?.value ?? ''
+        if (zipcode.length <= 2) return;
         setZipApiStatus("loading");
-        const dacity = await getCityFromZipcode(zipcode, country);
-        
-        if(!dacity) { setZipApiStatus("failed"); return;}
+        const loc = await getDataByZipcode(zipcode, country);
+        if(!loc) {setZipCodeFound(false), setZipApiStatus("failed"); return;}
+        setZipCodeFound(true)
         setZipApiStatus("success");
-        setCity(dacity)
+        setLocation(loc);
+        setCity(loc.city)
     }
-    const handleLookUpCity = async (city:string) => {
-        setSuggestionOn(true)
+/*     const handleLookUpCity = async (city:string) => {
+        //setSuggestionOn(true)
         const citiesList = [...cities ?? []];
         const filteredCities = citiesList.filter((cityName) => {
             return cityName.toLowerCase().startsWith(city.toLowerCase())
         })
         return filteredCities
-    }
+    } */
     const resetAllState = () => {
         setUsername('')
         setPassword('')
@@ -138,6 +146,12 @@ export default function Register() {
         setZipCode('')
         setCity('')
         setCountrySelected(false)
+        setCountryFound(false)
+        setZipCodeFound(false)
+        setValidZipCode(false)
+        setValidCountry(false)
+        setZipApiStatus("idle");
+        setShowAPIPop(false);
     }
 
     //form validation
@@ -211,20 +225,22 @@ export default function Register() {
     } 
     
     const handleSubmit = (event:any) => {
-        const touched = userNameTouched && passwordTouched && confirmPasswordTouched && emailTouched && countrySelected
+        const touched = userNameTouched && passwordTouched && confirmPasswordTouched && emailTouched && countrySelected && zipCodeTouched
         if(!touched){
             setUserNameTouched(true)
             setPasswordTouched(true)
             setConfirmPasswordTouched(true)
             setEmailTouched(true)
+            setZipCodeTouched(true)
+            setCountrySelected(true)
         }
-        const valid = passwordMatch && usernameLength && passwordLength && emailValid && !usernameExists && !emailExists && countrySelected
+        const valid = passwordMatch && usernameLength && passwordLength && emailValid && !usernameExists && !emailExists && countryFound && zipCodeFound
         if (valid) {
             const newUser = {
                 username: username,
                 password: bcrypt.hashSync(password, 10),
-                email: email
-
+                email: email,
+                location: location
             }
             setShowAPIPop(true);
             setApiStatus({
@@ -270,8 +286,11 @@ export default function Register() {
         setValidPasswordMatch(!confirmPasswordTouched || passwordMatch);
     }, [confirmPasswordTouched, passwordMatch])
     useEffect(() => {
-        console.log(validPassword)
-    }, [validPassword])
+        setValidZipCode(!zipCodeTouched || zipCodeFound);
+    }, [zipCodeTouched, zipCodeFound])
+    useEffect(() => {
+        setValidCountry(!countrySelected || (countryFound && country !== ''));
+    }, [countrySelected, countryFound, country])
     return (
         <>
             <h1>Register</h1>
@@ -323,38 +342,41 @@ export default function Register() {
                     </p>}
                 </div>
                 <div>
-                    <select onChange={ (event) => {handleCountriesSelect(event) }}>
+                    <select className={"p-4 border rounded" + (validCountry ? "" : "border-red-400")} onChange={ (event) => {handleCountriesSelect(event) }}>
                         <option value="">Select a country</option>
                         {COUNTRIES.map((country, index) => {
                             return <option data-name={country.name} key={index} value={country.code}>{country.name}</option>
                         }
                         )}
                     </select>
-                    <p className={"text-red-400 " + (countrySelected && "opacity-0")}>Please select a country!</p>
+                    <p className={"text-red-400 " + (validCountry && "opacity-0")}>Please select a country before you can enter your zip code!</p>
                 </div>
 
                 <div>
-                    <h5 className={countrySelected ? "" : "text-gray-300"}>Enter zip code or City name</h5>
+                    <h5  className={countrySelected ? "" : "text-gray-300"}>Enter Your zip code</h5>
                     <label></label>
-                    <input type="text" disabled={!countrySelected}  value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />
+                    <input type="text" className={"p-4 border rounded " + (validZipCode ? "" : "border-red-400") } disabled={!countrySelected}  value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />
                     {zipApiStatus == "loading" && <p className="text-blue-400">Looking up city...</p>}
-                    {zipApiStatus == "failed" && <p className="text-red-400">Error looking up city!</p>}
-                    {zipApiStatus == "success" && <p className="text-green-400">City found!</p>}
+                    {zipApiStatus == "failed" && <p className="text-red-400">Error! cannot find the city</p>}
+                    {zipApiStatus == "success" && <p className="text-green-400">City found! Your location is <span>{city}</span></p>}
                     {zipApiStatus == "idle" && <p className="opacity-0">Enter zip code or city name</p>}
-                    <div className="relative">
-                        <input type="text" disabled={!countrySelected}  value={city} placeholder="City" onBlur={()=>{setSuggestionOn(false)}} onFocus={(event)=>{
+                    <p className={"text-red-400 " + (validZipCode && "opacity-0")}>Please enter a valid zip code!</p>
+{/*                     <div className="relative">
+                        <input className="p-4" type="text" disabled={!countrySelected}  value={city} placeholder="City" onBlur={()=>{setSuggestionOn(false)}} onFocus={(event)=>{
                             setZipCode('')
                         }}  onChange={handleCityChange} />
                         {
-                            suggestionOn && citiesSuggestion.length && <ul className="absolute top-6 bg-white border h-2/3 overflow-y-auto">
+                            suggestionOn && citiesSuggestion.length && <ul className="absolute p-4 top-14 bg-white border h-50 overflow-y-auto">
                                 {citiesSuggestion.map((city, index) => {
-                                    return <li onClick={(event) => {
-                                        setCity(city)
+                                    return <li data-city={city} className='hover:bg-purple-200 cursor-pointer' onMouseDown={(event: React.MouseEvent<HTMLLIElement>) => {
+                                        const target = event.target as HTMLLIElement;
+                                        setCity(target.dataset.city ?? "");
+                                        setSuggestionOn(false);
                                     }} key={index}>{city}</li>
                                 })}
                             </ul>
                         }
-                    </div>
+                    </div> */}
 
 
                 </div>   

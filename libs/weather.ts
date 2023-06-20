@@ -22,9 +22,10 @@ export default async function getWeatherDataByTime(locationName: string, timeRat
     const URL = await generateURL(locationName, timeRate, unitGroup = UNIT_GROUP);
     try {
 /*         const reponse = await fetch(URL, options);
-        const data = await reponse.text(); */
+        const data = await reponse.text();
+        return JSON.parse(data) as WeatherData; */
         const data = weather;
-        return data;
+        return data as WeatherData;
     } catch (error) {
         return null;
     }
