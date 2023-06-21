@@ -1,26 +1,61 @@
 import {createSlice, createAsyncThunk, createEntityAdapter} from '@reduxjs/toolkit';
 
-const weatherAdapter = createEntityAdapter();
+const weatherHourlyAdapter = createEntityAdapter();
+const weatherDailyAdapter = createEntityAdapter();
 
-const initialState = weatherAdapter.getInitialState({
+const initialDailyState = weatherDailyAdapter.getInitialState({
     status: 'idle',
-    error: null
+    error: null,
+    data: null,
 })
-const API_HOST = "https://api.tomorrow.io/v4";
-const API_ENDPOINT = "/timelines";
-const API_KEY = process.env.WEATHER_API_KEY;
-export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city: string) => {
-    const response = await fetch(`${API_HOST}${API_ENDPOINT}?location=${city}&fields=temperature&timesteps=1d&units=metric&apikey=${API_KEY}`);
+const initialHourlyState = weatherHourlyAdapter.getInitialState({
+    status: 'idle',
+    error: null,
+    data: null,
+})
+
+const API_HOST = process.env.NEXT_PUBLIC_WEATHER_API_HOST;
+const API_BASE_URL = process.env.NEXT_PUBLIC_WEATHER_API_URL;
+const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
+const options = {
+    method: 'GET',
+    headers: {
+        'x-rapidapi-host': API_HOST || "",
+        'x-rapidapi-key': API_KEY || "",
+    },
+}
+export const fetchWeatherHourly = createAsyncThunk('weather/fetchWeatherHourly', async (city: string) => {
+    const response = await fetch(`${API_BASE_URL}/forecast?location=${city}&unitGroup=us&aggregateHours=1&contentType=json&shortColumnNames=1`, options);
     const data = await response.json();
     return data;
 });
-
-const weatherSlice = createSlice({
-    name: 'weather',
-    initialState,
+export const fetchWeatherDaily = createAsyncThunk('weather/fetchWeatherDaily', async (city: string) => {
+    const response = await fetch(`${API_BASE_URL}/forecast?location=${city}&unitGroup=us&aggregateHours=24&contentType=json&shortColumnNames=1`, options);
+    const data = await response.json();
+    return data;
+})
+const weatherHourlySlice = createSlice({
+    name: 'weatherHourly',
+    initialState : initialHourlyState,
     reducers: {
-        weatherAdded: weatherAdapter.addOne,
     },
+    extraReducers: (builder) => {
+        builder.addCase(fetchWeatherHourly.fulfilled, (state, action) => {
+            weatherHourlyAdapter.setAll(state, action.payload);
+        });
+    }
 });
-
-export default weatherSlice.reducer
+const weatherDailySlice = createSlice({
+    name: 'weatherDaily',
+    initialState :  initialDailyState,
+    reducers: {
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchWeatherDaily.fulfilled, (state, action) => {
+            weatherDailyAdapter.setAll(state, action.payload);
+        });
+    }
+});
+export const selectAllWeather = (state: any) => state.data;
+export const {reducer: weatherHourlyReducer} = weatherHourlySlice;
+export const {reducer: weatherDailyReducer} = weatherDailySlice;

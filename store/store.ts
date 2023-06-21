@@ -1,9 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit';
-import weatherReducer from './features/weather/weatherSlice';
+import {weatherDailyReducer,weatherHourlyReducer} from './features/weather/weatherSlice';
 import userReducer from './features/user/userSlice';
 export const store = configureStore({
     reducer:{
         user: userReducer,
+        weatherDaily: weatherDailyReducer,
+        weatherHourly: weatherHourlyReducer
     }
 })
 
