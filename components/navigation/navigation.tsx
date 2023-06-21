@@ -2,7 +2,7 @@ import Link from "next/link"
 import UserMenu from "./usermenu/usermenu"
 export default function Navigation() {
     return(
-        <div className="bg-purple-500 p-4 shrink">
+        <div className="bg-indigo-800 grow-0 drop-shadow-lg rounded p-4 shrink">
             <div>
                 <span>Icon</span>
             </div>

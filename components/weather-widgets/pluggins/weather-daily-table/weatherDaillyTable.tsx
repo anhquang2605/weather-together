@@ -18,7 +18,7 @@ export default function WeatherDailyTable ({listOfDailyWeather}: WeatherDailyTab
             <div className="weather-daily-table flex">
                 {weatherInAWeek.map((weather: Value,index: number) => {
                     return (
-                        <div className="weather-daily-table-item flex-row">
+                        <div key={index} className="weather-daily-table-item flex-row">
                             <h5>{index == 0 ? "Today" : (index == 1? "Tomorrow" : getDateInWeek(weather.datetimeStr))}</h5>
                             <h5>{Math.round(weather.temp || 0)}</h5>
                             <h5>{weather.conditions}</h5>

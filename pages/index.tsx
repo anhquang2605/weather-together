@@ -13,7 +13,7 @@ export default function Home() {
                 <title>Home</title>
             </Head>
             <Banner/>
-            <div className="flex">
+            <div className="flex grow">
                 <h1 className="hidden">Home</h1>
                 
                 {/* Banner */}

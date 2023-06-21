@@ -7,7 +7,6 @@ export default function UserMenu() {
             <span>Small avatar</span>
             {user.data ?
                 <>
-                    <span>Good morning {user.data.username}</span>
                     <Link href="/authentication/logout">Log out</Link>
                     <Link href={"/userprofile/" + (user.data ? user.data.username : "")}>User profile</Link>
                 </>

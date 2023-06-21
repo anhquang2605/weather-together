@@ -7,10 +7,10 @@ export default function Banner() {
     const {location} = user?.data ?? {location: undefined};
     return (
         <>
-            <div className="banner grow order-first w-1/1 p-4">
+            <div className="banner drop-shadow  bg-indigo-800 mb-4 rounded grow order-first w-full p-4">
                 <div className="banner__content">
 
-                    <h1 className="banner__title">Good {user.data.username} Welcome to <span className="banner__title--highlight">Weather</span> App</h1>
+                    <h1 className="banner__title">Good {user?.data?.username ?? ""} Welcome to <span className="banner__title--highlight">Weather</span> App</h1>
                     <p className="banner__description">{/*Message of the day*/}When the sun come, shine brighter</p>
                 </div>
             </div>

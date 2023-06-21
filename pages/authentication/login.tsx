@@ -52,9 +52,9 @@ export default function Login() {
         
     return (
         <>
-            <ApiStatusPop status={apiStatus} redirect="/" redirectButtonText="Return Home" show={reveal}/>
+            
             <h1>Login</h1>
-            <div className="bg-white md:container md:mx-auto mx-auto shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div className="bg-gradient-to-br from-slate-400/20 from-10% to-transparent to-95% backdrop-blur-lg md:container md:mx-auto mx-auto shadow-lg rounded px-8 pt-6 pb-8 mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username</label>
                 <input type="text" className="rounded text-pink-500 p-4" value={username}
                     onChange={handleUsernameChange}
@@ -65,6 +65,7 @@ export default function Login() {
                     placeholder="password" />
                 <button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Log in</button>
             </div>
+            <ApiStatusPop status={apiStatus} redirect="/" redirectButtonText="Return Home" show={reveal}/>
         </>
     )
 }

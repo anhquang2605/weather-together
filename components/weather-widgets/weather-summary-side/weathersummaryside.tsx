@@ -11,7 +11,7 @@ export default function WeatherSummarySide() {
 
     return (
         <>
-        {location && <div className="weather-summary-side p-4">
+        {location && <div className="weather-summary-side bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow p-4 grow-0">
             <WeatherAnimatedIcon />
             <h5>{location.city}</h5>
             <WeatherSummary location={location ?? null} />

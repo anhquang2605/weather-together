@@ -24,7 +24,7 @@ export default function RootLayout({
     
     </Head>
       {user &&
-      <div className="flex flex-row flex-wrap p-4">
+      <div className="flex flex-row flex-wrap p-4 bg-gradient-to-bl from-purple-950 from-5% to-indigo-950 to-95% h-screen text-white">
         <Navigation/>
         {children}
       </div>}
