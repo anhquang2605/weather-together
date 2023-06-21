@@ -81,5 +81,6 @@ export interface Value {
     conditions:       string;
     windchill:        number | null;
     cape:             number | null;
+    id:               number | null;
 }
 

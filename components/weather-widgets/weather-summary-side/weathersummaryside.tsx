@@ -11,11 +11,12 @@ export default function WeatherSummarySide() {
 
     return (
         <>
-        {location && <div className="weather-summary-side">
+        {location && <div className="weather-summary-side p-4">
             <WeatherAnimatedIcon />
+            <h5>{location.city}</h5>
             <WeatherSummary location={location ?? null} />
             <WeatherDailyTable listOfDailyWeather={[]}/>
-            <h5>{location.city}</h5>
+
         </div>}
         </>
     )
