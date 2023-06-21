@@ -11,11 +11,13 @@ const weatherDailyAdapter = createEntityAdapter<Value>({
 const initialDailyState = weatherDailyAdapter.getInitialState({
     status: 'idle',
     error: null,
+    currentCondition: null,
 
 })
 const initialHourlyState = weatherHourlyAdapter.getInitialState({
     status: 'idle',
     error: null,
+    currentCondition: null,
 })
 
 const API_HOST = process.env.NEXT_PUBLIC_WEATHER_API_HOST;
@@ -31,22 +33,34 @@ const options = {
 export const fetchWeatherHourly = createAsyncThunk('weather/fetchWeatherHourly', async (city: string) => {
     const response = await fetch(`${API_BASE_URL}/forecast?location=${city}&unitGroup=us&aggregateHours=1&contentType=json&shortColumnNames=1`, options);
     const data = await response.json();
-    const hourlyData = data?.locations?.[city]?.values;
+    const theCity = data?.locations?.[city];
+    const hourlyData = theCity.values;
     const withIds= hourlyData.map((e: Value,index: number) => ({
         ...e,
         id: index
-}))
-return withIds;
+    }))
+    const currentCondition = theCity.currentConditions;
+
+    return {
+        currentCondition,
+        dataWithIds: withIds
+    };
 });
 export const fetchWeatherDaily = createAsyncThunk('weather/fetchWeatherDaily', async (city: string) => {
     const response = await fetch(`${API_BASE_URL}/forecast?location=${city}&unitGroup=us&aggregateHours=24&contentType=json&shortColumnNames=1`, options);
     const data = await response.json();
-    const dailyData = data?.locations?.[city]?.values;
+    const theCity = data?.locations?.[city];
+    const dailyData = theCity.values;
     const withIds= dailyData.map((e: Value,index: number) => ({
-            ...e,
-            id: index
+        ...e,
+        id: index
     }))
-    return withIds;
+    const currentCondition = theCity.currentConditions;
+
+    return {
+        currentCondition,
+        dataWithIds: withIds
+    };
 })
 const weatherHourlySlice = createSlice({
     name: 'weatherHourly',
@@ -56,7 +70,8 @@ const weatherHourlySlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchWeatherHourly.fulfilled, (state, action) => {
             
-            weatherHourlyAdapter.upsertMany(state, action.payload)
+            weatherHourlyAdapter.upsertMany(state, action.payload.dataWithIds)
+            state.currentCondition = action.payload.currentCondition;
         });
     }
 });
@@ -68,8 +83,8 @@ const weatherDailySlice = createSlice({
     extraReducers: (builder) => {
         
         builder.addCase(fetchWeatherDaily.fulfilled, (state, action) => {
-            console.log(action.payload)
-            weatherDailyAdapter.upsertMany(state, action.payload);
+            weatherDailyAdapter.upsertMany(state, action.payload.dataWithIds);
+            state.currentCondition = action.payload.currentCondition;
         });
     }
 });
