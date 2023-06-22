@@ -15,7 +15,7 @@ export default function Banner() {
                     <h1 className="banner__title">Good {user?.data?.username ?? ""} Welcome to <span className="banner__title--highlight">Weather</span> App</h1>
                     <p className="banner__description">{/*Message of the day*/}When the sun come, shine brighter</p>
                     <p>
-                        It is a {currentCondition.icon}
+                        It is a {currentCondition?.icon}
                     </p>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import Navigation from './navigation/navigation'
 import Head from 'next/head'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import { useEffect, useLayoutEffect } from 'react'
+import { useEffect} from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   const user = useSelector((state: any) => state.user)
   const router = useRouter();
-  useLayoutEffect(() => {
+  useEffect(() => {
       if(!user.data){
           router.push("/authentication/login");
       }
