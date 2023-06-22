@@ -58,6 +58,7 @@ export default function Edit({userJSON}:UserProfileProps){
         return;
       }
       setApiStatus('success');
+      return;
     }
   }
 
@@ -99,7 +100,7 @@ export default function Edit({userJSON}:UserProfileProps){
           <title>{theTitle}</title>
         </Head>
         <div className="flex grow flex-wrap">
-            <h1>Edi Profile for {user.username} </h1>
+            <h1>Edit Profile for {user.username} </h1>
             <button>Upload profile picture from your device</button>
             {<div onDragOver={handleCancelDragOver} className="text-center grow height-2/3 mx-auto container border rounded justify-center items-center" onDrop={handleDrop}>
                 { apiStatus === 'idle' &&
