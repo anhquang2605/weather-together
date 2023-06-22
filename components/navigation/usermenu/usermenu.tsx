@@ -3,11 +3,10 @@ import { useSelector } from "react-redux"
 export default function UserMenu() {
     const user = useSelector((state: any) => state.user);
     return (
-        <>
+        <div className="flex flex-col">
             <span>Small avatar</span>
             {user.data ?
                 <>
-                    <span>Good morning {user.data.username}</span>
                     <Link href="/authentication/logout">Log out</Link>
                     <Link href={"/userprofile/" + (user.data ? user.data.username : "")}>User profile</Link>
                 </>
@@ -18,6 +17,6 @@ export default function UserMenu() {
                 </>
             }
 
-        </>
+        </div>
     )
 }

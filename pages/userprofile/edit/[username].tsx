@@ -1,9 +1,8 @@
 import Head from "next/head";
-import { getUserDataByUserName, getUsernamePaths} from "../../libs/users";
+import { getUserDataByUserName, getUsernamePaths} from "../../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect } from 'react';
-import { User } from "../../types/User";
-import Link from "next/link";
+import { User } from "../../../types/User";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -35,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: false
     }
   }
-export default function UserProfile({userJSON}:UserProfileProps){
+export default function Edit({userJSON}:UserProfileProps){
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
     return (
@@ -43,8 +42,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <Head>
                 <title>{theTitle}</title>
             </Head>
-            <h1>User Profile for {user.username} </h1>
-            <Link href={`/userprofile/edit/${user.username}`}>Edit</Link>
+            <h1>Edit Profile for {user.username} </h1>
         </>
     )
 }

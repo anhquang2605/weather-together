@@ -26,21 +26,21 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectButt
     useEffect(() => {
         switch(status.type) {
             case "success":
-                setStyle("border-green-300 text-green-700");
+                setStyle("border-green-300 text-green-400");
                 break;
             case "error":
-                setStyle("border-red-300 text-red-700");
+                setStyle("border-red-300 text-red-400");
                 break;
             case "loading":
-                setStyle("border-blue-300 text-blue-700");
+                setStyle("border-blue-300 text-blue-400");
                 break;
         }    
     },[status.type])
     
     return (
-        <div className={"fixed top-0 left-0 w-full h-full " + (reveal? "" : "hidden ")}>
-            <div className="bg-gray-700 opacity-90 absolute top-0 left-0 w-full h-full"></div>
-            <div className={"fixed inset-0 bg-white mx-auto my-auto rounded border-4 p-24 sm:w-3/4 md:w-2/4 lg:w-1/4 h-1/4 flex justify-center items-center flex-wrap " + style}>
+        <div className={"fixed z-2000 top-0 left-0 w-full h-full " + (reveal? "" : "hidden ")}>
+            <div className=" backdrop-blur bg-transparent absolute top-0 left-0 w-full h-full"></div>
+            <div className={"fixed inset-0 bg-indigo-900 mx-auto my-auto rounded border-4 p-24 sm:w-3/4 md:w-2/4 lg:w-1/4 h-1/4 flex justify-center items-center flex-wrap " + style}>
                 <button onClick={()=>{
                     setReveal(false);
                 }} className="absolute top-0 right-0 text-tomato"><IoCloseCircleSharp style={
@@ -52,7 +52,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectButt
                 }/></button>
                 <p className="text-center text-xl font-semibold">{status.message}</p>
 
-                {status.type == "success" && <button className="bg-blue-500 rounded rounded text-white py-2 px-8 mt-4" onClick={()=>{
+                {status.type == "success" && <button className="bg-indigo-500 rounded rounded text-white py-2 px-8 mt-4" onClick={()=>{
                     redirect.length > 0 ?
                     redirectTo(redirect) :
                     router.back();

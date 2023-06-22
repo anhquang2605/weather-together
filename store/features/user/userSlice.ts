@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import { User } from '../../../types/User';
+interface UserState {
+  data: User | null,
+  status: string,
+  error: string | null,
+}
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    data: null,
+    data : null,
     status: 'idle',
     error: null,
   },
