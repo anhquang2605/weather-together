@@ -3,6 +3,9 @@ import { getUserDataByUserName, getUsernamePaths} from "../../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { User } from "../../../types/User";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../../store/features/user/userSlice";
+import { profile } from "console";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -36,16 +39,24 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 export default function Edit({userJSON}:UserProfileProps){
   const [apiStatus, setApiStatus] = useState('idle');
+  const [profilePicturePath, setProfilePicturePath] = useState<string | null>(""); //['/images/profile-pictures/default.png'
   const [droppedFile, setDroppedFile] = useState<Blob | null>(null);
   const [fileDropStatus, setFileDropStatus] = useState<string | null>(null);
+  const [editedUser, setEditedUser] = useState<User | null>(null);
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+  const dispatch = useDispatch();
   const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
     const file = droppedFile;
     if(file){
+      const  fileType = file['type'];
+      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+      if (!validImageTypes.includes(fileType)) {
+        setApiStatus('invalid');
+        return;
+      }
       const formData = new FormData();
       formData.append('file', file);
       setApiStatus('loading');
@@ -57,7 +68,13 @@ export default function Edit({userJSON}:UserProfileProps){
         setApiStatus('error');
         return;
       }
+      const data = await reponse.json();
+      const url = data.url;
+      
+      //save the path to the userPath state
       setApiStatus('success');
+      updateUserProfilePicture(url);
+      setProfilePicturePath(url);
       return;
     }
   }
@@ -94,6 +111,34 @@ export default function Edit({userJSON}:UserProfileProps){
     }
   }
 
+  const updateUserProfilePicture = async (url:string) => {
+    if(user){
+      setApiStatus('updating');
+      const response = await fetch(`/api/update-user`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...user,
+          profilePicturePath: url,
+        }),
+      });
+      if(!response.ok){
+        setApiStatus('update-error');
+      } else {
+        setApiStatus('update-success');
+      }
+    }
+  }
+  useEffect(() => {
+    if(apiStatus === 'update-success' && profilePicturePath && profilePicturePath.length > 0){
+      dispatch(updateUser({
+        ...user,
+        profilePicturePath: profilePicturePath,
+      }));
+    }
+  }, [apiStatus,profilePicturePath])
     return (
       <>
         <Head>
@@ -110,7 +155,7 @@ export default function Edit({userJSON}:UserProfileProps){
                       {!droppedFile && 
                       <input type="file" ref={fileInputRef} onChange={handleFileInputChange}/>}
                       
-                      <button type="submit">Upload</button>
+                      <button type="submit">Use this image as profile picture</button>
                       {droppedFile&&
                       
                       <p>Drag another file to replace or 
@@ -126,6 +171,11 @@ export default function Edit({userJSON}:UserProfileProps){
                 { apiStatus === 'loading' && <h3>Uploading...</h3>}
                 { apiStatus === 'success' && <h3>Upload successful</h3>}
                 { apiStatus === 'error' && <h3>Upload failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
+                { apiStatus === 'invalid' && <h3>Invalid file type <button onClick={()=>{setApiStatus('idle'); setDroppedFile(null)}}>Try Again</button></h3>}
+                { apiStatus === 'updating' && <h3>Updating profile picture...</h3>}
+                { apiStatus === 'update-success' && <h3>Profile picture updated <button onClick={()=>{setApiStatus('idle');setDroppedFile(null)}}>Change provile picture</button></h3>}
+                { apiStatus === 'update-error' && <h3>Profile picture update failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
+                
             </div>}
 
         </div>

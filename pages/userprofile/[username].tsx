@@ -43,6 +43,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <Head>
                 <title>{theTitle}</title>
             </Head>
+            <img src={user.profilePicturePath}></img>
             <h1>User Profile for {user.username} </h1>
             <Link href={`/userprofile/edit/${user.username}`}>Edit</Link>
         </>

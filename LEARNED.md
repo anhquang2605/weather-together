@@ -13,3 +13,17 @@ export const config: PageConfig = {
 };
 
 6. Cancel DragOver event first before listening to Drop event in html
+
+7. To allow others to see uploaded picture on s3 need to create a policy for the bucket on s3 website with
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Sid":"AddPerm",
+      "Effect":"Allow",
+      "Principal": "*",
+      "Action":["s3:GetObject"],
+      "Resource":["arn:aws:s3:::BUCKETNAME/*"]
+    }
+  ]
+}
