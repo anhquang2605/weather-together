@@ -51,9 +51,15 @@ export default function Edit({userJSON}:UserProfileProps){
   const [initalPageX, setInitialPageX] = useState<number | null>(null); 
   const [initalPageY, setInitialPageY] = useState<number | null>(null); //['/images/profile-pictures/default.png'
   const [isDown, setIsDown] = useState<boolean>(false); //['/images/profile-pictures/default.png'
+  //Zooming states
+  const [initlaImgWidth, setInitialImgWidth] = useState<number>(0);
+  const [initlaImgHeight, setInitialImgHeight] = useState<number>(0);
+  const [curScale, setCurScale] = useState<number>(1);
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const maxScale = 2;
+  const minScale = 0.5;
   const dispatch = useDispatch();
   const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
@@ -101,7 +107,7 @@ export default function Edit({userJSON}:UserProfileProps){
       // Draw the visible part of the image on the canvas
       ctx?.drawImage(img, startX, startY, endX - startX, endY - startY, 0, 0, canvas.width, canvas.height);
       
-/*       canvas.toBlob(async (blob) => {
+      canvas.toBlob(async (blob) => {
         if(blob){
 
           const myFile = new File([blob], 'profile-picture.'+extension, {type: 'image/'+extension, lastModified: Date.now()});
@@ -129,7 +135,7 @@ export default function Edit({userJSON}:UserProfileProps){
           setProfilePicturePath(url);
           return;
         }
-      }, 'image/'+extension)   */
+      }, 'image/'+extension)  
     
      
     }
@@ -197,23 +203,31 @@ export default function Edit({userJSON}:UserProfileProps){
   const zoomIn = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const img = document.querySelector('img') as HTMLImageElement;
-    const container = document.querySelector('.crop-conainer') as HTMLDivElement;
-    let scale = img.style.transform.replace(/[^0-9.]/g, '') || "1";
-    let newScale = 0;
-    newScale = parseFloat(scale) + 0.1;
-    newScale = Math.min(Math.max(.125, newScale), 4);
-    img.style.transform = `scale(${newScale})`;
-    
+    const scale = curScale + 0.1;
+    if(scale > maxScale){
+      return;
+    }
+    setCurScale(scale);
+    img.style.width = (initlaImgWidth * scale) + 'px';
+    img.style.height = (initlaImgHeight * scale) + 'px';
   }
   const zoomOut = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const img = document.querySelector('img') as HTMLImageElement;
+    const scale = curScale - 0.1;
     const container = document.querySelector('.crop-conainer') as HTMLDivElement;
-    let scale = img.style.transform.replace(/[^0-9.]/g, '') || "1";
-    let newScale = 0;
-    newScale = parseFloat(scale) - 0.1;
-    newScale = Math.min(Math.max(.125, newScale), 4);
-    img.style.transform = `scale(${newScale})`;
+    const containerRect = container.getBoundingClientRect();
+    const imgRect = img.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const containerHeight = containerRect.height;
+    const imgWidth = imgRect.width;
+    const imgHeight = imgRect.height;
+    if(scale < minScale || imgWidth <= containerWidth || imgHeight <= containerHeight){
+      return;
+    }
+    setCurScale(scale);
+    img.style.width = (initlaImgWidth * scale) + 'px';
+    img.style.height = (initlaImgHeight * scale) + 'px';
   }
   const updateUserProfilePicture = async (url:string) => {
     if(user){
@@ -235,6 +249,23 @@ export default function Edit({userJSON}:UserProfileProps){
       }
     }
   }
+  const handleLoadPreviewImage = (e:React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const img = e.currentTarget;
+    const container = document.querySelector('.crop-conainer') as HTMLDivElement;
+    const containerRect = container.getBoundingClientRect();
+    const imgRect = img.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const containerHeight = containerRect.height;
+    const imgWidth = imgRect.width;
+    const imgHeight = imgRect.height;
+    if (imgWidth < imgHeight) {
+        img.style.width = containerWidth  + 'px';
+    }else {
+        img.style.height = containerHeight + 'px';
+    }
+    setInitialImgWidth(img.width);
+    setInitialImgHeight(img.height);
+  }
   useEffect(() => {
     if(apiStatus === 'update-success' && profilePicturePath && profilePicturePath.length > 0){
       dispatch(updateUser({
@@ -243,6 +274,7 @@ export default function Edit({userJSON}:UserProfileProps){
       }));
     }
   }, [apiStatus,profilePicturePath])
+
     return (
       <>
         <Head>
@@ -250,6 +282,7 @@ export default function Edit({userJSON}:UserProfileProps){
         </Head>
         <div className="flex grow flex-wrap">
             <h1>Edit Profile for {user.username} </h1>
+            <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={user.profilePicturePath}></img>
             <button>Upload profile picture from your device</button>
             {<div onDragOver={handleCancelDragOver} className="text-center grow height-2/3 mx-auto container border rounded justify-center items-center" onDrop={handleDrop}>
                 { apiStatus === 'idle' &&
@@ -263,13 +296,13 @@ export default function Edit({userJSON}:UserProfileProps){
                       {droppedFile&&
                       <>
                       <canvas id="image-canvas" className="w-48 h-48"></canvas>
-                      <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className="crop-conainer w-48 h-48 overflow-hidden mx-auto">
-                        <img className="relative w-auto h-auto"  onDragStart={()=>false} src={previewImageURL??""}></img>
+                      <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className="crop-conainer w-48 h-48 overflow-hidden mx-auto border border-white rounded">
+                          <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-image max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
+
                       </div>
                       <div>
                         <button onClick={zoomIn}>+</button>
                         <button onClick={zoomOut}>-</button>
-
                       </div>
                         <p>Drag another file to replace or 
                           <button onClick={

@@ -731,6 +731,10 @@ video {
   max-width: 20rem;
 }
 
+.max-w-none {
+  max-width: none;
+}
+
 .shrink {
   flex-shrink: 1;
 }
@@ -813,6 +817,11 @@ video {
 .border-red-400 {
   --tw-border-opacity: 1;
   border-color: rgb(248 113 113 / var(--tw-border-opacity));
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .bg-blue-500 {
