@@ -6,6 +6,7 @@ import { User } from "../../../types/User";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../store/features/user/userSlice";
 import { profile } from "console";
+import { current } from "@reduxjs/toolkit";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -43,6 +44,13 @@ export default function Edit({userJSON}:UserProfileProps){
   const [droppedFile, setDroppedFile] = useState<Blob | null>(null);
   const [fileDropStatus, setFileDropStatus] = useState<string | null>(null);
   const [editedUser, setEditedUser] = useState<User | null>(null);
+  //image croping states
+  const [previewImageURL, setPreviewImageURL] = useState<string | null>(null); 
+  const [initialScrollLeft, setInitialScrollLeft] = useState<number | null>(null); 
+  const [initialScrollTop, setInitialScrollTop] = useState<number | null>(null); 
+  const [initalPageX, setInitialPageX] = useState<number | null>(null); 
+  const [initalPageY, setInitialPageY] = useState<number | null>(null); //['/images/profile-pictures/default.png'
+  const [isDown, setIsDown] = useState<boolean>(false); //['/images/profile-pictures/default.png'
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,25 +65,73 @@ export default function Edit({userJSON}:UserProfileProps){
         setApiStatus('invalid');
         return;
       }
-      const formData = new FormData();
-      formData.append('file', file);
-      setApiStatus('loading');
-      const reponse =await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      if(!reponse.ok){
-        setApiStatus('error');
-        return;
-      }
-      const data = await reponse.json();
-      const url = data.url;
+      const filename = file.name;
+      const extension = filename.split('.').pop();
+      //get cropped image from canvas
+      const canvas = document.getElementById('image-canvas') as HTMLCanvasElement;
+      const ctx = canvas.getContext('2d');
+      const img = document.querySelector('img') as HTMLImageElement;
+      const container = document.querySelector('.crop-conainer') as HTMLDivElement;
+      //Stats of container
+      let imgRect = img.getBoundingClientRect();
+      let containerRect = container.getBoundingClientRect();
+    
+      // Image's natural width and height
+      let imgNaturalWidth = img.naturalWidth;
+      let imgNaturalHeight = img.naturalHeight;
+
+      // Image's displayed width and height in the container
+      let imgDisplayedWidth = imgRect.width;
+      let imgDisplayedHeight = imgRect.height;
+
+      // The ratio between the natural size and the displayed size
+      let widthRatio = imgNaturalWidth / imgDisplayedWidth;
+      let heightRatio = imgNaturalHeight / imgDisplayedHeight;
+
+      // Calculate the coordinates of the visible area in the image
+      let startX = Math.max(0, (containerRect.left - imgRect.left) * widthRatio);
+      let startY = Math.max(0, (containerRect.top - imgRect.top) * heightRatio);
+      let endX = startX + (containerRect.width * widthRatio);
+      let endY = startY + (containerRect.height * heightRatio);
+
+      // Adjust canvas size
+      canvas.width = endX - startX;
+      canvas.height = endY - startY;
+
+      // Draw the visible part of the image on the canvas
+      ctx?.drawImage(img, startX, startY, endX - startX, endY - startY, 0, 0, canvas.width, canvas.height);
       
-      //save the path to the userPath state
-      setApiStatus('success');
-      updateUserProfilePicture(url);
-      setProfilePicturePath(url);
-      return;
+/*       canvas.toBlob(async (blob) => {
+        if(blob){
+
+          const myFile = new File([blob], 'profile-picture.'+extension, {type: 'image/'+extension, lastModified: Date.now()});
+          if (!myFile){
+            setApiStatus('error');
+            return;
+          }
+          const formData = new FormData();
+          formData.append('file', myFile);
+          setApiStatus('loading');
+          const reponse =await fetch('/api/upload', {
+            method: 'POST',
+            body: formData,
+          });
+          if(!reponse.ok){
+            setApiStatus('error');
+            return;
+          }
+          const data = await reponse.json();
+          const url = data.url;
+          
+          //save the path to the userPath state
+          setApiStatus('success');
+          updateUserProfilePicture(url);
+          setProfilePicturePath(url);
+          return;
+        }
+      }, 'image/'+extension)   */
+    
+     
     }
   }
 
@@ -100,17 +156,65 @@ export default function Edit({userJSON}:UserProfileProps){
       }
       if (theFile) {
         setDroppedFile(theFile);
+        setPreviewImageURL(URL.createObjectURL(theFile));
       }
     } 
   }
+
 
   const handleFileInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     if(file){
       setDroppedFile(file);
+      setPreviewImageURL(URL.createObjectURL(file));
     }
   }
 
+  const handleMouseDown = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    //move the crop frame, container class name is crop-container
+    const cropContainer = e.currentTarget;
+    setIsDown(true);
+    setInitialPageX(e.pageX);
+    setInitialPageY(e.pageY);
+    setInitialScrollLeft(cropContainer.scrollLeft);
+    setInitialScrollTop(cropContainer.scrollTop);
+  }
+  const handleMouseMove = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if(!isDown){
+      return;
+    }
+    const cropContainer = e.currentTarget;
+    e.preventDefault();
+    const x = e.pageX;
+    const y = e.pageY;
+    const walkX = x - (initalPageX ?? 0);
+    const walkY = y - (initalPageY ?? 0);
+    cropContainer.scrollLeft = (initialScrollLeft ?? 0) - walkX;
+    cropContainer.scrollTop = (initialScrollTop ?? 0) - walkY;
+  }
+  const zoomIn = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const img = document.querySelector('img') as HTMLImageElement;
+    const container = document.querySelector('.crop-conainer') as HTMLDivElement;
+    let scale = img.style.transform.replace(/[^0-9.]/g, '') || "1";
+    let newScale = 0;
+    newScale = parseFloat(scale) + 0.1;
+    newScale = Math.min(Math.max(.125, newScale), 4);
+    img.style.transform = `scale(${newScale})`;
+    
+  }
+  const zoomOut = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const img = document.querySelector('img') as HTMLImageElement;
+    const container = document.querySelector('.crop-conainer') as HTMLDivElement;
+    let scale = img.style.transform.replace(/[^0-9.]/g, '') || "1";
+    let newScale = 0;
+    newScale = parseFloat(scale) - 0.1;
+    newScale = Math.min(Math.max(.125, newScale), 4);
+    img.style.transform = `scale(${newScale})`;
+  }
   const updateUserProfilePicture = async (url:string) => {
     if(user){
       setApiStatus('updating');
@@ -157,15 +261,26 @@ export default function Edit({userJSON}:UserProfileProps){
                       
                       <button type="submit">Use this image as profile picture</button>
                       {droppedFile&&
-                      
-                      <p>Drag another file to replace or 
-                        <button onClick={
-                          (e) => {
-                            e.preventDefault();
-                            setDroppedFile(null);
-                          }
-                        }>Upload new</button>
-                      </p>}
+                      <>
+                      <canvas id="image-canvas" className="w-48 h-48"></canvas>
+                      <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className="crop-conainer w-48 h-48 overflow-hidden mx-auto">
+                        <img className="relative w-auto h-auto"  onDragStart={()=>false} src={previewImageURL??""}></img>
+                      </div>
+                      <div>
+                        <button onClick={zoomIn}>+</button>
+                        <button onClick={zoomOut}>-</button>
+
+                      </div>
+                        <p>Drag another file to replace or 
+                          <button onClick={
+                            (e) => {
+                              e.preventDefault();
+                              setDroppedFile(null);
+                            }
+                          }>Upload new</button>
+                        </p>
+                      </>
+                      }
                     </form>
                   </>}
                 { apiStatus === 'loading' && <h3>Uploading...</h3>}
