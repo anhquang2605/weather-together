@@ -27,3 +27,4 @@ export const config: PageConfig = {
     }
   ]
 }
+8. scale on img will not allow to scroll pass the container scroll top or scroll left, need to scale image by changing its width and height directly

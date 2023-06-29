@@ -9,7 +9,7 @@ export default function Banner() {
     const currentCondition = useSelector((state: any) => state.weatherDaily.currentCondition);
     return (
         <>
-            <div className="banner drop-shadow  bg-indigo-800 mb-4 rounded grow order-first w-full p-4">
+            <div className="banner drop-shadow order-first w-full glass mb-4">
                 <div className="banner__content">
 
                     <h1 className="banner__title">Good {user?.data?.username ?? ""} Welcome to <span className="banner__title--highlight">Weather</span> App</h1>

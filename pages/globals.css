@@ -21,8 +21,9 @@ body {
 @tailwind utilities;
 
 .glass{
-  @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow p-4;
+  @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
 }
 .action-btn{
-  @apply mx-auto transition duration-200 my-4  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-4 py-2 rounded border border-indigo-500 hover:border-slate-200 ;
+  @apply mx-auto transition duration-200 my-4  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-8 py-2 rounded border border-indigo-500 hover:border-slate-200 ;
 }
+
