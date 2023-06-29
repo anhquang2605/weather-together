@@ -8,6 +8,7 @@ import { updateUser } from "../../../store/features/user/userSlice";
 import { profile } from "console";
 import { current } from "@reduxjs/toolkit";
 import Summary from "../../../components/profile/summary/Summary";
+import { tailwindStyles } from "../../../constants/tailwind-styles";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -286,19 +287,15 @@ export default function Edit({userJSON}:UserProfileProps){
         <Head>
           <title>{theTitle}</title>
         </Head>
-        <div className="flex grow flex-wrap flex-col">
+        <div className={"flex grow flex-wrap flex-col p-4 ml-4 glass"}>
             <h1>Edit Profile for {user.username} </h1>
             {/* Profile Banner */}
             
             <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={profilePicturePath ? profilePicturePath : user.profilePicturePath}></img>
+             {/* Image Editting */}
+             <button className="action-btn" onClick={()=>setEditingPicture(!editingPicture)}>Update profile picture</button>
             
-            {/* Basic info */}
-            <Summary/>
-
-            {/* Image Editting */}
-            <button className="border rounded mx-auto px-8 py-4 mb-4" onClick={()=>setEditingPicture(!editingPicture)}>Update profile picture</button>
-            
-            {editingPicture && <div onDragOver={handleCancelDragOver} className="text-center grow height-2/3 mx-auto container border rounded justify-center items-center" onDrop={handleDrop}>
+            {editingPicture && <div onDragOver={handleCancelDragOver} className={"text-center grow height-2/3 mx-auto container rounded justify-center items-center " + tailwindStyles.glass} onDrop={handleDrop}>
                 { apiStatus === 'idle' &&
                   <>
                     <h3>{droppedFile ? `${droppedFile.name} ready to upload` :"Drag and drop a file here"} </h3>
@@ -345,6 +342,14 @@ export default function Edit({userJSON}:UserProfileProps){
                 
             </div>}
 
+            {/* Basic info */}
+            <div>
+              <Summary user={user}/>
+              <button className="action-btn">Edit Information</button>
+            </div>
+
+
+           
         </div>
       </>
     )

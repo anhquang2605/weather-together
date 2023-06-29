@@ -5,34 +5,37 @@ import { useRouter } from 'next/router';
 interface SummaryProps {
     user?: User;
 }
-export default function Summary( props: SummaryProps) {
-    const user = useSelector((state: any) => state.user);
+export default function Summary( {user}: SummaryProps) {
     const {asPath, pathname} = useRouter();
 
     return (
         <div>
+          { user && <>
+            <div>
+                <p>{user.bio}</p>
+            </div>
             <div className="profile-row">
                 <h4>First name:</h4>
-                <p>{user.data.firstName}</p>
+                <p>{user.firstName}</p>
             </div>
             <div className="profile-row">
                 <h4>Last name:</h4>
-                <p>{user.data.lastName}</p>
+                <p>{user.lastName}</p>
             </div>
             <div className="profile-row">
                 <h4>Email:</h4>
-                <p>{user.data.email}</p>
+                <p>{user.email}</p>
             </div>
             <div className="profile-row">
                 <h4>City:</h4>
-                <p>{user.data.location.city}</p>
+                <p>{user.location?.city}</p>
             </div>
             {!pathname.includes("edit") && (
                 <div className="profile-row">
                     <h4>Username:</h4>
-                    <p>{user.data.username}</p>
+                    <p>{user.username}</p>
                 </div>
-            )}
+            )}</> }
         </div>
     )    
 }

@@ -10,4 +10,5 @@ export interface User{
     location: Location | null,
     profilePicturePath?: string,
     gallery?: string[],
+    bio?: string,
 }
