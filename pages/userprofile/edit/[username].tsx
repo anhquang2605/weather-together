@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../../store/features/user/userSlice";
 import { profile } from "console";
 import { current } from "@reduxjs/toolkit";
+import Summary from "../../../components/profile/summary/Summary";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -55,12 +56,15 @@ export default function Edit({userJSON}:UserProfileProps){
   const [initlaImgWidth, setInitialImgWidth] = useState<number>(0);
   const [initlaImgHeight, setInitialImgHeight] = useState<number>(0);
   const [curScale, setCurScale] = useState<number>(1);
+  //Editing states
+  const [editingPicture, setEditingPicture] = useState<boolean>(false);
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const maxScale = 2;
   const minScale = 0.5;
   const dispatch = useDispatch();
+  
   const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
     const file = droppedFile;
@@ -76,7 +80,7 @@ export default function Edit({userJSON}:UserProfileProps){
       //get cropped image from canvas
       const canvas = document.getElementById('image-canvas') as HTMLCanvasElement;
       const ctx = canvas.getContext('2d');
-      const img = document.querySelector('img') as HTMLImageElement;
+      const img = document.querySelector('.crop-image') as HTMLImageElement;
       const container = document.querySelector('.crop-conainer') as HTMLDivElement;
       //Stats of container
       let imgRect = img.getBoundingClientRect();
@@ -109,7 +113,7 @@ export default function Edit({userJSON}:UserProfileProps){
       
       canvas.toBlob(async (blob) => {
         if(blob){
-
+          //convert blob to file
           const myFile = new File([blob], 'profile-picture.'+extension, {type: 'image/'+extension, lastModified: Date.now()});
           if (!myFile){
             setApiStatus('error');
@@ -118,6 +122,7 @@ export default function Edit({userJSON}:UserProfileProps){
           const formData = new FormData();
           formData.append('file', myFile);
           setApiStatus('loading');
+
           const reponse =await fetch('/api/upload', {
             method: 'POST',
             body: formData,
@@ -202,7 +207,7 @@ export default function Edit({userJSON}:UserProfileProps){
   }
   const zoomIn = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const img = document.querySelector('img') as HTMLImageElement;
+    const img = document.querySelector('.crop-image') as HTMLImageElement;
     const scale = curScale + 0.1;
     if(scale > maxScale){
       return;
@@ -213,7 +218,7 @@ export default function Edit({userJSON}:UserProfileProps){
   }
   const zoomOut = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const img = document.querySelector('img') as HTMLImageElement;
+    const img = document.querySelector('.crop-image') as HTMLImageElement;
     const scale = curScale - 0.1;
     const container = document.querySelector('.crop-conainer') as HTMLDivElement;
     const containerRect = container.getBoundingClientRect();
@@ -266,6 +271,7 @@ export default function Edit({userJSON}:UserProfileProps){
     setInitialImgWidth(img.width);
     setInitialImgHeight(img.height);
   }
+
   useEffect(() => {
     if(apiStatus === 'update-success' && profilePicturePath && profilePicturePath.length > 0){
       dispatch(updateUser({
@@ -280,11 +286,19 @@ export default function Edit({userJSON}:UserProfileProps){
         <Head>
           <title>{theTitle}</title>
         </Head>
-        <div className="flex grow flex-wrap">
+        <div className="flex grow flex-wrap flex-col">
             <h1>Edit Profile for {user.username} </h1>
-            <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={user.profilePicturePath}></img>
-            <button>Upload profile picture from your device</button>
-            {<div onDragOver={handleCancelDragOver} className="text-center grow height-2/3 mx-auto container border rounded justify-center items-center" onDrop={handleDrop}>
+            {/* Profile Banner */}
+            
+            <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={profilePicturePath ? profilePicturePath : user.profilePicturePath}></img>
+            
+            {/* Basic info */}
+            <Summary/>
+
+            {/* Image Editting */}
+            <button className="border rounded mx-auto px-8 py-4 mb-4" onClick={()=>setEditingPicture(!editingPicture)}>Update profile picture</button>
+            
+            {editingPicture && <div onDragOver={handleCancelDragOver} className="text-center grow height-2/3 mx-auto container border rounded justify-center items-center" onDrop={handleDrop}>
                 { apiStatus === 'idle' &&
                   <>
                     <h3>{droppedFile ? `${droppedFile.name} ready to upload` :"Drag and drop a file here"} </h3>
@@ -292,18 +306,22 @@ export default function Edit({userJSON}:UserProfileProps){
                       {!droppedFile && 
                       <input type="file" ref={fileInputRef} onChange={handleFileInputChange}/>}
                       
-                      <button type="submit">Use this image as profile picture</button>
+              
+                      {/* Image uploading */}
                       {droppedFile&&
                       <>
-                      <canvas id="image-canvas" className="w-48 h-48"></canvas>
-                      <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className="crop-conainer w-48 h-48 overflow-hidden mx-auto border border-white rounded">
-                          <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-image max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
+                        <canvas id="image-canvas" className="w-48 h-48 hidden"></canvas>
+                       
+                       <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-conainer w-48 h-48 overflow-hidden mx-auto border border-white rounded " + (isDown ? "cursor-move" : "cursor-pointer")}>
+                            <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-image max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
 
-                      </div>
-                      <div>
-                        <button onClick={zoomIn}>+</button>
-                        <button onClick={zoomOut}>-</button>
-                      </div>
+                        </div>
+                        {/* Zoom in and out */}
+                        <div>
+                          <button onClick={zoomIn}>+</button>
+                          <button onClick={zoomOut}>-</button>
+                        </div>
+                      <p>Drag the image to adjust the crop area</p>
                         <p>Drag another file to replace or 
                           <button onClick={
                             (e) => {
@@ -312,6 +330,7 @@ export default function Edit({userJSON}:UserProfileProps){
                             }
                           }>Upload new</button>
                         </p>
+                          <button type="submit">Use this image as profile picture</button>
                       </>
                       }
                     </form>
@@ -321,7 +340,7 @@ export default function Edit({userJSON}:UserProfileProps){
                 { apiStatus === 'error' && <h3>Upload failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
                 { apiStatus === 'invalid' && <h3>Invalid file type <button onClick={()=>{setApiStatus('idle'); setDroppedFile(null)}}>Try Again</button></h3>}
                 { apiStatus === 'updating' && <h3>Updating profile picture...</h3>}
-                { apiStatus === 'update-success' && <h3>Profile picture updated <button onClick={()=>{setApiStatus('idle');setDroppedFile(null)}}>Change provile picture</button></h3>}
+                { apiStatus === 'update-success' && <h3>Profile picture updated <button onClick={()=>{setApiStatus('idle');setDroppedFile(null)}}>Update another profile picture</button></h3>}
                 { apiStatus === 'update-error' && <h3>Profile picture update failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
                 
             </div>}

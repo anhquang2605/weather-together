@@ -9,4 +9,5 @@ export interface User{
     password: string,
     location: Location | null,
     profilePicturePath?: string,
+    gallery?: string[],
 }

@@ -755,6 +755,10 @@ video {
   cursor: pointer;
 }
 
+.cursor-move {
+  cursor: move;
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -944,6 +948,11 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .pb-8 {
