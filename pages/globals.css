@@ -20,6 +20,12 @@ body {
 @tailwind components;
 @tailwind utilities;
 
+/*Variables*/
+:root{
+  --nav-primmary-color: #2e1065;
+  --nav-secondary-color: white;
+}
+
 .glass{
   @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
 }
@@ -27,3 +33,15 @@ body {
   @apply mx-auto transition duration-200 my-4  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-8 py-2 rounded border border-indigo-500 hover:border-slate-200 ;
 }
 
+.nav-item{
+  @apply transition flex flex-row items-center py-2 px-4 w-full rounded;
+  svg{
+    @apply w-5 h-5;
+  }
+  span {
+    @apply ml-4;
+  }
+}
+.nav-item:hover{
+  @apply bg-white text-[color:var(--nav-primmary-color)];
+}
