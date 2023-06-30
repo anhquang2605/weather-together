@@ -2,6 +2,7 @@ import Head from "next/head";
 import { getUserDataByUserName, getUsernamePaths} from "../../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { FormEvent, useEffect, useRef, useState } from 'react';
+import {PiMagnifyingGlass} from "react-icons/pi";
 import { User } from "../../../types/User";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../store/features/user/userSlice";

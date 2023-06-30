@@ -72,3 +72,7 @@ body {
 .nav-item.active{
   @apply bg-white text-[color:var(--nav-primmary-color)];
 }
+
+.mag-btn{
+  
+}
