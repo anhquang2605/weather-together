@@ -4,7 +4,7 @@ interface ActivityBoardProps {
 export default function ActivityBoard () {
     return (
         <>
-            <div className="activity-board grow glass mx-4">
+            <div className="activity-board grow glass">
                 <h1>Activity Board</h1>
             </div>
         </>

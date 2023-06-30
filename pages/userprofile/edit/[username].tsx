@@ -9,6 +9,8 @@ import { profile } from "console";
 import { current } from "@reduxjs/toolkit";
 import Summary from "../../../components/profile/summary/Summary";
 import { tailwindStyles } from "../../../constants/tailwind-styles";
+import {ImCloudUpload} from "react-icons/im";
+import Modal from "../../../components/modal/Modal";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -287,60 +289,15 @@ export default function Edit({userJSON}:UserProfileProps){
         <Head>
           <title>{theTitle}</title>
         </Head>
-        <div className={"flex grow flex-wrap flex-col p-4 ml-4 glass"}>
+        <div className={"flex grow flex-wrap flex-col p-4 glass"}>
             <h1>Edit Profile for {user.username} </h1>
             {/* Profile Banner */}
             
             <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={profilePicturePath ? profilePicturePath : user.profilePicturePath}></img>
              {/* Image Editting */}
              <button className="action-btn" onClick={()=>setEditingPicture(!editingPicture)}>Update profile picture</button>
-            
-            {editingPicture && <div onDragOver={handleCancelDragOver} className={"text-center grow height-2/3 mx-auto container rounded justify-center items-center " + tailwindStyles.glass} onDrop={handleDrop}>
-                { apiStatus === 'idle' &&
-                  <>
-                    <h3>{droppedFile ? `${droppedFile.name} ready to upload` :"Drag and drop a file here"} </h3>
-                    <form onSubmit={handleSubmit}>
-                      {!droppedFile && 
-                      <input type="file" ref={fileInputRef} onChange={handleFileInputChange}/>}
-                      
-              
-                      {/* Image uploading */}
-                      {droppedFile&&
-                      <>
-                        <canvas id="image-canvas" className="w-48 h-48 hidden"></canvas>
-                       
-                       <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-conainer w-48 h-48 overflow-hidden mx-auto border border-white rounded " + (isDown ? "cursor-move" : "cursor-pointer")}>
-                            <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-image max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
 
-                        </div>
-                        {/* Zoom in and out */}
-                        <div>
-                          <button onClick={zoomIn}>+</button>
-                          <button onClick={zoomOut}>-</button>
-                        </div>
-                      <p>Drag the image to adjust the crop area</p>
-                        <p>Drag another file to replace or 
-                          <button onClick={
-                            (e) => {
-                              e.preventDefault();
-                              setDroppedFile(null);
-                            }
-                          }>Upload new</button>
-                        </p>
-                          <button type="submit">Use this image as profile picture</button>
-                      </>
-                      }
-                    </form>
-                  </>}
-                { apiStatus === 'loading' && <h3>Uploading...</h3>}
-                { apiStatus === 'success' && <h3>Upload successful</h3>}
-                { apiStatus === 'error' && <h3>Upload failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
-                { apiStatus === 'invalid' && <h3>Invalid file type <button onClick={()=>{setApiStatus('idle'); setDroppedFile(null)}}>Try Again</button></h3>}
-                { apiStatus === 'updating' && <h3>Updating profile picture...</h3>}
-                { apiStatus === 'update-success' && <h3>Profile picture updated <button onClick={()=>{setApiStatus('idle');setDroppedFile(null)}}>Update another profile picture</button></h3>}
-                { apiStatus === 'update-error' && <h3>Profile picture update failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
-                
-            </div>}
+
 
             {/* Basic info */}
             <div>
@@ -351,6 +308,64 @@ export default function Edit({userJSON}:UserProfileProps){
 
            
         </div>
+                    {/* Modal sections */}
+                    <Modal status={editingPicture}>
+              <div onDragOver={handleCancelDragOver} className={"text-center m mx-auto container rounded justify-center items-center self-start bg-indigo-900 p-32"} onDrop={handleDrop}>
+                  { apiStatus === 'idle' &&
+                    <>
+                      <ImCloudUpload className="w-20 h-20 mx-auto"/>
+                      <h3 className="mb-4 text-xl">{droppedFile ? `${droppedFile.name} ready to upload` :"Drag and drop your image here"} </h3>
+                      <form onSubmit={handleSubmit}>
+                        {!droppedFile && 
+                        <>                        
+                          <h3 className="text-xl">OR </h3>
+                            <label className="action-btn block cursor-pointer "htmlFor="image-upload">
+                              Upload from device
+                            </label>
+                          <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
+                        </>
+                      }
+                        
+                
+                        {/* Image uploading */}
+                        {droppedFile&&
+                        <>
+                          <canvas id="image-canvas" className="w-48 h-48 hidden"></canvas>
+                        
+                        <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-conainer w-48 h-48 overflow-hidden mx-auto border border-white rounded " + (isDown ? "cursor-move" : "cursor-pointer")}>
+                              <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-image max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
+
+                          </div>
+                          {/* Zoom in and out */}
+                          <div>
+                            <button className="mag-btn" onClick={zoomIn}>+</button>
+                            <button className="mag-btn" onClick={zoomOut}>-</button>
+                          </div>
+                        <p>Tips: Drag the image to adjust the crop area</p>
+                            <button className="action-btn" onClick={
+                              (e) => {
+                                e.preventDefault();
+                                setDroppedFile(null);
+                              }
+                            }>Upload new</button>
+                            <button className="action-btn ml-4" type="submit">Use this image as profile picture</button>
+                        </>
+                        }
+                      </form>
+                    </>}
+                    {/* Update status of image uploading */}
+                  { apiStatus === 'loading' && <h3>Uploading...</h3>}
+                  { apiStatus === 'success' && <h3>Upload successful</h3>}
+                  { apiStatus === 'error' && <h3>Upload failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
+                  { apiStatus === 'invalid' && <h3>Invalid file type <button onClick={()=>{setApiStatus('idle'); setDroppedFile(null)}}>Try Again</button></h3>}
+                  { apiStatus === 'updating' && <h3>Updating profile picture...</h3>}
+                  { apiStatus === 'update-success' && <><h3>Profile picture updated </h3>
+                  <button className="action-btn mx-auto" onClick={()=>{setApiStatus('idle');setDroppedFile(null)}}>Update another profile picture</button>
+                  </>}
+                  { apiStatus === 'update-error' && <h3>Profile picture update failed <button  className="action-btn mx-auto" onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
+                  
+              </div>
+            </Modal>
       </>
     )
 }

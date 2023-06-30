@@ -28,3 +28,4 @@ export const config: PageConfig = {
   ]
 }
 8. scale on img will not allow to scroll pass the container scroll top or scroll left, need to scale image by changing its width and height directly
+9. Modal should be added to the very end of the component, else weird behavior gonna happen, should be added outside of the parent container so use <> </>

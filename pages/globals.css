@@ -30,7 +30,7 @@ body {
   @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
 }
 .action-btn{
-  @apply mx-auto transition duration-200 my-4  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-8 py-2 rounded border border-indigo-500 hover:border-slate-200 ;
+  @apply transition duration-200 my-4  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-8 py-2 rounded border border-indigo-500 hover:border-slate-200 ;
 }
 
 .nav-item{
@@ -51,12 +51,18 @@ body {
 }
 
 .nav-menu-nonactive{
-  @apply flex flex-col items-center px-0;
+  @apply flex flex-col items-center px-2.5;
   .non-active, span{
     @apply hidden;
   }
+  .nav-item{
+    @apply p-2.5;
+    svg {
+      @apply m-0;
+    }
+  }
   * {
-    @apply border-none;
+    @apply border-[color:var(--nav-primmary-color)];
   }
   div button svg{
     @apply m-0
