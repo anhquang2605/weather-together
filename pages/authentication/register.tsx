@@ -79,11 +79,9 @@ export default function Register() {
         const theCountry = target?.value ?? ''
         const countryName = target.options[target.selectedIndex].dataset.name ?? ''
         if(theCountry !== ''){
-            const cities = CITIES[countryName as keyof typeof CITIES];
             setCountry(theCountry)
             setCountrySelected(true)
             setCountryFound(true)
-            //setCities( cities ?? [] )
         }
 
     }

@@ -13,6 +13,7 @@ import { tailwindStyles } from "../../../constants/tailwind-styles";
 import {ImCloudUpload} from "react-icons/im";
 import Modal from "../../../components/modal/Modal";
 import Slider from "../../../components/slider/Slider";
+import EditInformationForm from "../../../components/profile/edit/edit-information-form/EditInformationForm";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -213,35 +214,6 @@ export default function Edit({userJSON}:UserProfileProps){
     cropContainer.scrollLeft = (initialScrollLeft ?? 0) - walkX;
     cropContainer.scrollTop = (initialScrollTop ?? 0) - walkY;
   }
-  const zoomIn = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    const img = document.querySelector('.crop-image') as HTMLImageElement;
-    const scale = curScale + 0.1;
-    if(scale > maxScale){
-      return;
-    }
-    setCurScale(scale);
-    img.style.width = (initlaImgWidth * scale) + 'px';
-    img.style.height = (initlaImgHeight * scale) + 'px';
-  }
-  const zoomOut = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    const img = document.querySelector('.crop-image') as HTMLImageElement;
-    const scale = curScale - 0.1;
-    const container = document.querySelector('.crop-conainer') as HTMLDivElement;
-    const containerRect = container.getBoundingClientRect();
-    const imgRect = img.getBoundingClientRect();
-    const containerWidth = containerRect.width;
-    const containerHeight = containerRect.height;
-    const imgWidth = imgRect.width;
-    const imgHeight = imgRect.height;
-    if(scale < minScale || imgWidth <= containerWidth || imgHeight <= containerHeight){
-      return;
-    }
-    setCurScale(scale);
-    img.style.width = (initlaImgWidth * scale) + 'px';
-    img.style.height = (initlaImgHeight * scale) + 'px';
-  }
   const handleSliderChange = (value: number) => {
       setSliderValue(value);
   }
@@ -282,7 +254,16 @@ export default function Edit({userJSON}:UserProfileProps){
     setInitialImgWidth(img.width);
     setInitialImgHeight(img.height);
   }
-
+  const resetEditPictureForm = () => {
+    setDroppedFile(null);
+    setPreviewImageURL(null);
+    setApiStatus('idle');
+    setSliderValue(1);
+  }
+  const handlePictureEditClose = () => {
+    setEditingPicture(false);
+    resetEditPictureForm();
+  }
   useEffect(() => {
     if(apiStatus === 'update-success' && profilePicturePath && profilePicturePath.length > 0){
       dispatch(updateUser({
@@ -333,70 +314,76 @@ export default function Edit({userJSON}:UserProfileProps){
 
            
         </div>
-                    {/* Modal sections */}
-            <Modal status={editingPicture} onClose={()=>{setEditingPicture(false)}}>
-              <div onDragOver={handleCancelDragOver} className={"text-center m mx-auto container rounded justify-center items-center self-start bg-indigo-900 p-32"} onDrop={handleDrop}>
-                  { apiStatus === 'idle' &&
-                    <>
-                      <ImCloudUpload className="w-20 h-20 mx-auto"/>
-                      <h3 className="mb-4 text-xl">{droppedFile ? `${droppedFile.name} ready to upload` :"Drag and drop your image here"} </h3>
-                      <form onSubmit={handleSubmit}>
-                        {!droppedFile && 
-                        <>                        
-                          <h3 className="text-xl">OR </h3>
-                            <label className="action-btn block cursor-pointer "htmlFor="image-upload">
-                              Upload from device
-                            </label>
-                          <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
-                        </>
-                      }
-                        
-                
-                        {/* Image uploading */}
-                        {droppedFile&&
-                        <>
-                          <canvas id="image-canvas" className="w-48 h-48 hidden"></canvas>
-                        
-                        <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-conainer w-48 h-48 overflow-hidden mx-auto border border-white rounded " + (isDown ? "cursor-move" : "cursor-pointer")}>
-                              <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-image max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
-
-                          </div>
-                          {/* Zoom in and out */}
-                          <Slider
-                              min={1}
-                              step={sliderStep} 
-                              max={maxScale} 
-                              value={sliderValue} 
-                              defaultValue={1} 
-                              onSliderChange={handleSliderChange}
-                              thumbActiveClassName="btn-active"
-                              thumbClassName="hover-btn-active"
-                          />
-                        <p>Tips: Drag the image to adjust the crop area</p>
-                            <button className="action-btn" onClick={
-                              (e) => {
-                                e.preventDefault();
-                                setDroppedFile(null);
-                              }
-                            }>Upload new</button>
-                            <button className="action-btn ml-4" type="submit">Use this image as profile picture</button>
-                        </>
-                        }
-                      </form>
-                    </>}
-                    {/* Update status of image uploading */}
-                  { apiStatus === 'loading' && <h3>Uploading...</h3>}
-                  { apiStatus === 'success' && <h3>Upload successful</h3>}
-                  { apiStatus === 'error' && <h3>Upload failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
-                  { apiStatus === 'invalid' && <h3>Invalid file type <button onClick={()=>{setApiStatus('idle'); setDroppedFile(null)}}>Try Again</button></h3>}
-                  { apiStatus === 'updating' && <h3>Updating profile picture...</h3>}
-                  { apiStatus === 'update-success' && <><h3>Profile picture updated </h3>
-                  <button className="action-btn mx-auto" onClick={()=>{setApiStatus('idle');setDroppedFile(null)}}>Update another profile picture</button>
-                  </>}
-                  { apiStatus === 'update-error' && <h3>Profile picture update failed <button  className="action-btn mx-auto" onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
+        {/* Modal sections */}
+      <Modal status={editingPicture} onClose={()=>{handlePictureEditClose()}}>
+        <div onDragOver={handleCancelDragOver} className={"text-center m mx-auto container rounded justify-center items-center self-start bg-indigo-900 p-32"} onDrop={handleDrop}>
+            { apiStatus === 'idle' &&
+              <>
+                <ImCloudUpload className="w-20 h-20 mx-auto"/>
+                <h3 className="mb-4 text-xl">{droppedFile ? `${droppedFile.name} ready to upload` :"Drag and drop your image here"} </h3>
+                <form onSubmit={handleSubmit}>
+                  {!droppedFile && 
+                  <>                        
+                    <h3 className="text-xl">OR </h3>
+                      <label className="action-btn block cursor-pointer "htmlFor="image-upload">
+                        Upload from device
+                      </label>
+                    <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
+                  </>
+                }
                   
-              </div>
-            </Modal>
-      </>
+          
+                  {/* Image uploading */}
+                  {droppedFile&&
+                  <>
+                    <canvas id="image-canvas" className="w-48 h-48 hidden"></canvas>
+                  
+                  <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-conainer w-48 h-48 overflow-hidden mx-auto border border-white rounded " + (isDown ? "cursor-move" : "cursor-pointer")}>
+                        <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-image max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
+
+                    </div>
+                    {/* Zoom in and out */}
+                    <Slider
+                        min={1}
+                        step={sliderStep} 
+                        max={maxScale} 
+                        value={sliderValue} 
+                        defaultValue={1} 
+                        onSliderChange={handleSliderChange}
+                        thumbActiveClassName="btn-active"
+                        thumbClassName="hover-btn-active"
+                    />
+                  <p>Tips: Drag the image to adjust the crop area</p>
+                      <button className="action-btn" onClick={
+                        (e) => {
+                          e.preventDefault();
+                          setDroppedFile(null);
+                        }
+                      }>Upload new</button>
+                      <button className="action-btn ml-4" type="submit">Use this image as profile picture</button>
+                  </>
+                  }
+                </form>
+              </>}
+              {/* Update status of image uploading */}
+            { apiStatus === 'loading' && <h3>Uploading...</h3>}
+            { apiStatus === 'success' && <h3>Upload successful</h3>}
+            { apiStatus === 'error' && <h3>Upload failed <button onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
+            { apiStatus === 'invalid' && <h3>Invalid file type <button onClick={()=>{setApiStatus('idle'); setDroppedFile(null)}}>Try Again</button></h3>}
+            { apiStatus === 'updating' && <h3>Updating profile picture...</h3>}
+            { apiStatus === 'update-success' && <><h3>Profile picture updated </h3>
+            <button className="action-btn mx-auto" onClick={()=>{resetEditPictureForm()}}>Update another profile picture</button>
+            </>}
+            { apiStatus === 'update-error' && <h3>Profile picture update failed <button  className="action-btn mx-auto" onClick={()=>{setApiStatus('idle')}}>Try Again</button></h3>}
+            
+        </div>
+      </Modal>
+
+      {/* Edit information Modal */}
+      <Modal status={true} onClose={()=>{console.log("here")}}>
+                  <EditInformationForm user={user}/>
+      </Modal>
+
+    </>
     )
 }
