@@ -12,6 +12,7 @@ import Summary from "../../../components/profile/summary/Summary";
 import { tailwindStyles } from "../../../constants/tailwind-styles";
 import {ImCloudUpload} from "react-icons/im";
 import Modal from "../../../components/modal/Modal";
+import Slider from "../../../components/slider/Slider";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -60,13 +61,16 @@ export default function Edit({userJSON}:UserProfileProps){
   const [initlaImgWidth, setInitialImgWidth] = useState<number>(0);
   const [initlaImgHeight, setInitialImgHeight] = useState<number>(0);
   const [curScale, setCurScale] = useState<number>(1);
+  const [sliderValue, setSliderValue] = useState<number>(1) // [value, setter
   //Editing states
   const [editingPicture, setEditingPicture] = useState<boolean>(false);
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const maxScale = 2;
-  const minScale = 0.5;
+  const maxScale = 4;
+  const minScale = 0.1;
+  const sliderStep = 0.1;
+
   const dispatch = useDispatch();
   
   const handleSubmit = async (e:FormEvent) => {
@@ -238,6 +242,9 @@ export default function Edit({userJSON}:UserProfileProps){
     img.style.width = (initlaImgWidth * scale) + 'px';
     img.style.height = (initlaImgHeight * scale) + 'px';
   }
+  const handleSliderChange = (value: number) => {
+      setSliderValue(value);
+  }
   const updateUserProfilePicture = async (url:string) => {
     if(user){
       setApiStatus('updating');
@@ -284,7 +291,24 @@ export default function Edit({userJSON}:UserProfileProps){
       }));
     }
   }, [apiStatus,profilePicturePath])
-
+  useEffect(() => {
+    //detect when slider value 
+    const img = document.querySelector('.crop-image') as HTMLImageElement;
+    const container = document.querySelector('.crop-conainer') as HTMLDivElement;
+    if(container){
+      const containerRect = container.getBoundingClientRect();
+      const imgRect = img.getBoundingClientRect();
+      const containerWidth = containerRect.width;
+      const containerHeight = containerRect.height;
+      const imgWidth = imgRect.width;
+      const imgHeight = imgRect.height;
+/*       if(imgWidth <= containerWidth || imgHeight <= containerHeight){
+        return;
+      } */
+      img.style.width = (initlaImgWidth * sliderValue) + 'px';
+      img.style.height = (initlaImgHeight * sliderValue) + 'px';
+    }
+  }, [sliderValue])
     return (
       <>
         <Head>
@@ -296,7 +320,7 @@ export default function Edit({userJSON}:UserProfileProps){
             
             <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={profilePicturePath ? profilePicturePath : user.profilePicturePath}></img>
              {/* Image Editting */}
-             <button className="action-btn" onClick={()=>setEditingPicture(!editingPicture)}>Update profile picture</button>
+             <button className="action-btn" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
 
 
 
@@ -310,7 +334,7 @@ export default function Edit({userJSON}:UserProfileProps){
            
         </div>
                     {/* Modal sections */}
-                    <Modal status={editingPicture}>
+            <Modal status={editingPicture} onClose={()=>{setEditingPicture(false)}}>
               <div onDragOver={handleCancelDragOver} className={"text-center m mx-auto container rounded justify-center items-center self-start bg-indigo-900 p-32"} onDrop={handleDrop}>
                   { apiStatus === 'idle' &&
                     <>
@@ -338,10 +362,16 @@ export default function Edit({userJSON}:UserProfileProps){
 
                           </div>
                           {/* Zoom in and out */}
-                          <div>
-                            <button className="mag-btn" onClick={zoomIn}>+</button>
-                            <button className="mag-btn" onClick={zoomOut}>-</button>
-                          </div>
+                          <Slider
+                              min={1}
+                              step={sliderStep} 
+                              max={maxScale} 
+                              value={sliderValue} 
+                              defaultValue={1} 
+                              onSliderChange={handleSliderChange}
+                              thumbActiveClassName="btn-active"
+                              thumbClassName="hover-btn-active"
+                          />
                         <p>Tips: Drag the image to adjust the crop area</p>
                             <button className="action-btn" onClick={
                               (e) => {

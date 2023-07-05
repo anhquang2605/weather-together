@@ -1,0 +1,25 @@
+.horizontal-slider{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 23px;
+    margin: 8px auto;
+}
+.slider-thumb{
+    transition: background-color, border 0.1s ease-in-out;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid white;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.thumb-active{
+    outline: none;
+}
+.slider-track{
+    background-color: white;
+    height: 1px;
+}

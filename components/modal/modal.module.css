@@ -19,6 +19,29 @@
     left: 0;
 }
 .modal-content{
+    position: relative;
     padding: 4;
     z-index: 9999;
+    border-radius: 4px;
+}
+.modal-close-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    svg{
+        width: 40px;
+        height: 40px;
+        color: tomato;
+        transition: all 0.1s ease-in-out;
+    }
+    :hover{
+        color: rgb(253, 71, 38);
+    }
 }

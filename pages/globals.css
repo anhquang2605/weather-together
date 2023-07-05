@@ -20,6 +20,11 @@ body {
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities{
+  .btn-active{
+    @apply bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% border border-white
+  }
+}
 /*Variables*/
 :root{
   --nav-primmary-color: #2e1065;
@@ -73,6 +78,6 @@ body {
   @apply bg-white text-[color:var(--nav-primmary-color)];
 }
 
-.mag-btn{
-  
+.hover-btn-active{
+  @apply hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95%  rounded border border-indigo-500 hover:border-slate-200
 }
