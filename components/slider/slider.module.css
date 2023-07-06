@@ -1,10 +1,10 @@
 .horizontal-slider{
-    width: 100%;
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 23px;
-    margin: 8px auto;
+    margin: 0 8px;
 }
 .slider-thumb{
     transition: background-color, border 0.1s ease-in-out;
@@ -22,4 +22,10 @@
 .slider-track{
     background-color: white;
     height: 1px;
+}
+.slider-wrapper{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px auto;
 }
