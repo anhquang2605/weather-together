@@ -65,6 +65,7 @@ export default function Edit({userJSON}:UserProfileProps){
   const [sliderValue, setSliderValue] = useState<number>(1) // [value, setter
   //Editing states
   const [editingPicture, setEditingPicture] = useState<boolean>(false);
+  const [editingInformation, setEditingInformation] = useState<boolean>(false);
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -264,6 +265,9 @@ export default function Edit({userJSON}:UserProfileProps){
     setEditingPicture(false);
     resetEditPictureForm();
   }
+  const handleInformationEditClose = () => {
+    setEditingInformation(false);
+  }
   useEffect(() => {
     if(apiStatus === 'update-success' && profilePicturePath && profilePicturePath.length > 0){
       dispatch(updateUser({
@@ -298,18 +302,31 @@ export default function Edit({userJSON}:UserProfileProps){
         <div className={"flex grow flex-wrap flex-col p-4 glass"}>
             <h1>Edit Profile for {user.username} </h1>
             {/* Profile Banner */}
-            
-            <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={profilePicturePath ? profilePicturePath : user.profilePicturePath}></img>
-             {/* Image Editting */}
-             <button className="action-btn" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
-
-
-
-            {/* Basic info */}
-            <div>
-              <Summary user={user}/>
-              <button className="action-btn">Edit Information</button>
+            {/* Profile pic and background */}
+            <div className="flex w-full border border-white p-4 rounded mb-4">
+              <div className="justify-center items-center flex flex-col max-w-md">
+                <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover " src={profilePicturePath ? profilePicturePath : user.profilePicturePath}></img>
+                {/* Image Editting */}
+                <button className="action-btn mt-4" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
+              </div>
             </div>
+            <div className="flex flex-wrap lg:flex-nowrap">
+              <div className="flex flex-col w-full xl:w-1/2 p-4">
+                <h3 className="profile-section-title">Bio</h3>
+                <input className="text-indigo-900 p-4 grow " type="text-area" value={user.bio?.length ? user.bio : "Working on it!" }/>
+                <button className="action-btn mt-4 mr-auto">Update Bio</button>
+              </div>
+
+
+
+
+              {/* Basic info */}
+              <div className="w-full xl:w-1/2 p-4">
+                <Summary user={user}/>
+                <button onClick={()=>setEditingInformation(true)} className="action-btn mt-4">Edit Information</button>
+              </div>
+            </div>
+
 
 
            
@@ -380,7 +397,7 @@ export default function Edit({userJSON}:UserProfileProps){
       </Modal>
 
       {/* Edit information Modal */}
-      <Modal status={true} onClose={()=>{console.log("here")}}>
+      <Modal status={editingInformation} onClose={()=>{handleInformationEditClose()}}>
                   <EditInformationForm user={user}/>
       </Modal>
 

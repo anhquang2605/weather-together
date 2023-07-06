@@ -1,5 +1,5 @@
 import { getCurrentWeather } from "../../../libs/weather";
-import { Location } from "./../../../types/Location";
+import { Location } from "../../../types/Location";
 import WeatherAnimatedIcon from "../pluggins/weather-animated-icon/weatheranimatedicon";
 import { useEffect, useState} from "react";
 import { useSelector } from "react-redux";

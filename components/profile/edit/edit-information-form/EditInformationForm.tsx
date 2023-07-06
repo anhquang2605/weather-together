@@ -15,7 +15,7 @@ export default function EditInformationForm({user}:EditInformationFormProps){
     const [country, setCountry] = useState(user.location?.country_code ?? "");
     const [zipCode, setZipCode] = useState(user.location?.postal_code);
     const [email, setEmail] = useState(user.email);
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState(user.location);
     //Found state
     const [emailExists, setEmailExists] = useState(false)
     const [countrySelected, setCountrySelected] = useState(false)
@@ -23,7 +23,6 @@ export default function EditInformationForm({user}:EditInformationFormProps){
     const [countryFound, setCountryFound] = useState(false)
     //valid state
     const [validZipCode, setValidZipCode] = useState(true)
-    const [validCountry, setValidCountry] = useState(true)
     const [validEmail, setEmailValid] = useState(true)
     //api status
     const [apiStatus, setApiStatus] = useState({
@@ -82,6 +81,10 @@ export default function EditInformationForm({user}:EditInformationFormProps){
     }
 
     const validateEmailExists = async () => {
+        if(email === user.email) {
+            setEmailExists(false)
+            return;
+        };
         const response = await fetch(API_PREFFIX + "/user-by-email/?email=" + email);
         const data = await response.json();
         const existingUser = data.user;
@@ -92,7 +95,7 @@ export default function EditInformationForm({user}:EditInformationFormProps){
         }
     }
     const handleSubmit = () => {
-        const valid = validEmail && validCountry && validZipCode && !emailExists;
+        const valid = validEmail && validZipCode && !emailExists;
         if (!valid) return;
         setApiStatus({
             type: "loading",
@@ -104,6 +107,7 @@ export default function EditInformationForm({user}:EditInformationFormProps){
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                ...user,
                 firstName,
                 lastName,
                 email,
@@ -124,44 +128,52 @@ export default function EditInformationForm({user}:EditInformationFormProps){
             }
         })
     }
+    
     return (
             <>
                  <ApiStatusPop status={apiStatus} show={showAPIPop} redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
                 <div className="bg-indigo-900 md:container md:mx-auto mx-auto shadow-md rounded px-8 pt-6 pb-8 text-indigo-900">
-                <div>
-                    <input type="email" value={email} className={"p-4 border rounded "+ (validEmail ? "" : "border-red-400")} placeholder="Email" onChange={handleEmailChange} onBlur={()=>{
-                        validateEmailPattern()
-                        validateEmailExists()
-                    }} />
-                    {<p className={"text-red-400 " + (validEmail && "opacity-0")}>{
-                        emailExists && "Email already existed!"
-                    }
-                    {
-                        !validEmail ? "Email is not valid!" : "it is oke to use this email!"
-                    }
-                    </p>}
-                </div>
-                <div>
-                    <select value={country} className={"p-4 border rounded" + (validCountry ? "" : "border-red-400")} onChange={ (event) => {handleCountriesSelect(event) }}>
-                        {COUNTRIES.map((country, index) => {
-                            return <option data-name={country.name} key={index} value={country.code}>{country.name}</option>
+                    <div>
+                        <input type="text" value={firstName} className="p-4 border rounded" placeholder="First Name" onChange={handleFirstNameChange} />
+                    </div>
+                    <div>
+                        <input type="text" value={lastName} className="p-4 border rounded" placeholder="Last Name" onChange={handleLastNameChange} />
+                    </div>
+                    <div>
+                        <input type="email" value={email} className={"p-4 border rounded "+ (validEmail ? "" : "border-red-400")} placeholder="Email" onChange={handleEmailChange} onBlur={()=>{
+                            validateEmailPattern()
+                            validateEmailExists()
+                        }} />
+                        {<p className={"text-red-400 " + (validEmail && "opacity-0")}>{
+                            emailExists && "Email already existed!"
                         }
-                        )}
-                    </select>
-                </div>
+                        {
+                            !validEmail ? "Email is not valid!" : "it is oke to use this email!"
+                        }
+                        </p>}
+                    </div>
+                    <div>
+                        <select value={country} className={"p-4 border rounded"} onChange={ (event) => {handleCountriesSelect(event) }}>
+                            {COUNTRIES.map((country, index) => {
+                                return <option data-name={country.name} key={index} value={country.code}>{country.name}</option>
+                            }
+                            )}
+                        </select>
+                    </div>
 
-                <div>
-                    <h5  className={countrySelected ? "" : "text-gray-300"}>Enter Your zip code</h5>
-                    <label></label>
-                    <input type="text" className={"p-4 border rounded " + (validZipCode ? "" : "border-red-400") } value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />
-                    {zipApiStatus == "loading" && <p className="text-blue-400">Looking up city...</p>}
-                    {zipApiStatus == "failed" && <p className="text-red-400">Error! cannot find the city</p>}
-                    {zipApiStatus == "success" && <p className="text-green-400">City found! Your location is <span>{city}</span></p>}
-                    {zipApiStatus == "idle" && <p className="opacity-0">Enter zip code or city name</p>}
-                    <p className={"text-red-400 " + (validZipCode && "opacity-0")}>Please enter a valid zip code!</p>
+                    <div>
+                        <h5  className={countrySelected ? "" : "text-gray-300"}>Enter Your zip code</h5>
+                        <label></label>
+                        <input type="text" className={"p-4 border rounded " + (validZipCode ? "" : "border-red-400") } value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />
+                        {zipApiStatus == "loading" && <p className="text-blue-400">Looking up city...</p>}
+                        {zipApiStatus == "failed" && <p className="text-red-400">Error! cannot find the city</p>}
+                        {zipApiStatus == "success" && <p className="text-green-400">City found! Your location is <span>{city}</span></p>}
+                        {zipApiStatus == "idle" && <p className="opacity-0">Enter zip code or city name</p>}
+                        <p className={"text-red-400 " + (validZipCode && "opacity-0")}>Please enter a valid zip code!</p>
 
 
-                </div>  
+                    </div>
+                    <button className="action-btn " onClick={()=>{handleSubmit()}}>Update</button>  
                 </div>
             </>
         )

@@ -35,7 +35,7 @@ body {
   @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
 }
 .action-btn{
-  @apply transition duration-200 my-4  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-8 py-2 rounded border border-indigo-500 hover:border-slate-200 ;
+  @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-8 py-2 rounded border border-indigo-500 hover:border-slate-200;
 }
 
 .nav-item{
@@ -80,4 +80,14 @@ body {
 
 .hover-btn-active{
   @apply hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95%  rounded border border-indigo-500 hover:border-slate-200
+}
+
+.profile-row{
+  @apply flex;
+  h4{
+    @apply font-semibold w-28;
+  }
+}
+.profile-section-title{
+  @apply text-xl border-b border-slate-400 mb-8;
 }

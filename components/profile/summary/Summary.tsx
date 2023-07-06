@@ -9,33 +9,36 @@ export default function Summary( {user}: SummaryProps) {
     const {asPath, pathname} = useRouter();
 
     return (
-        <div>
-          { user && <>
-            <div>
-                <p>{user.bio}</p>
-            </div>
+        <>
+          { user && <div className="w-full flex flex-col">
+            <h3 className='profile-section-title'>Summary</h3>
+            {!pathname.includes("edit") && 
+                <div>
+                    <p>{user.bio}</p>
+                </div>
+            }
             <div className="profile-row">
-                <h4>First name:</h4>
+                <h4>First name</h4>
                 <p>{user.firstName}</p>
             </div>
             <div className="profile-row">
-                <h4>Last name:</h4>
+                <h4>Last name</h4>
                 <p>{user.lastName}</p>
             </div>
             <div className="profile-row">
-                <h4>Email:</h4>
+                <h4>Email</h4>
                 <p>{user.email}</p>
             </div>
             <div className="profile-row">
-                <h4>City:</h4>
+                <h4>City</h4>
                 <p>{user.location?.city}</p>
             </div>
             {!pathname.includes("edit") && (
                 <div className="profile-row">
-                    <h4>Username:</h4>
+                    <h4>Username</h4>
                     <p>{user.username}</p>
                 </div>
-            )}</> }
-        </div>
+            )}</div> }
+        </>
     )    
 }

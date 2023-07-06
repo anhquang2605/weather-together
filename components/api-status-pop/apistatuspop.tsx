@@ -38,7 +38,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectButt
     },[status.type])
     
     return (
-        <div className={"fixed z-2000 top-0 left-0 w-full h-full " + (reveal? "" : "hidden ")}>
+        <div className={"fixed z-10000 top-0 left-0 w-full h-full " + (reveal? "" : "hidden ")}>
             <div className=" backdrop-blur bg-slate-900 bg-opacity-70 absolute top-0 left-0 w-full h-full"></div>
             <div className={"fixed inset-0 bg-indigo-900 mx-auto my-auto rounded border-4 p-24 sm:w-3/4 md:w-2/4 lg:w-1/4 h-1/4 flex justify-center items-center flex-wrap " + style}>
                 <button onClick={()=>{
