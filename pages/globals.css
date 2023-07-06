@@ -24,6 +24,9 @@ body {
   .btn-active{
     @apply bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% border border-white
   }
+  .half{
+    width: calc(50% - 1rem);
+  }
 }
 /*Variables*/
 :root{
@@ -90,4 +93,12 @@ body {
 }
 .profile-section-title{
   @apply text-xl border-b border-slate-400 mb-8;
+}
+
+/* FORMS */
+.form-row{
+  @apply flex flex-col;
+  &.dark label {
+    @apply text-white
+  }
 }

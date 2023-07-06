@@ -24,7 +24,7 @@ export default function RootLayout({
     
     </Head>
       {user &&
-      <div className="flex flex-row flex-wrap relative bg-gradient-to-bl from-violet-800 from-5% via-indigo-800 to-indigo-950 to-70% h-screen text-white">
+      <div className="flex flex-row flex-wrap relative bg-gradient-to-bl from-violet-800 from-5% via-indigo-800 to-indigo-950 to-70% h-screen text-white p-4">
         <Navigation/>
         {children}
       </div>}

@@ -132,14 +132,17 @@ export default function EditInformationForm({user}:EditInformationFormProps){
     return (
             <>
                  <ApiStatusPop status={apiStatus} show={showAPIPop} redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
-                <div className="bg-indigo-900 md:container md:mx-auto mx-auto shadow-md rounded px-8 pt-6 pb-8 text-indigo-900">
-                    <div>
+                <div className="bg-indigo-900 shadow-md rounded px-8 pt-6 pb-8 text-indigo-900 flex flex-row flex-wrap justify-between">
+                    <div className="form-row dark half">
+                        <label htmlFor="first-name">First name</label>
                         <input type="text" value={firstName} className="p-4 border rounded" placeholder="First Name" onChange={handleFirstNameChange} />
                     </div>
-                    <div>
+                    <div className="form-row dark half">
+                        <label htmlFor="last-name">Last name</label>
                         <input type="text" value={lastName} className="p-4 border rounded" placeholder="Last Name" onChange={handleLastNameChange} />
                     </div>
-                    <div>
+                    <div className="form-row dark w-full mt-4">
+                        <label htmlFor="email">Email</label>
                         <input type="email" value={email} className={"p-4 border rounded "+ (validEmail ? "" : "border-red-400")} placeholder="Email" onChange={handleEmailChange} onBlur={()=>{
                             validateEmailPattern()
                             validateEmailExists()
@@ -152,7 +155,8 @@ export default function EditInformationForm({user}:EditInformationFormProps){
                         }
                         </p>}
                     </div>
-                    <div>
+                    <div className="form-row dark half">
+                        <label htmlFor="country">Country</label>
                         <select value={country} className={"p-4 border rounded"} onChange={ (event) => {handleCountriesSelect(event) }}>
                             {COUNTRIES.map((country, index) => {
                                 return <option data-name={country.name} key={index} value={country.code}>{country.name}</option>
@@ -161,7 +165,8 @@ export default function EditInformationForm({user}:EditInformationFormProps){
                         </select>
                     </div>
 
-                    <div>
+                    <div className="form-row dark half">
+
                         <h5  className={countrySelected ? "" : "text-gray-300"}>Enter Your zip code</h5>
                         <label></label>
                         <input type="text" className={"p-4 border rounded " + (validZipCode ? "" : "border-red-400") } value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />

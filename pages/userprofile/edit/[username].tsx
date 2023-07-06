@@ -46,11 +46,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   }
 export default function Edit({userJSON}:UserProfileProps){
+  const user:User = JSON.parse(userJSON);
+  const theTitle = `Profile for ${user.username}`;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const maxScale = 4;
+  const minScale = 0.1;
+  const sliderStep = 0.1;
+  //form states
+  const [bio, setBio] = useState<string | null>(user?.bio ?? null);
+  //apid status
   const [apiStatus, setApiStatus] = useState('idle');
   const [profilePicturePath, setProfilePicturePath] = useState<string | null>(""); //['/images/profile-pictures/default.png'
   const [droppedFile, setDroppedFile] = useState<Blob | null>(null);
-  const [fileDropStatus, setFileDropStatus] = useState<string | null>(null);
-  const [editedUser, setEditedUser] = useState<User | null>(null);
   //image croping states
   const [previewImageURL, setPreviewImageURL] = useState<string | null>(null); 
   const [initialScrollLeft, setInitialScrollLeft] = useState<number | null>(null); 
@@ -66,12 +73,7 @@ export default function Edit({userJSON}:UserProfileProps){
   //Editing states
   const [editingPicture, setEditingPicture] = useState<boolean>(false);
   const [editingInformation, setEditingInformation] = useState<boolean>(false);
-  const user:User = JSON.parse(userJSON);
-  const theTitle = `Profile for ${user.username}`;
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const maxScale = 4;
-  const minScale = 0.1;
-  const sliderStep = 0.1;
+ 
 
   const dispatch = useDispatch();
   
@@ -238,6 +240,26 @@ export default function Edit({userJSON}:UserProfileProps){
       }
     }
   }
+  const updateUserBio = async () => {
+    if(user){
+      setApiStatus('updating');
+      const response = await fetch(`/api/update-user`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...user,
+          bio: bio,
+        }),
+      });
+      if(!response.ok){
+        setApiStatus('update-error');
+      } else {
+        setApiStatus('update-success');
+      }
+    }
+  }
   const handleLoadPreviewImage = (e:React.SyntheticEvent<HTMLImageElement, Event>) => {
     const img = e.currentTarget;
     const container = document.querySelector('.crop-conainer') as HTMLDivElement;
@@ -268,11 +290,15 @@ export default function Edit({userJSON}:UserProfileProps){
   const handleInformationEditClose = () => {
     setEditingInformation(false);
   }
+  const handleBioChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    setBio(e.target.value);
+  }
   useEffect(() => {
     if(apiStatus === 'update-success' && profilePicturePath && profilePicturePath.length > 0){
       dispatch(updateUser({
         ...user,
         profilePicturePath: profilePicturePath,
+        bio: bio,
       }));
     }
   }, [apiStatus,profilePicturePath])
@@ -313,8 +339,13 @@ export default function Edit({userJSON}:UserProfileProps){
             <div className="flex flex-wrap lg:flex-nowrap">
               <div className="flex flex-col w-full xl:w-1/2 p-4">
                 <h3 className="profile-section-title">Bio</h3>
-                <input className="text-indigo-900 p-4 grow " type="text-area" value={user.bio?.length ? user.bio : "Working on it!" }/>
-                <button className="action-btn mt-4 mr-auto">Update Bio</button>
+                <input className="text-indigo-900 p-4 grow" onChange={handleBioChange} type="text-area" value={bio?.length ? bio : "Working on it!" }/>
+                <button 
+                  className="action-btn mt-4 mr-auto"
+                  onClick={()=>{
+                    updateUserBio();
+                  }}
+                >Update Bio</button>
               </div>
 
 
