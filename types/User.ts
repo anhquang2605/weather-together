@@ -11,5 +11,5 @@ export interface User{
     profilePicturePath?: string,
     gallery?: string[],
     bio?: string,
-    bannerPicturePath?: string,
+    backgroundPicturePath?: string,
 }

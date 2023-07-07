@@ -17,6 +17,7 @@ import EditInformationForm from "../../../components/profile/edit/edit-informati
 import ProfileBanner from "../../../components/profile/profile-banner/ProfileBanner";
 import EditPictureForm from "../../../components/profile/edit/edit-picture-form/EditPictureForm";
 import { useRouter } from "next/router";
+import EditBackgroundForm from "../../../components/profile/edit/edit-background-form/EditBackgroundForm";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -52,9 +53,10 @@ export default function Edit({userJSON}:UserProfileProps){
   const [apiStatus, setApiStatus] = useState('idle');
   const [profilePicturePath, setProfilePicturePath] = useState<string | null>(""); //['/images/
   //Editing states
+  const [backgroundPicturePath, setBackgroundPicturePath] = useState<string | null>("");
   const [editingPicture, setEditingPicture] = useState<boolean>(false);
   const [editingInformation, setEditingInformation] = useState<boolean>(false);
-
+  const [editingBackground, setEditingBackground] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const updateUserBio = async () => {
@@ -89,10 +91,15 @@ export default function Edit({userJSON}:UserProfileProps){
   const handleBioChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setBio(e.target.value);
   }
+  const handleBackgroundEditClose = () => {
+    setEditingBackground(false);
+  }
   const handlePictureUpdated = (path:string) => {
     setProfilePicturePath(path);
   }
-
+  const handleBackgroundUpdated = (path:string) => {
+    setBackgroundPicturePath(path);
+  }
   useEffect(() => {
     if(apiStatus === 'update-success' && bio && bio.length > 0){
       dispatch(updateUser({
@@ -103,14 +110,23 @@ export default function Edit({userJSON}:UserProfileProps){
     route.push(window.location.pathname);
   }, [apiStatus,bio])
   useEffect(() => {
-    if(apiStatus === 'update-success' && profilePicturePath && profilePicturePath.length > 0){
+    if(profilePicturePath && profilePicturePath.length > 0){
         dispatch(updateUser({
         ...user,
         profilePicturePath: profilePicturePath,
         }));
     }
     route.push(window.location.pathname);
-}, [apiStatus,profilePicturePath])
+}, [profilePicturePath])
+  useEffect(()=>{
+    if(backgroundPicturePath && backgroundPicturePath.length > 0){
+      dispatch(updateUser({
+        ...user,
+        backgroundPicturePath: backgroundPicturePath,
+      }));
+    }
+    route.push(window.location.pathname);
+  }, [backgroundPicturePath])
   useEffect(() => {
     if(userJSON)  setUser(JSON.parse(userJSON));
   }, [userJSON])
@@ -121,10 +137,9 @@ export default function Edit({userJSON}:UserProfileProps){
           <title>{theTitle}</title>
         </Head>
         <div className={"flex grow flex-wrap flex-col p-4 glass"}>
-            <h1>Edit Profile for {user.username} </h1>
             {/* Profile Banner */}
             {/* Profile pic and background */}
-            <ProfileBanner isEditing={true} user={user} setEditingPicture={setEditingPicture}/>
+            <ProfileBanner isEditing={true} user={user} setEditingBackground={setEditingBackground} setEditingPicture={setEditingPicture}/>
 
             <div className="flex flex-wrap lg:flex-nowrap">
               <div className="flex flex-col w-full xl:w-1/2 p-4">
@@ -159,8 +174,8 @@ export default function Edit({userJSON}:UserProfileProps){
                   <EditInformationForm user={user}/>
       </Modal>
       {/* Background  */}
-      <Modal>
-
+      <Modal status={editingBackground} onClose={()=>{handleBackgroundEditClose()}}>
+                  <EditBackgroundForm user={user} onBackgroundUpdated={handleBackgroundUpdated} editing={editingBackground}/>
       </Modal>
     </>
     )
