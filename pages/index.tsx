@@ -9,12 +9,11 @@ export default function Home() {
             <Head>
                 <title>Home</title>
             </Head>
-            <Banner/>
-            <div className="flex grow">
-                <h1 className="hidden">Home</h1>
-                
-                {/* Banner */}
-                <ActivityBoard />
+            <div className="center w-full">
+                <Banner/>
+                <ActivityBoard/>
+            </div>
+            <div className="right-side">
                 {<WeatherSummarySide />}
             </div>
         </>

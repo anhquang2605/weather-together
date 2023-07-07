@@ -1,4 +1,5 @@
 import {IoPencil} from "react-icons/io5";
+import Image from "next/image";
 interface AvatarProps{
     profilePicturePath?: string;
     setEditingPicture?: (value: boolean) => void;
@@ -15,7 +16,7 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
 
              </>
              }
-            <img className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover rounded" src={profilePicturePath ? profilePicturePath : ""}></img>
+            <Image alt="Profile picture" width="500" height="500" className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 object-fit:cover rounded" src={profilePicturePath ? profilePicturePath : ""}/>
             {/* Image Editting */}
            
         </div>

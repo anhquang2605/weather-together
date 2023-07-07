@@ -15,7 +15,7 @@ export default function Navigation() {
         }
     }
     return(
-        <div className={"transition-all mr-4 bg-violet-950 grow-0 drop-shadow-lg rounded p-4 shrink " + navMenuStatus}>
+        <div className={"transition-all shrink-0 mr-4 bg-violet-950 drop-shadow-lg rounded p-4 shrink " + navMenuStatus}>
             <div className="flex flex-row items-center border-b border-slate-500 pb-4">
                 <IoCloudyNight className="w-6 h-6 mr-2 non-active"></IoCloudyNight>
                 <h3 className="font-semibold mr-4 non-active">Weather Together</h3>

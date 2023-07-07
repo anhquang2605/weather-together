@@ -105,3 +105,14 @@ body {
     @apply text-white
   }
 }
+
+.form-container{
+  @apply flex flex-row flex-wrap justify-between bg-indigo-900;
+}
+
+textarea, input[type="text"], input[type="email"], input[type="password"]{
+  @apply rounded border border-slate-400;
+  &:focus{
+    @apply outline-none outline-indigo-500;
+  }
+}

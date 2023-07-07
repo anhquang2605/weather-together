@@ -6,6 +6,7 @@ import { User } from "../../types/User";
 import Link from "next/link";
 import Summary from "../../components/profile/summary/Summary";
 import ProfileBanner from "../../components/profile/profile-banner/ProfileBanner";
+import Bio from "../../components/profile/bio/Bio";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -47,8 +48,21 @@ export default function UserProfile({userJSON}:UserProfileProps){
             </Head>
             <div className="glass grow">
               <ProfileBanner user={user} isEditing={false} />
-              <Summary user={user}/>
-              <Link className="m-0 action-btn" href={`/userprofile/edit/${user.username}`}>Edit</Link>
+              <div className="flex flex-wrap lg:flex-nowrap">
+              <div className="flex flex-col w-full xl:w-1/2 p-4">
+                <Bio userBio={user.bio ?? ""}  isEditing={false} />
+              </div>
+
+
+
+
+              {/* Basic info */}
+              <div className="w-full xl:w-1/2 p-4">
+                <Summary isEditing={false} user={user}/>
+                
+              </div>
+            </div>
+              <Link className="action-btn block w-auto mx-auto " href={`/userprofile/edit/${user.username}`}>Edit Profile</Link>
             </div>
         </>
     )

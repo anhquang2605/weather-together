@@ -2,21 +2,26 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { User } from '../../../types/User';
 import { useRouter } from 'next/router';
+import { IoPencil } from 'react-icons/io5';
 interface SummaryProps {
     user?: User;
+    isEditing?: boolean;
+    setEditingSummary?: (value: boolean) => void;
 }
-export default function Summary( {user}: SummaryProps) {
+export default function Summary( {user,isEditing,setEditingSummary}: SummaryProps) {
     const {asPath, pathname} = useRouter();
 
     return (
         <>
           { user && <div className="w-full flex flex-col">
-            <h3 className='profile-section-title'>Summary</h3>
-            {!pathname.includes("edit") && 
-                <div>
-                    <p>{user.bio}</p>
-                </div>
-            }
+          <div className="profile-section-title flex">
+                <h3 className="">Contact</h3>
+                {isEditing && setEditingSummary && 
+                <button className="ml-auto" title="Edit" onClick={()=>{setEditingSummary(true)}}>
+                    <IoPencil className="text-2xl text-slate-300" />
+                </button>
+                }
+            </div>
             <div className="profile-row">
                 <h4>First name</h4>
                 <p>{user.firstName}</p>
@@ -33,7 +38,7 @@ export default function Summary( {user}: SummaryProps) {
                 <h4>City</h4>
                 <p>{user.location?.city}</p>
             </div>
-            {!pathname.includes("edit") && (
+            {!isEditing&& (
                 <div className="profile-row">
                     <h4>Username</h4>
                     <p>{user.username}</p>
