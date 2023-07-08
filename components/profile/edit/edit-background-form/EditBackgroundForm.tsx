@@ -262,14 +262,14 @@ export default function EditBackgroundForm({ user, editing,onBackgroundUpdated}:
                 {/* Image uploading */}
                 {droppedFile&&
                 <>
-                <div className="w-full pb-[30%] flex relative hidden">
-                    <canvas id="bg-image-canvas" className="w-full full absolute"></canvas>
+                <div className="w-full pb-[30%] flex relative mb-4 hidden ">
+                    <canvas id="bg-image-canvas" className="w-full h-full absolute"></canvas>
                 </div>
                 
                 
-                <div className="w-full pb-[30%] flex relative outer-container">
+                <div className="w-full pb-[30%] flex relative outer-container rounded">
                     <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-bg-conainer w-full h-full overflow-hidden mx-auto border border-white rounded absolute top-0 left-0" + (isDown ? "cursor-move" : "cursor-pointer")}>
-                        <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-bg-image  max-w-none rounded"onDragStart={()=>false} src={previewImageURL??""}></img>
+                        <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-bg-image  max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
 
                     </div>
                 </div>
