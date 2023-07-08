@@ -21,8 +21,8 @@ export default function FavWeather({ favWeathers }: FavWeatherProps) {
     return (
         <>
 
-            <div className="fav-weather flex flex-row lg:w-48 w-32 justify-between items-center border p-2 rounded-3xl mt-4 mr-auto border-slate-400">
-                <FontAwesomeIcon className="lg:text-3xl text-xl text-rose-400" icon={['fas', 'heart']} />
+            <div className="fav-weather flex flex-row lg:w-48 w-32 justify-between items-center border p-2 rounded-3xl mt-2 mr-auto border-slate-400">
+                <FontAwesomeIcon className="lg:text-3xl text-xl text-rose-500" icon={['fas', 'heart']} />
                 {favWeathers?.length && favWeathers.map((weather: Weather, index:number) => {
                     const colorsClass = weatherToClassMap[weather.name]
                     return (
