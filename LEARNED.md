@@ -30,3 +30,5 @@ export const config: PageConfig = {
 8. scale on img will not allow to scroll pass the container scroll top or scroll left, need to scale image by changing its width and height directly
 9. Modal should be added to the very end of the component, else weird behavior gonna happen, should be added outside of the parent container so use <> </>
 10. Height scale propotional to width, have a container with pb set to a certain percentage this will specify the height /  width ratio, the winthin the container, have that element height to full and it will be the desired height, also the child element must be absolute positioned
+11. FontAwesome work around for nextjs:
+const {library, config} = require('@fortawesome/fontawesome-svg-core')// Do this for fontawesome to work with nextjs
