@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { AppProps } from 'next/app'
 import RootLayout from "../components/layout";
 import "./../dist/output.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {fas} from "@fortawesome/free-solid-svg-icons";
 function MyApp({ Component, pageProps }:AppProps) {
   
   return (
@@ -18,3 +20,4 @@ function MyApp({ Component, pageProps }:AppProps) {
 }
 
 export default MyApp
+library.add(fas);

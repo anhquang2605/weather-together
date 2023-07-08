@@ -2,6 +2,7 @@ import {User} from "../../../types/User";
 
 import Avatar from "../avatar/Avatar";
 import BannerBackground from "../banner-background/BannerBackground";
+import FavWeather from "../fav-weather/FavWeather";
 import NameTitle from "../name-title/NameTitle";
 
 interface ProfileBannerProps{
@@ -17,7 +18,8 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
             <BannerBackground setEditingBackground={setEditingBackground} bannerPicturePath={user.backgroundPicturePath ?? ""} isEditing={isEditing}/>
             <div className="absolute bottom-0  lg:-mb-24 md:-mb-16 -mb-8 flex left-4">
                 <Avatar profilePicturePath={user.profilePicturePath ?? ""} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
-                <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>  
+                <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>
+                <FavWeather favWeathers={user.favoriteWeathers ?? []}/>  
             </div>
         </div>
     )
