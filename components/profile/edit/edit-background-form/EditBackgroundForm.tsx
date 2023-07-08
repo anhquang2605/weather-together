@@ -166,14 +166,31 @@ export default function EditBackgroundForm({ user, editing,onBackgroundUpdated}:
       if(!isDown){
         return;
       }
+      const content = document.querySelector('.crop-bg-image') as HTMLDivElement;
+      const contentWidth = content.scrollWidth;
+      const contentHeight = content.scrollHeight;
       const cropContainer = e.currentTarget;
+      const cropContaineroffsetWidth = cropContainer.offsetWidth;
+      const cropContaineroffsetHeight = cropContainer.offsetHeight;
       e.preventDefault();
       const x = e.pageX;
       const y = e.pageY;
       const walkX = x - (initalPageX ?? 0);
       const walkY = y - (initalPageY ?? 0);
-      cropContainer.scrollLeft = (initialScrollLeft ?? 0) - walkX;
-      cropContainer.scrollTop = (initialScrollTop ?? 0) - walkY;
+      let newScrollLeft = (initialScrollLeft ?? 0) - walkX;
+      let newScrollTop = (initialScrollTop ?? 0) - walkY;
+      if(newScrollLeft < 0){
+        newScrollLeft = 0;
+      } else if(newScrollLeft > contentWidth - cropContaineroffsetWidth){
+        newScrollLeft = contentWidth - cropContaineroffsetWidth;
+      }
+      if(newScrollTop < 0){
+        newScrollTop = 0;
+      } else if(newScrollTop > contentHeight - cropContaineroffsetHeight){
+        newScrollTop = contentHeight - cropContaineroffsetHeight;
+      }
+      cropContainer.scrollLeft = newScrollLeft;
+      cropContainer.scrollTop = newScrollTop;
     }
     const handleSliderChange = (value: number) => {
         setSliderValue(value);
@@ -184,17 +201,13 @@ export default function EditBackgroundForm({ user, editing,onBackgroundUpdated}:
         const containerRect = container.getBoundingClientRect();
         const imgRect = img.getBoundingClientRect();
         const containerWidth = containerRect.width;
-        const containerHeight = containerRect.height;
-        const imgWidth = imgRect.width;
-        const imgHeight = imgRect.height;
-        console.log(containerHeight,containerWidth)
-        if (imgWidth < imgHeight) {
-            img.style.width = containerWidth  + 'px';
-        }else {
-            img.style.height = containerHeight + 'px';
-        }
-        setInitialImgWidth(img.width);
-        setInitialImgHeight(img.height);
+        img.style.width = containerWidth + 'px';
+        //To get the new height of the image after adjusting width
+        const newImg = document.querySelector('.crop-bg-image') as HTMLImageElement;
+        const newImgRect = newImg.getBoundingClientRect();
+        const imgHeight = newImgRect.height;
+        setInitialImgHeight(imgHeight);
+        setInitialImgWidth(containerWidth);
       }
     const updateUserProfileBackgroundPicture = async (url:string) => {
         if(user){
@@ -223,15 +236,6 @@ export default function EditBackgroundForm({ user, editing,onBackgroundUpdated}:
         const img = document.querySelector('.crop-bg-image') as HTMLImageElement;
         const container = document.querySelector('.outer-container') as HTMLDivElement;
         if(container){
-          const containerRect = container.getBoundingClientRect();
-          const imgRect = img.getBoundingClientRect();
-          const containerWidth = containerRect.width;
-          const containerHeight = containerRect.height;
-          const imgWidth = imgRect.width;
-          const imgHeight = imgRect.height;
-    /*       if(imgWidth <= containerWidth || imgHeight <= containerHeight){
-            return;
-          } */
           img.style.width = (initlaImgWidth * sliderValue) + 'px';
           img.style.height = (initlaImgHeight * sliderValue) + 'px';
         }
@@ -262,13 +266,13 @@ export default function EditBackgroundForm({ user, editing,onBackgroundUpdated}:
                 {/* Image uploading */}
                 {droppedFile&&
                 <>
-                <div className="w-full pb-[30%] flex relative mb-4 hidden ">
+                <div className="w-full pb-[20%] flex relative mb-4 hidden ">
                     <canvas id="bg-image-canvas" className="w-full h-full absolute"></canvas>
                 </div>
                 
                 
-                <div className="w-full pb-[30%] flex relative outer-container rounded">
-                    <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-bg-conainer w-full h-full overflow-hidden mx-auto border border-white rounded absolute top-0 left-0" + (isDown ? "cursor-move" : "cursor-pointer")}>
+                <div className="w-full pb-[20%] flex relative outer-container outline outline-1 outline-white-sm rounded">
+                    <div onMouseDown={handleMouseDown} onMouseLeave={()=>{setIsDown(false)}} onMouseUp={()=>setIsDown(false)} onMouseMove={handleMouseMove} className={"crop-bg-conainer w-full h-full overflow-hidden mx-auto  absolute top-0 left-0 " + (isDown ? "cursor-move" : "cursor-pointer")}>
                         <img onLoad={handleLoadPreviewImage} className="relative w-auto h-auto crop-bg-image  max-w-none"onDragStart={()=>false} src={previewImageURL??""}></img>
 
                     </div>
