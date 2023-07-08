@@ -83,6 +83,7 @@ export default function Edit({userJSON}:UserProfileProps){
       ...user,
       backgroundPicturePath: path,
     }));
+    route.push(window.location.pathname);
   }
 /*   useEffect(() => {
     if(apiStatus === 'update-success' && bio && bio.length > 0){

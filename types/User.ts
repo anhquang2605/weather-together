@@ -1,4 +1,5 @@
 import { Location } from "./Location";
+import { Weather } from "./Weather";
 
 export interface User{
     _id?: string,
@@ -12,4 +13,7 @@ export interface User{
     gallery?: string[],
     bio?: string,
     backgroundPicturePath?: string,
+    nickname?: string,
+    favoriteWeathers?: Weather[],
+    featuredWeather?: Weather,
 }

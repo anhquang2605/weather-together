@@ -8,7 +8,7 @@ interface AvatarProps{
 /*need to use with tailwind for styling */
 export default function Avatar({profilePicturePath, setEditingPicture, isEditing}: AvatarProps){
     return (
-        <div className="justify-center items-center flex flex-col max-w-md z-200 absolute bottom-0 mb-4">
+        <div className="justify-center items-center flex flex-col max-w-md z-200">
              {isEditing && setEditingPicture && 
              <>
                 <IoPencil className="text-3xl text-slate-300 absolute top-2 right-2"/>
