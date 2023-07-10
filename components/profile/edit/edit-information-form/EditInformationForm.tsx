@@ -4,11 +4,13 @@ import {COUNTRIES} from './../../../../constants/countries';
 import ApiStatusPop from './../../../../components/api-status-pop/apistatuspop';
 import {getDataByZipcode } from './../../../../libs/zipcode';
 import { User } from "../../../../types/User";
+import { Information } from "../../../../types/User";
 interface EditInformationFormProps {
-    user: User
+    user: User,
+    onInformationUpdated: (value: Information) => void
 }
 const API_PREFFIX = "/api";
-export default function EditInformationForm({user}:EditInformationFormProps){
+export default function EditInformationForm({user,onInformationUpdated}:EditInformationFormProps){
     const [firstName, setFirstName] = useState(user.firstName);
     const [lastName, setLastName] = useState(user.lastName);
     const [city, setCity] = useState(user.location?.city);
@@ -97,6 +99,12 @@ export default function EditInformationForm({user}:EditInformationFormProps){
     const handleSubmit = () => {
         const valid = validEmail && validZipCode && !emailExists;
         if (!valid) return;
+        const information = {
+            firstName,
+            lastName,
+            email,
+            location: location,
+        }
         setApiStatus({
             type: "loading",
             message: "Updating your information..."
@@ -108,10 +116,7 @@ export default function EditInformationForm({user}:EditInformationFormProps){
             },
             body: JSON.stringify({
                 ...user,
-                firstName,
-                lastName,
-                email,
-                location: location,
+                ...information
             })
         }).then(async (response) => {
             const data = await response.json();
@@ -120,6 +125,7 @@ export default function EditInformationForm({user}:EditInformationFormProps){
                     type: "success",
                     message: "Your information has been updated!"
                 })
+                onInformationUpdated(information);
             } else {
                 setApiStatus({
                     type: "error",
@@ -132,7 +138,7 @@ export default function EditInformationForm({user}:EditInformationFormProps){
     return (
             <>
                  <ApiStatusPop status={apiStatus} show={showAPIPop} redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
-                <div className="bg-indigo-900 shadow-md rounded px-8 pt-6 pb-8 text-indigo-900 flex flex-row flex-wrap justify-between">
+                <div className="text-indigo-900 flex flex-row flex-wrap justify-between w-full">
                     <div className="form-row dark half">
                         <label htmlFor="first-name">First name</label>
                         <input type="text" value={firstName} className="p-4 border rounded" placeholder="First Name" onChange={handleFirstNameChange} />
@@ -176,9 +182,18 @@ export default function EditInformationForm({user}:EditInformationFormProps){
                         {zipApiStatus == "idle" && <p className="opacity-0">Enter zip code or city name</p>}
                         <p className={"text-red-400 " + (validZipCode && "opacity-0")}>Please enter a valid zip code!</p>
 
-
                     </div>
-                    <button className="action-btn " onClick={()=>{handleSubmit()}}>Update</button>  
+                    <div className="flex flex-row">
+                        <button className="action-btn " onClick={()=>{handleSubmit()}}>Update</button>  
+                        <p className="grow p-4 text-lg">
+                        {apiStatus.type === 'success' && <span className="text-green-500">{apiStatus.message}</span>}
+                        {apiStatus.type === 'error' && <span className="text-red-500">{apiStatus.message}</span>}
+                        {apiStatus.type === 'loading' && <span className="text-blue-500">{apiStatus.message} </span>}
+                        {apiStatus.type === 'idle' && <span className="text-transparent">idle </span>}
+                    </p>
+                    </div>
+                    
+
                 </div>
             </>
         )

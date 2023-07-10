@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import EditBackgroundForm from "../../../components/profile/edit/edit-background-form/EditBackgroundForm";
 import EditBio from "../../../components/profile/edit/edit-bio/EditBio";
 import Bio from "../../../components/profile/bio/Bio";
+import { Information } from "../../../types/User";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -85,6 +86,14 @@ export default function Edit({userJSON}:UserProfileProps){
     }));
     route.push(window.location.pathname);
   }
+  const handleInformationUpdated = (information: Information) => {
+    dispatch(updateUser({
+      ...user,
+      ...information,
+    }));
+    route.push(window.location.pathname);
+  }
+  
 /*   useEffect(() => {
     if(apiStatus === 'update-success' && bio && bio.length > 0){
       
@@ -125,18 +134,19 @@ export default function Edit({userJSON}:UserProfileProps){
         {/* Modal sections */}
       <Modal status={editingPicture} onClose={()=>{handlePictureEditClose()}}>
             <EditPictureForm onPictureUpdated={handlePictureUpdated} editing={editingPicture} user={user}/>
+      
       </Modal>
 
       {/* Edit information Modal */}
-      <Modal status={editingInformation} onClose={()=>{handleInformationEditClose()}}>
-                  <EditInformationForm user={user}/>
+      <Modal status={editingInformation} onClose={()=>{handleInformationEditClose()}} containerClassName={"form-container"} title={"Contact Update"}>
+              <EditInformationForm onInformationUpdated={handleInformationUpdated} user={user}/>
       </Modal>
       {/* Background  */}
-      <Modal status={editingBackground} onClose={()=>{handleBackgroundEditClose()}}>
-                  <EditBackgroundForm user={user} onBackgroundUpdated={handleBackgroundUpdated} editing={editingBackground}/>
+      <Modal status={editingBackground} onClose={()=>{handleBackgroundEditClose()}}>     
+            <EditBackgroundForm user={user} onBackgroundUpdated={handleBackgroundUpdated} editing={editingBackground}/>
       </Modal>
-      <Modal status={editingBio} onClose={()=>{setEditingBio(false)}}>
-                  <EditBio user={user} userBio={user.bio ?? ""} onBioUpdated={updateUserBio} maxBioLength={200}/>
+      <Modal status={editingBio} onClose={()=>{setEditingBio(false)}} containerClassName={"form-container"} title={"Bio Update"}>
+            <EditBio user={user} userBio={user.bio ?? ""} onBioUpdated={updateUserBio} maxBioLength={200}/>
       </Modal>
     </>
     )

@@ -41,7 +41,7 @@ body {
   @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
 }
 .action-btn{
-  @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-8 py-2 rounded border border-indigo-500 hover:border-slate-200;
+  @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-16 py-2 rounded border border-indigo-500 hover:border-slate-200;
 }
 
 .nav-item{
@@ -107,7 +107,7 @@ body {
 }
 
 .form-container{
-  @apply flex flex-row flex-wrap justify-between bg-indigo-900;
+  @apply flex flex-row flex-wrap justify-between bg-indigo-900 p-8 rounded shadow-xl;
 }
 
 textarea, input[type="text"], input[type="email"], input[type="password"]{
@@ -115,4 +115,7 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
   &:focus{
     @apply outline-none outline-indigo-500;
   }
+}
+.form-title{
+  @apply text-2xl font-semibold mb-4;
 }

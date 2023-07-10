@@ -1,6 +1,11 @@
-import { Location } from "./Location";
+import { Location } from "./location";
 import { Weather } from "./Weather";
-
+export interface Information {
+    firstName?: string,
+    lastName?: string,
+    email?: string,
+    location: Location | null
+}
 export interface User{
     _id?: string,
     username: string,

@@ -6,7 +6,9 @@ interface ModalProps {
     children?: React.ReactNode
     status?: boolean
     onClose?: () => void
-    hideCloseButton?: boolean
+    hideCloseButton?: boolean,
+    containerClassName?: string,
+    title?: string
 }
 /*
     To  use this, provide a state from the parent component as status,
@@ -14,15 +16,17 @@ interface ModalProps {
     to the onClose prop to set the state to false which will close the modal
     to open the modal, set the state to true, should be passed into status prop
 */
-export default function Modal({children, onClose,status,hideCloseButton}: ModalProps) {
+export default function Modal({children, onClose,status,hideCloseButton,containerClassName,title}: ModalProps) {
     const [reveal, setReveal] = useState(false);
+    console.log(children)
     useEffect(() => {
         setReveal(status ?? false);
     }, [status])
     return(
         <div className={"fixed top-0 left-0 w-full h-full flex justify-center items-center " + (!reveal && "hidden")}>
             <div onClick={onClose} className={"backdrop-blur bg-gradient-to-b from-slate-900 via-transparent to-slate-900  w-full h-full absolute bottom-0 right-0"}></div>
-            <div className={styles["modal-content"] + " border border-slate-400"}>
+            <div className={styles["modal-content"] + " border border-slate-400 " + (containerClassName ?? "")}>
+                {title?.length && <h3 className="form-title">{title}</h3>}
                 {!hideCloseButton && <button onClick={onClose} className={styles["modal-close-btn"] + " drop-shadow-lg"}><IoClose></IoClose></button>}
                 {children}
             </div>
