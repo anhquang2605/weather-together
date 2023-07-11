@@ -27,6 +27,43 @@ const client = new MongoClient(uri, {
 const app = express();
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server });
+let userChangeStream;
+wss.on('connection', (socket) => {
+  socket.on('message', (message) => {
+    const data = JSON.parse(message);
+    if (data.type === 'username'){
+      let username = data.username;
+      console.log(username);
+      connectDB().then(async (db)  => {
+        const pipeline = [
+          {
+            $match:{
+              'username': 'anhquang2605',//not fullDocument, wrong!!!
+            }
+          }
+        ]
+        const userCollection = await db.collection('users');
+        userChangeStream = userCollection.watch(pipeline);
+        userChangeStream.on('change', (change) => {
+          // Broadcast the change to all connected WebSocket clients
+          console.log("change");
+          wss.clients.forEach((client) => {
+            console.log(client.readyState)
+            if (client.readyState === WebSocket.OPEN) {
+              const updatedData = change.fullDocument;
+              const message = {
+                type: 'user',
+                data: updatedData
+              }
+              client.send(JSON.stringify(message));
+            }
+          });
+        });
+      });
+    }
+  })
+});
+
 const connectDB = async () => {
   try{
       await client.connect();
@@ -37,24 +74,10 @@ const connectDB = async () => {
       console.log(e);
   }
 }
-connectDB().then(async (db)  => {
-    const userCollection = await db.collection('users');
-    const notificationChangeStream = userCollection.watch();
-
-    notificationChangeStream.on('change', (change) => {
-      // Broadcast the change to all connected WebSocket clients
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(change));
-        }
-      });
-    });
-    console.log('MongoDB ready');
-    server.listen(PORT, (err) => {
-      if (err) throw err;
-      console.log('> Ready on http://localhost:'+PORT);
-    });
-  });
+server.listen(PORT, (err) => {
+  if (err) throw err;
+  console.log('> Ready on http://localhost:'+PORT);
+});
 
   //npm install --save-dev npm-run-all
   

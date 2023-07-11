@@ -51,6 +51,7 @@ export default function Edit({userJSON}:UserProfileProps){
   const dispatch = useDispatch();
   const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
   const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
+  
   const updateUserBio = async (bio:string) => {
     if(user){
       dispatch(updateUser({
@@ -105,11 +106,18 @@ export default function Edit({userJSON}:UserProfileProps){
   useEffect(() => {
     if(userJSON)  setUser(JSON.parse(userJSON));
   }, [userJSON])
-
+  //WEB SOCKETS FOR MONGO DB
   useEffect(() => {
       const ws = new WebSocket(`${SERVER_HOST}:${PORT}`);
+      ws.onopen = () => {
+        ws.send(JSON.stringify({
+          type: 'username',
+          username: user.username,
+        }));
+      
+      }
       ws.onmessage = (message) => {
-          console.log("here woohoo");
+          console.log("user profile updated");
           const change =  JSON.parse(message.data);
           console.log(change);
       }
