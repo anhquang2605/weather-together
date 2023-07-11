@@ -18,7 +18,6 @@ interface ModalProps {
 */
 export default function Modal({children, onClose,status,hideCloseButton,containerClassName,title}: ModalProps) {
     const [reveal, setReveal] = useState(false);
-    console.log(children)
     useEffect(() => {
         setReveal(status ?? false);
     }, [status])

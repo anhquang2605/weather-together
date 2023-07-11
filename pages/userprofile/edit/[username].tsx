@@ -49,14 +49,15 @@ export default function Edit({userJSON}:UserProfileProps){
   const [editingBackground, setEditingBackground] = useState<boolean>(false);
   const [editingBio, setEditingBio] = useState<boolean>(false);
   const dispatch = useDispatch();
-
+  const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
+  const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
   const updateUserBio = async (bio:string) => {
     if(user){
       dispatch(updateUser({
         ...user,
         bio,
       }));
-      route.push(window.location.pathname);
+      //route.push(window.location.pathname);
     }
   }
 
@@ -105,6 +106,17 @@ export default function Edit({userJSON}:UserProfileProps){
     if(userJSON)  setUser(JSON.parse(userJSON));
   }, [userJSON])
 
+  useEffect(() => {
+      const ws = new WebSocket(`${SERVER_HOST}:${PORT}`);
+      ws.onmessage = (message) => {
+          console.log("here woohoo");
+          const change =  JSON.parse(message.data);
+          console.log(change);
+      }
+      return () => {
+          ws.close();
+      }
+  },[])
     return (
       <>
         <Head>

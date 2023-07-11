@@ -2,6 +2,7 @@ import Head from 'next/head';
 import WeatherSummarySide from '../components/weather-widgets/weather-summary-side/weathersummaryside';
 import ActivityBoard from '../components/activity-board/ActivityBoard';
 import Banner from '../components/banner/banner';
+import { useEffect } from 'react';
 export default function Home() {
 
     return (
