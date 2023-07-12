@@ -35,13 +35,12 @@ wss.on('connection', (socket) => {
       let username = data.username;
       console.log(username);
       connectDB().then(async (db)  => {
-        const pipeline = [
-          {
-            $match:{
-              'username': 'anhquang2605',//not fullDocument, wrong!!!
-            }
+        const pipeline = [{
+          $match: {
+              'fullDocument.username': username, 
+              'operationType': { $in: ['update', 'replace'] }
           }
-        ]
+      }];
         const userCollection = await db.collection('users');
         userChangeStream = userCollection.watch(pipeline);
         userChangeStream.on('change', (change) => {
