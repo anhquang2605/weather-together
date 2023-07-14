@@ -6,4 +6,5 @@ export interface Comment {
     dateCreated: string;
     dateUpdated: string;
     reactions: Reaction[];
+    targetId: string; // Postid
 }

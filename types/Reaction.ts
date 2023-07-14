@@ -5,4 +5,5 @@ export interface Reaction {
     dateUpdated: string;
     type: string;
     icon: string;
+    targetId: string; // Post or Comment ID
 }
