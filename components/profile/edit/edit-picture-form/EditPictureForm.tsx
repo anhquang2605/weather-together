@@ -256,7 +256,7 @@ export default function EditPictureForm({ user, editing}: EditPictureFormProps) 
                     </label>
                 <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
                 </>
-            }
+              }
                 
 
                 {/* Image uploading */}

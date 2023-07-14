@@ -35,6 +35,9 @@ body {
 :root{
   --nav-primmary-color: #2e1065;
   --nav-secondary-color: white;
+  --primary-color: #312e81;
+  --btn-hover-color: #4f46e5;
+  --btn-color: #6366f1;
 }
 
 .glass{
@@ -118,4 +121,29 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 }
 .form-title{
   @apply text-2xl font-semibold mb-4;
+}
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--btn-color);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: .5rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: ora;
+}
+
+*::-webkit-scrollbar-thumb {
+  transition: background-color .2s ease-in-out;
+  background: var(--btn-color);
+  border-radius: 20px;
+  border: 1px solid white;
+  &:hover{
+    background-color: var(--btn-hover-color);
+    cursor: pointer;
+  }
 }

@@ -632,6 +632,14 @@ video {
   top: 1rem;
 }
 
+.top-8 {
+  top: 2rem;
+}
+
+.right-8 {
+  right: 2rem;
+}
+
 .order-first {
   order: -9999;
 }
@@ -1027,6 +1035,10 @@ video {
   padding: 1rem;
 }
 
+.p-8 {
+  padding: 2rem;
+}
+
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1228,6 +1240,12 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-xl {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .outline {
   outline-style: solid;
 }
@@ -1290,6 +1308,9 @@ video {
 :root{
   --nav-primmary-color: #2e1065;
   --nav-secondary-color: white;
+  --primary-color: #312e81;
+  --btn-hover-color: #4f46e5;
+  --btn-color: #6366f1;
 }
 
 .glass {
@@ -1497,6 +1518,35 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 600;
+}
+
+/* Works on Firefox */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--btn-color);
+}
+
+/* Works on Chrome, Edge, and Safari */
+
+*::-webkit-scrollbar {
+  width: .5rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: ora;
+}
+
+*::-webkit-scrollbar-thumb {
+  -webkit-transition: background-color .2s ease-in-out;
+  transition: background-color .2s ease-in-out;
+  background: var(--btn-color);
+  border-radius: 20px;
+  border: 1px solid white;
+  &:hover{
+    background-color: var(--btn-hover-color);
+    cursor: pointer;
+  }
 }
 
 @media (min-width: 768px) {

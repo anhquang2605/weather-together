@@ -4,9 +4,10 @@ interface PostProps{
     post: Post;
 }
 export default function Post({post}: PostProps){
+    
     return(
         <div className={style['post']}>
-
+            
         </div>
     )
 }
