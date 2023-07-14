@@ -9,9 +9,8 @@ import { on } from 'events';
 interface EditPictureFormProps {
     user: User;
     editing: boolean;
-    onPictureUpdated: (value: string) => void;
 }
-export default function EditPictureForm({ user, editing,onPictureUpdated}: EditPictureFormProps) {
+export default function EditPictureForm({ user, editing}: EditPictureFormProps) {
       //apid status
     const [apiStatus, setApiStatus] = useState('idle');
     const [profilePicturePath, setProfilePicturePath] = useState<string | null>(""); //['/images/profile-pictures/default.png'
@@ -214,7 +213,7 @@ export default function EditPictureForm({ user, editing,onPictureUpdated}: EditP
                 setApiStatus('update-error');
             } else {
                 setApiStatus('update-success');
-                onPictureUpdated(url);
+                
             }
         }
     }

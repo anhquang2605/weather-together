@@ -7,10 +7,9 @@ import { User } from "../../../../types/User";
 import { Information } from "../../../../types/User";
 interface EditInformationFormProps {
     user: User,
-    onInformationUpdated: (value: Information) => void
 }
 const API_PREFFIX = "/api";
-export default function EditInformationForm({user,onInformationUpdated}:EditInformationFormProps){
+export default function EditInformationForm({user}:EditInformationFormProps){
     const [firstName, setFirstName] = useState(user.firstName);
     const [lastName, setLastName] = useState(user.lastName);
     const [city, setCity] = useState(user.location?.city);
@@ -125,7 +124,6 @@ export default function EditInformationForm({user,onInformationUpdated}:EditInfo
                     type: "success",
                     message: "Your information has been updated!"
                 })
-                onInformationUpdated(information);
             } else {
                 setApiStatus({
                     type: "error",

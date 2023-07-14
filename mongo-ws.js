@@ -9,7 +9,6 @@ const mongoose = require('mongoose');
 const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT || 3001;
 const dev = process.env.NEXT_PUBLIC_NODE_ENV !== 'production';
 const nextApp = next({ dev });
-const handle = nextApp.getRequestHandler();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const PW = process.env.NEXT_PUBLIC_MONGO_PW;
 const USER = process.env.NEXT_PUBLIC_MONGO_USER;
@@ -33,31 +32,31 @@ wss.on('connection', (socket) => {
     const data = JSON.parse(message);
     if (data.type === 'username'){
       let username = data.username;
-      console.log(username);
       connectDB().then(async (db)  => {
         const pipeline = [{
           $match: {
-              'fullDocument.username': username, 
-              'operationType': { $in: ['update', 'replace'] }
+            'fullDocument.username': username,
+            operationType: {
+              $in: ['insert', 'update', 'replace']
+            }
           }
       }];
         const userCollection = await db.collection('users');
-        userChangeStream = userCollection.watch(pipeline);
+        userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
         userChangeStream.on('change', (change) => {
           // Broadcast the change to all connected WebSocket clients
-          console.log("change");
           wss.clients.forEach((client) => {
-            console.log(client.readyState)
             if (client.readyState === WebSocket.OPEN) {
-              const updatedData = change.fullDocument;
+              const updated = change.updateDescription.updatedFields;
               const message = {
-                type: 'user',
-                data: updatedData
+                type: 'user-updated',
+                data: updated
               }
               client.send(JSON.stringify(message));
             }
           });
         });
+        await new Promise(() => {});
       });
     }
   })

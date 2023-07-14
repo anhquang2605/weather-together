@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { getUserDataByUserName, getUsernamePaths} from "../../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, use, useEffect, useRef, useState } from 'react';
 import { User } from "../../../types/User";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../store/features/user/userSlice";
@@ -52,7 +52,7 @@ export default function Edit({userJSON}:UserProfileProps){
   const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
   const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
   
-  const updateUserBio = async (bio:string) => {
+/*   const updateUserBio = async (bio:string) => {
     if(user){
       dispatch(updateUser({
         ...user,
@@ -60,7 +60,7 @@ export default function Edit({userJSON}:UserProfileProps){
       }));
       //route.push(window.location.pathname);
     }
-  }
+  } */
 
   const handlePictureEditClose = () => {
     setEditingPicture(false);
@@ -74,7 +74,7 @@ export default function Edit({userJSON}:UserProfileProps){
   const handleBackgroundEditClose = () => {
     setEditingBackground(false);
   }
-  const handlePictureUpdated = (path:string) => {
+/*   const handlePictureUpdated = (path:string) => {
     dispatch(updateUser({
       ...user,
       profilePicturePath: path,
@@ -95,7 +95,7 @@ export default function Edit({userJSON}:UserProfileProps){
     }));
     route.push(window.location.pathname);
   }
-  
+   */
 /*   useEffect(() => {
     if(apiStatus === 'update-success' && bio && bio.length > 0){
       
@@ -117,9 +117,15 @@ export default function Edit({userJSON}:UserProfileProps){
       
       }
       ws.onmessage = (message) => {
-          console.log("user profile updated");
-          const change =  JSON.parse(message.data);
-          console.log(change);
+        const payload = JSON.parse(message.data);
+          if(payload.type === 'user-updated'){
+            const updatedUser = {...user, ...payload.data};
+            setUser(prevState => ({...prevState, ...payload.data}));
+            dispatch(updateUser(updatedUser));
+          }
+/*           const change =  JSON.parse(message.data);
+          console.log(message.data);
+          setUser(change.data); */
       }
       return () => {
           ws.close();
@@ -137,7 +143,7 @@ export default function Edit({userJSON}:UserProfileProps){
 
             <div className="flex flex-wrap lg:flex-nowrap">
               <div className="flex flex-col w-full xl:w-1/2 p-4">
-                <Bio userBio={user.bio ?? ""} setEditingBio={setEditingBio} isEditing={true} />
+                <Bio key={user.bio} userBio={user.bio ?? ""} setEditingBio={setEditingBio} isEditing={true} />
               </div>
 
 
@@ -153,20 +159,20 @@ export default function Edit({userJSON}:UserProfileProps){
         </div>
         {/* Modal sections */}
       <Modal status={editingPicture} onClose={()=>{handlePictureEditClose()}}>
-            <EditPictureForm onPictureUpdated={handlePictureUpdated} editing={editingPicture} user={user}/>
+            <EditPictureForm  editing={editingPicture} user={user}/>
       
       </Modal>
 
       {/* Edit information Modal */}
       <Modal status={editingInformation} onClose={()=>{handleInformationEditClose()}} containerClassName={"form-container"} title={"Contact Update"}>
-              <EditInformationForm onInformationUpdated={handleInformationUpdated} user={user}/>
+              <EditInformationForm user={user}/>
       </Modal>
       {/* Background  */}
       <Modal status={editingBackground} onClose={()=>{handleBackgroundEditClose()}}>     
-            <EditBackgroundForm user={user} onBackgroundUpdated={handleBackgroundUpdated} editing={editingBackground}/>
+            <EditBackgroundForm user={user} editing={editingBackground}/>
       </Modal>
       <Modal status={editingBio} onClose={()=>{setEditingBio(false)}} containerClassName={"form-container"} title={"Bio Update"}>
-            <EditBio user={user} userBio={user.bio ?? ""} onBioUpdated={updateUserBio} maxBioLength={200}/>
+            <EditBio key={user.bio} user={user} userBio={user.bio ?? ""} maxBioLength={200}/>
       </Modal>
     </>
     )

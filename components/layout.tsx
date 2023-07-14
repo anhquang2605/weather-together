@@ -3,7 +3,8 @@ import Navigation from './navigation/navigation'
 import Head from 'next/head'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import { useEffect} from 'react'
+import { Suspense, useEffect, useState} from 'react'
+import Loading from './loading'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
@@ -13,10 +14,20 @@ export default function RootLayout({
 }) {
   const user = useSelector((state: any) => state.user)
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+  const routeChangeHandler = () => {
+    setLoading(true);
+  }
+  const routeChangeCompleteHandler = () => {
+    setLoading(false);
+  }
   useEffect(() => {
-      if(!user.data){
-          //router.push("/authentication/login");
-      }
+    router.events.on('routeChangeStart', routeChangeHandler)
+    router.events.on('routeChangeComplete', routeChangeCompleteHandler)
+    return () => {
+      router.events.off('routeChangeStart', routeChangeHandler)
+      router.events.off('routeChangeComplete',  routeChangeCompleteHandler)
+    }
   },[])
   return (
     <>
@@ -26,7 +37,8 @@ export default function RootLayout({
       {user &&
       <div className="flex flex-row relative bg-gradient-to-bl from-violet-800 from-5% via-indigo-800 to-indigo-950 to-70% h-screen text-white p-4">
         <Navigation/>
-        {children}
+          {children}  
+          {loading && <Loading/>}
       </div>}
     </>
   )

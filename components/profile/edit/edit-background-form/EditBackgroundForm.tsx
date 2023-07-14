@@ -7,9 +7,8 @@ import { User } from '../../../../types/User';
 interface EditBackgroundFormProps {
     user: User;
     editing: boolean;
-    onBackgroundUpdated: (value: string) => void;
 }
-export default function EditBackgroundForm({ user, editing,onBackgroundUpdated}: EditBackgroundFormProps) {
+export default function EditBackgroundForm({ user, editing}: EditBackgroundFormProps) {
       //apid status
     const [apiStatus, setApiStatus] = useState('idle');
     const [profileBackgroundPicturePath, setProfileBackgroundPicturePath] = useState<string | null>(""); //['/images/profile-pictures/default.png'
@@ -226,7 +225,6 @@ export default function EditBackgroundForm({ user, editing,onBackgroundUpdated}:
                 setApiStatus('update-error');
             } else {
                 setApiStatus('update-success');
-                onBackgroundUpdated(url);
             }
         }
     }

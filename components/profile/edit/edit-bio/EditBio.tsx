@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { User } from "../../../../types/User";
-import { on } from "events";
 
 interface EditBioProps {
     userBio: string;
     user: User;
-    onBioUpdated: (value: string) => void;
     maxBioLength: number;
 }
-export default function EditBio({ userBio, user, onBioUpdated, maxBioLength }: EditBioProps) {
+export default function EditBio({ userBio, user, maxBioLength }: EditBioProps) {
     const [bio, setBio] = useState<string>(userBio);
     const [apiStatus, setApiStatus] = useState('');
     const [wordCount, setWordCount] = useState<number>(0);
@@ -26,7 +24,6 @@ export default function EditBio({ userBio, user, onBioUpdated, maxBioLength }: E
         });
         if (!response.ok) {
             setApiStatus('update-error');
-            onBioUpdated(bio);
         } else {
             setApiStatus('update-success');
         }
@@ -36,11 +33,6 @@ export default function EditBio({ userBio, user, onBioUpdated, maxBioLength }: E
         setBio(event.target.value);
         setWordCount(event.target.value.split(" ").length);
     }
-    useEffect(() => {
-        if (apiStatus === 'update-success' && bio && bio.length > 0) {
-            onBioUpdated(bio);
-        }
-    }, [apiStatus, bio])
 
     return (
         <div className="bio flex flex-row flex-wrap w-full">

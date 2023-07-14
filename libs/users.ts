@@ -40,10 +40,6 @@ export async function getUsernamePaths (){
         let db = await connectDB() 
         if(!db) return [];
         const usersCollection: mongoDB.Collection = await db.collection('users');
-        const userChangeStream = usersCollection.watch();
-        userChangeStream.on('change', next => {
-            console.log(next);
-        });
         const usernames : string[] = (await usersCollection.find({}, { projection: { username: 1 } }).toArray()).map(obj => obj.username);
         const paths = usernames.map(username => {
             return {

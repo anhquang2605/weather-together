@@ -32,3 +32,15 @@ export const config: PageConfig = {
 10. Height scale propotional to width, have a container with pb set to a certain percentage this will specify the height /  width ratio, the winthin the container, have that element height to full and it will be the desired height, also the child element must be absolute positioned
 11. FontAwesome work around for nextjs:
 const {library, config} = require('@fortawesome/fontawesome-svg-core')// Do this for fontawesome to work with nextjs
+12. When passing a field of a state, dont forget to also specify a key on the component receiving such field to cause re rendering whenever the property of such state object change
+13. For changeStream of mongoDB pipeline to work with fullDocument match, make sure to pass second argument to watch() function as an object {fullDocument: "updatelookup"}
+const pipeline = [{
+          $match: {
+            'fullDocument.username': username,
+            operationType: {
+              $in: ['insert', 'update', 'replace']
+            }
+          }
+      }];
+        const userCollection = await db.collection('users');
+        userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
