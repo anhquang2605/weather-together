@@ -24,7 +24,7 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
                     key={option.value}
                     className={
                         style['select-option'] + " "  +
-                        (selectedId == index ? (selectedOptionClassName ?? style["selected"]) : "")
+                        (selectedId == index ? (selectedOptionClassName + " " + style["selected"]) : "")
                         
                     } 
                     

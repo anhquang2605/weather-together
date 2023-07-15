@@ -6,8 +6,8 @@
     width: 0;
     padding-bottom: 5%;
 }
-.selected{
-
+.select-option.selected{
+    pointer-events: none;
 }
 .select-option{
     padding: 8px 16px;
