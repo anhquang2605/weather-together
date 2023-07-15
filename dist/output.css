@@ -636,10 +636,6 @@ video {
   top: 2rem;
 }
 
-.right-8 {
-  right: 2rem;
-}
-
 .order-first {
   order: -9999;
 }
@@ -1033,10 +1029,6 @@ video {
 
 .p-4 {
   padding: 1rem;
-}
-
-.p-8 {
-  padding: 2rem;
 }
 
 .px-4 {
@@ -1689,3 +1681,4 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
     width: 50%;
   }
 }
+

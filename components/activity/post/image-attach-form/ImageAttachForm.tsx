@@ -67,7 +67,7 @@ export default function ImageAttachForm({username, postId}: ImageAttachFormProps
     return (
     <div 
         onDragOver={handleCancelDragOver} 
-        className={style["image-attach-form"] + " p-8 border border-slate-400 relative mb-4"} 
+        className={style["image-attach-form"] + " p-4 border border-slate-400 relative mb-4"} 
         onDrop={handleDrop}
     >         
             {previewImageURLs.length ?
@@ -105,7 +105,7 @@ export default function ImageAttachForm({username, postId}: ImageAttachFormProps
             :
             <>                        
                 <ImCloudUpload className="w-20 h-20 mx-auto"/>
-                <h3 className="mb-4 text-xl">"Drag and drop your image here" </h3>
+                <h3 className="mb-4 text-xl">Drag and drop your image here</h3>
                 <h4 className="text-xl">OR </h4>
                 <label className="action-btn block cursor-pointer mt-4"htmlFor="image-upload">
                     Upload from device
