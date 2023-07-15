@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ImageAttachForm from './image-attach-form/ImageAttachForm';
 import CustomSelect from '../../plugins/custom-select/CustomSelect';
+import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 interface PostFormProps {
     username?: string;
 
@@ -52,15 +53,26 @@ export default function PostForm ({username}: PostFormProps) {
             description: "Only you can see this post"
         }
     ]
+    const visibilityIcons:any ={
+        "public": <MdPublic className="icon" />,
+        "friends": <MdPeople className="icon"  />,
+        "private":  <MdLock className="icon"  /> ,
+    }
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(
-            <div key={title} data-value={title}>
-                <span className="option-title">
-                    {title}
+            <div key={title} data-value={title} className="flex flex-row align-center">
+                <span className="option-icon my-auto text-indigo-800">
+                    {visibilityIcons[title]}
                 </span>
-                {!selectedOption && <span className="option-description">
-                    {description}
-                </span>}
+                <span className="option-text ml-2 flex flex-col flex-wrap text-indigo-800">
+                    <span className="option-title capitalize font-bold text-indigo-900">
+                        {title}
+                    </span>
+                    {!selectedOption && <span className="option-description">
+                        {description}
+                    </span>}
+                </span>
+
             </div>
         )
     }
@@ -71,7 +83,7 @@ export default function PostForm ({username}: PostFormProps) {
 {/*                 <select value={visibility} onChange={handleVisibilityChange} className="text-indigo-900">
                     {visibilityOptionsJSX}
                 </select> */}
-                <CustomSelect setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
+                <CustomSelect selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
             <textarea placeholder='Release your thought!' name="post-content" id="post-content" value={content} className="text-indigo-900 p-4 w-full mb-4"></textarea>
             <ImageAttachForm />

@@ -148,3 +148,13 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
   }
 }
 
+.icon{
+  @apply w-6 h-6;
+}
+
+.option-selected{
+  @apply bg-indigo-600 text-white;
+  span{
+    @apply text-slate-200;
+  }
+}

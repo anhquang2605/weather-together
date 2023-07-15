@@ -14,13 +14,25 @@ interface CustomSelectProps {
     selectedOptionClassName?: string; //for styling the selected option with class or tailwind
     selectBarClassName?: string; //for styling the select bar with class or tailwind
 }
-export default function CustomSelect({options, selectedId, setSelected, optionTemplate, optionClassName, dropDownClassName}: CustomSelectProps) {
+export default function CustomSelect({options, selectedId, setSelected, optionTemplate, optionClassName, dropDownClassName, selectedOptionClassName}: CustomSelectProps) {
     const [isDropped, setIsDropped] = useState<boolean>(false);
     const customSelectRef = useRef<HTMLDivElement | null>(null)
     const optionsJSX = 
         options.map((option, index) => {
             return (
-                <div className={style['select-option'] + " " +(selectedId == index ? style["selected"] : "")} onClick={()=>{setSelected(index)}}>
+                <div
+                    className={
+                        style['select-option'] + " "  +
+                        (selectedId == index ? (selectedOptionClassName ?? style["selected"]) : "")
+                        
+                    } 
+                    
+                    onClick={()=>{
+                        setSelected(index)
+                    }}
+                    
+                    >
+                    
                     {optionTemplate ?
                         optionTemplate(option.value, option.description, false)
                         :
