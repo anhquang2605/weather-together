@@ -12,7 +12,12 @@ export default function PostForm ({username}: PostFormProps) {
     const [taggedUsernames, setTaggedUsernames] = useState<string[]>([]);
     const [selectedVisibilityIndex, setSelectedVisibilityIndex] = useState<number>(0);
 
-
+    const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+        setContent(e.target.value);
+    }
+    const handleImageAttach = () => {
+        setPictureAttached(true);
+    }
     const handleSubmission = () => {
         const post = {
             content,
@@ -60,7 +65,7 @@ export default function PostForm ({username}: PostFormProps) {
     }
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(
-            <div key={title} data-value={title} className="flex flex-row align-center">
+            <div key={title} data-value={title} className={"flex flex-row align-center"}>
                 <span className="option-icon my-auto text-indigo-800">
                     {visibilityIcons[title]}
                 </span>
@@ -72,7 +77,9 @@ export default function PostForm ({username}: PostFormProps) {
                         {description}
                     </span>}
                 </span>
+                <span className="drop-down-icon">
 
+                </span>
             </div>
         )
     }
@@ -83,7 +90,7 @@ export default function PostForm ({username}: PostFormProps) {
 {/*                 <select value={visibility} onChange={handleVisibilityChange} className="text-indigo-900">
                     {visibilityOptionsJSX}
                 </select> */}
-                <CustomSelect selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
+                <CustomSelect  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
             <textarea placeholder='Release your thought!' name="post-content" id="post-content" value={content} className="text-indigo-900 p-4 w-full mb-4"></textarea>
             <ImageAttachForm />

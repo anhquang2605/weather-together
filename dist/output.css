@@ -1561,7 +1561,7 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
 .option-selected {
   --tw-bg-opacity: 1;
-  background-color: rgb(79 70 229 / var(--tw-bg-opacity));
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
   span {

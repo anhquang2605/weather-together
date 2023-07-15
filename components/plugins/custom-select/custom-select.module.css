@@ -37,9 +37,8 @@
     width: max-content;
 }
 .selections-dropped{
-    border: 1px solid black;
     height: auto;
-    top: 120%;
+    top: 42px;
     opacity:1;
 }
 .selected-option{

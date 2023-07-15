@@ -153,8 +153,11 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 }
 
 .option-selected{
-  @apply bg-indigo-600 text-white;
+
+  @apply bg-indigo-500 text-white;
+  
   span{
     @apply text-slate-200;
   }
+
 }

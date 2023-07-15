@@ -21,6 +21,7 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
         options.map((option, index) => {
             return (
                 <div
+                    key={option.value}
                     className={
                         style['select-option'] + " "  +
                         (selectedId == index ? (selectedOptionClassName ?? style["selected"]) : "")
@@ -67,7 +68,7 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
     }, [selectedId]) 
     return(
         <div ref={customSelectRef} key="unique" className={style["custom-select"]}>
-            <div onClick={()=>{setIsDropped(true)}} className={style["selected-option"] + (optionClassName ? " " + optionClassName : "")}>
+            <div onClick={()=>{setIsDropped(true)}} className={style["selected-option"] + (optionClassName ? " " + optionClassName : "") + " " + selectedOptionClassName}>
                 {selectedOptionJSX}
             </div>
             <div 
