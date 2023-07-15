@@ -2,6 +2,8 @@ import { useState } from 'react'
 import ImageAttachForm from './image-attach-form/ImageAttachForm';
 import CustomSelect from '../../plugins/custom-select/CustomSelect';
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
+import {IoImages, IoPricetags} from 'react-icons/io5'
+import style from './post-form.module.css'
 interface PostFormProps {
     username?: string;
 
@@ -11,7 +13,7 @@ export default function PostForm ({username}: PostFormProps) {
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
     const [taggedUsernames, setTaggedUsernames] = useState<string[]>([]);
     const [selectedVisibilityIndex, setSelectedVisibilityIndex] = useState<number>(0);
-
+    const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     }
@@ -25,7 +27,7 @@ export default function PostForm ({username}: PostFormProps) {
             taggedUsernames,
             dateCreated: new Date(),
             dateUpdated: new Date(),
-            visibility: visibilityOptions[selectedVisibilityIndex]
+            visibility: visibilityOptions[selectedVisibilityIndex].value
         }
 
     }
@@ -85,18 +87,34 @@ export default function PostForm ({username}: PostFormProps) {
     }
     return (
         <div className="post-form w-full">
-            <h3 className="text-2xl mb-4">Post Creation</h3>
+            <h3 className="form-title mb-4">Post Creation</h3>
             
 {/*                 <select value={visibility} onChange={handleVisibilityChange} className="text-indigo-900">
                     {visibilityOptionsJSX}
                 </select> */}
-                <CustomSelect  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
+                <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
-            <textarea placeholder='Release your thought!' name="post-content" id="post-content" value={content} className="text-indigo-900 p-4 w-full mb-4"></textarea>
-            <ImageAttachForm />
-            <div className="attachment-group mb-4">
-                <button>Image</button>
-                <button>Friend Tag</button>
+            <textarea 
+                placeholder='Release your thought!' 
+                name="post-content" 
+                id="post-content" 
+                value={content} 
+                className="text-indigo-900 min-h-[150px] p-4 w-full mb-4"
+                onChange={handleContentChange}
+                ></textarea>
+            {revealImageAttachForm && <ImageAttachForm setReveal={setRevealImageAttachForm}/>}
+            <div className={`${style["attachment-group"]} mb-4`}>
+                <span className={`${style.description}`}>
+                    Attach to your posts:
+                </span>
+                <button className={`${style['attachment-btn']} ${style['image-btn']}`} onClick={()=>{setRevealImageAttachForm(true)}}>
+                    <IoImages className="icon"/>
+                    Images
+                </button>
+                <button className={`${style['attachment-btn']} ${style['tag-btn']}`}>
+                    <IoPricetags className="icon"/>
+                    Friends Tags
+                </button>
             </div>
             <div className="btn-group">
                 <button className="action-btn w-full">Post</button>

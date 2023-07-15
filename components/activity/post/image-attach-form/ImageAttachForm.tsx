@@ -7,13 +7,24 @@ import Image from "next/image";
 interface ImageAttachFormProps {
     username?: string;
     postId?: string;
-    setList?: React.SetStateAction<string[]>;
+    setReveal: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function ImageAttachForm({username, postId}: ImageAttachFormProps) {
+export default function ImageAttachForm({username, postId, setReveal}: ImageAttachFormProps) {
     const [droppedFile, setDroppedFile] = useState<Blob | null>(null);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const resetForm = () => {
+        setPreviewImageURLs([]);
+        setDroppedFile(null);
+    }
+
+    const handleCloseForm = () => {
+        resetForm();
+        setReveal(false);
+    }
+
     const handleCancelDragOver = (e:React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
@@ -78,7 +89,7 @@ export default function ImageAttachForm({username, postId}: ImageAttachFormProps
                             previewImageURLs.map((url, index) => {
                                 return (
                                     <div key={index} className={style['image-preview']}>
-                                        <Image fill src={url} alt="preview" className="rounded"/>
+                                        <Image width={700} height={550} src={url} alt="preview" className="rounded object-cover"/>
                                         <div className={style['overlay-hover']}>
                                             <button 
                                                 className={style['overlay-btn']}
@@ -113,7 +124,7 @@ export default function ImageAttachForm({username, postId}: ImageAttachFormProps
                 <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
             </>
             }
-        <button className="absolute top-0 right-0"><IoClose className="w-8 h-8"></IoClose></button>       
+        <button onClick={handleCloseForm} className="absolute top-0 right-0"><IoClose className="w-8 h-8"></IoClose></button>       
     </div>
     )
 }

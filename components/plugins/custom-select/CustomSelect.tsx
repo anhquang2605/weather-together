@@ -9,6 +9,7 @@ interface CustomSelectProps {
     selectedId: number;
     setSelected: (id:number) => void;
     optionTemplate?: (title:string, description:string, selectedOption:boolean) => JSX.Element;
+    outerClassName?: string; //for styling the outer wrapper with class or tailwind
     optionClassName?: string; //for styling the options with class or tailwind
     dropDownClassName?: string; //for styling the drop down with class or tailwind
     selectedOptionClassName?: string; //for styling the selected option with class or tailwind
@@ -38,9 +39,10 @@ description:
     * dropDownClassName: for styling the drop down with class or tailwind
     * selectedOptionClassName: for styling the selected option with class or tailwind
     * selectBarClassName: for styling the select bar with class or tailwind
+    * outerClassName: for styling the outer wrapper with class or tailwind
 
 */
-export default function CustomSelect({options, selectedId, setSelected, optionTemplate, optionClassName, dropDownClassName, selectedOptionClassName}: CustomSelectProps) {
+export default function CustomSelect({options, selectedId, setSelected, optionTemplate, optionClassName, dropDownClassName, selectedOptionClassName,outerClassName}: CustomSelectProps) {
     const [isDropped, setIsDropped] = useState<boolean>(false);
     const customSelectRef = useRef<HTMLDivElement | null>(null)
     const optionsJSX = 
@@ -93,20 +95,22 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
         setIsDropped(false);
     }, [selectedId]) 
     return(
-        <div ref={customSelectRef} key="unique" className={style["custom-select"]}>
-            <div onClick={()=>{setIsDropped(true)}} className={style["selected-option"] + (optionClassName ? " " + optionClassName : "") + " " + selectedOptionClassName}>
-                {selectedOptionJSX}
-            </div>
-            <div 
-                className={
-                    style["drop-down"] + " " 
-                    + (dropDownClassName ?? "") + "" 
-                    + (isDropped ? style["selections-dropped"] : " ")}>
-                {
-                    optionsJSX
-                }
-            </div>
+        <div className={"outer-wrapper " + outerClassName}>
+            <div ref={customSelectRef} key="unique" className={style["custom-select"]}>
+                <div onClick={()=>{setIsDropped(true)}} className={style["selected-option"] + (optionClassName ? " " + optionClassName : "") + " " + selectedOptionClassName}>
+                    {selectedOptionJSX}
+                </div>
+                <div 
+                    className={
+                        style["drop-down"] + " " 
+                        + (dropDownClassName ?? "") + "" 
+                        + (isDropped ? style["selections-dropped"] : " ")}>
+                    {
+                        optionsJSX
+                    }
+                </div>
 
+            </div>
         </div>
     )
 }
