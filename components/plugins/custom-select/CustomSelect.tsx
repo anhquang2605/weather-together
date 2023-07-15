@@ -14,6 +14,32 @@ interface CustomSelectProps {
     selectedOptionClassName?: string; //for styling the selected option with class or tailwind
     selectBarClassName?: string; //for styling the select bar with class or tailwind
 }
+/*
+CUSOM SELECT COMPONENT
+
+dependencies: tailwindcss, nextjs
+
+language: typescript
+
+author: Anh Quang Chu
+
+date: 2021-08-10
+
+description:
+- This custom select allow user to select from a list (Array) of Options
+- The selected option is determined by the selectedId prop (which represent the position of the option in the array)
+- The setSelected prop is a function that will be called when the user select an option which will update the selectedId prop in the parent component, this is important for form handling
+- The template prop is a function that will be called for each option to render the option jsx, it takes 3 parameters:
+    * title: the title of the option
+    * description: the description of the option
+    * selectedOption: a boolean that indicate if the option is the selected option or not
+- For styling, the component has 4 class names that can be used to style the component:
+    * optionClassName: for styling the options with class or tailwind
+    * dropDownClassName: for styling the drop down with class or tailwind
+    * selectedOptionClassName: for styling the selected option with class or tailwind
+    * selectBarClassName: for styling the select bar with class or tailwind
+
+*/
 export default function CustomSelect({options, selectedId, setSelected, optionTemplate, optionClassName, dropDownClassName, selectedOptionClassName}: CustomSelectProps) {
     const [isDropped, setIsDropped] = useState<boolean>(false);
     const customSelectRef = useRef<HTMLDivElement | null>(null)
