@@ -4,6 +4,7 @@ import { ImCloudUpload } from "react-icons/im";
 import {IoClose, IoTrash} from "react-icons/io5";
 import {RiImageAddFill} from "react-icons/ri";
 import Image from "next/image";
+import ImagePreviews from "./image-previews/ImagePreviews";
 interface ImageAttachFormProps {
     username?: string;
     postId?: string;
@@ -97,41 +98,14 @@ export default function ImageAttachForm({username, postId, setReveal, setPicture
         onDrop={handleDrop}
     >         
             {previewImageURLs.length ?
-            <>
-                <div className={style['image-preview-container']}>
-                    <div className={style['image-inner-container']}> 
-                        {
-                            previewImageURLs.map((url, index) => {
-                                return (
-                                    <div key={index} className={style['image-preview'] + " hover:glass-dark"}>
-                                        <Image width={700} height={550} src={url} alt="preview" className="rounded object-contain"/>
-                                        <div className={style['overlay-hover']}>
-                                            <button 
-                                                className={style['overlay-btn']}
-                                                onClick={()=>handleRemoveImagePreview(index)}
-                                            >
-                                                    Remove
-                                            </button>
-                                            <button className={style["overlay-btn"]}>Edit</button>
-                                        </div>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
-                </div>
-                <div className={style["add-more-img-btn"] + " absolute top-8 mx-auto flex"}>
-                    <label className="cursor-pointer action-btn flex flex-row align-center shadow-lg text-sm" htmlFor="image-upload">
-                        <RiImageAddFill className="w-5 h-5 mr-2"/>
-                        Add more picture
-                    </label>
-                    <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
-                    <button onClick={handleRemoveAllImagePreview} className="critical-btn flex flex-row align-center shadow-lg text-sm">
-                        <IoTrash className="w-5 h-5 mr-2"/>
-                        Remove all
-                    </button>
-                </div>
-            </>
+                <ImagePreviews
+                    previewImageURLs={previewImageURLs}
+                    setPreviewImageURLs={setPreviewImageURLs}
+                    removePreviewImage={handleRemoveImagePreview}
+                    imageInputRef={fileInputRef}
+                    handleFileInputChange={handleFileInputChange}
+                    handleRemoveAllImagePreview={handleRemoveAllImagePreview}
+                />
             :
             <>                        
                 <ImCloudUpload className="w-12 h-12 mx-auto"/>

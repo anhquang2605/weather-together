@@ -47,14 +47,14 @@
     }
 }
 
-@media (min-width: 1440px ) {
+@media (min-width: 1180px ) {
     .modal-content{
-        width: 40%;
+        width: 45%;
     }
 }
 @media (min-width: 1024px){
     .modal-content{
-        width: 50%;
+        width: 60%;
     }
 }
 
