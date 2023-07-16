@@ -1,5 +1,6 @@
 import { use, useEffect, useRef, useState } from 'react';
 import style from './custom-select.module.css'
+import {IoChevronDown, IoChevronUp} from 'react-icons/io5'
 interface Option{
     value: string;
     description: string;
@@ -97,8 +98,11 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
     return(
         <div className={"outer-wrapper " + outerClassName}>
             <div ref={customSelectRef} key="unique" className={style["custom-select"]}>
-                <div onClick={()=>{setIsDropped(true)}} className={style["selected-option"] + (optionClassName ? " " + optionClassName : "") + " " + selectedOptionClassName}>
+                <div onClick={()=>{setIsDropped(!isDropped)}} className={style["selected-option"] + (optionClassName ? " " + optionClassName : "") + " " + selectedOptionClassName}>
                     {selectedOptionJSX}
+                    <span className={style["caret"]}>
+                        {isDropped ? <IoChevronUp/> : <IoChevronDown/>}
+                    </span>
                 </div>
                 <div 
                     className={

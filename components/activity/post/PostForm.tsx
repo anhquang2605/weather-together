@@ -71,7 +71,7 @@ export default function PostForm ({username}: PostFormProps) {
                 <span className="option-icon my-auto text-indigo-800">
                     {visibilityIcons[title]}
                 </span>
-                <span className="option-text ml-2 flex flex-col flex-wrap text-indigo-800">
+                <span className="option-text ml-1.5 flex flex-col flex-wrap text-indigo-800">
                     <span className="option-title capitalize font-bold text-indigo-900">
                         {title}
                     </span>
@@ -102,16 +102,24 @@ export default function PostForm ({username}: PostFormProps) {
                 className="text-indigo-900 min-h-[150px] p-4 w-full mb-4"
                 onChange={handleContentChange}
                 ></textarea>
-            {revealImageAttachForm && <ImageAttachForm setReveal={setRevealImageAttachForm}/>}
+            {<ImageAttachForm revealState={revealImageAttachForm} setPictureAttached={setPictureAttached} setReveal={setRevealImageAttachForm}/>}
             <div className={`${style["attachment-group"]} mb-4`}>
                 <span className={`${style.description}`}>
                     Attach to your posts:
                 </span>
-                <button className={`${style['attachment-btn']} ${style['image-btn']}`} onClick={()=>{setRevealImageAttachForm(true)}}>
+                <button className={`
+                    ${style['attachment-btn']} 
+                    ${style['image-btn']} 
+                    ${pictureAttached ? style['attached'] : ''}
+                    `} onClick={()=>{setRevealImageAttachForm(!revealImageAttachForm)}}>
                     <IoImages className="icon"/>
                     Images
                 </button>
-                <button className={`${style['attachment-btn']} ${style['tag-btn']}`}>
+                <button className={`
+                    ${style['attachment-btn']} 
+                    ${style['tag-btn']}
+                    ${taggedUsernames.length ? style['attached'] : ''}
+                    `}>
                     <IoPricetags className="icon"/>
                     Friends Tags
                 </button>

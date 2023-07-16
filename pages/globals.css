@@ -43,8 +43,14 @@ body {
 .glass{
   @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
 }
+.glass-dark{
+  @apply bg-gradient-to-br from-slate-900/20 from-10% to-transparent to-95% backdrop-blur-lg;
+}
 .action-btn{
-  @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-16 py-2 rounded border border-indigo-500 hover:border-slate-200;
+  @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-4 py-2 rounded border border-indigo-500 hover:border-slate-200;
+}
+.critical-btn{
+  @apply transition duration-200 text-white ml-4 bg-red-500 hover:bg-gradient-to-r from-red-700 from-40%  to-red-500 to-95% px-4 py-2 rounded border border-red-500 hover:border-slate-200;
 }
 
 .nav-item{
@@ -161,3 +167,4 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
   }
 
 }
+

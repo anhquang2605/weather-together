@@ -12,9 +12,9 @@
     }
 }
 
-.image-btn:hover, .image-btn.acttached{
+.image-btn:hover, .image-btn.attached{
     @apply border-green-500 text-green-500;
 }
-.tag-btn:hover, .tag-btn.acttached{
+.tag-btn:hover, .tag-btn.attached{
     @apply border-yellow-400 text-yellow-400;
 }

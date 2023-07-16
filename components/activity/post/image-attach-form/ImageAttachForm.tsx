@@ -1,15 +1,17 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import style from './image-attach-form.module.css'
 import { ImCloudUpload } from "react-icons/im";
-import {IoClose, IoImages} from "react-icons/io5";
+import {IoClose, IoTrash} from "react-icons/io5";
 import {RiImageAddFill} from "react-icons/ri";
 import Image from "next/image";
 interface ImageAttachFormProps {
     username?: string;
     postId?: string;
     setReveal: React.Dispatch<React.SetStateAction<boolean>>;
+    setPictureAttached: (value:boolean) => void;
+    revealState?: boolean;
 }
-export default function ImageAttachForm({username, postId, setReveal}: ImageAttachFormProps) {
+export default function ImageAttachForm({username, postId, setReveal, setPictureAttached, revealState}: ImageAttachFormProps) {
     const [droppedFile, setDroppedFile] = useState<Blob | null>(null);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
@@ -21,7 +23,6 @@ export default function ImageAttachForm({username, postId, setReveal}: ImageAtta
     }
 
     const handleCloseForm = () => {
-        resetForm();
         setReveal(false);
     }
 
@@ -75,10 +76,24 @@ export default function ImageAttachForm({username, postId, setReveal}: ImageAtta
             return newState;
         })
     }
+    const handleRemoveAllImagePreview = () => {
+        setPreviewImageURLs([]);
+    }
+    useEffect(() => {
+        if(previewImageURLs.length > 0){
+            setPictureAttached(true);
+        } else {
+            setPictureAttached(false);
+        }
+    },[previewImageURLs])
     return (
     <div 
-        onDragOver={handleCancelDragOver} 
-        className={style["image-attach-form"] + " p-4 border border-slate-400 relative mb-4"} 
+        onDragOver={handleCancelDragOver}
+
+        className={
+            style["image-attach-form"] + 
+            " p-4 border border-slate-400 relative mb-4" +
+            " " + (revealState ? "" : style["not-reveal"])} 
         onDrop={handleDrop}
     >         
             {previewImageURLs.length ?
@@ -88,8 +103,8 @@ export default function ImageAttachForm({username, postId, setReveal}: ImageAtta
                         {
                             previewImageURLs.map((url, index) => {
                                 return (
-                                    <div key={index} className={style['image-preview']}>
-                                        <Image width={700} height={550} src={url} alt="preview" className="rounded object-cover"/>
+                                    <div key={index} className={style['image-preview'] + " hover:glass-dark"}>
+                                        <Image width={700} height={550} src={url} alt="preview" className="rounded object-contain"/>
                                         <div className={style['overlay-hover']}>
                                             <button 
                                                 className={style['overlay-btn']}
@@ -105,19 +120,23 @@ export default function ImageAttachForm({username, postId, setReveal}: ImageAtta
                         }
                     </div>
                 </div>
-                <div className={style["add-more-img-btn"] + " absolute top-8 mx-auto flex shadow-xl "}>
-                    <label className="cursor-pointer action-btn flex flex-row align-center" htmlFor="image-upload">
-                        <RiImageAddFill className="w-6 h-6 mr-2"/>
+                <div className={style["add-more-img-btn"] + " absolute top-8 mx-auto flex"}>
+                    <label className="cursor-pointer action-btn flex flex-row align-center shadow-lg text-sm" htmlFor="image-upload">
+                        <RiImageAddFill className="w-5 h-5 mr-2"/>
                         Add more picture
                     </label>
                     <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
+                    <button onClick={handleRemoveAllImagePreview} className="critical-btn flex flex-row align-center shadow-lg text-sm">
+                        <IoTrash className="w-5 h-5 mr-2"/>
+                        Remove all
+                    </button>
                 </div>
             </>
             :
             <>                        
-                <ImCloudUpload className="w-20 h-20 mx-auto"/>
-                <h3 className="mb-4 text-xl">Drag and drop your image here</h3>
-                <h4 className="text-xl">OR </h4>
+                <ImCloudUpload className="w-12 h-12 mx-auto"/>
+                <h3 className="mb-4">Drag and drop your image in this box</h3>
+                <h4 className="text">Or </h4>
                 <label className="action-btn block cursor-pointer mt-4"htmlFor="image-upload">
                     Upload from device
                 </label>

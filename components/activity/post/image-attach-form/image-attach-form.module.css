@@ -5,9 +5,13 @@
     flex-direction: column;
     border-radius: 4px;
     width: 100%;
+    overflow: hidden;
+    &.not-reveal{
+        display: none;
+    }
 }
 .image-preview{
-    padding-bottom: 40%;
+    padding-bottom: 30%;
     position: relative;
     margin-bottom: 0.5rem;
     img{
@@ -23,7 +27,7 @@
 }
 .image-preview-container{
     width: 100%;
-    padding-bottom: 60%;
+    padding-bottom: 40%;
     position: relative;
 }
 .image-inner-container{
@@ -44,7 +48,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0,0,0,.2);
+    backdrop-filter: blur(2px);
     cursor: pointer;
     transition: all .2s ease-in-out;
     cursor: default;
