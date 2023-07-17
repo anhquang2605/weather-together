@@ -1,18 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import style from './image-attach-form.module.css'
 import { ImCloudUpload } from "react-icons/im";
-import {IoClose, IoTrash} from "react-icons/io5";
-import {RiImageAddFill} from "react-icons/ri";
-import Image from "next/image";
+import {IoClose} from "react-icons/io5";
 import ImagePreviews from "./image-previews/ImagePreviews";
 interface ImageAttachFormProps {
-    username?: string;
-    postId?: string;
     setReveal: React.Dispatch<React.SetStateAction<boolean>>;
     setPictureAttached: (value:boolean) => void;
     revealState?: boolean;
+    setAttachedImages: (value:Blob[]) => void;
 }
-export default function ImageAttachForm({username, postId, setReveal, setPictureAttached, revealState}: ImageAttachFormProps) {
+export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages}: ImageAttachFormProps) {
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
@@ -76,26 +73,19 @@ export default function ImageAttachForm({username, postId, setReveal, setPicture
             newState.splice(index, 1);
             return newState;
         })
+        setDroppedImages(prevState => {
+            const newState = [...prevState];
+            newState.splice(index, 1);
+            return newState;
+        })
     }
     const handleRemoveAllImagePreview = () => {
         setPreviewImageURLs([]);
+        setDroppedImages([]);
     }
-    const handleUploadImages = (images:Blob[]) => {
-        /* 
-            1. wait for post to be created
-            2. Upload images to cloudinary and get the urls
-            3. Send the urls to the server
-            4. Server will save the urls to the database and return the urls
-            5. Client will receive the urls and save them to the post
-        */
-    }
-    useEffect(() => {
-        if(previewImageURLs.length > 0){
-            setPictureAttached(true);
-        } else {
-            setPictureAttached(false);
-        }
-    },[previewImageURLs])
+    useEffect(()=>{
+        setAttachedImages(droppedImages);
+    },[droppedImages])
     return (
     <div 
         onDragOver={handleCancelDragOver}

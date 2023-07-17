@@ -4,6 +4,7 @@
     margin-bottom: 1rem;
     overflow: hidden;
     border-radius: 5px;
+    scroll-snap-align: start;
     img{
         width: 100%;
         height: 100%;
@@ -28,6 +29,7 @@
     max-height: 100%;
     overflow-y: auto;
     transition: all .2s ease-in-out;
+    scroll-snap-type: y mandatory;
 }
 .overlay-hover{
     position: absolute;
