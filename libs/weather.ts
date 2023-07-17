@@ -35,4 +35,16 @@ export async function getCurrentWeather(locationName: string){
     totalWeatherData = await getWeatherDataByTime(locationName, 1, 'us') ;
     return totalWeatherData ? totalWeatherData.locations[locationName].currentConditions : null;
 }
-
+export function convertConditionToIconName(condition:string = ""){
+    if(condition.includes('rain')){
+        return 'cloud-rain';
+    }else if(condition.includes('snow')){
+        return 'snowflake';
+    }else if(condition.includes('sun')){
+        return 'sun';
+    }else if(condition.includes('wind')){
+        return 'wind';
+    }else{
+        return 'cloud';
+    }
+}

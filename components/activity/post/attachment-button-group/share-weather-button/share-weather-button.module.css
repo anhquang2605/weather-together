@@ -1,4 +1,11 @@
 .share-weather-btn-container{
+    --clear-day: linear-gradient(124deg,#1ddde8, #2b1de8);
+    --sunny: linear-gradient((124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d));
+    --rainy: linear-gradient(124deg, #2b1de8, #dd00f3, #dd00f3);
+    --snowy: linear-gradient(124deg, #1ddde8, #2b1de8);
+    --windy: linear-gradient(124deg, #1de840, #1ddde8)
+}
+.share-weather-btn-container{
     @apply relative;
 
 }
@@ -19,7 +26,7 @@
     z-index: -1;
     @apply absolute top-0 left-0 -mt-[2px] -ml-[2px] w-full h-full rounded-xl p-[2px];
 }
-.share-weather-btn-container:hover .share-weather-btn-background{
+.share-weather-btn-container:hover .share-weather-btn-background:not(.weather-shared){
     background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400);
     background-size: 1800% 1800%;/* Make background larger than the element, only work if put it here instead of the inital state element*/
     -webkit-animation-play-state: running!important;; 
@@ -31,28 +38,45 @@
     display:block;
     font-weight: bold;
     transition: all 0.5s ease-in-out;
-    text-decoration: capitalize;
-    @apply p-2;
+    text-transform: capitalize;
+    @apply p-2 flex items-center;
 
-    &:hover {
-        background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3, #ff2400);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+}
+.cloud{
+    background: var(--clear-day);
+}
+.sun{
+    background: var(--sunny);
+}
+.cloud-rain{
+    background: var(--rainy);
+}
+.snowflake{
+    background: var(--snowy);
+}
+.wind{
+    background: var(--windy)
+}
+.not-text{
+    @apply hidden;
+    &::after{
+        content: "\00a0"
+    }    
+}
+.weather-shared{
+    background-size: 1800% 1800%;/* Make background larger than the element, only work if put it here instead of the inital state element*/
+    -webkit-animation-play-state: running!important; 
+    animation-play-state: running!important; 
+    --webkit-animation-duration: 6s;
+    animation-duration: 6s;
+    & + button {
+        @apply bg-black bg-opacity-10 backdrop-blur-sm;
+        @apply text-slate-100;
+    }
+    & + button svg{
+        background: transparent
     }
 }
-.clear-day{
-    background: linear-gradient(124deg, #e3e81d, #1de840, #1ddde8, #2b1de8)
-}
-.sunny{
-    background: linear-gradient((124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d))
-}
-.rainy{
-    background: linear-gradient(124deg, #2b1de8, #dd00f3, #dd00f3)
-}
-.snowy{
-    background: linear-gradient(124deg, #1ddde8, #2b1de8)
-}
-
 @-webkit-keyframes rainbow {
     0%{background-position:0% 82%}
     50%{background-position:100% 19%}
