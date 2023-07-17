@@ -1,12 +1,14 @@
 import {useState, useEffect} from 'react'
 import {IoImages, IoPricetags} from 'react-icons/io5'
 import style from './attachment-button-group.module.css'
+import ShareWeatherButton from './share-weather-button/share-weather-button';
 interface AttachmentButtonGroupProps {
     setRevealImageAttachForm: React.Dispatch<React.SetStateAction<boolean>>;
     attachedImagesLength: number;
     taggedUsernamesLength: number;
+    setCurrentWeather: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength}: AttachmentButtonGroupProps) {
+export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather}: AttachmentButtonGroupProps) {
     return (
         <div className={`${style["attachment-btn-group"]} mb-4`}>
             <span className={`${style.description}`}>
@@ -35,6 +37,7 @@ export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedU
                 <IoPricetags className="icon"/>
                 Friends Tags
             </button>
+            <ShareWeatherButton setCurrentWeather={setCurrentWeather} />
         </div>
     )
 }

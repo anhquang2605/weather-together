@@ -15,6 +15,7 @@ export default function PostForm ({username}: PostFormProps) {
     const [selectedVisibilityIndex, setSelectedVisibilityIndex] = useState<number>(0);
     const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
+    const [currentWeather, setCurrentWeather] = useState<any>(null);
     const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     }
@@ -131,6 +132,7 @@ export default function PostForm ({username}: PostFormProps) {
                 setRevealImageAttachForm={setRevealImageAttachForm} 
                 attachedImagesLength={attachedImages.length}
                 taggedUsernamesLength={taggedUsernames.length}
+                setCurrentWeather={setCurrentWeather}
                 />
 
             <div className="btn-group">

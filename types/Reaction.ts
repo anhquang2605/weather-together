@@ -1,5 +1,5 @@
 export interface Reaction {
-    _id: string;
+    _id?: string;
     username: string;
     dateCreated: string;
     dateUpdated: string;

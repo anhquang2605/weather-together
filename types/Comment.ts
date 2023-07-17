@@ -1,6 +1,6 @@
 import { Reaction } from "./Reaction";
 export interface Comment {
-    _id: string;
+    _id?: string;
     content: string;
     username: string;
     dateCreated: string;

@@ -1,5 +1,5 @@
 export interface Picture{
-    _id: string;
+    _id?: string;
     title?: string;
     picturePath: string;
     dateCreated: Date;
