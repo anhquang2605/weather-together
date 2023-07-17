@@ -99,7 +99,7 @@ export default function PostForm ({username}: PostFormProps) {
                 name="post-content" 
                 id="post-content" 
                 value={content} 
-                className="text-indigo-900 min-h-[150px] p-4 w-full mb-4"
+                className={"text-indigo-900 min-h-[150px] p-4 w-full mb-4 " + (revealImageAttachForm ? "max-h-60" : "max-h-80")}
                 onChange={handleContentChange}
                 ></textarea>
             {<ImageAttachForm revealState={revealImageAttachForm} setPictureAttached={setPictureAttached} setReveal={setRevealImageAttachForm}/>}

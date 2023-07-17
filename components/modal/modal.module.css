@@ -47,12 +47,12 @@
     }
 }
 
-@media (min-width: 1180px ) {
+@media (min-width: 1440px ) {
     .modal-content{
         width: 45%;
     }
 }
-@media (min-width: 1024px){
+@media (min-width: 1024px) and (max-width: 1440px){
     .modal-content{
         width: 60%;
     }

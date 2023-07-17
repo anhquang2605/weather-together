@@ -2,6 +2,7 @@ import style from "./image-previews.module.css";
 import {IoTrash} from "react-icons/io5";
 import {RiImageAddFill} from "react-icons/ri";
 import Image from "next/image";
+import { useEffect } from "react";
 interface ImagePreviewsProps {
     previewImageURLs: string[];
     setPreviewImageURLs: React.Dispatch<React.SetStateAction<string[]>>;
@@ -11,6 +12,17 @@ interface ImagePreviewsProps {
     handleRemoveAllImagePreview: () => void;
 }
 export default function ImagePreviews({ previewImageURLs, setPreviewImageURLs, removePreviewImage,imageInputRef, handleRemoveAllImagePreview,handleFileInputChange }: ImagePreviewsProps) {
+    useEffect(()=>{
+        if(previewImageURLs.length > 0){
+            var imageInnerContainer = document.querySelector(`.${style['image-inner-container']}`);
+            if(imageInnerContainer){
+                imageInnerContainer.scrollTo({
+                    top: imageInnerContainer.scrollHeight,
+                    behavior: "smooth"
+                })
+            }
+        }
+    },[previewImageURLs])
     return(
         <>
                 <div className={style['image-preview-container']}>
@@ -19,6 +31,7 @@ export default function ImagePreviews({ previewImageURLs, setPreviewImageURLs, r
                             previewImageURLs.map((url, index) => {
                                 return (
                                     <div key={index} className={style['image-preview'] + " hover:glass-dark"}>
+                                        <Image className="object-cover blur opacity-70"width={200} height={50} src={url} alt="blured-img"/>
                                         <Image width={700} height={550} src={url} alt="preview" className="rounded object-contain"/>
                                         <div className={style['overlay-hover']}>
                                             <button 

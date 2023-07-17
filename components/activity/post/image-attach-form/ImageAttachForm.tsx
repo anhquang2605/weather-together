@@ -13,14 +13,14 @@ interface ImageAttachFormProps {
     revealState?: boolean;
 }
 export default function ImageAttachForm({username, postId, setReveal, setPictureAttached, revealState}: ImageAttachFormProps) {
-    const [droppedFile, setDroppedFile] = useState<Blob | null>(null);
+    const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const resetForm = () => {
         setPreviewImageURLs([]);
-        setDroppedFile(null);
+        setDroppedImages([]);
     }
 
     const handleCloseForm = () => {
@@ -47,7 +47,7 @@ export default function ImageAttachForm({username, postId, setReveal, setPicture
             }
             }
             if (theFile) {
-            setDroppedFile(theFile);
+            setDroppedImages(prevState => [...prevState, theFile as Blob]);
             setPreviewImageURLs(prevState => 
                     [
                         ...prevState,
@@ -61,7 +61,7 @@ export default function ImageAttachForm({username, postId, setReveal, setPicture
     const handleFileInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] ?? null;
         if(file){
-            setDroppedFile(file);
+            setDroppedImages(prevState => [...prevState, file as Blob]);
             setPreviewImageURLs(prevState => 
                 [
                     ...prevState,
@@ -79,6 +79,15 @@ export default function ImageAttachForm({username, postId, setReveal, setPicture
     }
     const handleRemoveAllImagePreview = () => {
         setPreviewImageURLs([]);
+    }
+    const handleUploadImages = (images:Blob[]) => {
+        /* 
+            1. wait for post to be created
+            2. Upload images to cloudinary and get the urls
+            3. Send the urls to the server
+            4. Server will save the urls to the database and return the urls
+            5. Client will receive the urls and save them to the post
+        */
     }
     useEffect(() => {
         if(previewImageURLs.length > 0){
@@ -108,10 +117,10 @@ export default function ImageAttachForm({username, postId, setReveal, setPicture
                 />
             :
             <>                        
-                <ImCloudUpload className="w-12 h-12 mx-auto"/>
+                <ImCloudUpload className="w-12 h-12 mx-auto mt-8"/>
                 <h3 className="mb-4">Drag and drop your image in this box</h3>
                 <h4 className="text">Or </h4>
-                <label className="action-btn block cursor-pointer mt-4"htmlFor="image-upload">
+                <label className="action-btn block cursor-pointer mt-4 mb-8"htmlFor="image-upload">
                     Upload from device
                 </label>
                 <input type="file" id="image-upload" className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
