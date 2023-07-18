@@ -1,7 +1,7 @@
 
-import { useEffect, useState} from 'react';
+import { use, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';//use with next js
-import {IoCloseCircleSharp} from 'react-icons/io5';
+import {IoClose} from 'react-icons/io5';
 interface ApiStatusPopProps {
     status: {
         type: string,
@@ -9,55 +9,88 @@ interface ApiStatusPopProps {
     },
     show: boolean,
     redirect?: string,
-    redirectButtonText?: string
+    redirectPageName: string,
+    redirectButtonText?: string,
+    setApiStatus: React.Dispatch<React.SetStateAction<{
+        type: string;
+        message: string;
+    }>>
+    redirectDuration?: number
 }/*
 This component depends on tailwindcss for styling
 */
-export default function ApiStatusPop({ status, show, redirect = "", redirectButtonText = ""}:    ApiStatusPopProps) {
+export default function ApiStatusPop({ status, show, redirect = "", redirectPageName="", redirectDuration = 0, redirectButtonText = "", setApiStatus}:    ApiStatusPopProps) {
     const [style, setStyle] = useState("");
     const [reveal, setReveal] = useState<boolean>();
+    const [redirectCountdown, setRedirectCountdown] = useState<number>(0);
     const router = useRouter();
     const redirectTo = (path: string) => {
         router.push(path);
     }
+
     useEffect(() => {
         setReveal(show);
     },[show])
     useEffect(() => {
+        let redirectTimer: NodeJS.Timeout;
         switch(status.type) {
             case "success":
-                setStyle("border-green-300 text-green-400");
+                setStyle("text-green-400");
+/*                 if(redirectDuration > 0){
+                    redirectTimer = setInterval(() => {
+                        setRedirectCountdown(prevState => prevState + 1);
+                    }, 1000);
+                } */
+
                 break;
             case "error":
-                setStyle("border-red-300 text-red-400");
+                setStyle("text-red-400");
                 break;
             case "loading":
-                setStyle("border-blue-300 text-blue-400");
+                setStyle("text-blue-400");
                 break;
+        }
+        return () => {
+            clearTimeout(redirectTimer);
         }    
     },[status.type])
-    
+    useEffect(() => {
+        if(redirectCountdown >= redirectDuration) {
+            redirectTo(redirect);
+        }
+    },[redirectCountdown])
     return (
         <div className={"fixed z-10000 top-0 left-0 w-full h-full " + (reveal? "" : "hidden ")}>
             <div className=" backdrop-blur bg-slate-900 bg-opacity-70 absolute top-0 left-0 w-full h-full"></div>
-            <div className={"fixed inset-0 bg-indigo-900 mx-auto my-auto rounded border-4 p-24 sm:w-3/4 md:w-2/4 lg:w-1/4 h-1/4 flex justify-center items-center flex-wrap " + style}>
-                <button onClick={()=>{
-                    setReveal(false);
-                }} className="absolute top-0 right-0 text-tomato"><IoCloseCircleSharp style={
-                    {
-                        color: "tomato",
-                        width: "2rem",
-                        height: "2rem"
-                    }
-                }/></button>
-                <p className="text-center text-xl font-semibold">{status.message}</p>
+            <div className={"fixed inset-0 bg-indigo-900 mx-auto my-auto rounded p-24 w-3/4 md:w-2/4 lg:w-1/4 flex justify-center items-center flex-col"}>
+                <div className={"flex flex-col items-center justify-center " + style}>
+                    <button onClick={()=>{
+                        setReveal(false);
+                        setApiStatus({
+                            type: "idle",
+                            message: ""
+                        })
+                    }} className="absolute top-0 right-0 text-tomato"><IoClose style={
+                        {
+                            color: "tomato",
+                            width: "2rem",
+                            height: "2rem"
+                        }
+                    }/></button>
+                    <p className="text-center text-lg font-semibold flex flex-col">
+                        {status.message}
+                        {redirect && redirectDuration && status.type == "success" && <span className="countdown">
+                            {"Redirecting to " + (redirectPageName == "" ? "Home" : redirectPageName) +  " page in " + (redirectDuration - redirectCountdown) + " seconds"}
+                        </span>}
+                    </p>
 
-                {status.type == "success" && <button className="bg-indigo-500 rounded rounded text-white py-2 px-8 mt-4" onClick={()=>{
-                    redirect.length > 0 ?
-                    redirectTo(redirect) :
-                    router.back();
-                }}>
-                {redirectButtonText.length > 0 ? redirectButtonText : "Confirm"}</button>}
+                    {status.type == "success" && <button className="bg-indigo-500 rounded rounded text-white py-2 px-8 mt-4" onClick={()=>{
+                        redirect.length > 0 ?
+                        redirectTo(redirect) :
+                        router.back();
+                    }}>
+                    {redirectButtonText.length > 0 ? redirectButtonText : "Confirm"}</button>}
+                </div>
             </div>
         </div>
     )

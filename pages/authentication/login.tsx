@@ -90,7 +90,7 @@ export default function Login() {
                     </div>    
                 </div>
             </div>
-            <ApiStatusPop status={apiStatus} redirect="/" redirectButtonText="Return Home" show={reveal}/>
+            <ApiStatusPop setApiStatus={setApiStatus} redirectPageName="Home" redirectDuration={5} status={apiStatus} redirect="/" redirectButtonText="Return Home" show={reveal}/>
         </>
     )
 }
