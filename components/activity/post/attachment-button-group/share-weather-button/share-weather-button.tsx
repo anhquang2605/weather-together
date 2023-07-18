@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { TbCloudFilled } from "react-icons/tb";
 import { convertConditionToIconName } from '../../../../../libs/weather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Head from 'next/head';
 interface ShareWeatherButtonProps {
     setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
     username?: string;
@@ -21,7 +22,7 @@ export default function ShareWeatherButton({ setCurrentWeather,username }: Share
             setWeather(null);
             setCurrentWeather(null);
         }else{
-            const condition = await getCurrentWeather('San Jose');
+            const condition = await getCurrentWeather('nashville');
             setWeather(condition);
             setCurrentWeather(weather);
         }
@@ -31,29 +32,35 @@ export default function ShareWeatherButton({ setCurrentWeather,username }: Share
 
     }
     return(
-        <div className={style['share-weather-btn-container']}>
-            <div 
-                className={style['share-weather-btn-background'] 
-                + " " + (weather && style[convertConditionToIconName(weather?.icon)])
-                + " " + (weather && style['weather-shared'])
-                }></div>
-            <button className={style['share-weather-btn']} onClick={handleShareWeather} 
-            title={weather? "Remove weather" : "Share weather"}
-            >
-                <span className={style["weather-text"]}>
-                    {
-                    weather && weather.icon?
+        <>
+            <Head>
+                <link rel="stylesheet" href="https://i.icomoon.io/public/temp/d5becd3a0d/UntitledProject/style.css"/>
+            </Head>
+            <div className={style['share-weather-btn-container']}>
+                
+                <div 
+                    className={style['share-weather-btn-background'] 
+                    + " " + (weather && style[convertConditionToIconName(weather?.icon)])
+                    + " " + (weather && style['weather-shared'])
+                    }></div>
+                <button className={style['share-weather-btn']} onClick={handleShareWeather} 
+                title={weather? "Remove weather" : "Share weather"}
+                >
+                    <span className={style["weather-text"]}>
+                        {
+                        weather && weather.icon?
+                                
+                                <>
+                                    <FontAwesomeIcon icon={convertConditionToIconName(weather.icon)} className={"icon mr-2 animate-bounce "+ style[convertConditionToIconName(weather.icon)]}/>
+                                    feeling the {weather.icon.replace("-"," ")}
+                                </>
+                            :
                             
-                            <>
-                                 <FontAwesomeIcon icon={convertConditionToIconName(weather.icon)} className={"icon mr-2 "+ style[convertConditionToIconName(weather.icon)]}/>
-                                 feeling the {weather.icon.replace("-"," ")}
-                            </>
-                        :
-                        
-                            <><TbCloudFilled className="icon mr-2"/> Your weather! </>
-                    }
-                </span>
-            </button>
-        </div>
+                                <><i className={style["icon-cloud"] + " icon-cloud-sun text-2xl"}></i> Your weather </>
+                        }
+                    </span>
+                </button>
+            </div>
+        </>
     )
 }

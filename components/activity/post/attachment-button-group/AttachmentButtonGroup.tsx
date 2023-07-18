@@ -12,7 +12,7 @@ export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedU
     return (
         <div className={`${style["attachment-btn-group"]} mb-4`}>
             <span className={`${style.description}`}>
-                Attach to your posts:
+                Attach to this post:
             </span>
             <button 
                 className={`
