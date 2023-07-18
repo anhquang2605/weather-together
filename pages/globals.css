@@ -33,7 +33,7 @@ body {
 }
 /*Variables*/
 :root{
-  --nav-primmary-color: #3730A3;
+  --nav-primmary-color: #312e81;
   --nav-secondary-color: white;
   --primary-color: #312e81;
   --btn-hover-color: #4f46e5;
@@ -55,6 +55,9 @@ body {
   @apply transition duration-200 text-white ml-4 bg-red-500 hover:bg-gradient-to-r from-red-700 from-40%  to-red-500 to-95% px-4 py-2 rounded border border-red-500 hover:border-slate-200;
 }
 /* NAV ITEMS */
+.nav-bar{
+  background-color: var(--nav-primmary-color)
+}
 .nav-item{
   @apply mb-2;
   * {

@@ -46,13 +46,13 @@ export default function Login() {
                 if(data.type == "success") {
                     setApiStatus({
                         type: "success",
-                        message: "Login successful"
+                        message: data.message
                     });
                     dispatch(userLoaded(JSON.parse(data.data)));
                 } else {
                     setApiStatus({
                         type: "error",
-                        message: "Login failed"
+                        message: data.message
                     });
                 }
 
@@ -90,7 +90,7 @@ export default function Login() {
                     </div>    
                 </div>
             </div>
-            <ApiStatusPop setApiStatus={setApiStatus} redirectPageName="Home" redirectDuration={5} status={apiStatus} redirect="/" redirectButtonText="Return Home" show={reveal}/>
+            <ApiStatusPop setApiStatus={setApiStatus} redirectPageName="Home" redirectDuration={3} status={apiStatus} redirect="/" redirectButtonText="Return Home" setReveal={setReveal} show={reveal}/>
         </>
     )
 }
