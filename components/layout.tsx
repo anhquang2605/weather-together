@@ -14,6 +14,7 @@ export default function RootLayout({
 }) {
   const user = useSelector((state: any) => state.user)
   const router = useRouter();
+  const asPath = router.asPath;
   const [loading, setLoading] = useState<boolean>(false);
   const routeChangeHandler = () => {
     setLoading(true);
@@ -35,8 +36,8 @@ export default function RootLayout({
     
     </Head>
       {user &&
-      <div className="flex flex-row relative bg-gradient-to-bl from-violet-800 from-5% via-indigo-800 to-indigo-950 to-70% h-screen text-white p-4">
-        <Navigation/>
+      <div className="flex flex-row relative bg-gradient-to-bl from-violet-800 from-5% via-indigo-800 to-indigo-950 to-70% h-screen text-white">
+          { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}
           {children}  
           {loading && <Loading/>}
       </div>}

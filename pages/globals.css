@@ -46,13 +46,15 @@ body {
 .glass-dark{
   @apply bg-gradient-to-br from-slate-900/20 from-10% to-transparent to-95% backdrop-blur-lg;
 }
+
+/* BUTTONS */
 .action-btn{
   @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-4 py-2 rounded border border-indigo-500 hover:border-slate-200;
 }
 .critical-btn{
   @apply transition duration-200 text-white ml-4 bg-red-500 hover:bg-gradient-to-r from-red-700 from-40%  to-red-500 to-95% px-4 py-2 rounded border border-red-500 hover:border-slate-200;
 }
-
+/* NAV ITEMS */
 .nav-item{
   @apply mb-2;
   * {
@@ -96,7 +98,7 @@ body {
 .hover-btn-active{
   @apply hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95%  rounded border border-indigo-500 hover:border-slate-200
 }
-
+/* PROFILE */
 .profile-row{
   @apply flex;
   h4{
@@ -113,6 +115,9 @@ body {
   &.dark label {
     @apply text-white
   }
+  &.dark input {
+    @apply text-indigo-900
+  }
 }
 
 .form-container{
@@ -128,6 +133,15 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 .form-title{
   @apply text-2xl font-semibold mb-4;
 }
+
+.horizontal-btn-group{
+  @apply flex flex-row justify-between;
+  button:not(:last-child){
+    @apply mr-2;
+  }
+}
+
+
 /* Works on Firefox */
 * {
   scrollbar-width: thin;

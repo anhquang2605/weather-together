@@ -25,7 +25,8 @@ export default function Navigation() {
             </div>
 
             <ul>
-                <li><Link className={"nav-item "+ (asPath === "/" && 'active') } href={`/`}> <FaNewspaper/> <span>Home</span> </Link></li>
+                <li><Link className={"nav-item "+ (asPath === "/" && 'active') } href={`/`}> <FaNewspaper/> <span>Home</span> </Link>
+                </li>
                 <li>
                     <UserMenu />
                 </li>
@@ -35,5 +36,6 @@ export default function Navigation() {
 
             </div>
         </div>
+        
     )
 }

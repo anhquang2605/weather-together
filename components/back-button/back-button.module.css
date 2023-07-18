@@ -1,0 +1,4 @@
+.back-button{
+    @apply flex flex-row items-center text-lg transition duration-200 ease-in-out mb-4 hover:text-indigo-300;
+    
+}
