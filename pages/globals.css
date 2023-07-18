@@ -33,7 +33,7 @@ body {
 }
 /*Variables*/
 :root{
-  --nav-primmary-color: #2e1065;
+  --nav-primmary-color: #3730A3;
   --nav-secondary-color: white;
   --primary-color: #312e81;
   --btn-hover-color: #4f46e5;
@@ -88,6 +88,9 @@ body {
   }
   div button svg{
     @apply m-0
+  }
+  .footer-btn{
+    @apply justify-center;
   }
 }
 

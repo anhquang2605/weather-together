@@ -7,12 +7,12 @@ export default function UserMenu() {
     const user = useSelector((state: any) => state.user);
     const {asPath} = useRouter();
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col grow">
             {user.data ?
                 <>
                     <Link className={"nav-item "+ (asPath.includes("login") && 'active') } href="/authentication/login"><IoPeople></IoPeople><span>Friends</span></Link>
-                    <Link className={"nav-item "+ (asPath.includes("userprofile") && 'active') } href={"/userprofile/" + (user.data ? user.data.username : "")}><BsPersonVcardFill></BsPersonVcardFill><span>User profile</span></Link>
-                    <Link className={"nav-item mt-auto"+ (asPath.includes("logout") && 'active') } href="/authentication/logout"><IoExit></IoExit><span>Log out</span></Link>
+                    <Link className={"nav-item "+ (asPath.includes("userprofile") && 'active') } href={"/userprofile/" + (user.data ? user.data.username : "")}><BsPersonVcardFill></BsPersonVcardFill><span>My page</span></Link>
+                    <Link className={"mt-auto flex flex-row items-center footer-btn"} href="/authentication/logout"><IoExit className="w-8 h-8"></IoExit><span className="ml-2">Log out</span></Link>
                 </>
                 :
                 <>

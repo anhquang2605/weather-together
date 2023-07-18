@@ -24,12 +24,13 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
             <BannerBackground setEditingBackground={setEditingBackground} bannerPicturePath={user.backgroundPicturePath ?? ""} isEditing={isEditing}/>
             <div className="absolute bottom-0  lg:-mb-24 md:-mb-16 -mb-8 flex flex-row w-full left-4">
                 <Avatar profilePicturePath={user.profilePicturePath ?? ""} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
-                <div className="flex flex-col mt-auto ml-4 grow pr-4">
-                    <div className="flex flex-row w-full items-center">
+                <div className="flex flex-row mt-auto ml-4 grow pr-4">
+                    <div className="flex flex-col justify-center">
                         <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>
-                        {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 mb-auto flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}     
+                        <FavWeather favWeathers={user.favoriteWeathers ?? []}/>
                     </div>
-                    <FavWeather favWeathers={user.favoriteWeathers ?? []}/>
+                   
+                    {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 mb-auto ml-auto flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}    
                 </div>
             </div>
         </div>

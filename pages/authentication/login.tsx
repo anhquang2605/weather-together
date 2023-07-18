@@ -5,6 +5,7 @@ import { userLoaded } from "../../store/features/user/userSlice";
 import style from "./login.module.css";
 import { useRouter } from "next/router";
 import BackButton from "../../components/back-button/BackButton";
+import CheckBox from "../../components/form/check-box/CheckBox";
 export default function Login() {
         //api status
         const [apiStatus, setApiStatus] = useState({
@@ -23,8 +24,8 @@ export default function Login() {
         const handlePasswordChange = (e: any) => {
             setPassword(e.target.value);
         }
-        const handleRememberMe = (e: ChangeEvent<HTMLInputElement>) => {
-            setRemember(e.target.checked);
+        const handleRememberMe = (value: boolean) => {
+            setRemember(value);
         }
         const handleLogin = async (e:any) => {
             setApiStatus({
@@ -77,9 +78,8 @@ export default function Login() {
                             placeholder="password" />
                     </div>
                     <div className="helpers w-full flex flex-row justify-between">
-                        <div className="remember-me flex flex-row items-center">
-                            <input type="checkbox" onChange={handleRememberMe}  className="text-indigo" name="remember-me" id="remember-me" />
-                            <label className="ml-2" htmlFor="remember-me">Remember me</label>
+                        <div className="remember-me">
+                            <CheckBox label="Remember me" handleChecked={handleRememberMe}/>
                         </div>
                         <div className="forgot-password hover:text-indigo-300">
                             <a href="#" className="underline">Forgot password?</a>
