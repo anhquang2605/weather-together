@@ -56,12 +56,13 @@ body {
 }
 /* NAV ITEMS */
 .nav-bar{
-  background-color: var(--nav-primmary-color)
+  background-color: var(--nav-primmary-color);
+  z-index: 100;
 }
 .nav-item{
-  @apply mb-2;
+  @apply mb-2 relative;
   * {
-    @apply transition;
+    @apply transition duration-100 ease-in-out;
   }
   @apply transition flex flex-row items-center py-2 pr-4 w-full rounded;
   svg{
@@ -70,9 +71,24 @@ body {
   span{
     @apply ml-4;
   }
-}
-.nav-item:hover{
-  @apply bg-white text-[color:var(--nav-primmary-color)];
+  }
+.tooltip{
+  position: absolute;
+  height: 100%;
+  background: white;
+  width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  left: 0;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+  div{
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+  }
+  @apply rounded;
 }
 
 .nav-menu-nonactive{
@@ -82,6 +98,19 @@ body {
   }
   .nav-item{
     @apply p-2.5;
+    &:hover{
+      @apply bg-white text-[color:var(--nav-primmary-color)];
+      
+      .tooltip{
+        div{
+          @apply opacity-100;
+          color: var(--nav-primmary-color);
+        }
+        @apply w-max pl-12 pr-4;
+        
+       
+      }
+    }
     svg {
       @apply m-0;
     }
@@ -95,11 +124,16 @@ body {
   .footer-btn{
     @apply justify-center;
   }
+  svg{
+    position: relative;
+  }
 }
 
 .nav-item.active{
   @apply bg-white text-[color:var(--nav-primmary-color)];
 }
+
+
 
 .hover-btn-active{
   @apply hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95%  rounded border border-indigo-500 hover:border-slate-200
@@ -188,3 +222,7 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 
 }
 
+/* LOADING SCREEN */
+.loading-screen{
+  z-index: 999;
+}

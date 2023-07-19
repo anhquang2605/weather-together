@@ -632,14 +632,6 @@ video {
   top: 2rem;
 }
 
-.order-first {
-  order: -9999;
-}
-
-.order-1 {
-  order: 1;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -969,34 +961,14 @@ video {
   border-color: rgb(100 116 139 / var(--tw-border-opacity));
 }
 
-.border-white {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
-}
-
-.border-slate-200 {
-  --tw-border-opacity: 1;
-  border-color: rgb(226 232 240 / var(--tw-border-opacity));
-}
-
-.border-slate-900 {
-  --tw-border-opacity: 1;
-  border-color: rgb(15 23 42 / var(--tw-border-opacity));
-}
-
 .border-slate-800 {
   --tw-border-opacity: 1;
   border-color: rgb(30 41 59 / var(--tw-border-opacity));
 }
 
-.border-slate-700 {
+.border-white {
   --tw-border-opacity: 1;
-  border-color: rgb(51 65 85 / var(--tw-border-opacity));
-}
-
-.border-r-slate-200 {
-  --tw-border-opacity: 1;
-  border-right-color: rgb(226 232 240 / var(--tw-border-opacity));
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .bg-blue-500 {
@@ -1335,11 +1307,6 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-.drop-shadow-xl {
-  --tw-drop-shadow: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
 .drop-shadow-sm {
   --tw-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1376,6 +1343,10 @@ video {
 
 .half{
   width: calc(50% - 1rem);
+}
+
+.\[label\:string\] {
+  label: string;
 }
 
 /*Variables*/
@@ -1489,10 +1460,12 @@ video {
 /* NAV ITEMS */
 
 .nav-bar{
-  background-color: var(--nav-primmary-color)
+  background-color: var(--nav-primmary-color);
+  z-index: 100;
 }
 
 .nav-item {
+  position: relative;
   margin-bottom: 0.5rem;
   * {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
@@ -1500,6 +1473,12 @@ video {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
+  }
+  * {
+    transition-duration: 100ms;
+  }
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
   display: flex;
   width: 100%;
@@ -1528,10 +1507,23 @@ video {
   }
 }
 
-.nav-item:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  color: var(--nav-primmary-color);
+.tooltip{
+  position: absolute;
+  height: 100%;
+  background: white;
+  width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  left: 0;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+  div{
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+  }
+  border-radius: 0.25rem;
 }
 
 .nav-menu-nonactive {
@@ -1547,6 +1539,33 @@ video {
     padding: 0.625rem;
   }
   .nav-item{
+    &:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    }
+    &:hover {
+      color: var(--nav-primmary-color);
+    }
+    &:hover{
+      .tooltip{
+        div {
+          opacity: 1;
+        }
+        div{
+          color: var(--nav-primmary-color);
+        }
+      }
+      .tooltip {
+        width: -moz-max-content;
+        width: max-content;
+      }
+      .tooltip {
+        padding-left: 3rem;
+      }
+      .tooltip {
+        padding-right: 1rem;
+      }
+    }
     svg {
       margin: 0px;
     }
@@ -1559,6 +1578,9 @@ video {
   }
   .footer-btn {
     justify-content: center;
+  }
+  svg{
+    position: relative;
   }
 }
 
@@ -1712,6 +1734,12 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
   }
 }
 
+/* LOADING SCREEN */
+
+.loading-screen{
+  z-index: 999;
+}
+
 @media (min-width: 768px) {
   .md\:container {
     width: 100%;
@@ -1863,4 +1891,3 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
     width: 25%;
   }
 }
-
