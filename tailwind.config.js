@@ -3,7 +3,11 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}'],
     theme: {
-      extend: {},
+      extend: {
+        boxShadow: {
+          'inner-lg': 'inset 0 0 20px 5ypx',
+        }
+      },
     },
     plugins: [
         

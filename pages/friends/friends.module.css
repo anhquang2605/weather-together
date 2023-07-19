@@ -1,3 +1,14 @@
 .friends-page{
     width: 100%;
 }
+.active-friend-tab{
+    background-color: var(--highlighted-color);
+    color: #fff;
+}
+.tabs-container{
+    border-radius: 100px!important;
+    overflow: hidden;
+}
+.tab{
+
+}

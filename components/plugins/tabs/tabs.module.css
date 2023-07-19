@@ -1,0 +1,19 @@
+.tabs{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background: white;
+    border-radius: 5px;
+    color: gray;
+}
+.tab{
+    padding: 10px;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+    
+}
+.active{
+    background-color:  lightgray;
+    color: #000;
+}

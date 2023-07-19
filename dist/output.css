@@ -1334,6 +1334,7 @@ video {
   --nav-primmary-color: #312e81;
   --nav-secondary-color: white;
   --primary-color: #312e81;
+  --highlighted-color: #6366f1;
   --btn-hover-color: #4f46e5;
   --btn-color: #6366f1;
 }
@@ -1348,9 +1349,11 @@ video {
   --tw-gradient-to: transparent var(--tw-gradient-to-position);
   --tw-gradient-to-position: 95%;
   padding: 1rem;
-  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  --tw-shadow: inset 0 0 20px 5ypx;
+  --tw-shadow-colored: inset 0 0 20px 5ypx var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-shadow-color: rgb(226 232 240 / 0.1);
+  --tw-shadow: var(--tw-shadow-colored);
   --tw-backdrop-blur: blur(16px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
           backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
