@@ -25,7 +25,7 @@ body {
     @apply bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% border border-white
   }
   .half{
-    width: calc(50% - 1rem);
+    width: calc(50% - rem);
   }
   .hover-editable-image{
     @apply backdrop-blur-sm bg-black bg-opacity-20 text-slate-100;
@@ -41,11 +41,12 @@ body {
 }
 
 .glass{
-  @apply bg-gradient-to-br from-slate-500/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
+  @apply bg-gradient-to-br from-slate-400/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-xl p-4;
 }
 .glass-dark{
   @apply bg-gradient-to-br from-slate-900/20 from-10% to-transparent to-95% backdrop-blur-lg;
 }
+/*CUSTOM DIMESNIONS*/
 
 /* BUTTONS */
 .action-btn{

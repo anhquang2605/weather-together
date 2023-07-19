@@ -1,7 +1,6 @@
 import { ChangeEvent, useState, FocusEvent } from "react";
 import * as CITIES from './../../../../data/cities.json';
 import {COUNTRIES} from './../../../../constants/countries';
-import ApiStatusPop from './../../../../components/api-status-pop/apistatuspop';
 import {getDataByZipcode } from './../../../../libs/zipcode';
 import { User } from "../../../../types/User";
 import { Information } from "../../../../types/User";
@@ -135,7 +134,6 @@ export default function EditInformationForm({user}:EditInformationFormProps){
     
     return (
             <>
-                 <ApiStatusPop status={apiStatus} show={showAPIPop} redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
                 <div className="text-indigo-900 flex flex-row flex-wrap justify-between w-full">
                     <div className="form-row dark half">
                         <label htmlFor="first-name">First name</label>

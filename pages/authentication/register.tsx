@@ -20,7 +20,7 @@ export default function Register() {
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
     const [emailTouched, setEmailTouched] = useState(false)
     const [zipCodeTouched, setZipCodeTouched] = useState(false)
-    const [countryIndex, setCountryIndex] = useState(-1)
+    const [country, setCountry] = useState('')
     const [zipCode, setZipCode] = useState('')
     const [city, setCity] = useState('')
     //const [cities, setCities] = useState<string[]>()
@@ -76,8 +76,10 @@ export default function Register() {
         setEmail(target?.value ?? '')
 
     }
-    const handleCountriesSelect = (index:number) => {
-            setCountryIndex(index)
+    const handleCountriesSelect = (e: ChangeEvent) => {
+            const country = (e.target as HTMLSelectElement).value;
+            if(country == "") return;
+            setCountry(country)
             setCountrySelected(true)
             setCountryFound(true)
         
@@ -235,7 +237,14 @@ export default function Register() {
                 username: username,
                 password: bcrypt.hashSync(password, 10),
                 email: email,
-                location: location
+                location: location,
+                firstName: "",
+                lastName: "",
+                profilePicturePath: "",
+                bio: "",
+                featuredWeather: null,
+                favoriteWeathers: [],
+                backgroundPicturePath: "",
             }
             setShowAPIPop(true);
             setApiStatus({
@@ -284,18 +293,18 @@ export default function Register() {
         setValidZipCode(!zipCodeTouched || zipCodeFound);
     }, [zipCodeTouched, zipCodeFound])
     useEffect(() => {
-        setValidCountry(!countrySelected || (countryFound));
-    }, [countrySelected, countryFound, countryIndex])
+        setValidCountry(!countrySelected || (countryFound && country !== ""));
+    }, [countrySelected, countryFound, country])
     return (
         <>
             <ApiStatusPop  redirectPageName='Login' redirectDuration={3} status={apiStatus} setApiStatus={setApiStatus} show={showAPIPop} setReveal={setShowAPIPop}redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
             <div className={"glass flex flex-col " + style['form-container']}>
-                <div className="form-container flex-row w-1/3 my-auto mx-auto">
+                <div className="form-container flex-row w-2/5 my-auto mx-auto">
                     <BackButton />
                     <h3 className="form-title w-full">
                         Register
                     </h3>
-                    <div className="w-full form-row">
+                    <div className="lg:half form-row lg:mr-4 w-full mr-0">
                         <label>
                             Username
                         </label>
@@ -305,7 +314,23 @@ export default function Register() {
                         }} />
                         {<p className={"text-red-400 " + (validUsername && "opacity-0")}>{!usernameLength ? "Username must be at least 5 characters long" : "Placholder"} {usernameExists&&"Username already existed!"}</p>}
                     </div>
-                    <div className="form-row w-1/2">
+                    <div className="form-row lg:half w-full">
+                        <label>
+                            Email
+                        </label>
+                        <input type="email" value={email} className={"p-4 border rounded "+ (validEmail ? "" : "border-red-400")} placeholder="Email" onChange={handleEmailChange} onBlur={()=>{
+                            validateEmailPattern()
+                            validateEmailExists()
+                        }} />
+                        {<p className={"text-red-400 " + (validEmail && "opacity-0")}>{
+                            emailExists && "Email already existed!"
+                        }
+                        {
+                            !emailValid ? "Email is not valid!" : "it is oke to use this email!"
+                        }
+                        </p>}
+                    </div>
+                    <div className="form-row lg:half lg:mr-4 w-full mr-0">
                         <label>
                             Password
                         </label>
@@ -322,7 +347,7 @@ export default function Register() {
                         </ul>
                     
                     </div>
-                    <div className="form-row w-1/2">
+                    <div className="form-row lg:half w-full">
                         <label>
                             Confirm Password
                         </label>
@@ -333,41 +358,18 @@ export default function Register() {
                             {<p className={"text-red-400 " + (validPasswordMatch && "opacity-0")}>Passwords do not match!</p>}
                     </div>
 
+                  
                     <div className="form-row w-full">
                         <label>
-                            Email
+                            Your country
                         </label>
-                        <input type="email" value={email} className={"p-4 border rounded "+ (validEmail ? "" : "border-red-400")} placeholder="Email" onChange={handleEmailChange} onBlur={()=>{
-                            validateEmailPattern()
-                            validateEmailExists()
-                        }} />
-                        {<p className={"text-red-400 " + (validEmail && "opacity-0")}>{
-                            emailExists && "Email already existed!"
-                        }
-                        {
-                            !emailValid ? "Email is not valid!" : "it is oke to use this email!"
-                        }
-                        </p>}
-                    </div>
-                    <div className="form-row w-full">
-                        <label>
-                            Select your country
-                        </label>
-                     <CustomSelect 
-                        dropDownClassName='text-indigo-900' 
-                        selectedOptionClassName='border flex flex-row bg-white text-indigo-900 min-w-0'
-                        setSelected={handleCountriesSelect} 
-                        selectedId={countryIndex} 
-                        options={COUNTRIES}  
-                        displayDescription={true}
-                    />
-                       {/*  <select className={"p-4 border rounded" + (validCountry ? "" : "border-red-400")} onChange={ (event) => {handleCountriesSelect(event) }}>
-                            <option value="">Select a country</option>
+                       <select className={"p-4 border rounded " + style['country-select-input'] + (validCountry ? "" : " border-red-400")} onChange={ (event) => {handleCountriesSelect(event) }}>
+                            <option value="">Select a country before entering your zip code</option>
                             {COUNTRIES.map((country, index) => {
-                                return <option data-name={country.name} key={index} value={country.code}>{country.name}</option>
+                                return <option  key={index} value={country.value}>{country.description}</option>
                             }
                             )}
-                        </select> */}
+                        </select>
                         <p className={"text-red-400 " + (validCountry && "opacity-0")}>Please select a country before you can enter your zip code!</p>
                     </div>
 
