@@ -101,7 +101,6 @@ export default function PostForm ({username}: PostFormProps) {
     }
     useEffect(()=>{
         if(attachedImages.length > 0){
-            console.log(attachedImages)
             setPictureAttached(true);
         }else{
             setPictureAttached(false);

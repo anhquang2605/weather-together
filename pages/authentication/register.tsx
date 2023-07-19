@@ -1,10 +1,11 @@
 import React, { useState, useEffect, ChangeEvent, FocusEvent } from 'react'
-import { COUNTRIES } from '../../constants/countries';
+import { COUNTRIES } from '../../constants/countriesnew';
 import bcrypt from 'bcryptjs';
 import ApiStatusPop from '../../components/api-status-pop/apistatuspop';
-import * as CITIES from '../../data/cities.json';
-import { getCityFromZipcode, getDataByZipcode } from '../../libs/zipcode';
+import { getDataByZipcode } from '../../libs/zipcode';
 import BackButton from '../../components/back-button/BackButton';
+import style from './register.module.css';
+import CustomSelect from '../../components/plugins/custom-select/CustomSelect';
 const API_PREFFIX = "/api";
 const PW_LENGTH = 8;
 
@@ -19,7 +20,7 @@ export default function Register() {
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
     const [emailTouched, setEmailTouched] = useState(false)
     const [zipCodeTouched, setZipCodeTouched] = useState(false)
-    const [country, setCountry] = useState('')
+    const [countryIndex, setCountryIndex] = useState(-1)
     const [zipCode, setZipCode] = useState('')
     const [city, setCity] = useState('')
     //const [cities, setCities] = useState<string[]>()
@@ -75,16 +76,11 @@ export default function Register() {
         setEmail(target?.value ?? '')
 
     }
-    const handleCountriesSelect = (event:ChangeEvent) => {
-        const target = event.target as HTMLSelectElement;
-        const theCountry = target?.value ?? ''
-        const countryName = target.options[target.selectedIndex].dataset.name ?? ''
-        if(theCountry !== ''){
-            setCountry(theCountry)
+    const handleCountriesSelect = (index:number) => {
+            setCountryIndex(index)
             setCountrySelected(true)
             setCountryFound(true)
-        }
-
+        
     }
     const handleZipCodeChange = (event:ChangeEvent) => {
         const target = event.target as HTMLInputElement;
@@ -288,12 +284,12 @@ export default function Register() {
         setValidZipCode(!zipCodeTouched || zipCodeFound);
     }, [zipCodeTouched, zipCodeFound])
     useEffect(() => {
-        setValidCountry(!countrySelected || (countryFound && country !== ''));
-    }, [countrySelected, countryFound, country])
+        setValidCountry(!countrySelected || (countryFound));
+    }, [countrySelected, countryFound, countryIndex])
     return (
         <>
             <ApiStatusPop  redirectPageName='Login' redirectDuration={3} status={apiStatus} setApiStatus={setApiStatus} show={showAPIPop} setReveal={setShowAPIPop}redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
-            <div className="glass flex flex-col">
+            <div className={"glass flex flex-col " + style['form-container']}>
                 <div className="form-container flex-row w-1/3 my-auto mx-auto">
                     <BackButton />
                     <h3 className="form-title w-full">
@@ -337,7 +333,7 @@ export default function Register() {
                             {<p className={"text-red-400 " + (validPasswordMatch && "opacity-0")}>Passwords do not match!</p>}
                     </div>
 
-                    <div className="form-row w-1/2">
+                    <div className="form-row w-full">
                         <label>
                             Email
                         </label>
@@ -353,17 +349,25 @@ export default function Register() {
                         }
                         </p>}
                     </div>
-                    <div className="form-row w-1/2">
+                    <div className="form-row w-full">
                         <label>
                             Select your country
                         </label>
-                        <select className={"p-4 border rounded" + (validCountry ? "" : "border-red-400")} onChange={ (event) => {handleCountriesSelect(event) }}>
+                     <CustomSelect 
+                        dropDownClassName='text-indigo-900' 
+                        selectedOptionClassName='border flex flex-row bg-white text-indigo-900 min-w-0'
+                        setSelected={handleCountriesSelect} 
+                        selectedId={countryIndex} 
+                        options={COUNTRIES}  
+                        displayDescription={true}
+                    />
+                       {/*  <select className={"p-4 border rounded" + (validCountry ? "" : "border-red-400")} onChange={ (event) => {handleCountriesSelect(event) }}>
                             <option value="">Select a country</option>
                             {COUNTRIES.map((country, index) => {
                                 return <option data-name={country.name} key={index} value={country.code}>{country.name}</option>
                             }
                             )}
-                        </select>
+                        </select> */}
                         <p className={"text-red-400 " + (validCountry && "opacity-0")}>Please select a country before you can enter your zip code!</p>
                     </div>
 

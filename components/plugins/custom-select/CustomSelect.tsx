@@ -15,6 +15,8 @@ interface CustomSelectProps {
     dropDownClassName?: string; //for styling the drop down with class or tailwind
     selectedOptionClassName?: string; //for styling the selected option with class or tailwind
     selectBarClassName?: string; //for styling the select bar with class or tailwind
+    displayDescription?: boolean; //for displaying the description of the option instead of value
+    notSelectedText?: string; //for displaying the description of the option instead of value
 }
 /*
 CUSOM SELECT COMPONENT
@@ -34,7 +36,7 @@ description:
 - The template prop is a function that will be called for each option to render the option jsx, it takes 3 parameters:
     * title: the title of the option
     * description: the description of the option
-    * selectedOption: a boolean that indicate if the option is the selected option or not
+    * selectedOption: a boolean that indicate if the option is the selected option or not provide with -1 to opt for not selected option 
 - For styling, the component has 4 class names that can be used to style the component:
     * optionClassName: for styling the options with class or tailwind
     * dropDownClassName: for styling the drop down with class or tailwind
@@ -43,7 +45,7 @@ description:
     * outerClassName: for styling the outer wrapper with class or tailwind
 
 */
-export default function CustomSelect({options, selectedId, setSelected, optionTemplate, optionClassName, dropDownClassName, selectedOptionClassName,outerClassName}: CustomSelectProps) {
+export default function CustomSelect({options, selectedId, setSelected, optionTemplate, optionClassName, dropDownClassName, selectedOptionClassName,outerClassName, displayDescription = false, notSelectedText = 'Select an option'}: CustomSelectProps) {
     const [isDropped, setIsDropped] = useState<boolean>(false);
     const customSelectRef = useRef<HTMLDivElement | null>(null)
     const optionsJSX = 
@@ -67,7 +69,7 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
                         optionTemplate(option.value, option.description, false)
                         :
                         <div key={option.value} data-value={option.value}>
-                            {option.value + "-" + option.description}
+                            {(!displayDescription ? (option.value + "-") : "") + option.description}
                         </div>}
                 </div>
             )
@@ -76,9 +78,18 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
         optionTemplate ?
             optionTemplate(options[selectedId].value, options[selectedId].description, true)
         :
-            <div className={style["select-option"] + " " + (optionClassName ? optionClassName : "")} key={options[selectedId].value} data-value={options[selectedId].value}>
-                {options[selectedId].value}
-            </div>
+            <>
+                { selectedId == -1 ?
+                <div className={style["select-option"]+ " " + (optionClassName ? optionClassName : "")}>
+                    {notSelectedText}
+               </div>
+                   :
+               <div className={style["select-option"] + " " + (optionClassName ? optionClassName : "")} key={options[selectedId].value} data-value={options[selectedId].value}>
+                   {(displayDescription ? options[selectedId].description : options[selectedId].value)}
+               </div>
+               }
+            </>
+          
     )
     const handleClickOutside = (e:MouseEvent) => {
         if(customSelectRef.current && !customSelectRef.current.contains(e.target as Node)){
@@ -107,7 +118,7 @@ export default function CustomSelect({options, selectedId, setSelected, optionTe
                 <div 
                     className={
                         style["drop-down"] + " " 
-                        + (dropDownClassName ?? "") + "" 
+                        + (dropDownClassName ?? "") + " " 
                         + (isDropped ? style["selections-dropped"] : " ")}>
                     {
                         optionsJSX

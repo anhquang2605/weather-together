@@ -1,0 +1,5 @@
+.form-container{
+    input, select{
+        @apply text-indigo-900
+    }
+}
