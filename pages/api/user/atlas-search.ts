@@ -8,7 +8,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             const usersCollection = db.collection('users');
             const agg = [
                 {'$search': {
-                    index: "autocomplete-tutorial", 
+                    index: "autocomplete-user-search", 
                     autocomplete: {
                         query: query, 
                         path: 'username' 
@@ -16,16 +16,8 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 }},
                 {'$limit': 20},
             ];
-            const results = await usersCollection.aggregate(agg) 
-            if(results){
-                await results.forEach((doc) => console.log(doc));
-
-                res.status(200).json(results);
-                
-            }else {
-                res.status(400).json({ error: 'No result' });
-            }
-            
+            const results = await usersCollection.aggregate(agg).toArray(); 
+            res.status(200).json(results);
         }else{
             res.status(500).json({ error: 'DB connection error' });
         }

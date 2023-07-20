@@ -1,12 +1,20 @@
+import { useState } from 'react'
 import style from './find-friends.module.css'
-import {IoSearch} from 'react-icons/io5'
+import SearchBar from '../../plugins/search-bar/SearchBar'
+import {User} from './../../../types/User'
 export default function FindFriends() {
-    return (
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState<User[]>([]); //
+    const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
+    const handleSearchBarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(event.target.value);
+
+    }
+    
+        return (
         <div className={style['find-friends']}>
-            <IoSearch className={"icon"}/>
-            <div className={style['search-bar']}>
-                <input type="text" className={style['search-input']} placeholder="Search for friends"/>
-            </div>
+           <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange}/>
         </div>
+
     )
 }

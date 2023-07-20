@@ -1,0 +1,50 @@
+.search-bar{
+    border-bottom: 1px solid gray;
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 auto;
+    transition: all 0.5s linear;
+    position: relative;
+    padding: 4px 0;;
+}
+.search-bar-background{
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 2px solid white;
+    transition: width 0.3s ease-in-out;
+    width: 0;
+}
+.searching{
+    .search-bar-background{
+        width: 100%;
+    }
+}
+.search-input{
+    background: transparent;
+    border: none;
+    position: relative;
+    border-radius: 0!important;
+    &:focus{
+        outline: none!important;
+    }
+    @apply p-4;
+}
+.search-input-container{
+    display: flex;
+    flex-direction: row;
+}
+@media screen and (max-width: 1024px) {
+    .find-friends-search-bar{
+        width: 50%;
+    }
+    
+}
+@media screen and (max-width: 768px){
+    .find-friends-search-bar{
+        width: 100%;
+    }
+}
