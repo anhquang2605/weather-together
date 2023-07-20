@@ -15,7 +15,7 @@ interface TabsProps {
 export default function Tabs(props: TabsProps) {
     const {tabs, activeTab, setActiveTab, tabsContainerClassName, tabClassName, activeTabClassName } = props;
     return (
-        <div className={style['tabs'] + " " + tabsContainerClassName}>
+        <div className={tabsContainerClassName ?? style['tabs']}>
             {
                 tabs.map((tab, index) => {
                     return(

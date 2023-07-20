@@ -1,20 +1,30 @@
 import React from 'react'
 import style from './friends.module.css'
 import Tabs from '../../components/plugins/tabs/Tabs'
+import {CgUserList, CgUserAdd, CgPlayListSearch} from 'react-icons/cg'
+import FindFriends from '../../components/friends-tab-content/find-friends';
+interface TabIconsMap {
+    [key: string]: JSX.Element;
+}
 export default function Friends(){
     const tabLabels = [
         "Friend lists",
         "Find friends",
         "Friend requests"
     ]
+    const tabIcons:TabIconsMap = {
+        "Friend lists": <CgUserList/>,
+        "Find friends":  <CgPlayListSearch/>,
+        "Friend requests": <CgUserAdd/>
+    }
     const [activeTab, setActiveTab] = React.useState(tabLabels[0])
     const tabs = tabLabels.map((label, index) => {
         return {
             label: label,
             content: 
-            <div>
-                {label}
-            </div>
+            <>
+                {tabIcons[label]}{label} 
+            </>
         }
     })
 
@@ -26,8 +36,9 @@ export default function Friends(){
                 setActiveTab={setActiveTab} 
                 tabClassName={style["tab"]} 
                 activeTabClassName={style["active-friend-tab"]}
-                tabsContainerClassName={style["tabs-container"]}
+                tabsContainerClassName={style["tabs-container"] + " text-indigo-900"}
             />
+            {activeTab === "Find friends" && <FindFriends/>}
         </div>
     )
 }

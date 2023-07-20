@@ -1,3 +1,4 @@
+
 .friends-page{
     width: 100%;
 }
@@ -8,7 +9,28 @@
 .tabs-container{
     border-radius: 100px!important;
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    background: white;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.2);
 }
 .tab{
-
+    --tab-number: 3;
+    transition: all 0.2s ease-in-out;
+    border-right: 1px solid lightgray;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% / var(--tab-number));
+    svg{
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.5rem;
+    }
+    &:last-child{
+        border-right: none;
+    }
 }

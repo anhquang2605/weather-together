@@ -1,0 +1,22 @@
+.find-friends{
+    border-bottom: 1px solid white!important;
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 auto;
+}
+.search-input{
+    background: transparent;
+    border: none;
+ 
+    border-radius: 0!important;
+    &:focus{
+        outline: none!important;
+    }
+    @apply p-4;
+}
+.search-bar{
+    display: flex;
+    flex-direction: row;
+}
