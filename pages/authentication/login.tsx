@@ -6,6 +6,8 @@ import style from "./login.module.css";
 import { useRouter } from "next/router";
 import BackButton from "../../components/back-button/BackButton";
 import CheckBox from "../../components/form/check-box/CheckBox";
+import {signIn} from "next-auth/react";
+import { set } from "mongoose";
 export default function Login() {
         //api status
         const [apiStatus, setApiStatus] = useState({
@@ -27,36 +29,71 @@ export default function Login() {
         const handleRememberMe = (value: boolean) => {
             setRemember(value);
         }
-        const handleLogin = async (e:any) => {
-            setApiStatus({
-                type: "loading",
-                message: "Logging in..."
-            });
-            setReveal(true);
-            fetch("/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username,
-                    password
-                })
-            }).then(res => res.json()).then(data => {
+        const handleDataNoAuthBack = (data: any) => {
+            if(data){
                 if(data.type == "success") {
                     setApiStatus({
                         type: "success",
                         message: data.message
                     });
                     dispatch(userLoaded(JSON.parse(data.data)));
-                } else {
+                }else {
                     setApiStatus({
                         type: "error",
                         message: data.message
                     });
                 }
-
+            }else{
+                setApiStatus({
+                    type: "error",
+                    message: "Could not connect to server"
+                });
+            }
+           
+        }
+        const handleLogin = async (e:any) => {
+            setApiStatus({
+                type: "loading",
+                message: "Logging in..."
             });
+            setReveal(true);
+            if(remember){
+                const result = await signIn("credentials", {
+                    username: username,
+                    password: password,
+                });
+                console.log(result );
+                if(result){
+                    if(result.error) {
+                        setApiStatus({
+                            type: "error",
+                            message: result.error
+                        });
+                    }else {
+                        setApiStatus({
+                            type: "success",
+                            message: "Logged in successfully"
+                        });
+                        console.log(result);
+                        dispatch(userLoaded(result));
+                        router.push("/");
+                    }
+                }
+                
+
+            }else {
+                fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password
+                    })
+                }).then(res => res.json()).then(handleDataNoAuthBack);
+            }
+           
         }
         
     return (
