@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-
+const url = process.env.NEXTAUTH_URL;
 export default NextAuth({
   providers: [
    CredentialsProvider({
@@ -14,11 +14,12 @@ export default NextAuth({
         // Add your own logic here to find the user in your database and verify their password
         // You can also use the `credentials` object passed to this function to query your database
         try{
-          const res = await fetch('/api/auth/login',{
+          const res = await fetch(url+'/api/auth/login',{
             method: 'POST',
             body: JSON.stringify(credentials),
             headers: { 'Content-Type': 'application/json' }
           });
+
           const user = await res.json();
           if (user && res.ok) {
               return Promise.resolve(user.data);
@@ -32,6 +33,7 @@ export default NextAuth({
       }
     })
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
     maxAge: 0.05 * 60 * 60,// 3 minutes

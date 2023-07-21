@@ -61,8 +61,8 @@ export default function Login() {
                 const result = await signIn("credentials", {
                     username: username,
                     password: password,
+                    redirect: false
                 });
-                console.log(result );
                 if(result){
                     if(result.error) {
                         setApiStatus({
@@ -74,7 +74,6 @@ export default function Login() {
                             type: "success",
                             message: "Logged in successfully"
                         });
-                        console.log(result);
                         dispatch(userLoaded(result));
                         router.push("/");
                     }
