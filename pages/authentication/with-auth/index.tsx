@@ -8,7 +8,9 @@ export default function withAuth(Component: React.ComponentType) {
             return (
                 <Unauthorized/>
             )
+        } else {
+            return <Component {...props}/>
         }
-        return <Component {...props}/>
     }
+        
 }

@@ -1,3 +1,4 @@
+import { Session } from "next-auth";
 import { Location } from "./location";
 import { Weather } from "./Weather";
 export interface Information {
@@ -21,4 +22,11 @@ export interface User{
     nickname?: string,
     favoriteWeathers?: Weather[],
     featuredWeather?: Weather,
+}
+
+export interface UserInStore{
+    _id?: string,
+    username: string,
+    location: Location | null,
+    profilePicturePath?: string,
 }

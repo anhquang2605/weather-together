@@ -10,10 +10,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if(user) {
                 const match = compareSync(password, user.password);
                 if(match) {
+                    const data = {
+                        username: user.username,
+                        location: user.location,
+                    }
                     res.status(200).json({
                         type: "success",
                         message: "Login successful",
-                        data: JSON.stringify(user)
+                        data: JSON.stringify(data)
                     })
                 }else{
                     res.status(400).json({

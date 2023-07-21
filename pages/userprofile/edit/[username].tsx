@@ -15,6 +15,7 @@ import EditBackgroundForm from "../../../components/profile/edit/edit-background
 import EditBio from "../../../components/profile/edit/edit-bio/EditBio";
 import Bio from "../../../components/profile/bio/Bio";
 import { Information } from "../../../types/User";
+import { useSession } from "next-auth/react";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -42,6 +43,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 export default function Edit({userJSON}:UserProfileProps){
   const [user, setUser] = useState<User>(JSON.parse(userJSON));
+  const {update} = useSession();
   const theTitle = `Profile for ${user.username}`;
   const route = useRouter();
   const [editingPicture, setEditingPicture] = useState<boolean>(false);
@@ -121,7 +123,10 @@ export default function Edit({userJSON}:UserProfileProps){
           if(payload.type === 'user-updated'){
             const updatedUser = {...user, ...payload.data};
             setUser(prevState => ({...prevState, ...payload.data}));
-            dispatch(updateUser(updatedUser));
+            update({
+              username: updatedUser.username,
+              location: updatedUser.location,
+            })
           }
 /*           const change =  JSON.parse(message.data);
           console.log(message.data);

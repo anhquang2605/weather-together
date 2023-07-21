@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import BackButton from "../../components/back-button/BackButton";
 import CheckBox from "../../components/form/check-box/CheckBox";
 import {signIn} from "next-auth/react";
+import {getSession} from "next-auth/react";
 import { set } from "mongoose";
 export default function Login() {
         //api status
@@ -57,30 +58,33 @@ export default function Login() {
                 message: "Logging in..."
             });
             setReveal(true);
-            if(remember){
-                const result = await signIn("credentials", {
-                    username: username,
-                    password: password,
-                    redirect: false
-                });
-                if(result){
-                    if(result.error) {
-                        setApiStatus({
-                            type: "error",
-                            message: result.error
-                        });
-                    }else {
-                        setApiStatus({
-                            type: "success",
-                            message: "Logged in successfully"
-                        });
-                        dispatch(userLoaded(result));
-                        router.push("/");
-                    }
+  
+            const result = await signIn("credentials", {
+                username: username,
+                password: password,
+                remember: remember,
+                redirect: false
+            });
+            if(result){
+                
+                if(result.error) {
+                    setApiStatus({
+                        type: "error",
+                        message: result.error
+                    });
+                }else {
+                    setApiStatus({
+                        type: "success",
+                        message: "Logged in successfully"
+                    });
+                    const session = await getSession();
+                    console.log(session?.user);
+                    dispatch(userLoaded(result));
                 }
+            }
                 
 
-            }else {
+            /* else {
                 fetch("/api/auth/login", {
                     method: "POST",
                     headers: {
@@ -91,7 +95,7 @@ export default function Login() {
                         password
                     })
                 }).then(res => res.json()).then(handleDataNoAuthBack);
-            }
+            } */
            
         }
         

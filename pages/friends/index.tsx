@@ -3,10 +3,11 @@ import style from './friends.module.css'
 import Tabs from '../../components/plugins/tabs/Tabs'
 import {CgUserList, CgUserAdd, CgPlayListSearch} from 'react-icons/cg'
 import FindFriends from '../../components/friends-tab-content/find-friends';
+import withAuth from '../authentication/with-auth';
 interface TabIconsMap {
     [key: string]: JSX.Element;
 }
-export default function Friends(){
+function Friends(){
     const tabLabels = [
         "Friend lists",
         "Find friends",
@@ -42,3 +43,5 @@ export default function Friends(){
         </div>
     )
 }
+
+export default withAuth(Friends);
