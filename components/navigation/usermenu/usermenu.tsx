@@ -41,7 +41,7 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
 
     return (
         <div className="flex flex-col grow">
-            {user ?
+            {user && user.username ?
                 <>
                     {getJSX(withUser)}
                     <button className={"mt-auto flex flex-row items-center footer-btn"} onClick={()=>{signOut()}} ><IoExit className="w-8 h-8"></IoExit><span className="ml-2">Log out</span></button>

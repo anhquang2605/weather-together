@@ -26,6 +26,7 @@ export default NextAuth({
           });
 
           const user = await res.json();
+          user.remember = remember;
           if (user && res.ok) {
               return user;
           }else{
@@ -47,11 +48,12 @@ export default NextAuth({
       
       if(user && user.data){
         const theUser = JSON.parse(user.data);  
-        const {username, email, location} = theUser;
+        const {username, email, location, remember} = theUser;
         token.user = {
           username,
           email,
-          location
+          location,
+          remember
         }
       }
       
@@ -59,6 +61,9 @@ export default NextAuth({
     },
     session: async ({session, token, user}) => {
         session.user = token.user;
+        if(token.user && token.user.remember){
+          session.maxAge = expiration;
+        }
         return session
      
     },

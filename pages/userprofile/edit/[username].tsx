@@ -16,6 +16,7 @@ import EditBio from "../../../components/profile/edit/edit-bio/EditBio";
 import Bio from "../../../components/profile/bio/Bio";
 import { Information } from "../../../types/User";
 import { useSession } from "next-auth/react";
+import withAuth from "../../authentication/with-auth";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -182,3 +183,4 @@ export default function Edit({userJSON}:UserProfileProps){
     </>
     )
 }
+

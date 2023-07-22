@@ -45,3 +45,5 @@ const pipeline = [{
         const userCollection = await db.collection('users');
         userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
 14. element to be above another absolute positioned element, that element must have position relative or absolute
+15. Next Auth: when user in session is returned empty, it happens because you need to provide the right user object, if you pass anything that is undefined, the user object will not be valid and become empty. here is how the data flow in next auth: authorize --> jwt --> session
+16. jwt is created after the authorize function return a user object
