@@ -78,7 +78,6 @@ export default function Login() {
                         message: "Logged in successfully"
                     });
                     const session = await getSession();
-                    console.log(session?.user);
                     dispatch(userLoaded(result));
                 }
             }

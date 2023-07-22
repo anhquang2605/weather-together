@@ -4,14 +4,15 @@ import {FaNewspaper} from "react-icons/fa"
 import {IoCloudyNight, IoMenu, IoArrowBack} from "react-icons/io5"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { useSelector } from "react-redux"
+import {useSession} from "next-auth/react"
 export default function Navigation() {
-    const user = useSelector((state: any) => state.user);
+    const {data: session} = useSession();
+    const user = session?.user ;
     const [navMenuStatus, setNavMenuStatus] = useState("");
     const {asPath,pathname} = useRouter();
     const withUser = [
         {label: "Friends", linkhref: "friends"},
-        {label: "My page", linkhref: `userprofile/${user.data?.username}`}
+        {label: "My page", linkhref: `userprofile/${user?.username}`}
     ]
     const withoutUser = [
         {label: "Log in", linkhref: "authentication/login"},
@@ -45,7 +46,7 @@ export default function Navigation() {
                         <span>Home</span> 
                     </Link>
                 </li>
-                    {<UserMenu user={user.data} withUser={withUser} withoutUser={withoutUser} />}
+                    {<UserMenu user={user} withUser={withUser} withoutUser={withoutUser} />}
             </ul>
             <div>
 

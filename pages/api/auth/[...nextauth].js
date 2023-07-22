@@ -44,19 +44,20 @@ export default NextAuth({
   },
   callbacks: {
     jwt: async ({token, user}) => {
-      if(user){
-        const returnUser = {
-          username: user.username,
-          email: user.email,
-          location: user.location,
+      
+      if(user && user.data){
+        const theUser = JSON.parse(user.data);  
+        const {username, email, location} = theUser;
+        token.user = {
+          username,
+          email,
+          location
         }
-        console.log(returnUser);
-        token.user = returnUser
       }
+      
       return token
     },
-    async session({session, token, user}) {
-      //console.log(user);
+    session: async ({session, token, user}) => {
         session.user = token.user;
         return session
      

@@ -3,7 +3,8 @@ import { useSelector } from "react-redux"
 import {BsPersonVcardFill} from "react-icons/bs"
 import {IoEnter, IoExit, IoPersonAdd, IoPeople} from "react-icons/io5"
 import { useRouter } from "next/router";
-import { User } from "../../../types/User";
+import { UserInSession } from "../../../types/User";
+import {signOut} from "next-auth/react";
 interface NavItem {
     label: string,
     linkhref: string
@@ -11,7 +12,7 @@ interface NavItem {
 interface UserMenuProps{
     withUser: NavItem[],
     withoutUser: NavItem[],
-    user: User
+    user: UserInSession | null | undefined
 }
 interface LabelToIconMap {[label:string] : JSX.Element};
 export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
@@ -43,7 +44,7 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
             {user ?
                 <>
                     {getJSX(withUser)}
-                    <Link className={"mt-auto flex flex-row items-center footer-btn"} href="/authentication/logout"><IoExit className="w-8 h-8"></IoExit><span className="ml-2">Log out</span></Link>
+                    <button className={"mt-auto flex flex-row items-center footer-btn"} onClick={()=>{signOut()}} ><IoExit className="w-8 h-8"></IoExit><span className="ml-2">Log out</span></button>
                 </>
                 :
                 <>

@@ -30,3 +30,10 @@ export interface UserInStore{
     location: Location | null,
     profilePicturePath?: string,
 }
+export interface UserInSession{
+    username?: string | null | undefined; 
+    name?: string | null | undefined; 
+    email?: string | null | undefined; 
+    image?: string | null | undefined; 
+    location?: Location | null | undefined;
+}
