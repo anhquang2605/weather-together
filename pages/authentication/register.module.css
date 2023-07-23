@@ -1,5 +1,7 @@
 .form-container{
     width: 100%;
+    z-index: 1;
+    position: relative;
     input, select{
         @apply text-indigo-900
     }

@@ -17,6 +17,7 @@ import Bio from "../../../components/profile/bio/Bio";
 import { Information } from "../../../types/User";
 import { useSession } from "next-auth/react";
 import withAuth from "../../authentication/with-auth";
+import withAuthStatic from "../../authentication/with-auth-static";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -42,7 +43,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: false
     }
   }
-export default function Edit({userJSON}:UserProfileProps){
+function Edit({userJSON}:UserProfileProps){
   const [user, setUser] = useState<User>(JSON.parse(userJSON));
   const {update} = useSession();
   const theTitle = `Profile for ${user.username}`;
@@ -184,3 +185,4 @@ export default function Edit({userJSON}:UserProfileProps){
     )
 }
 
+export default withAuthStatic(Edit);

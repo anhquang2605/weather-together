@@ -299,7 +299,7 @@ export default function Register() {
         <>
             <ApiStatusPop  redirectPageName='Login' redirectDuration={3} status={apiStatus} setApiStatus={setApiStatus} show={showAPIPop} setReveal={setShowAPIPop}redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
             <div className={"glass flex flex-col " + style['form-container']}>
-                <div className="form-container flex-row w-2/5 my-auto mx-auto">
+                <div className="form-container flex-row w-3/5 my-auto mx-auto">
                     <BackButton />
                     <h3 className="form-title w-full">
                         Register
@@ -359,7 +359,7 @@ export default function Register() {
                     </div>
 
                   
-                    <div className="form-row w-full">
+                    <div className="form-row grow mr-4">
                         <label>
                             Your country
                         </label>
@@ -373,7 +373,7 @@ export default function Register() {
                         <p className={"text-red-400 " + (validCountry && "opacity-0")}>Please select a country before you can enter your zip code!</p>
                     </div>
 
-                    <div>
+                    <div className="form-row w-auto">
                         <h5  className={countrySelected ? "" : "text-gray-300"}>Enter Your zip code</h5>
                         <label></label>
                         <input type="text" className={"p-4 border rounded " + (validZipCode ? "" : "border-red-400") } disabled={!countrySelected}  value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />

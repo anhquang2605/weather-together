@@ -62,7 +62,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
         }
     },[redirectCountdown])
     return (
-        <div className={"fixed z-10000 top-0 left-0 w-full h-full flex " + (show? "" : "hidden ")}>
+        <div className={"fixed z-50 top-0 left-0 w-full h-full flex " + (show? "" : "hidden ")}>
             <div onClick={
                 handleClosePop
             } className="absolute top-0 left-0 backdrop-blur bg-slate-900 bg-opacity-70 w-full h-full"></div>

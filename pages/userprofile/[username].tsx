@@ -8,6 +8,7 @@ import Summary from "../../components/profile/summary/Summary";
 import ProfileBanner from "../../components/profile/profile-banner/ProfileBanner";
 import Bio from "../../components/profile/bio/Bio";
 import NameTitle from "../../components/profile/name-title/NameTitle";
+import { useSession } from "next-auth/react";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {

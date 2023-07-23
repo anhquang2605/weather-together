@@ -26,7 +26,7 @@ body {
     @apply bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% border border-white
   }
   .half{
-    width: calc(50% - rem);
+    width: calc(50% - 1rem);
   }
   .hover-editable-image{
     @apply backdrop-blur-sm bg-black bg-opacity-20 text-slate-100;
@@ -56,6 +56,10 @@ body {
 }
 .critical-btn{
   @apply transition duration-200 text-white ml-4 bg-red-500 hover:bg-gradient-to-r from-red-700 from-40%  to-red-500 to-95% px-4 py-2 rounded border border-red-500 hover:border-slate-200;
+}
+
+.secondary-action-btn{
+  @apply hover:text-indigo-300
 }
 /* NAV ITEMS */
 .nav-bar{

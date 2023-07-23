@@ -1,3 +1,14 @@
 .unauthorized{
     
 }
+.btn-group{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a{
+        margin-right: 16px;
+        &:last-child{
+            margin-right: 0;
+        }   
+    }
+}
