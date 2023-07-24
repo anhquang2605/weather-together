@@ -11,7 +11,7 @@ export default function Banner() {
     const currentCondition = useSelector((state: any) => state.weatherDaily.currentCondition);
     return (
         <>
-            <div className="banner drop-shadow w-full glass mb-4">
+            <div className="banner w-full glass mb-4">
                 <div className="banner__content">
 
                     <h1 className="banner__title">Good {user?.username} Welcome to <span className="banner__title--highlight">Weather</span> App</h1>

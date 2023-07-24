@@ -30,15 +30,19 @@ export default function RootLayout({
       router.events.off('routeChangeComplete',  routeChangeCompleteHandler)
     }
   },[])
+  // 
   return (
     <>
     <Head>
     
     </Head>
       {user &&
-      <div className="flex flex-row relative bg-gradient-to-bl from-violet-800 from-5% via-indigo-800 to-indigo-950 to-70% h-screen text-white">
-          { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}
-            {children}  
+      <div className="flex flex-row relative bg-gradient-to-bl from-violet-800 from-10% via-indigo-800 to-indigo-950 to-9% h-screen text-white relative">
+            { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}
+            <div className="remaining-estate flex w-full h-full z-10 relative">
+              {children}
+            </div>
+            
           {loading && <Loading/>}
       </div>}
     </>

@@ -10,11 +10,11 @@ export default function Home() {
             <Head>
                 <title>Home</title>
             </Head>
-            <div className="center w-full">
+            <div className="center w-full relative">
                 <Banner/>
                 <ActivityBoard/>
             </div>
-            <div className="right-side">
+            <div className="right-side relative">
                 {<WeatherSummarySide />}
             </div>
         </>
