@@ -5,6 +5,6 @@ export interface Comment {
     username: string;
     dateCreated: string;
     dateUpdated: string;
-    reactions: Reaction[];
+    targetType: string; // posts, comments
     targetId: string; // Postid
 }
