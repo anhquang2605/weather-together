@@ -27,7 +27,7 @@ export default function NotificationCenter(){
         setUnreadNotifications(unreads);
     }
     useEffect(() => {
-        fetch(`/api/notification/get-notifications?username=${user?.username}`, {
+        fetch(`/api/notification/get-limited-notifications?username=${user?.username}&limit=10`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
