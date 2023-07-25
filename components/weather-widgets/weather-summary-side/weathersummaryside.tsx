@@ -10,9 +10,6 @@ export default function WeatherSummarySide() {
     const {data: session} = useSession();
     const user = session?.user ;
     const location = user?.location;
-    useEffect  (() => {
-        console.log(session, user, location);
-    }, [session])
     return (
         <>
         {location && <div className="weather-summary-side h-full ml-4 glass grow-0">

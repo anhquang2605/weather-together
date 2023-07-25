@@ -32,32 +32,56 @@ wss.on('connection', (socket) => {
     const data = JSON.parse(message);
     if (data.type === 'username'){
       let username = data.username;
-      connectDB().then(async (db)  => {
-        const pipeline = [{
-          $match: {
-            'fullDocument.username': username,
-            operationType: {
-              $in: ['insert', 'update', 'replace']
-            }
+      const pipeline = [{
+        $match: {
+          'fullDocument.username': username,
+          operationType: {
+            $in: ['insert', 'update', 'replace']
           }
+        }
       }];
-        const userCollection = await db.collection('users');
-        userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
-        userChangeStream.on('change', (change) => {
-          // Broadcast the change to all connected WebSocket clients
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              const updated = change.updateDescription.updatedFields;
-              const message = {
-                type: 'user-updated',
-                data: updated
+
+      connectDB().then(async (db)  => {
+        if (data.package === 'notifications'){
+          const notificationCollection = await db.collection('notifications');
+          
+          notificationChangeStream = notificationCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
+
+          notificationChangeStream.on('change', (change) => {
+            wss.clients.forEach((client) => {
+              if (client.readyState === WebSocket.OPEN) {
+                console.log(change);
+/*                 const message = {
+                  type: 'notification-updated',
+                  data: updated
+                }
+                client.send(JSON.stringify(message)); */
               }
-              client.send(JSON.stringify(message));
-            }
+            });
+          })
+
+        } else {
+          const userCollection = await db.collection('users');
+        
+          userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
+          
+          userChangeStream.on('change', (change) => {
+            // Broadcast the change to all connected WebSocket clients
+            wss.clients.forEach((client) => {
+              if (client.readyState === WebSocket.OPEN) {
+                const updated = change.updateDescription.updatedFields;
+                const message = {
+                  type: 'user-updated',
+                  data: updated
+                }
+                client.send(JSON.stringify(message));
+              }
+            });
           });
-        });
-        await new Promise(() => {});
+          await new Promise(() => {});
+        }
       });
+      
     }
   })
 });

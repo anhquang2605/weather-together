@@ -12,7 +12,8 @@ export default function Navigation() {
     const {asPath,pathname} = useRouter();
     const withUser = [
         {label: "Friends", linkhref: "friends"},
-        {label: "My page", linkhref: `userprofile/${user?.username}`}
+        {label: "My page", linkhref: `userprofile/${user?.username}`},
+        {label: "Notifications", linkhref: "notifications"}
     ]
     const withoutUser = [
         {label: "Log in", linkhref: "authentication/login"},

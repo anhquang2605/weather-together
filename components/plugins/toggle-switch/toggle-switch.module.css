@@ -1,0 +1,8 @@
+.toggle-switch{
+    --on-color: var(--button-color);
+    --off-color: lightgray;
+    
+}
+.toggled-off{
+
+}

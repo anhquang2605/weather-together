@@ -22,6 +22,7 @@ export interface User{
     nickname?: string,
     favoriteWeathers?: Weather[],
     featuredWeather?: Weather,
+    dateJoined?: Date,
 }
 
 export interface UserInStore{

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useSelector } from "react-redux"
 import {BsPersonVcardFill} from "react-icons/bs"
-import {IoEnter, IoExit, IoPersonAdd, IoPeople} from "react-icons/io5"
+import {IoEnter, IoExit, IoPersonAdd, IoPeople, IoNotifications} from "react-icons/io5"
 import { useRouter } from "next/router";
 import { UserInSession } from "../../../types/User";
 import {signOut} from "next-auth/react";
@@ -22,6 +22,7 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
         "My page": <BsPersonVcardFill></BsPersonVcardFill>,
         "Log in": <IoEnter></IoEnter>,
         "Register": <IoPersonAdd></IoPersonAdd>,
+        "Notifications": <IoNotifications></IoNotifications> 
     }
     const getJSX = (navItems: NavItem[]) => {
         return navItems.map(({label,linkhref}) => {
@@ -44,6 +45,7 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
             {user && user.username ?
                 <>
                     {getJSX(withUser)}
+
                     <button className={"mt-auto flex flex-row items-center footer-btn"} onClick={()=>{signOut()}} ><IoExit className="w-8 h-8"></IoExit><span className="ml-2">Log out</span></button>
                 </>
                 :

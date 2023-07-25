@@ -12,7 +12,6 @@ export default function WeatherSummary({location}: WeatherSummaryProps){
     useEffect(() => {
         getCurrentWeather(location?.city ?? "")
             .then((data) => {
-                console.log(data)
                 setCurWeather(data)  
             })
             .catch((err) => {
