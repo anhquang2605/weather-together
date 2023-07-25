@@ -66,11 +66,14 @@ export default function NotificationCenter(){
             className={style['notification-center'] + " mt-4 mr-4  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
         
         >
-            <button className={style['notification-badge'] + " animate:wiggle" }>
+            <button onClick={()=>{setReveal(!reveal)}} className={style['notification-badge'] + " animate:wiggle" }>
                 <IoNotifications className={/* style['new'] +  */" icon"}></IoNotifications>
                 <span className={style["dot"]}></span>
             </button>
             <NotificationSideBoard
+                notificationBadgeClassName={style['notification-badge']}
+                reveal = {reveal}
+                setReveal = {setReveal}
                 unreadNotifications={unreadNotifications}
                 notifications={notifications}
             />

@@ -2,5 +2,10 @@
     width: 400px;
     background: white;
     border-radius: 4px;
-    @apply mt-2 shadow-lg;
+    @apply mt-1 shadow-lg;
+    color: var(--primary-color);
+    transition: margin 0.3s ease-in-out;
+}
+.hide-drop{
+    @apply h-0 overflow-hidden p-0 -mt-2;
 }

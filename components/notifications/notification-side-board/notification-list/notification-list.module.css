@@ -1,0 +1,22 @@
+.notification-list{
+    @apply flex flex-col;
+}
+.notification-list-item{
+    @apply flex flex-row items-center justify-center p-2 mb-2 last:mb-0;
+
+}
+.user-profile-picture{
+    outline: 2px solid var(--btn-color);
+    @apply rounded-full overflow-hidden mr-2;
+}
+.notification-list-item__title{
+    @apply grow;
+}
+.notification-list-item__time{
+    @apply grow font-semibold;
+    color: var(--btn-color)
+}
+.right-group{
+    display: flex;
+    flex-direction: column;
+}
