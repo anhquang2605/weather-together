@@ -1,8 +1,49 @@
-.toggle-switch{
+.toggle-switch-container{
+    display: flex;
+    flex-direction: row;
     --on-color: var(--button-color);
     --off-color: lightgray;
-    
+    --knob-dimension: 1rem;
+    --padding: 4px;
+    align-items: center;
 }
-.toggled-off{
+.toggle-switch{
 
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    @apply rounded-full;
+    border: 1px solid black;
+    padding: var(--padding);
+    width: max-content;
+    width: 40px;
+    height: calc(var(--knob-dimension) + (var(--padding) * 2));
+    margin-right: 0.5rem;
+
+}
+.toggle-knob{
+    width: var(--knob-dimension);
+    height: var(--knob-dimension);
+    border: 1px solid black;
+    border-radius: 100%;
+    position: absolute;
+    transition: right 0.1s ease-in-out;
+    right: var(--padding)
+}
+.toggled-on{
+    .toggle-knob{
+       right: calc(100% - (var(--knob-dimension) + (var(--padding) - 1px)));
+    }
+    .filler{
+        @apply order-first;
+    }
+}
+.toggle-label{
+    text-align: center;
+}
+.filler{
+    width: var(--knob-dimension);
+    height: var(--knob-dimension);
+    border-radius: 100%;
 }

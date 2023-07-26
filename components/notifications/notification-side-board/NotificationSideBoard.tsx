@@ -38,6 +38,8 @@ export default function NotificationSideBoard({ notifications,unreadNotification
         ref={listBoardRef}
             className= {style['notification-side-board'] + " p-4 " + (reveal? "" : style["hide-drop"]) }
         >
+            <h3 className="flex-grow font-bold text-lg mb-4">Notifications</h3>
+            <button className="hover:text-indigo-300 self-start">View more</button>
             <ControlGroup filterRead={filterRead} setFilterRead={setFilterRead} setAllRead={setAllRead}/>
             <NotificationList notifications={filterRead ? unreadNotifications : notifications}/>
         </div>

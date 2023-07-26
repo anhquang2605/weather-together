@@ -2,10 +2,17 @@
     width: 400px;
     background: white;
     border-radius: 4px;
-    @apply mt-1 shadow-lg;
+    @apply -mt-4 shadow-lg opacity-100;
     color: var(--primary-color);
-    transition: margin 0.3s ease-in-out;
+    transition: margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    z-index: 5;
 }
 .hide-drop{
-    @apply h-0 overflow-hidden p-0 -mt-2;
+    @apply -mt-10 opacity-0 h-0;
+    padding: 0!important;
+    transition: margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }

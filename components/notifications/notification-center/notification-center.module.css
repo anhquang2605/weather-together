@@ -15,6 +15,7 @@
         background-color: white;
         color: var(--btn-color);
     }
+    z-index: 10;
 }
 .new{
     svg{

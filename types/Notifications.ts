@@ -5,8 +5,8 @@ export interface Notification {
     type: string; // type of notification
     createdDate: Date;
     read: boolean;
-    reference_id?: string; // id of the object that is being affected such as post, comment, etc..
-    subject_id: string; // id of the object that is triggering the notification such as post, comment, etc..
+    reference_id?: string; // id of the object that will be used to redirect the user to the page of the object
+    subject_id: string; // id of the object that is triggering the notification such comment, reactions, friend_requests etc..
 }
 //comment (with username1) to a post of (username2)
 //check if the post associate with the comment is owned by the creator of the added entry which triggers the notification

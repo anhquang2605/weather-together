@@ -862,12 +862,20 @@ video {
   max-width: none;
 }
 
+.flex-shrink {
+  flex-shrink: 1;
+}
+
 .shrink {
   flex-shrink: 1;
 }
 
 .shrink-0 {
   flex-shrink: 0;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .grow {
@@ -928,6 +936,10 @@ video {
 
 .self-start {
   align-self: flex-start;
+}
+
+.self-end {
+  align-self: flex-end;
 }
 
 .overflow-hidden {
@@ -1732,6 +1744,11 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 .hover\:text-indigo-300:hover {
   --tw-text-opacity: 1;
   color: rgb(165 180 252 / var(--tw-text-opacity));
+}
+
+.hover\:text-indigo-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(99 102 241 / var(--tw-text-opacity));
 }
 
 .hover\:hover-editable-image:hover {

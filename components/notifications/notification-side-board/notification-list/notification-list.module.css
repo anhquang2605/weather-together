@@ -2,8 +2,10 @@
     @apply flex flex-col;
 }
 .notification-list-item{
-    @apply flex flex-row items-center justify-center p-2 mb-2 last:mb-0;
-
+    @apply flex flex-row items-center justify-center p-2 mb-2 last:mb-0 cursor-pointer rounded;
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 }
 .user-profile-picture{
     outline: 2px solid var(--btn-color);
