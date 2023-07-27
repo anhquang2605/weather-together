@@ -1,4 +1,4 @@
-import {useState, useEffect, use} from 'react'
+import {useState, useEffect, use, useRef} from 'react'
 import style from './notification-center.module.css'
 import {IoNotifications} from 'react-icons/io5'
 import { Notification } from '../../../types/Notifications';
@@ -21,10 +21,83 @@ export default function NotificationCenter(){
     const user = session?.user;
     const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
+    const socket = useRef<WebSocket | null>(null);
     const setNotificationsFromServer = (notifications: Notification[]) => {
         const unreads= getNotificationsUnread(notifications);
         setNotifications(notifications);
         setUnreadNotifications(unreads);
+    }
+    const handleUpdateNotificationStates = (index: number, del: boolean) => {
+        setUnreadNotifications((prev) => {
+            const newUnread = [...prev];
+            newUnread.splice(index, 1);
+            return newUnread;
+        })
+        if(del){
+            setNotifications((prev) => {//remove from notifications
+                const newNotifications = [...prev];
+                newNotifications.splice(index, 1);
+                return newNotifications;
+            })
+        } else {//set read to a notification
+            setNotifications((prev) => {
+                const newNotifications = [...prev];
+                newNotifications[index].read = true;
+                return newNotifications;
+            })
+        }
+    }
+    const handleSetRead = (notification_id: string, index: number) => {
+        fetch(`/api/notification/put-notification-read`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: notification_id?.toString(),
+            })
+        }).then(res => res.json()).then(data => {
+            if(data.success){
+                handleUpdateNotificationStates(index, false);
+            }
+        })
+    }
+    const handleSetAllRead = () => {
+        fetch(`/api/notification/put-all-notifications-read`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: user?.username?.toString(),
+            })
+        }).then(res => res.json()).then(data => {
+            if(data.success){
+                setUnreadNotifications([]);
+                setNotifications((prev) => {
+                    const newNotifications = [...prev];
+                    newNotifications.forEach((notification) => {
+                        notification.read = true;
+                    })
+                    return newNotifications;
+                })
+            }
+        })
+    }
+    const handleDeleteNotification = (notification_id: string, index: number) => {
+        fetch(`/api/notification/delete-notification`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: notification_id?.toString(),
+            })
+        }).then(res => res.json()).then(data => {
+            if(data.success){
+                handleUpdateNotificationStates(index, true);
+            }
+        })
     }
     useEffect(() => {
         fetch(`/api/notification/get-limited-notifications?username=${user?.username}&limit=10`, {
@@ -46,10 +119,12 @@ export default function NotificationCenter(){
         }
         ws.onmessage = (message) => {
           const payload = JSON.parse(message.data);
-            if(payload.type === 'new-notification'){
+            if(payload.type === 'notification-added'){
+                console.log(payload.data)
                 setNotifications((prev) => [...prev, payload.data]);
                 setUnreadNotifications((prev) => [...prev, payload.data]);            
-            }
+            } 
+        socket.current = ws ;
   /*           const change =  JSON.parse(message.data);
             console.log(message.data);
             setUser(change.data); */

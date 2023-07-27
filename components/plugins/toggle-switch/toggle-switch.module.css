@@ -1,10 +1,10 @@
 .toggle-switch-container{
     display: flex;
     flex-direction: row;
-    --on-color: var(--button-color);
+    --on-color: var(--btn-color);
     --off-color: lightgray;
     --knob-dimension: 1rem;
-    --padding: 4px;
+    --padding: 3px;
     align-items: center;
 }
 .toggle-switch{
@@ -14,26 +14,30 @@
     display: flex;
     align-items: center;
     @apply rounded-full;
-    border: 1px solid black;
+    border: 1px solid lightgray;
     padding: var(--padding);
     width: max-content;
     width: 40px;
     height: calc(var(--knob-dimension) + (var(--padding) * 2));
     margin-right: 0.5rem;
-
+    background-color:var(--off-color);
 }
 .toggle-knob{
     width: var(--knob-dimension);
     height: var(--knob-dimension);
-    border: 1px solid black;
+    border: 1px solid rgba(0,0,0,0.3);
     border-radius: 100%;
     position: absolute;
-    transition: right 0.1s ease-in-out;
-    right: var(--padding)
+    transition: left 0.1s ease-in-out;
+    left: var(--padding);
+    background-color: white;
 }
 .toggled-on{
+    .toggle-switch{
+        background-color: var(--on-color);
+    }
     .toggle-knob{
-       right: calc(100% - (var(--knob-dimension) + (var(--padding) - 1px)));
+       left: calc(100% - (var(--knob-dimension) + (var(--padding))));
     }
     .filler{
         @apply order-first;

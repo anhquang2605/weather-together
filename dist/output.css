@@ -862,10 +862,6 @@ video {
   max-width: none;
 }
 
-.flex-shrink {
-  flex-shrink: 1;
-}
-
 .shrink {
   flex-shrink: 1;
 }
@@ -936,10 +932,6 @@ video {
 
 .self-start {
   align-self: flex-start;
-}
-
-.self-end {
-  align-self: flex-end;
 }
 
 .overflow-hidden {
@@ -1457,7 +1449,7 @@ video {
 .nav-bar{
   background-color: var(--nav-primmary-color);
   z-index: 50;
-  box-shadow: 1px 0px 4px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
 .nav-item {
@@ -1744,11 +1736,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 .hover\:text-indigo-300:hover {
   --tw-text-opacity: 1;
   color: rgb(165 180 252 / var(--tw-text-opacity));
-}
-
-.hover\:text-indigo-500:hover {
-  --tw-text-opacity: 1;
-  color: rgb(99 102 241 / var(--tw-text-opacity));
 }
 
 .hover\:hover-editable-image:hover {

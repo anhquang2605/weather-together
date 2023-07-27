@@ -6,6 +6,6 @@ export interface Comment {
     dateCreated: Date;
     dateUpdated: Date;
     targetType: string; // posts, comments
-    targetId: string | null; // the parent that the comment is associated with, if null, then the comment is a direct comment to a post
+    targetId: string | null; // the parent that the comment is associated with, if "", then the comment is a direct comment to a post
     postId: string; // the post that the comment is associated with
 }

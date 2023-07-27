@@ -48,16 +48,19 @@ wss.on('connection', (socket) => {
           notificationChangeStream = notificationCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
 
           notificationChangeStream.on('change', (change) => {
-            wss.clients.forEach((client) => {
-              if (client.readyState === WebSocket.OPEN) {
-                console.log(change);
-/*                 const message = {
-                  type: 'notification-updated',
-                  data: updated
+            if(change.operationType === 'insert'){
+              wss.clients.forEach((client) => {
+                if (client.readyState === WebSocket.OPEN) {
+                  const fullDocument = change.fullDocument;
+                  const message = {
+                    type: 'notification-added',
+                    data: fullDocument
+                  }
+                  client.send(JSON.stringify(message)); 
                 }
-                client.send(JSON.stringify(message)); */
-              }
-            });
+              });
+            }
+           
           })
 
         } else {
@@ -67,6 +70,7 @@ wss.on('connection', (socket) => {
           
           userChangeStream.on('change', (change) => {
             // Broadcast the change to all connected WebSocket clients
+           
             wss.clients.forEach((client) => {
               if (client.readyState === WebSocket.OPEN) {
                 const updated = change.updateDescription.updatedFields;
@@ -74,6 +78,7 @@ wss.on('connection', (socket) => {
                   type: 'user-updated',
                   data: updated
                 }
+                count += 1;
                 client.send(JSON.stringify(message));
               }
             });

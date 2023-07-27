@@ -65,7 +65,7 @@ body {
 .nav-bar{
   background-color: var(--nav-primmary-color);
   z-index: 50;
-  box-shadow: 1px 0px 4px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
 }
 .nav-item{
   @apply mb-2 relative;
