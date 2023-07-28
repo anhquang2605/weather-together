@@ -6,16 +6,16 @@ import NotificationList from "./notification-list/NotificationList";
 import {IoSunnyOutline} from 'react-icons/io5'
 interface NotificationSideBoardProps {
     notifications: Notification[];
-    unreadNotifications: Notification[];
     reveal: boolean;
     setReveal: (reveal: boolean) => void;
     notificationBadgeClassName: string;
     loadMore: () => void;
     canLoadMore: boolean;
     loadMoreStatus: 'loading' | 'idle' | 'error';
+    filterUnRead: boolean;
+    setFilterUnRead: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function NotificationSideBoard({ notifications,unreadNotifications,reveal, setReveal, notificationBadgeClassName,loadMore, canLoadMore, loadMoreStatus }: NotificationSideBoardProps) {
-    const [filterRead, setFilterRead] = useState(false);
+export default function NotificationSideBoard({ notifications, reveal, setReveal, notificationBadgeClassName,loadMore, canLoadMore, loadMoreStatus, filterUnRead, setFilterUnRead}: NotificationSideBoardProps) {
     const listBoardRef = useRef<HTMLDivElement | null>(null);
     const setAllRead = () => {
 
@@ -46,8 +46,8 @@ export default function NotificationSideBoard({ notifications,unreadNotification
             {notifications.length > 0 ?
                 <>
                     <button className="hover:text-indigo-300 self-start">View all</button>
-                    <ControlGroup filterRead={filterRead} setFilterRead={setFilterRead} setAllRead={setAllRead}/>
-                    <NotificationList notifications={filterRead ? unreadNotifications : notifications}/>
+                    <ControlGroup filterUnRead={filterUnRead} setFilterUnRead={setFilterUnRead} setAllRead={setAllRead}/>
+                    <NotificationList notifications={notifications}/>
                     {canLoadMore && <button disabled={loadMoreStatus === 'loading'} className={"action-btn mt-4 flex flex-row mr-auto ml-auto " + (loadMoreStatus === 'loading'&& " disabled:opacity-50 pointer-event-none hover:none")  }onClick={()=>{loadMore()}}> {loadMoreStatus=== 'loading' && <IoSunnyOutline className="icon animate-spin-slow mr-1"/>} {loadMoreStatus=== 'loading' ? "Loading" : "Load more"}</button>}
                 </>
                 :

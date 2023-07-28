@@ -20,8 +20,9 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 agg.read = false;
             }
             const total = await notificationsCollection.countDocuments(agg);
+            const unreads = await notificationsCollection.countDocuments({username: username, read: false});
             const results = await notificationsCollection.find(agg).sort({createdDate: -1}).skip(pageNo * limit).limit(limit).toArray(); 
-            res.status(200).json({result: results, total: total});
+            res.status(200).json({result: results, total: total, unreads: unreads});
         }else{
             res.status(500).json({ error: 'DB connection error' });
         }

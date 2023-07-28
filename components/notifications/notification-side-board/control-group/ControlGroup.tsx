@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import style from './control-group.module.css'
 import ToggleSwitch from '../../../plugins/toggle-switch/ToggleSwitch';
 interface ControlGroupProps {
-    setFilterRead: React.Dispatch<React.SetStateAction<boolean>>;
-    filterRead: boolean;
+    setFilterUnRead: React.Dispatch<React.SetStateAction<boolean>>;
+    filterUnRead: boolean;
     setAllRead: () => void;
 }
-export default function ControlGroup({setFilterRead, setAllRead, filterRead}: ControlGroupProps) {
+export default function ControlGroup({setFilterUnRead, setAllRead, filterUnRead}: ControlGroupProps) {
 
     return(
         <div
@@ -15,8 +15,8 @@ export default function ControlGroup({setFilterRead, setAllRead, filterRead}: Co
             <ToggleSwitch 
                 onLabel="Unread"
                 offLabel="All"
-                setToggle={setFilterRead}
-                on={filterRead}
+                setToggle={setFilterUnRead}
+                on={filterUnRead}
             />
         </div>
     )

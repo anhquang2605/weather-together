@@ -7,20 +7,47 @@ import { useSession } from 'next-auth/react';
 import { getNotificationsUnread } from '../../../libs/notifications';
 import { set } from 'mongoose';
 import { add } from 'date-fns';
+import { NextApiResponse } from 'next';
 export function getServerSideProps() {
     
     return {
       props: {}, // will be passed to the page component as props
     }
-  }
+}
+interface NotificationMode{
+    mode: string;
+    currentTotalNumberOfNotifications: number;
+    notifications: Notification[];
+    pageNo: number;
+}
+interface NotificationModes{
+    [key:string]:NotificationMode
+}
+interface NotificationsReponse extends NextApiResponse{
+    result: Notification[];
+    unreads: number;
+    total?: number;
+}
+const modesList = ['all', 'unread'];
+function GenerateInitialNotificationModes() {
+    return modesList.reduce((acc:NotificationModes,item) => {
+        acc[item] = {
+            mode: item,
+            currentTotalNumberOfNotifications: 0,
+            notifications: [],
+            pageNo: 0,
+        }
+        return acc;        
+    },{})
+}
 export default function NotificationCenter(){
     const [limit, setLimit] = useState<number>(2);//[10, 20, 50, 100
     const [pageNo, setPageNo] = useState<number>(0);//[10, 20, 50, 100
     const [reveal, setReveal] = useState(false);
-    const [currentNumberOfNotifications, setCurrentNumberOfNotifications] = useState<number>(0);//[10, 20, 50, 100
-    const [currentTotalNumberOfNotifications, setCurrentTotalNumberOfNotifications] = useState<number>(0);//[10, 20, 50, 100
-    const [notifications, setNotifications] = useState<Notification[]>([]);
-    const [unreadNotifications, setUnreadNotifications] = useState<Notification[]>([]);
+    const [filterUnRead, setFilterUnRead] = useState<boolean>(false);//[10, 20, 50, 100
+    const [mode, setMode] = useState('all');
+    const [modes, setModes] = useState<NotificationModes>(GenerateInitialNotificationModes())
+    const [action, setAction] = useState<string>('');
     const [unreadNotificationsCount, setUnreadNotificationsCount] = useState<number>(0);
     const [loadMoreStatus, setLoadMoreStatus] = useState<'loading' | 'idle' | 'error'>('idle');//[10, 20, 50, 100
     const {data:session} = useSession();
@@ -28,36 +55,39 @@ export default function NotificationCenter(){
     const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
     const socket = useRef<WebSocket | null>(null);
-    const setNotificationsFromServer = (notifications: Notification[]) => {
-        const unreads= getNotificationsUnread(notifications);
-        setNotifications(notifications);
-        setUnreadNotifications(unreads);
+
+    const updateProperty = (modeKey:string, propertyName:string, newValue: any) => {
+        setModes(prevState => ({
+          ...prevState,
+          [modeKey]: { ...prevState[modeKey], [propertyName]: newValue },
+        }));
+      };
+    const handleAddNotifications = (notifications: Notification[]) => {
+        setModes(prevState => ({
+            ...prevState,
+            [mode]: { ...prevState[mode], 
+                notifications: [...prevState[mode].notifications, ...notifications], 
+            },
+          }));
     }
-    const addNotificationsFromServer = (notifications: Notification[]) => {
-        setCurrentNumberOfNotifications(prev => prev += notifications.length );
-        const unreads= getNotificationsUnread(notifications);
-        setNotifications((prev) => [...prev, ...notifications]);
-        setUnreadNotifications((prev) => [...prev, ...unreads]);
+    const handleAddNotificationsFromServer = (response:NotificationsReponse) => {
+        const newNotifications = response.result;
+        const newUnreadNotificationsCount = response.unreads;
+        const newTotal = response.total;
+        if(newTotal){
+            updateProperty(mode, 'currentTotalNumberOfNotifications', newTotal);
+        }
+        setUnreadNotificationsCount(newUnreadNotificationsCount);
+        handleAddNotifications(newNotifications);
     }
     const handleUpdateNotificationStates = (index: number, del: boolean) => {
-        setUnreadNotifications((prev) => {
-            const newUnread = [...prev];
-            newUnread.splice(index, 1);
-            return newUnread;
-        })
+        const newNotifications = [...modes[mode].notifications];
         if(del){
-            setNotifications((prev) => {//remove from notifications
-                const newNotifications = [...prev];
-                newNotifications.splice(index, 1);
-                return newNotifications;
-            })
-        } else {//set read to a notification
-            setNotifications((prev) => {
-                const newNotifications = [...prev];
-                newNotifications[index].read = true;
-                return newNotifications;
-            })
+            newNotifications.splice(index, 1);
+        } else {//set read to a notification           
+            newNotifications[index].read = true;
         }
+        updateProperty(mode, 'notifications', newNotifications);
     }
     const handleSetRead = (notification_id: string, index: number) => {
         fetch(`/api/notification/put-notification-read`, {
@@ -85,14 +115,11 @@ export default function NotificationCenter(){
             })
         }).then(res => res.json()).then(data => {
             if(data.success){
-                setUnreadNotifications([]);
-                setNotifications((prev) => {
-                    const newNotifications = [...prev];
-                    newNotifications.forEach((notification) => {
-                        notification.read = true;
-                    })
-                    return newNotifications;
+                const newNotifications = [...modes[mode].notifications];
+                newNotifications.forEach((notification) => {
+                    notification.read = true;
                 })
+                updateProperty(mode, 'notifications', newNotifications);
             }
         })
     }
@@ -112,7 +139,7 @@ export default function NotificationCenter(){
             if(data.success){
                 const newNotification =data.notification;
                 if(newNotification){
-                    setCurrentNumberOfNotifications(prev => prev -= 1 );
+
                     addNotificationsFromServer([newNotification]);
                 }else{
                     const notificationsNumberAfterDelete = currentNumberOfNotifications - 1;
@@ -123,20 +150,20 @@ export default function NotificationCenter(){
                     setCurrentNumberOfNotifications(prev => prev -= 1 );
                 }
                 handleUpdateNotificationStates(index, true);
- 
+                setAction('delete');
             }
         })
     }
     const handleFetchMoreNotifications = (limit:number, curPageNo: number) => {
         setLoadMoreStatus('loading');
-        fetch(`/api/notification/get-notifications?username=${user?.username}&limit=${limit}&page=${curPageNo}`, {
+        fetch(`/api/notification/get-notifications?username=${user?.username}&limit=${limit}&page=${curPageNo}&unread${filterUnRead}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         }).then(res => res.json()).then(data => {
             setLoadMoreStatus('idle');
-            addNotificationsFromServer(data);
+            handleAddNotificationsFromServer(data);
         })
     }
     const loadMore = () => {
@@ -152,9 +179,7 @@ export default function NotificationCenter(){
             },
         }).then(res => res.json()).then(data => {
             if(data.result && data.result.length > 0){
-                setCurrentNumberOfNotifications(data.result.length);
-                setNotificationsFromServer(data.result);
-                setCurrentTotalNumberOfNotifications(data.total);
+                setUnreadNotificationsCount(data.unreads)
             }   
         })
         const ws = new WebSocket(`${SERVER_HOST}:${PORT}`);
@@ -169,9 +194,8 @@ export default function NotificationCenter(){
         ws.onmessage = (message) => {
           const payload = JSON.parse(message.data);
             if(payload.type === 'notification-added'){
-                setCurrentNumberOfNotifications(prev => prev += 1 );
-                setNotifications((prev) => [...prev, payload.data]);
-                setUnreadNotifications((prev) => [...prev, payload.data]);          
+                handleAddNotifications(payload.data);
+                setAction('add');
             } 
         socket.current = ws ;
   /*           const change =  JSON.parse(message.data);
@@ -182,22 +206,19 @@ export default function NotificationCenter(){
             ws.close();
         }
     },[])
-    useEffect(() => {
-        setUnreadNotificationsCount(unreadNotifications.length);
-    },[unreadNotifications])
+   
     useEffect(()=>{
-        const expectedCount = pageNo * limit;
-        console.log(currentNumberOfNotifications, currentTotalNumberOfNotifications)
-        if(currentNumberOfNotifications > expectedCount && pageNo > 0){
-             //add case
-            const newPageNo = Math.floor(currentNumberOfNotifications / limit);
-            setPageNo(newPageNo);
-            const remainItemsOnPage=  limit - (currentNumberOfNotifications % limit);
-            setLimit(remainItemsOnPage);
+        if(filterUnRead) setMode('unread');
+        else setMode('all');
+    },
+    [filterUnRead])
+    useEffect(()=>{//to update the total number of notifications when ever a new notification is added or the user deletes a notification
+        if(action === 'delete'){
+            updateProperty(mode, 'currentTotalNumberOfNotifications', modes[mode].currentTotalNumberOfNotifications - 1);
+        }else if(action === 'add'){
+            updateProperty(mode, 'currentTotalNumberOfNotifications', modes[mode].currentTotalNumberOfNotifications + 1);
         }
-      
-
-    },[currentTotalNumberOfNotifications])
+    },[action])
     return(
         <div
             className={style['notification-center'] + " mt-4 mr-4  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
@@ -211,11 +232,12 @@ export default function NotificationCenter(){
                 notificationBadgeClassName={style['notification-badge']}
                 reveal = {reveal}
                 setReveal = {setReveal}
-                unreadNotifications={unreadNotifications}
-                notifications={notifications}
+                notifications={modes[mode].notifications}
                 loadMore={loadMore}
-                canLoadMore={currentTotalNumberOfNotifications > currentNumberOfNotifications}
+                canLoadMore={modes[mode].currentTotalNumberOfNotifications > modes[mode].notifications.length}
                 loadMoreStatus={loadMoreStatus}
+                filterUnRead={filterUnRead}
+                setFilterUnRead={setFilterUnRead}
             />
         </div>
     )
