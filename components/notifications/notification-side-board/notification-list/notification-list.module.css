@@ -1,5 +1,5 @@
 .notification-list{
-    @apply flex flex-col;
+    @apply flex flex-col max-h-[50vh] overflow-y-auto;
 }
 .notification-list-item{
     @apply flex flex-row items-center justify-center p-2 mb-2 last:mb-0 cursor-pointer rounded;

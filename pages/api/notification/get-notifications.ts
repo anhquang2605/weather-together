@@ -6,10 +6,12 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
         if(db){
             const notificationsCollection = db.collection('notifications');
             const username = req.query.username;
+            const limit = parseInt(req.query.limit as string);//can be the current number of notifications for the case when new notification is added
+            const pageNo = parseInt(req.query.page as string);//can be the current page number or be one when new notification is added 
             const agg = {
                 username: username,
             }
-            const results = await notificationsCollection.find(agg).toArray(); 
+            const results = await notificationsCollection.find(agg).sort({createdDate: -1}).skip(pageNo * limit).limit(limit).toArray(); 
             res.status(200).json(results);
         }else{
             res.status(500).json({ error: 'DB connection error' });
