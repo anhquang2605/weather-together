@@ -18,7 +18,7 @@
     z-index: 10;
 }
 .new{
-    svg{
+    .notification-badge svg{
         @apply animate-wiggle
     }
     .dot{

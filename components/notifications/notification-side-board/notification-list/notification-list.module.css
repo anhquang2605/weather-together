@@ -1,10 +1,13 @@
 .notification-list{
-    @apply flex flex-col max-h-[50vh] overflow-y-auto;
+    @apply flex flex-col max-h-[50vh] overflow-y-auto relative;
 }
 .notification-list-item{
-    @apply flex flex-row items-center justify-center p-2 mb-2 last:mb-0 cursor-pointer rounded;
+    @apply flex flex-row items-center justify-center p-2 mb-2 last:mb-0 cursor-pointer rounded relative;
     &:hover{
         background-color: rgba(0, 0, 0, 0.1);
+        .hover-control-btn-group{
+            @apply flex;
+        }
     }
 }
 .user-profile-picture{
@@ -21,4 +24,17 @@
 .right-group{
     display: flex;
     flex-direction: column;
+}
+.hover-control-btn-group{
+    @apply flex-col absolute top-0 right-1 h-full justify-between hidden z-20;
+    button{
+        @apply my-auto flex flex-row text-lg bg-white cursor-pointer hover:font-bold border p-1 rounded-full;
+    }
+}
+.read-indicator{
+    @apply absolute top-1 left-1 w-2 h-2 rounded-full;
+    background-color: var(--btn-color);
+}
+.read{
+    @apply text-slate-500
 }

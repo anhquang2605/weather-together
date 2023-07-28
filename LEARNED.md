@@ -50,3 +50,4 @@ const pipeline = [{
 17. slice (0,-1) will return array from the begining but exclude the last element
 18. use BSON.ObjectId() in trigger function since BSON is global module and ObjectId is not available initially
 19. need to add async declaration to the trigger function as well
+20. When viewing a list with load more or lazing loading, dont ever filter it into a different list 

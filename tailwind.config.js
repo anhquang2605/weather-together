@@ -1,3 +1,5 @@
+const { SlowBuffer } = require("buffer")
+
 module.exports = {
     content: [    './app/**/*.{js,ts,jsx,tsx,mdx}', // Note the addition of the `app` directory.
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -17,6 +19,7 @@ module.exports = {
         },
         animation: {
           wiggle: 'wiggle 0.5s ease-in-out infinite',
+          'spin-slow': 'spin 3s linear infinite',
         }
       },
     },

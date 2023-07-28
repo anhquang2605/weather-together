@@ -48,7 +48,7 @@ export default function NotificationSideBoard({ notifications,unreadNotification
                     <button className="hover:text-indigo-300 self-start">View all</button>
                     <ControlGroup filterRead={filterRead} setFilterRead={setFilterRead} setAllRead={setAllRead}/>
                     <NotificationList notifications={filterRead ? unreadNotifications : notifications}/>
-                    {canLoadMore && <button disabled={loadMoreStatus === 'loading'} className="action-btn mt-4 flex flex-row mr-auto ml-auto" onClick={()=>{loadMore()}}> {loadMoreStatus=== 'loading' && <IoSunnyOutline className="icon animate-spin"/>} Load more</button>}
+                    {canLoadMore && <button disabled={loadMoreStatus === 'loading'} className={"action-btn mt-4 flex flex-row mr-auto ml-auto " + (loadMoreStatus === 'loading'&& " disabled:opacity-50 pointer-event-none hover:none")  }onClick={()=>{loadMore()}}> {loadMoreStatus=== 'loading' && <IoSunnyOutline className="icon animate-spin-slow mr-1"/>} {loadMoreStatus=== 'loading' ? "Loading" : "Load more"}</button>}
                 </>
                 :
                 <div className="text-center w-full">Nothing to see here</div>

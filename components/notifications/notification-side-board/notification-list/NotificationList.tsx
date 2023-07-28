@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { formatDistance } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-
+import {IoCheckmark, IoClose, IoEllipsisVertical} from 'react-icons/io5'
 interface NotificationListProps {
     notifications: Notification[];
 }
@@ -32,7 +32,7 @@ export default function NotificationList({ notifications }: NotificationListProp
     }
     const handleNotificationsListJSX = () => notifications.map((notification) => {
         return(
-            <div key={notification._id}className={style['notification-list-item']} onClick={()=>{
+            <div key={notification._id}className={style['notification-list-item'] + (notification.read ? (" " + style.read) : "")} onClick={()=>{
                 navigateToLocation(notification.reference_id, notification.type)
             }}>
                 <div className={style["user-profile-picture"]}>
@@ -46,7 +46,12 @@ export default function NotificationList({ notifications }: NotificationListProp
                         {formatDistance(new Date(notification.createdDate), new Date(), { addSuffix: true })}
                     </span>
                 </div>
-              
+                <div className={style["hover-control-btn-group"]}>
+                        <button className="text-green-600 hover:bg-green-600 hover:text-white" title="Mark as Read"><IoCheckmark/></button>
+                        <button className="text-red-600 hover:bg-red-600 hover:text-white" title="Remove"><IoClose/></button>
+                    
+                </div>
+                {!notification.read && <div className={style['read-indicator']}></div>}
             </div>
         )
     })
