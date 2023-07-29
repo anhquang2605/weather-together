@@ -11,8 +11,8 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             const notificationsCollection = db.collection('notifications');
             const username = req.query.username as string;
             const limit = parseInt(req.query.limit as string);//can be the current number of notifications for the case when new notification is added
-            const pageNo = parseInt(req.query.page as string);//can be the current page number or be one when new notification is added 
-            const unread = new Boolean(req.query.unread);
+            const pageNo = parseInt(req.query.pageNo as string);//can be the current page number or be one when new notification is added 
+            const unread = req.query.unread === 'true';
             let agg:FindArgs = {
                 username: username
             }

@@ -7,9 +7,11 @@ import { useRouter } from 'next/router';
 import {IoCheckmark, IoClose, IoEllipsisVertical} from 'react-icons/io5'
 interface NotificationListProps {
     notifications: Notification[];
+    handleSetRead:  (notification_id: string, index: number) => void;
+    handleDeleteOneNotification: (notification_id: string, index: number) => void;
 }
 const profilePictureDimension = 72;
-export default function NotificationList({ notifications }: NotificationListProps) {
+export default function NotificationList({ notifications, handleDeleteOneNotification, handleSetRead }: NotificationListProps) {
     const [mapOfProfilePicturePaths, setMapOfProfilePicturePaths] = useState(null);
     const route = useRouter();
     const navigateToLocation = (reference_id: string = "", type: string) => {
@@ -30,9 +32,10 @@ export default function NotificationList({ notifications }: NotificationListProp
                 break;
         }
     }
-    const handleNotificationsListJSX = () => notifications.map((notification) => {
+    const handleNotificationsListJSX = () => notifications.map((notification,index) => {
         return(
-            <div key={notification._id}className={style['notification-list-item'] + (notification.read ? (" " + style.read) : "")} onClick={()=>{
+            <div key={notification._id}className={style['notification-list-item'] + (notification.read ? (" " + style.read) : "")} onClick={(e)=>{
+                e.stopPropagation();
                 navigateToLocation(notification.reference_id, notification.type)
             }}>
                 <div className={style["user-profile-picture"]}>
@@ -47,8 +50,26 @@ export default function NotificationList({ notifications }: NotificationListProp
                     </span>
                 </div>
                 <div className={style["hover-control-btn-group"]}>
-                        <button className="text-green-600 hover:bg-green-600 hover:text-white" title="Mark as Read"><IoCheckmark/></button>
-                        <button className="text-red-600 hover:bg-red-600 hover:text-white" title="Remove"><IoClose/></button>
+                        {!notification.read && 
+                        <button 
+                            className="text-green-600 hover:bg-green-600 hover:text-white" title="Mark as Read"
+                            onClick={(e)=>{
+                                e.stopPropagation();
+                                handleSetRead(notification?._id as string, index)
+                            }}
+                        >
+                                <IoCheckmark/>
+                        </button>}
+                        <button 
+                            className="text-red-600 hover:bg-red-600 hover:text-white" 
+                            title="Remove"
+                            onClick={(e)=>{
+                                e.stopPropagation();
+                                handleDeleteOneNotification(notification?._id as string, index)
+                            }}
+                        >
+                            <IoClose/>
+                        </button>
                     
                 </div>
                 {!notification.read && <div className={style['read-indicator']}></div>}
