@@ -5,8 +5,7 @@ import { ObjectId } from "mongodb";
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === "PUT"){
         const db = await connectDB();
-        const { id, index} = req.body as { id: string, index: string };
-        console.log(id, index);
+        const { id} = req.body as { id: string};
         if (db) {          
             await db.collection("notifications").updateOne(
                 { _id: new ObjectId(id) },

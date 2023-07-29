@@ -10,16 +10,8 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             await db.collection("notifications").deleteOne(
                 { _id: new ObjectId(id) },
             );
+            res.status(200).json({ message: "Notification deleted"});
             
-            let skip = parseInt(curPageNo)*parseInt(limit) - 1;
-            if(skip < 0){
-                res.status(200).json({newNotification: false});
-            }else {
-                const notification = await db.collection("notifications").find({username: username}).sort({ createdDate: -1 }).skip(skip).limit(1)
-                .toArray();
-    
-                res.status(200).json({ notification: notification, newNotification: notification.length > 0 });
-            }
             //get the one new notification
           
         } else {

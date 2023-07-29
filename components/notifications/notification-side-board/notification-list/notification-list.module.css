@@ -1,8 +1,8 @@
 .notification-list{
-    @apply flex flex-col max-h-[50vh] overflow-y-auto relative;
+    @apply flex flex-col max-h-[50vh] overflow-y-auto relative w-full;
 }
 .notification-list-item{
-    @apply flex flex-row items-center justify-center p-2 mb-2 last:mb-0 cursor-pointer rounded relative;
+    @apply flex flex-row items-center justify-start p-2 mb-2 last:mb-0 cursor-pointer rounded relative;
     &:hover{
         background-color: rgba(0, 0, 0, 0.1);
         .hover-control-btn-group{
@@ -12,7 +12,8 @@
 }
 .user-profile-picture{
     outline: 2px solid var(--btn-color);
-    @apply rounded-full overflow-hidden mr-2;
+    @apply rounded-full overflow-hidden mr-2 object-cover w-[72xp] h-[72px];
+    flex-shrink: 0;
 }
 .notification-list-item__title{
     @apply grow;
@@ -48,5 +49,5 @@
     .read-indicator{
         @apply bg-gray-300;
     }
-    
+
 }

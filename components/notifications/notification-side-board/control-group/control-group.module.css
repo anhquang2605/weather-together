@@ -1,4 +1,4 @@
 .control-group{
     width: 100%;
-    @apply mb-4;
+    @apply mb-4 flex flex-row;
 }

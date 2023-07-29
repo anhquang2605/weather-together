@@ -17,12 +17,12 @@ interface NotificationSideBoardProps {
     allTotals: number;
     handleSetRead:  (notification_id: string, index: number) => void;
     handleDeleteOneNotification: (notification_id: string, index: number) => void;
+    setAllRead: () => void;
+    unreadsTotal: number;
 }
-export default function NotificationSideBoard({ notifications, reveal, setReveal, notificationBadgeClassName,loadMore, canLoadMore, loadMoreStatus, filterUnRead, setFilterUnRead, allTotals, handleSetRead, handleDeleteOneNotification}: NotificationSideBoardProps) {
+export default function NotificationSideBoard({ notifications, reveal, setReveal, notificationBadgeClassName,loadMore, canLoadMore, loadMoreStatus, filterUnRead, setFilterUnRead, allTotals, handleSetRead, handleDeleteOneNotification, setAllRead, unreadsTotal}: NotificationSideBoardProps) {
     const listBoardRef = useRef<HTMLDivElement | null>(null);
-    const setAllRead = () => {
 
-    }
     const handleClickOutside = (e:MouseEvent) => {
         e.stopPropagation();
         const notificationBadge = document.querySelector(`.${notificationBadgeClassName}`) as HTMLElement;
@@ -50,7 +50,7 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
                 allTotals > 0 &&
                 <>
                     <button className="hover:text-indigo-300 self-start">View all</button>
-                    <ControlGroup filterUnRead={filterUnRead} setFilterUnRead={setFilterUnRead} setAllRead={setAllRead}/>
+                    <ControlGroup filterUnRead={filterUnRead} setFilterUnRead={setFilterUnRead} setAllRead={setAllRead} unreads={unreadsTotal}/>
                 </>
 
             }
@@ -64,8 +64,7 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
                     {canLoadMore && <button disabled={loadMoreStatus === 'loading'} className={"action-btn mt-4 flex flex-row mr-auto ml-auto " + (loadMoreStatus === 'loading'&& " disabled:opacity-50 pointer-event-none hover:none")  }onClick={()=>{loadMore()}}> {loadMoreStatus=== 'loading' && <IoSunnyOutline className="icon animate-spin-slow mr-1"/>} {loadMoreStatus=== 'loading' ? "Loading" : "Load more"}</button>}
                 </>
                 :
-                <div className="text-center w-full my-4
-                ">Nothing to see here</div>
+                <div className="text-center w-full my-4">Nothing to see here</div>
             }
 
         </div>
