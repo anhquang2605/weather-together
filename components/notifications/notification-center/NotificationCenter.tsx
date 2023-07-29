@@ -32,7 +32,7 @@ interface NotificationsReponse extends NextApiResponse{
 
 }
 const modesList = ['all', 'unread'];
-const ORIGINAL_LIMIT= 2;
+const ORIGINAL_LIMIT= 10;
 function GenerateInitialNotificationModes() {
     return modesList.reduce((acc:NotificationModes,item) => {
         acc[item] = {

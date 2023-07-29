@@ -64,7 +64,7 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
                     {canLoadMore && <button disabled={loadMoreStatus === 'loading'} className={"action-btn mt-4 flex flex-row mr-auto ml-auto " + (loadMoreStatus === 'loading'&& " disabled:opacity-50 pointer-event-none hover:none")  }onClick={()=>{loadMore()}}> {loadMoreStatus=== 'loading' && <IoSunnyOutline className="icon animate-spin-slow mr-1"/>} {loadMoreStatus=== 'loading' ? "Loading" : "Load more"}</button>}
                 </>
                 :
-                <div className="text-center w-full">Nothing to see here</div>
+                <div className="text-center w-full my-4">Nothing to see here</div>
             }
 
         </div>
