@@ -10,6 +10,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             await db.collection("notifications").deleteOne(
                 { _id: new ObjectId(id) },
             );
+            
             let skip = parseInt(curPageNo)*parseInt(limit) - 1;
             if(skip < 0){
                 res.status(200).json({newNotification: false});

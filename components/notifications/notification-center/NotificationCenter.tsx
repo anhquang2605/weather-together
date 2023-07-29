@@ -8,6 +8,7 @@ import { getNotificationsUnread } from '../../../libs/notifications';
 import { set } from 'mongoose';
 import { add } from 'date-fns';
 import { NextApiResponse } from 'next';
+import { NotificationContext } from '../NotificationContext';
 export function getServerSideProps() {
     
     return {
@@ -45,12 +46,12 @@ function GenerateInitialNotificationModes() {
     },{})
 }
 export default function NotificationCenter(){
+    const [loadingNotification, setLoadingNotification] = useState(new Set<number>());
     const [reveal, setReveal] = useState(false);
     const [unreadModeSet, setUnreadModeSet] = useState(false);
     const [filterUnRead, setFilterUnRead] = useState<boolean>(false);//[10, 20, 50, 100
     const [mode, setMode] = useState('all');
     const [modes, setModes] = useState<NotificationModes>(GenerateInitialNotificationModes())
-    const [action, setAction] = useState<string>('');
     const [unreadNotificationsCount, setUnreadNotificationsCount] = useState<number>(0);
     const [loadMoreStatus, setLoadMoreStatus] = useState<'loading' | 'idle' | 'error'>('idle');//[10, 20, 50, 100
     const {data:session} = useSession();
@@ -58,16 +59,22 @@ export default function NotificationCenter(){
     const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
     const socket = useRef<WebSocket | null>(null);
-
-    const updateProperty = ( propertyName:string, newValue: any) => {
+    const handleItemLoadingSpin = (index:number) => {
+        const notificationItem = document.getElementById('notification-item-container')?.children[index];
+        if(notificationItem){
+            
+        }
+    }
+    const updateProperty = (propertyName:string, newValue: any, modeName?:string) => {
         setModes(prevState => ({
           ...prevState,
-          [mode]: { ...prevState[mode], [propertyName]: newValue },
+          [modeName ?? mode]: { ...prevState[modeName ?? mode], [propertyName]: newValue },
         }));
       };
     const handlePrependNotification = (notification: Notification) => {//to set state when a new notification is added in the db
         const newNotifications = [notification, ...modes[mode].notifications];
         updateProperty('notifications', newNotifications);
+        setUnreadNotificationsCount(prevState => prevState + 1);
     };
     const handleAddNotifications = (notifications: Notification[]) => {//to set state when fetching notifications from the server, used when user fetch more notifications or delete a notification
         setModes(prevState => ({
@@ -89,7 +96,28 @@ export default function NotificationCenter(){
     const handleUpdateNotificationStates = (index: number, del: boolean) => {
         const newNotifications = [...modes[mode].notifications];
         if(del){
-            newNotifications.splice(index, 1);
+            //gotta remove both side
+            const removed = newNotifications.splice(index, 1);
+            if(mode === 'unread'){
+                const allNotifications = [...modes['all'].notifications];
+                const newlist = allNotifications.filter((notification) => notification._id !== removed[0]._id);
+                updateProperty('notifications', newlist, 'all');
+            } else {
+                const unreadNotifications = [...modes['unread'].notifications];
+                const newlist = unreadNotifications.filter((notification) => notification._id !== removed[0]._id);
+                updateProperty('notifications', newlist, 'unread');
+            }
+
+            setLoadingNotification(
+                (prevState) => {
+                    const newSet = new Set(prevState);
+                    newSet.delete(0);
+                    return newSet;
+                }
+            )
+            if(!removed[0].read){
+                setUnreadNotificationsCount(prevState => prevState - 1);
+            }
         } else {//set read to a notification           
             newNotifications[index].read = true;
         }
@@ -130,6 +158,7 @@ export default function NotificationCenter(){
         })
     }
     const handleDeleteOneNotification = (notification_id: string, index: number) => {
+        setLoadingNotification(prevState => new Set([...prevState, index]));
         const params = new URLSearchParams({
             id: notification_id?.toString(),
             curPageNo: modes[mode].pageNo.toString(),
@@ -142,15 +171,13 @@ export default function NotificationCenter(){
                 'Content-Type': 'application/json',
             },
         }).then(res => res.json()).then(data => {
-            console.log(data);
-            if(data.success){
+            if(data.newNotification){
                 const newNotification =data.notification;
-                if(newNotification){
-                    console.log(newNotification);
-                    handleAddNotifications(newNotification)
-                }
-                handleUpdateNotificationStates(index, true);
+                
+                handleAddNotifications(newNotification)
+                
             }
+            handleUpdateNotificationStates(index, true);
         })
     }
     const handleFetchMoreNotifications = (limit:number, curPageNo: number) => {
@@ -237,28 +264,30 @@ export default function NotificationCenter(){
     }, [modes[mode].notifications.length])
 
     return(
-        <div
-            className={style['notification-center'] + " mt-4 mr-4  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
-        
-        >
-            <button onClick={()=>{setReveal(!reveal)}} className={style['notification-badge'] + " animate:wiggle" }>
-                <IoNotifications className={/* style['new'] +  */" icon"}></IoNotifications>
-                <span className={style["dot"]}></span>
-            </button>
-            <NotificationSideBoard
-                notificationBadgeClassName={style['notification-badge']}
-                reveal = {reveal}
-                setReveal = {setReveal}
-                notifications={modes[mode].notifications}
-                loadMore={loadMore}
-                canLoadMore={modes[mode].currentTotalNumberOfNotifications > modes[mode].notifications.length}
-                loadMoreStatus={loadMoreStatus}
-                filterUnRead={filterUnRead}
-                setFilterUnRead={setFilterUnRead}
-                allTotals={modes['all'].notifications.length}
-                handleSetRead={handleSetRead}
-                handleDeleteOneNotification={handleDeleteOneNotification}
-            />
-        </div>
+        <NotificationContext.Provider value={{loadingNotification: loadingNotification}}>
+            <div
+                className={style['notification-center'] + " mt-4 mr-4  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
+            
+            >
+                <button onClick={()=>{setReveal(!reveal)}} className={style['notification-badge'] + " animate:wiggle" }>
+                    <IoNotifications className={/* style['new'] +  */" icon"}></IoNotifications>
+                    <span className={style["dot"]}></span>
+                </button>
+                <NotificationSideBoard
+                    notificationBadgeClassName={style['notification-badge']}
+                    reveal = {reveal}
+                    setReveal = {setReveal}
+                    notifications={modes[mode].notifications}
+                    loadMore={loadMore}
+                    canLoadMore={modes[mode].currentTotalNumberOfNotifications > modes[mode].notifications.length}
+                    loadMoreStatus={loadMoreStatus}
+                    filterUnRead={filterUnRead}
+                    setFilterUnRead={setFilterUnRead}
+                    allTotals={modes['all'].notifications.length}
+                    handleSetRead={handleSetRead}
+                    handleDeleteOneNotification={handleDeleteOneNotification}
+                />
+            </div>
+        </NotificationContext.Provider>
     )
 }

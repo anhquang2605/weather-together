@@ -1,6 +1,7 @@
 import style from './notification-list.module.css'
 import { Notification } from './../../../../types/Notifications'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { NotificationContext } from './../../NotificationContext';
 import { formatDistance } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -13,6 +14,7 @@ interface NotificationListProps {
 const profilePictureDimension = 72;
 export default function NotificationList({ notifications, handleDeleteOneNotification, handleSetRead }: NotificationListProps) {
     const [mapOfProfilePicturePaths, setMapOfProfilePicturePaths] = useState(null);
+    const {loadingNotification} = useContext(NotificationContext)
     const route = useRouter();
     const navigateToLocation = (reference_id: string = "", type: string) => {
         switch(type){
@@ -34,10 +36,17 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
     }
     const handleNotificationsListJSX = () => notifications.map((notification,index) => {
         return(
-            <div key={notification._id}className={style['notification-list-item'] + (notification.read ? (" " + style.read) : "")} onClick={(e)=>{
-                e.stopPropagation();
-                navigateToLocation(notification.reference_id, notification.type)
-            }}>
+            <div key={notification._id}
+                className={
+                        style['notification-list-item'] 
+                        + (notification.read ? (" " + style.read) : "")
+                        + (loadingNotification.has(index) ? (" " + style['loading-notification']) : "")  
+                } 
+                onClick={(e)=>{
+                    e.stopPropagation();
+                    navigateToLocation(notification.reference_id, notification.type)
+                }
+            }>
                 <div className={style["user-profile-picture"]}>
                     <Image width={profilePictureDimension} height={profilePictureDimension} src={mapOfProfilePicturePaths?.[notification.username] || "/default"} alt="user profile picture"/>
                 </div>
@@ -93,7 +102,7 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
     }, [notifications])
 
     return(
-        <div className={style['notification-list']}>
+        <div id='notification-list-container' className={style['notification-list']}>
             {notifications.length > 0  && mapOfProfilePicturePaths &&
                 handleNotificationsListJSX()
             }

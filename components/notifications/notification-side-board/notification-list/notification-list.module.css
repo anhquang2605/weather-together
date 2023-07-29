@@ -38,3 +38,14 @@
 .read{
     @apply text-slate-500
 }
+.loading-notification{
+    @apply animate-pulse pointer-events-none  bg-gray-200;
+
+    * {
+        outline:rgba(0, 0, 0, 0.9)!important;
+        color:rgba(0, 0, 0, 0.5)!important;
+    }
+    .read-indicator{
+        @apply bg-gray-300;
+    }
+}
