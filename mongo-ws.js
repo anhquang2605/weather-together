@@ -26,8 +26,16 @@ const client = new MongoClient(uri, {
 const app = express();
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server });
-let userChangeStream;
+
 wss.on('connection', (socket) => {
+  let userChangeStream;
+  let notificationChangeStream;
+  socket.on('close', () => {
+
+      userChangeStream && userChangeStream.close();
+      notificationChangeStream && notificationChangeStream.close();
+    
+  })
   socket.on('message', (message) => {
     const data = JSON.parse(message);
     if (data.type === 'username'){
@@ -78,7 +86,6 @@ wss.on('connection', (socket) => {
                   type: 'user-updated',
                   data: updated
                 }
-                count += 1;
                 client.send(JSON.stringify(message));
               }
             });

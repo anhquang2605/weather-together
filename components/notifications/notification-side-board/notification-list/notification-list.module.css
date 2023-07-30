@@ -12,7 +12,7 @@
 }
 .user-profile-picture{
     outline: 2px solid var(--btn-color);
-    @apply rounded-full overflow-hidden mr-2 object-cover w-[72xp] h-[72px];
+    @apply rounded-full overflow-hidden mr-2 w-[64px] h-[64px];
     flex-shrink: 0;
 }
 .notification-list-item__title{
@@ -25,6 +25,7 @@
 .right-group{
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 .hover-control-btn-group{
     @apply flex-col absolute top-0 right-1 h-full justify-between hidden z-20;

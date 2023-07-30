@@ -33,7 +33,7 @@ interface NotificationsReponse extends NextApiResponse{
 
 }
 const modesList = ['all', 'unread'];
-const ORIGINAL_LIMIT= 3;
+const ORIGINAL_LIMIT= 2;
 function GenerateInitialNotificationModes() {
     return modesList.reduce((acc:NotificationModes,item) => {
         acc[item] = {
@@ -107,25 +107,6 @@ export default function NotificationCenter(){
     const handleUpdateNotificationStates = (index: number, del: boolean) => {
         const newNotifications = [...modes[mode].notifications];
         if(del){
-            //gotta remove both side
-            const removed = newNotifications.splice(index, 1);
-            if(!removed[0].read){
-                if(unreadNotificationsCount > 0){
-                    setUnreadNotificationsCount(prevState => prevState - 1);
-                    updateProperty('currentTotalNumberOfNotifications', modes['unread'].currentTotalNumberOfNotifications - 1, 'unread');
-                }
-            }
-            if(mode === 'unread'){
-                const allNotifications = [...modes['all'].notifications];
-                const newlist = allNotifications.filter((notification) => notification._id !== removed[0]._id);
-                updateProperty('notifications', newlist, 'all');
-                addToProperty('currentTotalNumberOfNotifications', -1, 'all');
-            } else {
-                const unreadNotifications = [...modes['unread'].notifications];
-                const newlist = unreadNotifications.filter((notification) => notification._id !== removed[0]._id);
-                updateProperty('notifications', newlist, 'unread');
-            }
-
             setLoadingNotification(
                 (prevState) => {
                     const newSet = new Set(prevState);
@@ -133,6 +114,27 @@ export default function NotificationCenter(){
                     return newSet;
                 }
             )
+            //gotta remove both side
+            const removed = newNotifications.splice(index, 1);
+            //update self total number of notifications
+            addToProperty('currentTotalNumberOfNotifications', -1);
+            if(removed[0].read === false){
+                setUnreadNotificationsCount(prevState => prevState - 1);
+                if(mode === 'all'){
+                    const unreadNotifications = [...modes['unread'].notifications];
+                    const newUnreadNotifications = unreadNotifications.filter((notification) => notification._id !== removed[0]._id);
+                    updateProperty('notifications', newUnreadNotifications, 'unread');
+                    addToProperty('currentTotalNumberOfNotifications', -1, 'unread');
+                }
+            }
+            if(mode === 'unread'){
+                const allNotifications = [...modes['all'].notifications];
+                const newAllNotifications = allNotifications.filter((notification) => notification._id !== removed[0]._id);
+                updateProperty('notifications', newAllNotifications, 'all');
+                addToProperty('currentTotalNumberOfNotifications', -1, 'all');
+            }
+
+           
 
         } else {//set read to a notification           
             let notification_id = newNotifications[index]._id;
@@ -212,9 +214,10 @@ export default function NotificationCenter(){
             }
         })
     }
-    const handleFetchMoreNotifications = (limit:number, curPageNo: number) => {
+    const handleFetchMoreNotifications = (limit:number) => {
         setLoadMoreStatus('loading');
-        fetch(`/api/notification/get-notifications?username=${user?.username}&limit=${limit}&pageNo=${curPageNo}&unread${filterUnRead}`, {
+        const lastCursor = modes[mode].notifications[modes[mode].notifications.length - 1].createdDate;
+        fetch(`/api/notification/get-notifications?username=${user?.username}&limit=${limit}&cursor=${lastCursor}&unread${filterUnRead}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -222,12 +225,11 @@ export default function NotificationCenter(){
         }).then(res => res.json()).then(data => {
             setLoadMoreStatus('idle');
             handleAddNotificationsFromServer(data);
-            updateProperty('pageNo', curPageNo + 1);
-            updateProperty('limit', ORIGINAL_LIMIT);
+
         })
     }
-    const handleFetchIntialNotifications = (limit:number, curPageNo: number) => {
-        fetch(`/api/notification/get-initial-notifications?username=${user?.username}&limit=${limit}&pageNo=${curPageNo}&unread=${filterUnRead}`, {
+    const handleFetchIntialNotifications = (limit:number) => {
+        fetch(`/api/notification/get-initial-notifications?username=${user?.username}&limit=${limit}?&unread=${filterUnRead}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -235,15 +237,14 @@ export default function NotificationCenter(){
         }).then(res => res.json()).then(data => {
             if(data.result && data.result.length > 0){
                 handleAddNotificationsFromServer(data); 
-                updateProperty('pageNo', curPageNo + 1);
             }
         })
     }
     const loadMore = () => {
-        handleFetchMoreNotifications(modes[mode].limit, modes[mode].pageNo);
+        handleFetchMoreNotifications(modes[mode].limit);
     }
     useEffect(() => {
-        handleFetchIntialNotifications(modes[mode].limit, modes[mode].pageNo);
+        handleFetchIntialNotifications(modes[mode].limit);
         const ws = new WebSocket(`${SERVER_HOST}:${PORT}`);
         ws.onopen = () => {
           ws.send(JSON.stringify({
@@ -274,26 +275,10 @@ export default function NotificationCenter(){
     useEffect(()=>{
         if(mode === 'unread' && !unreadModeSet){
             setUnreadModeSet(true);
-            handleFetchIntialNotifications(modes[mode].limit,modes[mode].pageNo);
+            handleFetchIntialNotifications(modes[mode].limit);
         }
     },[mode])
     //need to update total number of notifications when user delete a notification or new notification is added
-    useEffect(()=>{//handling pages and number to fetch when user fetch more notifications or delete a notification from the state
-        let newPageNo;
-        let curMode = modes[mode];
-        let expectedFetchNumber = curMode.pageNo * curMode.limit;
-        const notifications = curMode.notifications;
-        const notificationsLength = notifications.length;
-        if(notificationsLength < expectedFetchNumber){
-            newPageNo = Math.floor(notifications.length / curMode.limit);
-            updateProperty('pageNo', newPageNo);
-        }else if(notificationsLength > expectedFetchNumber){
-            updateProperty('limit', notifications.length);
-            updateProperty('pageNo', 0);
-        }
-
-
-    }, [modes[mode].notifications.length])
 
     return(
         <NotificationContext.Provider value={{loadingNotification: loadingNotification}}>
