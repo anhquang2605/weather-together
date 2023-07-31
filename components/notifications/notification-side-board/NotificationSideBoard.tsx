@@ -43,9 +43,9 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
     return(
         <div 
         ref={listBoardRef}
-            className= {style['notification-side-board'] + " p-4 " + (reveal? "" : style["hide-drop"]) }
+            className= {style['notification-side-board'] + " " + (reveal? "" : style["hide-drop"]) }
         >
-            <h3 className="flex-grow font-bold text-lg mb-4">Notifications</h3>
+            <h3 className="flex-grow font-bold text-xl mb-8">Notifications</h3>
             {
                 allTotals > 0 &&
                 <>
@@ -60,8 +60,9 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
                         notifications={notifications}
                         handleSetRead={handleSetRead}
                         handleDeleteOneNotification={handleDeleteOneNotification}
+                        setReveal={setReveal}
                     />
-                    {canLoadMore && <button disabled={loadMoreStatus === 'loading'} className={"action-btn mt-4 flex flex-row mr-auto ml-auto " + (loadMoreStatus === 'loading'&& " disabled:opacity-50 pointer-event-none hover:none")  }onClick={()=>{loadMore()}}> {loadMoreStatus=== 'loading' && <IoSunnyOutline className="icon animate-spin-slow mr-1"/>} {loadMoreStatus=== 'loading' ? "Loading" : "Load more"}</button>}
+                    {canLoadMore && <button disabled={loadMoreStatus === 'loading'} className={"action-btn mt-8 flex flex-row mr-auto ml-auto w-full justify-center " + (loadMoreStatus === 'loading'&& " disabled:opacity-50 pointer-event-none hover:none")  }onClick={()=>{loadMore()}}> {loadMoreStatus=== 'loading' && <IoSunnyOutline className="icon animate-spin-slow mr-1"/>} {loadMoreStatus=== 'loading' ? "Loading" : "Load more"}</button>}
                 </>
                 :
                 <div className="text-center w-full my-4">Nothing to see here</div>

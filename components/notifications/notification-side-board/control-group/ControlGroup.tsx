@@ -22,7 +22,7 @@ export default function ControlGroup({setFilterUnRead, setAllRead, filterUnRead,
             />
             {unreads > 0 && <button 
                 onClick={setAllRead}
-                className="ml-auto action-btn flex flex-row items-center">
+                className="ml-auto border rounded bg-indigo-500  py-1 px-2 flex flex-row items-center text-white hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% rounded border border-indigo-500 hover:border-slate-200">
                 <IoCheckmarkDone className="icon mr-1"/>Mark all as read
             </button>}
         </div>

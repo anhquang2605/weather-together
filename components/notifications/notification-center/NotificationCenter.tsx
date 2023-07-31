@@ -33,7 +33,7 @@ interface NotificationsReponse extends NextApiResponse{
 
 }
 const modesList = ['all', 'unread'];
-const ORIGINAL_LIMIT= 2;
+const ORIGINAL_LIMIT= 5;
 function GenerateInitialNotificationModes() {
     return modesList.reduce((acc:NotificationModes,item) => {
         acc[item] = {
@@ -46,15 +46,20 @@ function GenerateInitialNotificationModes() {
         return acc;        
     },{})
 }
+
 export default function NotificationCenter(){
     const [loadingNotification, setLoadingNotification] = useState(new Set<number>());
+    const [fetching, setFetching] = useState<{[key:string]: boolean}>({
+        all: false,
+        unread: false,
+    });
     const [reveal, setReveal] = useState(false);
     const [unreadModeSet, setUnreadModeSet] = useState(false);
-    const [filterUnRead, setFilterUnRead] = useState<boolean>(false);//[10, 20, 50, 100
+    const [filterUnRead, setFilterUnRead] = useState<boolean>(false);
     const [mode, setMode] = useState('all');
     const [modes, setModes] = useState<NotificationModes>(GenerateInitialNotificationModes())
     const [unreadNotificationsCount, setUnreadNotificationsCount] = useState<number>(0);
-    const [loadMoreStatus, setLoadMoreStatus] = useState<'loading' | 'idle' | 'error'>('idle');//[10, 20, 50, 100
+    const [loadMoreStatus, setLoadMoreStatus] = useState<'loading' | 'idle' | 'error'>('idle');
     const {data:session} = useSession();
     const user = session?.user;
     const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
@@ -156,6 +161,7 @@ export default function NotificationCenter(){
         updateProperty('notifications', newNotifications);
     }
     const handleSetRead = (notification_id: string, index: number) => {
+        setLoadingNotification(prevState => new Set([...prevState, index]));
         fetch(`/api/notification/put-notification-read`, {
             method: 'PUT',
             headers: {
@@ -167,6 +173,13 @@ export default function NotificationCenter(){
         }).then(res => {
             if(res.ok){
                 handleUpdateNotificationStates(index, false);
+                setLoadingNotification(prevState => 
+                    {
+                        const set = new Set([...prevState])
+                        set.delete(index);
+                        return set;
+                    }
+                );
             }
         })
     }
@@ -184,6 +197,11 @@ export default function NotificationCenter(){
                 setUnreadNotificationsCount(0);
                 if(mode === 'unread'){
                     updateProperty('notifications', []);
+                    const allNotifications = [...modes['all'].notifications];
+                    allNotifications.forEach((notification) => {
+                        notification.read = true;
+                    })
+                    updateProperty('notifications', allNotifications, 'all');
                 }else{
                     const newNotifications = [...modes[mode].notifications];
                     newNotifications.forEach((notification) => {
@@ -229,6 +247,13 @@ export default function NotificationCenter(){
         })
     }
     const handleFetchIntialNotifications = (limit:number) => {
+        setFetching((prevState) => {
+            return {
+                ...prevState,
+                [mode]: true,
+            }
+
+        });
         fetch(`/api/notification/get-initial-notifications?username=${user?.username}&limit=${limit}?&unread=${filterUnRead}`, {
             method: 'GET',
             headers: {
@@ -237,6 +262,14 @@ export default function NotificationCenter(){
         }).then(res => res.json()).then(data => {
             if(data.result && data.result.length > 0){
                 handleAddNotificationsFromServer(data); 
+                setFetching(
+                    (prevState) => {
+                        return {
+                            ...prevState,
+                            [mode]: false,
+                        }
+                    }
+                )
             }
         })
     }
@@ -281,9 +314,9 @@ export default function NotificationCenter(){
     //need to update total number of notifications when user delete a notification or new notification is added
 
     return(
-        <NotificationContext.Provider value={{loadingNotification: loadingNotification}}>
+        <NotificationContext.Provider value={{loadingNotification: loadingNotification, limit: ORIGINAL_LIMIT, fetching:fetching[mode], unreads: unreadNotificationsCount}}>
             <div
-                className={style['notification-center'] + " mt-4 mr-4  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
+                className={style['notification-center'] + " mt-8 mr-8  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
             
             >
                 <button onClick={()=>{setReveal(!reveal)}} className={style['notification-badge'] + " animate:wiggle" }>

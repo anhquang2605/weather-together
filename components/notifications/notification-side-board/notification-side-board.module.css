@@ -1,8 +1,8 @@
 .notification-side-board{
-    width: 400px;
+    width: 416px;
     background: white;
     border-radius: 4px;
-    @apply -mt-4 shadow-lg opacity-100;
+    @apply -mt-4 p-8 shadow-lg opacity-100;
     color: var(--primary-color);
     transition: margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
     overflow: hidden;
@@ -10,6 +10,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     z-index: 5;
+    max-height: 100vh;
 }
 .hide-drop{
     @apply -mt-10 opacity-0 h-0;

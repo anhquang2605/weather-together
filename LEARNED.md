@@ -3,7 +3,7 @@
 
 1. Use mousedown event instead of click so that the event can trigger before onBlur of another element
 2. Typing of event object can be imported from React
-3. For data gotten from API endpoints, need to alter selectId: method in adapter to generate id for the data
+3. For data gotten from API endpoints, need to alter selectId: method in adapter to generate id for the data (Redux and data normalization)
 4. can do fall back with the ? : evaluation condition 1 ? result 1 : (condition 2? result 2 : result 3)
 5. To up load file using midleware must export a config option from the api route handler that would disable body parser in the api page
 export const config: PageConfig = {
@@ -51,10 +51,12 @@ const pipeline = [{
 18. use BSON.ObjectId() in trigger function since BSON is global module and ObjectId is not available initially
 19. need to add async declaration to the trigger function as well
 20. When viewing a list with load more or lazing loading, dont ever filter it into a different list 
-21. Change stream need to be closed whenever a websocket is closed
+21. Change stream need to be closed whenever a websocket is closed. Other wise, you may experience serveral messages spawn from a server socket even though you closed the web socket
 socket.on('close', () => {
 
       userChangeStream && userChangeStream.close();
       notificationChangeStream && notificationChangeStream.close();
     
   })
+22. in case of updating multiple state at once on a same object, do it in one set state instead of multiple to ensure state consistency
+23. For simple load more function with notification where u sort the items by created date, use the last item in the list created date as a cursor to the next set

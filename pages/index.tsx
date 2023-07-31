@@ -11,12 +11,12 @@ export default function Home() {
                 <title>Home</title>
             </Head>
             <div className="center w-full relative">
-                <Banner/>
+{/*                 <Banner/> */}
                 <ActivityBoard/>
             </div>
-            <div className="right-side relative">
+{/*             <div className="right-side relative">
                 {<WeatherSummarySide />}
-            </div>
+            </div> */}
         </>
     )
 }

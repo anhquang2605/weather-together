@@ -7,7 +7,8 @@ import { UserInSession } from "../../../types/User";
 import {signOut} from "next-auth/react";
 interface NavItem {
     label: string,
-    linkhref: string
+    linkhref: string,
+    pageTitle: string
 }
 interface UserMenuProps{
     withUser: NavItem[],
@@ -25,9 +26,9 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
         "Notifications": <IoNotifications></IoNotifications> 
     }
     const getJSX = (navItems: NavItem[]) => {
-        return navItems.map(({label,linkhref}) => {
+        return navItems.map(({label,linkhref, pageTitle}) => {
             return (
-                <Link className={"nav-item "+ (asPath.includes(label.toLowerCase()) && 'active') } href={"/" + linkhref} key={label}>
+                <Link className={"nav-item "+ (asPath.includes(pageTitle?.toLowerCase()) && 'active') } href={"/" + linkhref} key={label}>
                     <div className="tooltip">
                         <div className="relative">
                             {label}

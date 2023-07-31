@@ -711,6 +711,10 @@ video {
   margin-right: 1rem;
 }
 
+.mr-8 {
+  margin-right: 2rem;
+}
+
 .mr-auto {
   margin-right: auto;
 }
@@ -977,6 +981,11 @@ video {
   border-bottom-width: 1px;
 }
 
+.border-indigo-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(99 102 241 / var(--tw-border-opacity));
+}
+
 .border-red-400 {
   --tw-border-opacity: 1;
   border-color: rgb(248 113 113 / var(--tw-border-opacity));
@@ -995,6 +1004,11 @@ video {
 .border-white {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+
+.bg-indigo-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
 }
 
 .bg-indigo-900 {
@@ -1028,6 +1042,12 @@ video {
   background-image: linear-gradient(to bottom left, var(--tw-gradient-stops));
 }
 
+.from-indigo-700 {
+  --tw-gradient-from: #4338ca var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(67 56 202 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .from-slate-900 {
   --tw-gradient-from: #0f172a var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(15 23 42 / 0) var(--tw-gradient-to-position);
@@ -1044,6 +1064,10 @@ video {
   --tw-gradient-from-position: 10%;
 }
 
+.from-40\% {
+  --tw-gradient-from-position: 40%;
+}
+
 .via-indigo-800 {
   --tw-gradient-to: rgb(55 48 163 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #3730a3 var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -1054,12 +1078,20 @@ video {
   --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
+.to-indigo-500 {
+  --tw-gradient-to: #6366f1 var(--tw-gradient-to-position);
+}
+
 .to-indigo-950 {
   --tw-gradient-to: #1e1b4b var(--tw-gradient-to-position);
 }
 
 .to-slate-900 {
   --tw-gradient-to: #0f172a var(--tw-gradient-to-position);
+}
+
+.to-95\% {
+  --tw-gradient-to-position: 95%;
 }
 
 .stroke-1 {
@@ -1092,9 +1124,23 @@ video {
   padding: 1rem;
 }
 
+.p-8 {
+  padding: 2rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .pb-4 {
@@ -1347,6 +1393,10 @@ video {
   width: calc(50% - 1rem);
 }
 
+.\[key\:string\] {
+  key: string;
+}
+
 .\[label\:string\] {
   label: string;
 }
@@ -1354,9 +1404,9 @@ video {
 /*Variables*/
 
 :root{
-  --nav-primmary-color: #312e81;
+  --nav-primmary-color: #3730a3;
   --nav-secondary-color: white;
-  --primary-color: #312e81;
+  --primary-color: #3730a3;
   --highlighted-color: #6366f1;
   --btn-hover-color: #4f46e5;
   --btn-color: #6366f1;
@@ -1371,7 +1421,7 @@ video {
   --tw-gradient-from-position: 10%;
   --tw-gradient-to: transparent var(--tw-gradient-to-position);
   --tw-gradient-to-position: 95%;
-  padding: 1rem;
+  padding: 2rem;
   --tw-shadow: inset 0 0 15px 1px;
   --tw-shadow-colored: inset 0 0 15px 1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -1753,6 +1803,11 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
   z-index: 999;
 }
 
+.hover\:border-slate-200:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
+}
+
 .hover\:bg-green-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity));
@@ -1766,6 +1821,10 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 .hover\:bg-red-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gradient-to-r:hover {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
 .hover\:text-indigo-300:hover {

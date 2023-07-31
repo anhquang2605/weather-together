@@ -10,12 +10,31 @@ interface NotificationListProps {
     notifications: Notification[];
     handleSetRead:  (notification_id: string, index: number) => void;
     handleDeleteOneNotification: (notification_id: string, index: number) => void;
+    setReveal: (reveal: boolean) => void;
 }
 const profilePictureDimension = 72;
-export default function NotificationList({ notifications, handleDeleteOneNotification, handleSetRead }: NotificationListProps) {
+
+export default function NotificationList({ notifications, handleDeleteOneNotification, handleSetRead, setReveal }: NotificationListProps) {
     const [mapOfProfilePicturePaths, setMapOfProfilePicturePaths] = useState(null);
-    const {loadingNotification} = useContext(NotificationContext)
+    const {loadingNotification, limit, fetching, unreads} = useContext(NotificationContext)
     const route = useRouter();
+    const generateNotificationListLoadingSkeletonJSX = () => {
+        const jsx = [];
+        const len = (unreads > 0 && unreads < limit) ? unreads : limit;
+        for (let index = 0; index < len; index++) {
+            jsx.push(
+                <div key={index} className={style["list-item-skeletal-container"]}>
+                    <div className={style["profile-picture-skeletal"]}></div>
+                    <div className={style["content-skeletal"]}>
+                        <div className={style["content-skeletal-title"]}></div>
+                        <div className={style["content-skeletal-timestamp"]}></div>
+                    </div>
+                </div>
+            )
+        }
+        return jsx;
+    }
+    const listLoadingSkeletalJSX = generateNotificationListLoadingSkeletonJSX();
     const navigateToLocation = (reference_id: string = "", type: string) => {
         switch(type){
             case 'comment':
@@ -44,6 +63,8 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
                 } 
                 onClick={(e)=>{
                     e.stopPropagation();
+                    if(notification.read === false) handleSetRead(notification?._id as string, index)
+                    setReveal(false);
                     navigateToLocation(notification.reference_id, notification.type)
                 }
             }>
@@ -100,12 +121,28 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
             setMapOfProfilePicturePaths(data);
         })
     }, [notifications])
-
-    return(
-        <div id='notification-list-container' className={style['notification-list']}>
-            {notifications.length > 0  && mapOfProfilePicturePaths &&
-                handleNotificationsListJSX()
+    useEffect(()=>{
+        if(notifications.length > 0){
+            var notificationInnerContainer = document.querySelector(`.${style['notification-list']}`);
+            if(notificationInnerContainer){
+                notificationInnerContainer.scrollTo({
+                    top: notificationInnerContainer.scrollHeight,
+                    behavior: "smooth"
+                })
             }
-        </div>
+        }
+    },[notifications.length])
+    useEffect(()=>{
+        console.log(fetching);
+    },[fetching]);
+    return(  
+            fetching ? 
+            listLoadingSkeletalJSX 
+            :
+            <div id='notification-list-container' className={style['notification-list']}>
+                {notifications.length > 0  && mapOfProfilePicturePaths &&
+                    handleNotificationsListJSX()
+                }
+            </div>
     )
 }

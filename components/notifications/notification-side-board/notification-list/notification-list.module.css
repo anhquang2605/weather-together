@@ -2,7 +2,7 @@
     @apply flex flex-col max-h-[50vh] overflow-y-auto relative w-full;
 }
 .notification-list-item{
-    @apply flex flex-row items-center justify-start p-2 mb-2 last:mb-0 cursor-pointer rounded relative;
+    @apply flex flex-row items-center justify-start p-2 mb-2 last:mb-0 cursor-pointer rounded w-full relative;
     &:hover{
         background-color: rgba(0, 0, 0, 0.1);
         .hover-control-btn-group{
@@ -51,4 +51,20 @@
         @apply bg-gray-300;
     }
 
+}
+.list-item-skeletal-container{
+    @apply flex flex-row items-center justify-start p-2 mb-2 last:mb-0 bg-gray-300 rounded w-full animate-pulse;
+}
+.profile-picture-skeletal{
+    @apply rounded-full overflow-hidden mr-2 w-[64px] h-[64px] bg-gray-400;
+    flex-shrink: 0;
+}
+.content-skeletal{
+    @apply flex flex-col w-full;
+}
+.content-skeletal-title{
+    @apply w-full h-4 rounded bg-gray-400;
+}
+.content-skeletal-timestamp{
+    @apply w-1/2 h-4 rounded mt-2 bg-gray-400;
 }

@@ -34,16 +34,16 @@ body {
 }
 /*Variables*/
 :root{
-  --nav-primmary-color: #312e81;
+  --nav-primmary-color: #3730a3;
   --nav-secondary-color: white;
-  --primary-color: #312e81;
+  --primary-color: #3730a3;
   --highlighted-color: #6366f1;
   --btn-hover-color: #4f46e5;
   --btn-color: #6366f1;
 }
 
 .glass{
-  @apply bg-gradient-to-br from-slate-400/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-inner-lg shadow-slate-200/10 p-4;
+  @apply bg-gradient-to-br from-slate-400/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-inner-lg shadow-slate-200/10 p-8;
 }
 .glass-dark{
   @apply bg-gradient-to-br from-slate-900/20 from-10% to-transparent to-95% backdrop-blur-lg;

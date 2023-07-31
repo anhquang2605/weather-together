@@ -11,13 +11,13 @@ export default function Navigation() {
     const [navMenuStatus, setNavMenuStatus] = useState("");
     const {asPath,pathname} = useRouter();
     const withUser = [
-        {label: "Friends", linkhref: "friends"},
-        {label: "My page", linkhref: `userprofile/${user?.username}`},
-        {label: "Notifications", linkhref: "notifications"}
+        {label: "Friends", pageTitle: "friends", linkhref: "friends"},
+        {label: "My page", pageTitle: "userprofile", linkhref: `userprofile/${user?.username}`},
+        {label: "Notifications", pageTitle: "notifications", linkhref: "notifications"}
     ]
     const withoutUser = [
-        {label: "Log in", linkhref: "authentication/login"},
-        {label: "Register", linkhref: "authentication/register"}
+        {label: "Log in", pageTitle:"", linkhref: "authentication/login"},
+        {label: "Register", pageTitle:"", linkhref: "authentication/register"}
     ]
     const toggleNavMenu = () => {
         if(navMenuStatus === ""){
@@ -27,7 +27,7 @@ export default function Navigation() {
         }
     }
     return(
-        <div className={"transition-all shrink-0 p-4 shrink flex flex-col nav-bar relative " + navMenuStatus}>
+        <div className={"transition-all shrink-0 p-8 shrink flex flex-col nav-bar relative " + navMenuStatus}>
             <div className="flex flex-row items-center border-b border-slate-500 pb-4">
                 <IoCloudyNight className="w-6 h-6 mr-2 non-active"></IoCloudyNight>
                 <h3 className="font-semibold mr-4 non-active">Weather Together</h3>
