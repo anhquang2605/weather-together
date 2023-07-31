@@ -316,7 +316,7 @@ export default function NotificationCenter(){
     return(
         <NotificationContext.Provider value={{loadingNotification: loadingNotification, limit: ORIGINAL_LIMIT, fetching:fetching[mode], unreads: unreadNotificationsCount}}>
             <div
-                className={style['notification-center'] + " mt-8 mr-8  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
+                className={style['notification-center'] + " mt-4 mr-8  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
             
             >
                 <button onClick={()=>{setReveal(!reveal)}} className={style['notification-badge'] + " animate:wiggle" }>
