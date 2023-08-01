@@ -7,6 +7,6 @@ export interface Feed {
     activityId: string;//id of activity, comment, react, post...
     targetType: string;//type of target, post, comment...
     targetId: string;//id of target post, comment
-    targetParentId?: string;//id of parent post if targetType is a comment, will be null if targetType is a post
+    targetParentId?: string;//id of parent post if targetType is a comment, will be '', if targetType is a post
 
 }

@@ -33,7 +33,7 @@ interface NotificationsReponse extends NextApiResponse{
 
 }
 const modesList = ['all', 'unread'];
-const ORIGINAL_LIMIT= 5;
+const ORIGINAL_LIMIT= 2;
 function GenerateInitialNotificationModes() {
     return modesList.reduce((acc:NotificationModes,item) => {
         acc[item] = {
@@ -312,7 +312,11 @@ export default function NotificationCenter(){
         }
     },[mode])
     //need to update total number of notifications when user delete a notification or new notification is added
-
+    useEffect(()=>{
+        if(modes[mode].notifications.length === 0 && modes[mode].currentTotalNumberOfNotifications > 0){
+            handleFetchIntialNotifications(modes[mode].limit);
+        }
+    }, [modes[mode].notifications.length, modes[mode].currentTotalNumberOfNotifications])
     return(
         <NotificationContext.Provider value={{loadingNotification: loadingNotification, limit: ORIGINAL_LIMIT, fetching:fetching[mode], unreads: unreadNotificationsCount}}>
             <div

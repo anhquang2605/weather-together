@@ -45,7 +45,7 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
         ref={listBoardRef}
             className= {style['notification-side-board'] + " " + (reveal? "" : style["hide-drop"]) }
         >
-            <h3 className="flex-grow font-bold text-xl mb-8">Notifications</h3>
+            <h3 className="flex-grow font-bold text-xl mb-4">Notifications</h3>
             {
                 allTotals > 0 &&
                 <>
@@ -54,7 +54,7 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
                 </>
 
             }
-            {notifications.length > 0 ?
+            {notifications.length > 0 || canLoadMore ?
                 <>
                     <NotificationList 
                         notifications={notifications}
