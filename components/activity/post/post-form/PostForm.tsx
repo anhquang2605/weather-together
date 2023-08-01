@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import ImageAttachForm from './image-attach-form/ImageAttachForm';
-import CustomSelect from '../../plugins/custom-select/CustomSelect';
+import CustomSelect from '../../../plugins/custom-select/CustomSelect';
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 import style from './post-form.module.css'
 import AttachmentButtonGroup from './attachment-button-group/AttachmentButtonGroup';

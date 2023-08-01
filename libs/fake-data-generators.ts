@@ -16,7 +16,7 @@ export function generateRandomPosts(count:number){
             username: faker.internet.userName(),
             createdDate: faker.date.past(),
             updatedDate: faker.date.past(),
-            pictureAttached: faker.datatype.boolean(),
+            pictureAttached: true,
             taggedUsernames: taggedUsernames,
             visibility: visibility[faker.datatype.number({min: 0, max: 2})],
             weatherVibe: {
