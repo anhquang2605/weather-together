@@ -4,8 +4,9 @@ export function generateRandomPosts(count:number){
     const posts = [];
     const visibility = ['public', 'friends', 'private'];
     const conditions = ['sunny', 'rainy', 'cloudy', 'snowy'];
+    const usernames = ['anhquang2605','chuquang2605'];
     for(let i = 0; i < count; i++){
-        let randomNumber = faker.datatype.number({min: 0, max: 3});
+        let randomNumber = faker.number.int({min: 0, max: 3});
         let taggedUsernames = [];
         for (let j = 0; j < randomNumber; j++){
             taggedUsernames.push(faker.internet.userName());
@@ -13,18 +14,19 @@ export function generateRandomPosts(count:number){
         posts.push({
             _id: faker.string.uuid(),  
             content: faker.lorem.paragraph(),
-            username: faker.internet.userName(),
+            username: usernames[faker.number.int({min: 0, max: 1})],
             createdDate: faker.date.past(),
             updatedDate: faker.date.past(),
             pictureAttached: true,
             taggedUsernames: taggedUsernames,
-            visibility: visibility[faker.datatype.number({min: 0, max: 2})],
+            visibility: visibility[faker.number.int({min: 0, max: 2})],
             weatherVibe: {
                 enabled: faker.datatype.boolean(),
                 caption: faker.lorem.sentence(),
                 weatherData: {
-                    condition: conditions[faker.datatype.number({min: 0, max: 3})],
-                    temperature: faker.datatype.number({min: 0, max: 100})
+                    condition: conditions[faker.number.int({min: 0, max: 3})],
+                    temperature: faker.number.int({min: 0, max: 100}),
+                    location: faker.address.city()
                 }
             }  
         })   

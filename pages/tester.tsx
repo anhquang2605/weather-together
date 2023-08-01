@@ -3,10 +3,16 @@ import Post from './../components/activity/post/Post'
 import PostForm from "../components/activity/post/post-form/PostForm"
 import Modal from "../components/modal/Modal"
 import { generateRandomPosts } from "../libs/fake-data-generators"
+import { MockContext } from "./MockContext"
+import { faker } from "@faker-js/faker"
 /* this page is for testing purposes only */
 export default function Tester() {
     const post = generateRandomPosts(1)[0];
     return (
+        <MockContext.Provider value={{
+            'anhquang2605': faker.image.avatar(),
+            'chuquang2605': faker.image.avatar(),
+        }}>
         <div className="glass w-full">
             <h1>Tester</h1>
             <Post post={post} />
@@ -15,5 +21,6 @@ export default function Tester() {
             </Modal> */}
 
         </div>
+        </MockContext.Provider>
     )
 }
