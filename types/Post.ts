@@ -2,8 +2,8 @@ export interface Post {
     _id?: string;
     content: string;
     username: string;
-    dateCreated: Date;
-    dateUpdated: Date;
+    createdDate: Date;
+    updatedDate: Date;
     pictureAttached: boolean;
     taggedUsernames: string[];
     visibility: string;

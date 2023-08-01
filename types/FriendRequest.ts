@@ -1,8 +1,8 @@
 export interface FriendRequest {
     _id?: string;
     username: string;
-    dateCreated: Date;
+    createdDate: Date;
     targetUsername: string;
-    dateUpdated: Date;
+    updatedDate: Date;
     status: string; //pending, accepted, declined
 }

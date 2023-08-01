@@ -1,6 +1,6 @@
-export interface Friend {
+export interface Friend {//become friend when friend request is accepted, can use trigger
     _id?: string;
     username: string;
-    friend_username: string;
-    dateCreated: Date;
+    friendUsername: string;
+    since: Date;
 }

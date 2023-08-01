@@ -1,8 +1,8 @@
 export interface Reaction {
     _id?: string;
     username: string;
-    dateCreated: Date;
-    dateUpdated: Date;
+    createdDate: Date;
+    updatedDate: Date;
     type: string;
     icon: string;
     targetId: string; // Post or Comment ID
