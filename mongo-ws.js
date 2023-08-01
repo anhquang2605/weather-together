@@ -30,11 +30,12 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', (socket) => {
   let userChangeStream;
   let notificationChangeStream;
+  let feedsChangeStream;
   socket.on('close', () => {
-
+      //Clean up change streams
       userChangeStream && userChangeStream.close();
       notificationChangeStream && notificationChangeStream.close();
-    
+      feedsChangeStream && feedsChangeStream.close();
   })
   socket.on('message', (message) => {
     const data = JSON.parse(message);
@@ -71,7 +72,35 @@ wss.on('connection', (socket) => {
            
           })
 
-        } else {
+        } else if(data.package === 'feeds'){
+          const feedsCollection = await db.collection('feeds');
+          const pipeline = [{
+            $match: {
+              $or:[
+                {'fullDocument.username': username},
+                {'fullDocument.relatedUser': username},
+              ]
+            } 
+          }]
+          feedsChangeStream = feedsCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
+
+          feedsChangeStream.on('change', (change) => {
+            if(change.operationType === 'insert'){
+              wss.clients.forEach((client) => {
+                if (client.readyState === WebSocket.OPEN) {
+                  const fullDocument = change.fullDocument;
+                  const message = {
+                    type: 'feed-added',
+                    data: fullDocument
+                  }
+                  client.send(JSON.stringify(message)); 
+                }
+              });
+            }
+           
+          })
+        
+        } else{
           const userCollection = await db.collection('users');
         
           userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });

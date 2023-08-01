@@ -12,3 +12,17 @@ export interface Feed {
     targetParentId?: string;//id of parent post if targetType is a comment, will be '', if targetType is a post
 
 }
+
+/* Here are few activities that you could include in a user's activity feed:
+
+When a user creates a post.
+
+When a user comments on someone else's post.
+
+When a user likes/reacts to someone else's post.
+
+When a user is tagged in a post.
+
+When a user's post is commented on or reacted to.
+
+When a user adds a new friend. */
