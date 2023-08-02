@@ -18,7 +18,7 @@ export default function Tester() {
             <h1>Tester</h1>
             {
                 posts.map((post, index) => (
-                    <Post post={post} />
+                    <Post key={index} post={post} />
                 ))
             }
             

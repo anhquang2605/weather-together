@@ -2,6 +2,7 @@
     @apply  w-2/5 rounded-lg mx-auto mb-8;
 
 }
+
 .post__content{
     @apply p-8;
 }
