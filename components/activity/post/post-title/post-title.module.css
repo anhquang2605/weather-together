@@ -1,3 +1,18 @@
 .post-title{
-    
+    @apply flex flex-row p-4 rounded-t;
+}
+.title-bottom{
+    @apply flex flex-row w-full items-center;
+}
+.title-top{
+    @apply flex flex-row items-center;
+}
+.post-title__profile-picture{
+    @apply flex-shrink-0 w-16 h-16 mr-4 overflow-hidden rounded-lg;
+}
+.post-title__username{
+    @apply font-bold text-lg mr-2;
+}
+.post-title__visibility{
+    @apply flex flex-row ml-2;
 }

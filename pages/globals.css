@@ -43,7 +43,10 @@ body {
 }
 
 .glass{
-  @apply bg-gradient-to-br from-slate-400/20 from-10% to-transparent to-95% backdrop-blur-lg rounded shadow-inner-lg shadow-slate-200/10 p-8;
+  @apply bg-slate-800/50 backdrop-blur-lg rounded shadow-inner-lg shadow-slate-100/10 p-8 border-[2px] border-slate-100/40;
+}
+.container{
+  @apply m-8;
 }
 .glass-dark{
   @apply bg-gradient-to-br from-slate-900/20 from-10% to-transparent to-95% backdrop-blur-lg;
@@ -169,7 +172,7 @@ body {
 }
 
 .form-container{
-  @apply flex flex-row flex-wrap justify-between bg-indigo-900 p-8 rounded shadow-xl;
+  @apply flex flex-row flex-wrap justify-between bg-indigo-800 p-8 rounded shadow-xl;
 }
 
 textarea, input[type="text"], input[type="email"], input[type="password"]{
@@ -198,7 +201,7 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: .5rem;
+  width: 10px;
 }
 
 *::-webkit-scrollbar-track {
@@ -207,9 +210,9 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 
 *::-webkit-scrollbar-thumb {
   transition: background-color .2s ease-in-out;
-  background: var(--btn-color);
+  background: var(--primary-color);
   border-radius: 20px;
-  border: 1px solid white;
+  border: 1px solid lightgray;
   &:hover{
     background-color: var(--btn-hover-color);
     cursor: pointer;

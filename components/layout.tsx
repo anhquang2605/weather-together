@@ -7,6 +7,7 @@ import { Suspense, useEffect, useState} from 'react'
 import Loading from './loading'
 import NotificationCenter from './notifications/notification-center/NotificationCenter'
 import { useSession } from 'next-auth/react'
+import style from './layout.module.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
@@ -40,9 +41,9 @@ export default function RootLayout({
     
     </Head>
 
-      <div className="flex flex-row relative bg-gradient-to-bl from-violet-800 from-10% via-indigo-800 to-indigo-950 to-9% h-screen text-white relative">
+      <div className={style["layout"]}>
             { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}
-            <div className="remaining-estate flex w-full h-full z-10 relative">
+            <div className="remaining-estate overflow-y-auto flex w-full h-full z-10 relative">
               {children}
             </div>
             { (!asPath.includes("login") && !asPath.includes("register")) && user &&<NotificationCenter/>}

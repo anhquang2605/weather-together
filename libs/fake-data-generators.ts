@@ -1,5 +1,5 @@
 import {faker} from '@faker-js/faker';
-
+faker.seed(123);
 export function generateRandomPosts(count:number){
     const posts = [];
     const visibility = ['public', 'friends', 'private'];
@@ -22,11 +22,11 @@ export function generateRandomPosts(count:number){
             visibility: visibility[faker.number.int({min: 0, max: 2})],
             weatherVibe: {
                 enabled: faker.datatype.boolean(),
-                caption: faker.lorem.sentence(),
+                caption: faker.lorem.sentence({max: 6, min: 4}),
                 weatherData: {
                     condition: conditions[faker.number.int({min: 0, max: 3})],
                     temperature: faker.number.int({min: 0, max: 100}),
-                    location: faker.address.city()
+                    location: faker.location.city()
                 }
             }  
         })   

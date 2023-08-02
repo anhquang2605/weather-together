@@ -7,15 +7,21 @@ import { MockContext } from "./MockContext"
 import { faker } from "@faker-js/faker"
 /* this page is for testing purposes only */
 export default function Tester() {
-    const post = generateRandomPosts(1)[0];
+    const posts = generateRandomPosts(10);
+    const profilePicturePaths = {
+        'anhquang2605': faker.image.avatar(),
+        'chuquang2605': faker.image.avatar(),
+    }
     return (
-        <MockContext.Provider value={{
-            'anhquang2605': faker.image.avatar(),
-            'chuquang2605': faker.image.avatar(),
-        }}>
-        <div className="glass w-full">
+        <MockContext.Provider value={{profilePicturePaths}}>
+        <div className="w-full">
             <h1>Tester</h1>
-            <Post post={post} />
+            {
+                posts.map((post, index) => (
+                    <Post post={post} />
+                ))
+            }
+            
 {/*             <Modal status={true} containerClassName="form-container" >
                 <PostForm />
             </Modal> */}

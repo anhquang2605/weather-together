@@ -1,5 +1,5 @@
 import { WeatherVibe } from '../../../../types/Post';
-import style from './weather-vibe.module.css';
+import style from './weather-vibe-component.module.css';
 
 interface WeatherVibeComponentProps {
     weatherVibe: WeatherVibe;

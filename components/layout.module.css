@@ -1,0 +1,6 @@
+.layout{
+    /* bg-gradient-to-l from-violet-800 from-10% via-indigo-800 to-indigo-950 to-10% h-screen */
+    @apply flex flex-row relative text-white relative h-screen;
+    background-image: url('./../public/sebastien-gabriel--IMlv9Jlb24-unsplash.jpg');
+    background-size: cover;
+}

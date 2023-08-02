@@ -1,6 +1,6 @@
 import { connectDB } from "../../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-interface usernameToProfilePicturePathMap {
+export interface usernameToProfilePicturePathMap {
     [username: string]: string;
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

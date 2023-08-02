@@ -3,6 +3,7 @@ import { WeatherVibe } from "../../../../types/Post";
 import WeatherVibeComponent from "../weather-vibe-component/WeatherVibeComponent";
 import style from "./post-title.module.css"
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
+import Image from 'next/image'
 interface PostTitleProps{
     username: string;
     profilePicturePath: string;
@@ -28,20 +29,30 @@ export default function PostTitle(
     return(
         <div className={style['post-title']}>
             <div className={style['post-title__profile-picture']}>
-                <img src={profilePicturePath} alt="profile picture" />
+                <Image src={profilePicturePath ?? ""} width={80} height={80} alt="profile picture" />
             </div>
-            <div className={style['post-title__username']}>
-                {username}
+            <div className="flex-grow">
+                <div className={style['title-top']}>
+                    <div className={style['post-title__username']}>
+                        {username}
+                    </div>
+                    {weatherVibe &&
+                        <WeatherVibeComponent weatherVibe={weatherVibe}/>
+                    }
+                </div>
+                <div className={style['title-bottom']}>
+                    <span className={style['post-title__timestamp']}>
+                        {formatDistance(new Date(createdDate), new Date(), { addSuffix: true })}
+                    </span>
+                    <span className={style['post-title__visibility']}>
+                        {visibilityIcons[visibility]}
+                    </span>
+                </div>
             </div>
-            <span className={style['post-title__timestamp']}>
-                {formatDistance(new Date(createdDate), new Date(), { addSuffix: true })} ago
-            </span>
-            <span className={style['post-title__visibility']}>
-                {visibilityIcons[visibility]}
-            </span>
-            {weatherVibe &&
-               <WeatherVibeComponent weatherVibe={weatherVibe}/>
-            }
+
+            
+           
+            
 
         </div>
     )
