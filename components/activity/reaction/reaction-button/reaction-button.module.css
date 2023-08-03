@@ -1,0 +1,22 @@
+.reaction-button{
+    position: relative;
+}
+.reaction-button__reaction-list{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    @apply rounded-full p-2; 
+    &.reveal-list{
+
+    }
+}
+.reaction-icon-btn{
+    @apply rounded-full bg-white p-2 transition-all duration-100 ease-in-out;
+    &:hover{
+        @apply mx-4;
+        transform: scale(2);
+    }
+}

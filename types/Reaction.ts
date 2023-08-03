@@ -5,4 +5,5 @@ export interface Reaction {
     updatedDate: Date;
     name: string;
     targetId: string; // Post or Comment ID
+    expireAt?: Date; //countdown time for reactoin
 }

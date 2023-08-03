@@ -965,11 +965,6 @@ video {
   border-radius: 0.375rem;
 }
 
-.rounded-b-lg {
-  border-bottom-right-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-}
-
 .border {
   border-width: 1px;
 }
@@ -1011,10 +1006,6 @@ video {
 .bg-indigo-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(49 46 129 / var(--tw-bg-opacity));
-}
-
-.bg-slate-200\/90 {
-  background-color: rgb(226 232 240 / 0.9);
 }
 
 .bg-slate-900 {

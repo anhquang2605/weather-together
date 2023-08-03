@@ -1,14 +1,14 @@
 import { NextApiRequest,NextApiResponse } from "next";
 import { connectDB } from "../../../libs/mongodb";
-export default async function (req: NextApiRequest, res: NextApiResponse) {
-    const { commentId } = req.query;
+export default async function handler (req: NextApiRequest, res: NextApiResponse) {
+    const { targetId } = req.query;
     const db = await connectDB();
     if(db){
         const reactionsCollection = db.collection("reactions");
         const aggregation = [
             {
                 $match: {
-                    targetId: commentId
+                    targetId: targetId
                 }
             },
             {
@@ -20,11 +20,18 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
                 }
             }
         ]
-        const reactions = await reactionsCollection.aggregate(aggregation).toArray();
-        if(reactions && reactions.length > 0){
-            res.status(200).json(reactions);
+        const reactionsGroups = await reactionsCollection.aggregate(aggregation).toArray();
+        const renamedGroup = reactionsGroups.map((reactionGroup) => {
+            return {
+                name: reactionGroup._id,
+                count: reactionGroup.count
+            }
+        })
+
+        if(renamedGroup){
+            res.status(200).json(renamedGroup);
         }else{
-            res.status(404).json({message: "No reactions found"});
+            res.status(200).json(null);
         }
     }else{
         res.status(500).json({message: "Cannot connect to DB"})

@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {connectDB} from "../../../libs/mongodb";
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     const reaction = req.body;
     const db = await connectDB();
     if (db) {

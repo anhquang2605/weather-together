@@ -1,5 +1,4 @@
-import { Reaction } from '../../../types/Reaction';
-import style from './reaction.module.css'
+import style from './reaction-component.module.css'
 import { REACTION_ICON_MAP } from './reaction-icon-map';
 interface ReactionProps{
     name: string;
@@ -12,7 +11,7 @@ export default function ReactionComponent (
     }: ReactionProps
 ) {
     return (
-        <div className={style['reaction']}>
+        <div key={name} className={style['reaction']}>
             <div className={style['reaction__emoji']}>
                 {REACTION_ICON_MAP[name]}
             </div>
