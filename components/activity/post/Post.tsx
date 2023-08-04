@@ -50,6 +50,7 @@ export default function Post({post,username}: PostProps){
                     <ReactionsBar reactionsGroups={reactionsGroups}/>
                 </div>
                 <InteractionsBtns 
+                    targetStyle="extended"
                     targetId={post._id?.toString() || ''}
                     username={username || ''}
                 />
