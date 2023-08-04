@@ -60,3 +60,6 @@ socket.on('close', () => {
   })
 22. in case of updating multiple state at once on a same object, do it in one set state instead of multiple to ensure state consistency
 23. For simple load more function with notification where u sort the items by created date, use the last item in the list created date as a cursor to the next set
+24. For child to scale to height or width of flex container, use {
+    self-align: stretch on the child itself
+  }

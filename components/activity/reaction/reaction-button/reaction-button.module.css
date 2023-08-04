@@ -1,53 +1,73 @@
-.reaction-button{
+.reaction-button-container{
     position: relative;
     --icon-dimension: 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.reaction-list-container{
+    height: max-content;
+    position: relative;
+    width: 0;
+    overflow: visible;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+.dummy-list{
+    width: 0;
+    overflow: hidden;
 }
 .reaction-button__reaction-list{
     display: flex;
     flex-direction: row;
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: scaleX(0) translateY(-50%);
+    transform: scaleX(0);
     overflow: hidden;
     transform-origin: left center;
     align-items: center;
+    position: absolute;     
+    left: 0;
+    opacity: 0;
     @apply rounded-full;
-    transition-property: transform;
-    transition-duration: 200ms;
-    transition-delay: 200ms;
+    transition-property: transform, opacity;
+    transition-duration: 200ms, 200ms;
+    transition-delay: 200ms, 200ms;
     z-index: 20;
     button{
         opacity: 0;
-        transition-property: opacity;
-        transition-duration: 100ms;
-        transition-delay: 0;
+        transition-property: opacity, transform;
+        transition-duration: 100ms, 100ms;
+        transition-delay: 0, 0;
     }
     &.revealed{ 
         overflow: visible;
-        top: 50%;
-        transform: scaleX(1) translateY(-50%);
+        opacity: 1;
+        transform: scaleX(1);
         transform-origin: left center;
-        transition-property: transform;
-        transition-duration: 200ms;
-        transition-delay: 0ms;
+        transition-property: transform, opacity;
+        transition-duration: 200ms, 200ms;
+        transition-delay: 0ms, 0ms;
         button{
             opacity: 1;
-            transition-property: opacity;
-            transition-duration: 100ms;
-            transition-delay: 200ms;
+            transition-property: opacity, transform;
+            transition-duration: 100ms, 100ms;
+            transition-delay: 200ms, 0ms;
         }
 
     }
 }
 .reaction-icon-btn{
-    @apply flex justify-center items-center rounded-full bg-white text-lg transition-all duration-100 ease-in-out;
+    @apply flex justify-center items-center rounded-full bg-white text-lg mx-0;
     width: var(--icon-dimension);
     height: var(--icon-dimension);
     text-align: center;
     &:hover{
         @apply mx-4;
         transform: scale(2);
+        
     }
     &.reacted{
         display:none;
@@ -61,18 +81,50 @@
     background-color: var(--btn-color);
     outline: 2px solid white;
 }
+.reacted{
+    display: none;
+}
 .reaction-icon-btns-group{
-    @apply flex flex-row justify-center items-center bg-white rounded-full;
+    @apply flex flex-row justify-center items-center bg-white rounded-full py-1;
+    transition: all 0.2s ease-in-out;
     &reaction-added{
         @apply rounded-l-none;
         padding-right: 0;
         padding-left: 0;
     }
 }
-.reaction-reacted{
+.reaction-button{
+    @apply px-8 py-1 rounded-full;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+    z-index: 20;
+    .reaction-button__reaction-name{
+        text-transform: capitalize;
+    }
+}
+.revealed-unreacted, .revealed-unreacted{
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.revealed-reacted, .unrevealed-reacted {
     @apply flex flex-row items-center rounded-full font-semibold;
     vertical-align: center;
     text-transform: capitalize;
     background-color: var(--btn-color);
     position: relative;
+    transition: background-color 0.2s ease-in-out;
+    &:hover{
+        @apply bg-indigo-600 ;
+        outline: 1px solid white;
+    }
+}
+.reaction-button__reaction-icon{
+    @apply text-2xl;
+    margin-right: 0.5rem;
 }

@@ -34,7 +34,10 @@ interface UpdatedFields{
         + We use optimistic UI to update the reaction state, this means that we update the reaction state before the server response, if the server response is not successful, we revert the reaction state back to the previous state 
     _ Note for idea for the reaction btn:
         + We can make the reacted button and transform it into the actual reaction button, so the list will shrink, leaving the reacted reaction button, this button will the be shrunk back to normal size  
-
+    _ State of a reaction of an item:
+        a. No reaction yet: reacted = false, reaction = null
+        b. Reacted: reacted = true, reaction = Reaction object
+        c. Unreacted: reacted = true, reaction.name = ''
 */
 const REACTION_EXPIRE_TIME = 1000 * 60 * 15;//15 minutes in miliseconds used to set the expireAt field in the reaction document, to create a date from now, use new Date(Date.now() + REACTION_EXPIRE_TIME)
 export default function ReactionButton(
@@ -46,6 +49,8 @@ export default function ReactionButton(
     const [reacted, setReacted] = useState(false);
     const [reaction, setReaction] = useState<Reaction>();
     const [revealed, setRevealed] = useState(false);
+    const [reactionStatus, setReactionStatus] = useState("no-reaction");
+    const [buttonState, setButtonState] = useState('') //unrevealed, revealed-reacted, revealed-unreacted, revealed-no-reaction
         //reaction.name == '' means no reaction, this happen when the user reacted and then unreacted
     const handleAddReaction = async (reactionName: string, username: string, targetId: string) => {
             const oldReaction = {...reaction!};//guarantee to be not null, since this function is called when the reaction is set
@@ -110,6 +115,16 @@ export default function ReactionButton(
             setReacted(false);
         }
     }
+    const handleReactionButton = async (username: string, targetId: string) => {
+        if(!revealed){
+            setRevealed(true);    
+        } else {
+            handleUnReaction(username, targetId);
+            setRevealed(false);
+        }
+
+        
+    }
     const handleReactionIconClick = (reactionName: string, reacted: boolean, username: string, targetId: string) => {
         if(!reacted){
             handleAddReaction(reactionName, username, targetId);
@@ -133,40 +148,91 @@ export default function ReactionButton(
             document.removeEventListener('click', handleOutterClick);
         }
     },[])
+    useEffect(()=>{
+        if(reacted && reaction && reaction.name !== ''){
+            setReactionStatus("reacted");
+        } else if (reacted && reaction && reaction.name === ''){
+            setReactionStatus("unreacted");
+        } else {
+            setReactionStatus("no-reaction");
+        }
+    }, [reacted, reaction])
+    useEffect(()=>{
+        if(revealed && reactionStatus === 'no-reaction'){
+            setButtonState('revealed-noreaction');
+        } else if (revealed && reactionStatus === 'reacted'){
+            setButtonState('revealed-reacted');
+        } else if (revealed && reactionStatus === 'unreacted'){
+            setButtonState('reavealed-unreacted');
+        } else if(!revealed && reactionStatus === 'reacted') {
+            setButtonState('unrevealed-reacted');
+        } else {
+            setButtonState('');
+        }
+    }, [revealed])
     return (
-        <div className={style['reaction-button']}>
+        <div className={style['reaction-button-container']}>
             {/* 
                 TODO: a button that initially tell user to react if user have not reacted yet, once reacted it will be updated with the reacted reaction
                 Once clicked, a list of reaction will be displayed, the user can choose the reaction they want, should be in a form of 
              */}
-
-            {<div className={style['reaction-button__reaction-list'] + " " + (revealed? style['revealed'] : "")}>
-                {reacted && reaction && reaction.name !== '' && <button
-                    onClick={()=>handleUnReaction(username, targetId)}
-                    className={style["reacted-icon-btn"]}>
-                       <ReactionComponent name={reaction?.name} /> 
-                </button>}
-                <div className={style['reaction-icon-btns-group']}>
-                {
-                    _.map(REACTION_TYPE_NAMES_LIST, (reactionName) => {
-                        return (
-                            <button 
-                                key={reactionName} 
-                                onClick={()=>{
-                                   handleReactionIconClick(reactionName, reacted, username, targetId);
-                                }}
-                                className={style['reaction-icon-btn'] + " " + (reaction?.name == reactionName ? style['reacted'] : "")}
-                            >                  
-                                <ReactionComponent name={reactionName} />
-                            </button>
-                        )
-                    })
-                }
+            {/*     _ State of a reaction of an item:
+            a. No reaction yet: reacted = false, reaction = null
+            b. Reacted: reacted = true, reaction = Reaction object
+            c. Unreacted: reacted = true, reaction.name = '' */}
+            <button 
+                    className={ 
+                        style['reaction-button'] + " " + 
+                        (style[buttonState])} 
+                    onClick={()=>handleReactionButton(username, targetId)}
+                >
+                    {reactionStatus === "reacted" ? 
+                        <>
+                            <span className={style["reaction-button__reaction-icon"]}>
+                                 {REACTION_ICON_MAP[reaction?.name!]}
+                            </span>
+                            <span className={style["reaction-button__reaction-name"]}>
+                                {reaction?.name}
+                            </span>
+                        </>
+                    : 
+                        '⚡ React'}
+            </button>
+            <div className={style["reaction-list-container"]}>
+                <div className={style['dummy-list']}>
+                        <button className={style['reaction-icon-btn']}>
+                            <ReactionComponent name="like" />
+                        </button>
                 </div>
-            </div>}
-            {!revealed && <button className={ "p-1 px-4 z-30 " + (reacted && reaction &&reaction.name !== '' && style["reaction-reacted"])} onClick={()=>setRevealed(pre => !pre)}>
-                {reacted && reaction &&reaction.name !== '' ? REACTION_ICON_MAP[reaction?.name] + " " + reaction.name : '⚡ React'}
-            </button>}
+                {<div className={style['reaction-button__reaction-list'] + " " + (revealed? style['revealed'] : "")}>
+
+    {/*                 {reacted && reaction && reaction.name !== '' && <button
+                        onClick={()=>handleUnReaction(username, targetId)}
+                        className={style["reacted-icon-btn"]}>
+                        <ReactionComponent name={reaction?.name} /> 
+                    </button>} */}
+
+                    <div className={style['reaction-icon-btns-group']}>
+                    {
+                        _.map(REACTION_TYPE_NAMES_LIST, (reactionName) => {
+                            return (
+                                <button 
+                                    key={reactionName} 
+                                    onClick={()=>{
+                                    handleReactionIconClick(reactionName, reacted, username, targetId);
+                                    }}
+                                    className={style['reaction-icon-btn'] + " " + (reaction?.name == reactionName ? style['reacted'] : "")}
+                                >                  
+                                    <ReactionComponent name={reactionName} />
+                                </button>
+                            )
+                        })
+                    }
+                    </div>
+                </div>}
+            </div>
+           
+
         </div>
     )
 }
