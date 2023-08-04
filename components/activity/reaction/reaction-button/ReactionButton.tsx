@@ -188,6 +188,9 @@ export default function ReactionButton(
                 >
                     {reactionStatus === "reacted" ? 
                         <>
+                            <span className={style["slash"]}>
+
+                            </span>
                             <span className={style["reaction-button__reaction-icon"]}>
                                  {REACTION_ICON_MAP[reaction?.name!]}
                             </span>

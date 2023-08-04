@@ -14,8 +14,8 @@ export default function InteractionsBtns({ targetId, username, targetStyle }: In
                 targetId={targetId}
                 username={username}
             />
-            <button className="flex flex-row items-center p-1"><IoChatboxEllipses className="icon mr-2"/>Comment</button>
-            <button>
+            <button className="flex flex-row items-center p-1 mr-8"><IoChatboxEllipses className="icon mr-2"/>Comment</button>
+            <button className="">
                 <span className="icon">Share</span>
             </button>
         </div>

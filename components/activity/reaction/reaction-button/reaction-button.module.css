@@ -3,8 +3,9 @@
     --icon-dimension: 32px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+    width: 150px;
+    @apply mr-8;
 }
 .reaction-list-container{
     height: max-content;
@@ -101,30 +102,48 @@
     justify-content: center;
     align-items: center;
     text-transform: capitalize;
+    transition: all 0.5s;
+    transition-timing-function: cubic-bezier(0,.59,1,-0.33);
     z-index: 20;
-    .reaction-button__reaction-name{
-        text-transform: capitalize;
-    }
-}
-.revealed-unreacted, .revealed-unreacted{
-    width: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-.revealed-reacted, .unrevealed-reacted {
-    @apply flex flex-row items-center rounded-full font-semibold;
-    vertical-align: center;
-    text-transform: capitalize;
     background-color: var(--btn-color);
     position: relative;
-    transition: background-color 0.2s ease-in-out;
     &:hover{
         @apply bg-indigo-600 ;
         outline: 1px solid white;
     }
+    .reaction-button__reaction-name{
+        text-transform: capitalize;
+    }
+}
+
+.revealed-reacted{
+    @apply p-1 mr-6;
+    transform: scale(2);
+    transition-timing-function: ease-in-out;
+    width: var(--icon-dimension);
+    height: var(--icon-dimension);
+    transition-duration: 200ms;
+    .reaction-button__reaction-icon{
+        margin-right: 0;
+    }
+    .reaction-button__reaction-name{
+        display: none;
+    }
+    &:hover .slash{
+        width: 100%;
+    }
+    
 }
 .reaction-button__reaction-icon{
-    @apply text-2xl;
     margin-right: 0.5rem;
+}
+.slash{
+    background: red;
+    width: 0;
+    height: 1px;
+    position: absolute;
+    transition: all 0.1s linear;
+    align-self: flex-start;
+    top: 50%;
+    left: 0;
 }
