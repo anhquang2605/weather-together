@@ -1,3 +1,12 @@
 .reactions-bar{
-    
+    display: flex;
+    flex-direction: row;
+
+}
+.reactions-bar__title{
+    @apply mr-1;
+}
+
+.target-reactions-group-names{
+    @apply flex flex-row items-center;
 }

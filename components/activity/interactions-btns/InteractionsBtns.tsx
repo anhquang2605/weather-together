@@ -1,6 +1,6 @@
 import style from "./interactions-btns.module.css";
 import ReactionButton from "./../reaction/reaction-button/ReactionButton";
-import {IoChatboxEllipses} from 'react-icons/io5';
+import {IoChatboxEllipses, IoShare} from 'react-icons/io5';
 export interface InteractionsBtnsProps {
     targetId: string;
     username: string;
@@ -14,9 +14,10 @@ export default function InteractionsBtns({ targetId, username, targetStyle }: In
                 targetId={targetId}
                 username={username}
             />
-            <button className="flex flex-row items-center p-1 mr-8"><IoChatboxEllipses className="icon mr-2"/>Comment</button>
-            <button className="">
-                <span className="icon">Share</span>
+            <button className="flex flex-row items-center"><IoChatboxEllipses className="icon mr-2"/>Comment</button>
+            <button className="flex flex-row items-center">
+                <IoShare className="icon mr-2"/>
+                Share
             </button>
         </div>
     )

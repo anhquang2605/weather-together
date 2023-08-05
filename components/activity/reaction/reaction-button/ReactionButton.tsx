@@ -2,10 +2,11 @@ import {useEffect, useState} from 'react';
 import style from './reaction-button.module.css';
 import { REACTION_ICON_MAP } from '../reaction-icon-map';
 import { REACTION_TYPE_NAMES_LIST } from '../reactions-type-names-list';
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import { fetchFromGetAPI, insertToPostAPI, updateToPutAPI } from '../../../../libs/api-interactions';
 import { Reaction } from '../../../../types/Reaction';
 import ReactionComponent from '../ReactionComponent';
+import {TbHeartPlus} from 'react-icons/tb';
 export interface ReactionButtonProps{
     username: string;
     targetId: string;
@@ -66,11 +67,11 @@ export default function ReactionButton(
             setReaction(newReaction);
             const path = `reactions/post-reaction`;
            
-            /* const response = await insertToPostAPI(path, newReaction);
-            if(response.status !== 200){
+            const response = await insertToPostAPI(path, newReaction);
+            if(response.message !== "success"){
                 setReacted(false);
                 setReaction(oldReaction);
-            } */
+            } 
     }
     const handleUpdateReaction = async (reactionName: string, username: string, targetId: string) => {
         //use put request to fetch the reaction
@@ -97,20 +98,19 @@ export default function ReactionButton(
             targetId,
             updatedFields
         }
-       /*  const response = await  updateToPutAPI(path, bodyDate);
-        if(response.status !== 200){
+        const response = await  updateToPutAPI(path, bodyDate);
+        if(response.message !== 'success'){
             setReaction(oldReaction);
-        }  */
+        }  
 
     }
     const handleFetchInitialReaction = async (path: string, params: ReactionFetchParams) => {
-        const reponse = await fetchFromGetAPI(path, params);
-        const reaction = await reponse.json();
+        const reaction = await fetchFromGetAPI(path, params);
+
         if(reaction){
             setReaction(reaction);
-            if(reaction.name != ''){
-                setReacted(true);
-            }
+            setReacted(true);
+            
         } else {
             setReacted(false);
         }
@@ -138,15 +138,17 @@ export default function ReactionButton(
         setRevealed(false);
     }
     const handleOutterClick = (event: any) => {
-        /* if(!event.target.closest(`.${style['reaction-button']}`)){
+        if(!event.target.closest(`.${style['reaction-button']}`)){
             setRevealed(false);
-        } */
+        } 
     }   
     useEffect(()=>{
+        handleFetchInitialReaction(`reactions/get-reaction`, {username, targetId});
         document.addEventListener('click', handleOutterClick);
         return () => {
             document.removeEventListener('click', handleOutterClick);
         }
+
     },[])
     useEffect(()=>{
         if(reacted && reaction && reaction.name !== ''){
@@ -163,7 +165,7 @@ export default function ReactionButton(
         } else if (revealed && reactionStatus === 'reacted'){
             setButtonState('revealed-reacted');
         } else if (revealed && reactionStatus === 'unreacted'){
-            setButtonState('reavealed-unreacted');
+            setButtonState('revealed-unreacted');
         } else if(!revealed && reactionStatus === 'reacted') {
             setButtonState('unrevealed-reacted');
         } else {
@@ -186,20 +188,17 @@ export default function ReactionButton(
                         (style[buttonState])} 
                     onClick={()=>handleReactionButton(username, targetId)}
                 >
-                    {reactionStatus === "reacted" ? 
-                        <>
-                            <span className={style["slash"]}>
+                    
+                           { reactionStatus === 'reacted' &&<span className={style["slash"]}>
 
-                            </span>
+                            </span>}
                             <span className={style["reaction-button__reaction-icon"]}>
-                                 {REACTION_ICON_MAP[reaction?.name!]}
+                                 {reactionStatus === 'reacted' ? REACTION_ICON_MAP[reaction?.name!] : <TbHeartPlus/>}
                             </span>
                             <span className={style["reaction-button__reaction-name"]}>
-                                {reaction?.name}
+                                {reactionStatus === 'reacted' ? reaction?.name : 'React'}
                             </span>
-                        </>
-                    : 
-                        '⚡ React'}
+
             </button>
             <div className={style["reaction-list-container"]}>
                 <div className={style['dummy-list']}>

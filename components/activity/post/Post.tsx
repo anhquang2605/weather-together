@@ -6,6 +6,7 @@ import { MockContext } from "../../../pages/MockContext";
 import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
 import { fetchFromGetAPI } from "../../../libs/api-interactions";
 import InteractionsBtns from "../interactions-btns/InteractionsBtns";
+import PostSummary from "./post-summary/PostSummary";
 interface PostProps{
     post: Post;
     username?: string;
@@ -23,9 +24,8 @@ export default function Post({post,username}: PostProps){
             targetId
         }
         const response = await fetchFromGetAPI(path, params);
-        if(response.status === 200 ){
-            const reactionsGroups = await response.json();
-            if(reactionsGroups !== null) setReactionsGroups(reactionsGroups);
+        if(response.length){
+            setReactionsGroups(response);
         }  
     }
     useEffect(() => {
@@ -46,9 +46,16 @@ export default function Post({post,username}: PostProps){
                     <div className={style['post__content']}>
                         {post.content}
                     </div>
+                    <PostSummary>
+                        <ReactionsBar reactionsGroups={reactionsGroups}/>
+                        <div className="comment-summary">
+                            2 Comments
+                        </div>
+                    </PostSummary>
+
                     {/* Post attached images goes here */}
-                    <ReactionsBar reactionsGroups={reactionsGroups}/>
                 </div>
+               
                 <InteractionsBtns 
                     targetStyle="extended"
                     targetId={post._id?.toString() || ''}

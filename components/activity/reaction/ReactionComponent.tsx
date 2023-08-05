@@ -11,7 +11,7 @@ export default function ReactionComponent (
     }: ReactionProps
 ) {
     return (
-        <div key={name} className={style['reaction']}>
+        <div key={name} className={style['reaction-component']}>
             <div className={style['reaction__emoji']}>
                 {REACTION_ICON_MAP[name]}
             </div>

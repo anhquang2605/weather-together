@@ -28,11 +28,11 @@ interface UpdateDoc{
             const reactionsCollection = db.collection("reactions");
             const result = await reactionsCollection.updateOne(filter, updateDoc);
             if(result.modifiedCount === 1){
-                res.status(200).json({message: "Reaction updated"});
+                res.status(200).json({message: "success"});
             }else{
-                res.status(500).json({message: "Cannot update reaction"});
+                res.status(500).json({message: "failed"});
             }
         }else{
-        
+            res.status(500).json({message: "failed"});
         }
     }

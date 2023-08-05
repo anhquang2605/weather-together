@@ -1,4 +1,9 @@
 .interactions-btns{
     background-color: var(--primary-color);
-    @apply flex flex-row w-full px-8 py-4 items-center;
+    @apply flex flex-row w-full px-8 py-4 items-center justify-between rounded-b-lg;
+    
+    & > button, & > div> button{
+        @apply px-8 py-1;
+    }
 }
+

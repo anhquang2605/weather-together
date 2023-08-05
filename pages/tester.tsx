@@ -27,7 +27,7 @@ export default function Tester() {
         <h1>Tester</h1>
        {
                 posts.map((post, index) => (
-                    <Post key={index} post={post} username="chuquang2605" />
+                    <Post key={index} post={post} username="anhquang2605" />
                 ))
             }
             
