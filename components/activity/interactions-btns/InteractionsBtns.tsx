@@ -5,8 +5,9 @@ export interface InteractionsBtnsProps {
     targetId: string;
     username: string;
     targetStyle: string; //extended or shrinked
+    handleCommentBtnClick: () => void;
 }
-export default function InteractionsBtns({ targetId, username, targetStyle }: InteractionsBtnsProps) {
+export default function InteractionsBtns({ targetId, username, targetStyle, handleCommentBtnClick }: InteractionsBtnsProps) {
     return(
         <div className={style['interactions-btns'] + " " + style[targetStyle]}>
             {/* reaction, comment, and might be sharing or repost */}
@@ -14,7 +15,17 @@ export default function InteractionsBtns({ targetId, username, targetStyle }: In
                 targetId={targetId}
                 username={username}
             />
-            <button className="flex flex-row items-center"><IoChatboxEllipses className="icon mr-2"/>Comment</button>
+            <button 
+                className="flex flex-row items-center"
+                onClick={
+                    () => {
+                        handleCommentBtnClick();
+                    }
+                }
+            >    
+                <IoChatboxEllipses className="icon mr-2"/>
+                    Comment
+            </button>
             <button className="flex flex-row items-center">
                 <IoShare className="icon mr-2"/>
                 Share

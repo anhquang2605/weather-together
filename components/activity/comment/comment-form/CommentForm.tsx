@@ -2,6 +2,8 @@
 import React,{useState, useEffect} from 'react'
 import { insertToPostAPI, uploadFileToPostAPI } from '../../../../libs/api-interactions';
 import style from './comment-form.module.css';
+import MiniAvatar from '../../mini-avatar/MiniAvatar';
+import {IoCamera,IoSend} from 'react-icons/io5';
 interface ErrorMessage {
     message: string,
     type: string //picture-attachment, content-length
@@ -12,16 +14,18 @@ interface CommentFormProps {
     targetLevel?: number, //for comment on comment, if none, then the target is a post, whoever call this will have level = target level + 1 but 0 if target is a post
     postId: string,
     isCommenting: boolean,
-    targetType: string,
     setIsCommenting: (isCommenting: boolean) => void,
+    userProfilePicturePath: string,
+    targetType: string, //posts or comments
 }
-export default function CommentForm({targetId, username, targetLevel = 0, postId, isCommenting, setIsCommenting, targetType}: CommentFormProps) {
+export default function CommentForm({targetId, username, targetLevel = 0, postId, isCommenting, setIsCommenting, userProfilePicturePath, targetType}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
     const [picture, setPicture] = useState<File>();
     const [previewPictureURL, setPreviewPictureURL] = useState<string | null>('');
     const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
+    const [validContentLength, setValidContentLength] = useState(false); //min should be 1 word
     const [s3PictureURL, setS3PictureURL] = useState<string | null>(null);
     const handlePictureInptChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -67,6 +71,11 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     }
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
+        if(e.target.value.length > 0) {
+            setValidContentLength(true);
+        }else{
+            setValidContentLength(false);
+        }
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -130,7 +139,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                 await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
                 
                 handleResetForm();
-            }catch(err) {
+            }catch(err) {0
                 addToErrorMessages({
                     type: 'picture-posting',
                     message: 'Error posting picture',
@@ -141,6 +150,30 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     }
     return(
         <div className={style['comment-form']}>
+            <MiniAvatar profilePicturePath={userProfilePicturePath} size="large"/>
+            <div className={style['text-box']}>
+                <textarea className={style['comment-form__content']} placeholder="Write a comment..." value={content} onChange={handleContentChange}></textarea>
+                <div className={style['control-group']}>
+                    <div className={style['attachment-group']}>
+                        <div className={style['image-attachment']}>
+                            <label title="Attach a picture" htmlFor="picture-comment-upload" className={style['control-btn']}>
+                                <IoCamera className={style['control-icon'] + " icon"}/>
+                            </label>
+                            <input type="file" accept="image/*" id="picture-comment-upload" className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
+                        </div>
+                            
+                        
+                    </div>
+                    <button title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
+                        isSending || !validContentLength ? style['disabled'] : ''
+                    )}>
+                        <IoSend className={style['control-icon'] + " icon"}/>
+                    </button>
+                </div>
+            </div>
+            <div className={style['error-diplay']}>
+
+            </div>
 
         </div>
     )

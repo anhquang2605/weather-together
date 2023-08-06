@@ -1,6 +1,5 @@
 .post{
-    @apply  w-2/5 rounded-lg mx-auto mb-8;
-
+    @apply xl:w-[880] lg:w-[800] md:w-[720px] rounded-lg mx-auto mb-8;
 }
 
 .post__content{

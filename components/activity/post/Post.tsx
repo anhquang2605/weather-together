@@ -7,6 +7,8 @@ import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
 import { fetchFromGetAPI } from "../../../libs/api-interactions";
 import InteractionsBtns from "../interactions-btns/InteractionsBtns";
 import PostSummary from "./post-summary/PostSummary";
+import CommentForm from "../comment/comment-form/CommentForm";
+import { PostContext } from "./PostContext";
 interface PostProps{
     post: Post;
     username?: string;
@@ -18,6 +20,8 @@ interface ReactionGroup{
 export default function Post({post,username}: PostProps){
     const  { profilePicturePaths } = useContext(MockContext);
     const [reactionsGroups, setReactionsGroups] = useState([]);
+    const [isCommenting, setIsCommenting] = useState(false);
+    const author = 'chuquang2605';
     const handleFetchReactionsGroups = async (targetId: string) => {
         const path = `reactions/get-reactions-by-groups`;
         const params = {
@@ -28,10 +32,14 @@ export default function Post({post,username}: PostProps){
             setReactionsGroups(response);
         }  
     }
+    const handleCommentBtnClick = () => {
+        setIsCommenting(prev => !prev);
+    }
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
     },[])
     return(
+        <PostContext.Provider value={{post:post}}>
         <div key={post._id} className={style['post']}>
 
         
@@ -55,15 +63,17 @@ export default function Post({post,username}: PostProps){
 
                     {/* Post attached images goes here */}
                 </div>
-               
+
                 <InteractionsBtns 
                     targetStyle="extended"
                     targetId={post._id?.toString() || ''}
                     username={username || ''}
+                    handleCommentBtnClick={handleCommentBtnClick}
                 />
-               
+                <CommentForm targetType="posts" username={author}  isCommenting={isCommenting} setIsCommenting={setIsCommenting} targetId={""} postId={post._id?.toString()!} userProfilePicturePath={profilePicturePaths[author]} />
+                   
         </div>
-        
+        </PostContext.Provider>
 
     )
 }
