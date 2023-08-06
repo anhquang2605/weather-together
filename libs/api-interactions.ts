@@ -46,3 +46,17 @@ export function insertToPostAPI(path: string, body: any){
         }
     });
 }
+export function uploadFileToPostAPI(path: string, file: any){
+    const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+    const url = `${baseURL}/api/${path}`;
+    return fetch(url, {
+        method: "POST",
+        body: file
+    }).then(res => {
+        if(res.ok){
+            return res.json();
+        }else{
+            return Promise.reject(res);
+        }
+    });
+}
