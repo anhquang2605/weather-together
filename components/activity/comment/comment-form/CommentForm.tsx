@@ -1,7 +1,7 @@
-import { error } from 'console';
-import { add, remove } from 'lodash';
+
 import React,{useState, useEffect} from 'react'
 import { insertToPostAPI, uploadFileToPostAPI } from '../../../../libs/api-interactions';
+import style from './comment-form.module.css';
 interface ErrorMessage {
     message: string,
     type: string //picture-attachment, content-length
@@ -93,6 +93,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         }else {
             level = targetLevel + 1;
         }
+        //posting comment
         const pathToPostCommentAPI = 'comments/post-comment';
         const comment = {
             content,
@@ -115,30 +116,33 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                 message: 'Error posting comment',
             })
         }
-        
-        const pathToPostPictureAPI = 'pictures/post-picture';
-        const mongoPicture = {
-            picturePath: picuterUrl,
-            createdDate: new Date(),
-            targetId: commentId,
-            targetType: 'comment',
-            username,
+        //adding picture to post if picture is attached
+        if(picture && pictureAttached) {
+            const pathToPostPictureAPI = 'pictures/post-picture';
+            const mongoPicture = {
+                picturePath: picuterUrl,
+                createdDate: new Date(),
+                targetId: commentId,
+                targetType: 'comment',
+                username,
+            }
+            try{
+                await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
+                
+                handleResetForm();
+            }catch(err) {
+                addToErrorMessages({
+                    type: 'picture-posting',
+                    message: 'Error posting picture',
+                })
+            }
         }
-        try{
-            await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
-            
-            handleResetForm();
-        }catch(err) {
-            addToErrorMessages({
-                type: 'picture-posting',
-                message: 'Error posting picture',
-            })
-        }finally{
-            setIsSending(false);
-        }
-        
-        //then upload the comment 
-        
+        setIsSending(false); 
     }
+    return(
+        <div className={style['comment-form']}>
+
+        </div>
+    )
 }
 
