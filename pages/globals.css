@@ -40,10 +40,11 @@ body {
   --highlighted-color: #6366f1;
   --btn-hover-color: #4f46e5;
   --btn-color: #6366f1;
+  --disabled-color: #c1caf7;
 }
 
 .glass{
-  @apply bg-slate-800/50 backdrop-blur-lg rounded shadow-inner-lg shadow-slate-100/10 p-8 border-[2px] border-slate-100/40;
+  @apply bg-slate-800/50 backdrop-blur-lg shadow-inner-lg shadow-slate-100/10 p-8 border-[2px] border-slate-100/40;
 }
 .container{
   @apply m-8;

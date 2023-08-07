@@ -4,6 +4,7 @@ import { insertToPostAPI, uploadFileToPostAPI } from '../../../../libs/api-inter
 import style from './comment-form.module.css';
 import MiniAvatar from '../../mini-avatar/MiniAvatar';
 import {IoCamera,IoSend} from 'react-icons/io5';
+import EmojiSelector from '../../text-editing/emoji-selections/EmojiSelector';
 interface ErrorMessage {
     message: string,
     type: string //picture-attachment, content-length
@@ -152,23 +153,25 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         <div className={style['comment-form']}>
             <MiniAvatar profilePicturePath={userProfilePicturePath} size="large"/>
             <div className={style['text-box']}>
-                <textarea className={style['comment-form__content']} placeholder="Write a comment..." value={content} onChange={handleContentChange}></textarea>
+                <textarea rows={1} className={style['comment-form__content']} placeholder="Write a comment..." value={content} onChange={handleContentChange}></textarea>
                 <div className={style['control-group']}>
+
                     <div className={style['attachment-group']}>
-                        <div className={style['image-attachment']}>
+                        <div className={style['picture-attachment']}>
                             <label title="Attach a picture" htmlFor="picture-comment-upload" className={style['control-btn']}>
                                 <IoCamera className={style['control-icon'] + " icon"}/>
                             </label>
                             <input type="file" accept="image/*" id="picture-comment-upload" className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
-                        </div>
-                            
-                        
+                        </div> 
+                        <EmojiSelector handleEmojiSelect={()=>{}}/>
                     </div>
+
                     <button title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
                         isSending || !validContentLength ? style['disabled'] : ''
                     )}>
                         <IoSend className={style['control-icon'] + " icon"}/>
                     </button>
+
                 </div>
             </div>
             <div className={style['error-diplay']}>

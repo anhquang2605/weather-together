@@ -1,8 +1,8 @@
 .comment-form{
   background: var(--primary-color);
-  @apply p-4 px-8 flex flex-row rounded mt-0.5;   
+  @apply p-4 px-8 flex flex-row rounded mt-0.5 rounded-lg;   
   textarea{
-    @apply w-full resize-none border-none outline-none bg-transparent;
+    @apply w-full resize-none border-none outline-none bg-transparent mb-4;
     color: var(--primary-color);
   }
 }
@@ -10,16 +10,16 @@
     @apply flex flex-col w-full bg-white rounded-lg p-4;
 }
 .attachment-group{
-    @apply flex flex-row items-center;
+    @apply flex flex-row items-center justify-between;
 }
 .control-btn{
     display: flex;
+    margin: 0;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     border-radius: 100%;
-    border: 1px solid white;
-    @apply p-1;
+    @apply p-2;
     transition: all 0.2s ease-in-out;
     &:hover{
         @apply bg-indigo-100;
@@ -28,13 +28,16 @@
 .control-icon{
     color: var(--btn-color);
     transition: all 0.3s ease-in-out;
-    
- 
-    
 
 }
+.picture-attachment{
+    @apply h-full;
+}
 .disabled{
-    color: lightgray !important;
+    svg{
+        color: var(--disabled-color);
+    }
+    
     pointer-events: none;
 }
 .control-group{

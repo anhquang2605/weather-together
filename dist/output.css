@@ -1383,10 +1383,10 @@ video {
   --highlighted-color: #6366f1;
   --btn-hover-color: #4f46e5;
   --btn-color: #6366f1;
+  --disabled-color: #c1caf7;
 }
 
 .glass {
-  border-radius: 0.25rem;
   border-width: 2px;
   border-color: rgb(241 245 249 / 0.4);
   background-color: rgb(30 41 59 / 0.5);

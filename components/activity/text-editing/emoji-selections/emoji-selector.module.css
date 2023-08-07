@@ -1,0 +1,38 @@
+.emoji-selector{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.emoji-list-reveal-btn{
+    svg{
+        color: var(--btn-color);
+    }
+}
+.reveal{
+    transition-property: opacity, margin, visibility;
+    transition-duration: 0.2s, 0.2s, 0.2s;
+    transition-timing-function: ease-in-out, ease-in-out;
+    transtion-delay: 0, 0, 0.2s;
+    opacity: 1;
+    visibility: visible;
+}
+.emoji-list{
+    position: absolute;
+    background: white;
+    @apply p-4 rounded-lg;
+    visibility: none;
+    opacity: 0;
+    .top{
+        margin-bottom: -1.5rem;
+        bottom: 0;
+        &.reveal{
+            margin-bottom: 0;
+        }
+    }
+    .bottom{
+        margin-top: -1.5rem;
+        &.reveal{
+            margin-top: 0;
+        }
+    }
+}
