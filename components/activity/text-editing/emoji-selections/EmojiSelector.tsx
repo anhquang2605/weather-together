@@ -8,25 +8,23 @@ interface EmojiSelectorProps {
 }
 export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: EmojiSelectorProps) {
     const [reveal, setReveal] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
     const [emojisSelections, setEmojisSelections] = useState(EMOJIS);
     const [listPosition, setListPosition] = useState('bottom');
+
     const emojiButtonRef = useRef<HTMLButtonElement | null>(null);
     const emojiListRef = useRef<HTMLDivElement | null>(null);
     const handleEmojiButtonClick = () => {
         setReveal(prev => !prev);
-        if(reveal){
-            if(emojiButtonRef.current && emojiListRef.current){
-                const btnRect = emojiButtonRef.current.getBoundingClientRect();
-                const listRect = emojiListRef.current.getBoundingClientRect();
-                const listHeight = listRect.height;
-                const distanceToBottom = window.innerHeight - btnRect.bottom;
-                const threshold = listHeight + 16;
-                if(distanceToBottom < threshold){
-                    setListPosition('top');
-                }else{
-                    setListPosition('bottom');
-                }
+        if(emojiButtonRef.current && emojiListRef.current){
+            const btnRect = emojiButtonRef.current.getBoundingClientRect();
+            const listRect = emojiListRef.current.getBoundingClientRect();
+            const listHeight = listRect.height;
+            const distanceToBottom = window.innerHeight - btnRect.bottom;
+            const threshold = listHeight + 16;
+            if(distanceToBottom < threshold){
+                setListPosition('top');
+            }else{
+                setListPosition('bottom');
             }
         }
     }
@@ -36,7 +34,20 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: Em
         setReveal(false);
     }
     const handleEmojiSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-
+        handleEmojiFilterSearchTerm(e.target.value.toLowerCase());
+    }
+    const handleOuterClick = (e: MouseEvent) => {
+        console.log('triggered');
+        const target = e.target as HTMLElement;
+        if(emojiListRef.current && emojiButtonRef.current){
+            if(!emojiListRef.current.contains(target) && !emojiButtonRef.current.contains(target)){
+                setReveal(false);
+            }
+        }
+    }
+    const handleEmojiFilterSearchTerm = (searchTerm: string) => {
+        const filteredEmojis = EMOJIS.filter(emoji => emoji.name.toLowerCase().includes(searchTerm));
+        setEmojisSelections(filteredEmojis);
     }
     const emojisSelectionsJSX = emojisSelections.map((emoji, index) => (
         <button
@@ -49,13 +60,19 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: Em
         </button>
     ))
     useEffect(()=>{
-        
+        document.addEventListener('click', handleOuterClick);
+        return () => {
+            document.removeEventListener('click', handleOuterClick);
+        }
     },[])
     return(
         <div className={style["emoji-selector"]}>
             <button
                 ref={emojiButtonRef} 
-                className={style['emoji-list-reveal-btn']}
+                className={`
+                ${style['emoji-list-reveal-btn']} 
+                ${buttonClassName}
+                `}
                 onClick={()=>
                     {
                         handleEmojiButtonClick();
@@ -69,12 +86,12 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: Em
                 className={
                     `
                         ${style['emoji-list']} 
-                        ${(reveal? 'reveal' : "")} 
+                        ${(reveal? style['reveal'] : "")} 
                         ${style[listPosition]}
                     `
                     }>
                 <div className={style['emoji-list__search']}>
-                    <input value={searchTerm} onChange={handleEmojiSearch} placeholder="Search for emoji">
+                    <input type="text" onChange={handleEmojiSearch} placeholder="Search for emoji">
                     </input>
                 </div>
                 <div className={style['emoji-list__selections']}>

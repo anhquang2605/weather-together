@@ -63,7 +63,9 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     const removeFromErrorMessages = (type: string) => {
         setErrorMessages(prev => prev.filter(message => message.type.includes('picture')));
     }
-    
+    const handleEmojiSelect = (emoji: string) => {
+        setContent(prev => prev + emoji);
+    }
     const handleResetForm = () => {
         setContent('');
         setPictureAttached(false);
@@ -163,7 +165,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                             </label>
                             <input type="file" accept="image/*" id="picture-comment-upload" className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
                         </div> 
-                        <EmojiSelector handleEmojiSelect={()=>{}}/>
+                        <EmojiSelector buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
                     </div>
 
                     <button title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
