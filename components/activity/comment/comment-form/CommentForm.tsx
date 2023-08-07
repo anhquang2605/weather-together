@@ -23,6 +23,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
+    const [currentCursorPosition, setCurrentCursorPosition] = useState(0);
     const [picture, setPicture] = useState<File>();
     const [previewPictureURL, setPreviewPictureURL] = useState<string | null>('');
     const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
@@ -74,11 +75,15 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     }
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
+
         if(e.target.value.length > 0) {
             setValidContentLength(true);
         }else{
             setValidContentLength(false);
         }
+    }
+    const handleKeyUpTextAree = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
