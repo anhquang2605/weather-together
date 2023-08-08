@@ -1,5 +1,8 @@
 .comment-form{
   background: var(--primary-color);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
   @apply p-4 px-8 flex flex-row flex-wrap rounded mt-0.5 rounded-lg;   
   textarea{
     @apply w-full resize-none border-none outline-none bg-transparent mb-2;
@@ -87,5 +90,10 @@
             @apply text-red-700 bg-red-100
         }
     }
+
+}
+.is-commenting{
+    visibility: visible;
+    opacity: 1;
 
 }

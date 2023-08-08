@@ -34,8 +34,9 @@ client.connect()
   .catch((err) => {
     console.error("Failed to connect to MongoDB:", err);
   });
-
+let connections = 0;
 wss.on('connection', (socket) => {
+  connections += 1;
   let userChangeStream;
   let notificationChangeStream;
   let feedsChangeStream;
@@ -44,6 +45,7 @@ wss.on('connection', (socket) => {
       userChangeStream && userChangeStream.close();
       notificationChangeStream && notificationChangeStream.close();
       feedsChangeStream && feedsChangeStream.close();
+      connections -= 1;
   })
   socket.on('message', async (message) => {
     const data = JSON.parse(message);
@@ -133,29 +135,23 @@ wss.on('connection', (socket) => {
   })
 });
 
-const connectDB = async () => {
-  try{
-      await client.connect();
-      // Send a ping to confirm a successful connection
-      db = await client.db(DB); 
-      return db;
-  } catch (e) {
-      console.log(e);
-  }
-}
 
-// Listen for termination signals to close the MongoDB connection
-process.on('exit', () => closeMongoConnection());
-process.on('SIGINT', () => closeMongoConnection());
-process.on('SIGTERM', () => closeMongoConnection());
+/* // Listen for termination signals to close the MongoDB connection
+process.on('exit', closeMongoConnection);
+process.on('SIGINT', closeMongoConnection);
+process.on('SIGTERM', closeMongoConnection);
 
 function closeMongoConnection() {
+  if (!client) {
+    console.log('MongoDB connection already closed');
+    return;
+  }
   client.close(() => {
     console.log('MongoDB connection closed');
     process.exit(0);
   });
 }
-
+ */
 server.listen(PORT, (err) => {
   if (err) throw err;
   console.log('> Ready on http://localhost:'+PORT);

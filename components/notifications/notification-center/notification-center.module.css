@@ -1,7 +1,7 @@
 .notification-center{
     display: flex;
     position: fixed;
-    top: 0;
+    top: -12px;
     right: 0;
     z-index: 40;
     flex-direction: column;
@@ -11,10 +11,9 @@
     margin-left: auto;
     box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3);
     transition: all 0.1s ease-in-out;
-    @apply p-2 rounded-full relative;
+    @apply p-1.5 rounded-full relative;
     &:hover{
-
-        @apply p-4 -mr-2 -mt-2;
+        @apply p-2.5 -mr-1 -mt-1;
     }
     z-index: 10;
 }

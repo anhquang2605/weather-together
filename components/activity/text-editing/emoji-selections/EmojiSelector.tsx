@@ -37,7 +37,6 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: Em
         handleEmojiFilterSearchTerm(e.target.value.toLowerCase());
     }
     const handleOuterClick = (e: MouseEvent) => {
-        console.log('triggered');
         const target = e.target as HTMLElement;
         if(emojiListRef.current && emojiButtonRef.current){
             if(!emojiListRef.current.contains(target) && !emojiButtonRef.current.contains(target)){

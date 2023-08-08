@@ -3,7 +3,7 @@ import { connectDB } from "../../../libs/mongodb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const db = await connectDB();
-    const picture = JSON.parse(req.body);
+    const picture = req.body;
     if(db){
         try{
             const result = await db.collection('pictures').insertOne(picture);

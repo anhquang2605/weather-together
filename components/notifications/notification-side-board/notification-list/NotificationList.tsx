@@ -132,9 +132,6 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
             }
         }
     },[notifications.length])
-    useEffect(()=>{
-        console.log(fetching);
-    },[fetching]);
     return(  
             fetching ? 
             listLoadingSkeletalJSX 

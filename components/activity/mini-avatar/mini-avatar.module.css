@@ -1,12 +1,15 @@
 .mini-avatar{
     @apply rounded overflow-hidden mr-4;
+    img{
+        @apply w-full h-full;
+    }
 }
 .large{
-
+    @apply w-16 h-16;
 }
 .medium{
-
+    @apply w-12 h-12;
 }
 .small{
-
+    @apply w-8 h-8;
 }

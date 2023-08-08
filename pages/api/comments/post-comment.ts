@@ -4,7 +4,6 @@ import { connectDB } from '../../../libs/mongodb';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const db = await connectDB();
     const comment = req.body;
-    console.log(comment);
     if(db){
         try{
             const result = await db.collection('comments').insertOne(comment);

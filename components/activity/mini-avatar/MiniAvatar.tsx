@@ -8,7 +8,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium'}: MiniAv
     const dimesion = size === 'large' ? 40 : size === 'medium' ? 32 : 24;
     return (
         
-        <div className={style['mini-avatar']}>
+        <div className={style['mini-avatar'] + " " + style[size]}>
             <Image alt="Mini avatar" width={dimesion} height={dimesion}  src={profilePicturePath ? profilePicturePath : ""}/>
         </div>
         

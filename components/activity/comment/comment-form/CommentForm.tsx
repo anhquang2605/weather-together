@@ -46,7 +46,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     const renderSuggestion = (suggestion: Emoji, index:number) => {
         return(
             
-                <div title={suggestion.name} className={`${style['emoji-intext-suggestion-item']} ${index === 0 ? style['top-suggestion'] : ""}`} onClick={()=>{handleEmojiSuggestionChose(suggestion)}}>
+                <div key={suggestion.name} title={suggestion.name} className={`${style['emoji-intext-suggestion-item']} ${index === 0 ? style['top-suggestion'] : ""}`} onClick={()=>{handleEmojiSuggestionChose(suggestion)}}>
                     {suggestion.emoji}
                 </div>
             
@@ -62,7 +62,8 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         const part1 = content.slice(0, currentCursorPosition - 1);
         const part2 = content.slice(currentCursorPosition + emojiSuggestionTerm.length); //ignore the trigger char
         const newContent = part1 + emoji.emoji + part2;
-        setContent(newContent);        
+        setContent(newContent);  
+        setRevealEmojiSuggestions(false);      
     }
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
@@ -87,7 +88,6 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                 e.preventDefault();
                 const emoji = suggestions[0];
                 handleEmojiSuggestionChose(emoji);
-                setRevealEmojiSuggestions(false);
             }
         }        
         if (e.key === "Backspace") {
@@ -168,6 +168,9 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         setPictureAttached(false);
         setPicture(undefined);
         setPreviewPictureURL(null);
+        if(contentTextAreaRef.current){
+            contentTextAreaRef.current.style.height = 'auto';
+        }
     }
 
     const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
@@ -210,7 +213,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         try{
             removeFromErrorMessages('comment');
             let commentId;
-            //commentId = await insertToPostAPI(pathToPostCommentAPI, comment);
+            commentId = await insertToPostAPI(pathToPostCommentAPI, comment);
 
             if(picture && pictureAttached && commentId) {
                 const pathToPostPictureAPI = 'pictures/post-picture';
@@ -223,7 +226,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                 }
                 try{
                     await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
-                }catch(err) {0
+                }catch(err) {
                     addToErrorMessages({
                         type: 'picture-posting',
                         message: 'Error posting picture',
@@ -250,8 +253,8 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         }
     }, [errorMessages])
     return(
-        <div className={style['comment-form']}>
-            <MiniAvatar profilePicturePath={userProfilePicturePath} size="large"/>
+        <div className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""}`}>
+            <MiniAvatar profilePicturePath={userProfilePicturePath} size="medium"/>
             <div className={style['text-box']}>
                 <textarea 
                     className={style['comment-form__content']} 

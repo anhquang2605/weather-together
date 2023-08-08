@@ -71,7 +71,7 @@ export default function Post({post,username}: PostProps){
                     handleCommentBtnClick={handleCommentBtnClick}
                 />
                 <CommentForm 
-                    targetType="posts" 
+                    targetType="posts"
                     username={author}  
                     isCommenting={isCommenting} 
                     setIsCommenting={setIsCommenting} 

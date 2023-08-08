@@ -1,5 +1,5 @@
 .post-title{
-    @apply flex flex-row p-4 rounded-t;
+    @apply flex flex-row;
 }
 .title-bottom{
     @apply flex flex-row w-full items-center;
