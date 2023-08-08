@@ -3,11 +3,13 @@ import React,{useState, useEffect, useRef} from 'react'
 import { insertToPostAPI, uploadFileToPostAPI } from '../../../../libs/api-interactions';
 import style from './comment-form.module.css';
 import MiniAvatar from '../../mini-avatar/MiniAvatar';
-import {IoCamera,IoSend} from 'react-icons/io5';
+import {IoCamera,IoSend, IoClose} from 'react-icons/io5';
 import EmojiSelector from '../../text-editing/emoji-selections/EmojiSelector';
 import IntextSuggestion from '../../text-editing/intext-suggestion/IntextSuggestion';
 import { EMOJIS } from '../../../../constants/emojis';
 import { Emoji } from '../../../../types/Emoji';
+import NextImage from 'next/image';
+import { add, set } from 'lodash';
 interface ErrorMessage {
     message: string,
     type: string //picture-attachment, content-length
@@ -28,9 +30,12 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     const [pictureAttached, setPictureAttached] = useState(false);
     const [picture, setPicture] = useState<File>();
     const [previewPictureURL, setPreviewPictureURL] = useState<string | null>('');
+    const [previewRatio, setPreviewRatio] = useState<number>(1); //[width, height
     const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
     const [validContentLength, setValidContentLength] = useState(false); //min should be 1 word
     const [s3PictureURL, setS3PictureURL] = useState<string | null>(null);
+
+    /*************************SUGGESTIONS EMOJIS SECTIONS***********************/
     //intext suggestions state, used to provide props for intext suggestion component
     const [currentCursorPosition, setCurrentCursorPosition] = useState(0);
     const [suggestions, setSuggestions] = useState<Emoji[]>(EMOJIS);
@@ -38,64 +43,26 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     const [emojiSuggestionTerm, setEmojiSuggestionTerm] = useState(''); //the term that is used to filter the suggestions
     const contentTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
     const triggerChar = ':';
-    const renderSuggestions = (suggestions: Emoji[]) => {
+    const renderSuggestion = (suggestion: Emoji, index:number) => {
         return(
-            suggestions.map((suggestion, index) => (
-                <div className={style['emoji-intext-suggestion-item']}>
+            
+                <div title={suggestion.name} className={`${style['emoji-intext-suggestion-item']} ${index === 0 ? style['top-suggestion'] : ""}`} onClick={()=>{handleEmojiSuggestionChose(suggestion)}}>
                     {suggestion.emoji}
                 </div>
-            ))
+            
         )
     }
+    const handleEmojiSuggestionFilter = (term: string) => {
+        const filteredEmojis = EMOJIS.filter(emoji => emoji.name.toLowerCase().includes(term));
+        setSuggestions(filteredEmojis);
+    }
     const suggestionsContainerClassName = style['emoji-intext-suggestion-container'];
-    const handleEmojiSuggestionClick = (emoji: Emoji) => {
+    const handleEmojiSuggestionChose = (emoji: Emoji) => {
         //replace the term with the emoji
-        const newContent = content.replace(`:${emojiSuggestionTerm}`, emoji.emoji);
+        const part1 = content.slice(0, currentCursorPosition - 1);
+        const part2 = content.slice(currentCursorPosition + emojiSuggestionTerm.length); //ignore the trigger char
+        const newContent = part1 + emoji.emoji + part2;
         setContent(newContent);        
-    }
-    const handlePictureInptChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        const reader = new FileReader();
-        if(file) {
-            //check if file is image
-            if(!file.type.startsWith('image')) {
-                addToErrorMessages({
-                    message: 'File must be an image',
-                    type: 'picture-attachment'
-                });
-            }else{
-                reader.onload = () => {
-                    if(errorMessages.some(message => message.type.includes('picture'))) {
-                        removeFromErrorMessages('picture');
-                    }
-                    setPicture(file);
-                    setPreviewPictureURL(URL.createObjectURL(file));
-                    setPictureAttached(true);
-                }
-                reader.onerror = () => {
-                    addToErrorMessages({
-                        message: 'Error reading file',
-                        type: 'picture-reading'
-                    });
-                }
-
-            }
-        }
-    }
-    const addToErrorMessages = (message: ErrorMessage) => {
-        setErrorMessages(prev => [...prev, message]);
-    }
-    const removeFromErrorMessages = (type: string) => {
-        setErrorMessages(prev => prev.filter(message => message.type.includes('picture')));
-    }
-    const handleEmojiSelect = (emoji: string) => {
-        setContent(prev => prev + emoji);
-    }
-    const handleResetForm = () => {
-        setContent('');
-        setPictureAttached(false);
-        setPicture(undefined);
-        setPreviewPictureURL(null);
     }
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
@@ -108,19 +75,27 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     }
     //reveal emoji suggestions when trigger char is typed
     const handleKeyUpTextArea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        setCurrentCursorPosition(e.currentTarget.selectionStart || 0);
         if(e.key === triggerChar) {
+            setCurrentCursorPosition(e.currentTarget.selectionStart || 0);
             setRevealEmojiSuggestions(true);
         } 
-        if(e.key === " "){
-            setRevealEmojiSuggestions(false);
-        }
     }
     //stop revealing when backspace is pressed and the trigger char is deleted
     const handleKeyDownTextArea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === "Backspace" || e.key === "Enter" ) {
+        if(e.key === "Enter" || e.key === "Tab"){
+            if(revealEmojiSuggestions){
+                e.preventDefault();
+                const emoji = suggestions[0];
+                handleEmojiSuggestionChose(emoji);
+                setRevealEmojiSuggestions(false);
+            }
+        }        
+        if (e.key === "Backspace") {
             
-            //get character at current cursor position
+            if(emojiSuggestionTerm.length > 0){
+                setEmojiSuggestionTerm(prev => prev.slice(0, -1));
+            }
+
             const currentContent = contentTextAreaRef.current?.value;
             const currentCursorPosition = e.currentTarget.selectionStart || 0;
             const currentChar = currentContent?.[currentCursorPosition - 1];
@@ -128,30 +103,82 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                 setRevealEmojiSuggestions(false);
             }
         }
-    }
-    //getting the term to filter the suggestions
-    const handleKeyPressTextArea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if(e.key === triggerChar) {
-            setEmojiSuggestionTerm('');
-        }else{
-            setEmojiSuggestionTerm(prev => prev + e.key);
+        if(checkIfPrintableKey(e)){
+            if(e.key === triggerChar ) {
+                setEmojiSuggestionTerm('');
+            }else{
+                setEmojiSuggestionTerm(prev => prev + e.key);
+            }
         }
     }
-    const handleEmojiSuggestionFilter = (term: string) => {
-        const filteredEmojis = EMOJIS.filter(emoji => emoji.name.toLowerCase().includes(term));
-        setSuggestions(filteredEmojis);
+    /******************END EMOJI SUGGESTIONS SECTION*******************/
+    const checkIfPrintableKey = (event: React.KeyboardEvent) => {
+        return (/^.$/u.test(event.key) && !event.ctrlKey && !event.metaKey && !event.altKey);
     }
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handlePictureInptChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        const reader = new FileReader();
+        if(file) {
+            if(!file.type.startsWith('image')) {
+                addToErrorMessages({
+                    message: 'File must be an image',
+                    type: 'picture-attachment'
+                });
+            }else{
+                if(errorMessages.some(message => message.type.includes('picture'))) {
+                    removeFromErrorMessages('picture');
+                }
+                setPicture(file);
+                const imageURL = URL.createObjectURL(file)
+                setPreviewPictureURL(imageURL);
+                const newImage = new Image();
+                newImage.src = imageURL;
+                newImage.onload = () => {
+                   setPreviewRatio(newImage.width / newImage.height);
+                }
+                setPictureAttached(true);
+                reader.onerror = () => {
+                    addToErrorMessages({
+                        message: 'Error reading file',
+                        type: 'picture-reading'
+                    });
+                }
+
+            }
+        }
+    }
+    const handleRemovePictureAttachment = () => {
+        setPictureAttached(false);
+        setPreviewPictureURL(null);
+        setPicture(undefined);
+        setPreviewRatio(1);
+    }
+
+    const addToErrorMessages = (message: ErrorMessage) => {
+        setErrorMessages(prev => [...prev, message]);
+    }
+    const removeFromErrorMessages = (type: string) => {
+        setErrorMessages(prev => prev.filter(message => !message.type.includes(type)));
+    }
+    const handleEmojiSelect = (emoji: string) => {
+        setContent(prev => prev + emoji);
+    }
+    const handleResetForm = () => {
+        setContent('');
+        setPictureAttached(false);
+        setPicture(undefined);
+        setPreviewPictureURL(null);
+    }
+
+    const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         setIsSending(true);
         let picuterUrl;
         if(picture && pictureAttached) {
             removeFromErrorMessages('picture')
-            const formData = new FormData();
-            formData.append('file', picture);
-            const uploadToS3APIPath= 'upload'
+            const pathToUploadFile = 'upload';
             try{
-                const data = await uploadFileToPostAPI(uploadToS3APIPath, formData);
+                const data = await uploadFileToPostAPI(pathToUploadFile,picture);
                 picuterUrl = data.url;
             }catch(error) {
                 addToErrorMessages({
@@ -180,9 +207,31 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
             postId,
         }
         //post comment first, then get the comment id, then post picture
-        let commentId;
         try{
-            commentId = await insertToPostAPI(pathToPostCommentAPI, comment);
+            removeFromErrorMessages('comment');
+            let commentId;
+            //commentId = await insertToPostAPI(pathToPostCommentAPI, comment);
+
+            if(picture && pictureAttached && commentId) {
+                const pathToPostPictureAPI = 'pictures/post-picture';
+                const mongoPicture = {
+                    picturePath: picuterUrl,
+                    createdDate: new Date(),
+                    targetId: commentId,
+                    targetType: 'comment',
+                    username,
+                }
+                try{
+                    await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
+                }catch(err) {0
+                    addToErrorMessages({
+                        type: 'picture-posting',
+                        message: 'Error posting picture',
+                    })
+                }
+            }
+            handleResetForm();
+            setIsSending(false); 
         } catch (err){
             addToErrorMessages({
                 type: 'comment-posting',
@@ -190,33 +239,16 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
             })
         }
         //adding picture to post if picture is attached
-        if(picture && pictureAttached) {
-            const pathToPostPictureAPI = 'pictures/post-picture';
-            const mongoPicture = {
-                picturePath: picuterUrl,
-                createdDate: new Date(),
-                targetId: commentId,
-                targetType: 'comment',
-                username,
-            }
-            try{
-                await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
-                
-                handleResetForm();
-            }catch(err) {0
-                addToErrorMessages({
-                    type: 'picture-posting',
-                    message: 'Error posting picture',
-                })
-            }
-        }
-        setIsSending(false); 
+
     }
     useEffect(()=>{
-        if(emojiSuggestionTerm.length > 0){
-            handleEmojiSuggestionFilter(emojiSuggestionTerm);
-        }
+        handleEmojiSuggestionFilter(emojiSuggestionTerm);
     }, [emojiSuggestionTerm])
+    useEffect(()=>{
+        if(errorMessages.length > 0){
+            setIsSending(false);
+        }
+    }, [errorMessages])
     return(
         <div className={style['comment-form']}>
             <MiniAvatar profilePicturePath={userProfilePicturePath} size="large"/>
@@ -228,8 +260,17 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                     onChange={handleContentChange}
                     onKeyUp={handleKeyUpTextArea}
                     onKeyDown={handleKeyDownTextArea}
-                    onKeyPress={handleKeyPressTextArea}
                     ref={contentTextAreaRef}
+                    rows={1}
+                    style={{
+                      overflow: 'hidden',
+                      resize: 'none',
+                    }}
+                    onInput={ (e:React.FormEvent<HTMLElement>) => {
+                        const target = e.target as HTMLElement;
+                        target.style.height = 'auto';
+                        target.style.height = (target.scrollHeight) + 'px';
+                    }}
                 ></textarea>
                 {revealEmojiSuggestions && <IntextSuggestion<Emoji>
                     reveal={revealEmojiSuggestions}
@@ -237,14 +278,29 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                     triggerChar={triggerChar}
                     content={content}
                     suggestions={suggestions}
-                    suggestionJSX={renderSuggestions}
+                    suggestionJSX={renderSuggestion}
                     inputRef={contentTextAreaRef}
-                    currentCursorPosition={currentCursorPosition}
                     term={emojiSuggestionTerm}
-                    handleSuggestionClick={handleEmojiSuggestionClick}
+                    handleSuggestionChose={handleEmojiSuggestionChose}
                     suggestionContainerClassName={suggestionsContainerClassName}
-                />}                
-                
+                    topSuggestionClassName={style['top-suggestion']}
+                />}
+                {previewPictureURL && <div className={style['preview-attachment-picture']}>
+                    <NextImage width={200 * previewRatio} height={200 / previewRatio} alt="Preview Attachment Picture" src={previewPictureURL} />
+                    <button 
+                        title="Remove Picture"
+                        onClick={()=>{handleRemovePictureAttachment()}}
+                        className={style['remove-attachment-btn']}>
+                        <IoClose />
+                    </button>
+                </div>}               
+                <div className={style['error-display']}>
+                    {errorMessages.map((message, index) => 
+                        <div key={index} className={style['error-message']}>
+                            {message.message}
+                        </div>
+                    )}
+                </div>
                 <div className={style['control-group']}>
                     <div className={style['attachment-group']}>
                         <div className={style['picture-attachment']}>
@@ -256,17 +312,17 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                         <EmojiSelector buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
                     </div>
 
-                    <button title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
+                    <button  onClick={handleSubmit} title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
                         isSending || !validContentLength ? style['disabled'] : ''
                     )}>
-                        <IoSend className={style['control-icon'] + " icon"}/>
+                        <IoSend 
+                           
+                            className={style['control-icon'] + " icon"}/>
                     </button>
 
                 </div>
             </div>
-            <div className={style['error-diplay']}>
 
-            </div>
 
         </div>
     )

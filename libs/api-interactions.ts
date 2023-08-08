@@ -49,9 +49,11 @@ export function insertToPostAPI(path: string, body: any){
 export function uploadFileToPostAPI(path: string, file: any){
     const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
     const url = `${baseURL}/api/${path}`;
+    const formData = new FormData();
+    formData.append('file', file);
     return fetch(url, {
         method: "POST",
-        body: file
+        body: formData
     }).then(res => {
         if(res.ok){
             return res.json();

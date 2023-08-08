@@ -1,13 +1,14 @@
 .comment-form{
   background: var(--primary-color);
-  @apply p-4 px-8 flex flex-row rounded mt-0.5 rounded-lg;   
+  @apply p-4 px-8 flex flex-row flex-wrap rounded mt-0.5 rounded-lg;   
   textarea{
-    @apply w-full resize-none border-none outline-none bg-transparent mb-4;
+    @apply w-full resize-none border-none outline-none bg-transparent mb-2;
     color: var(--primary-color);
+    min-height: 1rem;
   }
 }
 .text-box{
-    @apply flex flex-col w-full bg-white rounded-lg p-4 relative;
+    @apply flex flex-col grow bg-white rounded-lg p-4 relative;
 }
 .attachment-group{
     @apply flex flex-row items-center justify-between;
@@ -46,9 +47,10 @@
 .emoji-intext-suggestion-container{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(2rem, 1fr));
-    width: 160px;
+    max-width: 25%;
+    max-height: 10rem;
     overflow-y: auto;
-    @apply p-2;
+    @apply p-2 rounded-lg;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
 }
 .emoji-intext-suggestion-item{
@@ -57,4 +59,33 @@
     &:hover{
         background-color: var(--faded-hover-color); 
     }
+}
+.top-suggestion{
+    background-color: var(--faded-hover-color);
+}
+.error-display{
+    @apply text-red-400 text-sm;
+}
+.preview-attachment-picture{
+    @apply w-40 relative my-2;
+    img{
+        @apply w-full rounded-lg;
+        border: 1px solid var(--btn-color);
+    }
+    &:hover{
+        .remove-attachment-btn{
+            @apply opacity-100;
+        }
+    }
+}
+.remove-attachment-btn{
+    @apply absolute -top-3 -right-3 opacity-0;
+    svg{
+        @apply w-6 h-6 text-red-400 rounded-full;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            @apply text-red-700 bg-red-100
+        }
+    }
+
 }

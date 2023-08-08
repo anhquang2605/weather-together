@@ -70,7 +70,15 @@ export default function Post({post,username}: PostProps){
                     username={username || ''}
                     handleCommentBtnClick={handleCommentBtnClick}
                 />
-                <CommentForm targetType="posts" username={author}  isCommenting={isCommenting} setIsCommenting={setIsCommenting} targetId={""} postId={post._id?.toString()!} userProfilePicturePath={profilePicturePaths[author]} />
+                <CommentForm 
+                    targetType="posts" 
+                    username={author}  
+                    isCommenting={isCommenting} 
+                    setIsCommenting={setIsCommenting} 
+                    targetId={""} 
+                    postId={post._id?.toString()!} 
+                    userProfilePicturePath={profilePicturePaths[author]} 
+                />
                    
         </div>
         </PostContext.Provider>

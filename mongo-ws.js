@@ -22,10 +22,18 @@ const client = new MongoClient(uri, {
       deprecationErrors: true,
     }
   });
-
 const app = express();
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server });
+let db;
+
+client.connect()
+  .then((client) => {
+    db = client.db(DB);
+  })
+  .catch((err) => {
+    console.error("Failed to connect to MongoDB:", err);
+  });
 
 wss.on('connection', (socket) => {
   let userChangeStream;
@@ -37,7 +45,7 @@ wss.on('connection', (socket) => {
       notificationChangeStream && notificationChangeStream.close();
       feedsChangeStream && feedsChangeStream.close();
   })
-  socket.on('message', (message) => {
+  socket.on('message', async (message) => {
     const data = JSON.parse(message);
     if (data.type === 'username'){
       let username = data.username;
@@ -50,78 +58,76 @@ wss.on('connection', (socket) => {
         }
       }];
 
-      connectDB().then(async (db)  => {
-        if (data.package === 'notifications'){
-          const notificationCollection = await db.collection('notifications');
-          
-          notificationChangeStream = notificationCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
-
-          notificationChangeStream.on('change', (change) => {
-            if(change.operationType === 'insert'){
-              wss.clients.forEach((client) => {
-                if (client.readyState === WebSocket.OPEN) {
-                  const fullDocument = change.fullDocument;
-                  const message = {
-                    type: 'notification-added',
-                    data: fullDocument
-                  }
-                  client.send(JSON.stringify(message)); 
-                }
-              });
-            }
-           
-          })
-
-        } else if(data.package === 'feeds'){
-          const feedsCollection = await db.collection('feeds');
-          const pipeline = [{
-            $match: {
-              $or:[
-                {'fullDocument.username': username},
-                {'fullDocument.relatedUser': username},
-              ]
-            } 
-          }]
-          feedsChangeStream = feedsCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
-
-          feedsChangeStream.on('change', (change) => {
-            if(change.operationType === 'insert'){
-              wss.clients.forEach((client) => {
-                if (client.readyState === WebSocket.OPEN) {
-                  const fullDocument = change.fullDocument;
-                  const message = {
-                    type: 'feed-added',
-                    data: fullDocument
-                  }
-                  client.send(JSON.stringify(message)); 
-                }
-              });
-            }
-           
-          })
+      if (data.package === 'notifications'){
+        const notificationCollection = await db.collection('notifications');
         
-        } else{
-          const userCollection = await db.collection('users');
-        
-          userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
-          
-          userChangeStream.on('change', (change) => {
-            // Broadcast the change to all connected WebSocket clients
-           
+        notificationChangeStream = notificationCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
+
+        notificationChangeStream.on('change', (change) => {
+          if(change.operationType === 'insert'){
             wss.clients.forEach((client) => {
               if (client.readyState === WebSocket.OPEN) {
-                const updated = change.updateDescription.updatedFields;
+                const fullDocument = change.fullDocument;
                 const message = {
-                  type: 'user-updated',
-                  data: updated
+                  type: 'notification-added',
+                  data: fullDocument
                 }
-                client.send(JSON.stringify(message));
+                client.send(JSON.stringify(message)); 
               }
             });
+          }
+          
+        })
+
+      } else if(data.package === 'feeds'){
+        const feedsCollection = await db.collection('feeds');
+        const pipeline = [{
+          $match: {
+            $or:[
+              {'fullDocument.username': username},
+              {'fullDocument.relatedUser': username},
+            ]
+          } 
+        }]
+        feedsChangeStream = feedsCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
+
+        feedsChangeStream.on('change', (change) => {
+          if(change.operationType === 'insert'){
+            wss.clients.forEach((client) => {
+              if (client.readyState === WebSocket.OPEN) {
+                const fullDocument = change.fullDocument;
+                const message = {
+                  type: 'feed-added',
+                  data: fullDocument
+                }
+                client.send(JSON.stringify(message)); 
+              }
+            });
+          }
+          
+        })
+      
+      } else{
+        const userCollection = await db.collection('users');
+      
+        userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
+        
+        userChangeStream.on('change', (change) => {
+          // Broadcast the change to all connected WebSocket clients
+          
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              const updated = change.updateDescription.updatedFields;
+              const message = {
+                type: 'user-updated',
+                data: updated
+              }
+              client.send(JSON.stringify(message));
+            }
           });
-          await new Promise(() => {});
-        }
-      });
+        });
+        await new Promise(() => {});
+      }
       
     }
   })
@@ -137,6 +143,19 @@ const connectDB = async () => {
       console.log(e);
   }
 }
+
+// Listen for termination signals to close the MongoDB connection
+process.on('exit', () => closeMongoConnection());
+process.on('SIGINT', () => closeMongoConnection());
+process.on('SIGTERM', () => closeMongoConnection());
+
+function closeMongoConnection() {
+  client.close(() => {
+    console.log('MongoDB connection closed');
+    process.exit(0);
+  });
+}
+
 server.listen(PORT, (err) => {
   if (err) throw err;
   console.log('> Ready on http://localhost:'+PORT);

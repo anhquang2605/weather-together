@@ -3,26 +3,38 @@ import style from "./intext-suggestion.module.css";
 import { useEffect } from "react";
 import { current } from "@reduxjs/toolkit";
 interface IntextSuggestionProps<T> {
-    term: string;
-    handleSuggestionClick: (suggestion: T) => void;
+    term?: string;
+    handleSuggestionChose?: (suggestion: T) => void;
     setReveal: React.Dispatch<React.SetStateAction<boolean>>;
     reveal: boolean;
-    triggerChar: string; //the char that trigger the suggestion box
+    triggerChar?: string; //the char that trigger the suggestion box
     suggestions: T[];
-    suggestionJSX?: (suggestions: T[]) => React.JSX.Element[];
+    suggestionJSX?: (suggestion: T, index: number) => React.JSX.Element;
     enableSuggestionMark?: boolean; //if true, the suggestion will be highlighted in the text
     suggestionMarkType?: string; //the pattern to mark the suggestion in the text;
     inputRef : React.MutableRefObject<HTMLTextAreaElement | HTMLInputElement | null>;
-    currentCursorPosition: number;//parent will have to handle this
     suggestionContainerClassName?: string;
     content: string;
+    topSuggestionClassName?: string;
 }
-export default function IntextSuggestion<T extends {}>({ term, handleSuggestionClick, reveal, setReveal, triggerChar, suggestions, suggestionJSX, suggestionContainerClassName, currentCursorPosition, inputRef, content}: IntextSuggestionProps<T>) {
+export default function IntextSuggestion<T extends {}>({ term, handleSuggestionChose, reveal, setReveal, triggerChar, suggestions, suggestionJSX, suggestionContainerClassName, inputRef, content, topSuggestionClassName}: IntextSuggestionProps<T>) {
     const getTextSizeOfRef = (ref: React.MutableRefObject<HTMLTextAreaElement | HTMLInputElement | null>) => {
         if(ref.current){
             return parseFloat(window.getComputedStyle(ref.current).fontSize);
         }
     }
+    const handleOutsideClick = (e: MouseEvent) => {
+        if(e.target instanceof HTMLElement){
+            if(!e.target.closest(`.${style['intext-suggestion']}`)){
+                setReveal(false);
+            }
+        }
+    }
+    const suggestionsJSX = suggestions.map((suggestion, index) => {
+        return suggestionJSX ?
+                suggestionJSX(suggestion,index)
+               : ""   
+    })
     useEffect(()=>{
         if(reveal){
             //set the suggestion box position based on the cursor position
@@ -55,6 +67,14 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
             }
         }
     },[reveal])
+    useEffect(()=>{
+        if(reveal){
+            document.addEventListener('click', handleOutsideClick);
+        }
+        return ()=>{
+            document.removeEventListener('click', handleOutsideClick);
+        }
+    },[])
     return(
         <>
             <div className={style['content-rendered']}>
@@ -64,7 +84,7 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
                 `${suggestionContainerClassName ??  ""} ${style['intext-suggestion']}
                 `
             }>
-                {suggestionJSX && suggestionJSX(suggestions)}
+                {suggestionsJSX}
             </div>
         </>
     )
