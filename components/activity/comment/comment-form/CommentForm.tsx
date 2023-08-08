@@ -41,13 +41,13 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
     const renderSuggestions = (suggestions: Emoji[]) => {
         return(
             suggestions.map((suggestion, index) => (
-                <div className={style['emoji-selection-item']}>
+                <div className={style['emoji-intext-suggestion-item']}>
                     {suggestion.emoji}
                 </div>
             ))
         )
     }
-    const suggestionsContainerClassName = style['emoji-selection-container'];
+    const suggestionsContainerClassName = style['emoji-intext-suggestion-container'];
     const handleEmojiSuggestionClick = (emoji: Emoji) => {
         //replace the term with the emoji
         const newContent = content.replace(`:${emojiSuggestionTerm}`, emoji.emoji);
@@ -115,11 +115,10 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         if(e.key === " "){
             setRevealEmojiSuggestions(false);
         }
-      
     }
     //stop revealing when backspace is pressed and the trigger char is deleted
     const handleKeyDownTextArea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === "Backspace") {
+        if (e.key === "Backspace" || e.key === "Enter" ) {
             
             //get character at current cursor position
             const currentContent = contentTextAreaRef.current?.value;
@@ -129,6 +128,18 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                 setRevealEmojiSuggestions(false);
             }
         }
+    }
+    //getting the term to filter the suggestions
+    const handleKeyPressTextArea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if(e.key === triggerChar) {
+            setEmojiSuggestionTerm('');
+        }else{
+            setEmojiSuggestionTerm(prev => prev + e.key);
+        }
+    }
+    const handleEmojiSuggestionFilter = (term: string) => {
+        const filteredEmojis = EMOJIS.filter(emoji => emoji.name.toLowerCase().includes(term));
+        setSuggestions(filteredEmojis);
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -201,6 +212,11 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         }
         setIsSending(false); 
     }
+    useEffect(()=>{
+        if(emojiSuggestionTerm.length > 0){
+            handleEmojiSuggestionFilter(emojiSuggestionTerm);
+        }
+    }, [emojiSuggestionTerm])
     return(
         <div className={style['comment-form']}>
             <MiniAvatar profilePicturePath={userProfilePicturePath} size="large"/>
@@ -212,12 +228,14 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
                     onChange={handleContentChange}
                     onKeyUp={handleKeyUpTextArea}
                     onKeyDown={handleKeyDownTextArea}
+                    onKeyPress={handleKeyPressTextArea}
                     ref={contentTextAreaRef}
                 ></textarea>
                 {revealEmojiSuggestions && <IntextSuggestion<Emoji>
                     reveal={revealEmojiSuggestions}
                     setReveal={setRevealEmojiSuggestions}
                     triggerChar={triggerChar}
+                    content={content}
                     suggestions={suggestions}
                     suggestionJSX={renderSuggestions}
                     inputRef={contentTextAreaRef}

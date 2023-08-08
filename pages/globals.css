@@ -41,6 +41,7 @@ body {
   --btn-hover-color: #4f46e5;
   --btn-color: #6366f1;
   --disabled-color: #c1caf7;
+  --faded-hover-color: #c1caf7;
 }
 
 .glass{
