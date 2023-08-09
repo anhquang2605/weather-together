@@ -13,11 +13,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 try {
                     let result:WithId<Comment>[] =[];
                     if(username && postId){
-                      result = await commentsCollection.find({username,postId}).toArray();
+                      result = await commentsCollection.find({username,postId: postId.toString()}).toArray();
                     } else if(username){
                       result = await commentsCollection.find({username}).toArray();
                     } else if(postId){
-                      result = await commentsCollection.find({postId}).toArray();
+                      result = await commentsCollection.find({postId:postId.toString()}).toArray();
                     }
                     if(result.length > 0){
                       res.status(200).json({
@@ -37,11 +37,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     error: 'Server Error',
                   });
                  }
+              break;
             case 'POST':
                   const comment = req.body;
-                  const result = await commentsCollection.insertOne(comment);
-                   try {
-                    res.status(200).json(result.insertedId.toString());
+                  try{
+                    const result = await commentsCollection.insertOne(comment);
+                    if(result.insertedId){
+                        res.status(201).json({
+                          success: true,
+                          data: {id: result.insertedId.toString()}
+                        });
+                    }
                    } catch (error) {
                     res.status(500).json({
                       success: false,

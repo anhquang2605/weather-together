@@ -24,7 +24,7 @@ interface CommentFormProps {
     userProfilePicturePath: string,
     targetType: string, //posts or comments
 }
-export default function CommentForm({targetId, username, targetLevel = 0, postId, isCommenting, setIsCommenting, userProfilePicturePath, targetType}: CommentFormProps) {
+export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, setIsCommenting, userProfilePicturePath, targetType}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
@@ -213,27 +213,35 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
         try{
             removeFromErrorMessages('comment');
             let commentId;
-            commentId = await insertToPostAPI(pathToPostCommentAPI, comment);
+            const reponse = await insertToPostAPI(pathToPostCommentAPI, comment);
+            if(reponse.success){
 
-            if(picture && pictureAttached && commentId) {
-                const pathToPostPictureAPI = 'pictures/post-picture';
-                const mongoPicture = {
-                    picturePath: picuterUrl,
-                    createdDate: new Date(),
-                    targetId: commentId,
-                    targetType: 'comment',
-                    username,
+                if(picture && pictureAttached) {
+                    commentId = reponse.data.id;
+                    const pathToPostPictureAPI = 'pictures/post-picture';
+                    const mongoPicture = {
+                        picturePath: picuterUrl,
+                        createdDate: new Date(),
+                        targetId: commentId,
+                        targetType: 'comment',
+                        username,
+                    }
+                    try{
+                        await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
+                    }catch(err) {
+                        addToErrorMessages({
+                            type: 'picture-posting',
+                            message: 'Error posting picture',
+                        })
+                    }
                 }
-                try{
-                    await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
-                }catch(err) {
-                    addToErrorMessages({
-                        type: 'picture-posting',
-                        message: 'Error posting picture',
-                    })
-                }
+                handleResetForm();
+            }else {
+                addToErrorMessages({
+                    type: 'comment-posting',
+                    message: 'Error posting comment',
+                })
             }
-            handleResetForm();
             setIsSending(false); 
         } catch (err){
             addToErrorMessages({
