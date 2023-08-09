@@ -197,7 +197,7 @@ export default function CommentForm({targetId, username, targetLevel = 0, postId
             level = targetLevel + 1;
         }
         //posting comment
-        const pathToPostCommentAPI = 'comments/post-comment';
+        const pathToPostCommentAPI = 'comments';
         const comment = {
             content,
             username,

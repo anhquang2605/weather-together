@@ -9,6 +9,7 @@ import InteractionsBtns from "../interactions-btns/InteractionsBtns";
 import PostSummary from "./post-summary/PostSummary";
 import CommentForm from "../comment/comment-form/CommentForm";
 import { PostContext } from "./PostContext";
+import CommentList from "../comment/comment-list/CommentList";
 interface PostProps{
     post: Post;
     username?: string;
@@ -21,6 +22,7 @@ export default function Post({post,username}: PostProps){
     const  { profilePicturePaths } = useContext(MockContext);
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [isCommenting, setIsCommenting] = useState(false);
+    const [comments, setComments] = useState([]); //TODO: fetch comments from server
     const author = 'chuquang2605';
     const handleFetchReactionsGroups = async (targetId: string) => {
         const path = `reactions/get-reactions-by-groups`;
@@ -32,11 +34,22 @@ export default function Post({post,username}: PostProps){
             setReactionsGroups(response);
         }  
     }
+    const handleFetctCommentsByPostId = async (postId: string) => {
+        const path = `comments`;
+        const params = {
+            postId
+        }
+        const response = await fetchFromGetAPI(path, params);
+        if(response.success){
+            setComments(response.data);
+        }
+    }
     const handleCommentBtnClick = () => {
         setIsCommenting(prev => !prev);
     }
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
+        handleFetctCommentsByPostId(post._id?.toString() || '');
     },[])
     return(
         <PostContext.Provider value={{post:post}}>
@@ -57,7 +70,7 @@ export default function Post({post,username}: PostProps){
                     <PostSummary>
                         <ReactionsBar reactionsGroups={reactionsGroups}/>
                         <div className="comment-summary">
-                            2 Comments
+                            {comments.length > 0 ? `${comments.length} comments` : 'No comments'}
                         </div>
                     </PostSummary>
 
@@ -79,6 +92,7 @@ export default function Post({post,username}: PostProps){
                     postId={post._id?.toString()!} 
                     userProfilePicturePath={profilePicturePaths[author]} 
                 />
+                {comments && comments.length > 0 && <CommentList comments={comments} />}
                    
         </div>
         </PostContext.Provider>
