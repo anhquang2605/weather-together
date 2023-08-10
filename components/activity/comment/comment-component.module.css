@@ -1,5 +1,20 @@
 .comment-component{
-    
-
-    
+    @apply flex flex-row mb-4 relative;
+    &:last-of-type{
+        margin-bottom: 0;
+    }
+}
+.content-group{
+    @apply flex flex-col grow;
+}
+.content-group__content{
+    @apply bg-slate-200 p-2 rounded-xl;
+    width: max-content;
+    color: var(--primary-color)
+}
+.content-group__control-and-date{
+    @apply flex flex-row items-center;
+}
+.child-comment{
+    padding: 0;
 }

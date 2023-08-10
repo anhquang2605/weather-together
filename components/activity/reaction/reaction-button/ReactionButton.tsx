@@ -141,9 +141,19 @@ export default function ReactionButton(
         if(!event.target.closest(`.${style['reaction-button']}`)){
             setRevealed(false);
         } 
-    }   
+    }
+    const handleSettingReactionButtonWidth = () => {
+        const reactionButton = document.querySelector(`.${style['reaction-button']}`) as HTMLElement;
+        const reactionButtonContainer = document.querySelector(`.${style['reaction-button-container']}`) as HTMLElement;
+        if(reactionButton && reactionButtonContainer){
+            const reactionButtonRect = reactionButton.getBoundingClientRect();
+            reactionButtonContainer.style.width = `${reactionButtonRect.width}px`;
+        }
+    }
     useEffect(()=>{
+
         handleFetchInitialReaction(`reactions/get-reaction`, {username, targetId});
+        handleSettingReactionButtonWidth();
         document.addEventListener('click', handleOutterClick);
         return () => {
             document.removeEventListener('click', handleOutterClick);

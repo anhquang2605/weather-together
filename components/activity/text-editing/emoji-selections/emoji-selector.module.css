@@ -16,7 +16,7 @@
     transition-property: opacity, margin, visibility;
     transition-duration: 0.2s, 0.2s, 0.2s;
     transition-timing-function: ease-in-out, ease-in-out;
-    transition-delay: 0, 0, 0.2s;
+    transition-delay: 0, 0, 0.2s, 0.4s;
     @apply p-4 rounded-lg w-[300px];
     visibility: hidden;
     opacity: 0;
@@ -37,6 +37,7 @@
 .reveal{
     opacity: 1;
     visibility: visible;
+    display: block;
 }
 .emoji-list__search{
     @apply w-full;

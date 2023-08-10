@@ -9,7 +9,7 @@ interface EmojiSelectorProps {
 export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: EmojiSelectorProps) {
     const [reveal, setReveal] = useState(false);
     const [emojisSelections, setEmojisSelections] = useState(EMOJIS);
-    const [listPosition, setListPosition] = useState('bottom');
+    const [listPosition, setListPosition] = useState('top');
 
     const emojiButtonRef = useRef<HTMLButtonElement | null>(null);
     const emojiListRef = useRef<HTMLDivElement | null>(null);
@@ -20,6 +20,7 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: Em
             const listRect = emojiListRef.current.getBoundingClientRect();
             const listHeight = listRect.height;
             const distanceToBottom = window.innerHeight - btnRect.bottom;
+
             const threshold = listHeight + 16;
             if(distanceToBottom < threshold){
                 setListPosition('top');

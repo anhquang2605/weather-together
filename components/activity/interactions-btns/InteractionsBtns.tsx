@@ -26,10 +26,10 @@ export default function InteractionsBtns({ targetId, username, targetStyle, hand
                 <IoChatboxEllipses className="icon mr-2"/>
                     Comment
             </button>
-            <button className="flex flex-row items-center">
+            {targetStyle !== 'comment' && <button className="flex flex-row items-center">
                 <IoShare className="icon mr-2"/>
                 Share
-            </button>
+            </button>}
         </div>
     )
 

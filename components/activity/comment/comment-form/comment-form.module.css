@@ -1,20 +1,23 @@
 .comment-form{
   background: var(--primary-color);
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
-  @apply p-4 px-8 flex flex-row flex-wrap rounded mt-0.5 rounded-lg;   
+  display: none;
+  transition: opacity 0.2s ease-in-out;
+  @apply p-4 px-8 flex-row flex-wrap rounded mt-0.5 rounded-lg relative;   
   textarea{
     @apply w-full resize-none border-none outline-none bg-transparent mb-2;
     color: var(--primary-color);
     min-height: 1rem;
   }
+  &.comment{
+    padding: 0!important;
+    }
 }
 .text-box{
     @apply flex flex-col grow bg-white rounded-lg p-4 relative;
 }
 .attachment-group{
-    @apply flex flex-row items-center justify-between;
+    @apply flex flex-row items-center justify-between relative;
 }
 .control-btn{
     display: flex;
@@ -45,7 +48,7 @@
     pointer-events: none;
 }
 .control-group{
-    @apply flex flex-row items-center justify-between;
+    @apply flex flex-row items-center justify-between relative;
 }
 .emoji-intext-suggestion-container{
     display: grid;
@@ -93,7 +96,6 @@
 
 }
 .is-commenting{
-    visibility: visible;
     opacity: 1;
-
+    display: flex;
 }

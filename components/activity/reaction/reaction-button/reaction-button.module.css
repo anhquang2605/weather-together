@@ -3,7 +3,6 @@
     --icon-dimension: 32px;
     display: flex;
     flex-direction: row;
-    width: 130px;
 }
 .reaction-list-container{
     height: max-content;

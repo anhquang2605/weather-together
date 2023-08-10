@@ -34,8 +34,8 @@ export default function Tester() {
 {/*             <Modal status={true} containerClassName="form-container" >
                 <PostForm />
             </Modal> */}
-
         </div>
+
         </MockContext.Provider>
     )
 }

@@ -23,10 +23,10 @@ export default function CommentComponent(
     const [isReplying, setIsReplying] = useState(false);
 
     useEffect(()=>{
-        const idString = _id?.toString();
+        console.log(level);
     },[])
     return(
-        <div className={style['comment-component']}>
+        <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>
             <MiniAvatar profilePicturePath={profilePicturePath} />
             <div className={style['content-group']}>
                 <div className={style['content-group__username']}>

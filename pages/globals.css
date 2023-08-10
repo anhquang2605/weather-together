@@ -212,9 +212,9 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 
 *::-webkit-scrollbar-thumb {
   transition: background-color .2s ease-in-out;
-  background: var(--primary-color);
+  background: var(--btn-color);
   border-radius: 20px;
-  border: 1px solid lightgray;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
   &:hover{
     background-color: var(--btn-hover-color);
     cursor: pointer;

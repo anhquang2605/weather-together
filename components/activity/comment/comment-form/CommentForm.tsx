@@ -261,7 +261,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
         }
     }, [errorMessages])
     return(
-        <div className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""}`}>
+        <div className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetLevel ? style['comment'] : ''}`}>
             <MiniAvatar profilePicturePath={userProfilePicturePath} size="medium"/>
             <div className={style['text-box']}>
                 <textarea 
