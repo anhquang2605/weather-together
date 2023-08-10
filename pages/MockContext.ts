@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { usernameToProfilePicturePathMap } from "./api/user/post-user-profile-picture-paths";
+import { usernameToProfilePicturePathMap } from "./api/users";
 
 type MockContextType = {
     profilePicturePaths : usernameToProfilePicturePathMap

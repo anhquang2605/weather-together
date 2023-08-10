@@ -20,9 +20,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       result = await commentsCollection.find({postId:postId.toString()}).toArray();
                     }
                     if(result.length > 0){
+                      const listOfUsernames = result.map((comment) => comment.username);
+                      const uniqueUsernames = [...new Set(listOfUsernames)];
                       res.status(200).json({
                         success: true,
-                        data: result,
+                        data: {result, commentors: uniqueUsernames},
                       });
                     }else{
                       res.status(404).json({

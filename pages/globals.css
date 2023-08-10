@@ -57,7 +57,7 @@ body {
 
 /* BUTTONS */
 .action-btn{
-  @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-indigo-500 to-95% px-4 py-2 rounded border border-indigo-500 hover:border-slate-200;
+  @apply transition duration-200 text-white  bg-indigo-500 hover:bg-gradient-to-r from-indigo-700 from-40%  to-violet-500 to-95% px-4 py-2 rounded border border-indigo-500 hover:border-slate-200;
 }
 .critical-btn{
   @apply transition duration-200 text-white ml-4 bg-red-500 hover:bg-gradient-to-r from-red-700 from-40%  to-red-500 to-95% px-4 py-2 rounded border border-red-500 hover:border-slate-200;

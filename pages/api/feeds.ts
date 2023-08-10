@@ -1,4 +1,4 @@
-import { connectDB } from "../../../libs/mongodb";
+import { connectDB } from "../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from 'next'
 interface FindArgs{
     username: string,

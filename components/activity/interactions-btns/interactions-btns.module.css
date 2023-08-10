@@ -5,5 +5,9 @@
     & > button, & > div> button{
         @apply px-8 py-1;
     }
+    &.comment{
+        background-color: transparent!important;
+        @apply justify-start
+    }
 }
 
