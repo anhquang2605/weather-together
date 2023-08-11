@@ -32,6 +32,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
     const [picture, setPicture] = useState<File>();
     const [previewPictureURL, setPreviewPictureURL] = useState<string | null>('');
     const [previewRatio, setPreviewRatio] = useState<number>(1); //[width, height
+    const [previewPictureDimensions, setPreviewPictureDimensions] = useState<number[]>([0,0]); //[width, height
     const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
     const [validContentLength, setValidContentLength] = useState(false); //min should be 1 word
     const [s3PictureURL, setS3PictureURL] = useState<string | null>(null);
@@ -136,6 +137,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                 newImage.src = imageURL;
                 newImage.onload = () => {
                    setPreviewRatio(newImage.width / newImage.height);
+                   setPreviewPictureDimensions([newImage.width, newImage.height]);
                 }
                 setPictureAttached(true);
                 reader.onerror = () => {
@@ -153,6 +155,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
         setPreviewPictureURL(null);
         setPicture(undefined);
         setPreviewRatio(1);
+        setPreviewPictureDimensions([0,0]);
     }
 
     const addToErrorMessages = (message: ErrorMessage) => {
@@ -226,6 +229,9 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                         targetId: commentId,
                         targetType: 'comment',
                         username,
+                        ratio: previewRatio,
+                        width: previewPictureDimensions[0],
+                        height: previewPictureDimensions[1],
                     }
                     try{
                         await insertToPostAPI(pathToPostPictureAPI, mongoPicture);
