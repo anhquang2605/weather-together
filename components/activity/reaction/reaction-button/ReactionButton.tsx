@@ -105,15 +105,19 @@ export default function ReactionButton(
 
     }
     const handleFetchInitialReaction = async (path: string, params: ReactionFetchParams) => {
-        const reaction = await fetchFromGetAPI(path, params);
-
-        if(reaction){
-            setReaction(reaction);
-            setReacted(true);
+        try{
+            const reaction = await fetchFromGetAPI(path, params);
+            if(reaction){
+                setReaction(reaction);
+                setReacted(true);
+                
+            } else {
+                setReacted(false);
+            }
+        }catch(err){
             
-        } else {
-            setReacted(false);
         }
+        
     }
     const handleReactionButton = async (username: string, targetId: string) => {
         if(!revealed){

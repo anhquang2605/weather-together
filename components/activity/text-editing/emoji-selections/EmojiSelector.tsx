@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { EMOJIS } from "../../../../constants/emojis";
 import {IoHappy} from 'react-icons/io5';
 import style from "./emoji-selector.module.css";
+import { getContentWidth } from "../../../../libs/dimentions-calculations";
 interface EmojiSelectorProps {
     handleEmojiSelect: (emoji: string) => void;
     buttonClassName?: string;
+    containerRef?: React.MutableRefObject<HTMLElement | null>;
 }
-export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: EmojiSelectorProps) {
+export default function EmojiSelector({ handleEmojiSelect, buttonClassName, containerRef }: EmojiSelectorProps) {
     const [reveal, setReveal] = useState(false);
     const [emojisSelections, setEmojisSelections] = useState(EMOJIS);
     const [listPosition, setListPosition] = useState('top');
@@ -16,16 +18,28 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName }: Em
     const handleEmojiButtonClick = () => {
         setReveal(prev => !prev);
         if(emojiButtonRef.current && emojiListRef.current){
-            const btnRect = emojiButtonRef.current.getBoundingClientRect();
+            const btn = emojiButtonRef.current;
+
             const listRect = emojiListRef.current.getBoundingClientRect();
             const listHeight = listRect.height;
-            const distanceToBottom = window.innerHeight - btnRect.bottom;
+            let containerHeight;
+            let distanceToBottom;
+            if(containerRef && containerRef.current){
+                const btnRect = btn.getBoundingClientRect();
+                const containerRect = containerRef?.current?.getBoundingClientRect();
+               containerHeight = getContentWidth(containerRef.current);
+                const buttonScrolledDistance = (btnRect.top - containerRect.top) + containerRef.current.scrollTop;
+               distanceToBottom = containerHeight - buttonScrolledDistance;
+            }else {
+                containerHeight = window.innerHeight;
+                distanceToBottom = containerHeight - btn.scrollTop;
+            }
 
             const threshold = listHeight + 16;
-            if(distanceToBottom < threshold){
-                setListPosition('top');
-            }else{
+            if(distanceToBottom > threshold){
                 setListPosition('bottom');
+            }else{
+                setListPosition('top');
             }
         }
     }

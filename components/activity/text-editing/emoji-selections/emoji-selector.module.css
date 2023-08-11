@@ -21,14 +21,14 @@
     visibility: hidden;
     opacity: 0;
     &.top{
-        margin-bottom: 0rem;
+        margin-bottom: 1rem;
         bottom: 0;
         &.reveal{
             margin-bottom: 2.25rem;
         }
     }
     &.bottom{
-        margin-top: 0rem;
+        margin-top: -1rem;
         &.reveal{
             margin-top: 2.25rem;
         }

@@ -10,21 +10,20 @@ interface CommentComponentProps{
     comment: Comment;
     profilePicturePath: string;
     commentorUsername: string;
+    commentListRef: React.MutableRefObject<HTMLElement | null>;
 }
 
 export default function CommentComponent(
     {
         comment,
         profilePicturePath,
-        commentorUsername
+        commentorUsername,
+        commentListRef
     }: CommentComponentProps
 ){
     const {username, createdDate, content, postId, updatedDate, level, _id} = comment;
     const [isReplying, setIsReplying] = useState(false);
 
-    useEffect(()=>{
-        console.log(level);
-    },[])
     return(
         <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>
             <MiniAvatar profilePicturePath={profilePicturePath} />
@@ -57,6 +56,7 @@ export default function CommentComponent(
                     userProfilePicturePath={profilePicturePath} 
                     targetType={'comments'} 
                     targetLevel={level}
+                    parentListRef={commentListRef}
                     />    
             </div>  
         </div>

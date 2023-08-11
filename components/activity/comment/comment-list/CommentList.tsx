@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styles from './comment-list.module.css';
 import { Comment } from '../../../../types/Comment';
 import { UsernameToProfilePicturePathMap } from '../../UsernameToProfilePicturePathMap';
@@ -10,6 +10,7 @@ interface CommentListProps {
 }
 
 const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor}) => {
+    const commentListRef = useRef<HTMLDivElement| null>(null)
     const commentsJSX = comments.map((comment, index) => {
         return(
             <CommentComponent
@@ -17,11 +18,12 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
                 comment={comment}
                 profilePicturePath={commentorToAvatarMap[comment.username]}
                 commentorUsername={commentor}
+                commentListRef={commentListRef}
             />
         )
     })
     return (
-        <div className={styles['comment-list']}>
+        <div ref={commentListRef} className={styles['comment-list']}>
             {commentsJSX}
         </div>
     );

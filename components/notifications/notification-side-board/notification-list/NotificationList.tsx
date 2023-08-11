@@ -108,9 +108,10 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
     })
 
     useEffect(() => {
+        if(notifications.length === 0) return;
         const listOfUsernames = notifications.map((notification) => notification.username);
         const usernames =[...new Set( listOfUsernames) ];
-        fetch('/api/user/post-user-profile-picture-paths',{
+        fetch('/api/users',{
             method: 'POST',
             body: JSON.stringify({usernames}),
             headers: {
