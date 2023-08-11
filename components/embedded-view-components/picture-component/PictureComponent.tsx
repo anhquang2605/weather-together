@@ -24,7 +24,9 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
         setShow(true);
     }
     return (    
-        <div className={`${styles['picture-component']} `}>
+        <div onClick={()=>{
+            handleClick(src, alt, width, height);
+        }}className={`${styles['picture-component']} `}>
             <Image width={width} height={height} src={src} alt={alt} />
         </div>
     );
