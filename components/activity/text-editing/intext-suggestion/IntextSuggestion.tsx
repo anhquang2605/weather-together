@@ -2,6 +2,7 @@ import React from "react";
 import style from "./intext-suggestion.module.css";
 import { useEffect } from "react";
 import { current } from "@reduxjs/toolkit";
+import { getContentHeight, getContentWidth, getDistanceFromLeftOfScrollableParent, getDistanceFromTopOfScrollableParent } from "../../../../libs/dimentions-calculations";
 interface IntextSuggestionProps<T> {
     term?: string;
     handleSuggestionChose?: (suggestion: T) => void;
@@ -16,8 +17,9 @@ interface IntextSuggestionProps<T> {
     suggestionContainerClassName?: string;
     content: string;
     topSuggestionClassName?: string;
+    scrollListRef?: React.MutableRefObject<HTMLDivElement | null>;
 }
-export default function IntextSuggestion<T extends {}>({ term, handleSuggestionChose, reveal, setReveal, triggerChar, suggestions, suggestionJSX, suggestionContainerClassName, inputRef, content, topSuggestionClassName}: IntextSuggestionProps<T>) {
+export default function IntextSuggestion<T extends {}>({ term, handleSuggestionChose, reveal, setReveal, triggerChar, suggestions, suggestionJSX, suggestionContainerClassName, inputRef, content, topSuggestionClassName, scrollListRef}: IntextSuggestionProps<T>) {
     const getTextSizeOfRef = (ref: React.MutableRefObject<HTMLTextAreaElement | HTMLInputElement | null>) => {
         if(ref.current){
             return parseFloat(window.getComputedStyle(ref.current).fontSize);
@@ -59,7 +61,25 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
                 if(insertionPoint){
                     const insertionPointTop = insertionPoint.offsetTop;
                     const insertionPointLeft = insertionPoint.offsetLeft;
+                   
                     if(suggestionBox){
+                        if(scrollListRef && scrollListRef.current){
+                            //compare left and right, if hit the right side, move the suggestion box to the left, if hit the bottom, move the suggestion box up
+                            const scrollList = scrollListRef.current;
+                            const scrollListHeight = getContentHeight(scrollList);
+                            const scrollListWidth = getContentWidth(scrollList);
+                            const suggestionBoxHeight = suggestionBox.getBoundingClientRect().height;
+                            const suggestionBoxWidth = suggestionBox.getBoundingClientRect().width;
+                            const distanceOfInsertionFromTop = getDistanceFromTopOfScrollableParent(insertionPoint, scrollList);
+                            const distanceOfInsertionFromLeft =getDistanceFromLeftOfScrollableParent(insertionPoint, scrollList);
+                            if(distanceOfInsertionFromLeft + suggestionBoxWidth > scrollListWidth){
+                                suggestionBox.style.left = `${insertionPointLeft + inputLeft - suggestionBoxWidth}px`;
+                            }
+                            if(distanceOfInsertionFromTop + suggestionBoxHeight > scrollListHeight){
+                                suggestionBox.style.top = `${insertionPointTop + inputTop - suggestionBoxHeight }px`;
+                            }
+                            return;
+                        }
                         suggestionBox.style.top = `${insertionPointTop + inputTop + lineHeight + 4}px`;
                         suggestionBox.style.left = `${insertionPointLeft + inputLeft}px`;
                     }
@@ -68,6 +88,7 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
         }
     },[reveal])
     useEffect(()=>{
+        console.log(scrollListRef);
         if(reveal){
             document.addEventListener('click', handleOutsideClick);
         }

@@ -26,9 +26,10 @@ const app = express();
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server });
 let db;
-
+let conn = 0;
 client.connect()
   .then((client) => {
+    conn += 1;
     db = client.db(DB);
   })
   .catch((err) => {

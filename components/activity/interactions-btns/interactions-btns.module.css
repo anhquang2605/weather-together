@@ -5,14 +5,14 @@
     & > button, & > div> button{
         @apply px-8 py-1;
     }
-    &.comment{
+    &.shrinked{
         background-color: transparent!important;
         justify-content: flex-start;
-        @apply p-0;
+        @apply p-0 w-auto;
         & > button, & > div> button{
             @apply px-4 py-0;
         }
-
+        height: 1rem;
     }
 }
 

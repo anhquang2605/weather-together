@@ -13,8 +13,11 @@
     color: var(--primary-color)
 }
 .content-group__control-and-date{
-    @apply flex flex-row items-center;
+    @apply flex flex-row items-center py-2;
 }
 .child-comment{
     padding: 0;
+}
+.content-group__username{
+    @apply font-semibold;
 }

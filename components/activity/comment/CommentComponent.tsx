@@ -10,7 +10,7 @@ interface CommentComponentProps{
     comment: Comment;
     profilePicturePath: string;
     commentorUsername: string;
-    commentListRef: React.MutableRefObject<HTMLElement | null>;
+    commentListRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export default function CommentComponent(
@@ -38,7 +38,7 @@ export default function CommentComponent(
                     <InteractionsBtns 
                         targetId={_id?.toString() || ''}
                         username={commentorUsername}
-                        targetStyle="comment"
+                        variant="shrinked"
                         handleCommentBtnClick={()=>{
                             setIsReplying(prev => !prev);
                         }}
@@ -54,7 +54,7 @@ export default function CommentComponent(
                     isCommenting={isReplying} 
                     setIsCommenting={setIsReplying} 
                     userProfilePicturePath={profilePicturePath} 
-                    targetType={'comments'} 
+                    targetType='comments' 
                     targetLevel={level}
                     parentListRef={commentListRef}
                     />    

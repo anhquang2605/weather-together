@@ -55,6 +55,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(2rem, 1fr));
 }
+.small .emoji-list__selections{
+    grid-template-columns: repeat(auto-fill, minmax(1.5rem, 1fr));
+}
 .emoji-selection{
     @apply w-8 h-8 flex justify-center items-center rounded-full;
     transition: background-color 0.1s ease-in-out;

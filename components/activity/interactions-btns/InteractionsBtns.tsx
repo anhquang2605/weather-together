@@ -4,16 +4,17 @@ import {IoChatboxEllipses, IoShare} from 'react-icons/io5';
 export interface InteractionsBtnsProps {
     targetId: string;
     username: string;
-    targetStyle: string; //extended or shrinked
+    variant: string; //extended or shrinked
     handleCommentBtnClick: () => void;
 }
-export default function InteractionsBtns({ targetId, username, targetStyle, handleCommentBtnClick }: InteractionsBtnsProps) {
+export default function InteractionsBtns({ targetId, username, variant, handleCommentBtnClick }: InteractionsBtnsProps) {
     return(
-        <div className={style['interactions-btns'] + " " + style[targetStyle]}>
+        <div className={style['interactions-btns'] + " " + style[variant]}>
             {/* reaction, comment, and might be sharing or repost */}
             <ReactionButton 
                 targetId={targetId}
                 username={username}
+                variant={variant === 'shrinked' ? 'shrink' : undefined}
             />
             <button 
                 className="flex flex-row items-center"
@@ -26,7 +27,7 @@ export default function InteractionsBtns({ targetId, username, targetStyle, hand
                 <IoChatboxEllipses className="icon mr-2"/>
                     Comment
             </button>
-            {targetStyle !== 'comment' && <button className="flex flex-row items-center">
+            {variant !== 'shrinked' && <button className="flex flex-row items-center">
                 <IoShare className="icon mr-2"/>
                 Share
             </button>}

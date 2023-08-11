@@ -1,6 +1,7 @@
 .reaction-button-container{
     position: relative;
     --icon-dimension: 32px;
+    --icon-dimension-shrink: 24px;
     display: flex;
     flex-direction: row;
 }
@@ -62,7 +63,10 @@
     width: var(--icon-dimension);
     height: var(--icon-dimension);
     text-align: center;
-
+    &.shrink{
+        width: var(--icon-dimension-shrink);
+        height: var(--icon-dimension-shrink);
+    }
     &:hover{
         transform: scale(1.7);
         
@@ -78,6 +82,10 @@
     @apply text-3xl rounded-full flex justify-center items-center;
     background-color: var(--btn-color);
     outline: 2px solid white;
+}
+.shrink .reaction-icon-btn{
+    width: var(--icon-dimension-shrink);
+    height: var(--icon-dimension-shrink);
 }
 .reacted{
     display: none;
@@ -103,6 +111,7 @@
     z-index: 20;
     background-color: var(--btn-color);
     position: relative;
+
     &:hover{
         @apply bg-indigo-600 ;
         outline: 1px solid white;
@@ -112,13 +121,21 @@
     }
 }
 
-.revealed-reacted, .revealed-unreacted{
+.revealed-reacted, .revealed-unreacted, .revealed-noreaction{
     @apply mr-6;
+
     padding: 0.25rem!important;
     transform: scale(2);
+
     transition-timing-function: ease-in-out;
     width: var(--icon-dimension);
     height: var(--icon-dimension);
+    &.shrink{
+        transform: scale(1.5); 
+        width: var(--icon-dimension-shrink);
+        height: var(--icon-dimension-shrink);
+        @apply mr-4;
+    }
     transition-duration: 200ms;
     .reaction-button__reaction-icon{
         margin-right: 0;
@@ -133,6 +150,7 @@
     }
     
 }
+
 .reaction-button__reaction-icon{
     margin-right: 0.5rem;
 }

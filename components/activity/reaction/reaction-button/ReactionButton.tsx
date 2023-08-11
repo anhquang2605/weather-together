@@ -10,6 +10,7 @@ import {TbHeartPlus} from 'react-icons/tb';
 export interface ReactionButtonProps{
     username: string;
     targetId: string;
+    variant?: string;
 }
 interface ReactionFetchParams{
     username: string;
@@ -44,7 +45,8 @@ const REACTION_EXPIRE_TIME = 1000 * 60 * 15;//15 minutes in miliseconds used to 
 export default function ReactionButton(
     {
         username,
-        targetId
+        targetId,
+        variant
     }: ReactionButtonProps
 ){
     const [reacted, setReacted] = useState(false);
@@ -115,7 +117,7 @@ export default function ReactionButton(
                 setReacted(false);
             }
         }catch(err){
-            
+            setReacted(false);
         }
         
     }
@@ -199,6 +201,7 @@ export default function ReactionButton(
             <button 
                     className={ 
                         style['reaction-button'] + " " + 
+                        (variant && style[variant]) + " " +
                         (style[buttonState])} 
                     onClick={()=>handleReactionButton(username, targetId)}
                 >
@@ -214,7 +217,7 @@ export default function ReactionButton(
                             </span>
 
             </button>
-            <div className={style["reaction-list-container"]}>
+            <div className={style["reaction-list-container"] + " " + (variant && style[variant])}>
                 <div className={style['dummy-list']}>
                         <button className={style['reaction-icon-btn']}>
                             <ReactionComponent name="like" />

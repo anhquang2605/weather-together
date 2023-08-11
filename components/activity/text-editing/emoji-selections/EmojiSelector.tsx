@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { EMOJIS } from "../../../../constants/emojis";
 import {IoHappy} from 'react-icons/io5';
 import style from "./emoji-selector.module.css";
-import { getContentWidth } from "../../../../libs/dimentions-calculations";
+import { getContentHeight, getContentWidth } from "../../../../libs/dimentions-calculations";
 interface EmojiSelectorProps {
     handleEmojiSelect: (emoji: string) => void;
     buttonClassName?: string;
     containerRef?: React.MutableRefObject<HTMLElement | null>;
+    size?: string;
 }
-export default function EmojiSelector({ handleEmojiSelect, buttonClassName, containerRef }: EmojiSelectorProps) {
+export default function EmojiSelector({ handleEmojiSelect, buttonClassName, containerRef, size }: EmojiSelectorProps) {
     const [reveal, setReveal] = useState(false);
     const [emojisSelections, setEmojisSelections] = useState(EMOJIS);
     const [listPosition, setListPosition] = useState('top');
@@ -27,7 +28,7 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName, cont
             if(containerRef && containerRef.current){
                 const btnRect = btn.getBoundingClientRect();
                 const containerRect = containerRef?.current?.getBoundingClientRect();
-               containerHeight = getContentWidth(containerRef.current);
+               containerHeight = getContentHeight(containerRef.current);
                 const buttonScrolledDistance = (btnRect.top - containerRect.top) + containerRef.current.scrollTop;
                distanceToBottom = containerHeight - buttonScrolledDistance;
             }else {
@@ -101,7 +102,8 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName, cont
                     `
                         ${style['emoji-list']} 
                         ${(reveal? style['reveal'] : "")} 
-                        ${style[listPosition]}
+                        ${style[listPosition]}  
+                        ${size && style[size]}
                     `
                     }>
                 <div className={style['emoji-list__search']}>

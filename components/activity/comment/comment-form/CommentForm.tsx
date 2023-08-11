@@ -23,7 +23,7 @@ interface CommentFormProps {
     setIsCommenting: (isCommenting: boolean) => void,
     userProfilePicturePath: string,
     targetType: string, //posts or comments
-    parentListRef?: React.MutableRefObject<HTMLElement | null>
+    parentListRef?: React.MutableRefObject<HTMLDivElement | null>
 }
 export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, setIsCommenting, userProfilePicturePath, targetType, parentListRef}: CommentFormProps) {
     const [content, setContent] = useState('');
@@ -296,6 +296,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                     handleSuggestionChose={handleEmojiSuggestionChose}
                     suggestionContainerClassName={suggestionsContainerClassName}
                     topSuggestionClassName={style['top-suggestion']}
+                    scrollListRef={parentListRef}
                 />}
                 {previewPictureURL && <div className={style['preview-attachment-picture']}>
                     <NextImage width={200 * previewRatio} height={200 / previewRatio} alt="Preview Attachment Picture" src={previewPictureURL} />
@@ -321,7 +322,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                             </label>
                             <input type="file" accept="image/*" id="picture-comment-upload" className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
                         </div> 
-                        <EmojiSelector containerRef={parentListRef} buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
+                        <EmojiSelector size={targetType === "comments" ? "small" : undefined} containerRef={parentListRef} buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
                     </div>
 
                     <button  onClick={handleSubmit} title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
