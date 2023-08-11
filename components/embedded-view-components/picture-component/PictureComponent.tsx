@@ -19,12 +19,14 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
     height,
 }) => {
     const {setContent, setShow} = usePictureModal();
+    const handleClick = (src:string, alt:string, width: number, height:number) => {
+        setContent({src, alt, width, height});
+        setShow(true);
+    }
     return (    
-        <PictureModalProvider>
-            <div className={styles['picture-component']}>
-                <Image width={width} height={height} src={src} alt={alt} fill  />
-            </div>
-        </PictureModalProvider>
+        <div className={`${styles['picture-component']} `}>
+            <Image width={width} height={height} src={src} alt={alt} />
+        </div>
     );
 };
 

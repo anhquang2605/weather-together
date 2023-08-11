@@ -75,6 +75,7 @@
 .preview-attachment-picture{
     @apply w-40 relative my-2;
     img{
+        transition: opacity 0.2s ease-in-out;
         @apply w-full rounded-lg;
         border: 1px solid var(--btn-color);
     }
@@ -87,10 +88,10 @@
 .remove-attachment-btn{
     @apply absolute -top-3 -right-3 opacity-0;
     svg{
-        @apply w-6 h-6 text-red-400 rounded-full;
+        @apply w-6 h-6 text-white bg-red-500 rounded-full;
         transition: all 0.2s ease-in-out;
         &:hover{
-            @apply text-red-700 bg-red-100
+            @apply bg-red-700
         }
     }
 

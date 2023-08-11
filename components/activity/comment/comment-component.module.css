@@ -10,7 +10,9 @@
 .content-group__content{
     @apply bg-slate-200 p-2 rounded-xl;
     width: max-content;
-    color: var(--primary-color)
+    max-width: 100%;
+    color: var(--primary-color);
+    white-space: pre-line;
 }
 .content-group__control-and-date{
     @apply flex flex-row items-center py-2;

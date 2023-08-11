@@ -6,7 +6,7 @@ export interface Picture{
     targetId?: string; // post or comment
     username: string; // user who posted or own the picture
     description?: string;
-    ratio?: number;
-    width?: number;
-    height?: number;
+    ratio: number;
+    width: number;
+    height: number;
 }
