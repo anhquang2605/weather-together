@@ -49,6 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     } 
                     if(result.length > 0){
                       const listOfUsernames = result.map((comment) => comment.username);
+                      result.reverse();
                       const uniqueUsernames = [...new Set(listOfUsernames)];
                       res.status(200).json({
                         success: true,

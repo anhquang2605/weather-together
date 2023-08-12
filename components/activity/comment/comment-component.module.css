@@ -1,5 +1,5 @@
 .comment-component{
-    @apply flex flex-row mb-4 relative;
+    @apply flex flex-row relative;
     &:last-of-type{
         margin-bottom: 0;
     }
@@ -8,10 +8,11 @@
     @apply flex flex-col grow;
 }
 .content-group__content{
-    @apply bg-slate-100/40 border border-slate-400  backdrop-blur-sm  py-2 px-4 my-1 rounded-3xl text-slate-100;
+    @apply bg-slate-200/90 border border-slate-400  backdrop-blur  py-2 px-4 my-1 rounded-3xl;
     width: max-content;
     max-width: 100%;
     white-space: pre-line;
+    color: var(--primary-color)
 }
 .content-group__control-and-date{
     @apply flex flex-row items-center py-2;
@@ -30,4 +31,17 @@
     &:hover{
         
     }
+}
+.content-group__self{
+    @apply relative;
+}
+.graph-edge{
+    margin-bottom: 10px;
+    height: 100%;
+    width: 1px;
+    left: -2.5rem;
+    background-color: var(--primary-color);
+    position: absolute;
+    top: 0;
+    z-index: 1;
 }

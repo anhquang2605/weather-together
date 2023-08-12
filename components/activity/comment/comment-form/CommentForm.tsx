@@ -20,12 +20,12 @@ interface CommentFormProps {
     targetLevel?: number, //for comment on comment, if none, then the target is a post, whoever call this will have level = target level + 1 but 0 if target is a post
     postId: string,
     isCommenting: boolean,
-    setIsCommenting: (isCommenting: boolean) => void,
+    scrollToCommentForm: ( CommentForm: React.MutableRefObject<HTMLDivElement | null> ) => void,
     userProfilePicturePath: string,
     targetType: string, //posts or comments
     parentListRef?: React.MutableRefObject<HTMLDivElement | null>
 }
-export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, setIsCommenting, userProfilePicturePath, targetType, parentListRef}: CommentFormProps) {
+export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
@@ -36,7 +36,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
     const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
     const [validContentLength, setValidContentLength] = useState(false); //min should be 1 word
     const [s3PictureURL, setS3PictureURL] = useState<string | null>(null);
-
+    const commentFormRef = useRef<HTMLDivElement | null>(null);
     /*************************SUGGESTIONS EMOJIS SECTIONS***********************/
     //intext suggestions state, used to provide props for intext suggestion component
     const [currentCursorPosition, setCurrentCursorPosition] = useState(0);
@@ -267,8 +267,17 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
             setIsSending(false);
         }
     }, [errorMessages])
+    useEffect(()=>{
+        if(isCommenting){
+            contentTextAreaRef.current?.focus();
+            if(commentFormRef.current){
+                scrollToCommentForm(commentFormRef)
+            }
+            
+        }
+    },[isCommenting])
     return(
-        <div className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''}`}>
+        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''}`}>
             <MiniAvatar profilePicturePath={userProfilePicturePath} size="medium"/>
             <div className={style['text-box']}>
                 <textarea 

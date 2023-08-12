@@ -99,7 +99,7 @@
     }
 }
 .reaction-button{
-    @apply rounded-full;
+    @apply px-4 rounded-full;
     text-align: center;
     display: flex;
     flex-direction: row;

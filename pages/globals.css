@@ -207,7 +207,7 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 *::-webkit-scrollbar-track {

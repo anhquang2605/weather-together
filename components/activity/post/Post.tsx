@@ -42,6 +42,11 @@ export default function Post({post,username}: PostProps){
             setReactionsGroups(response);
         }  
     }
+    const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
+        if(form.current){
+            form.current.scrollIntoView({behavior: 'smooth'});
+        }
+    }
     const handleFetctCommentsForPost = async (targetId: string, postId:string) => {
         const path = `comments`;
         const params = {
@@ -99,6 +104,7 @@ export default function Post({post,username}: PostProps){
                         targetId={post._id?.toString() || ''}
                         username={username || ''}
                         handleCommentBtnClick={handleCommentBtnClick}
+                        canComment={true}
                     />
                     {/* Post attached images goes here */}
                 </div>
@@ -109,7 +115,7 @@ export default function Post({post,username}: PostProps){
                     targetType="posts"
                     username={author}  
                     isCommenting={isCommenting} 
-                    setIsCommenting={setIsCommenting} 
+                    scrollToCommentForm={handleScrollToForm} 
                     targetId={""} 
                     postId={post._id?.toString()!} 
                     userProfilePicturePath={profilePicturePaths[author]} 

@@ -50,6 +50,11 @@ export default function CommentComponent(
             setPicture(response.data);
         }
     }
+    const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
+        if(form.current){
+            form.current.scrollIntoView({behavior: 'smooth'});
+        }
+    }
     const handleFetchChildrenComments = async (targetId: string) => {
         const path = 'comments';
         const params = {
@@ -80,47 +85,50 @@ export default function CommentComponent(
         <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>
             <MiniAvatar profilePicturePath={profilePicturePath} />
             <div className={style['content-group']}>
-                <div className={style['content-group__username']}>
-                    {username}
-                </div>
-                {pictureAttached && <PictureComponent
-                    picture={picture}
-                    alt={'comment picture'}
-                    loading={gettingPicture}/>}
+                <div className={style['content-group__self']}>
+                    {childrenNo > 0 && <div className={style['graph-edge']}></div>} 
+                    <div className={style['content-group__username']}>
+                        {username}
+                    </div>
+                    {pictureAttached && <PictureComponent
+                        picture={picture}
+                        alt={'comment picture'}
+                        loading={gettingPicture}/>}
 
-                <div className={style['content-group__content']}>
-                    {content}
-                </div>
-                <div className={style['content-group__control-and-date']}>
-                    <InteractionsBtns 
-                        targetId={_id?.toString() || ''}
-                        username={commentorUsername}
-                        variant="shrinked"
-                        handleCommentBtnClick={()=>{
-                            setIsReplying(prev => !prev);
-                        }}
-                        canComment={level < MAX_LEVEL}
-                    />    
-                    <div className={style['content-group__created-date']}>
-                        {formatDistance(new Date(createdDate), new Date(), {addSuffix: true}).replace('about', '').replace('less than', '').replace('ago','')}
-                    </div>  
-                </div> 
-                <CommentForm 
-                    targetId={_id?.toString() || ''} 
-                    username={commentorUsername} 
-                    postId={postId} 
-                    isCommenting={isReplying} 
-                    setIsCommenting={setIsReplying} 
-                    userProfilePicturePath={profilePicturePath} 
-                    targetType='comments' 
-                    targetLevel={level}
-                    parentListRef={commentListRef}
-                    />
+                    <div className={style['content-group__content']}>
+                        {content}
+                    </div>
+                    <div className={style['content-group__control-and-date']}>
+                        <InteractionsBtns 
+                            targetId={_id?.toString() || ''}
+                            username={commentorUsername}
+                            variant="shrinked"
+                            handleCommentBtnClick={()=>{
+                                setIsReplying(prev => !prev);
+                            }}
+                            canComment={level < MAX_LEVEL}
+                        />    
+                        <div className={style['content-group__created-date']}>
+                            {formatDistance(new Date(createdDate), new Date(), {addSuffix: true}).replace('about', '').replace('less than', '').replace('ago','')}
+                        </div>  
+                    </div> 
+                    <CommentForm 
+                        targetId={_id?.toString() || ''} 
+                        username={commentorUsername} 
+                        postId={postId} 
+                        isCommenting={isReplying} 
+                        scrollToCommentForm={handleScrollToForm}
+                        userProfilePicturePath={profilePicturePath} 
+                        targetType='comments' 
+                        targetLevel={level}
+                        parentListRef={commentListRef}
+                        />
                 {
                    ( childrenNo > 0 && childComments.length === 0) && <button className={style['view-replies-btn']}  onClick={()=> handleFetchChildrenComments(_id?.toString() || '')}>
                        <IoChatbubbles className="icon mr-1"/> {childrenNo} Replies
                     </button>
-                } 
+                }
+                </div>
                 {
                     childComments.length > 0 &&
                     <CommentList 
