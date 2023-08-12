@@ -8,10 +8,9 @@
     @apply flex flex-col grow;
 }
 .content-group__content{
-    @apply bg-slate-200 py-2 px-4 my-1 rounded-3xl;
+    @apply bg-slate-100/40 border border-slate-400  backdrop-blur-sm  py-2 px-4 my-1 rounded-3xl text-slate-100;
     width: max-content;
     max-width: 100%;
-    color: var(--primary-color);
     white-space: pre-line;
 }
 .content-group__control-and-date{

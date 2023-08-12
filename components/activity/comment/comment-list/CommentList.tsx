@@ -28,7 +28,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
     })
 
     return (
-        <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${!topLevelListContainer && (style['scroll'] +" glass darker")} `}>
+        <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${!topLevelListContainer && style['scroll']}`}>
             {commentsJSX}
         </div>
     );

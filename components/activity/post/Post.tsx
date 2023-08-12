@@ -74,10 +74,10 @@ export default function Post({post,username}: PostProps){
 
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar}}>
-        <div key={post._id} className={style['post']}>
+        <div key={post._id} className={style['post'] + " glass"}>
 
         
-                <div className={style['post-container'] + " glass"}>
+                <div className={`${style['post-container']} px-8 pt-8`}>
                     <PostTitle 
                         username={post.username}
                         profilePicturePath={profilePicturePaths[post.username]}
@@ -94,16 +94,16 @@ export default function Post({post,username}: PostProps){
                             {comments.length > 0 ? `${comments.length} comments` : 'No comments'}
                         </div>
                     </PostSummary>
-
+                    <InteractionsBtns 
+                        variant="extended"
+                        targetId={post._id?.toString() || ''}
+                        username={username || ''}
+                        handleCommentBtnClick={handleCommentBtnClick}
+                    />
                     {/* Post attached images goes here */}
                 </div>
 
-                <InteractionsBtns 
-                    variant="extended"
-                    targetId={post._id?.toString() || ''}
-                    username={username || ''}
-                    handleCommentBtnClick={handleCommentBtnClick}
-                />
+               
                  {comments && comments.length > 0 && <CommentList children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 
                     targetType="posts"

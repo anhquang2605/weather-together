@@ -45,11 +45,9 @@ body {
 }
 
 .glass{
-  @apply bg-slate-800/50 backdrop-blur-lg shadow-inner-lg shadow-slate-100/10 p-8 border-[2px] border-slate-100/40;
-  &.darker{
-    @apply bg-slate-900/80
-  }
+  @apply bg-slate-800/70 backdrop-blur-lg shadow-inner-lg shadow-slate-100/10 border-[2px] border-slate-100/40;
 }
+
 .container{
   @apply m-8;
 }

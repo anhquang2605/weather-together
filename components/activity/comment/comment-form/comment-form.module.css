@@ -11,10 +11,11 @@
   }
   &.comment{
     padding: 0!important;
+    background: transparent;
     }
 }
 .text-box{
-    @apply flex flex-col grow bg-white rounded-lg p-4 relative;
+    @apply flex flex-col grow bg-slate-100 rounded-lg p-4 relative;
 }
 .attachment-group{
     @apply flex flex-row items-center justify-between relative;
