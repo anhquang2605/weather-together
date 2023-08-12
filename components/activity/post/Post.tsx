@@ -11,6 +11,7 @@ import CommentForm from "../comment/comment-form/CommentForm";
 import { PostContext } from "./PostContext";
 import CommentList from "../comment/comment-list/CommentList";
 import { UsernameToProfilePicturePathMap } from "./../UsernameToProfilePicturePathMap";
+import { CommentChildrenSummary } from "../../../types/CommentChildrenSummary";
 import { useSession } from "next-auth/react";
 interface PostProps{
     post: Post;
@@ -27,6 +28,7 @@ export default function Post({post,username}: PostProps){
     const [isCommenting, setIsCommenting] = useState(false);
     const [comments, setComments] = useState([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
+    const [commentChildrenSummary, setChildrenSummary] = useState<CommentChildrenSummary>({});
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
@@ -40,15 +42,17 @@ export default function Post({post,username}: PostProps){
             setReactionsGroups(response);
         }  
     }
-    const handleFetctCommentsByPostId = async (postId: string) => {
+    const handleFetctCommentsForPost = async (targetId: string, postId:string) => {
         const path = `comments`;
         const params = {
+            targetId, 
             postId
         }
         const response = await fetchFromGetAPI(path, params);
         if(response.success){
             setComments(response.data.result);
             handleFetchProfilePathsToCommentors(response.data.commentors);
+            setChildrenSummary(response.data.children);
         }
     }
     const handleCommentBtnClick = () => {
@@ -65,7 +69,7 @@ export default function Post({post,username}: PostProps){
     }
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
-        handleFetctCommentsByPostId(post._id?.toString() || '');
+        handleFetctCommentsForPost('', post._id?.toString() || '');
     },[])
 
     return(
@@ -95,12 +99,12 @@ export default function Post({post,username}: PostProps){
                 </div>
 
                 <InteractionsBtns 
-                    targetStyle="extended"
+                    variant="extended"
                     targetId={post._id?.toString() || ''}
                     username={username || ''}
                     handleCommentBtnClick={handleCommentBtnClick}
                 />
-                 {comments && comments.length > 0 && <CommentList commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
+                 {comments && comments.length > 0 && <CommentList children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 
                     targetType="posts"
                     username={author}  

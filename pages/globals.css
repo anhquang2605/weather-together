@@ -46,12 +46,18 @@ body {
 
 .glass{
   @apply bg-slate-800/50 backdrop-blur-lg shadow-inner-lg shadow-slate-100/10 p-8 border-[2px] border-slate-100/40;
+  &.darker{
+    @apply bg-slate-900/80
+  }
 }
 .container{
   @apply m-8;
 }
 .glass-dark{
   @apply bg-gradient-to-br from-slate-900/20 from-10% to-transparent to-95% backdrop-blur-lg;
+}
+.glass-darker{
+
 }
 /*CUSTOM DIMESNIONS*/
 

@@ -1,3 +1,9 @@
 .picture-component{
-    @apply lg:w-[200px] md:w-[184px] w-[164px] rounded-lg overflow-hidden shadow-lg my-2;
+    --large-width: 200px;
+    --medium-width: 184px;
+    --small-width: 164px;
+    @apply lg:w-[var(--large-width)] md:w-[var(--medium-width)] w-[var(--small-width)] rounded-lg overflow-hidden shadow-lg my-2;
+}
+.loading{
+    @apply lg:w-[var(--large-width)] md:w-[var(--medium-width)] w-[var(--small-width)] lg:h-[var(--large-width/2)]  md:h-[var(--medium-width)/2] h-[var(--small-width)/2] rounded-lg bg-slate-200  my-2;
 }

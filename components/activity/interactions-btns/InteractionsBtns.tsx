@@ -6,8 +6,9 @@ export interface InteractionsBtnsProps {
     username: string;
     variant: string; //extended or shrinked
     handleCommentBtnClick: () => void;
+    canComment?: boolean;
 }
-export default function InteractionsBtns({ targetId, username, variant, handleCommentBtnClick }: InteractionsBtnsProps) {
+export default function InteractionsBtns({ targetId, username, variant, handleCommentBtnClick, canComment }: InteractionsBtnsProps) {
     return(
         <div className={style['interactions-btns'] + " " + style[variant]}>
             {/* reaction, comment, and might be sharing or repost */}
@@ -16,7 +17,7 @@ export default function InteractionsBtns({ targetId, username, variant, handleCo
                 username={username}
                 variant={variant === 'shrinked' ? 'shrink' : undefined}
             />
-            <button 
+            {canComment && <button 
                 className="flex flex-row items-center"
                 onClick={
                     () => {
@@ -26,7 +27,7 @@ export default function InteractionsBtns({ targetId, username, variant, handleCo
             >    
                 <IoChatboxEllipses className="icon mr-2"/>
                     Comment
-            </button>
+            </button>}
             {variant !== 'shrinked' && <button className="flex flex-row items-center">
                 <IoShare className="icon mr-2"/>
                 Share

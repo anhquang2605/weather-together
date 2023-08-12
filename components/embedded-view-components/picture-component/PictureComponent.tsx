@@ -1,35 +1,35 @@
 import React from 'react';
-import styles from './picture-component.module.css';
+import style from './picture-component.module.css';
 import Image from 'next/image';
-import { PictureModalProvider, usePictureModal } from './PictureModalContext';
+import {usePictureModal } from './PictureModalContext';
+import { Picture } from '../../../types/Picture';
 interface PictureComponentProps {
-    src: string;
+    picture: Picture | null;
+    loading: boolean;
     alt: string;
-    ratio: number;
-    width: number;
-    height: number;
-    clickable?: boolean;
 }
 
 const PictureComponent: React.FC<PictureComponentProps> = ({
-    src,
+    picture,
+    loading,
     alt,
-    ratio,
-    width,
-    height,
 }) => {
+    const {picturePath: src, width, height} = picture || {src: '', alt: '', width: 0, height: 0};
     const {setContent, setShow} = usePictureModal();
     const handleClick = (src:string, alt:string, width: number, height:number) => {
         setContent({src, alt, width, height});
         setShow(true);
     }
-    return (    
-        <div onClick={()=>{
-            handleClick(src, alt, width, height);
-        }}className={`${styles['picture-component']} `}>
-            <Image width={width} height={height} src={src} alt={alt} />
-        </div>
-    );
+    return   loading?
+            (<div className={style['loading']}>
+            </div>)
+            :
+            (<div onClick={()=>{
+            handleClick(src as string, alt, width, height);
+                }}className={`${style['picture-component']} `}>
+                <Image width={width} height={height} src={src!} alt={alt} />
+            </div>)
+    ;
 };
 
 export default PictureComponent;

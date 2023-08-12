@@ -6,7 +6,7 @@ import { IoClose } from 'react-icons/io5';
 
 const PictureModal: React.FC = () => {
     const {content, show, setShow} = usePictureModal();
-
+    if(!show) return null;
     const {src, alt, width, height} = content!;// content is null when the modal is closed
     useEffect(()=>{
         console.log(show);
