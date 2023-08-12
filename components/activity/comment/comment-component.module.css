@@ -1,8 +1,9 @@
 .comment-component{
-    @apply flex flex-row relative;
+    @apply flex flex-row relative mb-4;
     &:last-of-type{
         margin-bottom: 0;
     }
+    --graph-edge-color: gray;
 }
 .content-group{
     @apply flex flex-col grow;
@@ -40,8 +41,27 @@
     height: 100%;
     width: 1px;
     left: -2.5rem;
-    background-color: var(--primary-color);
+    background-color: var(--graph-edge-color);
     position: absolute;
     top: 0;
     z-index: 1;
+}
+.edge-passing-child{
+    height: 100%;
+    width: 1px;
+    left: -2.5rem;
+    background-color: var(--graph-edge-color);
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+.merging-curve{
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    top: -1rem;
+    left: -2.5rem;
+    border-bottom: 1px solid var(--graph-edge-color);
+    border-left: 1px solid var(--graph-edge-color);
+    @apply rounded-bl-xl;
 }

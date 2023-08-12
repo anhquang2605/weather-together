@@ -118,7 +118,8 @@ export default function Post({post,username}: PostProps){
                     scrollToCommentForm={handleScrollToForm} 
                     targetId={""} 
                     postId={post._id?.toString()!} 
-                    userProfilePicturePath={profilePicturePaths[author]} 
+                    userProfilePicturePath={profilePicturePaths[author]}
+                    setIsCommenting={setIsCommenting}
                 />
                
                    

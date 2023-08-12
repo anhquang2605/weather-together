@@ -23,9 +23,10 @@ interface CommentFormProps {
     scrollToCommentForm: ( CommentForm: React.MutableRefObject<HTMLDivElement | null> ) => void,
     userProfilePicturePath: string,
     targetType: string, //posts or comments
-    parentListRef?: React.MutableRefObject<HTMLDivElement | null>
+    parentListRef?: React.MutableRefObject<HTMLDivElement | null>,
+    setIsCommenting: React.Dispatch<React.SetStateAction<boolean>>,
 }
-export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef}: CommentFormProps) {
+export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
@@ -242,6 +243,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                         })
                     }
                 }
+                setIsCommenting(false);
                 handleResetForm();
             }else {
                 addToErrorMessages({

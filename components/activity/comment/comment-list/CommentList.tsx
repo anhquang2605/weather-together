@@ -23,12 +23,16 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
                 commentorUsername={commentor}
                 commentListRef={commentListRef}
                 childrenNo={children[comment._id?.toString() || '']}
+                lastChild={index === comments.length - 1}
             />
         )
     })
 
     return (
         <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${!topLevelListContainer && style['scroll']}`}>
+            <div className={style['edge-passing-child']}>
+
+            </div>
             {commentsJSX}
         </div>
     );

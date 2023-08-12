@@ -48,7 +48,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <Head>
                 <title>{theTitle}</title>
             </Head>
-            <div className="flex flex-col glass grow">
+            <div className="flex flex-col glass grow p-8">
               <ProfileBanner user={user} isEditing={false} />
 
               <div className="flex flex-wrap lg:flex-nowrap">

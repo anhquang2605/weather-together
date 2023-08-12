@@ -19,6 +19,7 @@ interface CommentComponentProps{
     commentorUsername: string;
     commentListRef: React.MutableRefObject<HTMLDivElement | null>;
     childrenNo: number;
+    lastChild?: boolean;
 }
 
 export default function CommentComponent(
@@ -27,7 +28,8 @@ export default function CommentComponent(
         profilePicturePath,
         commentorUsername,
         commentListRef,
-        childrenNo
+        childrenNo, 
+        lastChild
     }: CommentComponentProps
 ){
     const {username, createdDate, content, postId, pictureAttached, level, _id} = comment;
@@ -83,6 +85,11 @@ export default function CommentComponent(
     }, []);
     return(
         <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>
+            { ((!lastChild && level !== 0)) &&  <div className={style['edge-passing-child']}>
+            </div>}
+            {level !== 0 && <div className={style['merging-curve']}>
+
+            </div>}
             <MiniAvatar profilePicturePath={profilePicturePath} />
             <div className={style['content-group']}>
                 <div className={style['content-group__self']}>
@@ -122,6 +129,7 @@ export default function CommentComponent(
                         targetType='comments' 
                         targetLevel={level}
                         parentListRef={commentListRef}
+                        setIsCommenting={setIsReplying}
                         />
                 {
                    ( childrenNo > 0 && childComments.length === 0) && <button className={style['view-replies-btn']}  onClick={()=> handleFetchChildrenComments(_id?.toString() || '')}>
