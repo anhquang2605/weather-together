@@ -54,7 +54,7 @@ export default function CommentComponent(
     }
     const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
         if(form.current){
-            form.current.scrollIntoView({behavior: 'smooth'});
+            form.current.scrollIntoView({behavior: 'smooth', block: 'center'});
         }
     }
     const handleFetchChildrenComments = async (targetId: string) => {
@@ -140,6 +140,7 @@ export default function CommentComponent(
                 {
                     childComments.length > 0 &&
                     <CommentList 
+                        scrollable={false}
                         comments={childComments}
                         commentorToAvatarMap={commentorToAvatar}
                         topLevelListContainer={commentListRef}

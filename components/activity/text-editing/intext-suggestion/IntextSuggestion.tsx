@@ -63,6 +63,8 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
                     const insertionPointLeft = insertionPoint.offsetLeft;
                    
                     if(suggestionBox){
+                        suggestionBox.style.top = `${insertionPointTop + inputTop + lineHeight + 4}px`;
+                        suggestionBox.style.left = `${insertionPointLeft + inputLeft}px`;
                         if(scrollListRef && scrollListRef.current){
                             //compare left and right, if hit the right side, move the suggestion box to the left, if hit the bottom, move the suggestion box up
                             const scrollList = scrollListRef.current;
@@ -80,15 +82,13 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
                             }
                             return;
                         }
-                        suggestionBox.style.top = `${insertionPointTop + inputTop + lineHeight + 4}px`;
-                        suggestionBox.style.left = `${insertionPointLeft + inputLeft}px`;
+
                     }
                 }     
             }
         }
     },[reveal])
     useEffect(()=>{
-        console.log(scrollListRef);
         if(reveal){
             document.addEventListener('click', handleOutsideClick);
         }

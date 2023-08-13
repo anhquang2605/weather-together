@@ -10,9 +10,10 @@ interface CommentListProps {
     commentor: string;
     children: CommentChildrenSummary;
     topLevelListContainer?: React.MutableRefObject<HTMLDivElement | null>;
+    scrollable: boolean;
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = comments.map((comment, index) => {
         return(
@@ -29,7 +30,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
     })
 
     return (
-        <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${!topLevelListContainer && style['scroll']}`}>
+        <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${scrollable && style['scroll']} ${!topLevelListContainer && style['top-level']}`}>
             <div className={style['edge-passing-child']}>
 
             </div>

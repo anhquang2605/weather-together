@@ -44,7 +44,7 @@ export default function Post({post,username}: PostProps){
     }
     const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
         if(form.current){
-            form.current.scrollIntoView({behavior: 'smooth'});
+            form.current.scrollIntoView({behavior: 'smooth', block: 'center'});
         }
     }
     const handleFetctCommentsForPost = async (targetId: string, postId:string) => {
@@ -110,7 +110,9 @@ export default function Post({post,username}: PostProps){
                 </div>
 
                
-                 {comments && comments.length > 0 && <CommentList children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
+                 {comments && comments.length > 0 && <CommentList 
+                 scrollable={false}
+                 children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 
                     targetType="posts"
                     username={author}  

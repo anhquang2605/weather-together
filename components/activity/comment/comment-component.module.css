@@ -19,7 +19,7 @@
     @apply flex flex-row items-center py-2;
 }
 .content-group__created-date{
-    @apply ml-1;
+    @apply ml-2;
 }
 .child-comment{
     padding: 0;
@@ -30,7 +30,7 @@
 .view-replies-btn{
     @apply flex flex-row items-center font-semibold text-lg;
     &:hover{
-        
+        text-decoration: underline;
     }
 }
 .content-group__self{

@@ -18,17 +18,21 @@ export default function InteractionsBtns({ targetId, username, variant, handleCo
                 variant={variant === 'shrinked' ? 'shrink' : undefined}
             />
             {canComment && <button 
-                className="flex flex-row items-center"
+                className={`flex flex-row items-center ${style['interaction-btn']}`}
                 onClick={
                     () => {
                         handleCommentBtnClick();
                     }
                 }
             >    
-                <IoChatboxEllipses className="icon mr-2"/>
+                {variant === "shrinked" ? "Reply" : 
+                <>
+                    <IoChatboxEllipses className="icon mr-2"/>
                     Comment
+                </>
+                }
             </button>}
-            {variant !== 'shrinked' && <button className="flex flex-row items-center">
+            {variant !== 'shrinked' && <button className={`flex flex-row items-center ${style['interaction-btn']}`}>
                 <IoShare className="icon mr-2"/>
                 Share
             </button>}

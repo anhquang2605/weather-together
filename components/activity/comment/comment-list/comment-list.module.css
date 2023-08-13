@@ -1,8 +1,12 @@
 .comment-list{
     @apply  flex flex-col relative;
 
-    &.scroll{
+    &.top-level{
         @apply p-8 pt-4  ;
+    }
+
+    &.scroll{
+        
         overflow: auto;
         max-height: 50vh;
     }

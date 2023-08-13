@@ -12,7 +12,17 @@
         & > button, & > div> button{
             @apply px-4 py-0;
         }
+        .interaction-btn{
+            @apply ml-2;
+        }
         height: 1rem;
     }
 }
-
+.interaction-btn{
+    @apply rounded-3xl;
+    transition: all 0.2s ease-in-out;
+    &:hover{
+        background-color: white;
+        color: var(--btn-color);
+    }
+}

@@ -11,13 +11,14 @@
 .emoji-list{
     z-index: 30;
     position: absolute;
-    background: var(--primary-color);
+    background: white;
+    color: var(--primary-color);
     border: 1px solid lightgray;
     transition-property: opacity, margin, visibility;
     transition-duration: 0.2s, 0.2s, 0.2s;
     transition-timing-function: ease-in-out, ease-in-out;
     transition-delay: 0, 0, 0.2s, 0.4s;
-    @apply p-4 rounded-lg w-[300px];
+    @apply p-4 rounded-lg w-[300px] shadow-xl;
     visibility: hidden;
     opacity: 0;
     &.top{
