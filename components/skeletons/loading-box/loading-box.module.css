@@ -1,0 +1,24 @@
+.loading-box{
+    --med-width: 460px;
+    --small-width: 300px;
+    --large-width: 620px;
+    @apply rounded-lg p-8 bg-slate-500 mx-auto;
+    &.without-children{
+        @apply animate-pulse;
+    }
+    &.small{
+        width: var(--small-width);
+        height: calc(var(--small-width)/2)
+    }
+    &.medium{
+        width: var(--med-width);
+        height: calc(var(--med-width)/2)
+    }
+    &.large{
+        width: var(--large-width);
+        height: calc(var(--large-width)/2)
+    }
+    &.long{
+        height: 50vh;
+    }
+}

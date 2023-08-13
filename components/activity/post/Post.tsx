@@ -13,6 +13,8 @@ import CommentList from "../comment/comment-list/CommentList";
 import { UsernameToProfilePicturePathMap } from "./../UsernameToProfilePicturePathMap";
 import { CommentChildrenSummary } from "../../../types/CommentChildrenSummary";
 import { useSession } from "next-auth/react";
+import { set } from "lodash";
+import LoadingBox from "../../skeletons/loading-box/LoadingBox";
 interface PostProps{
     post: Post;
     username?: string;
@@ -26,13 +28,17 @@ export default function Post({post,username}: PostProps){
     const  { profilePicturePaths } = useContext(MockContext);
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [isCommenting, setIsCommenting] = useState(false);
+    const [isFetchingComments, setIsFetchingComments] = useState(false);
+    const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [comments, setComments] = useState([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [commentChildrenSummary, setChildrenSummary] = useState<CommentChildrenSummary>({});
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
+    const loading = isFetchingComments && isFetchingReactions;
     const handleFetchReactionsGroups = async (targetId: string) => {
+        setIsFetchingReactions(true);
         const path = `reactions/get-reactions-by-groups`;
         const params = {
             targetId
@@ -40,6 +46,7 @@ export default function Post({post,username}: PostProps){
         const response = await fetchFromGetAPI(path, params);
         if(response.length){
             setReactionsGroups(response);
+            setIsFetchingReactions(false);
         }  
     }
     const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
@@ -48,6 +55,7 @@ export default function Post({post,username}: PostProps){
         }
     }
     const handleFetctCommentsForPost = async (targetId: string, postId:string) => {
+        setIsFetchingComments(true);
         const path = `comments`;
         const params = {
             targetId, 
@@ -58,6 +66,7 @@ export default function Post({post,username}: PostProps){
             setComments(response.data.result);
             handleFetchProfilePathsToCommentors(response.data.commentors);
             setChildrenSummary(response.data.children);
+            setIsFetchingComments(false);
         }
     }
     const handleCommentBtnClick = () => {
@@ -76,7 +85,9 @@ export default function Post({post,username}: PostProps){
         handleFetchReactionsGroups(post._id?.toString() || '');
         handleFetctCommentsForPost('', post._id?.toString() || '');
     },[])
-
+    if(loading){
+        return <LoadingBox variant="large" long={true} withChildren={false}/>
+    }
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar}}>
         <div key={post._id} className={style['post'] + " glass"}>

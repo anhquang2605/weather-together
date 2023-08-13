@@ -20,15 +20,19 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
         setContent({src, alt, width, height});
         setShow(true);
     }
-    return   loading?
-            (<div className={style['loading']}>
-            </div>)
+    return (
+        <div className={style["picture-component"]}>
+            {loading?
+            <div className={style['picture'] + " " +  style['loading']}>
+            </div>
             :
-            (<div onClick={()=>{
+            <div onClick={()=>{
             handleClick(src as string, alt, width, height);
-                }}className={`${style['picture-component']} `}>
+                }}className={`${style['picture']} `}>
                 <Image width={width} height={height} src={src!} alt={alt} />
-            </div>)
+            </div>}
+        </div>
+    )    
     ;
 };
 
