@@ -2,6 +2,7 @@ export interface Notification {
     _id?: string;
     title: string;
     username: string; // who will receive the notification is prepared during the trigger of the notification
+    sender_username: string; // who is sending the notification
     type: string; // type of notification
     createdDate: Date;
     read: boolean;

@@ -1,4 +1,3 @@
-import { method } from "lodash";
 import { connectDB } from "../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 export interface usernameToProfilePicturePathMap {
@@ -6,7 +5,6 @@ export interface usernameToProfilePicturePathMap {
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const db = await connectDB();
-    
     const {method}= req;
     if(db){
         if(method === 'POST'){

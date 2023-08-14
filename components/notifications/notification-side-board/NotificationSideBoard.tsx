@@ -39,6 +39,7 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
         return () => {
             document.removeEventListener('click', handleClickOutside);
         }
+        
     },[])
     return(
         <div 
@@ -54,7 +55,7 @@ export default function NotificationSideBoard({ notifications, reveal, setReveal
                 </>
 
             }
-            {notifications.length > 0 || canLoadMore ?
+            {(notifications.length > 0 || canLoadMore) ?
                 <>
                     <NotificationList 
                         notifications={notifications}

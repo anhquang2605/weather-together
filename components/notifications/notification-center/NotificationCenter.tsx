@@ -4,9 +4,7 @@ import {IoNotifications} from 'react-icons/io5'
 import { Notification } from '../../../types/Notifications';
 import NotificationSideBoard from '../notification-side-board/NotificationSideBoard';
 import { useSession } from 'next-auth/react';
-import { getNotificationsUnread } from '../../../libs/notifications';
-import { set } from 'mongoose';
-import { add } from 'date-fns';
+
 import { NextApiResponse } from 'next';
 import { NotificationContext } from '../NotificationContext';
 export function getServerSideProps() {
@@ -33,7 +31,7 @@ interface NotificationsReponse extends NextApiResponse{
 
 }
 const modesList = ['all', 'unread'];
-const ORIGINAL_LIMIT= 2;
+const ORIGINAL_LIMIT= 10;
 function GenerateInitialNotificationModes() {
     return modesList.reduce((acc:NotificationModes,item) => {
         acc[item] = {

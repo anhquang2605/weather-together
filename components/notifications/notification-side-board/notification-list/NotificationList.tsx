@@ -6,6 +6,8 @@ import { formatDistance } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {IoCheckmark, IoClose, IoEllipsisVertical} from 'react-icons/io5'
+import DefaultProfilePicture from '../../../profile/default-profile-picture/DefaultProfilePicture';
+import MiniAvatar from '../../../activity/mini-avatar/MiniAvatar';
 interface NotificationListProps {
     notifications: Notification[];
     handleSetRead:  (notification_id: string, index: number) => void;
@@ -13,7 +15,6 @@ interface NotificationListProps {
     setReveal: (reveal: boolean) => void;
 }
 const profilePictureDimension = 72;
-
 export default function NotificationList({ notifications, handleDeleteOneNotification, handleSetRead, setReveal }: NotificationListProps) {
     const [mapOfProfilePicturePaths, setMapOfProfilePicturePaths] = useState(null);
     const {loadingNotification, limit, fetching, unreads} = useContext(NotificationContext)
@@ -68,9 +69,12 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
                     navigateToLocation(notification.reference_id, notification.type)
                 }
             }>
-                <div className={style["user-profile-picture"]}>
-                    <Image width={profilePictureDimension} height={profilePictureDimension} src={mapOfProfilePicturePaths?.[notification.username] || "/default"} alt="user profile picture"/>
-                </div>
+              
+                    <MiniAvatar 
+                        profilePicturePath={mapOfProfilePicturePaths?.[notification.sender_username] ?? ""}
+                        size="large"
+                        username={notification.sender_username}
+                    />
                 <div className={style['right-group']}>   
                     <span className={style['notification-list-item__title']}>
                         {notification.title}
@@ -109,30 +113,28 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
 
     useEffect(() => {
         if(notifications.length === 0) return;
-        const listOfUsernames = notifications.map((notification) => notification.username);
+        var notificationInnerContainer = document.querySelector(`.${style['notification-list']}`);
+        if(notificationInnerContainer){
+            notificationInnerContainer.scrollTo({
+                top: notificationInnerContainer.scrollHeight,
+                behavior: "smooth"
+            })
+        }
+        const listOfUsernames = notifications.map((notification) => notification.sender_username);
         const usernames =[...new Set( listOfUsernames) ];
         fetch('/api/users',{
             method: 'POST',
-            body: JSON.stringify({usernames}),
+            body: JSON.stringify(usernames),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        .then(res => res.json()).then((data) => {
-            setMapOfProfilePicturePaths(data);
+        .then(res => res.json()).then(data => {
+            if(data.success){
+                setMapOfProfilePicturePaths(data.data)
+            }
         })
     }, [notifications])
-    useEffect(()=>{
-        if(notifications.length > 0){
-            var notificationInnerContainer = document.querySelector(`.${style['notification-list']}`);
-            if(notificationInnerContainer){
-                notificationInnerContainer.scrollTo({
-                    top: notificationInnerContainer.scrollHeight,
-                    behavior: "smooth"
-                })
-            }
-        }
-    },[notifications.length])
     return(  
             fetching ? 
             listLoadingSkeletalJSX 
