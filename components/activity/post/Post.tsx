@@ -33,14 +33,16 @@ export default function Post({post,username}: PostProps){
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
-    const [commentChildrenSummary, setChildrenSummary] = useState<CommentChildrenSummary>({});
+    const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
     const loading = isFetchingComments && isFetchingReactions;
     const optimisticCommentInsertion = (comment: Comment) => {
         setComments(prev => [...prev, comment]);
-        setChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});
+        if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
+            setCommentChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});      
+        }
         if(commentorToAvatar[comment.username] === undefined){
             setCommentorToAvatar({...commentorToAvatar, [comment.username]: profilePicturePaths[comment.username]});
         }
@@ -73,7 +75,7 @@ export default function Post({post,username}: PostProps){
         if(response.success){
             setComments(response.data.result);
             handleFetchProfilePathsToCommentors(response.data.commentors);
-            setChildrenSummary(response.data.children);
+            setCommentChildrenSummary(response.data.children);
             setIsFetchingComments(false);
         }
     }

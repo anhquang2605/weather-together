@@ -48,12 +48,13 @@ export default NextAuth({
       
       if(user && user.data){
         const theUser = JSON.parse(user.data);  
-        const {username, email, location, remember} = theUser;
+        const {username, email, location, remember, profilePicturePath} = theUser;
         token.user = {
           username,
           email,
           location,
-          remember
+          remember,
+          profilePicturePath
         }
       }
       

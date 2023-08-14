@@ -10,7 +10,7 @@
 }
 .content-group__content{
     @apply bg-slate-200/90 border border-slate-400  backdrop-blur  py-2 px-4 my-1 rounded-3xl;
-    width: max-content;
+    display: inline-block;
     max-width: 100%;
     white-space: pre-line;
     color: var(--primary-color)

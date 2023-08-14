@@ -9,7 +9,6 @@ import IntextSuggestion from '../../text-editing/intext-suggestion/IntextSuggest
 import { EMOJIS } from '../../../../constants/emojis';
 import { Emoji } from '../../../../types/Emoji';
 import NextImage from 'next/image';
-import { add, set } from 'lodash';
 import { Comment } from '../../../../types/Comment';
 import { Picture } from '../../../../types/Picture';
 interface ErrorMessage {
@@ -202,7 +201,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
         }
         //posting comment
         const pathToPostCommentAPI = 'comments';
-        const comment = {
+        let comment:Comment = {
             content,
             username,
             targetId,
@@ -219,9 +218,11 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
             let commentId;
             const reponse = await insertToPostAPI(pathToPostCommentAPI, comment);
             if(reponse.success){
-                let mongoPicture
+                let mongoPicture: Picture;
+                commentId = reponse.data.id;
+                comment._id = commentId;
                 if(picture && pictureAttached) {
-                    commentId = reponse.data.id;
+                    
                     const pathToPostPictureAPI = 'pictures/post-picture';
                     mongoPicture = {
                         picturePath: picuterUrl,
@@ -242,6 +243,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                         })
                     }
                 }
+
                 optimisticCommentInsertion(comment)
                 setIsCommenting(false);
                 handleResetForm();

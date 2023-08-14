@@ -13,6 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     const data = {
                         username: user.username,
                         location: user.location,
+                        profilePicturePath: user.profilePicturePath,
                     }
                     res.status(200).json({
                         type: "success",

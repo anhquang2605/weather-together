@@ -13,6 +13,7 @@ import {IoChatbubbles} from 'react-icons/io5';
 import { CommentChildrenSummary } from '../../../types/CommentChildrenSummary';
 import CommentList from './comment-list/CommentList';
 import { UsernameToProfilePicturePathMap } from '../UsernameToProfilePicturePathMap';
+import { useSession } from 'next-auth/react';
 interface CommentComponentProps{
     comment: Comment;
     profilePicturePath: string;
@@ -39,12 +40,17 @@ export default function CommentComponent(
     const [gettingPicture, setGettingPicture] = useState(false);
     const [childComments, setChildComments] = useState<Comment[]>([]);
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
-    const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>();
+    const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});//this is used to tell the number of children comments of a comment
+    const {data: session} = useSession();
+    const user = session?.user;
+    const author = user?.username as string;
     const optimisticCommentInsertion = (comment: Comment) => {
-        setChildComments([...childComments, comment]);
-        setCommentChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});
+        setChildComments([comment,...childComments]);
+        if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
+            setCommentChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});
+        }
         if(commentorToAvatar[comment.username] === undefined){
-            setCommentorToAvatar({...commentorToAvatar, [comment.username]: profilePicturePath});
+            setCommentorToAvatar({...commentorToAvatar, [comment.username]: user?.profilePicturePath || ''});
         }
     };
     const handleGetPicture = async () => {
@@ -100,7 +106,7 @@ export default function CommentComponent(
             <MiniAvatar profilePicturePath={profilePicturePath} />
             <div className={style['content-group']}>
                 <div className={style['content-group__self']}>
-                    {childrenNo > 0 && <div className={style['graph-edge']}></div>} 
+                    {(childrenNo > 0 || childComments.length > 0) && <div className={style['graph-edge']}></div>} 
                     <div className={style['content-group__username']}>
                         {username}
                     </div>
@@ -128,11 +134,11 @@ export default function CommentComponent(
                     </div> 
                     <CommentForm 
                         targetId={_id?.toString() || ''} 
-                        username={commentorUsername} 
+                        username={author} 
                         postId={postId} 
                         isCommenting={isReplying} 
                         scrollToCommentForm={handleScrollToForm}
-                        userProfilePicturePath={profilePicturePath} 
+                        userProfilePicturePath={user?.profilePicturePath || ''} 
                         targetType='comments' 
                         targetLevel={level}
                         parentListRef={commentListRef}

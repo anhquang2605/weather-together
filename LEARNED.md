@@ -63,3 +63,5 @@ socket.on('close', () => {
 24. For child to scale to height or width of flex container, use {
     self-align: stretch on the child itself
   }
+25. Element tend to be streched or shrink to fit in flex container despite the element itself has specified dimensions:
+Solved: set the element its self to flex-shrink: 0 to prevent the shrinking

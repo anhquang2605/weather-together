@@ -8,7 +8,7 @@ export interface Comment {
     createdDate: Date;
     updatedDate: Date;
     targetType: string; // posts, comments
-    targetId: string | null; // the parent that the comment is associated with, if "", then the comment is a direct comment to a post
+    targetId: string; // the parent that the comment is associated with, if "", then the comment is a direct comment to a post
     postId: string; // the post that the comment is associated with
     level: number; // the level of the comment, 0 is a direct comment to a post, 1 is a comment to a comment, 2 is a comment to a comment to a comment, etc. max level is 2, at this level, cannot reply to this comment;
     pictureAttached: boolean;
