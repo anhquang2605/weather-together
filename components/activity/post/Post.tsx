@@ -15,6 +15,7 @@ import { CommentChildrenSummary } from "../../../types/CommentChildrenSummary";
 import { useSession } from "next-auth/react";
 import { set } from "lodash";
 import LoadingBox from "../../skeletons/loading-box/LoadingBox";
+import { Comment } from "../../../types/Comment";
 interface PostProps{
     post: Post;
     username?: string;
@@ -30,13 +31,20 @@ export default function Post({post,username}: PostProps){
     const [isCommenting, setIsCommenting] = useState(false);
     const [isFetchingComments, setIsFetchingComments] = useState(false);
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
-    const [comments, setComments] = useState([]); //TODO: fetch comments from server
+    const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [commentChildrenSummary, setChildrenSummary] = useState<CommentChildrenSummary>({});
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
     const loading = isFetchingComments && isFetchingReactions;
+    const optimisticCommentInsertion = (comment: Comment) => {
+        setComments(prev => [...prev, comment]);
+        setChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});
+        if(commentorToAvatar[comment.username] === undefined){
+            setCommentorToAvatar({...commentorToAvatar, [comment.username]: profilePicturePaths[comment.username]});
+        }
+    };
     const handleFetchReactionsGroups = async (targetId: string) => {
         setIsFetchingReactions(true);
         const path = `reactions/get-reactions-by-groups`;
@@ -134,6 +142,7 @@ export default function Post({post,username}: PostProps){
                     postId={post._id?.toString()!} 
                     userProfilePicturePath={profilePicturePaths[author]}
                     setIsCommenting={setIsCommenting}
+                    optimisticCommentInsertion={optimisticCommentInsertion}
                 />
                
                    

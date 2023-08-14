@@ -10,6 +10,8 @@ import { EMOJIS } from '../../../../constants/emojis';
 import { Emoji } from '../../../../types/Emoji';
 import NextImage from 'next/image';
 import { add, set } from 'lodash';
+import { Comment } from '../../../../types/Comment';
+import { Picture } from '../../../../types/Picture';
 interface ErrorMessage {
     message: string,
     type: string //picture-attachment, content-length
@@ -25,9 +27,10 @@ interface CommentFormProps {
     targetType: string, //posts or comments
     parentListRef?: React.MutableRefObject<HTMLDivElement | null>,
     setIsCommenting: React.Dispatch<React.SetStateAction<boolean>>,
+    optimisticCommentInsertion: (comment: Comment) => void,
     _id: string
 }
-export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id}: CommentFormProps) {
+export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id,optimisticCommentInsertion}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
@@ -216,11 +219,11 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
             let commentId;
             const reponse = await insertToPostAPI(pathToPostCommentAPI, comment);
             if(reponse.success){
-
+                let mongoPicture
                 if(picture && pictureAttached) {
                     commentId = reponse.data.id;
                     const pathToPostPictureAPI = 'pictures/post-picture';
-                    const mongoPicture = {
+                    mongoPicture = {
                         picturePath: picuterUrl,
                         createdDate: new Date(),
                         targetId: commentId,
@@ -239,6 +242,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                         })
                     }
                 }
+                optimisticCommentInsertion(comment)
                 setIsCommenting(false);
                 handleResetForm();
 
@@ -354,19 +358,14 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                         </div> 
                         <EmojiSelector size={targetType === "comments" ? "small" : undefined} containerRef={parentListRef} buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
                     </div>
-
                     <button  onClick={handleSubmit} title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
                         isSending || !validContentLength ? style['disabled'] : ''
                     )}>
                         <IoSend 
-                           
                             className={style['control-icon'] + " icon"}/>
                     </button>
-
                 </div>
             </div>
-
-
         </div>
     )
 }

@@ -9,4 +9,5 @@ export interface Picture{
     ratio: number;
     width: number;
     height: number;
+    targetType: string; // post or comment
 }

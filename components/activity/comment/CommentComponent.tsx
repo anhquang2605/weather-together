@@ -40,6 +40,13 @@ export default function CommentComponent(
     const [childComments, setChildComments] = useState<Comment[]>([]);
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>();
+    const optimisticCommentInsertion = (comment: Comment) => {
+        setChildComments([...childComments, comment]);
+        setCommentChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});
+        if(commentorToAvatar[comment.username] === undefined){
+            setCommentorToAvatar({...commentorToAvatar, [comment.username]: profilePicturePath});
+        }
+    };
     const handleGetPicture = async () => {
         // get picture from server
         setGettingPicture(true);
@@ -130,6 +137,7 @@ export default function CommentComponent(
                         targetLevel={level}
                         parentListRef={commentListRef}
                         setIsCommenting={setIsReplying}
+                        optimisticCommentInsertion={optimisticCommentInsertion}
                         _id={_id?.toString() || ''}
                         />
                 {
