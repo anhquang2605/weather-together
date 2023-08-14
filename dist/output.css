@@ -1398,6 +1398,10 @@ video {
   --btn-color: #6366f1;
   --disabled-color: #c1caf7;
   --faded-hover-color: #c1caf7;
+  --xl-screen: 1280px;
+  --lg-screen: 1024px;
+  --md-screen: 768px;
+  --sm-screen: 640px;
 }
 
 .glass {
@@ -1925,5 +1929,9 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
   .xl\:w-1\/4 {
     width: 25%;
+  }
+
+  .xl\:w-\[200px\] {
+    width: 200px;
   }
 }

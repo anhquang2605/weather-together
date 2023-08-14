@@ -32,9 +32,10 @@ export interface UserInStore{
     profilePicturePath?: string,
 }
 export interface UserInSession{
-    username?: string | null | undefined; 
+    username: string | null | undefined; 
     name?: string | null | undefined; 
     email?: string | null | undefined; 
     image?: string | null | undefined; 
     location?: Location | null | undefined;
+    profilePicturePath?: string | null | undefined;
 }

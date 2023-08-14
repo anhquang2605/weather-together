@@ -26,7 +26,7 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
         <div className="profile-banner flex w-full px-4 pt-4 pb-[20%] rounded mb-4 relative  lg:mb-24 md:mb-16 mb-8">
             <BannerBackground setEditingBackground={setEditingBackground} bannerPicturePath={user.backgroundPicturePath ?? ""} isEditing={isEditing}/>
             <div className="absolute bottom-0  lg:-mb-24 md:-mb-16 -mb-8 flex flex-row w-full left-4">
-                <Avatar profilePicturePath={user.profilePicturePath ?? ""} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
+                <Avatar username={userFromSession?.username  } profilePicturePath={user.profilePicturePath} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
                 <div className="flex flex-row mt-auto ml-4 grow pr-4">
                     <div className="flex flex-col justify-center">
                         <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>

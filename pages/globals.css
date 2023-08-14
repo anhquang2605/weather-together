@@ -42,6 +42,10 @@ body {
   --btn-color: #6366f1;
   --disabled-color: #c1caf7;
   --faded-hover-color: #c1caf7;
+  --xl-screen: 1280px;
+  --lg-screen: 1024px;
+  --md-screen: 768px;
+  --sm-screen: 640px;
 }
 
 .glass{

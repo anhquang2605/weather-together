@@ -1,0 +1,19 @@
+.avatar{
+    --large-dim: 200px;
+    --small-dim: 80px;
+    --med-dim: 140px;
+    @apply rounded-lg overflow-hidden;
+    @screen sm{
+        width: var(--small-dim);
+        height: var(--small-dim);
+    }
+    @screen md{
+        width: var(--med-dim);
+        height: var(--med-dim);
+    }
+    @screen lg{
+        width: var(--large-dim);
+        height: var(--large-dim);
+    }
+
+}

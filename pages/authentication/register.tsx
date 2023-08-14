@@ -312,7 +312,7 @@ export default function Register() {
                             validateUsername()
                             validateUsernameExists()
                         }} />
-                        {<p className={"text-red-400 " + (validUsername && "opacity-0")}>{!usernameLength ? "Username must be at least 5 characters long" : "Placholder"} {usernameExists&&"Username already existed!"}</p>}
+                        {<p className={"text-red-400 " + (validUsername && "opacity-0")}>{!usernameLength ? "Username must be at least 5 characters long" : ""} {usernameExists&&"Username already existed!"}</p>}
                     </div>
                     <div className="form-row lg:half w-full">
                         <label>

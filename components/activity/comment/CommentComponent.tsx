@@ -14,6 +14,7 @@ import { CommentChildrenSummary } from '../../../types/CommentChildrenSummary';
 import CommentList from './comment-list/CommentList';
 import { UsernameToProfilePicturePathMap } from '../UsernameToProfilePicturePathMap';
 import { useSession } from 'next-auth/react';
+import { UserInSession } from '../../../types/User';
 interface CommentComponentProps{
     comment: Comment;
     profilePicturePath: string;
@@ -42,7 +43,7 @@ export default function CommentComponent(
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});//this is used to tell the number of children comments of a comment
     const {data: session} = useSession();
-    const user = session?.user;
+    const user = session?.user as UserInSession;
     const author = user?.username as string;
     const optimisticCommentInsertion = (comment: Comment) => {
         setChildComments([comment,...childComments]);
@@ -103,7 +104,7 @@ export default function CommentComponent(
             {level !== 0 && <div className={style['merging-curve']}>
 
             </div>}
-            <MiniAvatar profilePicturePath={profilePicturePath} />
+            <MiniAvatar username={username} profilePicturePath={profilePicturePath} />
             <div className={style['content-group']}>
                 <div className={style['content-group__self']}>
                     {(childrenNo > 0 || childComments.length > 0) && <div className={style['graph-edge']}></div>} 
