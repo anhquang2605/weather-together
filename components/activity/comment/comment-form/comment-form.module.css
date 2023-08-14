@@ -73,8 +73,9 @@
 .error-display{
     @apply text-red-400 text-sm;
 }
+#picture-comment-upload{}
 .preview-attachment-picture{
-    @apply w-40 relative my-2;
+    @apply relative my-2;
     img{
         transition: opacity 0.2s ease-in-out;
         @apply w-full rounded-lg;
@@ -100,4 +101,9 @@
 .is-commenting{
     opacity: 1;
     display: flex;
+}
+.sending{
+    cursor: not-allowed;
+    pointer-events: none;
+    @apply animate-pulse;
 }

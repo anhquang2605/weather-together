@@ -25,14 +25,15 @@ interface CommentFormProps {
     targetType: string, //posts or comments
     parentListRef?: React.MutableRefObject<HTMLDivElement | null>,
     setIsCommenting: React.Dispatch<React.SetStateAction<boolean>>,
+    _id: string
 }
-export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting}: CommentFormProps) {
+export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
     const [picture, setPicture] = useState<File>();
-    const [previewPictureURL, setPreviewPictureURL] = useState<string | null>('');
-    const [previewRatio, setPreviewRatio] = useState<number>(1); //[width, height
+    const [previewPictureURL, setPreviewPictureURL] = useState<string>('');
+    const [previewRatio, setPreviewRatio] = useState<number>(0); //[width, height
     const [previewPictureDimensions, setPreviewPictureDimensions] = useState<number[]>([0,0]); //[width, height
     const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
     const [validContentLength, setValidContentLength] = useState(false); //min should be 1 word
@@ -118,7 +119,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
     const checkIfPrintableKey = (event: React.KeyboardEvent) => {
         return (/^.$/u.test(event.key) && !event.ctrlKey && !event.metaKey && !event.altKey);
     }
-    const handlePictureInptChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const handlePictureInptChange = async (e:React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         const reader = new FileReader();
         if(file) {
@@ -132,14 +133,9 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                     removeFromErrorMessages('picture');
                 }
                 setPicture(file);
-                const imageURL = URL.createObjectURL(file)
+                const imageURL = await URL.createObjectURL(file)
                 setPreviewPictureURL(imageURL);
-                const newImage = new Image();
-                newImage.src = imageURL;
-                newImage.onload = () => {
-                   setPreviewRatio(newImage.width / newImage.height);
-                   setPreviewPictureDimensions([newImage.width, newImage.height]);
-                }
+
                 setPictureAttached(true);
                 reader.onerror = () => {
                     addToErrorMessages({
@@ -153,9 +149,9 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
     }
     const handleRemovePictureAttachment = () => {
         setPictureAttached(false);
-        setPreviewPictureURL(null);
+        setPreviewPictureURL('');
         setPicture(undefined);
-        setPreviewRatio(1);
+        setPreviewRatio(0);
         setPreviewPictureDimensions([0,0]);
     }
 
@@ -170,9 +166,8 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
     }
     const handleResetForm = () => {
         setContent('');
-        setPictureAttached(false);
-        setPicture(undefined);
-        setPreviewPictureURL(null);
+        handleRemovePictureAttachment();
+
         if(contentTextAreaRef.current){
             contentTextAreaRef.current.style.height = 'auto';
         }
@@ -193,6 +188,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                     type: "picture-upload",
                     message: 'Error uploading file',
                 })
+                setIsSending(false);
             }
         }
         let level;
@@ -245,6 +241,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                 }
                 setIsCommenting(false);
                 handleResetForm();
+
             }else {
                 addToErrorMessages({
                     type: 'comment-posting',
@@ -257,6 +254,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                 type: 'comment-posting',
                 message: 'Error posting comment',
             })
+            setIsSending(false);
         }
         //adding picture to post if picture is attached
 
@@ -278,8 +276,18 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
             
         }
     },[isCommenting])
+    useEffect(()=>{
+        if(previewPictureURL && previewPictureURL.length){
+            const img = new Image();
+            img.src = previewPictureURL;
+            img.onload = () => {
+                setPreviewPictureDimensions([img.width, img.height]);
+                setPreviewRatio(img.width / img.height);
+            }
+        }
+    },[previewPictureURL])
     return(
-        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''}`}>
+        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']}`}>
             <MiniAvatar profilePicturePath={userProfilePicturePath} size="medium"/>
             <div className={style['text-box']}>
                 <textarea 
@@ -315,8 +323,13 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                     topSuggestionClassName={style['top-suggestion']}
                     scrollListRef={parentListRef}
                 />}
-                {previewPictureURL && <div className={style['preview-attachment-picture']}>
-                    <NextImage width={200 * previewRatio} height={200 / previewRatio} alt="Preview Attachment Picture" src={previewPictureURL} />
+                {previewRatio && previewPictureURL && <div 
+                    style={{
+                        width: `${200 * previewRatio}px`,
+                        height: `${200}px`,
+                    }}
+                    className={style['preview-attachment-picture']}>
+                    <NextImage width={previewPictureDimensions[0]} height={previewPictureDimensions[1]} alt="Preview Attachment Picture" src={previewPictureURL} />
                     <button 
                         title="Remove Picture"
                         onClick={()=>{handleRemovePictureAttachment()}}
@@ -334,10 +347,10 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                 <div className={style['control-group']}>
                     <div className={style['attachment-group']}>
                         <div className={style['picture-attachment']}>
-                            <label title="Attach a picture" htmlFor="picture-comment-upload" className={style['control-btn']}>
+                            <label title="Attach a picture" htmlFor={_id} className={style['control-btn']}>
                                 <IoCamera className={style['control-icon'] + " icon"}/>
                             </label>
-                            <input type="file" accept="image/*" id="picture-comment-upload" className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
+                            <input type="file" accept="image/*" id={_id} className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
                         </div> 
                         <EmojiSelector size={targetType === "comments" ? "small" : undefined} containerRef={parentListRef} buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
                     </div>

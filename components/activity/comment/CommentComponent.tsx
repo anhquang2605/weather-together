@@ -130,6 +130,7 @@ export default function CommentComponent(
                         targetLevel={level}
                         parentListRef={commentListRef}
                         setIsCommenting={setIsReplying}
+                        _id={_id?.toString() || ''}
                         />
                 {
                    ( childrenNo > 0 && childComments.length === 0) && <button className={style['view-replies-btn']}  onClick={()=> handleFetchChildrenComments(_id?.toString() || '')}>

@@ -125,6 +125,7 @@ export default function Post({post,username}: PostProps){
                  scrollable={false}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 
+                    _id={post._id?.toString()!}
                     targetType="posts"
                     username={author}  
                     isCommenting={isCommenting} 
