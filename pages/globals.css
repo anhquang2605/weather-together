@@ -144,8 +144,10 @@ body {
           color: var(--nav-primmary-color);
         }
         @apply w-max pl-12 pr-4;
-        
-       
+      }
+      img{
+        transition: all 0.5 ease-in-out;
+        box-shadow: inset 0px 0px 10px 3px rgba(0, 0, 0, 0.3);
       }
     }
     svg {

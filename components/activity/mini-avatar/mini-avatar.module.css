@@ -1,5 +1,5 @@
 .mini-avatar{
-    @apply rounded overflow-hidden mr-4 z-10 shrink-0 border border-slate-500;
+    @apply rounded overflow-hidden z-10 shrink-0 border border-slate-500;
     img{
         @apply w-full h-full;
     }
@@ -12,4 +12,14 @@
 }
 .small{
     @apply w-8 h-8;
+
+}
+.small-nav{
+    transition: all 0.3s ease-in-out;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border: 1px solid transparent; 
+    /* Set padding of nav-item parent of this element to 0 */
 }

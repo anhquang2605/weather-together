@@ -12,8 +12,9 @@ export default function Navigation() {
     const [navMenuStatus, setNavMenuStatus] = useState("");
     const {asPath,pathname} = useRouter();
     const withUser = [
-        {label: "Friends", pageTitle: "friends", linkhref: "friends"},
         {label: "My page", pageTitle: "userprofile", linkhref: `userprofile/${user?.username}`},
+        {label: "Friends", pageTitle: "friends", linkhref: "friends"},
+
         {label: "Notifications", pageTitle: "notifications", linkhref: "notifications"}
     ]
     const withoutUser = [
