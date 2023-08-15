@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import {useSession} from "next-auth/react"
 import { UserInSession } from "../../types/User"
+import UserCard from "./user-card/UserCard"
 export default function Navigation() {
     const {data: session} = useSession();
     const user = session?.user as UserInSession;
@@ -13,6 +14,7 @@ export default function Navigation() {
     const {asPath,pathname} = useRouter();
     const withUser = [
         {label: "My page", pageTitle: "userprofile", linkhref: `userprofile/${user?.username}`},
+        {label: "Home", pageTitle: "home", linkhref: ""},
         {label: "Friends", pageTitle: "friends", linkhref: "friends"},
 
         {label: "Notifications", pageTitle: "notifications", linkhref: "notifications"}
@@ -37,18 +39,10 @@ export default function Navigation() {
                     {navMenuStatus === "" ? <IoArrowBack className="w-8 h-8 ml-4"></IoArrowBack> : <IoMenu className="w-8 h-8 ml-4"/> }
                 </button>
             </div>
-
+            {navMenuStatus === "" && <UserCard user={user} />
+}
             <ul className="flex flex-col grow">
-                <li><Link className={"nav-item "+ (asPath === "/" && 'active') } href={`/`}> 
-                        <div className="tooltip">
-                            <div className="relative">
-                                 Home
-                            </div>
-                        </div>
-                        <FaNewspaper/>
-                        <span>Home</span> 
-                    </Link>
-                </li>
+                
                     {<UserMenu user={user} withUser={withUser} withoutUser={withoutUser} />}
             </ul>
             <div>

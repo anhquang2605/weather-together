@@ -16,7 +16,6 @@ export interface User{
     password: string,
     location: Location | null,
     profilePicturePath?: string,
-    gallery?: string[],
     bio?: string,
     backgroundPicturePath?: string,
     nickname?: string,
@@ -38,4 +37,17 @@ export interface UserInSession{
     image?: string | null | undefined; 
     location?: Location | null | undefined;
     profilePicturePath?: string | null | undefined;
+    featuredWeather?: Weather,
+    firstName?: string,
+    lastName?: string,
+}
+export interface UserInClient{
+    username: string,
+    location: Location | null,
+    profilePicturePath?: string,
+    favoriteWeathers?: Weather[],
+    featuredWeather?: Weather,
+    dateJoined?: Date,
+    firstName?: string,
+    lastName?: string,
 }

@@ -1,0 +1,6 @@
+.user-card{
+    @apply flex flex-row justify-center;
+}
+.user-card__profile-picture{
+    
+}

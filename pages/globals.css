@@ -81,7 +81,7 @@ body {
   box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
 }
 .nav-item{
-  @apply mb-2 relative;
+  @apply mt-8 relative;
   &:not(.active)::after{
     content: "";
     transition: all 0.2s ease-in-out;
@@ -105,7 +105,10 @@ body {
   span{
     @apply ml-4;
   }
+  &:first-child{
+    display: none;
   }
+}
 
 .tooltip{
   position: absolute;
@@ -132,7 +135,11 @@ body {
     @apply hidden;
   }
   .nav-item{
-    @apply p-2.5;
+    &:first-child{
+      display: flex;
+      padding: 0;
+    }
+    @apply p-2.5 mt-2;
     &::after{
       content: none;
     }

@@ -1,11 +1,11 @@
 import Link from "next/link"
-import { useSelector } from "react-redux"
-import {BsPersonVcardFill} from "react-icons/bs"
 import {IoEnter, IoExit, IoPersonAdd, IoPeople, IoNotifications} from "react-icons/io5"
+import {useEffect} from "react"
 import { useRouter } from "next/router";
 import { UserInSession } from "../../../types/User";
 import {signOut} from "next-auth/react";
 import MiniAvatar from "../../activity/mini-avatar/MiniAvatar";
+import { FaNewspaper } from "react-icons/fa";
 interface NavItem {
     label: string,
     linkhref: string,
@@ -24,12 +24,13 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
         "My page": <MiniAvatar size="small-nav" profilePicturePath={user?.profilePicturePath ?? ""} username={user?.username ?? ""}/>,
         "Log in": <IoEnter></IoEnter>,
         "Register": <IoPersonAdd></IoPersonAdd>,
-        "Notifications": <IoNotifications></IoNotifications> 
+        "Notifications": <IoNotifications></IoNotifications> ,
+        "Home": <FaNewspaper/>
     }
     const getJSX = (navItems: NavItem[]) => {
         return navItems.map(({label,linkhref, pageTitle}) => {
             return (
-                <Link className={"nav-item "+ (asPath.includes(pageTitle?.toLowerCase()) && 'active') } href={"/" + linkhref} key={label}>
+                <Link className={"nav-item "+ ((asPath === ("/" + linkhref)) && 'active') } href={ "/" + linkhref} key={label}>
                     <div className="tooltip">
                         <div className="relative">
                             {label}

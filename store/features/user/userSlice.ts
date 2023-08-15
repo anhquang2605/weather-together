@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { UserInStore } from '../../../types/User';
+import { UserInClient} from '../../../types/User';
 interface UserState {
-  data: UserInStore | null,
+  data: UserInClient | null,
   status: string,
   error: string | null,
 }

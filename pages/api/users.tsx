@@ -1,5 +1,7 @@
 import { connectDB } from "../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import { UserInClient } from "../../types/User";
+import { pick } from "lodash";
 export interface usernameToProfilePicturePathMap {
     [username: string]: string;
 }
@@ -7,7 +9,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = await connectDB();
     const {method}= req;
     if(db){
-        if(method === 'POST'){
+        if(method === 'GET'){
+            const {username} = req.query;
+            const userCollection = db.collection('users');
+            if(username){
+               const data = await userCollection.findOne({username: username});
+
+               if(data){
+                     const user: UserInClient = pick(data, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'favoriteWeathers'])
+                    res.status(200).json({
+                        success: true,
+                        data: user
+                    });
+                } 
+            }
+        }
+        else if(method === 'POST'){
             const payload = req.body;
             //geting list of profile picture paths and map each of them to its username
             if(Array.isArray(payload) && payload.length > 0){

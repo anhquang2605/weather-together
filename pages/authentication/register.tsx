@@ -245,6 +245,7 @@ export default function Register() {
                 featuredWeather: null,
                 favoriteWeathers: [],
                 backgroundPicturePath: "",
+                dateJoined: new Date(),
             }
             setShowAPIPop(true);
             setApiStatus({
