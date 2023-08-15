@@ -1511,17 +1511,53 @@ video {
 .nav-item {
   position: relative;
   margin-bottom: 0.5rem;
-  * {
+  &:not(.active)::after{
+    content: "";
+    transition: all 0.2s ease-in-out;
+  }
+  &:not(.active)::after {
+    position: absolute;
+  }
+  &:not(.active)::after {
+    bottom: 0px;
+  }
+  &:not(.active)::after {
+    z-index: 50;
+  }
+  &:not(.active)::after {
+    height: 2px;
+  }
+  &:not(.active)::after {
+    width: 100%;
+  }
+  &:not(.active)::after {
+    border-radius: 9999px;
+  }
+  &:not(.active)::after {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  }
+  &:not(.active)::after{
+    transform: scaleX(0);
+    transform-origin: left;
+    flex-shrink: 0;
+  }
+  &:hover{
+    &::after{
+      transform: scaleX(1)
+    }
+  }
+  *:not()::after {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
-  * {
+  *:not()::after {
     transition-duration: 100ms;
   }
-  * {
+  *:not()::after {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
   display: flex;
@@ -1583,12 +1619,16 @@ video {
     padding: 0.625rem;
   }
   .nav-item{
+    &::after{
+      content: none;
+    }
     &:hover {
       --tw-bg-opacity: 1;
       background-color: rgb(255 255 255 / var(--tw-bg-opacity));
     }
     &:hover {
-      color: var(--nav-primmary-color);
+      --tw-text-opacity: 1;
+      color: rgb(55 48 163 / var(--tw-text-opacity));
     }
     &:hover{
       .tooltip{

@@ -1,6 +1,7 @@
 
 .friends-page{
     width: 100%;
+    @apply p-8;
 }
 .active-friend-tab{
     background-color: var(--highlighted-color);

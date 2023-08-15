@@ -82,7 +82,20 @@ body {
 }
 .nav-item{
   @apply mb-2 relative;
-  * {
+  &:not(.active)::after{
+    content: "";
+    transition: all 0.2s ease-in-out;
+    @apply w-full absolute bottom-0 h-[2px] bg-white z-50 rounded-full;
+    transform: scaleX(0);
+    transform-origin: left;
+    flex-shrink: 0;
+  }
+  &:hover{
+    &::after{
+      transform: scaleX(1)
+    }
+  }
+  *:not(::after) {
     @apply transition duration-100 ease-in-out;
   }
   @apply transition flex flex-row items-center py-2 pr-4 w-full rounded;
@@ -93,6 +106,7 @@ body {
     @apply ml-4;
   }
   }
+
 .tooltip{
   position: absolute;
   height: 100%;
@@ -119,9 +133,11 @@ body {
   }
   .nav-item{
     @apply p-2.5;
+    &::after{
+      content: none;
+    }
     &:hover{
-      @apply bg-white text-[color:var(--nav-primmary-color)];
-      
+      @apply bg-white text-indigo-800;
       .tooltip{
         div{
           @apply opacity-100;

@@ -5,9 +5,10 @@ import {IoCloudyNight, IoMenu, IoArrowBack} from "react-icons/io5"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import {useSession} from "next-auth/react"
+import { UserInSession } from "../../types/User"
 export default function Navigation() {
     const {data: session} = useSession();
-    const user = session?.user ;
+    const user = session?.user as UserInSession;
     const [navMenuStatus, setNavMenuStatus] = useState("");
     const {asPath,pathname} = useRouter();
     const withUser = [
@@ -16,8 +17,8 @@ export default function Navigation() {
         {label: "Notifications", pageTitle: "notifications", linkhref: "notifications"}
     ]
     const withoutUser = [
-        {label: "Log in", pageTitle:"", linkhref: "authentication/login"},
-        {label: "Register", pageTitle:"", linkhref: "authentication/register"}
+        {label: "Log in", pageTitle:"log in", linkhref: "authentication/login"},
+        {label: "Register", pageTitle:"register", linkhref: "authentication/register"}
     ]
     const toggleNavMenu = () => {
         if(navMenuStatus === ""){

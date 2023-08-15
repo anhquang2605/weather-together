@@ -1,5 +1,5 @@
 .mini-avatar{
-    @apply rounded overflow-hidden mr-4 z-10 shrink-0;
+    @apply rounded overflow-hidden mr-4 z-10 shrink-0 border border-slate-500;
     img{
         @apply w-full h-full;
     }
