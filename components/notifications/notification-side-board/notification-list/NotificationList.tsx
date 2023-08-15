@@ -71,6 +71,7 @@ export default function NotificationList({ notifications, handleDeleteOneNotific
             }>
               
                     <MiniAvatar 
+                        className="mr-2"
                         profilePicturePath={mapOfProfilePicturePaths?.[notification.sender_username] ?? ""}
                         size="large"
                         username={notification.sender_username}

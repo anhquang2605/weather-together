@@ -8,11 +8,24 @@ interface MiniAvatarProps {
     className?: string;
 }
 export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = ''}: MiniAvatarProps) {
-    const dimesion = size === 'large' ? 40 : size === 'medium' ? 32 : 24;
+    const dimesion = () => {
+        switch(size) {
+            case 'extra-large':
+                return 100;
+            case 'large':
+                return 50;
+            case 'medium':
+                return 40;
+            case 'small':
+                return 30;
+            default:
+                return 40;
+        }
+    }
     return (
         
         <div className={style['mini-avatar'] + " " + style[size] + " " + className}>
-            {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion} height={dimesion}  src={profilePicturePath}/> : <DefaultProfilePicture username={username}/>}
+            {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture username={username}/>}
         </div>
         
     )
