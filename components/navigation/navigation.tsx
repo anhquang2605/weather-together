@@ -7,13 +7,13 @@ import { useRouter } from "next/router"
 import {useSession} from "next-auth/react"
 import { UserInSession } from "../../types/User"
 import UserCard from "./user-card/UserCard"
+import Username from "../../pages/userprofile/edit/[username]"
 export default function Navigation() {
     const {data: session} = useSession();
     const user = session?.user as UserInSession;
     const [navMenuStatus, setNavMenuStatus] = useState("");
     const {asPath,pathname} = useRouter();
     const withUser = [
-        {label: "My page", pageTitle: "userprofile", linkhref: `userprofile/${user?.username}`},
         {label: "Home", pageTitle: "home", linkhref: ""},
         {label: "Friends", pageTitle: "friends", linkhref: "friends"},
 
@@ -30,6 +30,12 @@ export default function Navigation() {
             setNavMenuStatus("");
         }
     }
+    const fetchUserInformation = async(username: string) => {
+
+    }
+    useEffect(()=>{
+
+    },[])
     return(
         <div className={"transition-all shrink-0 p-8 shrink flex flex-col nav-bar relative " + navMenuStatus}>
             <div className="flex flex-row items-center border-b border-slate-500 pb-4">
@@ -39,7 +45,7 @@ export default function Navigation() {
                     {navMenuStatus === "" ? <IoArrowBack className="w-8 h-8 ml-4"></IoArrowBack> : <IoMenu className="w-8 h-8 ml-4"/> }
                 </button>
             </div>
-            {navMenuStatus === "" && <UserCard user={user} />
+            {navMenuStatus === "" && user && <UserCard user={user} />
 }
             <ul className="flex flex-col grow">
                 

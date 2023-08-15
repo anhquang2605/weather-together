@@ -125,10 +125,7 @@ function Edit({userJSON}:UserProfileProps){
           if(payload.type === 'user-updated'){
             const updatedUser = {...user, ...payload.data};
             setUser(prevState => ({...prevState, ...payload.data}));
-            update({
-              username: updatedUser.username,
-              location: updatedUser.location,
-            })
+            update(updatedUser);
           }
 /*           const change =  JSON.parse(message.data);
           console.log(message.data);

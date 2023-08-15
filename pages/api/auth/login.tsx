@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDB } from "../../../libs/mongodb";
 import {compareSync} from "bcryptjs";
+import { UserInSession } from "../../../types/User";
+import { pick } from "lodash";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if(req.method === "POST") {
         const {username, password} = req.body;
@@ -10,15 +12,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if(user) {
                 const match = compareSync(password, user.password);
                 if(match) {
-                    const data = {
-                        username: user.username,
-                        location: user.location,
-                        profilePicturePath: user.profilePicturePath,
-                    }
+                    const data: UserInSession = pick(user, [
+                        "username",
+                        "email",
+                        "firstName",
+                        "lastName",
+                        "featuredWeather",
+                        "profilePicturePath",
+                        "location"
+                    ])
                     res.status(200).json({
                         type: "success",
+                        success: true,
                         message: "Login successful",
-                        data: JSON.stringify(data)
+                        data: data
                     })
                 }else{
                     res.status(400).json({

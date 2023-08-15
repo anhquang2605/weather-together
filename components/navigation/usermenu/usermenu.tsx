@@ -21,7 +21,6 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
     const {asPath} = useRouter();
     const labelToIcon:LabelToIconMap = {
         "Friends": <IoPeople></IoPeople>,
-        "My page": <MiniAvatar size="small-nav" profilePicturePath={user?.profilePicturePath ?? ""} username={user?.username ?? ""}/>,
         "Log in": <IoEnter></IoEnter>,
         "Register": <IoPersonAdd></IoPersonAdd>,
         "Notifications": <IoNotifications></IoNotifications> ,

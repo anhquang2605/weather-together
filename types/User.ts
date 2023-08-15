@@ -40,6 +40,7 @@ export interface UserInSession{
     featuredWeather?: Weather,
     firstName?: string,
     lastName?: string,
+    remember?: boolean,
 }
 export interface UserInClient{
     username: string,

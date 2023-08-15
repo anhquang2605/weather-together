@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { UserInSession } from '../../../types/user';
 const url = process.env.NEXTAUTH_URL;
 const expiration = process.env.NEXTAUTH_JWT_EXPIRATION;
 export default NextAuth({
@@ -25,13 +26,15 @@ export default NextAuth({
             headers: { 'Content-Type': 'application/json' }
           });
 
-          const user = await res.json();
-          user.remember = remember;
-          if (user && res.ok) {
-              return user;
+          const response = await res.json();
+          if(response.success){
+            const user = response.data;
+            user.remember = remember;
+            return user;
           }else{
-              return null;
+            return null;
           }
+        
         }catch(err){
           return null;
         }
@@ -46,23 +49,15 @@ export default NextAuth({
   callbacks: {
     jwt: async ({token, user}) => {
       
-      if(user && user.data){
-        const theUser = JSON.parse(user.data);  
-        const {username, email, location, remember, profilePicturePath} = theUser;
-        token.user = {
-          username,
-          email,
-          location,
-          remember,
-          profilePicturePath
-        }
+      if(user){
+        token.user =  user;
       }
       
       return token
     },
     session: async ({session, token, user}) => {
         session.user = token.user;
-        if(token.user && token.user.remember){
+        if(token.user && token.user.remember === 'true'){
           session.maxAge = expiration;
         }
         return session

@@ -1510,7 +1510,7 @@ video {
 
 .nav-item {
   position: relative;
-  margin-top: 2rem;
+  margin-top: 1rem;
   &:not(.active)::after{
     content: "";
     transition: all 0.2s ease-in-out;
@@ -1585,9 +1585,6 @@ video {
   span {
     margin-left: 1rem;
   }
-  &:first-child{
-    display: none;
-  }
 }
 
 .tooltip{
@@ -1617,12 +1614,6 @@ video {
   padding-right: 0.625rem;
   .non-active, span {
     display: none;
-  }
-  .nav-item{
-    &:first-child{
-      display: flex;
-      padding: 0;
-    }
   }
   .nav-item {
     margin-top: 0.5rem;

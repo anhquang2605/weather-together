@@ -81,7 +81,7 @@ body {
   box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
 }
 .nav-item{
-  @apply mt-8 relative;
+  @apply mt-4 relative;
   &:not(.active)::after{
     content: "";
     transition: all 0.2s ease-in-out;
@@ -104,9 +104,6 @@ body {
   }
   span{
     @apply ml-4;
-  }
-  &:first-child{
-    display: none;
   }
 }
 
@@ -135,10 +132,7 @@ body {
     @apply hidden;
   }
   .nav-item{
-    &:first-child{
-      display: flex;
-      padding: 0;
-    }
+
     @apply p-2.5 mt-2;
     &::after{
       content: none;
