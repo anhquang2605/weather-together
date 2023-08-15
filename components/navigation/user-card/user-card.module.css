@@ -1,6 +1,42 @@
 .user-card{
-    @apply flex flex-row justify-center;
+    @apply flex flex-col flex-wrap py-8 justify-center;
+    width: inherit;
+}
+.user-card__card-link{
+    @apply w-full py-4 rounded;
+    transition: all 0.2s ease-in-out;
+    &:hover{
+        @apply bg-slate-200;
+        color: var(--primary-color)
+    }
 }
 .user-card__profile-picture{
-    
+    @apply mx-auto;
+}
+.user-card__profile-name{
+    @apply text-center font-semibold;
+}
+.card-row{
+    @apply flex flex-row mt-4;
+    svg{
+        @apply mr-1
+    }
+}
+.compact{
+    border: none;
+    padding: 0;
+    .user-card__card-link{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+ 
+
+    }
+    .user-card__profile-name{
+        transition: all 0.2s ease-in-out;
+        margin-top: 4px;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+    }
 }

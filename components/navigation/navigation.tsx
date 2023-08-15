@@ -38,14 +38,14 @@ export default function Navigation() {
     },[])
     return(
         <div className={"transition-all shrink-0 p-8 shrink flex flex-col nav-bar relative " + navMenuStatus}>
-            <div className="flex flex-row items-center border-b border-slate-500 pb-4">
-                <IoCloudyNight className="w-6 h-6 mr-2 non-active"></IoCloudyNight>
+            <div className="flex flex-row items-center pb-4">
+                <IoCloudyNight className="w-8 h-8 mr-1 non-active"></IoCloudyNight>
                 <h3 className="font-semibold mr-4 non-active">Weather Together</h3>
                 <button onClick={()=>{toggleNavMenu()}}>
                     {navMenuStatus === "" ? <IoArrowBack className="w-8 h-8 ml-4"></IoArrowBack> : <IoMenu className="w-8 h-8 ml-4"/> }
                 </button>
             </div>
-            {navMenuStatus === "" && user && <UserCard user={user} />
+            {user && <UserCard user={user} variant={navMenuStatus !== "" ? "compact" : "expanded"}/>
 }
             <ul className="flex flex-col grow">
                 

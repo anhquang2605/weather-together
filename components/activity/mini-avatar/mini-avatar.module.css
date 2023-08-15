@@ -4,6 +4,9 @@
         @apply w-full h-full;
     }
 }
+.extra-large{
+    @apply w-24 h-24;
+}
 .large{
     @apply w-16 h-16;
 }
@@ -14,7 +17,7 @@
     @apply w-8 h-8;
 
 }
-.small-nav{
+.compacted-nav{
     transition: all 0.3s ease-in-out;
     width: 40px;
     height: 40px;
