@@ -11,7 +11,7 @@ import Username from "../../pages/userprofile/edit/[username]"
 export default function Navigation() {
     const {data: session} = useSession();
     const user = session?.user as UserInSession;
-    const [navMenuStatus, setNavMenuStatus] = useState("");
+    const [navMenuStatus, setNavMenuStatus] = useState("nav-menu-nonactive");
     const {asPath,pathname} = useRouter();
     const withUser = [
         {label: "Home", pageTitle: "home", linkhref: ""},
@@ -37,11 +37,11 @@ export default function Navigation() {
 
     },[])
     return(
-        <div className={"transition-all shrink-0 p-8 shrink flex flex-col nav-bar relative " + navMenuStatus}>
-            <div className="flex flex-row items-center pb-4">
+        <div className={"nav-bar order-last md:order-first relative " + navMenuStatus}>
+            <div className="flex flex-row items-center pb-4 nav-header">
                 <IoCloudyNight className="w-8 h-8 mr-1 non-active"></IoCloudyNight>
                 <h3 className="font-semibold mr-4 non-active">Weather Together</h3>
-                <button onClick={()=>{toggleNavMenu()}}>
+                <button className="hidden md:block" onClick={()=>{toggleNavMenu()}}>
                     {navMenuStatus === "" ? <IoArrowBack className="w-8 h-8 ml-4"></IoArrowBack> : <IoMenu className="w-8 h-8 ml-4"/> }
                 </button>
             </div>

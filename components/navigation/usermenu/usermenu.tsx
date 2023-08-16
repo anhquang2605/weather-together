@@ -43,7 +43,7 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
     }
 
     return (
-        <div className="flex flex-col grow">
+        <div className="flex flex-row md:flex-col md:grow">
             {user && user.username ?
                 <>
                     {getJSX(withUser)}

@@ -30,16 +30,21 @@
     padding: 0!important;
     .user-card__card-link{
         display: flex;
-        flex-direction: column;
+        
         justify-content: center;
         align-items: center;
         @apply py-2 !important;
-
+        @screen md{
+            flex-direction: column;
+        }
     }
     .user-card__profile-name{
         transition: all 0.2s ease-in-out;
         margin-top: 4px;
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
+        @screen md{
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+    
     }
 }
