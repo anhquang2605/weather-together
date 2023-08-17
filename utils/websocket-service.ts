@@ -1,5 +1,4 @@
-import { sub } from "date-fns";
-import { set } from "lodash";
+
 
 let ws: WebSocket | null = null;
 interface Subcriber{
@@ -23,9 +22,10 @@ export function setUpWSConnection (type: string, token: string) {
             }));
         }
         ws.onmessage = (message: MessageEvent) => {
-            let subcriber = subcribersMap[message.type];
-            if(subcriber){
-                subcriber.callback(message);
+            const data = JSON.parse(message.data);
+            let subscriber = subcribersMap[data.type];
+            if(subscriber){
+                subscriber.callback(message);
             }
         }
         ws.onerror = (error: Event) => {
@@ -64,7 +64,7 @@ export function send (type: string, data?: any) {
 }
 export function subscribe (type: string, token: string, callback: (data: any) => void) {
     if(!ws) {
-        ws = new WebSocket(`ws://${SERVER_HOST}:${PORT}`);
+        ws = new WebSocket(`${SERVER_HOST}:${PORT}`);
         setUpWSConnection(type, token);
     }
     subcribersMap[type] = {

@@ -278,7 +278,6 @@ export default function NotificationCenter(){
     const handleWebSocketMessage = (message: MessageEvent) => {
         const payload = JSON.parse(message.data);
         handlePrependNotification(payload.data);
-        
     }
     useEffect(() => {
         handleFetchIntialNotifications(modes[mode].limit);
