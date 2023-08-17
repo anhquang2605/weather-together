@@ -9,6 +9,7 @@ import CheckBox from "../../components/form/check-box/CheckBox";
 import {signIn} from "next-auth/react";
 import {getSession} from "next-auth/react";
 import { set } from "mongoose";
+import Link from "next/link";
 export default function Login() {
         //api status
         const [apiStatus, setApiStatus] = useState({
@@ -102,7 +103,6 @@ export default function Login() {
         <>
             <div className="glass flex flex-row grow justify-center items-center">  
                 <div className={"mx-auto form-container bg-transparent flex flex-wrap xl:w-1/4 lg:w-1/2 md:w-2/5 w-9/12 my-auto"}>
-                    <BackButton />
                     <h3 className="form-title w-full">Login</h3>
                     <div className="form-row dark w-full mb-4">
                         <label className={"block text-gray-700 text-sm font-bold mb-2 form-title" + style['']}htmlFor="username">Username</label>
@@ -120,13 +120,13 @@ export default function Login() {
                         <div className="remember-me">
                             <CheckBox label="Remember me" handleChecked={handleRememberMe}/>
                         </div>
-                        <div className="forgot-password hover:text-indigo-300">
-                            <a href="#" className="underline">Forgot password?</a>
-                        </div>
+                        <Link className="underline" href="authentication/forgot-password">Forgot password?</Link>  
                     </div>
                     <div className="horizontal-btn-group w-full mt-20">
                         <button onClick={handleLogin} className="action-btn w-full">Log in</button>
-                    </div>    
+                    </div>
+                    <Link className="w-full text-center mt-4" href="authentication/register">Create an account</Link>
+  
                 </div>
             </div>
             <ApiStatusPop setApiStatus={setApiStatus} redirectPageName="Home" redirectDuration={3} status={apiStatus} redirect="/" redirectButtonText="Return Home" setReveal={setReveal} show={reveal}/>

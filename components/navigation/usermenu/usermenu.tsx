@@ -3,7 +3,7 @@ import {IoEnter, IoExit, IoPersonAdd, IoPeople, IoNotifications, IoSettings} fro
 import {useEffect} from "react"
 import { useRouter } from "next/router";
 import { UserInSession } from "../../../types/User";
-import {signOut} from "next-auth/react";
+
 import MiniAvatar from "../../activity/mini-avatar/MiniAvatar";
 import { FaNewspaper } from "react-icons/fa";
 interface NavItem {
@@ -13,16 +13,14 @@ interface NavItem {
 }
 interface UserMenuProps{
     withUser: NavItem[],
-    withoutUser: NavItem[],
-    user: UserInSession | null | undefined
+    user: UserInSession | null | undefined,
+    handleSignOut: () => void;
 }
 interface LabelToIconMap {[label:string] : JSX.Element};
-export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
+export default function UserMenu({withUser, user, handleSignOut}: UserMenuProps) {
     const {asPath} = useRouter();
     const labelToIcon:LabelToIconMap = {
         "Friends": <IoPeople></IoPeople>,
-        "Log in": <IoEnter></IoEnter>,
-        "Register": <IoPersonAdd></IoPersonAdd>,
         "Home": <FaNewspaper/>,
         "Settings": <IoSettings/>
     }
@@ -44,16 +42,13 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
 
     return (
         <div className="flex flex-row md:flex-col md:grow">
-            {user && user.username ?
+            {user && user.username &&
                 <>
                     {getJSX(withUser)}
 
-                    <button className={"mt-auto flex flex-row items-center footer-btn"} onClick={()=>{signOut()}} ><IoExit className="w-8 h-8"></IoExit><span className="ml-2">Log out</span></button>
+                    <button className={"mt-auto flex flex-row items-center footer-btn"} onClick={()=>{handleSignOut()}} ><IoExit className="w-8 h-8"></IoExit><span className="ml-2">Log out</span></button>
                 </>
-                :
-                <>
-                   {getJSX(withoutUser)}
-                </>
+              
             }
 
         </div>

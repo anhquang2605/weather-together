@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 
 import { NextApiResponse } from 'next';
 import { NotificationContext } from '../NotificationContext';
+import { send, subscribe, unSubcribe } from '../../../utils/websocket-service';
 export function getServerSideProps() {
     
     return {
@@ -274,27 +275,18 @@ export default function NotificationCenter(){
     const loadMore = () => {
         handleFetchMoreNotifications(modes[mode].limit);
     }
+    const handleWebSocketMessage = (message: MessageEvent) => {
+        const payload = JSON.parse(message.data);
+        handlePrependNotification(payload.data);
+        
+    }
     useEffect(() => {
         handleFetchIntialNotifications(modes[mode].limit);
-        const ws = new WebSocket(`${SERVER_HOST}:${PORT}`);
-        ws.onopen = () => {
-          ws.send(JSON.stringify({
-            type: 'username',
-            package: 'notifications',
-            username: user?.username,
-          }));
-        
-        }
-        ws.onmessage = (message) => {
-          const payload = JSON.parse(message.data);
-            if(payload.type === 'notification-added'){
-                handlePrependNotification(payload.data);
-            } 
-        socket.current = ws ;
-
+        if(user && user.username){
+            subscribe('notifications-changestream', user.username, handleWebSocketMessage);
         }
         return () => {
-            ws.close();
+            unSubcribe('notifications-changestream');
         }
     },[])
    

@@ -5,6 +5,9 @@
     }
     --graph-edge-color: gray;
 }
+.comment-component__profile-picture{
+    @apply mr-4;
+}
 .content-group{
     @apply flex flex-col grow;
 }

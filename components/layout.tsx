@@ -1,13 +1,13 @@
 import { Inter } from 'next/font/google'
 import Navigation from './navigation/navigation'
 import Head from 'next/head'
-import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import { Suspense, useEffect, useState} from 'react'
+import {  use, useEffect, useState} from 'react'
 import Loading from './loading'
 import NotificationCenter from './notifications/notification-center/NotificationCenter'
 import { useSession } from 'next-auth/react'
 import style from './layout.module.css'
+import { redirect } from 'react-router-dom'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const {data:session} = useSession();
+  const {data:session, status} = useSession();
   const user = session?.user;
   const router = useRouter();
   const asPath = router.asPath;
@@ -34,7 +34,11 @@ export default function RootLayout({
       router.events.off('routeChangeComplete',  routeChangeCompleteHandler)
     }
   },[])
-  // 
+  useEffect(()=>{
+    if(status === 'unauthenticated'){
+      router.push('/authentication/login');
+    }
+  },[status]);
   return (
     <>
     <Head>

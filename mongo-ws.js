@@ -27,6 +27,7 @@ const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server });
 let db;
 let conn = 0;
+const clients = {}
 client.connect()
   .then((client) => {
     conn += 1;
@@ -37,7 +38,6 @@ client.connect()
   });
 let connections = 0;
 wss.on('connection', (socket) => {
-  connections += 1;
   let userChangeStream;
   let notificationChangeStream;
   let feedsChangeStream;
@@ -46,12 +46,18 @@ wss.on('connection', (socket) => {
       userChangeStream && userChangeStream.close();
       notificationChangeStream && notificationChangeStream.close();
       feedsChangeStream && feedsChangeStream.close();
-      connections -= 1;
+      //Clean up clients
+      delete clients[socket.username];
   })
   socket.on('message', async (message) => {
-    const data = JSON.parse(message);
-    if (data.type === 'username'){
-      let username = data.username;
+    const clientMessage = JSON.parse(message);
+    if (clientMessage.username && clientMessage.username.length){
+      let username = clientMessage.username;
+      if(!clients[username]){
+        clients[username] = socket;
+        socket.username = username;
+      }
+      
       const pipeline = [{
         $match: {
           'fullDocument.username': username,
@@ -61,28 +67,27 @@ wss.on('connection', (socket) => {
         }
       }];
 
-      if (data.package === 'notifications'){
+      if (clientMessage.type=== 'notifications-changestream'){
         const notificationCollection = await db.collection('notifications');
         
         notificationChangeStream = notificationCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
 
         notificationChangeStream.on('change', (change) => {
           if(change.operationType === 'insert'){
-            wss.clients.forEach((client) => {
-              if (client.readyState === WebSocket.OPEN) {
+            if(clients[username] && clients[username].readyState === 
+              WebSocket.OPEN){
                 const fullDocument = change.fullDocument;
                 const message = {
-                  type: 'notification-added',
+                  type: 'notifications-changestream',
                   data: fullDocument
                 }
-                client.send(JSON.stringify(message)); 
-              }
-            });
+                clients[username].send(JSON.stringify(message)); 
+            }
           }
           
         })
 
-      } else if(data.package === 'feeds'){
+      } else if(clientMessage.type === 'feeds-changestream'){
         const feedsCollection = await db.collection('feeds');
         const pipeline = [{
           $match: {
@@ -96,21 +101,20 @@ wss.on('connection', (socket) => {
 
         feedsChangeStream.on('change', (change) => {
           if(change.operationType === 'insert'){
-            wss.clients.forEach((client) => {
-              if (client.readyState === WebSocket.OPEN) {
+              if(clients[username] && clients[username].readyState === 
+              WebSocket.OPEN){
                 const fullDocument = change.fullDocument;
                 const message = {
-                  type: 'feed-added',
+                  type: 'feeds-changestream',
                   data: fullDocument
                 }
-                client.send(JSON.stringify(message)); 
-              }
-            });
+                clients[username].send(JSON.stringify(message)); 
+            }
           }
           
         })
       
-      } else{
+      } else if(clientMessage.type === 'user-changestream'){
         const userCollection = await db.collection('users');
       
         userChangeStream = userCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
@@ -118,16 +122,15 @@ wss.on('connection', (socket) => {
         userChangeStream.on('change', (change) => {
           // Broadcast the change to all connected WebSocket clients
           
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
+          if(clients[username] && clients[username].readyState === 
+            WebSocket.OPEN){
               const updated = change.updateDescription.updatedFields;
               const message = {
-                type: 'user-updated',
+                type: 'user-changestream',
                 data: updated
               }
               client.send(JSON.stringify(message));
-            }
-          });
+            };
         });
         await new Promise(() => {});
       }

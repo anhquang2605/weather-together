@@ -6,9 +6,11 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import {useSession} from "next-auth/react"
 import { UserInSession } from "../../types/User"
+import {signOut} from "next-auth/react";
 import UserCard from "./user-card/UserCard"
 import Username from "../../pages/userprofile/edit/[username]"
 import BottomNavigation from "./bottom-navigation/BottomNavigation"
+import { closeWSConnection } from "../../utils/websocket-service"
 export default function Navigation() {
     const {data: session} = useSession();
     const user = session?.user as UserInSession;
@@ -18,10 +20,6 @@ export default function Navigation() {
         {label: "Home", pageTitle: "home", linkhref: ""},
         {label: "Friends", pageTitle: "friends", linkhref: "friends"},
         {label: "Settings", pageTitle: "settings", linkhref: "settings"}
-    ]
-    const withoutUser = [
-        {label: "Log in", pageTitle:"log in", linkhref: "authentication/login"},
-        {label: "Register", pageTitle:"register", linkhref: "authentication/register"}
     ]
     const toggleNavMenu = () => {
         if(navMenuStatus === ""){
@@ -33,10 +31,17 @@ export default function Navigation() {
     const fetchUserInformation = async(username: string) => {
 
     }
+    const handleSignOut = async() => {
+        if(user && user.username){
+            await closeWSConnection(user.username);
+            await signOut();
+        }
+    }
     useEffect(()=>{
 
     },[])
     return(
+        user &&
         <>
             <div className={"nav-bar side-nav order-first relative " + navMenuStatus}>
                 <div className="flex flex-row items-center pb-4 nav-header">
@@ -48,7 +53,7 @@ export default function Navigation() {
     }
                 <ul className="flex flex-col grow">
                     
-                        {<UserMenu user={user} withUser={withUser} withoutUser={withoutUser} />}
+                        {<UserMenu handleSignOut={handleSignOut} user={user} withUser={withUser} />}
                 </ul>
                 <div>
 
@@ -56,11 +61,10 @@ export default function Navigation() {
                 </div>
             </div>
             <div className={"nav-bar bottom-nav relative"}>
-                <BottomNavigation className={'bottom-nav'} navigationItems={user? withUser : withoutUser}></BottomNavigation>
+                <BottomNavigation className={'bottom-nav'} navigationItems={user ? withUser : []}></BottomNavigation>
             </div>
             
         </>
-
         
     )
 }

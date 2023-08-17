@@ -1380,6 +1380,13 @@ video {
 }
 
 .glass {
+  background-color: rgb(30 41 59 / 0.5);
+  --tw-backdrop-blur: blur(12px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+
+.glass-component {
   border-width: 2px;
   border-color: rgb(241 245 249 / 0.4);
   background-color: rgb(30 41 59 / 0.7);
@@ -1760,7 +1767,7 @@ video {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  border-radius: 0.25rem;
+  border-radius: 1.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(55 48 163 / var(--tw-bg-opacity));
   padding: 2rem;

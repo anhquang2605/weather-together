@@ -100,7 +100,7 @@ export default function Post({post,username}: PostProps){
     }
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar}}>
-        <div key={post._id} className={style['post'] + " glass"}>
+        <div key={post._id} className={style['post'] + " glass-component"}>
 
         
                 <div className={`${style['post-container']} px-8 pt-8`}>

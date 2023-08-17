@@ -14,6 +14,9 @@
     border: none;
     }
 }
+.comment-form__profile-picture{
+    @apply mr-4;
+}
 .text-box{
     @apply flex flex-col grow bg-slate-100 rounded-lg p-4 relative;
 }

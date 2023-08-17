@@ -18,6 +18,7 @@ import { Information } from "../../../types/User";
 import { useSession } from "next-auth/react";
 import withAuth from "../../authentication/with-auth";
 import withAuthStatic from "../../authentication/with-auth-static";
+import {send, subscribe, unSubcribe} from "../../../utils/websocket-service";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -78,6 +79,12 @@ function Edit({userJSON}:UserProfileProps){
   const handleBackgroundEditClose = () => {
     setEditingBackground(false);
   }
+  const handleUserChangeStreamMessage = (message:MessageEvent) => {
+    const payload = JSON.parse(message.data);
+    const updatedUser = {...user, ...payload.data};
+    setUser(prevState => ({...prevState, ...payload.data}));
+    update(updatedUser);
+  }
 /*   const handlePictureUpdated = (path:string) => {
     dispatch(updateUser({
       ...user,
@@ -112,28 +119,12 @@ function Edit({userJSON}:UserProfileProps){
   }, [userJSON])
   //WEB SOCKETS FOR MONGO DB
   useEffect(() => {
-      const ws = new WebSocket(`${SERVER_HOST}:${PORT}`);
-      ws.onopen = () => {
-        ws.send(JSON.stringify({
-          type: 'username',
-          username: user.username,
-        }));
-      
-      }
-      ws.onmessage = (message) => {
-        const payload = JSON.parse(message.data);
-          if(payload.type === 'user-updated'){
-            const updatedUser = {...user, ...payload.data};
-            setUser(prevState => ({...prevState, ...payload.data}));
-            update(updatedUser);
-          }
-/*           const change =  JSON.parse(message.data);
-          console.log(message.data);
-          setUser(change.data); */
-      }
-      return () => {
-          ws.close();
-      }
+    if(user && user.username){
+      subscribe( "user-changestream",user.username, handleUserChangeStreamMessage);
+    }
+    return () => {
+      unSubcribe("user-changestream");
+    }
   },[])
     return (
       <>
