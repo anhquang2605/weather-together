@@ -9,11 +9,10 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  @screen sm{
-    font-size: 18px;
-  }
-  @screen md{
-    font-size: 16px;
+  font-size: 18px;
+  
+  @screen lg{
+    font-size: 14px;
   }
 
 }
@@ -207,6 +206,7 @@ body {
 
 .nav-item.active{
   @apply bg-white text-[color:var(--nav-primmary-color)];
+  pointer-events: none;
 }
 
 

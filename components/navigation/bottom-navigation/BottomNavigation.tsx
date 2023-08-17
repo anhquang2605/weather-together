@@ -2,7 +2,7 @@ import React from 'react';
 import style from './bottom-navigation.module.scss';
 import {FaNewspaper} from "react-icons/fa"
 import { UserInSession } from '../../../types/User';
-import { IoEnter, IoNotifications, IoPeople, IoPersonAdd } from 'react-icons/io5';
+import { IoEnter, IoNotifications, IoPeople, IoPersonAdd, IoSettings } from 'react-icons/io5';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 interface NavItem {
@@ -22,13 +22,13 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({className, navigatio
         "Friends": <IoPeople></IoPeople>,
         "Log in": <IoEnter></IoEnter>,
         "Register": <IoPersonAdd></IoPersonAdd>,
-        "Notifications": <IoNotifications></IoNotifications> ,
-        "Home": <FaNewspaper/>
+        "Home": <FaNewspaper/>,
+        "Settings": <IoSettings/>
     }
 	const JSX = () => {
 		let arr = [];
 		for(let i = 0; i < count; i += 1){
-			arr.push(<div className={style.pilar}></div>);
+			arr.push(<div key={i} className={style.pilar}></div>);
 		}
 		return arr;
 	}

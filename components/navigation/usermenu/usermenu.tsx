@@ -1,5 +1,5 @@
 import Link from "next/link"
-import {IoEnter, IoExit, IoPersonAdd, IoPeople, IoNotifications} from "react-icons/io5"
+import {IoEnter, IoExit, IoPersonAdd, IoPeople, IoNotifications, IoSettings} from "react-icons/io5"
 import {useEffect} from "react"
 import { useRouter } from "next/router";
 import { UserInSession } from "../../../types/User";
@@ -23,8 +23,8 @@ export default function UserMenu({withUser, withoutUser, user}: UserMenuProps) {
         "Friends": <IoPeople></IoPeople>,
         "Log in": <IoEnter></IoEnter>,
         "Register": <IoPersonAdd></IoPersonAdd>,
-        "Notifications": <IoNotifications></IoNotifications> ,
-        "Home": <FaNewspaper/>
+        "Home": <FaNewspaper/>,
+        "Settings": <IoSettings/>
     }
     const getJSX = (navItems: NavItem[]) => {
         return navItems.map(({label,linkhref, pageTitle}) => {

@@ -24,12 +24,12 @@ $edgeSmoothness: 5;
     flex: 1;
     &:first-child{
         .filler:first-child{
-            @apply rounded-l-full;
+            @apply rounded-tl-3xl;
         }
     }
     &:last-child{
         .filler:last-child{
-            @apply rounded-r-full;
+            @apply rounded-tr-3xl;
         }
     }
 }
@@ -114,13 +114,14 @@ $edgeSmoothness: 5;
 }
 
 .navItem.active {
+    pointer-events: none;
 	@include hover-u-ident($count, $depth, $childClass);
 	.circle{
 		transform: translateY($circle-diameter * -0.6px);
-		background-color: white;
+		@apply bg-slate-100;
 		color: $color;
 	}
     .navTitleText{
-        @apply text-white px-2 mb-1;
+        @apply text-slate-300 px-2 mb-1;
     }
 }

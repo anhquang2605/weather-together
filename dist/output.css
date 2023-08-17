@@ -8,11 +8,9 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  @media (min-width: 640px){
-    font-size: 18px;
-  }
-  @media (min-width: 768px){
-    font-size: 16px;
+  font-size: 18px;
+  @media (min-width: 1024px){
+    font-size: 14px;
   }
 }
 
@@ -1699,6 +1697,7 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
   color: var(--nav-primmary-color);
+  pointer-events: none;
 }
 
 .hover-btn-active {

@@ -1,9 +1,9 @@
 .user-card{
-    @apply flex flex-col flex-wrap py-8 justify-center;
+    @apply flex flex-col flex-wrap w-full justify-center;
     width: inherit;
 }
 .user-card__card-link{
-    @apply w-full py-4 rounded-lg border border-slate-300;
+    @apply w-full flex flex-row p-4 rounded-lg border border-indigo-400;
     transition: all 0.2s ease-in-out;
     &:hover{
 
@@ -13,38 +13,18 @@
     }
 }
 .user-card__profile-picture{
-    @apply mx-auto;
-    border: 1px solid white!important;
+    @apply mr-4 border-indigo-800;
 }
 .user-card__profile-name{
     @apply text-center font-semibold;
 }
 .card-row{
-    @apply flex flex-row mt-4;
+    @apply flex flex-row mt-2;
     svg{
         @apply mr-1
     }
 }
 .compact{
+    display: none;
 
-    padding: 0!important;
-    .user-card__card-link{
-        display: flex;
-        
-        justify-content: center;
-        align-items: center;
-        @apply py-2 !important;
-        @screen md{
-            flex-direction: column;
-        }
-    }
-    .user-card__profile-name{
-        transition: all 0.2s ease-in-out;
-        margin-top: 4px;
-        @screen md{
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-        }
-    
-    }
 }

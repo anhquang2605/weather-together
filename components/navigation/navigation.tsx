@@ -17,8 +17,7 @@ export default function Navigation() {
     const withUser = [
         {label: "Home", pageTitle: "home", linkhref: ""},
         {label: "Friends", pageTitle: "friends", linkhref: "friends"},
-
-        {label: "Notifications", pageTitle: "notifications", linkhref: "notifications"}
+        {label: "Settings", pageTitle: "settings", linkhref: "settings"}
     ]
     const withoutUser = [
         {label: "Log in", pageTitle:"log in", linkhref: "authentication/login"},
@@ -41,9 +40,7 @@ export default function Navigation() {
         <>
             <div className={"nav-bar side-nav order-first relative " + navMenuStatus}>
                 <div className="flex flex-row items-center pb-4 nav-header">
-                    <IoCloudyNight className="w-8 h-8 mr-1 non-active"></IoCloudyNight>
-                    <h3 className="font-semibold mr-4 non-active">Weather Together</h3>
-                    <button className="hidden md:block" onClick={()=>{toggleNavMenu()}}>
+                    <button className="hidden md:block ml-auto" onClick={()=>{toggleNavMenu()}}>
                         {navMenuStatus === "" ? <IoArrowBack className="w-8 h-8 ml-4"></IoArrowBack> : <IoMenu className="w-8 h-8 ml-4"/> }
                     </button>
                 </div>
