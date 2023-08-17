@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+    <style type="text/tailwindcss">
+        @layer utilities {
+          .content-auto {
+            content-visibility: auto;
+          }
+        }
+        .pilar{
+            height: 100%;
+            width: 1px;
+            @apply bg-red-500;
+            transition: all 0.3s linear;
+            transform-origin: bottom;
+        }
+        .box:hover .pilar{
+            transform: scaleY(0.5);
+        }
+        .box:hover .pilar:nth-child(1){
+            transform: scaleY(0.51);
+        }
+
+      </style>
+</head>
+<body class="bg-slate-400">
+    <div class="box fixed bottom-0 left-20 w-[200px] h-[50px] bg-slate-600 flex flex-row">
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+        <div class="pilar"></div>
+    </div>
+</body>
+</html>
+<!-- 
+
+    @for $i from 1 through $elements {
+        $angle: 3.14 * ($i - 1) / ($elements - 1);
+        $scale: 1 - $depth * math.sin($angle);
+         // Compute distance from center
+				#{$childClass}:nth-child(#{$i}) {
+            transform: scaleY($scale);
+						filter: blur(0.2px);
+        }
+    }
+ -->

@@ -646,8 +646,8 @@ video {
   z-index: 50;
 }
 
-.order-last {
-  order: 9999;
+.order-first {
+  order: -9999;
 }
 
 .mx-auto {
@@ -1494,24 +1494,35 @@ video {
 .nav-bar{
   background-color: var(--nav-primmary-color);
   z-index: 50;
-  box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
-  display: flex;
   flex-shrink: 0;
-  flex-direction: row;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms
+  transition-duration: 150ms;
 }
 
-@media (min-width: 768px) {
-  .nav-bar {
-    padding: 2rem;
+.nav-bar.side-nav{
+  box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
+  display: none;
+  padding: 2rem;
+  @media (min-width: 1024px){
+    display: flex;
+
+    flex-direction: column;
   }
 }
 
-.nav-bar{
-  @media (min-width: 768px){
-    flex-direction: column;
+.nav-bar.bottom-nav{
+  display: flex;
+  flex-direction: row;
+  background: none;
+  border-radius: 50px;
+  width: 100%;
+  justify-content: stretch;
+  position: fixed;
+  bottom: 0;
+  order: 9999;
+  @media (min-width: 1024px){
+    display: none;
   }
 }
 
@@ -1595,7 +1606,6 @@ video {
 }
 
 .tooltip{
-  display: none;
   position: absolute;
   height: 100%;
   background: white;
@@ -1612,33 +1622,14 @@ video {
     transition: all 0.2s ease-in-out;
   }
   border-radius: 0.25rem;
-  @media (min-width: 768px){
-    display: block;
-  }
 }
 
 .nav-menu-nonactive {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 0.625rem;
-  padding-right: 0.625rem;
-}
-
-@media (min-width: 768px) {
-  .nav-menu-nonactive {
-    flex-direction: column;
-  }
-}
-
-.nav-menu-nonactive{
-  .non-active{
+  align-items: center !important;
+  padding-left: 0.625rem !important;
+  padding-right: 0.625rem !important;
+  .non-active, span{
     display: none;
-  }
-  @media (min-width: 768px){
-    span {
-      display: none;
-    }
   }
   .nav-item {
     margin-top: 0.5rem;
@@ -1908,10 +1899,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 }
 
 @media (min-width: 768px) {
-  .md\:order-first {
-    order: -9999;
-  }
-
   .md\:-mb-16 {
     margin-bottom: -4rem;
   }

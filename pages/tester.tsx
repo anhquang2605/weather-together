@@ -26,9 +26,9 @@ export default function Tester() {
         <div className="w-full">
         <h1>Tester</h1>
        {
-                posts.map((post, index) => (
+/*                 posts.map((post, index) => (
                     <Post key={index} post={post} username="anhquang2605" />
-                ))
+                )) */
             }
             
 {/*             <Modal status={true} containerClassName="form-container" >

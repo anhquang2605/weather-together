@@ -85,10 +85,30 @@ body {
 .nav-bar{
   background-color: var(--nav-primmary-color);
   z-index: 50;
+  @apply transition-all shrink-0;
+
+}
+.nav-bar.side-nav{
   box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
-  @apply transition-all flex flex-row md:p-8 shrink-0 ;
-  @screen md{
-   flex-direction: column;
+  display: none;
+  @apply p-8;
+  @screen lg{
+    display: flex;
+    flex-direction: column;
+  }
+}
+.nav-bar.bottom-nav{
+  display: flex;
+  flex-direction: row;
+  background: none;
+  border-radius: 50px;
+  width: 100%;
+  justify-content: stretch;
+  position: fixed;
+  bottom: 0;
+  @apply order-last;
+  @screen lg{
+    display: none;
   }
 }
 .nav-item{
@@ -119,7 +139,6 @@ body {
 }
 
 .tooltip{
-  display: none;
   position: absolute;
   height: 100%;
   background: white;
@@ -136,20 +155,12 @@ body {
     transition: all 0.2s ease-in-out;
   }
   @apply rounded;
-  @screen md{
-    display: block;
-  }
 }
 
 .nav-menu-nonactive{
-  @apply flex md:flex-col flex-row items-center px-2.5;
-  .non-active{
+  @apply items-center px-2.5 !important;
+  .non-active, span{
     display: none;
-  }
-  @screen md{
-    span{
-      @apply hidden;
-    }
   }
   .nav-item{
 

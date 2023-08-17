@@ -1,0 +1,126 @@
+@use "sass:math";
+$border-r: 12px;
+$count: 60;
+$height: 50;
+$circle-diameter: $height * 3/4;
+$animation-duration: 200ms;
+$transition-props: all $animation-duration ease-in-out;
+$color: var(--primary-color);
+$roundness: 5;
+$depth: 0.4;
+$childClass: '.pilar';
+$edgeSmoothness: 5;
+.nice{
+	width: $count * 1px;
+	height: $height * 1px;
+	display: flex;
+	flex-direction: row;
+    position: relative;
+}
+.navItem{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    flex: 1;
+    &:first-child{
+        .filler:first-child{
+            @apply rounded-l-full;
+        }
+    }
+    &:last-child{
+        .filler:last-child{
+            @apply rounded-r-full;
+        }
+    }
+}
+.filler{
+    width: auto;
+    background: $color;
+    height: 100%;
+    flex: 1;
+}
+.nicer{
+	width: $count px;
+	height: 100%;
+	background: $color;
+	transition: $transition-props;
+	
+}
+.pilar{
+	width: 1px;
+	height: 100%;
+	background-color: $color;
+	transition: $transition-props;
+	transform-origin: bottom;
+	transition-delay: $animation-duration / 2;
+}
+.navTitle{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    margin-bottom: 2px;
+    transition: $transition-props;
+    @apply  text-indigo-400;
+    svg{
+        @apply  text-indigo-400;
+    }
+}
+.navTitleText{
+    @apply rounded-full;
+}
+.circle{
+	width: $circle-diameter * 1px;
+	height: $circle-diameter * 1px;
+	position: absolute;
+	left: (($count  - $circle-diameter) /  2 ) * 1px;
+	background: $color;
+	border-radius: 100%;
+	transition: $transition-props;
+	color: white;
+	z-index: 10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@mixin hover-u-ident ($elements, $depth, $childClass){
+    @for $i from 1 through $elements {
+        $fraction_from_center: abs($i - $elements / 2) / ($elements / 2); // Range: [0, 1]
+    
+        // Power function to determine the main shape of the curve
+        $power_function: math.pow($fraction_from_center, $roundness);
+        
+        // Power function for the edge smoothness
+        $edge_function: 1 - math.pow($fraction_from_center, $edgeSmoothness);
+        
+        $angle: 3.14 * ($i - 1) / ($elements - 1);
+        
+        // Incorporate both the power function and the edge function into the curve modifier
+        $curve_modifier: $edge_function * (1 - $power_function) * math.sin($angle);
+        
+        $scale: 1 - $depth * $curve_modifier;
+        
+        #{$childClass}:nth-child(#{$i}) {
+            transform: scaleY($scale);
+            transform-origin: bottom;
+        }
+    }
+
+}
+
+.navItem.active {
+	@include hover-u-ident($count, $depth, $childClass);
+	.circle{
+		transform: translateY($circle-diameter * -0.6px);
+		background-color: white;
+		color: $color;
+	}
+    .navTitleText{
+        @apply text-white px-2 mb-1;
+    }
+}
