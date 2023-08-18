@@ -97,6 +97,7 @@ body {
     display: flex;
     flex-direction: column;
   }
+  
 }
 .nav-bar.bottom-nav{
   display: flex;
@@ -137,6 +138,9 @@ body {
   span{
     @apply ml-4;
   }
+  &:first-child{
+    display: none;
+  }
 }
 
 .tooltip{
@@ -164,8 +168,11 @@ body {
     display: none;
   }
   .nav-item{
-
-    @apply p-2.5 mt-2;
+    &:first-child{
+      display: flex;
+      padding: 1px;
+    }
+    @apply p-2.5;
     &::after{
       content: none;
     }
@@ -191,9 +198,6 @@ body {
     svg {
       @apply m-0;
     }
-  }
-  * {
-    @apply border-[color:var(--nav-primmary-color)];
   }
   div button svg{
     @apply m-0

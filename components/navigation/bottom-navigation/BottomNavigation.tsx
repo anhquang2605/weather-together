@@ -2,9 +2,11 @@ import React from 'react';
 import style from './bottom-navigation.module.scss';
 import {FaNewspaper} from "react-icons/fa"
 import { UserInSession } from '../../../types/User';
-import { IoEnter, IoNotifications, IoPeople, IoPersonAdd, IoSettings } from 'react-icons/io5';
+import {FaHouseUser} from "react-icons/fa";
+import { IoPersonCircle  ,IoPeople, IoSettings } from 'react-icons/io5';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import MiniAvatar from '../../activity/mini-avatar/MiniAvatar';
 interface NavItem {
     label: string,
     linkhref: string,
@@ -13,17 +15,17 @@ interface NavItem {
 interface BottomNavigationProps {
     className?: string;
     navigationItems?: NavItem[];
+    user: UserInSession | null | undefined;
 }
 interface LabelToIconMap {[label:string] : JSX.Element};
-const BottomNavigation: React.FC<BottomNavigationProps> = ({className, navigationItems = []}) => {
-    const count = 60;
+const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className, navigationItems = []}) => {
+    const count = 70;
     const {asPath} = useRouter();
     const labelToIcon:LabelToIconMap = {
         "Friends": <IoPeople></IoPeople>,
-        "Log in": <IoEnter></IoEnter>,
-        "Register": <IoPersonAdd></IoPersonAdd>,
         "Home": <FaNewspaper/>,
-        "Settings": <IoSettings/>
+        "Settings": <IoSettings/>,
+        "My Hub":  <MiniAvatar size="small" className={style.bottomNavAvatar} profilePicturePath={user?.profilePicturePath || ""} username={user?.username}/>,
     }
 	const JSX = () => {
 		let arr = [];
@@ -42,7 +44,8 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({className, navigatio
                     <div className={style.nice}>
                         
                         {JSX()}
-                        <div className={style.circle}>{labelToIcon[label]}</div>
+                        
+                        <div className={style.circle + " " + (label === "My Hub" && style.noCircle) }>{labelToIcon[label]}</div>
                         <span className={style.navTitle}>
                             <span className={style.navTitleText}>{label}</span>
                         </span>

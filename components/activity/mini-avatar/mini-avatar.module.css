@@ -1,5 +1,5 @@
 .mini-avatar{
-    @apply rounded overflow-hidden z-10 shrink-0 border border-slate-500;
+    @apply rounded-full overflow-hidden z-10 shrink-0 border border-slate-500;
     img{
         @apply w-full h-full;
     }
@@ -11,7 +11,7 @@
     @apply w-16 h-16;
 }
 .medium{
-    @apply w-12 h-12;
+    @apply w-9 h-9;
 }
 .small{
     @apply w-8 h-8;
@@ -19,10 +19,11 @@
 }
 .compacted-nav{
     transition: all 0.3s ease-in-out;
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     border: none;
-    border: 1px solid transparent; 
+    border: 1px solid lightgray; 
+    
     /* Set padding of nav-item parent of this element to 0 */
 }

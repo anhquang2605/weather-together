@@ -17,6 +17,7 @@ export default function Navigation() {
     const [navMenuStatus, setNavMenuStatus] = useState("");
     const {asPath,pathname} = useRouter();
     const withUser = [
+        {label: "My Hub", pageTitle: "weather hub", linkhref: `userprofile/${user?.username}`},
         {label: "Home", pageTitle: "home", linkhref: ""},
         {label: "Friends", pageTitle: "friends", linkhref: "friends"},
         {label: "Settings", pageTitle: "settings", linkhref: "settings"}
@@ -27,9 +28,6 @@ export default function Navigation() {
         }else{
             setNavMenuStatus("");
         }
-    }
-    const fetchUserInformation = async(username: string) => {
-
     }
     const handleSignOut = async() => {
         if(user && user.username){
@@ -61,7 +59,7 @@ export default function Navigation() {
                 </div>
             </div>
             <div className={"nav-bar bottom-nav relative"}>
-                <BottomNavigation className={'bottom-nav'} navigationItems={user ? withUser : []}></BottomNavigation>
+                <BottomNavigation user={user} className={'bottom-nav'} navigationItems={user ? withUser : []}></BottomNavigation>
             </div>
             
         </>

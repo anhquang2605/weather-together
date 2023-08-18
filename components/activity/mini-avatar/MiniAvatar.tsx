@@ -15,7 +15,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
             case 'large':
                 return 50;
             case 'medium':
-                return 40;
+                return 35;
             case 'small':
                 return 30;
             default:

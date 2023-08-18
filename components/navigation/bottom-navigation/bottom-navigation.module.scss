@@ -1,7 +1,7 @@
 @use "sass:math";
 $border-r: 12px;
-$count: 60;
-$height: 50;
+$count: 70;
+$height: 60;
 $circle-diameter: $height * 3/4;
 $animation-duration: 200ms;
 $transition-props: all $animation-duration ease-in-out;
@@ -71,8 +71,12 @@ $edgeSmoothness: 5;
         @apply  text-indigo-400;
     }
 }
+.bottomNavAvatar{
+    @apply border-slate-400;
+}
 .navTitleText{
     @apply rounded-full;
+    font-size: 0.79rem;
 }
 .circle{
 	width: $circle-diameter * 1px;
@@ -87,6 +91,13 @@ $edgeSmoothness: 5;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+    svg{
+        font-size: 1.25rem;
+    }
+    &.noCircle{
+        background-color: transparent!important;
+    }
+    
 }
 @mixin hover-u-ident ($elements, $depth, $childClass){
     @for $i from 1 through $elements {
@@ -122,6 +133,6 @@ $edgeSmoothness: 5;
 		color: $color;
 	}
     .navTitleText{
-        @apply text-slate-300 px-2 mb-1;
+        @apply text-slate-300 px-2 mb-2 font-semibold;
     }
 }

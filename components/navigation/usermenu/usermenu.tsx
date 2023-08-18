@@ -22,7 +22,8 @@ export default function UserMenu({withUser, user, handleSignOut}: UserMenuProps)
     const labelToIcon:LabelToIconMap = {
         "Friends": <IoPeople></IoPeople>,
         "Home": <FaNewspaper/>,
-        "Settings": <IoSettings/>
+        "Settings": <IoSettings/>,
+        "My Hub": <MiniAvatar size="compacted-nav" username={user?.username} profilePicturePath={user?.profilePicturePath ?? ""} />,
     }
     const getJSX = (navItems: NavItem[]) => {
         return navItems.map(({label,linkhref, pageTitle}) => {

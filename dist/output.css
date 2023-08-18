@@ -1608,6 +1608,9 @@ video {
   span {
     margin-left: 1rem;
   }
+  &:first-child{
+    display: none;
+  }
 }
 
 .tooltip{
@@ -1636,8 +1639,11 @@ video {
   .non-active, span{
     display: none;
   }
-  .nav-item {
-    margin-top: 0.5rem;
+  .nav-item{
+    &:first-child{
+      display: flex;
+      padding: 1px;
+    }
   }
   .nav-item {
     padding: 0.625rem;
@@ -1685,9 +1691,6 @@ video {
     svg {
       margin: 0px;
     }
-  }
-  * {
-    border-color: var(--nav-primmary-color);
   }
   div button svg {
     margin: 0px;
