@@ -1,21 +1,23 @@
 .search-bar{
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid lightgray;
     width: 33%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 0 auto;
+    margin-right: auto;
     transition: all 0.5s linear;
     position: relative;
+    @apply my-8;
 }
 .search-bar-background{
-    height: 100%;
+    height: 2px;
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
-    border-bottom: 2px solid white;
+    background-color: white;
     transition: width 0.3s ease-in-out;
     width: 0;
+    @apply rounded-full;
 }
 .searching{
     .search-bar-background{

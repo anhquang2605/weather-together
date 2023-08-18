@@ -9,24 +9,27 @@ interface UserSearchCardProps {
 
 const UserSearchCard: React.FC<UserSearchCardProps> = ({user}) => {
     return (
-        <div className={style['user-search-card']}>
+        <div className={`${style['user-search-card']} glass-component`}>
             <MiniAvatar
                 username={user.username}
                 profilePicturePath={user.profilePicturePath ?? ""}
                 size="large"
             />
-            <span className={`${style.name}`}>
-                {
-                    user.firstName === '' ?
-                    user.username : (user.firstName + " " + user.lastName)
-                }
-            </span>
-            <span className={`${style.location}`}>
-                {user.location?.city}
-            </span>
-            <span className={`${style.featuredWeather}`}>
-                {user.featuredWeather?.name }
-            </span>
+            <div className={`${style['information-group']}`}>
+                <span className={`${style.name}`}>
+                    {
+                        user.firstName === '' ?
+                        user.username : (user.firstName + " " + user.lastName)
+                    }
+                </span>
+                <span className={`${style.location}`}>
+                    {user.location?.city}
+                </span>
+                <span className={`${style.featuredWeather}`}>
+                    {user.featuredWeather?.name }
+                </span>
+            </div>
+
         </div>
     );
 };

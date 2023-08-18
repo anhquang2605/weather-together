@@ -1,0 +1,12 @@
+.user-search-card{
+    display: flex;
+    flex-direction: row;
+    color: var(--primary-color);
+    @apply bg-slate-200 rounded-lg p-4 shadow-md;
+}
+.information-group{
+    @apply flex flex-col ml-2; 
+}
+.name{
+    @apply text-lg font-semibold;
+}
