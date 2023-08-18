@@ -46,9 +46,9 @@ export interface UserInClient{
     username: string,
     location: Location | null,
     profilePicturePath?: string,
-    favoriteWeathers?: Weather[],
     featuredWeather?: Weather,
     dateJoined?: Date,
     firstName?: string,
     lastName?: string,
+    email: string;
 }

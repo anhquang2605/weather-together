@@ -1,31 +1,31 @@
 
 .friends-page{
     width: 100%;
+    --tab-number: 3;
+    --width: calc(100% / var(--tab-number));
     @apply p-8;
 }
-.active-friend-tab{
-    background-color: var(--highlighted-color);
-    color: #fff;
-}
+
 .tabs-container{
     border-radius: 100px!important;
     overflow: hidden;
     display: flex;
     flex-direction: row;
-    padding: 0;
-    background: white;
     box-shadow: 0 0 5px 2px rgba(0,0,0,0.2);
+    @apply border border-slate-400 p-1;
+    @apply relative;
 }
 .tab{
-    --tab-number: 3;
+
+    z-index: 20;
     transition: all 0.2s ease-in-out;
-    border-right: 1px solid lightgray;
     font-weight: 500;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: calc(100% / var(--tab-number));
+    width: var(--width);
+    @apply text-slate-400;
     svg{
         width: 1.5rem;
         height: 1.5rem;
@@ -33,5 +33,32 @@
     }
     &:last-child{
         border-right: none;
+    }
+}
+
+.active-friend-tab{
+    @apply text-slate-200 font-semibold;
+}
+
+.moving-box{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: var(--width);
+    @apply bg-transparent flex justify-center items-center;
+    transition: all 0.2s ease-in-out;
+    div{
+        @apply bg-indigo-800 rounded-full;
+        width: 90%;
+        height: 2rem;
+        transition: all 0.2s ease-in-out;
+    }
+}
+.blur{
+    filter: blur(1.5px);
+    div{
+        transform: scaleX(1.2) scaleY(0.4);
     }
 }

@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import style from './find-friends.module.css'
 import SearchBar from '../../plugins/search-bar/SearchBar'
-import {User} from './../../../types/User'
+import { UserInClient} from './../../../types/User'
+import { useSession } from 'next-auth/react';
+import FriendSearchResultList from './result-list/FriendSearchResultList';
+
 function debounce(func:Function, duration:number) {
     let timer: ReturnType<typeof setTimeout>;
     return  (...args: any[]) => {
@@ -14,16 +17,19 @@ function debounce(func:Function, duration:number) {
 }
 export default function FindFriends() {
     const [searchQuery, setSearchQuery] = useState("");
-    const [searchResults, setSearchResults] = useState<User[]>([]); //
+    const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
+    const {data: session} = useSession();
+    const user = session?.user;
     const debounceSearch = debounce( async() => {
         setApiStatus("loading");
         try {
-            const response = await fetch(`/api/user/atlas-search?query=${searchQuery}`);
-            const data = await response.json();
-            setSearchResults(data);
-            setApiStatus("success");
-            console.log(data);
+            const response = await fetch(`/api/user/atlas-search?query=${searchQuery}&username=${user?.username}`);
+            if(response.ok){
+                const data = await response.json();
+                setSearchResults(data.data);
+                setApiStatus("success");
+            }
         } catch (error) {
             setApiStatus("error");
         }
@@ -41,6 +47,7 @@ export default function FindFriends() {
         return (
         <div className={style['find-friends']}>
            <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange}/>
+           <FriendSearchResultList results={searchResults}/>
         </div>
 
     )
