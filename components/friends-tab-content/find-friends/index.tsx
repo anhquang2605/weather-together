@@ -54,7 +54,10 @@ export default function FindFriends() {
     },[searchQuery])
         return (
         <div className={style['find-friends']}>
-           <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange}/>
+            <div className={style.controlGroup}>
+                <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange}/>
+            </div>
+
            <FriendSearchResultList results={searchResults}/>
         </div>
 

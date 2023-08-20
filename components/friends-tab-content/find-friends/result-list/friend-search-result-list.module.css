@@ -1,6 +1,7 @@
 .friend-search-result-list{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    align-items: start;
     column-gap: 4rem;
-    @apply mt-8;
+    @apply p-8 overflow-hidden;
 }

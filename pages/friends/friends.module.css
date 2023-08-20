@@ -3,7 +3,7 @@
     width: 100%;
     --tab-number: 3;
     --width: calc(100% / var(--tab-number));
-    @apply p-8;
+    @apply p-8 pb-0 flex flex-col;
 }
 
 .tabs-container{
