@@ -4,6 +4,7 @@ import SearchBar from '../../plugins/search-bar/SearchBar'
 import { UserInClient} from './../../../types/User'
 import { useSession } from 'next-auth/react';
 import FriendSearchResultList from './result-list/FriendSearchResultList';
+import { getCitiesFromLongLat } from '../../../libs/geodb';
 
 function debounce(func:Function, duration:number) {
     let timer: ReturnType<typeof setTimeout>;
@@ -37,6 +38,13 @@ export default function FindFriends() {
     const handleSearchBarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     }
+    const handleFilterResultByNearbyCities = async () => {
+        const cities = await getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40');
+        
+    }
+    useEffect(() => {
+        getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40')
+    }, []);
     useEffect(()=>{
         if(searchQuery.length > 0){
             debounceSearch();

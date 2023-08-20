@@ -5,6 +5,6 @@ export interface Location {
     state_code: string,
     country: string,
     country_code: string,
-    latitude: number,
-    longitude: number,
+    latitude: string,
+    longitude: string,
 }
