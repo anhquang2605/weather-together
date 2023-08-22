@@ -2,7 +2,12 @@
     display: flex;
     flex-direction: row;
     color: var(--primary-color);
-    @apply bg-slate-200 rounded-lg p-4 shadow-md;
+    transition: all 0.1s ease-in-out;
+    @apply bg-slate-100 rounded-lg p-4 shadow-md;
+    &:hover{
+        @apply cursor-pointer shadow-lg scale-105 outline outline-indigo-500;
+        
+    }
 }
 .information-group{
     @apply flex flex-col ml-2; 

@@ -1,8 +1,8 @@
 .find-friends{
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    @apply gap-4 flex flex-grow;
+    grid-template-columns: 1.5fr 4fr;
+    @apply flex-grow;
 }
 .controlGroup{
-    @apply flex flex-col p-8 border-r border-slate-400/50;
+    @apply flex flex-col p-4 border-r border-slate-400/50;
 }

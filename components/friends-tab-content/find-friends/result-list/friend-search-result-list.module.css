@@ -1,7 +1,9 @@
 .friend-search-result-list{
+    @apply p-8 overflow-hidden flex flex-col w-full;
+}
+.result-list{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: start;
-    column-gap: 4rem;
-    @apply p-8 overflow-hidden;
+    @apply gap-8;
 }

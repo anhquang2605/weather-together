@@ -30,3 +30,23 @@ export const WEATHERS: Weather[] = [
         iconAlias: "bolt"
     }
 ]
+interface weathersMap {
+    [key: string]: string;
+}
+
+export const weatherToColorClassMap:weathersMap = {
+    "sunny": "text-orange-400",
+    "cloudy": "text-sky-400" ,
+    "rainy": "text-indigo-400" ,
+    "snowy": "text-blue-400",
+    "thunder": "text-yellow-400" ,
+    "windy": "text-green-400" ,
+}
+export const weatherNameToIconAliasMap:weathersMap = {
+    "sunny": "sun",
+    "cloudy": "cloud" ,
+    "rainy": "cloud-rain" ,
+    "snowy": "snowflake",
+    "thunder": "bolt" ,
+    "windy": "wind" ,
+}

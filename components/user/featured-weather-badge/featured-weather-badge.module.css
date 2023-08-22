@@ -1,0 +1,10 @@
+.featured-weather-badge{
+    @apply relative inline-block;
+}
+.featured-icon{
+    left: 50%;
+    top: 40%;
+    svg{
+        margin-top: -50%;
+    }
+}
