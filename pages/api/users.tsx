@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                const data = await userCollection.findOne({username: username});
 
                if(data){
-                     const user: UserInClient = pick(data, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'favoriteWeathers'])
+                     const user: UserInClient = pick(data, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'favoriteWeathers', 'email'])
                     res.status(200).json({
                         success: true,
                         data: user

@@ -9,7 +9,7 @@
     position: relative;
 }
 .search-bar-background{
-    height: 2px;
+    height: 1px;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -18,9 +18,19 @@
     width: 0;
     @apply rounded-full;
 }
+.search-button{
+    transition: all 0.1s linear;
+    @apply p-2 rounded-full mb-2 border border-transparent;
+}
 .searching{
     .search-bar-background{
         width: 100%;
+    }
+    .search-button{
+        @apply border-slate-400;
+        &:hover{
+            @apply bg-indigo-800 text-white;
+        }
     }
 }
 .search-input{
@@ -31,12 +41,12 @@
     &:focus{
         outline: none!important;
     }
-    @apply p-4;
 }
 .search-input-container{
     display: flex;
     flex-direction: row;
 }
+
 @media screen and (max-width: 1024px) {
     .find-friends-search-bar{
         width: 50%;

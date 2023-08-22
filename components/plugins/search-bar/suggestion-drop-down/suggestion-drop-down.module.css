@@ -1,3 +1,6 @@
 .suggestion-drop-down{
-    
+    @apply absolute top-full mt-1 left-0 w-full bg-white rounded-lg shadow-lg overflow-auto hidden;
+}
+.reveal{
+    @apply block;
 }

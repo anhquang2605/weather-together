@@ -1,8 +1,11 @@
 .find-friends{
     display: grid;
     grid-template-columns: 1.5fr 4fr;
-    @apply flex-grow;
+    @apply flex-grow relative;
 }
 .controlGroup{
     @apply flex flex-col p-4 border-r border-slate-400/50;
+}
+.search-bar-control-group{
+    @apply relative;
 }

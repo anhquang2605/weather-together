@@ -4,9 +4,21 @@
     color: var(--primary-color);
     transition: all 0.1s ease-in-out;
     @apply bg-slate-100 rounded-lg p-4 shadow-md;
+    
     &:hover{
         @apply cursor-pointer shadow-lg scale-105 outline outline-indigo-500;
         
+    }
+    &.small{
+        @apply scale-100 outline-none rounded-none items-center;
+    }
+    &.small:hover{
+        @apply  shadow-none bg-indigo-100;
+    }
+    &.small .information-group{
+        .featuredWeather{
+            display: none;
+        }
     }
 }
 .information-group{

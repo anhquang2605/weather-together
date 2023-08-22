@@ -5,6 +5,8 @@ import { UserInClient} from './../../../types/User'
 import { useSession } from 'next-auth/react';
 import FriendSearchResultList from './result-list/FriendSearchResultList';
 import { getCitiesFromLongLat } from '../../../libs/geodb';
+import SuggestionDropDown from '../../plugins/search-bar/suggestion-drop-down/SuggestionDropDown';
+import UserSearchCard from '../../user/user-search-card/UserSearchCard';
 
 function debounce(func:Function, duration:number) {
     let timer: ReturnType<typeof setTimeout>;
@@ -18,21 +20,23 @@ function debounce(func:Function, duration:number) {
 }
 export default function FindFriends() {
     const [searchQuery, setSearchQuery] = useState("");
+    const [searchSuggestions, setSearchSuggestions] = useState<UserInClient[]>([]); //
     const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
     const {data: session} = useSession();
     const user = session?.user;
-    const debounceSearch = debounce( async() => {
-        setApiStatus("loading");
+    const SEARCH_LIMIT = 10;
+    const debounceSearch = debounce( async(searchQuery: string) => {
+        
         try {
             const response = await fetch(`/api/user/atlas-search?query=${searchQuery}&username=${user?.username}`);
             if(response.ok){
                 const data = await response.json();
-                setSearchResults(data.data);
-                setApiStatus("success");
+                setSearchSuggestions(data.data);
+              
             }
         } catch (error) {
-            setApiStatus("error");
+           console.log(error);
         }
     } ,1000);
     const handleSearchBarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,23 +46,58 @@ export default function FindFriends() {
         const cities = await getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40');
         
     }
+    const handleSearchFriends = async (query:string, username:string, limit: number) => {
+        try {
+            setApiStatus("loading");
+            const response = await fetch(`/api/user/atlas-search?query=${query}&username=${username}&limit=${limit}`);
+
+            if(response.ok){
+                const data = await response.json();
+                setSearchResults(data.data);
+                setApiStatus("success");
+            }
+        } catch (error) {
+            console.log(error);
+            setApiStatus("error");
+        }
+    }
+    const handleOnSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSearchFriends(searchQuery, user?.username ?? "",SEARCH_LIMIT);
+    }
+    const handleInitialSearch = async () => {
+        handleSearchFriends(searchQuery, user?.username ?? "",SEARCH_LIMIT);
+    }
+    const suggestionRenderer = (suggestion: UserInClient, index: number) => {
+        return (
+            <div key={index} className={style['suggestion-item']}>
+                <UserSearchCard variant={'small'} user={suggestion}/>
+            </div>
+        )
+    }
     useEffect(() => {
-        getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40')
+        //getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40')
+        handleInitialSearch();
     }, []);
     useEffect(()=>{
         if(searchQuery.length > 0){
-            debounceSearch();
+            debounceSearch(searchQuery);
         }else{
-            setSearchResults([]);
+            setSearchSuggestions([]);
         }
     },[searchQuery])
         return (
         <div className={style['find-friends']}>
             <div className={style.controlGroup}>
-                <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange}/>
+                <div className={style["search-bar-control-group"]}>
+                    <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
+                    <SuggestionDropDown apiStatus={apiStatus} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
+                </div>
+
             </div>
 
-           <FriendSearchResultList results={searchResults}/>
+           <FriendSearchResultList apiStatus={apiStatus} results={searchResults}/>
         </div>
 
     )

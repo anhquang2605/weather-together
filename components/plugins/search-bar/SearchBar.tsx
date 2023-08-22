@@ -5,17 +5,20 @@ interface SearchBarProps {
     query: string;
     setQuery: (event: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
+    onSearch: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 export default function SearchBar(props: SearchBarProps) {
-    const {query, setQuery, placeholder} = props;
+    const {query, setQuery, placeholder, onSearch} = props;
     const [searchStarted, setSearchStarted] = useState(false);
     return (
         <div className={style['search-bar'] + " " + (searchStarted ? style["searching"] : "")}>
-            <IoSearch className={"w-12 h-12"}/>
             <div className={style['search-input-container'] + " w-full"}>
                 <div className={style['search-bar-background']}></div>
                 <input value={query} onChange={setQuery}  type="text" className={style['search-input'] + " w-full"} placeholder={placeholder} onFocus={()=>{setSearchStarted(true)}} onBlur={()=>{setSearchStarted(false)}}/>
             </div>
+            <button onClick={onSearch} className={style['search-button']}>
+                <IoSearch className={`icon`}/>
+            </button>
         </div>
     )
 }

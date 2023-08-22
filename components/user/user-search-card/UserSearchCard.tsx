@@ -6,10 +6,11 @@ import FeaturedWeatherBadge from '../featured-weather-badge/FeaturedWeatherBadge
 import { useRouter } from 'next/router';
 
 interface UserSearchCardProps {
-    user: UserInClient
+    user: UserInClient;
+    variant: 'small' | 'extra-large';
 }
 
-const UserSearchCard: React.FC<UserSearchCardProps> = ({user}) => {
+const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-large"}) => {
     const router = useRouter();
     const navigateToProfile = (username:string) => {
         router.push(`/profile/${username}`);
@@ -17,11 +18,11 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user}) => {
     return (
         <div title="View Profile" onClick={()=>{
             navigateToProfile(user.username);
-        }} className={`${style['user-search-card']} glass-component`}>
+        }} className={`${style['user-search-card']} ${style[variant]}`}>
             <MiniAvatar
                 username={user.username}
                 profilePicturePath={user.profilePicturePath ?? ""}
-                size="extra-large"
+                size={variant}
             />
             <div className={`${style['information-group']}`}>
                 <span className={`${style.name}`}>

@@ -6,7 +6,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
     if (req.method === 'GET') {
         const db = await connectDB();
         if(db){
-            const {query, username} = req.query;
+            const {query, username, limit} = req.query;
             const usersCollection = db.collection('users');
             const fields = ['username', 'firstName', 'lastName', 'email', 'location.city', 'featuredWeather.name'];
             const shoulds = fields.map(field => {
@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     
                 }},
                 {'$match': { 'username': { '$ne': username } }},
-                {'$limit': 20},
+                {'$limit': limit ? parseInt(limit as string) : 5},
             ];
             const results = await usersCollection.aggregate(agg).toArray(); 
             const filteredUsers: UserInClient[] = results.map((user)=>{
