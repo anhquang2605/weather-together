@@ -10,9 +10,43 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const {method}= req;
     if(db){
         if(method === 'GET'){
-            const {username} = req.query;
+            const {username, fetchFriends, city} = req.query;
             const userCollection = db.collection('users');
-            if(username){
+            if(city){//fetching users by city
+                const users = await userCollection.find({location: {city: city}}).toArray();
+                if(users.length === 0){
+                    res.status(204).end();
+                    return;
+                }
+                const usersInClient:UserInClient[] = users.map((user) => pick(user, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'favoriteWeathers', 'email']));
+                res.status(200).json({
+                    success: true,
+                    data: usersInClient
+                });
+            }
+            else if(fetchFriends === 'true' && username){//fetching friends
+                const friendsCollection = db.collection('friends');
+    
+                try{
+                    const friendRelationships = await friendsCollection.find({username: username}).toArray();
+                    if(friendRelationships.length === 0){
+                        res.status(204).end();
+                        return;
+                    }
+                    const friendUsernames = friendRelationships.map((relationship) => relationship.friendUsername);
+                    const friends = await userCollection.find({username: {$in: friendUsernames}}).toArray();
+                    const friendsInClient:UserInClient[] = friends.map((friend) => pick(friend, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'favoriteWeathers', 'email']));
+                    res.status(200).json({
+                        success: true,
+                        data: friendsInClient
+                    });
+                } catch(e){
+                    res.status(500).json({success: false, message: e});
+                }
+
+
+            }
+            else if(username){//fetching a single user
                const data = await userCollection.findOne({username: username});
 
                if(data){

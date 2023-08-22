@@ -26,10 +26,13 @@ export default function FindFriends() {
     const {data: session} = useSession();
     const user = session?.user;
     const SEARCH_LIMIT = 10;
+    const getAPIOptions = {
+        method: 'GET'
+    }
     const debounceSearch = debounce( async(searchQuery: string) => {
         
         try {
-            const response = await fetch(`/api/user/atlas-search?query=${searchQuery}&username=${user?.username}`);
+            const response = await fetch(`/api/user/atlas-search?query=${searchQuery}&username=${user?.username}`,getAPIOptions);
             if(response.ok){
                 const data = await response.json();
                 setSearchSuggestions(data.data);
@@ -46,28 +49,74 @@ export default function FindFriends() {
         const cities = await getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40');
         
     }
-    const handleSearchFriends = async (query:string, username:string, limit: number) => {
+    const handleSearchUsers = async (query:string, username:string, limit: number) => {
         try {
             setApiStatus("loading");
-            const response = await fetch(`/api/user/atlas-search?query=${query}&username=${username}&limit=${limit}`);
+            const response = await fetch(`/api/user/atlas-search?query=${query}&username=${username}&limit=${limit}`,getAPIOptions);
 
-            if(response.ok){
-                const data = await response.json();
-                setSearchResults(data.data);
-                setApiStatus("success");
-            }
+            return response;
         } catch (error) {
             console.log(error);
             setApiStatus("error");
         }
     }
-    const handleOnSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSearchFriends = async (username:string) => {
+        try{
+            setApiStatus("loading");
+            const response = await fetch(`/api/users?username=${username}&fetchFriends=true`,getAPIOptions);
+            console.log(response);
+            return response;
+        }catch(e){
+            console.log(e);
+            setApiStatus("error");
+        }
+    }
+    const handleOnSearch = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        handleSearchFriends(searchQuery, user?.username ?? "",SEARCH_LIMIT);
+        const response = await handleSearchUsers(searchQuery, user?.username ?? "",SEARCH_LIMIT);
+        if(response){
+            handleResponseFromSearchEndpoints(response);
+        }else{
+            setApiStatus("error");
+            setSearchResults([]);
+        }
+ 
+       
+    }
+    const handleGetResultsFromNearby = async () => {
+        const response = await fetch(`/api/users?city=${user?.location?.city}`);
+        return response;
     }
     const handleInitialSearch = async () => {
-        handleSearchFriends(searchQuery, user?.username ?? "",SEARCH_LIMIT);
+        let response = await handleSearchFriends(user?.username ?? "");
+        if(response){
+            if(response.status === 204){
+                response = await handleGetResultsFromNearby();
+                if(response && response.status === 204){
+                    setApiStatus('idle');
+                    return;
+                }
+            }
+            if(response.status === 200){
+                handleResponseFromSearchEndpoints(response, handleGetResultsFromNearby);
+            }
+        }else{
+            setApiStatus("error");
+            setSearchResults([]);
+        }
+    }
+    const handleResponseFromSearchEndpoints = async (response: Response, callback?:()=>void) => {
+      
+        if(response.status === 200){
+            const data = await response.json();
+            setSearchResults(data.data);
+            setApiStatus("success");
+        } else{
+            setApiStatus("error");
+            setSearchResults([]);
+        }
+        
     }
     const suggestionRenderer = (suggestion: UserInClient, index: number) => {
         return (
@@ -80,6 +129,9 @@ export default function FindFriends() {
         //getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40')
         handleInitialSearch();
     }, []);
+    useEffect(()=>{
+        console.log(apiStatus);
+    },[apiStatus])
     useEffect(()=>{
         if(searchQuery.length > 0){
             debounceSearch(searchQuery);

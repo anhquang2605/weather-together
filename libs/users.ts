@@ -1,5 +1,7 @@
 import * as mongoDB from "mongodb";
 import { connectDB } from "./mongodb";
+import { User, UserInClient } from "../types/User";
+import { pick } from "lodash";
 
 export async function getUserIds(){//CHANGES
     try{
@@ -94,4 +96,21 @@ export async function checkUserData(id: string, field: string, value: any){
     } catch(e) {
         console.log(e);
     }
+}
+
+export const pickUserInClients = (users: User[]) => {
+    const pickedUsers = users.map((user)=>{
+        const pickedUser = pick(user, [
+            'username',
+            'location',
+            'email',
+            'featuredWeather',
+            'firstName',
+            'lastName',
+            'profilePicturePath',
+            'dateJoined'
+        ])
+        return pickedUser as UserInClient;
+    })
+    return pickedUsers as UserInClient[];
 }
