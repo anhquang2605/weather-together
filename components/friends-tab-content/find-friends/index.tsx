@@ -7,9 +7,9 @@ import FriendSearchResultList from './result-list/FriendSearchResultList';
 import { getCitiesFromLongLat } from '../../../libs/geodb';
 import SuggestionDropDown from '../../plugins/search-bar/suggestion-drop-down/SuggestionDropDown';
 import UserSearchCard from '../../user/user-search-card/UserSearchCard';
-import friends from '../../../pages/friends';
 import { FriendsContext } from '../../../pages/friends/FriendsContext';
-import { set } from 'lodash';
+import {  UserFilter, useFilter } from './FilterContext';
+import FilterGroup from './filter-group/FilterGroup';
 
 function debounce(func:Function, duration:number) {
     let timer: ReturnType<typeof setTimeout>;
@@ -31,6 +31,7 @@ export default function FindFriends({}:FindFriendsProps) {
     const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
     const [searchStarted, setSearchStarted] = useState(false); //
+    const {filter, setFilter} = useFilter();
     const {data: session} = useSession();
     const user = session?.user;
     const {friendUsernames} = useContext(FriendsContext);
@@ -96,8 +97,6 @@ export default function FindFriends({}:FindFriendsProps) {
             setApiStatus("error");
             setSearchResults([]);
         }
- 
-       
     }
     const handleGetResultsFromNearby = async () => {
         const response = await fetch(`/api/users?city=${user?.location?.city}`);
@@ -124,6 +123,9 @@ export default function FindFriends({}:FindFriendsProps) {
             setApiStatus("error");
             setSearchResults([]);
         }
+    }
+    const handleFilterSearch = async (filter: UserFilter) => {
+
     }
     const handleResponseFromSearchEndpoints = async (response: Response, callback?:()=>void) => {
             const data = await response.json();
@@ -152,18 +154,16 @@ export default function FindFriends({}:FindFriendsProps) {
         }
     },[searchQuery])
         return (
-        <div className={style['find-friends']}>
-            <div className={style.controlGroup}>
-                <div className={style["search-bar-control-group"]}>
-                    <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
-                    <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
-
+            <div className={style['find-friends']}>
+                <div className={style.controlGroup}>
+                    <div className={style["search-bar-control-group"]}>
+                        <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
+                        <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
+                    </div>
+                    <FilterGroup/>
                 </div>
 
+            <FriendSearchResultList apiStatus={apiStatus} results={searchResults}/>
             </div>
-
-           <FriendSearchResultList apiStatus={apiStatus} results={searchResults}/>
-        </div>
-
     )
 }

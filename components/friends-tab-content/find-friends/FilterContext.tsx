@@ -1,6 +1,6 @@
 
 import {createContext, useContext, useState} from 'react';
-interface UserFilter{
+export interface UserFilter{
     nearbyCities: string[];
     featuredWeathers: string[];
 }

@@ -1,0 +1,13 @@
+.filter-group{
+    @apply flex flex-row lg:flex-col p-4 border border-slate-400 rounded-lg mt-8;
+    div{
+        @apply ml-8 mt-4;
+    }
+    div h3{
+        @apply flex flex-row items-center;
+        
+        svg{
+            @apply mr-2;
+        }
+    }
+}

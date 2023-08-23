@@ -8,6 +8,7 @@ import { getCitiesFromLongLat } from '../../libs/geodb';
 import { useSession } from 'next-auth/react';
 import { subscribe, unSubcribe } from '../../utils/websocket-service';
 import {FriendsContext} from './FriendsContext';
+import { FilterContext, FilterProvider } from '../../components/friends-tab-content/find-friends/FilterContext';
 interface TabIconsMap {
     [key: string]: JSX.Element;
 }
@@ -114,7 +115,11 @@ function Friends(){
                 tabsContainerClassName={style["tabs-container"]}
                 movingBoxClassName={style['moving-box']}
             />
-            {activeTab === 1 && <FindFriends/>}
+            {activeTab === 1 && 
+                <FilterProvider>
+                    <FindFriends/>
+                </FilterProvider>
+            }
         </div>
     </FriendsContext.Provider>
     )
