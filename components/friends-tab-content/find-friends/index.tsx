@@ -24,6 +24,7 @@ function debounce(func:Function, duration:number) {
 interface FindFriendsProps {
     
 }
+
 export default function FindFriends({}:FindFriendsProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchSuggestions, setSearchSuggestions] = useState<UserInClient[]>([]); //
@@ -48,13 +49,13 @@ export default function FindFriends({}:FindFriendsProps) {
         } catch (error) {
            console.log(error);
         }
-    } ,1000);
+    } ,500);
     const handleSearchBarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     }
     const handleFilterResultByNearbyCities = async () => {
         const cities = await getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40');
-        
+        //handleFilterSet(filter, "nearbyCities", cities);
     }
     const handleSearchUsers = async (query:string, username:string, limit: number) => {
         try {
@@ -156,6 +157,7 @@ export default function FindFriends({}:FindFriendsProps) {
                 <div className={style["search-bar-control-group"]}>
                     <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
                     <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
+
                 </div>
 
             </div>

@@ -44,11 +44,7 @@ export async function getCitiesFromLongLat(latitue:string, longitude: string, ra
         const response = await fetch(url, options);
         const data = await response.json();
         const cities = data.data.map((city: any) => {
-            return {
-                name: city.name,
-                lat: city.latitude,
-                lon: city.longitude,
-            }
+            return city.name
         })
         return cities;
     }catch(e){
