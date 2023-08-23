@@ -1,13 +1,14 @@
 import React, { use, useEffect, useState } from 'react';
 import style from './suggestion-drop-down.module.css';
+import { set } from 'lodash';
 
 interface SuggestionDropDownProps<T> {
     suggestions: T[];
     suggestionRenderer: (suggestion: T, index: number) => JSX.Element;
-    apiStatus: 'loading' | 'error' | 'success' | 'idle';
+    searchStarted: boolean;
 }
 
-const SuggestionDropDown = <T,> ({suggestions, suggestionRenderer, apiStatus}:SuggestionDropDownProps<T>) => {
+const SuggestionDropDown = <T,> ({suggestions, suggestionRenderer, searchStarted}:SuggestionDropDownProps<T>) => {
     const [reveal, setReveal] = useState(false);
     const handleOutsideClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;

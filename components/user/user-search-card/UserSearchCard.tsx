@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './user-search-card.module.css';
 import { UserInClient } from '../../../types/User';
 import MiniAvatar from '../../activity/mini-avatar/MiniAvatar';
 import FeaturedWeatherBadge from '../featured-weather-badge/FeaturedWeatherBadge';
 import { useRouter } from 'next/router';
+import {LiaUserFriendsSolid} from 'react-icons/lia';
+import { FriendsContext } from '../../../pages/friends/FriendsContext';
 
 interface UserSearchCardProps {
     user: UserInClient;
@@ -12,6 +14,7 @@ interface UserSearchCardProps {
 
 const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-large"}) => {
     const router = useRouter();
+    const {friendUsernames} = useContext(FriendsContext);
     const navigateToProfile = (username:string) => {
         router.push(`/profile/${username}`);
     }
@@ -39,7 +42,20 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
                     <FeaturedWeatherBadge weatherName={user.featuredWeather?.name} />
                 </span>}
             </div>
+           
+                {
+                    friendUsernames.has(user.username) ?
+                        <div className={`${style['buddy-badge']}`}>
+                            <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2`}/> 
+                            <span className={`${style['friend-title']}`}>Buddy</span>
+                        </div>
+                        
 
+                    :
+                    <button className={`${style.addFriendButton} action-btn`}>
+                        Add friend
+                    </button>
+                }
         </div>
     );
 };

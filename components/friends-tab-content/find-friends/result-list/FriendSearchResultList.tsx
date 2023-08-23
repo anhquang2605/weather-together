@@ -45,7 +45,6 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
                     </div>
                     :
                     <>
-                     <h3 className={`text-xl font-semibold mb-4`}>Search Result</h3>
                     <div className={style['result-list']}>
                          {resultJSX()}
                     </div>

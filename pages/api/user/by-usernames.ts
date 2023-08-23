@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const db = await connectDB();
     if(db){
         if(method === 'POST'){
-            const {usernames} = req.body;
+            const usernames = req.body;
             const usersCollection = db.collection<User>('users');
             const users:User[] = await usersCollection.find({username: {$in: usernames}}).toArray();
             if(users.length === 0){

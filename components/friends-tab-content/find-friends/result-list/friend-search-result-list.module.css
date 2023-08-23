@@ -3,7 +3,7 @@
 }
 .result-list{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     align-items: start;
-    @apply gap-8;
+    @apply gap-8 mx-0 lg:mx-8;
 }

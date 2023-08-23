@@ -1,6 +1,6 @@
 .find-friends{
     display: grid;
-    grid-template-columns: 1.5fr 4fr;
+    grid-template-columns: 1fr 2fr;
     @apply flex-grow relative;
 }
 .controlGroup{

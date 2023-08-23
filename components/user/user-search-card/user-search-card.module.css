@@ -3,10 +3,10 @@
     flex-direction: row;
     color: var(--primary-color);
     transition: all 0.1s ease-in-out;
-    @apply bg-slate-100 rounded-lg p-4 shadow-md;
+    @apply bg-slate-200 rounded-lg p-4 shadow-md items-center;
     
     &:hover{
-        @apply cursor-pointer shadow-lg scale-105 outline outline-indigo-500;
+        @apply cursor-pointer shadow-lg scale-105;
         
     }
     &.small{
@@ -22,8 +22,14 @@
     }
 }
 .information-group{
-    @apply flex flex-col ml-2; 
+    @apply flex flex-col ml-2 grow h-full; 
 }
 .name{
     @apply text-lg font-semibold;
+}
+
+.buddy-badge{
+    @apply p-2 rounded-full flex flex-row items-center text-sm;
+    background-color: var(--primary-color);
+    color: white;
 }

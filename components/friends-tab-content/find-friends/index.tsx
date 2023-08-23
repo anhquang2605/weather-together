@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import style from './find-friends.module.css'
 import SearchBar from '../../plugins/search-bar/SearchBar'
 import { UserInClient} from './../../../types/User'
@@ -7,6 +7,9 @@ import FriendSearchResultList from './result-list/FriendSearchResultList';
 import { getCitiesFromLongLat } from '../../../libs/geodb';
 import SuggestionDropDown from '../../plugins/search-bar/suggestion-drop-down/SuggestionDropDown';
 import UserSearchCard from '../../user/user-search-card/UserSearchCard';
+import friends from '../../../pages/friends';
+import { FriendsContext } from '../../../pages/friends/FriendsContext';
+import { set } from 'lodash';
 
 function debounce(func:Function, duration:number) {
     let timer: ReturnType<typeof setTimeout>;
@@ -18,19 +21,23 @@ function debounce(func:Function, duration:number) {
         },duration);
     }
 }
-export default function FindFriends() {
+interface FindFriendsProps {
+    
+}
+export default function FindFriends({}:FindFriendsProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchSuggestions, setSearchSuggestions] = useState<UserInClient[]>([]); //
     const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
+    const [searchStarted, setSearchStarted] = useState(false); //
     const {data: session} = useSession();
     const user = session?.user;
+    const {friendUsernames} = useContext(FriendsContext);
     const SEARCH_LIMIT = 10;
     const getAPIOptions = {
         method: 'GET'
     }
     const debounceSearch = debounce( async(searchQuery: string) => {
-        
         try {
             const response = await fetch(`/api/user/atlas-search?query=${searchQuery}&username=${user?.username}`,getAPIOptions);
             if(response.ok){
@@ -60,21 +67,28 @@ export default function FindFriends() {
             setApiStatus("error");
         }
     }
-    const handleSearchFriends = async (username:string) => {
+    const handleSearchFriends = async (friendUsernames: Set<string>) => {
         try{
             setApiStatus("loading");
-            const response = await fetch(`/api/users?username=${username}&fetchFriends=true`,getAPIOptions);
-            console.log(response);
+            const option = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Array.from(friendUsernames))
+            }
+            const path = '/api/user/by-usernames'
+            const response = await fetch(path, option);
             return response;
         }catch(e){
             console.log(e);
             setApiStatus("error");
         }
     }
-    const handleOnSearch = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const handleOnSearch = async (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>) => {
         e.stopPropagation();
         const response = await handleSearchUsers(searchQuery, user?.username ?? "",SEARCH_LIMIT);
+        setSearchSuggestions([]);
         if(response){
             handleResponseFromSearchEndpoints(response);
         }else{
@@ -89,7 +103,11 @@ export default function FindFriends() {
         return response;
     }
     const handleInitialSearch = async () => {
-        let response = await handleSearchFriends(user?.username ?? "");
+        let response: Response | undefined;
+        if(friendUsernames.size > 0){
+            response = await handleSearchFriends(friendUsernames);
+        }
+ 
         if(response){
             if(response.status === 204){
                 response = await handleGetResultsFromNearby();
@@ -99,7 +117,7 @@ export default function FindFriends() {
                 }
             }
             if(response.status === 200){
-                handleResponseFromSearchEndpoints(response, handleGetResultsFromNearby);
+                handleResponseFromSearchEndpoints(response);
             }
         }else{
             setApiStatus("error");
@@ -107,16 +125,9 @@ export default function FindFriends() {
         }
     }
     const handleResponseFromSearchEndpoints = async (response: Response, callback?:()=>void) => {
-      
-        if(response.status === 200){
             const data = await response.json();
             setSearchResults(data.data);
             setApiStatus("success");
-        } else{
-            setApiStatus("error");
-            setSearchResults([]);
-        }
-        
     }
     const suggestionRenderer = (suggestion: UserInClient, index: number) => {
         return (
@@ -144,7 +155,7 @@ export default function FindFriends() {
             <div className={style.controlGroup}>
                 <div className={style["search-bar-control-group"]}>
                     <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
-                    <SuggestionDropDown apiStatus={apiStatus} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
+                    <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
                 </div>
 
             </div>

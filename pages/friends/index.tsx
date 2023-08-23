@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import style from './friends.module.css'
 import Tabs from '../../components/plugins/tabs/Tabs'
 import {CgUserList, CgUserAdd, CgPlayListSearch} from 'react-icons/cg'
@@ -7,6 +7,7 @@ import withAuth from '../authentication/with-auth';
 import { getCitiesFromLongLat } from '../../libs/geodb';
 import { useSession } from 'next-auth/react';
 import { subscribe, unSubcribe } from '../../utils/websocket-service';
+import {FriendsContext} from './FriendsContext';
 interface TabIconsMap {
     [key: string]: JSX.Element;
 }
@@ -102,6 +103,7 @@ function Friends(){
         console.log(friendUsernames);
     },[friendUsernames])
     return (
+    <FriendsContext.Provider value={{friendUsernames}}>    
         <div className={"glass " + style["friends-page"]}>
             <Tabs 
                 tabs={tabs} 
@@ -114,6 +116,7 @@ function Friends(){
             />
             {activeTab === 1 && <FindFriends/>}
         </div>
+    </FriendsContext.Provider>
     )
 }
 
