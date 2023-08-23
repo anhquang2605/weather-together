@@ -49,7 +49,22 @@ function Friends(){
     }
     const handleWebSocketMessage = (message: MessageEvent) => {
         const payload = JSON.parse(message.data);
-        
+        if(payload.type === 'friends-changestream'){
+            const {operationType, friendUsername} = payload;
+            if(operationType === 'insert'){
+                setFriendUsernames(prev => {
+                    const newSet = new Set(prev);
+                    newSet.add(friendUsername);
+                    return newSet;
+                })
+            }else{
+                setFriendUsernames(prev => {
+                    const newSet = new Set(prev);
+                    newSet.delete(friendUsername);
+                    return newSet;
+                })
+            }
+        }
     }
     useEffect(()=>{
         const movingBox = document.getElementsByClassName(style['moving-box'])[0] as HTMLElement;
@@ -83,6 +98,9 @@ function Friends(){
             movingBox.style.left = (100/tabLabels.length) * activeTab + "%";
         }
     },[activeTab])
+    useEffect(()=>{
+        console.log(friendUsernames);
+    },[friendUsernames])
     return (
         <div className={"glass " + style["friends-page"]}>
             <Tabs 

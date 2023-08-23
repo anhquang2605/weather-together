@@ -34,11 +34,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         return;
                     }
                     const friendUsernames = friendRelationships.map((relationship) => relationship.friendUsername);
-                    const friends = await userCollection.find({username: {$in: friendUsernames}}).toArray();
-                    const friendsInClient:UserInClient[] = friends.map((friend) => pick(friend, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'favoriteWeathers', 'email']));
                     res.status(200).json({
                         success: true,
-                        data: friendsInClient
+                        data: friendUsernames
                     });
                 } catch(e){
                     res.status(500).json({success: false, message: e});
