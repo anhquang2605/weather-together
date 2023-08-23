@@ -41,11 +41,13 @@ wss.on('connection', (socket) => {
   let userChangeStream;
   let notificationChangeStream;
   let feedsChangeStream;
+  let friendsChangeStream;
   socket.on('close', () => {
       //Clean up change streams
       userChangeStream && userChangeStream.close();
       notificationChangeStream && notificationChangeStream.close();
       feedsChangeStream && feedsChangeStream.close();
+      friendsChangeStream && friendsChangeStream.close();
       //Clean up clients
       delete clients[socket.username];
   })
@@ -133,6 +135,25 @@ wss.on('connection', (socket) => {
             };
         });
         await new Promise(() => {});
+      } else if(clientMessage.type === 'friends-changestream'){
+        const friendsCollection = await db.collection('friends');
+        friendsChangeStream = friendsCollection.watch(pipeline,{ fullDocument: 'updateLookup' });
+        friendsChangeStream.on('change', (change) => {
+          if(change.operationType === 'insert' || change.operationType === 'delete'){
+            if(clients[username] && clients[username].readyState === 
+              WebSocket.OPEN){
+                const fullDocument = change.fullDocument;
+                const message = {
+                  type: 'friends-changestream',
+                  data: {
+                    operatonType: change.operationType,
+                    friendUsername: fullDocument.friendUsername,
+                  }
+                }
+                clients[username].send(JSON.stringify(message)); 
+            }
+          } 
+        })
       }
       
     }

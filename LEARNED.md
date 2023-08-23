@@ -69,3 +69,6 @@ Solved: set the element its self to flex-shrink: 0 to prevent the shrinking
 _ Allow providing infinite number of arguments wihtout using array
 _ The arguments will then be put in an array inside the function
 Example: function<T, K extends keyof T>(obj: T, ...keys: K[]) :Pick<T,K>{}
+27. Type collection to specify desired type
+let collection = db.collection<User>('users')
+let users:User[] = collection.find().toArray();
