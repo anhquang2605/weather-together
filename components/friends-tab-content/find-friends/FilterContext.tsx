@@ -7,6 +7,8 @@ export interface UserFilter{
 type FilterContextType = {
     filter: UserFilter;
     setFilter: React.Dispatch<React.SetStateAction<UserFilter>>;
+    filterBusy: boolean;
+    setFilterBusy: React.Dispatch<React.SetStateAction<boolean>>;
   };
 interface FilterProviderProps{
     children: React.ReactNode;
@@ -18,7 +20,8 @@ export function FilterProvider ({children}:FilterProviderProps) {
         nearbyCities: [],
         featuredWeathers: []
     });
-    return <FilterContext.Provider value={{filter, setFilter}}>{children}</FilterContext.Provider>
+    const [filterBusy, setFilterBusy] = useState<boolean>(false);
+    return <FilterContext.Provider value={{filter, setFilter, filterBusy, setFilterBusy}}>{children}</FilterContext.Provider>
     
 };
 

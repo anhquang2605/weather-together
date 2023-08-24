@@ -9,11 +9,11 @@ interface CheckBoxProps {
     returnLabel?: boolean;
 }
 //Need react icons
-export default function CheckBox({label, handleChecked, returnLabel}: CheckBoxProps) {
+export default function CheckBox({label, handleChecked, returnLabel, labelJSX}: CheckBoxProps) {
     const [checked, setChecked] = useState<boolean>(false);
     const handleCheck = () => {
         setChecked(prevState => {
-            const status = !prevState
+            const status = !prevState;
             handleChecked(status, label);
             return status;
         });
@@ -24,7 +24,7 @@ export default function CheckBox({label, handleChecked, returnLabel}: CheckBoxPr
                 {checked && <IoCheckmark className={style['checkmark']}/>}
             </div>
             <span className={style["check-label"]}>
-                {label}
+                {labelJSX && labelJSX}  {label}
             </span>
         </div>
     )

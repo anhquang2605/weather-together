@@ -3,31 +3,21 @@ import { Weather } from "../types/Weather";
 export const WEATHERS: Weather[] = [
     {
         name: "sunny",
-        iconAlias: "sun"
     },
     {
         name: "cloudy",
-        iconAlias: "cloud"
     },
     {
         name: "rainy",
-        iconAlias: "cloud-rain"
     },
     {
         name: "snowy",
-        iconAlias: "snowflake"
     },
     {
         name: "windy",
-        iconAlias: "wind"
     },
     {
-        name: "rainbow",
-        iconAlias: "rainbow"
-    },
-    {
-        name: "thunderstorm",
-        iconAlias: "bolt"
+        name: "thunder",
     }
 ]
 interface weathersMap {
@@ -35,12 +25,12 @@ interface weathersMap {
 }
 
 export const weatherToColorClassMap:weathersMap = {
-    "sunny": "text-orange-400",
-    "cloudy": "text-sky-400" ,
-    "rainy": "text-indigo-400" ,
-    "snowy": "text-blue-400",
-    "thunder": "text-yellow-400" ,
-    "windy": "text-green-400" ,
+    "sunny": "text-orange-300",
+    "cloudy": "text-sky-300" ,
+    "rainy": "text-indigo-300" ,
+    "snowy": "text-blue-300",
+    "thunder": "text-yellow-300" ,
+    "windy": "text-green-300" ,
 }
 export const weatherNameToIconAliasMap:weathersMap = {
     "sunny": "sun",

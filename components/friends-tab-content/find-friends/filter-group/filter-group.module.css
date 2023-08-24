@@ -4,12 +4,13 @@
         @apply ml-8 mt-8 relative;
     }
     > div h3{
-        @apply flex flex-row items-center font-bold text-lg relative;
-        span{
-            @apply grow h-[1px] bg-white;
-        }
+        @apply flex flex-row items-center font-bold text-xl relative;
         svg{
             @apply mr-2;
         }
     }
+}
+.busy{
+    pointer-events: none;
+    @apply animate-pulse;
 }

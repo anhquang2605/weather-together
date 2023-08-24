@@ -27,11 +27,11 @@ interface FindFriendsProps {
 
 export default function FindFriends({}:FindFriendsProps) {
     const [searchQuery, setSearchQuery] = useState("");
+    const [lastTimeStramp, setLastTimeStramp] = useState();//used to fetch users in search
     const [searchSuggestions, setSearchSuggestions] = useState<UserInClient[]>([]); //
     const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
     const [searchStarted, setSearchStarted] = useState(false); //
-    const {filter, setFilter} = useFilter();
     const {data: session} = useSession();
     const user = session?.user;
     const {friendUsernames} = useContext(FriendsContext);
@@ -53,10 +53,6 @@ export default function FindFriends({}:FindFriendsProps) {
     } ,500);
     const handleSearchBarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
-    }
-    const handleFilterResultByNearbyCities = async () => {
-        const cities = await getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40');
-        //handleFilterSet(filter, "nearbyCities", cities);
     }
     const handleSearchUsers = async (query:string, username:string, limit: number) => {
         try {
@@ -160,7 +156,7 @@ export default function FindFriends({}:FindFriendsProps) {
                         <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
                         <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
                     </div>
-                    <FilterGroup/>
+                    <FilterGroup handleFilterSearch={handleFilterSearch}/>
                 </div>
 
             <FriendSearchResultList apiStatus={apiStatus} results={searchResults}/>

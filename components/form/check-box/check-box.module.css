@@ -11,9 +11,8 @@
 #check-input{
     width: 1rem;
     height: 1rem;
-    background-color: white;
     border-radius: 2px;
-    @apply mr-4;
+    @apply mr-4 bg-slate-200;
     position: relative;
 }
 .checkmark{
@@ -26,4 +25,10 @@
 .checked-box{
     outline: var(--secondary-color) 2px solid;
     outline-offset: 1px;
+}
+.check-label{
+    @apply flex flex-row justify-center items-center;
+    svg{
+        @apply mr-2;
+    }
 }

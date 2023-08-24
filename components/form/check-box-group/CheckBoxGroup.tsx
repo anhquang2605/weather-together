@@ -13,22 +13,24 @@ interface CheckBoxGroupProps {
 }
 
 const CheckBoxGroup: React.FC<CheckBoxGroupProps> = ({initialOptions, optionLabelRender, handleCheckedOptions}) => {
-    const [checkedOptions, setCheckedOptions] = useState<CheckBoxOption>({});
     const [optionsSet, setOptionsSet] = useState<Set<string>>(new Set());
     const [checkBoxes, setCheckBoxes] = useState<ReactNode[]>([]);
     const handleChecked = (value: boolean, label: string) => {
+
         if(value){
-            optionsSet.add(label);
-        }else{
-            optionsSet.delete(label);
-        }
-        setCheckedOptions(
-            prevState => {
-                const newState = {...prevState};
-                newState[label] = value;
+            setOptionsSet(prevState => {
+                const newState = new Set(prevState);
+                newState.add(label);
                 return newState;
-            }
-        )
+            })
+            
+        }else{
+            setOptionsSet(prevState => {
+                const newState = new Set(prevState);
+                newState.delete(label);
+                return newState;
+            })
+        }
     }
     //const handleGenerateCheckBox = (options: string[] => )
     useEffect(()=>{
@@ -42,7 +44,6 @@ const CheckBoxGroup: React.FC<CheckBoxGroupProps> = ({initialOptions, optionLabe
                 JSXarr.push(<CheckBox key={i} label={label} labelJSX={optionLabelRender ?optionLabelRender(label) : null} returnLabel={true} handleChecked={handleChecked}/>)
             }
             setCheckBoxes(JSXarr);
-            setCheckedOptions(checkBoxesMap);
         }
     },[])
     useEffect(()=>{

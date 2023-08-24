@@ -8,7 +8,7 @@ interface WeatherIconProps {
 
 const WeatherIcon: React.FC<WeatherIconProps> = ({weatherName}) => {
     return (
-        <div className={style['weather-icon']}>
+        <div title={weatherName} className={style['weather-icon']}>
             <FontAwesomeIcon className={weatherToColorClassMap[weatherName]} icon={['fas', (weatherNameToIconAliasMap[weatherName]) as any]}/>
         </div>
     );
