@@ -13,17 +13,17 @@
     height: 1rem;
     background-color: white;
     border-radius: 2px;
-    margin-right: 0.5rem;
+    @apply mr-4;
     position: relative;
 }
 .checkmark{
     position: absolute;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     path{
         stroke-width: 80;
     }
 }
 .checked-box{
-    outline: var(--secondary-color) 1px solid;
+    outline: var(--secondary-color) 2px solid;
     outline-offset: 1px;
 }

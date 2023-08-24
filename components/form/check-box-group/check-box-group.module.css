@@ -1,0 +1,7 @@
+.check-box-group{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    > div{
+        @apply mt-4
+    }
+}

@@ -1,5 +1,5 @@
 .cool-radio{
-    @apply flex flex-col;
+    @apply flex flex-col mt-4;
     .option{
         @apply flex flex-row items-center cursor-pointer mt-2;
         &:last{

@@ -28,7 +28,7 @@ export default function Login() {
         const handlePasswordChange = (e: any) => {
             setPassword(e.target.value);
         }
-        const handleRememberMe = (value: boolean) => {
+        const handleRememberMe = (value: boolean, label: string) => {
             setRemember(value);
         }
         const handleDataNoAuthBack = (data: any) => {

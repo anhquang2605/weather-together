@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import style from './check-box.module.css'
 import {IoCheckmark} from 'react-icons/io5'
+import { Strings } from 'aws-sdk/clients/opsworkscm';
 interface CheckBoxProps {
     label: string;
-    handleChecked: (value: boolean) => void;
+    labelJSX?: React.ReactNode;
+    handleChecked: (value: boolean, label: string) => void;
+    returnLabel?: boolean;
 }
 //Need react icons
-export default function CheckBox({label, handleChecked}: CheckBoxProps) {
+export default function CheckBox({label, handleChecked, returnLabel}: CheckBoxProps) {
     const [checked, setChecked] = useState<boolean>(false);
     const handleCheck = () => {
         setChecked(prevState => {
             const status = !prevState
-            handleChecked(status);
+            handleChecked(status, label);
             return status;
         });
     }
