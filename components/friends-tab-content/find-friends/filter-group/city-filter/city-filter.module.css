@@ -1,3 +1,6 @@
 .city-filter{
-    
+    @apply flex flex-col;
+    input{
+        accent-color: var(--accent-color);
+    }
 }

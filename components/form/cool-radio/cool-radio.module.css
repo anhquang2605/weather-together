@@ -1,0 +1,18 @@
+.cool-radio{
+    @apply flex flex-col;
+    .option{
+        @apply flex flex-row items-center cursor-pointer mt-2;
+        &:last{
+            @applhy mt-0;
+        }
+        .option-input{
+            @apply w-[12px] h-[12px] bg-slate-200 rounded-full shrink-0 border-2 border-slate-300 mr-4;
+        }
+        &.selected{
+            .option-input{
+                background-color: var(--btn-color);
+                outline: 1px solid var(--btn-color);
+            }
+        }
+    }
+}

@@ -10,7 +10,7 @@ interface FilterGroupProps {
 const FilterGroup: React.FC<FilterGroupProps> = ({}) => {
     return (
         <div className={style['filter-group']}>
-            <h3 className="flex flex-row items-center text-lg font-semibold"><IoFilter className="icon mr-2"/> Filter By</h3>
+            <h3 className="flex flex-row items-center text-lg font-bold "><IoFilter className="icon mr-2"/> Filter By</h3>
             <CityFilter/>
             <FeaturedWeahterFilter/>
             <button className="action-btn mt-8">
