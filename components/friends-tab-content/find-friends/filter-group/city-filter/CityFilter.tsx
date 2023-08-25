@@ -10,7 +10,8 @@ interface CityFilterProps {
 
 }
 const CityFilter: React.FC<CityFilterProps> = ({}) => {
-    const {setFilter, setFilterBusy} = useFilter();
+    const {setFilter, setFilterBusy, ogFilter, setOgFilter} = useFilter();
+    const [cities, setCities] = useState<string[]>([]);
     const {data: session} = useSession();
     const [option, setOption] = useState('nearby'); // ['all-city', 'nearby'
     const user = session?.user;
@@ -41,6 +42,23 @@ const CityFilter: React.FC<CityFilterProps> = ({}) => {
         }
         //handleFilterSet(filter, "nearbyCities", cities);
     }
+    useEffect(()=>{
+        handleGetNearbyCities().then((cities)=>{
+            setFilter((prev) => {
+                return {
+                    ...prev,
+                    nearbyCities: cities
+                }
+            })
+            setOgFilter({
+                nearbyCities: cities,
+                featuredWeathers: []
+            })
+
+            setCities(cities);
+        })
+
+    },[])
     useEffect(() => {
         if(option === 'all'){
             setFilter((prev) => {
@@ -51,15 +69,12 @@ const CityFilter: React.FC<CityFilterProps> = ({}) => {
             })
         }
         else if(option === 'nearby'){
-        
-           handleGetNearbyCities().then((cities)=>{
-                setFilter((prev) => {
-                    return {
-                        ...prev,
-                        nearbyCities: cities
-                    }
-                })
-           })
+            setFilter((prev) => {
+                return {
+                    ...prev,
+                    nearbyCities: cities
+                }
+            })
         }
     }, [option])
     return (

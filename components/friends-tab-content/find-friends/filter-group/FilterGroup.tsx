@@ -15,15 +15,12 @@ const FilterGroup: React.FC<FilterGroupProps> = ({handleFilterSearch, resetSort}
     const {filter, filterBusy, ogFilter, setOgFilter} = useFilter();
     const [filterChanged, setFilterChanged] = React.useState(false);
     useEffect(() => {
-        if(filter && !ogFilter){
-            setOgFilter({...filter});
-        } else if(filter){
-            if(!isEqual(filter,ogFilter)){
-                setFilterChanged(true);
-            } else {
-                setFilterChanged(false);
-            }
+        if(!isEqual(filter,ogFilter)){
+            setFilterChanged(true);
+        } else {
+            setFilterChanged(false);
         }
+        console.log('filter changed');
     }, [filter])
     return (
         <div className={style['filter-group']}>

@@ -29,7 +29,5 @@
 }
 
 .buddy-badge{
-    @apply p-2 rounded-full flex flex-row items-center text-sm;
-    background-color: var(--primary-color);
-    color: white;
+    @apply p-2 rounded-full flex flex-row items-center font-extrabold;
 }

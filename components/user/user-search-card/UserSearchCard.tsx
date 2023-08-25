@@ -46,7 +46,7 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
                 {
                     friendUsernames.has(user.username) ?
                         <div className={`${style['buddy-badge']}`}>
-                            <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2`}/> 
+                            <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2 border border-indigo-700 rounded-full`}/> 
                             <span className={`${style['friend-title']}`}>Buddy</span>
                         </div>
                         

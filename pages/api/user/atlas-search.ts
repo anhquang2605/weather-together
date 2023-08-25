@@ -59,6 +59,11 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }else{
                 lastCursorDate = new Date();
             }
+            const compountClauses = {
+                must: mustConditions,
+                should: shoulds
+            }
+
             const agg = [
                 {'$search': {
                     index: "autocomplete-user-search", 
@@ -75,6 +80,9 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 { $sort: { 'dateJoined': -1 } },
                 {'$limit': limit ? parseInt(limit as string) : 5},
             ];
+            if(mustConditions.length === 0 && shoulds.length === 0){
+                agg.shift();
+            }
             const results = await usersCollection.aggregate(agg).toArray(); 
             const filteredUsers: UserInClient[] = results.map((user)=>{
                 const filteredUser = pick(user, [
