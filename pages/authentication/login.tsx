@@ -120,12 +120,12 @@ export default function Login() {
                         <div className="remember-me">
                             <CheckBox label="Remember me" handleChecked={handleRememberMe}/>
                         </div>
-                        <Link className="underline" href="authentication/forgot-password">Forgot password?</Link>  
+                        <Link className="underline" href="/forgot-password">Forgot password?</Link>  
                     </div>
                     <div className="horizontal-btn-group w-full mt-20">
                         <button onClick={handleLogin} className="action-btn w-full">Log in</button>
                     </div>
-                    <Link className="w-full text-center mt-4" href="authentication/register">Create an account</Link>
+                    <Link className="w-full text-center mt-4" href="/authentication/register">Create an account</Link>
   
                 </div>
             </div>

@@ -4,7 +4,7 @@ import {FaTreeCity} from 'react-icons/fa6';
 import { useSession } from 'next-auth/react';
 import CoolRadio, {CoolRadioOption} from '../../../../form/cool-radio/CoolRadio';
 import { useFilter } from '../../FilterContext';
-import { getCitiesFromLongLat } from '../../../../../libs/geodb';
+import { City, getCitiesFromLongLat, getNearbyCityNamesByLongLatName } from '../../../../../libs/geodb';
 import { set } from 'lodash';
 interface CityFilterProps {
 
@@ -28,10 +28,10 @@ const CityFilter: React.FC<CityFilterProps> = ({}) => {
         setOption(value);
     }
     const handleGetNearbyCities = async () => {
-        let cities = [];
+        let cities:string[] = [];
         try{
             setFilterBusy(true);
-            cities = await getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'100');
+            cities = await getNearbyCityNamesByLongLatName(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'100', user?.location?.city ?? "");
         } catch(error){
             console.log(error);
         } finally{

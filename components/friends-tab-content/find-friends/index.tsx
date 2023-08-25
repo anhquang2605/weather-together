@@ -4,7 +4,7 @@ import SearchBar from '../../plugins/search-bar/SearchBar'
 import { UserInClient} from './../../../types/User'
 import { useSession } from 'next-auth/react';
 import FriendSearchResultList from './result-list/FriendSearchResultList';
-import { getCitiesFromLongLat } from '../../../libs/geodb';
+import { getCitiesFromLongLat, getNearbyCityNamesByLongLatName } from '../../../libs/geodb';
 import SuggestionDropDown from '../../plugins/search-bar/suggestion-drop-down/SuggestionDropDown';
 import UserSearchCard from '../../user/user-search-card/UserSearchCard';
 import { FriendsContext } from '../../../pages/friends/FriendsContext';
@@ -69,7 +69,13 @@ export default function FindFriends({}:FindFriendsProps) {
     }
     const getSortComparator = (criterion: string, a:UserInClient, b:UserInClient, isAscending: boolean) => {
         const comparitor = sortComparators[criterion as keyof typeof sortComparators];
-        return isAscending ? comparitor(a,b) : comparitor(b,a);
+        const ascMultiplier = isAscending ? 1 : -1;
+        const diff = ascMultiplier * comparitor(a,b)
+        if(diff === 0){
+            return ascMultiplier * sortComparators.dateJoined(a,b);
+        }
+        return diff;
+        
     }
     
     const mergeSort = (currSorted: UserInClient[], fetched: UserInClient[], criterion: string, order: boolean) => {
@@ -114,6 +120,14 @@ export default function FindFriends({}:FindFriendsProps) {
             merged.push(currSorted[k]);
         }
         return merged;
+    }
+    const resetSort = () => {
+        setSortCriteria({
+            dateJoined: false,
+            firstName: true,
+            lastName: true
+        });
+        setCurrentSortCriterion('dateJoined');
     }
     const debounceSearch = debounce( async(searchQuery: string) => {
         try {
@@ -171,38 +185,66 @@ export default function FindFriends({}:FindFriendsProps) {
         }
     }
     const handleGetResultsFromNearby = async () => {
-        const response = await fetch(`/api/users?city=${user?.location?.city}`);
+        const path = '/api/user/by-citynames';
+        const cities = await getNearbyCityNamesByLongLatName(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'100', user?.location?.city ?? "");
+        cities.push(user?.location?.city ?? "")
+        const data = {
+            cities,
+            limit: SEARCH_LIMIT,
+            username: user?.username
+        }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        const response = await fetch(path, options);
         return response;
     }
     const handleInitialSearch = async () => {
-        let response: Response | undefined;
-        if(friendUsernames.size > 0){
-            response = await handleSearchFriends(friendUsernames);
+        let cachedNearbyResults = JSON.parse(sessionStorage.getItem('nearbySearch') as string);
+        if(cachedNearbyResults){
+            setSearchResults(cachedNearbyResults);
+            setApiStatus("success");
+            return;
         }
- 
-        if(response){
-            if(response.status === 204){
-                response = await handleGetResultsFromNearby();
-                if(response && response.status === 204){
-                    setApiStatus('idle');
-                    return;
-                }
-            }
-            if(response.status === 200){
-                handleResponseFromSearchEndpoints(response);
-            }
+        const response = await handleGetResultsFromNearby();
+        if(response && response.status === 204){
+            setApiStatus('idle');
+            return;
+        }
+        if(response.status === 200){
+            const data = await response.json();
+            sessionStorage.setItem('nearbySearch', JSON.stringify(data.data));
+            setSearchResults(data.data);
+            setApiStatus("success");
         }else{
             setApiStatus("error");
             setSearchResults([]);
         }
     }
-    const handleFilterFetch = async (filter: UserFilter, lastCursor: Date) => {
-        const params = new URLSearchParams({
+    const handleFilterFetch = async (filter: UserFilter, lastCursor?: Date) => {
+        setApiStatus("loading");
+        const rawParams = {
             limit: SEARCH_LIMIT.toString(),
-            lastCursor: lastCursor.toISOString(),
             filter: JSON.stringify(filter)
-        });
-        const response = await fetch(`/api/user/filter?${params.toString()}`);
+        }
+        if(lastCursor){
+            rawParams['lastCursor' as keyof typeof rawParams] = lastCursor.toISOString();
+        }
+        const params = new URLSearchParams(rawParams);
+        const response = await fetch(`/api/user/atlas-search?${params.toString()}`);
+        if(response.status === 200){
+            const data = await response.json();
+            console.log(data);
+            setSearchResults(data.data);
+            setApiStatus("success");
+        }else{
+            setApiStatus("error");
+            setSearchResults([]);
+        }
     }
     const handleResponseFromSearchEndpoints = async (response: Response, callback?:()=>void) => {
             const data = await response.json();
@@ -220,9 +262,6 @@ export default function FindFriends({}:FindFriendsProps) {
         //getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40')
         handleInitialSearch();
     }, []);
-    useEffect(()=>{
-        console.log(apiStatus);
-    },[apiStatus])
     useEffect(()=>{
         if(searchQuery.length > 0){
             debounceSearch(searchQuery);
@@ -242,7 +281,7 @@ export default function FindFriends({}:FindFriendsProps) {
                         <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
                         <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
                     </div>
-                    {/* <FilterGroup handleFilterSearch={handleFilterFetch}/> */}
+                    <FilterGroup resetSort={resetSort} handleFilterSearch={handleFilterFetch}/>
                 </div>
 
             <FriendSearchResultList  apiStatus={apiStatus} results={searchResults}/>

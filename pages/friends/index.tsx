@@ -100,9 +100,6 @@ function Friends(){
             movingBox.style.left = (100/tabLabels.length) * activeTab + "%";
         }
     },[activeTab])
-    useEffect(()=>{
-        console.log(friendUsernames);
-    },[friendUsernames])
     return (
     <FriendsContext.Provider value={{friendUsernames}}>    
         <div className={"glass " + style["friends-page"]}>

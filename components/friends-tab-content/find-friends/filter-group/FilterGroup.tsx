@@ -6,10 +6,11 @@ import {IoFilter} from 'react-icons/io5';
 import { UserFilter, useFilter } from '../FilterContext';
 import { useEffect } from 'react';
 interface FilterGroupProps {
-    handleFilterSearch: (filter: UserFilter) => void;
+    handleFilterSearch: (filter: UserFilter, lastCursor?: Date) => void;
+    resetSort: () => void;
 }
 
-const FilterGroup: React.FC<FilterGroupProps> = ({handleFilterSearch}) => {
+const FilterGroup: React.FC<FilterGroupProps> = ({handleFilterSearch, resetSort}) => {
     const {filter, filterBusy} = useFilter();
     return (
         <div className={style['filter-group']}>
@@ -17,7 +18,9 @@ const FilterGroup: React.FC<FilterGroupProps> = ({handleFilterSearch}) => {
             <CityFilter/>
             <FeaturedWeahterFilter/>
             <button onClick={()=>{
-                handleFilterSearch(filter);
+                const currentDate = new Date();
+                handleFilterSearch(filter, currentDate);
+                resetSort();
             }} className={`action-btn mt-8 ${filterBusy && style['busy']}`}>
                 Apply Filter
             </button>

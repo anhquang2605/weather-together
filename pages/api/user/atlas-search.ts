@@ -3,21 +3,26 @@ import { connectDB } from "../../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from 'next'
 import { UserInClient } from "../../../types/User";
 import { UserFilter } from "../../../components/friends-tab-content/find-friends/FilterContext";
+interface Should{
+    autocomplete: {
+        query: string,
+        path: string,
+        tokenOrder: string
+    }
+}
 export default async (req: NextApiRequest, res:NextApiResponse) => {
     if (req.method === 'GET') {
         const db = await connectDB();
         if(db){
             const {query, username, limit, filter, lastCursor} = req.query;
-       
+            const searchQuery = query? query as string : '';
             const usersCollection = db.collection('users');
             const fields = ['username', 'firstName', 'lastName', 'email', 'location.city', 'featuredWeather.name'];
             const mustConditions = [];
             let lastCursorDate = null;
 
-
             if(filter){
                 const daFilter:UserFilter = JSON.parse(filter as string);
-                console.log(daFilter);
                 if (daFilter.nearbyCities.length > 0) {
                     mustConditions.push({
                         "text": {
@@ -36,16 +41,19 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     });
                 }
             }
-
-            const shoulds = fields.map(field => {
-                return {
-                    autocomplete: {
-                        query: query,
-                        path: field,
-                        tokenOrder: 'any',
+            let shoulds:Should[] = [];
+            if(searchQuery.length > 0){
+                shoulds = fields.map(field => {
+                    return {
+                        autocomplete: {
+                            query: searchQuery,
+                            path: field,
+                            tokenOrder: 'any',
+                        }
                     }
-                }
-            });
+                });
+            }
+
             if(lastCursor){
                 lastCursorDate = new Date(lastCursor as string);
             }else{
