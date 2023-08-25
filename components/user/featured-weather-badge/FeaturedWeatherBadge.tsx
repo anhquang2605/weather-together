@@ -32,7 +32,7 @@ const FeaturedWeatherBadge: React.FC<FeaturedWeatherBadgeProps> = ({weatherName}
     const colorsClass = weatherToClassMap[weatherName]
     return (
         <div className={style['featured-weather-badge']}>
-            <IoHeart className="text-red-300 w-6 h-6"/>
+            <IoHeart className="text-red-400 w-6 h-6"/>
             
             <div className={`absolute ${style['featured-icon']} w-[1px] h-[1px]`}>
                 <FontAwesomeIcon  className={colorsClass}  icon={['fas', weatherNameToIconAliasMap[weatherName] as IconName]}/>

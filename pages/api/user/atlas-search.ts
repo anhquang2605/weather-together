@@ -2,13 +2,41 @@ import { pick } from "lodash";
 import { connectDB } from "../../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from 'next'
 import { UserInClient } from "../../../types/User";
+import { UserFilter } from "../../../components/friends-tab-content/find-friends/FilterContext";
 export default async (req: NextApiRequest, res:NextApiResponse) => {
     if (req.method === 'GET') {
         const db = await connectDB();
         if(db){
-            const {query, username, limit} = req.query;
+            const {query, username, limit, filter, lastCursor} = req.query;
+       
             const usersCollection = db.collection('users');
             const fields = ['username', 'firstName', 'lastName', 'email', 'location.city', 'featuredWeather.name'];
+            const mustConditions = [];
+            let lastCursorDate = null;
+
+
+            if(filter){
+                const daFilter:UserFilter = JSON.parse(filter as string);
+                console.log(daFilter);
+                if (daFilter.nearbyCities.length > 0) {
+                    mustConditions.push({
+                        "text": {
+                            "query": daFilter.nearbyCities,
+                            "path": "location.city"
+                        }
+                    });
+                }
+                
+                if (daFilter.featuredWeathers.length > 0) {
+                    mustConditions.push({
+                        "text": {
+                            "query": daFilter.featuredWeathers,
+                            "path": "featuredWeather"
+                        }
+                    });
+                }
+            }
+
             const shoulds = fields.map(field => {
                 return {
                     autocomplete: {
@@ -18,15 +46,25 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     }
                 }
             });
+            if(lastCursor){
+                lastCursorDate = new Date(lastCursor as string);
+            }else{
+                lastCursorDate = new Date();
+            }
             const agg = [
                 {'$search': {
                     index: "autocomplete-user-search", 
                     compound:{
+                        must: mustConditions,
                         should: shoulds
                     }
                     
                 }},
-                {'$match': { 'username': { '$ne': username } }},
+                {'$match': { 
+                    'username': { '$ne': username },
+                    'dateJoined': { '$lt': lastCursorDate }
+                }},
+                { $sort: { 'dateJoined': -1 } },
                 {'$limit': limit ? parseInt(limit as string) : 5},
             ];
             const results = await usersCollection.aggregate(agg).toArray(); 

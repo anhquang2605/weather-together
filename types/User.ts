@@ -10,8 +10,8 @@ export interface Information {
 export interface User{
     _id?: string,
     username: string,
-    lastName?: string,
-    firstName?: string,
+    lastName: string,
+    firstName: string,
     email?: string,
     password: string,
     location: Location | null,
@@ -21,7 +21,7 @@ export interface User{
     nickname?: string,
     favoriteWeathers?: Weather[],
     featuredWeather?: Weather,
-    dateJoined?: Date,
+    dateJoined: Date,
 }
 
 export interface UserInStore{
@@ -36,19 +36,19 @@ export interface UserInSession{
     email?: string | null | undefined; 
     image?: string | null | undefined; 
     location?: Location | null | undefined;
-    profilePicturePath?: string | null | undefined;
+    profilePicturePath: string | null | undefined;
     featuredWeather?: Weather,
-    firstName?: string,
-    lastName?: string,
+    firstName: string,
+    lastName: string,
     remember?: boolean,
 }
 export interface UserInClient{
     username: string,
     location: Location | null,
-    profilePicturePath?: string,
+    profilePicturePath: string,
     featuredWeather?: Weather,
-    dateJoined?: Date,
-    firstName?: string,
-    lastName?: string,
+    dateJoined: Date,
+    firstName: string,
+    lastName: string,
     email: string;
 }
