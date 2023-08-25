@@ -14,3 +14,7 @@
     pointer-events: none;
     @apply animate-pulse;
 }
+.no-change{
+    pointer-events: none;
+    @apply bg-slate-300 text-slate-400 border-transparent;
+}

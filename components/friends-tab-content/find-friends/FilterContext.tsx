@@ -9,6 +9,8 @@ type FilterContextType = {
     setFilter: React.Dispatch<React.SetStateAction<UserFilter>>;
     filterBusy: boolean;
     setFilterBusy: React.Dispatch<React.SetStateAction<boolean>>;
+    ogFilter: UserFilter | undefined;
+    setOgFilter: React.Dispatch<React.SetStateAction<UserFilter|undefined>>;
   };
 interface FilterProviderProps{
     children: React.ReactNode;
@@ -20,8 +22,9 @@ export function FilterProvider ({children}:FilterProviderProps) {
         nearbyCities: [],
         featuredWeathers: []
     });
+    const [ogFilter, setOgFilter] = useState<UserFilter|undefined>()
     const [filterBusy, setFilterBusy] = useState<boolean>(false);
-    return <FilterContext.Provider value={{filter, setFilter, filterBusy, setFilterBusy}}>{children}</FilterContext.Provider>
+    return <FilterContext.Provider value={{filter, setFilter, filterBusy, setFilterBusy, ogFilter, setOgFilter}}>{children}</FilterContext.Provider>
     
 };
 

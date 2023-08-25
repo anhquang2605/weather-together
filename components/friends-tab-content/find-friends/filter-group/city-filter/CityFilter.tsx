@@ -12,17 +12,18 @@ interface CityFilterProps {
 const CityFilter: React.FC<CityFilterProps> = ({}) => {
     const {setFilter, setFilterBusy} = useFilter();
     const {data: session} = useSession();
-    const [option, setOption] = useState('all'); // ['all-city', 'nearby'
+    const [option, setOption] = useState('nearby'); // ['all-city', 'nearby'
     const user = session?.user;
     const cityOptions: CoolRadioOption[] = [
+        {
+            label: 'Nearby '+ user?.location?.city ,
+            value: 'nearby'
+        },
         {
             label: 'All',
             value: 'all'
         },
-        {
-            label: 'Nearby '+ user?.location?.city ,
-            value: 'nearby'
-        }
+       
     ]
     const handleChange = (value: string) => {
         setOption(value);
