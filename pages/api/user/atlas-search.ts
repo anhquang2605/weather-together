@@ -4,10 +4,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { UserInClient } from "../../../types/User";
 import { UserFilter } from "../../../components/friends-tab-content/find-friends/FilterContext";
 interface Should{
-    autocomplete: {
+    autocomplete?: {
         query: string,
         path: string,
-        tokenOrder: string
+        tokenOrder?: string
+    },
+    text?: {
+        query: string,
+        path: string
     }
 }
 export default async (req: NextApiRequest, res:NextApiResponse) => {
@@ -18,30 +22,34 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             const searchQuery = query? query as string : '';
             const usersCollection = db.collection('users');
             const fields = ['username', 'firstName', 'lastName', 'email', 'location.city', 'featuredWeather.name'];
-            const mustConditions = [];
             let lastCursorDate = null;
-
+            let shoulds:Should[] = [];
             if(filter){
                 const daFilter:UserFilter = JSON.parse(filter as string);
                 if (daFilter.nearbyCities.length > 0) {
-                    mustConditions.push({
-                        "text": {
-                            "query": daFilter.nearbyCities,
-                            "path": "location.city"
-                        }
-                    });
+                    for(let city of daFilter.nearbyCities){
+                        shoulds.push({
+                            autocomplete: {
+                                "query": city,
+                                "path": "location.city",
+                            }
+                        });
+                    }
                 }
                 
                 if (daFilter.featuredWeathers.length > 0) {
-                    mustConditions.push({
-                        "text": {
-                            "query": daFilter.featuredWeathers,
-                            "path": "featuredWeather"
-                        }
-                    });
+                    for(let weather of daFilter.featuredWeathers){
+                        shoulds.push({
+                            autocomplete: {
+                                "query": weather,
+                                "path": "featuredWeather.name",
+
+                            }
+                        });
+                    }
                 }
             }
-            let shoulds:Should[] = [];
+
             if(searchQuery.length > 0){
                 shoulds = fields.map(field => {
                     return {
@@ -60,15 +68,12 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 lastCursorDate = new Date();
             }
             const compountClauses = {
-                must: mustConditions,
                 should: shoulds
             }
-
             const agg = [
                 {'$search': {
                     index: "autocomplete-user-search", 
                     compound:{
-                        must: mustConditions,
                         should: shoulds
                     }
                     
@@ -80,7 +85,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 { $sort: { 'dateJoined': -1 } },
                 {'$limit': limit ? parseInt(limit as string) : 5},
             ];
-            if(mustConditions.length === 0 && shoulds.length === 0){
+            if( shoulds.length === 0){
                 agg.shift();
             }
             const results = await usersCollection.aggregate(agg).toArray(); 

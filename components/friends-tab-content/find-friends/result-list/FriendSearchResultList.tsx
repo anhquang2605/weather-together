@@ -1,21 +1,58 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './friend-search-result-list.module.css';
 import { UserInClient } from '../../../../types/User';
 import UserSearchCard from '../../../user/user-search-card/UserSearchCard';
 import {PiSmileyBlankLight} from 'react-icons/pi';
 import { IoSearch } from 'react-icons/io5';
+import { UserFilter, useFilter } from '../FilterContext';
+import { set } from 'lodash';
 
 interface FriendSearchResultListProps {
     results: UserInClient[];
     apiStatus: "idle" | "loading" | "success" | "error";
+    infiniteFetcher: (filter: UserFilter, lastCursor?: Date) => void;
+    lastCursor: Date | null;
 }
 
-const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results, apiStatus}) => {
+const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results, apiStatus, infiniteFetcher, lastCursor = new Date()}) => {
+    const [isFetching, setIsFetching] = React.useState(false);
+    const {filter} = useFilter();
     const resultJSX = () => {
         return results.map((user)=>
             <UserSearchCard variant="extra-large" key={user.username} user={user}/>
         )
     }
+    const handleObserver = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                handleOnIntersected();
+            }
+        });
+    }
+    const handleOnIntersected = async () => {
+        setIsFetching(true);
+        try{
+            await infiniteFetcher(filter, );
+        }catch(err){
+            console.log(err);
+        }finally{
+            setIsFetching(false);
+        }
+
+    }
+    useEffect(() => {
+        const optionsForObserver = {
+            root: document.querySelector(`.${style['result-list']}`), 
+        };
+        const observer = new IntersectionObserver(handleObserver, optionsForObserver);
+        const target = document.querySelector(`.${style['observer-target']}`);
+        if(target){
+            observer.observe(target);
+        }
+        return () => {
+            observer.disconnect();
+        }
+    },[])
     return (
         <div className={style['friend-search-result-list']}>
             {
@@ -47,6 +84,7 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
                     <>
                     <div className={style['result-list']}>
                          {resultJSX()}
+                         <div className={style['observer-target']}></div>
                     </div>
                     </>
                 }

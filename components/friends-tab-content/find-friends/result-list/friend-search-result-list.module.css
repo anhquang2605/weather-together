@@ -7,3 +7,9 @@
     align-items: start;
     @apply gap-8 mx-0 lg:mx-8;
 }
+.observer-target{
+    display: block;
+    height: 0;
+    width: 100%;
+    
+}

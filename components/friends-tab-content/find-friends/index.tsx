@@ -55,7 +55,7 @@ export default function FindFriends({}:FindFriendsProps) {
     const {data: session} = useSession();
     const user = session?.user;
     const {friendUsernames} = useContext(FriendsContext);
-    const SEARCH_LIMIT = 10;
+    const SEARCH_LIMIT = 3;
     const getAPIOptions = {
         method: 'GET'
     }
@@ -225,8 +225,21 @@ export default function FindFriends({}:FindFriendsProps) {
             setSearchResults([]);
         }
     }
-    const handleFilterFetch = async (filter: UserFilter, lastCursor?: Date) => {
+    const handleApplyFilter = async (filter: UserFilter, lastCursor?: Date) => {
         setApiStatus("loading");
+        const response = await handleFetch(filter, lastCursor);
+
+        if(response.status === 200){
+            const data = await response.json();
+            console.log(data);
+            setSearchResults(data.data);
+            setApiStatus("success");
+        }else{
+            setApiStatus("error");
+            setSearchResults([]);
+        }
+    }
+    const handleFetch = async (filter:UserFilter, lastCursor?: Date) => {
         const rawParams = {
             limit: SEARCH_LIMIT.toString(),
             filter: JSON.stringify(filter)
@@ -236,10 +249,15 @@ export default function FindFriends({}:FindFriendsProps) {
         }
         const params = new URLSearchParams(rawParams);
         const response = await fetch(`/api/user/atlas-search?${params.toString()}`);
+        return response;
+    }
+    const handleFetchMore = async (filter: UserFilter, lastCursor?: Date) => {
+        const response = await handleFetch(filter, lastCursor);
         if(response.status === 200){
             const data = await response.json();
-            console.log(data);
-            setSearchResults(data.data);
+            setSearchResults((prev) => {
+                return [...prev, ...data.data];
+            });
             setApiStatus("success");
         }else{
             setApiStatus("error");
@@ -281,10 +299,10 @@ export default function FindFriends({}:FindFriendsProps) {
                         <SearchBar placeholder='Search for new friends' query={searchQuery} setQuery={handleSearchBarInputChange} onSearch={handleOnSearch}/>
                         <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
                     </div>
-                    <FilterGroup resetSort={resetSort} handleFilterSearch={handleFilterFetch}/>
+                    <FilterGroup resetSort={resetSort} handleFilterSearch={handleApplyFilter}/>
                 </div>
 
-            <FriendSearchResultList  apiStatus={apiStatus} results={searchResults}/>
+            <FriendSearchResultList lastCursor={lastTimeStramp} infiniteFetcher={handleFetchMore}  apiStatus={apiStatus} results={searchResults}/>
             </div>
     )
 }
