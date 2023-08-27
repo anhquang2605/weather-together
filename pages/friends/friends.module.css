@@ -1,6 +1,7 @@
 
 .friends-page{
     width: 100%;
+    height: 100%;
     --tab-number: 3;
     --width: calc(100% / var(--tab-number));
     @apply p-8 pb-0 flex flex-col;
@@ -11,6 +12,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: row;
+    flex-shrink: 0;
     box-shadow: 0 0 5px 2px rgba(0,0,0,0.2);
     @apply border border-slate-400 p-1;
     @apply relative;
@@ -50,7 +52,8 @@
     @apply bg-transparent flex justify-center items-center;
     transition: all 0.2s ease-in-out;
     div{
-        @apply bg-indigo-800 rounded-full;
+        @apply rounded-full;
+        background-color: var(--btn-color);
         width: 90%;
         height: 2rem;
         transition: all 0.2s ease-in-out;

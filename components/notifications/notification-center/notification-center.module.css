@@ -7,7 +7,7 @@
     flex-direction: column;
 }
 .notification-badge{
-    background-color: var(--primary-color);
+    background-color: var(--btn-color);
     margin-left: auto;
     box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3);
     transition: all 0.1s ease-in-out;

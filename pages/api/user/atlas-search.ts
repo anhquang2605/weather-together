@@ -1,4 +1,4 @@
-import { pick } from "lodash";
+import { last, pick } from "lodash";
 import { connectDB } from "../../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from 'next'
 import { UserInClient } from "../../../types/User";
@@ -67,6 +67,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }else{
                 lastCursorDate = new Date();
             }
+            console.log(lastCursorDate);
             const compountClauses = {
                 should: shoulds
             }

@@ -1,7 +1,8 @@
 .find-friends{
     display: grid;
     grid-template-columns: 1fr 2fr;
-    @apply flex-grow relative;
+    overflow: hidden;
+    @apply relative h-full;
 }
 .controlGroup{
     @apply flex flex-col pt-8 px-8 border-r border-slate-400/50;

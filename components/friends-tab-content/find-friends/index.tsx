@@ -46,16 +46,17 @@ export default function FindFriends({}:FindFriendsProps) {
         lastName: true
     });//used to sort users in search
     const [currentSortCriterion, setCurrentSortCriterion] = useState<string>('dateJoined');
-    const [lastTimeStramp, setLastTimeStramp] = useState<Date | null>(null);//used to fetch users in search
+    const [initiallyFetched, setInitiallyFetched] = useState(false);//used to fetch users in search
+    const [lastTimeStramp, setLastTimeStramp] = useState<Date>(new Date());//used to fetch users in search
     const [searchSuggestions, setSearchSuggestions] = useState<UserInClient[]>([]); //
     const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
     const [searchStarted, setSearchStarted] = useState(false); //
-    const {filter} = useFilter();
+    const {filter, filterBusy} = useFilter();
     const {data: session} = useSession();
     const user = session?.user;
     const {friendUsernames} = useContext(FriendsContext);
-    const SEARCH_LIMIT = 3;
+    const SEARCH_LIMIT = 6;
     const getAPIOptions = {
         method: 'GET'
     }
@@ -155,24 +156,7 @@ export default function FindFriends({}:FindFriendsProps) {
             setApiStatus("error");
         }
     }
-    const handleSearchFriends = async (friendUsernames: Set<string>) => {
-        try{
-            setApiStatus("loading");
-            const option = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(Array.from(friendUsernames))
-            }
-            const path = '/api/user/by-usernames'
-            const response = await fetch(path, option);
-            return response;
-        }catch(e){
-            console.log(e);
-            setApiStatus("error");
-        }
-    }
+
     const handleOnSearch = async (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>) => {
         e.stopPropagation();
         const response = await handleSearchUsers(searchQuery, user?.username ?? "",SEARCH_LIMIT);
@@ -204,22 +188,22 @@ export default function FindFriends({}:FindFriendsProps) {
         return response;
     }
     const handleInitialSearch = async () => {
-        let cachedNearbyResults = JSON.parse(sessionStorage.getItem('nearbySearch') as string);
-        if(cachedNearbyResults){
-            setSearchResults(cachedNearbyResults);
-            setApiStatus("success");
-            return;
-        }
-        const response = await handleGetResultsFromNearby();
+        const response = await handleFetch(filter);
         if(response && response.status === 204){
             setApiStatus('idle');
             return;
         }
         if(response.status === 200){
             const data = await response.json();
-            sessionStorage.setItem('nearbySearch', JSON.stringify(data.data));
-            setSearchResults(data.data);
+            
+            setSearchResults(data.data.map((user:UserInClient) => {
+                return {
+                    ...user,
+                    dateJoined: new Date(user.dateJoined)
+                }
+            }));
             setApiStatus("success");
+            setInitiallyFetched(true);
         }else{
             setApiStatus("error");
             setSearchResults([]);
@@ -231,7 +215,6 @@ export default function FindFriends({}:FindFriendsProps) {
 
         if(response.status === 200){
             const data = await response.json();
-            console.log(data);
             setSearchResults(data.data);
             setApiStatus("success");
         }else{
@@ -264,6 +247,7 @@ export default function FindFriends({}:FindFriendsProps) {
             setSearchResults([]);
         }
     }
+    const debounceFetchMore = debounce(handleFetchMore, 1000);
     const handleResponseFromSearchEndpoints = async (response: Response, callback?:()=>void) => {
             const data = await response.json();
             setSearchResults(data.data);
@@ -278,8 +262,10 @@ export default function FindFriends({}:FindFriendsProps) {
     }
     useEffect(() => {
         //getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40')
-        handleInitialSearch();
-    }, []);
+        if(!filterBusy){
+            handleInitialSearch();
+        }
+    }, [filterBusy]);
     useEffect(()=>{
         if(searchQuery.length > 0){
             debounceSearch(searchQuery);
@@ -302,7 +288,7 @@ export default function FindFriends({}:FindFriendsProps) {
                     <FilterGroup resetSort={resetSort} handleFilterSearch={handleApplyFilter}/>
                 </div>
 
-            <FriendSearchResultList lastCursor={lastTimeStramp} infiniteFetcher={handleFetchMore}  apiStatus={apiStatus} results={searchResults}/>
+            <FriendSearchResultList initiallyFetched={initiallyFetched} lastCursor={lastTimeStramp} infiniteFetcher={debounceFetchMore}  apiStatus={apiStatus} results={searchResults}/>
             </div>
     )
 }

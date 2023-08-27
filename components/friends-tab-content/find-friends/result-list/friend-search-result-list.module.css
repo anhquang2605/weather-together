@@ -1,15 +1,13 @@
 .friend-search-result-list{
-    @apply p-8 overflow-hidden flex flex-col w-full;
+    height: max-content;
+    @apply my-auto inline-block overflow-y-scroll h-[calc(100%-4rem)];
 }
 .result-list{
     display: grid;
     grid-template-columns: 1fr;
     align-items: start;
-    @apply gap-8 mx-0 lg:mx-8;
+    @apply gap-8 mx-0 lg:mx-8 -mb-8;
 }
 .observer-target{
-    display: block;
-    height: 0;
-    width: 100%;
-    
+    @apply w-full;
 }

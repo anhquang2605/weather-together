@@ -1,5 +1,5 @@
 
-import {createContext, useContext, useState} from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
 export interface UserFilter{
     nearbyCities: string[];
     featuredWeathers: string[];
@@ -23,7 +23,11 @@ export function FilterProvider ({children}:FilterProviderProps) {
         featuredWeathers: []
     });
     const [ogFilter, setOgFilter] = useState<UserFilter|undefined>()
-    const [filterBusy, setFilterBusy] = useState<boolean>(false);
+    const [filterBusy, setFilterBusy] = useState<boolean>(true);
+    
+    useEffect(()=>{
+
+    },[])
     return <FilterContext.Provider value={{filter, setFilter, filterBusy, setFilterBusy, ogFilter, setOgFilter}}>{children}</FilterContext.Provider>
     
 };

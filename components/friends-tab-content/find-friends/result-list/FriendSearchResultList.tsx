@@ -11,28 +11,31 @@ interface FriendSearchResultListProps {
     results: UserInClient[];
     apiStatus: "idle" | "loading" | "success" | "error";
     infiniteFetcher: (filter: UserFilter, lastCursor?: Date) => void;
-    lastCursor: Date | null;
+    lastCursor: Date;
+    initiallyFetched: boolean;
 }
 
-const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results, apiStatus, infiniteFetcher, lastCursor = new Date()}) => {
+const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results, apiStatus, infiniteFetcher, lastCursor, initiallyFetched}) => {
     const [isFetching, setIsFetching] = React.useState(false);
     const {filter} = useFilter();
     const resultJSX = () => {
-        return results.map((user)=>
-            <UserSearchCard variant="extra-large" key={user.username} user={user}/>
+        return results.map((user,index)=>
+            <UserSearchCard variant="extra-large" key={index} user={user}/>
         )
     }
     const handleObserver = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+        console.log('here');
+        if (!initiallyFetched) return;
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                handleOnIntersected();
+               handleOnIntersected();
             }
         });
     }
     const handleOnIntersected = async () => {
         setIsFetching(true);
         try{
-            await infiniteFetcher(filter, );
+            await infiniteFetcher(filter, lastCursor);
         }catch(err){
             console.log(err);
         }finally{
@@ -40,19 +43,21 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
         }
 
     }
-    useEffect(() => {
-        const optionsForObserver = {
-            root: document.querySelector(`.${style['result-list']}`), 
-        };
-        const observer = new IntersectionObserver(handleObserver, optionsForObserver);
-        const target = document.querySelector(`.${style['observer-target']}`);
-        if(target){
-            observer.observe(target);
+    useEffect(()=>{
+        if(apiStatus === "success"){
+            const optionsForObserver = {
+                root: document.querySelector(`.${style['result-list']}`), 
+            };
+            const observer = new IntersectionObserver(handleObserver, optionsForObserver);
+            const target = document.querySelector(`.${style['observer-target']}`);
+            if(target){
+                observer.observe(target);
+            }
+            return () => {
+                observer.disconnect();
+            }
         }
-        return () => {
-            observer.disconnect();
-        }
-    },[])
+    },[apiStatus])
     return (
         <div className={style['friend-search-result-list']}>
             {

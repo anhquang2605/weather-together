@@ -57,7 +57,7 @@ const CityFilter: React.FC<CityFilterProps> = ({}) => {
 
             setCities(cities);
         })
-
+        
     },[])
     useEffect(() => {
         if(option === 'all'){
