@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import style from './user-search-card.module.css';
 import { UserInSearch } from '../../../types/User';
 import MiniAvatar from '../../activity/mini-avatar/MiniAvatar';
@@ -14,9 +14,30 @@ interface UserSearchCardProps {
 
 const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-large"}) => {
     const router = useRouter();
-    const {friendUsernames} = useContext(FriendsContext);
+    const [cardUser, setCarUser] = useState<UserInSearch>(user)
     const navigateToProfile = (username:string) => {
         router.push(`/profile/${username}`);
+    }
+    const buddyStatusRenderer = (status:string) => {
+        switch(status){
+            case 'accepted':
+                return  <div className={`${style['buddy-badge']}`}>
+                            <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2 border border-indigo-700 rounded-full`}/> 
+                            <span className={`${style['friend-title']}`}>Buddy</span>
+                        </div>
+            case 'pending':
+                return  <div className={`${style['buddy-badge']}`}>
+                            <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2 border border-indigo-700 rounded-full`}/>
+                            <span className={`${style['friend-title']}`}>Pending</span>
+                        </div>
+            default:
+                return <button title="" className={`${style.addFriendButton} action-btn`}>
+                            Add buddy
+                        </button>
+        }
+    }
+    const handleAddBuddy = async () => {
+        
     }
     return (
         <div title="View Profile" onClick={()=>{
@@ -44,17 +65,7 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
             </div>
            
                 {
-                    friendUsernames.has(user.username) ?
-                        <div className={`${style['buddy-badge']}`}>
-                            <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2 border border-indigo-700 rounded-full`}/> 
-                            <span className={`${style['friend-title']}`}>Buddy</span>
-                        </div>
-                        
-
-                    :
-                    <button title="" className={`${style.addFriendButton} action-btn`}>
-                        Add buddy
-                    </button>
+                   buddyStatusRenderer(user.friendStatus)
                 }
         </div>
     );

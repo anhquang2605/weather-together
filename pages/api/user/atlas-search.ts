@@ -115,7 +115,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                               {
                                 $or: [
                                   { username: username },
-                                  { relatedUsername: username },
+                                  { targetUsername: username },
                                 ]
                               }
                             ]

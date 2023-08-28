@@ -61,7 +61,5 @@ export interface UserInSearch{
     firstName: string,
     lastName: string,
     email: string;
-    friendStatus: {
-        status: string,
-    }
+    friendStatus: string;
 }
