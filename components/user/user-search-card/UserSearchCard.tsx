@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import style from './user-search-card.module.css';
-import { UserInClient } from '../../../types/User';
+import { UserInSearch } from '../../../types/User';
 import MiniAvatar from '../../activity/mini-avatar/MiniAvatar';
 import FeaturedWeatherBadge from '../featured-weather-badge/FeaturedWeatherBadge';
 import { useRouter } from 'next/router';
 import {LiaUserFriendsSolid} from 'react-icons/lia';
-import { FriendsContext } from '../../../pages/friends/FriendsContext';
+import { FriendsContext } from '../../../pages/buddies/FriendsContext';
 
 interface UserSearchCardProps {
-    user: UserInClient;
+    user: UserInSearch;
     variant: 'small' | 'extra-large';
 }
 
@@ -53,7 +53,7 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
 
                     :
                     <button title="" className={`${style.addFriendButton} action-btn`}>
-                        Add friend
+                        Add buddy
                     </button>
                 }
         </div>

@@ -19,7 +19,7 @@ export default function Navigation() {
     const withUser = [
         {label: "My Hub", pageTitle: "weather hub", linkhref: `userprofile/${user?.username}`},
         {label: "Home", pageTitle: "home", linkhref: ""},
-        {label: "Friends", pageTitle: "friends", linkhref: "friends"},
+        {label: "Buddies", pageTitle: "buddies", linkhref: "buddies"},
         {label: "Settings", pageTitle: "settings", linkhref: "settings"}
     ]
     const toggleNavMenu = () => {

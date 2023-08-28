@@ -52,3 +52,16 @@ export interface UserInClient{
     lastName: string,
     email: string;
 }
+export interface UserInSearch{
+    username: string,
+    location: Location | null,
+    profilePicturePath: string,
+    featuredWeather?: Weather,
+    dateJoined: Date,
+    firstName: string,
+    lastName: string,
+    email: string;
+    friendStatus: {
+        status: string,
+    }
+}

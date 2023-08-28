@@ -22,7 +22,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className, navi
     const count = 70;
     const {asPath} = useRouter();
     const labelToIcon:LabelToIconMap = {
-        "Friends": <IoPeople></IoPeople>,
+        "Buddies": <IoPeople></IoPeople>,
         "Home": <FaNewspaper/>,
         "Settings": <IoSettings/>,
         "My Hub":  <MiniAvatar size="small" className={style.bottomNavAvatar} profilePicturePath={user?.profilePicturePath || ""} username={user?.username}/>,

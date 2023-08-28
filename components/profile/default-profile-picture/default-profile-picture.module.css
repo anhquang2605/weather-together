@@ -5,5 +5,5 @@
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    @apply  text-3xl font-semibold;
+    @apply  text-3xl font-semibold text-slate-100 !important;
 }

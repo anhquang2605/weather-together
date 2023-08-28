@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
 import style from './find-friends.module.css'
 import SearchBar from '../../plugins/search-bar/SearchBar'
-import { UserInClient} from './../../../types/User'
+import { UserInSearch} from './../../../types/User'
 import { useSession } from 'next-auth/react';
 import FriendSearchResultList from './result-list/FriendSearchResultList';
 import { getCitiesFromLongLat, getNearbyCityNamesByLongLatName } from '../../../libs/geodb';
 import SuggestionDropDown from '../../plugins/search-bar/suggestion-drop-down/SuggestionDropDown';
 import UserSearchCard from '../../user/user-search-card/UserSearchCard';
-import { FriendsContext } from '../../../pages/friends/FriendsContext';
+import { FriendsContext } from '../../../pages/buddies/FriendsContext';
 import {  UserFilter, useFilter } from './FilterContext';
 import FilterGroup from './filter-group/FilterGroup';
 
@@ -28,13 +28,13 @@ interface SortCriterion {
     [key: string]: boolean; //true for ascending, false for descending
 }
 const sortComparators = {
-    dateJoined: (a: UserInClient, b: UserInClient) => {
+    dateJoined: (a: UserInSearch, b: UserInSearch) => {
         return a.dateJoined.getTime() - b.dateJoined.getTime();
     },
-    firstName: (a: UserInClient, b: UserInClient) => {
+    firstName: (a: UserInSearch, b: UserInSearch) => {
         return a.firstName.localeCompare(b.firstName);
     },
-    lastName: (a: UserInClient, b: UserInClient) => {
+    lastName: (a: UserInSearch, b: UserInSearch) => {
         return a.lastName.localeCompare(b.lastName);
     }
 }
@@ -48,8 +48,8 @@ export default function FindFriends({}:FindFriendsProps) {
     const [currentSortCriterion, setCurrentSortCriterion] = useState<string>('dateJoined');
     const [initiallyFetched, setInitiallyFetched] = useState(false);//used to fetch users in search
     const [lastTimeStramp, setLastTimeStramp] = useState<Date | undefined>();//used to fetch users in search
-    const [searchSuggestions, setSearchSuggestions] = useState<UserInClient[]>([]); //
-    const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
+    const [searchSuggestions, setSearchSuggestions] = useState<UserInSearch[]>([]); //
+    const [searchResults, setSearchResults] = useState<UserInSearch[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
     const [searchStarted, setSearchStarted] = useState(false); //
     const [hasMore,setHasMore] = useState(true); //
@@ -57,7 +57,7 @@ export default function FindFriends({}:FindFriendsProps) {
     const {data: session} = useSession();
     const user = session?.user;
     const {friendUsernames} = useContext(FriendsContext);
-    const SEARCH_LIMIT = 5;
+    const SEARCH_LIMIT = 7;
     const getAPIOptions = {
         method: 'GET'
     }
@@ -69,7 +69,7 @@ export default function FindFriends({}:FindFriendsProps) {
             }
         });
     }
-    const getSortComparator = (criterion: string, a:UserInClient, b:UserInClient, isAscending: boolean) => {
+    const getSortComparator = (criterion: string, a:UserInSearch, b:UserInSearch, isAscending: boolean) => {
         const comparitor = sortComparators[criterion as keyof typeof sortComparators];
         const ascMultiplier = isAscending ? 1 : -1;
         const diff = ascMultiplier * comparitor(a,b)
@@ -80,7 +80,7 @@ export default function FindFriends({}:FindFriendsProps) {
         
     }
     
-    const mergeSort = (currSorted: UserInClient[], fetched: UserInClient[], criterion: string, order: boolean) => {
+    const mergeSort = (currSorted: UserInSearch[], fetched: UserInSearch[], criterion: string, order: boolean) => {
         const merged = [];
         let i = 0;
         let j = 0;//we know that fetched is sorted and is less in length
@@ -214,9 +214,9 @@ export default function FindFriends({}:FindFriendsProps) {
             setSearchResults([]);
         }
     }
-    const handleSetResults = (results: UserInClient[], more: boolean, isAppendending?: boolean) => {
+    const handleSetResults = (results: UserInSearch[], more: boolean, isAppendending?: boolean) => {
         let finalResults = []
-        let convertedResults = results.map((user:UserInClient) => {
+        let convertedResults = results.map((user:UserInSearch) => {
             return {
                 ...user,
                 dateJoined: new Date(user.dateJoined)
@@ -265,7 +265,7 @@ export default function FindFriends({}:FindFriendsProps) {
             console.log(data);
             setApiStatus("success");
     }
-    const suggestionRenderer = (suggestion: UserInClient, index: number) => {
+    const suggestionRenderer = (suggestion: UserInSearch, index: number) => {
         return (
             <div key={index} className={style['suggestion-item']}>
                 <UserSearchCard variant={'small'} user={suggestion}/>
@@ -287,7 +287,7 @@ export default function FindFriends({}:FindFriendsProps) {
     },[searchQuery])
     useEffect(()=>{
         if(searchResults.length > 0){
-            console.log(searchResults[searchResults.length - 1].dateJoined);
+            console.log(searchResults);
             setLastTimeStramp(searchResults[searchResults.length - 1].dateJoined);
         }
     },[searchResults])

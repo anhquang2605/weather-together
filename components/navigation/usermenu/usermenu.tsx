@@ -20,7 +20,7 @@ interface LabelToIconMap {[label:string] : JSX.Element};
 export default function UserMenu({withUser, user, handleSignOut}: UserMenuProps) {
     const {asPath} = useRouter();
     const labelToIcon:LabelToIconMap = {
-        "Friends": <IoPeople></IoPeople>,
+        "Buddies": <IoPeople></IoPeople>,
         "Home": <FaNewspaper/>,
         "Settings": <IoSettings/>,
         "My Hub": <MiniAvatar size="compacted-nav" username={user?.username} profilePicturePath={user?.profilePicturePath ?? ""} />,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import style from './friend-search-result-list.module.css';
-import { UserInClient } from '../../../../types/User';
+import { UserInSearch } from '../../../../types/User';
 import UserSearchCard from '../../../user/user-search-card/UserSearchCard';
 import {PiSmileyBlankLight} from 'react-icons/pi';
 import { IoSearch, IoSunnyOutline, IoSync } from 'react-icons/io5';
@@ -9,7 +9,7 @@ import { last, set } from 'lodash';
 import { init } from 'next/dist/compiled/@vercel/og/satori';
 
 interface FriendSearchResultListProps {
-    results: UserInClient[];
+    results: UserInSearch[];
     apiStatus: "idle" | "loading" | "success" | "error";
     infiniteFetcher: (filter: UserFilter, lastCursor?: Date) => void;
     lastCursor: Date | undefined;

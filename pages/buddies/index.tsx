@@ -14,14 +14,14 @@ interface TabIconsMap {
 }
 function Friends(){
     const tabLabels = [
-        "Friend lists",
-        "Find friends",
-        "Friend requests"
+        "Buddy lists",
+        "Find buddies",
+        "Buddy requests"
     ]
     const tabIcons:TabIconsMap = {
-        "Friend lists": <CgUserList/>,
-        "Find friends":  <CgPlayListSearch/>,
-        "Friend requests": <CgUserAdd/>
+        "Buddy lists": <CgUserList/>,
+        "Find buddies":  <CgPlayListSearch/>,
+        "Buddy requests": <CgUserAdd/>
     }
     const [activeTab, setActiveTab] = React.useState(0);
     const [friendUsernames, setFriendUsernames] = React.useState<Set<string>>(new Set());

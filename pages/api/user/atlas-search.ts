@@ -1,7 +1,7 @@
 import { last, pick } from "lodash";
 import { connectDB } from "../../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from 'next'
-import { UserInClient } from "../../../types/User";
+import { UserInClient, UserInSearch } from "../../../types/User";
 import { UserFilter } from "../../../components/friends-tab-content/find-friends/FilterContext";
 interface Should{
     autocomplete?: {
@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let filterKeysNumber = 0;
             let filterKeyToPath: FilterKeyToPath = {
                 'nearbyCities': 'location.city',
-                'featuredWeather': 'featuredWeather.name'
+                'featuredWeathers': 'featuredWeather.name'
             }
             if(filter){
                 filterKeysNumber = Object.keys(filter).length;
@@ -98,12 +98,52 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 }},
                 { $sort: { 'dateJoined': -1 } },
                 {'$limit': limit ? parseInt(limit as string) + 1 : 5},
+                {
+                    $lookup: {
+                      from: 'friend_requests',
+                      let: { username: '$username' },
+                      pipeline: [
+                        {
+                          $match: {
+                            $and: [
+                              {
+                                $or: [
+                                  { $expr: { $eq: ['$username', '$$username'] } },
+                                  { $expr: { $eq: ['$targetUsername', '$$username'] } }
+                                ]
+                              },
+                              {
+                                $or: [
+                                  { username: username },
+                                  { relatedUsername: username },
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                      ],
+                      as: 'friendStatus'
+                    }
+                  },
+                  {
+                    $unwind: {
+                      path: '$friendStatus',
+                      preserveNullAndEmptyArrays: true
+                    }
+                  },
+                  {
+                    $addFields: {
+                      friendStatus: {
+                        $ifNull: ['$friendStatus.status', 'stranger'],
+                      }
+                    }
+                  }
             ];
             if( searchQuery === "" && compoundClauses.length === 0){
                 agg.shift();
             }
             const results = await usersCollection.aggregate(agg).toArray(); 
-            const filteredUsers: UserInClient[] = results.map((user)=>{
+            const filteredUsers: UserInSearch[] = results.map((user)=>{
                 const filteredUser = pick(user, [
                     'username',
                     'location',
@@ -112,7 +152,8 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     'firstName',
                     'lastName',
                     'profilePicturePath',
-                    'dateJoined'
+                    'dateJoined',
+                    'friendStatus',
                 ])
                 filteredUser.dateJoined = user.dateJoined.toISOString();
                 return filteredUser;
