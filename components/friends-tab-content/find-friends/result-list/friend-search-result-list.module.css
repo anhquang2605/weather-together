@@ -12,3 +12,12 @@
     @apply w-full h-0 absolute top-full;
 
 }
+.loading-indicator{
+    @apply w-full h-[100px] flex justify-center items-center bg-slate-500 rounded-lg shadow-md animate-pulse;
+}
+.end-of-list{
+    @apply w-full flex flex-row justify-center;
+    span svg{
+        @apply stroke-yellow-300 w-8 h-8 mx-1;
+    }
+}

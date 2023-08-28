@@ -3,9 +3,10 @@ import style from './friend-search-result-list.module.css';
 import { UserInClient } from '../../../../types/User';
 import UserSearchCard from '../../../user/user-search-card/UserSearchCard';
 import {PiSmileyBlankLight} from 'react-icons/pi';
-import { IoSearch } from 'react-icons/io5';
+import { IoSearch, IoSunnyOutline, IoSync } from 'react-icons/io5';
 import { UserFilter, useFilter } from '../FilterContext';
-import { set } from 'lodash';
+import { last, set } from 'lodash';
+import { init } from 'next/dist/compiled/@vercel/og/satori';
 
 interface FriendSearchResultListProps {
     results: UserInClient[];
@@ -13,9 +14,10 @@ interface FriendSearchResultListProps {
     infiniteFetcher: (filter: UserFilter, lastCursor?: Date) => void;
     lastCursor: Date | undefined;
     initiallyFetched: boolean;
+    hasMore: boolean;
 }
 
-const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results, apiStatus, infiniteFetcher, lastCursor, initiallyFetched}) => {
+const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results, apiStatus, infiniteFetcher, lastCursor, initiallyFetched, hasMore}) => {
     const [isFetching, setIsFetching] = React.useState(false);
     const {filter} = useFilter();
     const resultJSX = () => {
@@ -23,33 +25,33 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
             <UserSearchCard variant="extra-large" key={index} user={user}/>
         )
     }
-    const handleObserver = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-        console.log('here');
-        if (!initiallyFetched) return;
+    const handleObserver = (entries: IntersectionObserverEntry[], observer: IntersectionObserver, lastCursor?: Date) => {
+
+        if (!hasMore || !initiallyFetched) return;
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-               handleOnIntersected();
+               handleOnIntersected(lastCursor);
             }
         });
     }
-    const handleOnIntersected = async () => {
+    const handleOnIntersected = async (lastCursor?: Date) => {
         setIsFetching(true);
         try{
+            console.log(lastCursor);
             await infiniteFetcher(filter, lastCursor);
         }catch(err){
             console.log(err);
         }finally{
-            setIsFetching(false);
+                setIsFetching(false);
         }
 
     }
     useEffect(()=>{
-        if(apiStatus === "success"){
+        if(apiStatus === "success" && lastCursor){
             const optionsForObserver = {
-                root: document.querySelector(`.${style['result-list']}`), 
-                rootMargin: '100px',
+                root: document.querySelector(`.${style['friend-search-result-list']}`), 
             };
-            const observer = new IntersectionObserver(handleObserver, optionsForObserver);
+            const observer = new IntersectionObserver((entries, observer) => handleObserver(entries,observer,lastCursor), optionsForObserver);
             const target = document.querySelector(`.${style['observer-target']}`);
             if(target){
                 observer.observe(target);
@@ -58,7 +60,10 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
                 observer.disconnect();
             }
         }
-    },[apiStatus])
+    },[apiStatus, lastCursor])
+    useEffect(()=>{
+        console.log(lastCursor);
+    },[lastCursor]);
     return (
         <div className={style['friend-search-result-list']}>
             {
@@ -90,6 +95,14 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
                     <>
                     <div className={style['result-list']}>
                          {resultJSX()}
+                        {isFetching && <div className={style['loading-indicator']}>
+                                <IoSync className="mr-1 icon animate-spin"/>
+                                <span className="flex flex-row items-center">Getting more</span>
+                               
+                         </div>}
+                         {!hasMore && <div className={style['end-of-list']}>
+                                <span className="flex flex-row items-center">Weather report: Clear skies <IoSunnyOutline /> and no more folks to load!</span>
+                            </div>}
                          <div className={style['observer-target']}></div>
                     </div>
                     </>

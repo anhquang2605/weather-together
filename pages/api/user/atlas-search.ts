@@ -83,7 +83,6 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }else{
                 lastCursorDate = new Date();
             }
-            console.log(typeof lastCursorDate,lastCursorDate, username);
             const agg = [
                 {'$search': {
                     index: "autocomplete-user-search", 
@@ -98,7 +97,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     'dateJoined': { '$lt': lastCursorDate }
                 }},
                 { $sort: { 'dateJoined': -1 } },
-                {'$limit': limit ? parseInt(limit as string) : 5},
+                {'$limit': limit ? parseInt(limit as string) + 1 : 5},
             ];
             if( searchQuery === "" && compoundClauses.length === 0){
                 agg.shift();
@@ -118,9 +117,14 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 filteredUser.dateJoined = user.dateJoined.toISOString();
                 return filteredUser;
             })
+            const hasMore = filteredUsers.length > parseInt(limit as string);
+            if(hasMore){
+                filteredUsers.pop();
+            }
             res.status(200).json({
                 success: true,
-                data: filteredUsers
+                data: filteredUsers,
+                hasMore,
             });
         }else{
             res.status(500).json({ error: 'DB connection error' });

@@ -52,11 +52,12 @@ export default function FindFriends({}:FindFriendsProps) {
     const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
     const [searchStarted, setSearchStarted] = useState(false); //
+    const [hasMore,setHasMore] = useState(true); //
     const {filter, filterBusy} = useFilter();
     const {data: session} = useSession();
     const user = session?.user;
     const {friendUsernames} = useContext(FriendsContext);
-    const SEARCH_LIMIT = 6;
+    const SEARCH_LIMIT = 5;
     const getAPIOptions = {
         method: 'GET'
     }
@@ -194,15 +195,7 @@ export default function FindFriends({}:FindFriendsProps) {
             return;
         }
         if(response.status === 200){
-            const data = await response.json();
-            
-            setSearchResults(data.data.map((user:UserInClient) => {
-                return {
-                    ...user,
-                    dateJoined: new Date(user.dateJoined)
-                }
-            }));
-            setApiStatus("success");
+            handleResponseFromSearchEndpoints(response);
             setInitiallyFetched(true);
         }else{
             setApiStatus("error");
@@ -215,13 +208,27 @@ export default function FindFriends({}:FindFriendsProps) {
         const response = await handleFetch(filter);
 
         if(response.status === 200){
-            const data = await response.json();
-            setSearchResults(data.data);
-            setApiStatus("success");
+            handleResponseFromSearchEndpoints(response);
         }else{
             setApiStatus("error");
             setSearchResults([]);
         }
+    }
+    const handleSetResults = (results: UserInClient[], more: boolean, isAppendending?: boolean) => {
+        let finalResults = []
+        let convertedResults = results.map((user:UserInClient) => {
+            return {
+                ...user,
+                dateJoined: new Date(user.dateJoined)
+            }
+        })
+        if(isAppendending){ 
+            finalResults = [...searchResults, ...convertedResults];
+        } else {
+            finalResults = convertedResults;
+        }
+        setSearchResults(finalResults);
+        setHasMore(more);
     }
     const handleFetch = async (filter:UserFilter, lastCursor?: Date) => {
         const rawParams = {
@@ -243,9 +250,8 @@ export default function FindFriends({}:FindFriendsProps) {
         const response = await handleFetch(filter, lastCursor);
         if(response.status === 200){
             const data = await response.json();
-            setSearchResults((prev) => {
-                return [...prev, ...data.data];
-            });
+            console.log(data);
+            handleSetResults(data.data, data.hasMore, true);
             setApiStatus("success");
         }else{
             setApiStatus("error");
@@ -255,7 +261,8 @@ export default function FindFriends({}:FindFriendsProps) {
     const debounceFetchMore = debounce(handleFetchMore, 1000);
     const handleResponseFromSearchEndpoints = async (response: Response, callback?:()=>void) => {
             const data = await response.json();
-            setSearchResults(data.data);
+            handleSetResults(data.data, data.hasMore);
+            console.log(data);
             setApiStatus("success");
     }
     const suggestionRenderer = (suggestion: UserInClient, index: number) => {
@@ -280,6 +287,7 @@ export default function FindFriends({}:FindFriendsProps) {
     },[searchQuery])
     useEffect(()=>{
         if(searchResults.length > 0){
+            console.log(searchResults[searchResults.length - 1].dateJoined);
             setLastTimeStramp(searchResults[searchResults.length - 1].dateJoined);
         }
     },[searchResults])
@@ -293,7 +301,7 @@ export default function FindFriends({}:FindFriendsProps) {
                     <FilterGroup resetSort={resetSort} handleFilterSearch={handleApplyFilter}/>
                 </div>
 
-            <FriendSearchResultList initiallyFetched={initiallyFetched} lastCursor={lastTimeStramp} infiniteFetcher={debounceFetchMore}  apiStatus={apiStatus} results={searchResults}/>
+            <FriendSearchResultList hasMore={hasMore} initiallyFetched={initiallyFetched} lastCursor={lastTimeStramp} infiniteFetcher={debounceFetchMore}  apiStatus={apiStatus} results={searchResults}/>
             </div>
     )
 }
