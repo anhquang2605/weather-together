@@ -11,7 +11,7 @@ interface FriendSearchResultListProps {
     results: UserInClient[];
     apiStatus: "idle" | "loading" | "success" | "error";
     infiniteFetcher: (filter: UserFilter, lastCursor?: Date) => void;
-    lastCursor: Date;
+    lastCursor: Date | undefined;
     initiallyFetched: boolean;
 }
 
@@ -47,6 +47,7 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
         if(apiStatus === "success"){
             const optionsForObserver = {
                 root: document.querySelector(`.${style['result-list']}`), 
+                rootMargin: '100px',
             };
             const observer = new IntersectionObserver(handleObserver, optionsForObserver);
             const target = document.querySelector(`.${style['observer-target']}`);

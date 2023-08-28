@@ -4,9 +4,9 @@
     color: var(--primary-color);
     transition: all 0.1s ease-in-out;
     @apply bg-slate-200 rounded-lg p-4 shadow-md items-center;
-    
     &:hover{
-        @apply cursor-pointer shadow-lg scale-105;
+        @apply cursor-pointer bg-slate-300;
+        transform: scale(1.03)
         
     }
     &.small{

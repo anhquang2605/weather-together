@@ -47,7 +47,7 @@ export default function FindFriends({}:FindFriendsProps) {
     });//used to sort users in search
     const [currentSortCriterion, setCurrentSortCriterion] = useState<string>('dateJoined');
     const [initiallyFetched, setInitiallyFetched] = useState(false);//used to fetch users in search
-    const [lastTimeStramp, setLastTimeStramp] = useState<Date>(new Date());//used to fetch users in search
+    const [lastTimeStramp, setLastTimeStramp] = useState<Date | undefined>();//used to fetch users in search
     const [searchSuggestions, setSearchSuggestions] = useState<UserInClient[]>([]); //
     const [searchResults, setSearchResults] = useState<UserInClient[]>([]); //
     const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle"); //
@@ -209,9 +209,10 @@ export default function FindFriends({}:FindFriendsProps) {
             setSearchResults([]);
         }
     }
-    const handleApplyFilter = async (filter: UserFilter, lastCursor?: Date) => {
+    const handleApplyFilter = async (filter: UserFilter) => {
         setApiStatus("loading");
-        const response = await handleFetch(filter, lastCursor);
+        console.log(filter);
+        const response = await handleFetch(filter);
 
         if(response.status === 200){
             const data = await response.json();
@@ -225,16 +226,20 @@ export default function FindFriends({}:FindFriendsProps) {
     const handleFetch = async (filter:UserFilter, lastCursor?: Date) => {
         const rawParams = {
             limit: SEARCH_LIMIT.toString(),
-            filter: JSON.stringify(filter)
+            filter: JSON.stringify(filter),
+            username: user?.username ?? ""
         }
         if(lastCursor){
-            rawParams['lastCursor' as keyof typeof rawParams] = lastCursor.toISOString();
+            rawParams['lastCursor' as keyof typeof rawParams] = typeof lastCursor === "object" ? lastCursor.toISOString() : lastCursor;
         }
         const params = new URLSearchParams(rawParams);
         const response = await fetch(`/api/user/atlas-search?${params.toString()}`);
         return response;
     }
-    const handleFetchMore = async (filter: UserFilter, lastCursor?: Date) => {
+    const handleFetchMore = async (filter: UserFilter, lastCursor: Date) => {
+        if(!lastCursor){
+            return;
+        }
         const response = await handleFetch(filter, lastCursor);
         if(response.status === 200){
             const data = await response.json();

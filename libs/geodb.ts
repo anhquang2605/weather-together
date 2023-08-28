@@ -97,5 +97,6 @@ export async function getNearbyCityNamesByLongLatName(latitue: string, longitude
         cities = await getNearbyCities(cityId?.toString() , radius);
     }
     let cityNames = cities.map((city: City) => city.name);
+    cityNames.push(cityName);
     return cityNames;
 }

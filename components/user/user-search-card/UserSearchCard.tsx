@@ -52,7 +52,7 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
                         
 
                     :
-                    <button className={`${style.addFriendButton} action-btn`}>
+                    <button title="" className={`${style.addFriendButton} action-btn`}>
                         Add friend
                     </button>
                 }

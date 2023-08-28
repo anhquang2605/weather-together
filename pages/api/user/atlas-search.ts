@@ -14,6 +14,15 @@ interface Should{
         path: string
     }
 }
+
+interface Compound{
+    compound: {
+        should: Should[],
+    }
+}
+interface FilterKeyToPath{
+    [key: string]: string
+}
 export default async (req: NextApiRequest, res:NextApiResponse) => {
     if (req.method === 'GET') {
         const db = await connectDB();
@@ -23,31 +32,38 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             const usersCollection = db.collection('users');
             const fields = ['username', 'firstName', 'lastName', 'email', 'location.city', 'featuredWeather.name'];
             let lastCursorDate = null;
-            let shoulds:Should[] = [];
+            let shoulds: Should[] = [];
+            let compoundClauses: Compound[] = []; 
+            let filterKeysNumber = 0;
+            let filterKeyToPath: FilterKeyToPath = {
+                'nearbyCities': 'location.city',
+                'featuredWeather': 'featuredWeather.name'
+            }
             if(filter){
+                filterKeysNumber = Object.keys(filter).length;
                 const daFilter:UserFilter = JSON.parse(filter as string);
-                if (daFilter.nearbyCities.length > 0) {
-                    for(let city of daFilter.nearbyCities){
-                        shoulds.push({
-                            autocomplete: {
-                                "query": city,
-                                "path": "location.city",
+                for(let key in daFilter){
+                    let filterValues = daFilter[key as keyof typeof daFilter];
+                    let shoulds: Should[] = [];
+                    if(filterValues.length > 0){
+                        for(let value of filterValues){
+                            shoulds.push({
+                                autocomplete: {
+                                    "query": value,
+                                    "path": filterKeyToPath[key],
+                                }
+                            });
+                        }
+                        let compoundClause: Compound = {
+                            "compound": {
+                                "should": shoulds
                             }
-                        });
+                        }
+                        compoundClauses.push(compoundClause);
                     }
-                }
-                
-                if (daFilter.featuredWeathers.length > 0) {
-                    for(let weather of daFilter.featuredWeathers){
-                        shoulds.push({
-                            autocomplete: {
-                                "query": weather,
-                                "path": "featuredWeather.name",
 
-                            }
-                        });
-                    }
                 }
+
             }
 
             if(searchQuery.length > 0){
@@ -67,15 +83,13 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }else{
                 lastCursorDate = new Date();
             }
-            console.log(lastCursorDate);
-            const compountClauses = {
-                should: shoulds
-            }
+            console.log(typeof lastCursorDate,lastCursorDate, username);
             const agg = [
                 {'$search': {
                     index: "autocomplete-user-search", 
                     compound:{
-                        should: shoulds
+                        should: shoulds,
+                        must: compoundClauses
                     }
                     
                 }},
@@ -86,7 +100,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 { $sort: { 'dateJoined': -1 } },
                 {'$limit': limit ? parseInt(limit as string) : 5},
             ];
-            if( shoulds.length === 0){
+            if( searchQuery === "" && compoundClauses.length === 0){
                 agg.shift();
             }
             const results = await usersCollection.aggregate(agg).toArray(); 
@@ -101,6 +115,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     'profilePicturePath',
                     'dateJoined'
                 ])
+                filteredUser.dateJoined = user.dateJoined.toISOString();
                 return filteredUser;
             })
             res.status(200).json({
