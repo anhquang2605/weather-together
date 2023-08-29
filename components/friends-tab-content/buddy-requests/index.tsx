@@ -26,7 +26,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
     }
     return (
         <div className={style['buddy-request-tab-content']}>
-
+            
         </div>
     );
 };
