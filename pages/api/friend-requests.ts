@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if(db){
         const friend_requests: Collection<FriendRequest> = db.collection('friend_requests');
         switch (method) {
-            case 'GET':
+            case 'GET'://get user associated with friend request
                 const {username, lastCursor, limit, active} = req.query;
                 const fieldToMatch = active === 'true' ? 'username' : 'targetUsername';
                 const fieldToLookup = active === 'true' ? 'targetUsername' : 'username';
@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                           }
                         },
                         {
-                          $limit: parseInt(limit ? limit as string : '10')
+                          $limit: parseInt(limit ? limit as string : '10') + 1
                         },
                         {
                           $lookup: {
@@ -63,7 +63,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     if(active_requests.length > 0){
                         res.status(200).json({
                             success: true,
-                            data: active_requests
+                            data: active_requests,
+                            hasMore: active_requests.length > parseInt(limit ? limit as string : '10'),
                         });
                     }else{
                         res.status(204).end();

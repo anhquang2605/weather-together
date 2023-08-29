@@ -1,6 +1,7 @@
 import { Session } from "next-auth";
 import { Location } from "./location";
 import { Weather } from "./Weather";
+import { ObjectId } from "mongodb";
 export interface Information {
     firstName?: string,
     lastName?: string,
@@ -62,4 +63,17 @@ export interface UserInSearch{
     lastName: string,
     email: string;
     friendStatus: string;
+}
+export interface UserInFriendRequests{
+    _id: string | ObjectId,
+    username: string,
+    targetUsername: string,
+    createdDate: Date,
+    updatedDate: Date,
+    status: string,
+    associatedProfilePicture: string,
+    associatedFirstName: string,
+    associatedLastName: string,
+    associatedLocation: Location | null,
+    associatedFeaturedWeather: Weather | null
 }
