@@ -6,6 +6,9 @@ import FeaturedWeatherBadge from '../featured-weather-badge/FeaturedWeatherBadge
 import { useRouter } from 'next/router';
 import {LiaUserFriendsSolid} from 'react-icons/lia';
 import { FriendsContext } from '../../../pages/buddies/FriendsContext';
+import { RiPassPendingLine } from 'react-icons/ri';
+import { useSession } from 'next-auth/react';
+import { set } from 'lodash';
 
 interface UserSearchCardProps {
     user: UserInSearch;
@@ -14,7 +17,9 @@ interface UserSearchCardProps {
 
 const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-large"}) => {
     const router = useRouter();
-    const [cardUser, setCarUser] = useState<UserInSearch>(user)
+    const {data: session} = useSession();
+    const account_user = session?.user;
+    const [cardUser, setCardUser] = useState<UserInSearch>(user);
     const navigateToProfile = (username:string) => {
         router.push(`/profile/${username}`);
     }
@@ -27,45 +32,65 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
                         </div>
             case 'pending':
                 return  <div className={`${style['buddy-badge']}`}>
-                            <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2 border border-indigo-700 rounded-full`}/>
-                            <span className={`${style['friend-title']}`}>Pending</span>
+                            <RiPassPendingLine className={`${style['friend-icon']} icon mr-2`}/>
+                            <span className={`${style['friend-title']}`}>Pending...</span>
                         </div>
             default:
-                return <button title="" className={`${style.addFriendButton} action-btn`}>
+                return <button title="" onClick={(e) => handleAddBuddy} className={`${style.addFriendButton} action-btn`}>
                             Add buddy
                         </button>
         }
     }
-    const handleAddBuddy = async () => {
+    const handleAddBuddy = async (e:MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCardUser({...cardUser, friendStatus: 'pending'});
+        const sender = account_user?.username;
+        const receiver = user.username;
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({sender, receiver})
+        }
+        try {
+            await fetch('/api/friend-requests', options);
+        } catch (error) {
+           setCardUser({...cardUser, friendStatus: 'stranger'});
+        }
         
+
     }
     return (
-        <div title="View Profile" onClick={()=>{
-            navigateToProfile(user.username);
+        <div title="View Profile" onClick={(e)=>{
+            e.preventDefault();
+            e.stopPropagation();
+            navigateToProfile(cardUser.username);
         }} className={`${style['user-search-card']} ${style[variant]}`}>
             <MiniAvatar
-                username={user.username}
-                profilePicturePath={user.profilePicturePath ?? ""}
+                username={cardUser.username}
+                profilePicturePath={cardUser.profilePicturePath ?? ""}
                 size={variant}
             />
             <div className={`${style['information-group']}`}>
                 <span className={`${style.name}`}>
                     {
-                        user.firstName === '' ?
-                        user.username : (user.firstName + " " + user.lastName)
+                        cardUser.firstName === '' ?
+                        cardUser.username : (cardUser.firstName + " " + cardUser.lastName)
                     }
                 </span>
                 <span className={`${style.location}`}>
-                    {user.location?.city}
+                    {cardUser.location?.city}
                 </span>
 
-                {user.featuredWeather && <span className={`${style.featuredWeather}`}>
-                    <FeaturedWeatherBadge weatherName={user.featuredWeather?.name} />
+                {cardUser.featuredWeather && <span className={`${style.featuredWeather}`}>
+                    <FeaturedWeatherBadge weatherName={cardUser.featuredWeather?.name} />
                 </span>}
             </div>
            
                 {
-                   buddyStatusRenderer(user.friendStatus)
+                   buddyStatusRenderer(cardUser.friendStatus)
                 }
         </div>
     );

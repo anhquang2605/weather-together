@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface FriendRequest {
-    _id?: string;
+    _id?: string | ObjectId;
     username: string;
     createdDate: Date;
     targetUsername: string;
