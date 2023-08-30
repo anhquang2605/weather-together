@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './buddy-request-tab-content.module.css';
 import { UserInFriendRequests} from '../../../types/User';
 import { useSession } from 'next-auth/react';
 import { FriendRequest } from '../../../types/FriendRequest';
 import { UserFilter } from '../find-friends/FilterContext';
 import { set } from 'lodash';
+import { init } from 'next/dist/compiled/@vercel/og/satori';
+import RequestsList from './requests-list/RequestsList';
 
 interface BuddyRequestTabContentProps {
 
@@ -14,26 +16,56 @@ interface FriendRequestResponse {
     hasMore: boolean;
     success: boolean;
 }
+interface Mode{
+    label: string;
+    apiStatus: "idle" | "loading" | "success" | "error";
+    list: UserInFriendRequests[];
+    hasMore: boolean;
+    lastCursor: Date | undefined;
+    searchTerm: string;
+    initiallyFetched: boolean;
+    
+}
+
 const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
     const {data: session} = useSession();
     const account_user = session?.user;
-    const [potentialBuddies, setPotentialBuddies] = useState<UserInFriendRequests[]>([]);
+    const account_username = account_user?.username || "";
     const SEARCH_LIMIT = 10;
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const [initiallyFetched, setInitiallyFetched] = useState<boolean>(false);
-    const [hasMore, setHasMore] = useState<boolean>(false);
-    const [lastCursor, setLastCursor] = useState<Date | undefined>(undefined);
-    const [apiStatus, setApiStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [curMode, setCurMode] = useState<number>(0); //0: receiver, 1: sender
+    const [mode, setMode] = useState<Mode[]>(
+        [
+
+            {
+                label: "receiver",
+                apiStatus: "idle",
+                list: [],
+                hasMore: false,
+                lastCursor: undefined,
+                searchTerm: "",
+                initiallyFetched: false,
+            },
+            {
+                label: "sender",
+                apiStatus: "idle",
+                list: [],
+                hasMore: false,
+                lastCursor: undefined,
+                searchTerm: "",
+                initiallyFetched: false,
+            }
+        ]
+    );
     const [active, setActive] = useState<boolean>(false);
-    const handleResetState = () => {
-        setPotentialBuddies([]);
-        setSearchTerm('');
-        setInitiallyFetched(false);
-        setLastCursor(undefined);
-        setApiStatus("idle");
+    const handleSetStateOfMode =<K extends keyof Mode> (mode: number, state: K, value: Mode[K] ) => {
+        setMode((prev) => {
+            const newState = [...prev];
+            newState[mode][state] = value;
+            return newState;
+        })
     }
     const fetchUsers = async (username: string,  limit: number, active?: boolean, cursor?: Date,) => {
-        setApiStatus("loading");
+        handleSetStateOfMode(curMode, "apiStatus", "loading");
         const options = new URLSearchParams({
             username: username,
             limit: limit.toString(),
@@ -50,61 +82,71 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
             }
         } catch (error) {
             console.error(error);
-            setApiStatus("error");
+            handleSetStateOfMode(curMode, "apiStatus", "error");
         }   
     }
     const handleSetFetchResult = (response: FriendRequestResponse, append: boolean) => {
-        if(append){
-            setPotentialBuddies((prev) => [...prev, ...response.data]);
-        }
         if(response.success){
-            setPotentialBuddies(response.data);
-            setHasMore(response.hasMore);
+            if(append){
+                handleSetStateOfMode(curMode, "list", [...mode[curMode].list, ...response.data]);
+            }else{
+                handleSetStateOfMode(curMode, "list", response.data);
+            }
+            handleSetStateOfMode(curMode, "hasMore", response.hasMore);
         }
+
     }
     const handleInitialFetch = async () => {
-        const response = await fetchUsers(searchTerm, SEARCH_LIMIT, active);
+        const response = await fetchUsers(account_username, SEARCH_LIMIT, active);
         if(response.success){
-            setInitiallyFetched(true);
-            setApiStatus("success");
+            handleSetStateOfMode(curMode, 'initiallyFetched', true);
+            handleSetStateOfMode(curMode, "apiStatus", "success");
             handleSetFetchResult(response, false);
         }else{
-            setApiStatus("error");
-            setInitiallyFetched(false);
+            handleSetStateOfMode(curMode, "apiStatus", "error");
+            handleSetStateOfMode(curMode, "initiallyFetched", false);
         }
     }
     const handleFetchMore = async () => {
-        const response = await fetchUsers(searchTerm, SEARCH_LIMIT, active, lastCursor);
+        const response = await fetchUsers(account_username , SEARCH_LIMIT, active, mode[curMode].lastCursor);
         if(response.success){
-            setApiStatus("success");
+            handleSetStateOfMode(curMode, "apiStatus", "success");
             handleSetFetchResult(response, true);
         }else{
-            setApiStatus("error");
+            handleSetStateOfMode(curMode, "apiStatus", "error");
         }
     }
+    const updateFriendRequest = async (index: number, updatedFields: Partial<UserInFriendRequests>) => {
+        const friendRequest = mode[curMode].list[index];
+        const updatedFriendRequest = {...friendRequest, ...updatedFields};
+        const newList = [...mode[curMode].list];
+        newList[index] = updatedFriendRequest;
+        handleSetStateOfMode(curMode, "list", newList);
+    }
     useEffect(()=>{
-        if(!initiallyFetched){
+        if(mode[curMode].initiallyFetched){
             handleInitialFetch();
         }
     },[]);
     useEffect(() => {
-        if(potentialBuddies.length > 0){
-            setLastCursor(potentialBuddies[potentialBuddies.length - 1].createdDate);
+        if(mode[curMode].list.length > 0){
+            mode[curMode].lastCursor = mode[curMode].list[mode[curMode].list.length - 1].createdDate;
         }
-    }, [potentialBuddies]);
+    }, [mode[curMode].list]);
     useEffect(()=>{
-        handleResetState();
-        handleInitialFetch();
-    }, [active] )
+        setCurMode(active === true ? 0 : 1);
+    }, [active])
+    useEffect(()=>{
+        if(!mode[curMode].initiallyFetched){
+            handleInitialFetch();
+        }
+    },[curMode])
     return (
         <div className={style['buddy-request-tab-content']}>
-            
+            <RequestsList users={mode[curMode].list} hasMore={mode[curMode].hasMore} />
         </div>
     );
 };
 
 export default BuddyRequestTabContent;
 
-function useEffect(arg0: () => void, arg1: UserInFriendRequests[][]) {
-    throw new Error('Function not implemented.');
-}

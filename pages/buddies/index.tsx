@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 import { subscribe, unSubcribe } from '../../utils/websocket-service';
 import {FriendsContext} from './FriendsContext';
 import { FilterContext, FilterProvider } from '../../components/friends-tab-content/find-friends/FilterContext';
+import BuddyRequestTabContent from '../../components/friends-tab-content/buddy-requests';
 interface TabIconsMap {
     [key: string]: JSX.Element;
 }
@@ -116,6 +117,10 @@ function Friends(){
                 <FilterProvider>
                     <FindFriends/>
                 </FilterProvider>
+            }
+            {
+                activeTab === 2 &&
+                <BuddyRequestTabContent/>
             }
         </div>
     </FriendsContext.Provider>
