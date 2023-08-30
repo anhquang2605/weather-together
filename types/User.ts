@@ -76,5 +76,5 @@ export interface UserInFriendRequests{
     associatedLastName: string,
     associatedLocation: Location,
     associatedFeaturedWeather: Weather | null,
-    associatedBackgroundPicture: string | null,
+    associatedBackgroundPicture: string,
 }

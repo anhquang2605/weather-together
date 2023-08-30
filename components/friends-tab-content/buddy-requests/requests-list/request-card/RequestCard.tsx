@@ -23,7 +23,7 @@ const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}
 
                     </div>
                     :
-                    <Image width={200} height={100} src={user.associatedProfilePicture} alt="background picture" />
+                    <Image width={400} height={200} src={user.associatedBackgroundPicture} alt="background picture" />
                 }
 
             </div>
