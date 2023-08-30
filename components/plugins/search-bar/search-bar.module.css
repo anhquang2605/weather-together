@@ -1,5 +1,5 @@
 .search-bar{
-    border-bottom: 1px solid lightgray;
+    @apply border-b border-slate-400;
     width: 100%;
     display: flex;
     flex-direction: row;

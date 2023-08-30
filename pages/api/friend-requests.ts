@@ -14,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const fieldToMatch = active === 'true' ? 'username' : 'targetUsername';
                 const fieldToLookup = active === 'true' ? 'targetUsername' : 'username';
                 const lookupAs = active === 'true' ? 'senderUser' : 'receiverUser';
-                console.log(username, lastCursor, limit, active);
                 try{
                     const active_aggregate = [
                         {
@@ -54,7 +53,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             associatedFirstName: `$${lookupAs}.firstName`,
                             associatedLastName: `$${lookupAs}.lastName`,
                             associatedLocation: `$${lookupAs}.location`,
-                            associatedFeaturedWeather: `$${lookupAs}.featuredWeather`
+                            associatedFeaturedWeather: `$${lookupAs}.featuredWeather`,
+                            associatedBackgroundPicture: `$${lookupAs}.backgroundPicturePath`,
                           }
                         }
                       ];

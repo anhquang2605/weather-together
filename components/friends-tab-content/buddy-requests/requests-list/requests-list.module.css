@@ -1,0 +1,5 @@
+.requests-list{
+    display: grid;
+    grid-template-columns: repeat(4, 224px);
+    @apply gap-16 p-8 border border-slate-400 rounded-lg h-full mb-8;
+}

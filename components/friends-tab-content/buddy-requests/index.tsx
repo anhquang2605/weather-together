@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import style from './buddy-request-tab-content.module.css';
 import { UserInFriendRequests} from '../../../types/User';
 import { useSession } from 'next-auth/react';
-import { FriendRequest } from '../../../types/FriendRequest';
-import { UserFilter } from '../find-friends/FilterContext';
-import { set } from 'lodash';
+import { debounce, set } from 'lodash';
 import { init } from 'next/dist/compiled/@vercel/og/satori';
 import RequestsList from './requests-list/RequestsList';
+import ToggleSwitch from '../../plugins/toggle-switch/ToggleSwitch';
+import SearchBar from '../../plugins/search-bar/SearchBar';
 
 interface BuddyRequestTabContentProps {
 
@@ -37,7 +37,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
         [
 
             {
-                label: "receiver",
+                label: "Received Requests",
                 apiStatus: "idle",
                 list: [],
                 hasMore: false,
@@ -46,7 +46,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
                 initiallyFetched: false,
             },
             {
-                label: "sender",
+                label: "Requests Sent",
                 apiStatus: "idle",
                 list: [],
                 hasMore: false,
@@ -116,6 +116,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
             handleSetStateOfMode(curMode, "apiStatus", "error");
         }
     }
+    const debouncedFetchMore = debounce(handleFetchMore, 500);
     const updateFriendRequest = async (index: number, updatedFields: Partial<UserInFriendRequests>) => {
         const friendRequest = mode[curMode].list[index];
         const updatedFriendRequest = {...friendRequest, ...updatedFields};
@@ -123,6 +124,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
         newList[index] = updatedFriendRequest;
         handleSetStateOfMode(curMode, "list", newList);
     }
+    const handleOnSearch = async () => {}
     useEffect(()=>{
         if(mode[curMode].initiallyFetched){
             handleInitialFetch();
@@ -134,16 +136,43 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
         }
     }, [mode[curMode].list]);
     useEffect(()=>{
-        setCurMode(active === true ? 0 : 1);
+        setCurMode(active === true ? 1 : 0);
     }, [active])
     useEffect(()=>{
         if(!mode[curMode].initiallyFetched){
+            console.log(curMode);
             handleInitialFetch();
         }
     },[curMode])
+
     return (
         <div className={style['buddy-request-tab-content']}>
-            <RequestsList users={mode[curMode].list} hasMore={mode[curMode].hasMore} />
+            <div className={style['control-group']}>
+                <div className={style['search-bar-container']}>
+                    <SearchBar 
+                        query={mode[curMode].searchTerm}
+                        setQuery={(event) => handleSetStateOfMode(curMode, "searchTerm", event.target.value)}
+                        onSearch={handleOnSearch}
+                        placeholder='Search among your friend requests'
+                    />
+                </div>
+
+                <ToggleSwitch
+                    onLabel= {mode[1].label}
+                    offLabel= {mode[0].label}
+                    on={active} 
+                    setToggle={setActive}
+                />
+            </div>
+
+            <RequestsList 
+                friendRequestUpdater={updateFriendRequest} 
+                fetchMore={debouncedFetchMore} 
+                curMode={curMode} 
+                users={mode[curMode].list} 
+                hasMore={mode[curMode].hasMore} 
+                apiStatus={mode[curMode].apiStatus}    
+            />
         </div>
     );
 };

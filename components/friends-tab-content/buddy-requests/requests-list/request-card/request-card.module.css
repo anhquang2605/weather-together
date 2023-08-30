@@ -1,0 +1,66 @@
+.request-card{
+    --animation-props: all 0.2s ease-in-out;
+    @apply bg-slate-200 h-[300px] flex flex-col rounded-3xl shadow-lg overflow-hidden border border-slate-400;
+    transition: var(--animation-props);
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.05);
+        .avatar{
+            transform: scale(0.95);
+        }
+        .avatar > *{
+            transform: scale(1);
+        }
+        .background-image{
+            @apply -mb-1;
+        }
+        .background-image::after{
+            bottom: -5px;
+        }
+    }
+}
+.background-image{
+    @apply h-1/3 w-full  overflow-hidden relative;
+    > * {
+        @apply h-full w-full object-cover;
+    }
+    &::after{
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 50px;
+        width: 100%;
+        @apply bg-gradient-to-b from-transparent to-85% to-slate-200
+    }
+}
+.lower-half{
+    @apply  w-full flex flex-col items-center;
+}
+.information{
+    @apply h-full flex flex-col pb-8;
+    color: var(--primary-color);
+    text-align: center;
+    .name{
+        @apply text-xl font-semibold;
+    }
+}
+.avatar{
+    transition: var(--animation-props);
+    > *{
+        transition: var(--animation-props);
+        transform: scale(1.5);
+    }
+}
+.location{
+    @apply w-full flex flex-row items-center justify-center; 
+}
+/* .accepted{
+    @apply text-green-400 !important;
+}
+.pending{
+    @apply text-blue-300 !important;
+} */
+.status{
+    @apply mt-auto text-indigo-800;;
+}

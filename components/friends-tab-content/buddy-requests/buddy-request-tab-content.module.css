@@ -1,3 +1,9 @@
 .buddy-request-tab-content{
-    
+    @apply flex flex-col h-full pt-8 overflow-y-scroll; 
+}
+.control-group{
+    @apply flex flex-row justify-between mb-8;
+}
+.search-bar-container{
+    @apply w-1/3
 }
