@@ -150,6 +150,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
             <div className={style['control-group']}>
                 <div className={style['search-bar-container']}>
                     <SearchBar 
+                        variant='bordered'
                         query={mode[curMode].searchTerm}
                         setQuery={(event) => handleSetStateOfMode(curMode, "searchTerm", event.target.value)}
                         onSearch={handleOnSearch}

@@ -11,31 +11,30 @@
         .avatar > *{
             transform: scale(1);
         }
-        .background-image{
-            @apply -mb-1;
-        }
         .background-image::after{
-            bottom: -5px;
+            transform: scaleY(1.5);
+            transform-origin: bottom;
         }
     }
 }
 .background-image{
-    @apply h-1/2 w-full  overflow-hidden relative;
+    @apply h-2/5 w-full  relative;
     > * {
         @apply h-full w-full object-cover;
     }
     &::after{
         content: "";
         position: absolute;
-        bottom: 0;
+        bottom: -1px;
         left: 0;
         height: 50px;
         width: 100%;
-        @apply bg-gradient-to-b from-transparent to-85% to-slate-200
+        transition: var(--animation-props);
+        @apply bg-gradient-to-b from-transparent from-5% via-slate-200/60 via-45% to-slate-200 to-85%; 
     }
 }
 .lower-half{
-    @apply  w-full flex flex-col items-center;
+    @apply  h-3/5 w-full flex flex-col items-center;
 }
 .information{
     @apply h-full flex flex-col pb-8;
@@ -55,12 +54,16 @@
 .location{
     @apply w-full flex flex-row items-center justify-center; 
 }
-/* .accepted{
-    @apply text-green-400 !important;
+.accepted{
+    @apply text-green-600 !important;
 }
 .pending{
-    @apply text-blue-300 !important;
-} */
+    @apply text-blue-600 !important;
+} 
 .status{
-    @apply mt-auto text-indigo-800;;
+    @apply mt-auto text-indigo-800 flex flex-col justify-center items-center;
+    text-transform: capitalize;
+}
+.accept-btn{
+    @apply text-slate-200 !important;
 }

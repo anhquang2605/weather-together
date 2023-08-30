@@ -123,16 +123,17 @@ wss.on('connection', (socket) => {
         
         userChangeStream.on('change', (change) => {
           // Broadcast the change to all connected WebSocket clients
-          
-          if(clients[username] && clients[username].readyState === 
-            WebSocket.OPEN){
-              const updated = change.updateDescription.updatedFields;
-              const message = {
-                type: 'user-changestream',
-                data: updated
-              }
-              client.send(JSON.stringify(message));
-            };
+          if(change.operationType === 'update'){
+            if(clients[username] && clients[username].readyState === 
+              WebSocket.OPEN){
+                const updated = change.updateDescription.updatedFields;
+                const message = {
+                  type: 'user-changestream',
+                  data: updated
+                }
+                clients[username].send(JSON.stringify(message));
+              };
+          }
         });
         await new Promise(() => {});
       } else if(clientMessage.type === 'friends-changestream'){

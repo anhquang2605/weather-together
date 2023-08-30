@@ -5,17 +5,58 @@ import MiniAvatar from '../../../../activity/mini-avatar/MiniAvatar';
 import { RAINBOW_COLORS } from '../../../../../constants/rainbow-colors';
 import {IoLocation} from 'react-icons/io5'
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import {IoCheckmarkCircle,IoEllipsisHorizontalCircleSharp } from 'react-icons/io5'
 interface RequestCardProps {
     user: UserInFriendRequests;
     index: number;
     curMode: number;
     updater: (index: number, fields: Partial<UserInFriendRequests>) => void;
 }
-
+interface StatusToIconMap{
+    [key: string]: JSX.Element;
+}
 const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}) => {
     const color = RAINBOW_COLORS[Math.floor(Math.random() * RAINBOW_COLORS.length)];
+    const router = useRouter();
+    const handleGoToProfile = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        router.push(`/profile/${curMode ? user.username : user.targetUsername}`);
+    }
+    const statusToIcon: StatusToIconMap = {
+        "accepted": <IoCheckmarkCircle className="icon mr-1"/>,
+        "pending": <IoEllipsisHorizontalCircleSharp className="icon mr-1"/>,
+    }
+    const handleAccept = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("here");
+        const oldStatus = user.status;
+        const updatedFields:Partial<UserInFriendRequests> = {
+            status: "accepted",
+            updatedDate: new Date()
+        }
+        updater(index, updatedFields);
+        const options = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status: "accepted",
+                sender: user.username,
+                receiver: user.targetUsername,
+            })
+        }
+        const path = '/api/friend-requests';
+        const response = await fetch(path, options);
+        if(!response || response.status !== 200){
+            updater(index, {status: oldStatus});
+        }   
+    }
     return (
-        <div className={style['request-card']}>
+        <div onClick={(event) => handleGoToProfile} className={style['request-card']}>
             <div className={style['background-image']}>
                 {
                     user.associatedBackgroundPicture === "" ?
@@ -45,15 +86,15 @@ const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}
                     <div className={style['location']}>
                         <IoLocation className="w-5 h-5 mr-1"/> {user.associatedLocation.city}
                     </div>
-                    {
-                        curMode === 1 ?
-                        <div className={`${style['status']} ${style[user.status]}`}>
-                            {user.status}
-                        </div>
+                    {   
+                        user.status === "accepted" || curMode === 1 ?
+                            <div className={`${style['status']} ${style[user.status]}`}>
+                                {statusToIcon[user.status]} {user.status}
+                            </div>
                         :
-                        <div className={`${style['accept-btn']} ${style['status']}`}>
-                            Accept
-                        </div>
+                            <button onClick={event => handleAccept(event)} className={`${style['accept-btn']} action-btn ${style['status']}`}>
+                                Accept
+                            </button>
                     }
                 </div>
             </div>

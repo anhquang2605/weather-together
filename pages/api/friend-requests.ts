@@ -101,6 +101,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 break;
             case 'PUT':
                 var {sender, receiver, status} = req.body;
+                console.log(sender, receiver, status);
                 const updatedFriendRequest = {
                     status: status,
                     updatedDate: new Date()
