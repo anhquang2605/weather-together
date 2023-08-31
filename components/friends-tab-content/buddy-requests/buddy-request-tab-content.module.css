@@ -1,5 +1,5 @@
 .buddy-request-tab-content{
-    @apply flex flex-col h-full pt-4 overflow-y-scroll; 
+    @apply flex flex-col h-full pt-4 overflow-y-scroll pb-8; 
 }
 .control-group{
     @apply flex flex-row justify-between items-end mb-4;

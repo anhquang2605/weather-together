@@ -67,6 +67,7 @@ export interface UserInSearch{
 export interface UserInFriendRequests{
     _id: string | ObjectId,
     username: string,
+    targetUsername: string,
     createdDate: Date,
     updatedDate: Date,
     status: string,

@@ -8,6 +8,7 @@
     margin-right: auto;
     transition: all 0.3s linear;
     position: relative;
+    cursor: pointer;
 }
 .search-bar-background{
     height: 1px;
@@ -44,6 +45,7 @@
         opacity: 1;
       }
 }
+
 .search-button{
     transition: all 0.1s linear;
     @apply p-2 rounded-full border border-transparent;
@@ -71,6 +73,14 @@
     @apply pl-4;
     &:focus{
         outline: none!important;
+    }
+    &:hover{
+        cursor: pointer;
+    }
+}
+.searching{
+    .search-input{
+        cursor: text;
     }
 }
 .search-input-container{

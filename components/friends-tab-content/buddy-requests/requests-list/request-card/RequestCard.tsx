@@ -23,6 +23,7 @@ const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}
     const {data: session} = useSession();
     const account_user = session?.user;
     const account_username  = account_user?.username || "";
+    const userOnCard = curMode ? user.targetUsername : user.username;
     const handleGoToProfile = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -42,7 +43,7 @@ const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}
             updatedDate: new Date()
         }
         const sender = curMode ? account_username : user.username;
-        const receiver = curMode ? user.username : account_username;  
+        const receiver = curMode ? user.targetUsername : account_username;
         updater(index, updatedFields);
         const options = {
             method: "PUT",

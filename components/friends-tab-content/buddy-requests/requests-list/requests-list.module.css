@@ -2,7 +2,7 @@
     --lg-width: 304px;
     display: grid;
     grid-template-columns: repeat(auto-fill, var(--lg-width));
-    @apply justify-between content-start gap-8 p-8 border border-slate-400 rounded-lg h-full mb-8;
+    @apply justify-between content-start gap-8 p-8 border border-slate-400 rounded-lg h-full;
     .extra{
         @apply grow;
     }

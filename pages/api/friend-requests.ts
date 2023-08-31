@@ -12,10 +12,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             case 'GET'://get user associated with friend request
                 const {username, lastCursor, limit, active, searchTerm} = req.query;
                 const fieldToMatch = active === 'true' ? 'username' : 'targetUsername';
-                const fieldToLookup = active === 'true' ? 'targetUsername' : 'username';
-                const lookupAs = active === 'true' ? 'senderUser' : 'receiverUser';
+
+               /*  const fieldToLookup = active === 'true' ? 'targetUsername' : 'username';
+                const lookupAs = active === 'true' ? 'senderUser' : 'receiverUser'; */
                 try{
-                    const active_aggregate = [
+/*                     const active_aggregate = [
                         {
                           $match: {
                             [fieldToMatch]: username,
@@ -65,14 +66,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             },
                           },
                         }
-                      ];
-                    const active_requests = await friend_requests.aggregate(active_aggregate).toArray();
-                    
+                      ]; */
+                      const viewName = active === 'true' ? 'friend_requests_receivers' : 'friend_requests_senders';
+                      const view = db.collection(viewName);
+                      const match: {[key: string]: any} = {
+                            [fieldToMatch]: username,
+                            createdDate: {
+                              $lt: lastCursor ? new Date(lastCursor as string) : new Date()
+                            },
+
+                          }
+                      if(searchTerm && searchTerm !== ''){
+                        const searchTermReg = new RegExp('.*' + searchTerm + '.*'); 
+                        match.$or = [
+                          {username: {$regex: searchTermReg, $options: 'i'}},
+                          {name: {$regex: searchTermReg, $options: 'i'}},
+                          {city: {$regex: searchTermReg, $options: 'i'}},
+                          {status: {$regex: searchTermReg, $options: 'i'}},
+                          {featuredWeather: {$regex: searchTermReg, $options: 'i'}},
+                          {targetUsername: {$regex: searchTermReg, $options: 'i'}},
+                        ];
+                      }
+                    const counts = view.countDocuments(match);
+                    const fetchLimit = parseInt(limit ? limit as string : '10') + 1;
+                    const active_requests = await view.find(match).limit(fetchLimit).toArray();
                     if(active_requests.length > 0){
                         res.status(200).json({
                             success: true,
                             data: active_requests,
                             hasMore: active_requests.length > parseInt(limit ? limit as string : '10'),
+                            counts
                         });
                     }else{
                         res.status(204).end();

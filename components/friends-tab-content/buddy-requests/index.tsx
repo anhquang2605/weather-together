@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import style from './buddy-request-tab-content.module.css';
 import { UserInFriendRequests} from '../../../types/User';
 import { useSession } from 'next-auth/react';
-import { debounce, set } from 'lodash';
+import { debounce, last, set } from 'lodash';
 import { init } from 'next/dist/compiled/@vercel/og/satori';
 import RequestsList from './requests-list/RequestsList';
 import ToggleSwitch from '../../plugins/toggle-switch/ToggleSwitch';
@@ -24,7 +24,8 @@ interface Mode{
     lastCursor: Date | undefined;
     searchTerm: string;
     initiallyFetched: boolean;
-    
+    querySnapshot: string | undefined;
+    counts: number;
 }
 
 const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
@@ -44,6 +45,8 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
                 lastCursor: undefined,
                 searchTerm: "",
                 initiallyFetched: false,
+                querySnapshot: undefined,
+                counts: 0,
             },
             {
                 label: "Requests Sent",
@@ -53,6 +56,8 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
                 lastCursor: undefined,
                 searchTerm: "",
                 initiallyFetched: false,
+                querySnapshot: undefined,
+                counts: 0,
             }
         ]
     );
@@ -64,7 +69,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
             return newState;
         })
     }
-    const fetchUsers = async (username: string,  limit: number, active?: boolean, cursor?: Date,) => {
+    const fetchUsers = async (username: string,  limit: number, active?: boolean, cursor?: Date, searchTerm?: string) => {
         handleSetStateOfMode(curMode, "apiStatus", "loading");
         const options = new URLSearchParams({
             username: username,
@@ -74,15 +79,22 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
         if (cursor) {
             options.append('lastCursor',  typeof cursor === "object" ? cursor.toISOString() : cursor);
         }
+        if (searchTerm) {
+            options.append('searchTerm', searchTerm);
+        }
         const path = `/api/friend-requests?${options.toString()}`;
         try{
             const response = await fetch(path);
             if(response.ok && response.status === 200){
                 return await response.json();
+            } else {
+                handleSetStateOfMode(curMode, "apiStatus", "error");
+                return {success: false};
             }
         } catch (error) {
             console.error(error);
             handleSetStateOfMode(curMode, "apiStatus", "error");
+            return {success: false};
         }   
     }
     const handleSetFetchResult = (response: FriendRequestResponse, append: boolean) => {
@@ -93,11 +105,13 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
                 handleSetStateOfMode(curMode, "list", response.data);
             }
             handleSetStateOfMode(curMode, "hasMore", response.hasMore);
+            handleSetStateOfMode(curMode, "counts", response.data.length);
         }
 
     }
     const handleInitialFetch = async () => {
         const response = await fetchUsers(account_username, SEARCH_LIMIT, active);
+        console.log(response);
         if(response.success){
             handleSetStateOfMode(curMode, 'initiallyFetched', true);
             handleSetStateOfMode(curMode, "apiStatus", "success");
@@ -108,7 +122,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
         }
     }
     const handleFetchMore = async () => {
-        const response = await fetchUsers(account_username , SEARCH_LIMIT, active, mode[curMode].lastCursor);
+        const response = await fetchUsers(account_username , SEARCH_LIMIT, active, mode[curMode].lastCursor, mode[curMode].searchTerm);
         if(response.success){
             handleSetStateOfMode(curMode, "apiStatus", "success");
             handleSetFetchResult(response, true);
@@ -124,7 +138,25 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
         newList[index] = updatedFriendRequest;
         handleSetStateOfMode(curMode, "list", newList);
     }
-    const handleOnSearch = async () => {}
+    const handleOnSearch = async () => {
+        
+        const query = mode[curMode].searchTerm;
+        const lastCursor = new Date();
+        const querySnapshot = mode[curMode].querySnapshot;
+        if(query === mode[curMode].querySnapshot){
+            return;
+        }
+        handleSetStateOfMode(curMode, "apiStatus", "loading");
+        const response = await fetchUsers(account_username, SEARCH_LIMIT, active, lastCursor,  query);
+        if(response.success){
+            handleSetStateOfMode(curMode, "apiStatus", "success");
+            handleSetFetchResult(response, false);
+            handleSetStateOfMode(curMode, "querySnapshot", query);
+        }else{
+            handleSetStateOfMode(curMode, "apiStatus", "error");
+        }
+        
+    }
     useEffect(()=>{
         if(mode[curMode].initiallyFetched){
             handleInitialFetch();
