@@ -22,6 +22,9 @@ const RequestsList: React.FC<RequestsListProps> = ({users, curMode, hasMore, fet
     return (
         <div className={style['requests-list']}>
             {resultsJSX}
+            <div className={style["extra"]}>
+
+            </div>
         </div>
     );
 };

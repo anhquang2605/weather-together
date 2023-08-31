@@ -72,7 +72,7 @@ const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}
                 <MiniAvatar 
                     username={user.username}
                     profilePicturePath={user.associatedProfilePicture}
-                    size= "extra-large"
+                    size= "large"
                     className={`shadow-md -mt-16 border-slate-200 ${style['avatar']}`}
                 />
                 <div className={style['information']}>

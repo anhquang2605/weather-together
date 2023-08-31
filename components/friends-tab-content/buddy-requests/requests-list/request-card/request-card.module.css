@@ -1,7 +1,12 @@
 .request-card{
+
+    --lg-height: 220px;
+
     --animation-props: all 0.2s ease-in-out;
-    @apply bg-slate-200 h-[300px] flex flex-col rounded-3xl shadow-lg overflow-hidden border border-slate-400;
+    @apply bg-slate-200 flex flex-col rounded-3xl shadow-lg overflow-hidden border border-slate-400;
     transition: var(--animation-props);
+    height: var(--lg-height);
+    width: var(--lg-width);
     &:hover{
         cursor: pointer;
         transform: scale(1.05);
@@ -25,7 +30,7 @@
     &::after{
         content: "";
         position: absolute;
-        bottom: -1px;
+        bottom: -3px;
         left: 0;
         height: 50px;
         width: 100%;

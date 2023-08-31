@@ -36,12 +36,12 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
                             <span className={`${style['friend-title']}`}>Pending...</span>
                         </div>
             default:
-                return <button title="" onClick={(e) => handleAddBuddy} className={`${style.addFriendButton} action-btn`}>
+                return <button title="" onClick={(e) => handleAddBuddy(e)} className={`${style.addFriendButton} action-btn`}>
                             Add buddy
                         </button>
         }
     }
-    const handleAddBuddy = async (e:MouseEvent) => {
+    const handleAddBuddy = async (e:React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setCardUser({...cardUser, friendStatus: 'pending'});
