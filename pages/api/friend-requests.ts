@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const friend_requests: Collection<FriendRequest> = db.collection('friend_requests');
         switch (method) {
             case 'GET'://get user associated with friend request
-                const {username, lastCursor, limit, active} = req.query;
+                const {username, lastCursor, limit, active, searchTerm} = req.query;
                 const fieldToMatch = active === 'true' ? 'username' : 'targetUsername';
                 const fieldToLookup = active === 'true' ? 'targetUsername' : 'username';
                 const lookupAs = active === 'true' ? 'senderUser' : 'receiverUser';
@@ -42,20 +42,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                           }
                         },
                         {
-                          $project: {
+                          $project:       
+                          {
                             _id: 1,
-                            username: 1,
+                            username: `$${lookupAs}.username`,
                             createdDate: 1,
-                            targetUsername: 1,
                             updatedDate: 1,
                             status: 1,
-                            associatedProfilePicture: `$${lookupAs}.profilePicturePath`,
-                            associatedFirstName: `$${lookupAs}.firstName`,
-                            associatedLastName: `$${lookupAs}.lastName`,
-                            associatedLocation: `$${lookupAs}.location`,
-                            associatedFeaturedWeather: `$${lookupAs}.featuredWeather`,
-                            associatedBackgroundPicture: `$${lookupAs}.backgroundPicturePath`,
-                          }
+                            profilePicture:
+                              `$${lookupAs}.profilePicturePath`,
+                            city: `$${lookupAs}.location.city`,
+                            backgroundPicture:
+                              `$${lookupAs}.backgroundPicturePath`,
+                            featuredWeather:
+                              `$${lookupAs}.featuredWeather`,
+                            name: {
+                              $concat: [
+                                `$${lookupAs}.firstName`,
+                                ` `,
+                                `$${lookupAs}.lastName`,
+                              ],
+                            },
+                          },
                         }
                       ];
                     const active_requests = await friend_requests.aggregate(active_aggregate).toArray();
