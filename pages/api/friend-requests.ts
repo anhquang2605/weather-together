@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { connectDB } from '../../libs/mongodb'
 import { Collection, ObjectId, WithId } from 'mongodb';
 import {FriendRequest} from '../../types/FriendRequest';
+import { has } from 'lodash';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req;
@@ -87,14 +88,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                           {targetUsername: {$regex: searchTermReg, $options: 'i'}},
                         ];
                       }
-                    const counts = view.countDocuments(match);
+                    const counts = await view.countDocuments(match);
                     const fetchLimit = parseInt(limit ? limit as string : '10') + 1;
                     const active_requests = await view.find(match).limit(fetchLimit).toArray();
+                    const hasMore = active_requests.length > parseInt(limit ? limit as string : '10');
+                    if(hasMore){
+                      active_requests.pop();
+                    }
                     if(active_requests.length > 0){
                         res.status(200).json({
                             success: true,
                             data: active_requests,
-                            hasMore: active_requests.length > parseInt(limit ? limit as string : '10'),
+                            hasMore: hasMore,
                             counts
                         });
                     }else{

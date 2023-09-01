@@ -1,9 +1,26 @@
 .requests-list{
-    --lg-width: 304px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, var(--lg-width));
-    @apply justify-between content-start gap-8 p-8 border border-slate-400 rounded-lg h-full;
+/*  md:w-[calc(50%-32px)] lg:w-[calc(33%-32px)] 2xl:w-[calc(25%-32px)] */
+/*     display: grid;
+    grid-template-columns: repeat(auto-fill, var(--lg-width)); */
+    @apply p-8 pr-0 pb-0 border border-slate-400 rounded-lg h-full overflow-y-auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     .extra{
         @apply grow;
     }
+}
+
+.lazy-target{
+    flex-grow: 1;
+    @apply min-w-full md:min-w-[calc(50%-32px)] lg:min-w-[calc(33.3%-32px)] 2xl:min-w-[calc(25%-32px)];
+    margin-right: 32px;
+    opacity: 0;
+    &.fetching{
+        opacity: 1;
+        height: 220px;
+        margin-bottom: 32px;
+        @apply animate-pulse flex justify-center items-center bg-slate-400/40 rounded-3xl shadow-lg overflow-hidden border border-slate-400 text-xl;
+    }
+
 }
