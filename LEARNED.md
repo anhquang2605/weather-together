@@ -72,3 +72,6 @@ Example: function<T, K extends keyof T>(obj: T, ...keys: K[]) :Pick<T,K>{}
 27. Type collection to specify desired type
 let collection = db.collection<User>('users')
 let users:User[] = collection.find().toArray();
+28. To fill the remain space while specify the others siblings to remain the same dimension, use flex: 1
+29. For child of such container to actually fill the dimension of the container, dont use 100% height or width since it will cause the child element to over grow, causing the container to scroll.
+=> work around: set the child to have fixed height, any is fine, then set its flex: 1

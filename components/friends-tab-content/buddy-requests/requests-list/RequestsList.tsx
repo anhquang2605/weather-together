@@ -14,9 +14,10 @@ interface RequestsListProps {
     friendRequestUpdater: (index: number, fields: Partial<UserInFriendRequests>) => void;
     apiStatus: "idle" | "loading" | "success" | "error";
     isFetching: boolean;
+    counts: number;
 }
 
-const RequestsList: React.FC<RequestsListProps> = ({users, curMode, hasMore, fetchMore, friendRequestUpdater, apiStatus, isFetching}) => {
+const RequestsList: React.FC<RequestsListProps> = ({users, curMode, hasMore, fetchMore, friendRequestUpdater, apiStatus, isFetching, counts}) => {
 
     const resultsJSX = users.map((user, index) => {
         return (
@@ -47,11 +48,24 @@ const RequestsList: React.FC<RequestsListProps> = ({users, curMode, hasMore, fet
     return (
         apiStatus === "loading" ? 
         <LoadingIndicator/> :
-        <div className={style['requests-list']}>
-                {resultsJSX}
-                <div className={`${style['lazy-target']} ${isFetching?style['fetching']:''}`}>
-                    <span>Loading more...</span>
-                </div>
+        <div className={style['list-container']}>
+          
+            <div className={style['requests-list']}> 
+                    {resultsJSX}
+                    <div className={`${style['lazy-target']} ${isFetching?style['fetching']:''}`}>
+                        <span>Loading more...</span>
+                    </div>
+            </div>
+            <div className={style["result-found-banner"] + " " + style[apiStatus || '']}>
+                {
+                    apiStatus === "error" ?
+                    <span className={style['error']}>Error fetching results</span> :
+                    <span className={style['result-found']}>
+                    {counts} {counts > 1 ? "Requests" : "Request"}
+                    </span>
+                }
+
+            </div>
         </div>
     );
 };

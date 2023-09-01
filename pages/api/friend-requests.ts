@@ -88,7 +88,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                           {targetUsername: {$regex: searchTermReg, $options: 'i'}},
                         ];
                       }
-                    const counts = await view.countDocuments(match);
+                    const matchForCounts = {...match};
+                    delete matchForCounts.createdDate; 
+                    const counts = await view.countDocuments(matchForCounts);
                     const fetchLimit = parseInt(limit ? limit as string : '10') + 1;
                     const active_requests = await view.find(match).limit(fetchLimit).toArray();
                     const hasMore = active_requests.length > parseInt(limit ? limit as string : '10');
@@ -100,7 +102,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             success: true,
                             data: active_requests,
                             hasMore: hasMore,
-                            counts
+                            counts: counts
                         });
                     }else{
                         res.status(204).end();

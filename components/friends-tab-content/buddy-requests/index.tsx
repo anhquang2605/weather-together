@@ -201,15 +201,16 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
                 />
             </div>
 
-            <RequestsList 
+           <RequestsList 
                 isFetching={mode[curMode].isFetching}
                 friendRequestUpdater={updateFriendRequest} 
                 fetchMore={debouncedFetchMore} 
                 curMode={curMode} 
                 users={mode[curMode].list} 
                 hasMore={mode[curMode].hasMore} 
-                apiStatus={mode[curMode].apiStatus}    
-            />
+                apiStatus={mode[curMode].apiStatus}
+                counts={mode[curMode].counts}    
+            /> 
         </div>
     );
 };

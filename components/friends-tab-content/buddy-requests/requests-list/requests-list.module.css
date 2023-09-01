@@ -1,14 +1,17 @@
+.list-container{
+/*     @apply relative h-1 relative mb-8;
+    flex: 1; */
+    @apply relative;
+    flex: 1;
+}
 .requests-list{
 /*  md:w-[calc(50%-32px)] lg:w-[calc(33%-32px)] 2xl:w-[calc(25%-32px)] */
 /*     display: grid;
     grid-template-columns: repeat(auto-fill, var(--lg-width)); */
-    @apply p-8 pr-0 pb-0 border border-slate-400 rounded-lg h-full overflow-y-auto;
+    @apply p-8 pr-0 pb-0 h-full border border-slate-400 rounded-lg overflow-y-scroll relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    .extra{
-        @apply grow;
-    }
 }
 
 .lazy-target{
@@ -22,5 +25,14 @@
         margin-bottom: 32px;
         @apply animate-pulse flex justify-center items-center bg-slate-400/40 rounded-3xl shadow-lg overflow-hidden border border-slate-400 text-xl;
     }
+
+}
+.result-found-banner{
+    transition: all 0.3s ease-in-out 0.5s;
+    @apply absolute -top-4 left-0 w-full flex flex-col justify-center items-center;
+}
+.result-found{
+    @apply py-1 px-8 rounded-lg font-semibold border text-sm border-slate-400;
+    background-color: var(--badge-color)
 
 }
