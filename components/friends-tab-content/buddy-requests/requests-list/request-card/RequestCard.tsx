@@ -63,7 +63,7 @@ const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}
         }   
     }
     return (
-        <div onClick={(event) => handleGoToProfile} className={style['request-card']}>
+        <div title="View Hub" onClick={(event) => handleGoToProfile} className={style['request-card']}>
             <div className={style['background-image']}>
                 {
                     user.backgroundPicture === "" ?
@@ -99,7 +99,7 @@ const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}
                                 {statusToIcon[user.status]} {user.status}
                             </div>
                         :
-                            <button onClick={event => handleAccept(event)} className={`${style['accept-btn']} action-btn ${style['status']}`}>
+                            <button title="" onClick={event => handleAccept(event)} className={`${style['accept-btn']} action-btn ${style['status']}`}>
                                 Accept
                             </button>
                     }

@@ -15,6 +15,7 @@ interface FriendRequestResponse {
     data: UserInFriendRequests[];
     hasMore: boolean;
     success: boolean;
+    counts: number;
 }
 interface Mode{
     label: string;
@@ -108,7 +109,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
                 handleSetStateOfMode(curMode, "list", response.data);
             }
             handleSetStateOfMode(curMode, "hasMore", response.hasMore);
-            handleSetStateOfMode(curMode, "counts", response.data.length);
+            handleSetStateOfMode(curMode, "counts", response.counts);
         }
 
     }

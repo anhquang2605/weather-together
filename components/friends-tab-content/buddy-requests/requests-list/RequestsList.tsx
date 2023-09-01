@@ -61,7 +61,7 @@ const RequestsList: React.FC<RequestsListProps> = ({users, curMode, hasMore, fet
                     apiStatus === "error" ?
                     <span className={style['error']}>Error fetching results</span> :
                     <span className={style['result-found']}>
-                    {counts} {counts > 1 ? "Requests" : "Request"}
+                        <span className={style['count-badge']}>{counts}</span> {counts > 1 ? "Requests" : "Request"}
                     </span>
                 }
 

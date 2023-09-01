@@ -1,7 +1,5 @@
 .list-container{
-/*     @apply relative h-1 relative mb-8;
-    flex: 1; */
-    @apply relative;
+    @apply relative h-1 relative;
     flex: 1;
 }
 .requests-list{
@@ -32,7 +30,11 @@
     @apply absolute -top-4 left-0 w-full flex flex-col justify-center items-center;
 }
 .result-found{
-    @apply py-1 px-8 rounded-lg font-semibold border text-sm border-slate-400;
-    background-color: var(--badge-color)
-
+    @apply py-1 px-8 rounded-lg border text-base border-slate-400;
+    background-color: var(--badge-color);
+    .count-badge{
+        @apply justify-center items-center text-center mr-1;
+        font-weight: bolder!important;
+        flex-shrink: 0;
+    }
 }

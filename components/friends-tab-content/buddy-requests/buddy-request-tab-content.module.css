@@ -1,5 +1,5 @@
 .buddy-request-tab-content{
-    @apply flex flex-col pt-4 overflow-auto relative; 
+    @apply flex flex-col pt-4 overflow-auto relative pb-8; 
     flex: 1;
 }
 .control-group{
