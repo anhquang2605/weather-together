@@ -10,19 +10,15 @@ interface BuddyCardProps {
 const BuddyCard: React.FC<BuddyCardProps> = ({buddy}) => {
     return (
         <div className={style['buddy-card']}>
+
             <span className={style['background-picture']} style={{
                 backgroundImage: `url(${buddy.backgroundPicture})`
             }}>
+                <span className={style['overlay-screen']}>
+                </span>
             </span>
 
-            <div className={style['buddy-info']}>
-                <div className={style['title']}>
-                    {buddy.name? buddy.name : buddy.username}
-                </div>
-                <div className={style['']}>
 
-                </div>
-            </div>
             <MiniAvatar
                 username={buddy.username}
                 profilePicturePath={buddy.profilePicture}
@@ -30,7 +26,13 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy}) => {
                 featuredWeather={buddy.featuredWeather.name}
                 variant="featured"
                 className='order-first'
+                hoverClassName={style['hover']}
             />
+            <div className={style['buddy-info']}>
+                <div className={style['title']}>
+                    {buddy.name? buddy.name : buddy.username}
+                </div>
+            </div>
         </div>
     );
 };

@@ -3,7 +3,8 @@
     --invisible-border-width: 1px;
     --outline-shadow-width: 1px;
     display: inline-block;
-    @apply rounded-full p-5 z-30;
+    @apply rounded-full p-0 relative self-center;
+    background: transparent;
 }
 .mini-avatar{
 

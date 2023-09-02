@@ -1,10 +1,22 @@
 .buddy-card{
-    @apply w-3/4 bg-slate-200 overflow-hidden rounded-3xl mb-4 p-8 relative;
+    --transition-config: all 0.2s ease-in-out;
+    @apply w-1/2 h-[150px] bg-slate-200 overflow-hidden rounded-3xl mb-4 relative flex flex-row items-center border border-slate-500;
 }
 .background-picture{
     @apply h-full w-full absolute top-0 left-0 rounded-3xl;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(0,0,0,0.5);
     img{
         @apply w-full h-full;
         object-fit: cover;
+    }
+    .overlay-screen{
+        transition: var(--transition-config);
+        @apply h-full w-full absolute top-0 left-0 rounded-3xl bg-gradient-to-r from-slate-900/70 to-transparent backdrop-blur-sm;
+        &:hover{
+            @apply backdrop-blur-none;
+        }
     }
 }

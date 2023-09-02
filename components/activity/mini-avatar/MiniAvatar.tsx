@@ -8,8 +8,9 @@ interface MiniAvatarProps {
     className?: string;
     featuredWeather?: string;
     variant?: 'basic' | 'featured';
+    hoverClassName?: string;
 }
-export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather, variant}: MiniAvatarProps) {
+export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather, variant, hoverClassName}: MiniAvatarProps) {
     const dimesion = () => {
         switch(size) {
             case 'extra-large':
@@ -25,7 +26,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
         }
     }
     return (
-        <div className={ variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : ''}>
+        <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" )}>
 
             <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
                 <div className={style['inner']}>
