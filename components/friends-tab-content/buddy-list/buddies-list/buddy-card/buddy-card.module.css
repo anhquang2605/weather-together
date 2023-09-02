@@ -1,3 +1,10 @@
 .buddy-card{
-    @apply w-full;
+    @apply w-3/4 bg-slate-200 overflow-hidden rounded-3xl mb-4 p-8 relative;
+}
+.background-picture{
+    @apply h-full w-full absolute top-0 left-0 rounded-3xl;
+    img{
+        @apply w-full h-full;
+        object-fit: cover;
+    }
 }

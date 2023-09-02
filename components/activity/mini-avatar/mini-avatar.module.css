@@ -1,5 +1,20 @@
+.outer-circle{
+    --inner-dimension-percentage: 85%;
+    --invisible-border-width: 1px;
+    --outline-shadow-width: 1px;
+    display: inline-block;
+    @apply rounded-full p-5 z-30;
+}
 .mini-avatar{
-    @apply rounded-full overflow-hidden z-10 shrink-0 border border-slate-300;
+
+    @apply rounded-full shrink-0 relative;
+    .inner{
+        @apply overflow-hidden rounded-full absolute;
+        width: var(--inner-dimension-percentage);
+        height: var(--inner-dimension-percentage);
+        top: calc((100% - var(--inner-dimension-percentage)) / 2 );
+        left: calc((100% - var(--inner-dimension-percentage)) / 2);
+    }
     img{
         @apply w-full h-full;
     }
@@ -27,31 +42,45 @@
     
     /* Set padding of nav-item parent of this element to 0 */
 }
-.rainy {
-    background: linear-gradient(45deg, #4b0082, #6a238f, #8b50ab); /* Indigo */
+
+.cloudy {
+    border: var(--invisible-border-width) solid #87CEEB;
   }
-  
-  .cloudy {
-    background: linear-gradient(45deg, #87CEEB, #a0d8f1, #b9e2f7); /* Sky Blue */
+  .cloudy .mini-avatar {
+    background: linear-gradient(45deg, #87CEEB, #a0d8f1, #b9e2f7, #FFD700);
   }
   
   .windy {
-    background: linear-gradient(45deg, #008000, #00a000, #00c800); /* Green */
+    border: var(--invisible-border-width) solid #008000;
+  }
+  .windy .mini-avatar {
+    background: linear-gradient(45deg, #008000, #00a000, #00c800, #FFFF00);
   }
   
   .thunder {
-    background: linear-gradient(45deg, #FFFF00, #FFFF66, #FFFF99); /* Yellow */
+    border: var(--invisible-border-width) solid #FFFF00;
+  }
+  .thunder .mini-avatar {
+    background: linear-gradient(45deg, #FFFF00, #FFFF66, #FFFF99, #FF4500);
   }
   
   .sunny {
-    background: linear-gradient(45deg, #FFA500, #FFB347, #FFC680); /* Orange */
+    border: var(--invisible-border-width) solid #FFA500;
   }
-  
-  /* Note: You've mentioned 'rainy' twice. I'm assuming the second one was intended to be different. */
-  .rainy-alternate {
-    background: linear-gradient(45deg, #9400D3, #a631db, #b863e3); /* Violet */
+  .sunny .mini-avatar {
+    background: linear-gradient(45deg, #FFA500, #FFB347, #FFC680, #FFD700);
   }
   
   .snowy {
-    background: linear-gradient(45deg, #0000FF, #3333FF, #6666FF); /* Blue */
+    border: var(--invisible-border-width) solid #0000FF;
+  }
+  .snowy .mini-avatar {
+    background: linear-gradient(45deg, #0000FF, #3333FF, #6666FF, #00FFFF);
+  }
+  
+  .rainy {
+    border: var(--invisible-border-width) solid #4b0082;
+  }
+  .rainy .mini-avatar {
+    background: linear-gradient(45deg, #4b0082, #4169E1, #8A2BE2, #9370DB);
   }

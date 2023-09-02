@@ -7,8 +7,9 @@ interface MiniAvatarProps {
     username: string | null | undefined;
     className?: string;
     featuredWeather?: string;
+    variant?: 'basic' | 'featured';
 }
-export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather}: MiniAvatarProps) {
+export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather, variant}: MiniAvatarProps) {
     const dimesion = () => {
         switch(size) {
             case 'extra-large':
@@ -24,8 +25,13 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
         }
     }
     return (
-        <div className={style['mini-avatar'] + " " + style[size] + " " + className + " " + style[featuredWeather || ""]}>
-            {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture username={username}/>}
+        <div className={ variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : ''}>
+
+            <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
+                <div className={style['inner']}>
+                    {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture username={username}/>}
+                </div>
+            </div>
         </div>
     )
 }
