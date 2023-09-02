@@ -46,8 +46,12 @@
 .cloudy {
     border: var(--invisible-border-width) solid #87CEEB;
   }
-  .cloudy .mini-avatar {
+/*   .cloudy .mini-avatar {
     background: linear-gradient(45deg, #87CEEB, #a0d8f1, #b9e2f7, #FFD700);
+  } */
+  .cloudy .mini-avatar {
+    background: linear-gradient(45deg, #FFD700, #87CEEB,  #1E90FF );
+    
   }
   
   .windy {
@@ -79,7 +83,8 @@
   }
   
   .rainy {
-    border: var(--invisible-border-width) solid #4b0082;
+    border: var(--invisible-border-width) solid white;
+    box-shadow: 0 0 10px 0.5px #8A2BE2, inset 0 0 10px 0.5px #8A2BE2;
   }
   .rainy .mini-avatar {
     background: linear-gradient(45deg, #4b0082, #4169E1, #8A2BE2, #9370DB);

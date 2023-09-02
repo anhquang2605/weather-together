@@ -18,16 +18,18 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy}) => {
                 </span>
             </span>
 
-
-            <MiniAvatar
-                username={buddy.username}
-                profilePicturePath={buddy.profilePicture}
-                size="extra-large"
-                featuredWeather={buddy.featuredWeather.name}
-                variant="featured"
-                className='order-first'
-                hoverClassName={style['hover']}
-            />
+            <div className={style['profile-pic-container']}>
+                <MiniAvatar
+                    username={buddy.username}
+                    profilePicturePath={buddy.profilePicture}
+                    size="extra-large"
+                    featuredWeather={buddy.featuredWeather.name}
+                    variant="featured"
+                    className='order-first'
+                    hoverClassName={style['hover']}
+                />
+            </div>
+          
             <div className={style['buddy-info']}>
                 <div className={style['title']}>
                     {buddy.name? buddy.name : buddy.username}
