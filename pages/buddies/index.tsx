@@ -10,6 +10,7 @@ import { subscribe, unSubcribe } from '../../utils/websocket-service';
 import {FriendsContext} from './FriendsContext';
 import { FilterContext, FilterProvider } from '../../components/friends-tab-content/find-friends/FilterContext';
 import BuddyRequestTabContent from '../../components/friends-tab-content/buddy-requests';
+import BuddyList from '../../components/friends-tab-content/buddy-list/BuddyList';
 interface TabIconsMap {
     [key: string]: JSX.Element;
 }
@@ -121,6 +122,12 @@ function Friends(){
             {
                 activeTab === 2 &&
                 <BuddyRequestTabContent/>
+            }
+            {
+                activeTab === 0 &&
+                <BuddyList 
+                    friendUsernames={friendUsernames}
+                />
             }
         </div>
     </FriendsContext.Provider>

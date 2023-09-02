@@ -108,7 +108,8 @@ export const pickUserInClients = (users: User[]) => {
             'firstName',
             'lastName',
             'profilePicturePath',
-            'dateJoined'
+            'dateJoined',
+            'backgroundPicturePath'
         ])
         return pickedUser as UserInClient;
     })

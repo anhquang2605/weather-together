@@ -154,6 +154,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     'profilePicturePath',
                     'dateJoined',
                     'friendStatus',
+                    'backgroundPicturePath'
                 ])
                 filteredUser.dateJoined = user.dateJoined.toISOString();
                 return filteredUser;

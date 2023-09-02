@@ -52,6 +52,7 @@ export interface UserInClient{
     firstName: string,
     lastName: string,
     email: string;
+    backgroundPicturePath: string;
 }
 export interface UserInSearch{
     username: string,
@@ -63,6 +64,7 @@ export interface UserInSearch{
     lastName: string,
     email: string;
     friendStatus: string;
+    backgroundPicturePath: string;
 }
 export interface UserInFriendRequests{
     _id: string | ObjectId,
@@ -71,6 +73,18 @@ export interface UserInFriendRequests{
     createdDate: Date,
     updatedDate: Date,
     status: string,
+    profilePicture: string,
+    city: string,
+    name: string,
+    backgroundPicture: string,
+    featuredWeather: Weather,
+}
+
+export interface Buddy{
+    _id: string | ObjectId,
+    username: string,
+    friendUsername: string,
+    since: Date,
     profilePicture: string,
     city: string,
     name: string,

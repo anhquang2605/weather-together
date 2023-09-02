@@ -6,8 +6,9 @@ interface MiniAvatarProps {
     size?: string; //large, medium, small
     username: string | null | undefined;
     className?: string;
+    featuredWeather?: string;
 }
-export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = ''}: MiniAvatarProps) {
+export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather}: MiniAvatarProps) {
     const dimesion = () => {
         switch(size) {
             case 'extra-large':
@@ -23,10 +24,8 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
         }
     }
     return (
-        
-        <div className={style['mini-avatar'] + " " + style[size] + " " + className}>
+        <div className={style['mini-avatar'] + " " + style[size] + " " + className + " " + style[featuredWeather || ""]}>
             {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture username={username}/>}
         </div>
-        
     )
 }

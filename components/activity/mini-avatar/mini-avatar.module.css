@@ -27,3 +27,31 @@
     
     /* Set padding of nav-item parent of this element to 0 */
 }
+.rainy {
+    background: linear-gradient(45deg, #4b0082, #6a238f, #8b50ab); /* Indigo */
+  }
+  
+  .cloudy {
+    background: linear-gradient(45deg, #87CEEB, #a0d8f1, #b9e2f7); /* Sky Blue */
+  }
+  
+  .windy {
+    background: linear-gradient(45deg, #008000, #00a000, #00c800); /* Green */
+  }
+  
+  .thunder {
+    background: linear-gradient(45deg, #FFFF00, #FFFF66, #FFFF99); /* Yellow */
+  }
+  
+  .sunny {
+    background: linear-gradient(45deg, #FFA500, #FFB347, #FFC680); /* Orange */
+  }
+  
+  /* Note: You've mentioned 'rainy' twice. I'm assuming the second one was intended to be different. */
+  .rainy-alternate {
+    background: linear-gradient(45deg, #9400D3, #a631db, #b863e3); /* Violet */
+  }
+  
+  .snowy {
+    background: linear-gradient(45deg, #0000FF, #3333FF, #6666FF); /* Blue */
+  }

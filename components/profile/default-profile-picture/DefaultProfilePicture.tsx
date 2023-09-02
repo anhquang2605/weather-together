@@ -23,7 +23,7 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username})
         setColor(randomizedColor());
     },[])
     return (
-        <div style={{backgroundColor: color}} className={style['default-profile-picture']}>
+        <div className={style['default-profile-picture']}>
             {username?.substring(0, 2).toUpperCase()}
         </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import style from './request-card.module.css';
 import { UserInFriendRequests } from '../../../../../types/User';
 import MiniAvatar from '../../../../activity/mini-avatar/MiniAvatar';
-import { RAINBOW_COLORS } from '../../../../../constants/rainbow-colors';
+import { RAINBOW_COLORS_PASTEL } from '../../../../../constants/rainbow-colors';
 import {IoLocation} from 'react-icons/io5'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -18,7 +18,7 @@ interface StatusToIconMap{
     [key: string]: JSX.Element;
 }
 const RequestCard: React.FC<RequestCardProps> = ({user, curMode, index, updater}) => {
-    const color = RAINBOW_COLORS[Math.floor(Math.random() * RAINBOW_COLORS.length)];
+    const color = RAINBOW_COLORS_PASTEL[index % RAINBOW_COLORS_PASTEL.length];
     const router = useRouter();
     const {data: session} = useSession();
     const account_user = session?.user;

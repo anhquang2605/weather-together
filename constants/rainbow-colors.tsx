@@ -16,3 +16,12 @@ export const RAINBOW_COLORS = [
     "#9D9DE0", // Pastel Indigo
     "#E0B0FF"  // Pastel Violet
 ]
+export const VIVID_COLORS = [
+    "#F43545",
+    "#FA8901",
+    "#FAD717",
+    "#00BA71",
+    "#00C2DE",
+    "#00418D",
+    "#5F2879"
+];

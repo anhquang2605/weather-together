@@ -26,7 +26,7 @@
     > * {
         @apply h-full w-full object-cover;
     }
-    &::after{
+   /*  &::after{
         content: "";
         position: absolute;
         bottom: -3px;
@@ -35,7 +35,7 @@
         width: 100%;
         transition: var(--animation-props);
         @apply bg-gradient-to-b from-transparent via-slate-200/90 via-70% to-slate-200 to-85%; 
-    }
+    } */
 }
 .lower-half{
     @apply h-2/3  w-full flex flex-col items-center z-20;
@@ -70,4 +70,7 @@
 }
 .accept-btn{
     @apply text-slate-200 !important;
+}
+.default-background{
+    background-color: var(--highlighted-color);
 }
