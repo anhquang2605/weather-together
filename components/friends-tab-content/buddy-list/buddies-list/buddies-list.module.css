@@ -1,7 +1,34 @@
 .list-container{
+    @apply  h-1 border border-slate-400 rounded-lg mt-4 relative;
     flex: 1;
-    @apply flex flex-col h-1;
 }
 .buddies-list{
-    @apply flex flex-col h-full overflow-y-auto;
+    @apply overflow-y-scroll h-full p-8 gap-8;
+    display: grid;
+    grid-template-columns: 1fr;
+    @screen xl{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.result-found-banner{
+    transition: all 0.3s ease-in-out 0.5s;
+    @apply absolute -top-4 left-0 w-full flex flex-col justify-center items-center z-20;
+}
+.result-found{
+    @apply py-1 px-8 rounded-lg border text-base border-slate-400;
+    background-color: var(--badge-color);
+    .count-badge{
+        @apply justify-center items-center text-center mr-1;
+        font-weight: bolder!important;
+        flex-shrink: 0;
+    }
+}
+.lazy-target{
+    height: 1px;
+    opacity: 0;
+    @apply w-full bg-slate-400/50 rounded-3xl flex flex-row justify-center items-center animate-pulse overflow-hidden;
+    &.fetching{
+        opacity: 1;
+        height: 150px;
+    }
 }

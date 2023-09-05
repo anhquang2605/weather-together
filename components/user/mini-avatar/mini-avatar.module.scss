@@ -84,7 +84,7 @@
   }
   
   .thunder {
-    @include neon-shadow(#FFFF00, 3px, 5, 3px);
+    @include neon-shadow(#fafa57, 3px, 5, 3px);
   }
   .thunder .mini-avatar {
     background: linear-gradient(45deg, #FFFF00, #FFFF66, rgb(222, 56, 200));

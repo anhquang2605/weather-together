@@ -1,16 +1,16 @@
 .buddy-card{
-    --inner-dimension-percentage: 90%;
+    --inner-dimension-percentage: 95%;
     --invisible-border-width: 1px;
     --outline-shadow-width: 1px;
     --transition-config: all 0.2s ease-in-out;
     --black-circle-diameter: 800px;
-    @apply w-full lg:w-2/3 h-[150px] bg-slate-200 overflow-hidden rounded-3xl mb-4 mx-auto relative flex flex-row items-center border border-slate-500;
+    @apply w-full h-[150px] bg-slate-200 overflow-hidden rounded-3xl mb-4 mx-auto relative flex flex-row items-center border border-slate-500;
     transition: var(--transition-config);
     &:hover{
         transform: scale(1.02);
         box-shadow: 0 0 8px 2px rgba(0,0,0,0.4);
         .hover{
-            @apply p-4;
+            @apply p-6;
             > div {
                 @apply animate-spin-slow;
                 > div{

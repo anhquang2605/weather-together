@@ -1,5 +1,5 @@
 .list-container{
-    @apply relative h-1 relative;
+    @apply relative h-1;
     flex: 1;
 }
 .requests-list{

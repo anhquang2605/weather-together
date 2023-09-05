@@ -33,7 +33,6 @@ const RequestsList: React.FC<RequestsListProps> = ({users, curMode, hasMore, fet
     }
     useEffect(()=>{
         if(hasMore && apiStatus === "success"){
-            console.log(hasMore, apiStatus)
             const option = {
                 root: document.querySelector(`.${style['requests-list']}`) as HTMLDivElement,
             }
