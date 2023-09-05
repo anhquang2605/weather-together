@@ -4,7 +4,7 @@ import {useEffect} from "react"
 import { useRouter } from "next/router";
 import { UserInSession } from "../../../types/User";
 
-import MiniAvatar from "../../activity/mini-avatar/MiniAvatar";
+import MiniAvatar from "../../user/mini-avatar/MiniAvatar";
 import { FaNewspaper } from "react-icons/fa";
 interface NavItem {
     label: string,

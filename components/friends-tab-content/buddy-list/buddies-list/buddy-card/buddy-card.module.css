@@ -3,7 +3,8 @@
     --invisible-border-width: 1px;
     --outline-shadow-width: 1px;
     --transition-config: all 0.2s ease-in-out;
-    @apply w-1/2 h-[150px] bg-slate-200 overflow-hidden rounded-3xl mb-4 mx-auto relative flex flex-row items-center border border-slate-500;
+    --black-circle-diameter: 800px;
+    @apply w-full lg:w-2/3 h-[150px] bg-slate-200 overflow-hidden rounded-3xl mb-4 mx-auto relative flex flex-row items-center border border-slate-500;
     transition: var(--transition-config);
     &:hover{
         transform: scale(1.02);
@@ -21,11 +22,31 @@
                 }
             }
         }
+        .dark-circular-shadow{
+
+            width: var(--black-circle-diameter);
+            height: var(--black-circle-diameter);
+            left: calc((var(--black-circle-diameter) / 3) * -1 );
+            transition: var(--transition-config);
+        }
         .overlay-screen{
             transition: var(--transition-config);
-            @apply backdrop-blur-none bg-gradient-to-r from-black/70 to-60% to-transparent;
+            @apply backdrop-blur-none bg-none;
+        }
+        .buddy-info{
+            @apply text-slate-100;
+            @apply ml-8;
+            .other-info{
+                @apply max-h-[300px];
+            }
         }
     }
+}
+.dark-circular-shadow{
+    @apply w-1 h-1 rounded-full absolute top-1/2 -translate-y-1/2;
+    left: calc(100% / 12);
+    background: rgb(45,45,45);
+    background: radial-gradient(circle, rgba(0, 0, 0, 90%) 0%, rgba(255,255,255,0) 70%);
 }
 .background-picture{
     @apply h-full w-full absolute top-0 left-0 rounded-3xl;
@@ -38,11 +59,26 @@
     }
     .overlay-screen{
         transition: var(--transition-config);
-        @apply h-full w-full absolute top-0 left-0 rounded-3xl bg-slate-600/20 backdrop-blur-sm;
+        @apply h-full w-full absolute top-0 left-0 rounded-3xl bg-slate-800/30 backdrop-blur-sm;
     }
 }
 .profile-pic-container{
-    @apply ml-8 absolute w-1/6  h-full top-0 left-0 flex flex-col justify-center items-center;
+    @apply ml-8  w-1/6  h-full flex flex-col justify-center items-center;
+}
+.buddy-info{
+    transition: var(--transition-config);
+    @apply flex flex-col z-10  ml-0 text-slate-300;
+    .title{
+        @apply text-2xl font-bold flex flex-row; 
+    }
+    .location{
+        @apply flex flex-row items-center;
+    }
+    .other-info{
+        transition: var(--transition-config);
+        @apply flex flex-col max-h-0 overflow-hidden;
+    }
+
 }
 @keyframes counter-rotation {
     from {

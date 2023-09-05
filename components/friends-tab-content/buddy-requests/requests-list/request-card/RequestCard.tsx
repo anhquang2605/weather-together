@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './request-card.module.css';
 import { UserInFriendRequests } from '../../../../../types/User';
-import MiniAvatar from '../../../../activity/mini-avatar/MiniAvatar';
+import MiniAvatar from '../../../../user/mini-avatar/MiniAvatar';
 import { RAINBOW_COLORS_PASTEL } from '../../../../../constants/rainbow-colors';
 import {IoLocation} from 'react-icons/io5'
 import Image from 'next/image';

@@ -2,7 +2,7 @@
 import React,{useState, useEffect, useRef} from 'react'
 import { insertToPostAPI, uploadFileToPostAPI } from '../../../../libs/api-interactions';
 import style from './comment-form.module.css';
-import MiniAvatar from '../../mini-avatar/MiniAvatar';
+import MiniAvatar from '../../../user/mini-avatar/MiniAvatar';
 import {IoCamera,IoSend, IoClose} from 'react-icons/io5';
 import EmojiSelector from '../../text-editing/emoji-selections/EmojiSelector';
 import IntextSuggestion from '../../text-editing/intext-suggestion/IntextSuggestion';

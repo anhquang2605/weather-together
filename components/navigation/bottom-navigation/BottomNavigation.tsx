@@ -6,7 +6,7 @@ import {FaHouseUser} from "react-icons/fa";
 import { IoPersonCircle  ,IoPeople, IoSettings } from 'react-icons/io5';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import MiniAvatar from '../../activity/mini-avatar/MiniAvatar';
+import MiniAvatar from '../../user/mini-avatar/MiniAvatar';
 interface NavItem {
     label: string,
     linkhref: string,

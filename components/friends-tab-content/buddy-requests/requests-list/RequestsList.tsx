@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import style from './requests-list.module.css';
 import { UserInFriendRequests, UserInSearch } from '../../../../types/User';
-import MiniAvatar from '../../../activity/mini-avatar/MiniAvatar';
+import MiniAvatar from '../../../user/mini-avatar/MiniAvatar';
 import RequestCard from './request-card/RequestCard';
 import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
 import { has } from 'lodash';

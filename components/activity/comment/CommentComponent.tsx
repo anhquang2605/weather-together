@@ -1,6 +1,6 @@
 import style from './comment-component.module.css'
 import { Comment } from '../../../types/Comment';
-import MiniAvatar from '../mini-avatar/MiniAvatar';
+import MiniAvatar from '../../user/mini-avatar/MiniAvatar';
 import { formatDistance } from 'date-fns';
 import {useEffect, useState} from 'react';
 import InteractionsBtns from '../interactions-btns/InteractionsBtns';

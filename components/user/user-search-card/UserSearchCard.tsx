@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import style from './user-search-card.module.css';
 import { UserInSearch } from '../../../types/User';
-import MiniAvatar from '../../activity/mini-avatar/MiniAvatar';
+import MiniAvatar from '../mini-avatar/MiniAvatar';
 import FeaturedWeatherBadge from '../featured-weather-badge/FeaturedWeatherBadge';
 import { useRouter } from 'next/router';
 import {LiaUserFriendsSolid} from 'react-icons/lia';

@@ -1,0 +1,114 @@
+@mixin neon-shadow($colorString, $startWidth, $steps, $stepWidth){
+  $shadows: ();
+  @for $i from 0 through $steps - 1 {
+    $shadows: append($shadows, 0 0 #{$startWidth + $i * $stepWidth} $colorString, comma);
+  }
+  @for $i from 0 through $steps - 1{
+    $shadows: append($shadows, inset 0 0 #{$startWidth + $i * $stepWidth} $colorString, comma);
+  }
+  &.hovered{
+    box-shadow: $shadows;
+  }
+
+}
+.outer-circle{
+    display: inline-block;
+    @apply rounded-full border-white/50 p-0 relative self-center;
+    background: transparent;
+    transition: all 0.2s ease-in-out;
+    &::after{
+      content: '';
+      @apply absolute top-0 left-0 w-full h-full rounded-full;
+      border: 1px solid white;
+
+    }
+}
+.mini-avatar{
+    transition: all 0.2s ease-in-out;
+    @apply rounded-full shrink-0 relative;
+    .inner{
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0; 
+        @apply overflow-hidden rounded-full absolute;
+        transition: all 0.2s ease-in-out;
+    }
+    img{
+        @apply w-full h-full;
+    }
+}
+.featured-weather{
+  @apply absolute top-0 left-3/4 z-10;
+}
+.extra-large{
+    @apply w-24 h-24;
+}
+.large{
+    @apply w-16 h-16;
+}
+.medium{
+    @apply w-9 h-9;
+}
+.small{
+    @apply w-8 h-8;
+
+}
+.compacted-nav{
+    transition: all 0.3s ease-in-out;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border: 0.5px solid lightgray; 
+    
+    /* Set padding of nav-item parent of this element to 0 */
+}
+
+.cloudy {
+    @include neon-shadow(#87CEEB, 5px, 2, 5px);
+  }
+/*   .cloudy .mini-avatar {
+    background: linear-gradient(45deg, #87CEEB, #a0d8f1, #b9e2f7, #FFD700);
+  } */
+  .cloudy .mini-avatar {
+    background: linear-gradient(45deg, #FFFFFF, #87CEEB,  #1E90FF );
+    
+  }
+  
+  .windy {
+    @include neon-shadow(#008000, 3px, 5, 3px);
+  }
+  .windy .mini-avatar {
+    background: linear-gradient(45deg, #00ffea, #00a000, #00c800 );
+  }
+  
+  .thunder {
+    @include neon-shadow(#FFFF00, 3px, 5, 3px);
+  }
+  .thunder .mini-avatar {
+    background: linear-gradient(45deg, #FFFF00, #FFFF66, rgb(222, 56, 200));
+  }
+  
+  .sunny {
+    @include neon-shadow(#FFA500, 3px, 5, 3px);
+  }
+  .sunny .mini-avatar {
+    background: linear-gradient(45deg, #c60303, #FFB347, #FFC680);
+  }
+  
+  .snowy {
+    @include neon-shadow(#5e5eff, 3px, 5, 3px);
+  }
+  .snowy .mini-avatar {
+    background: linear-gradient(45deg, #0000FF, #3333FF, #6666FF, #00FFFF);
+  }
+  
+  .rainy {
+/*     box-shadow: 0 0 10px 1px #4169E1, inset 0 0 10px 1px #4169E1; */
+    @include neon-shadow(#9400D3, 3px, 5, 3px);
+  }
+  .rainy .mini-avatar {
+    background: linear-gradient(45deg, #4169E1, #ab52ff, #5400fd);
+  }
+

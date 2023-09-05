@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './user-card.module.css';
-import MiniAvatar from '../../activity/mini-avatar/MiniAvatar';
+import MiniAvatar from '../../user/mini-avatar/MiniAvatar';
 import { UserInSession } from '../../../types/User';
 import {IoPersonCircle, IoLocation} from 'react-icons/io5';
 import Link from 'next/link'

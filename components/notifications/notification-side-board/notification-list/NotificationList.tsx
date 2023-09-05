@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {IoCheckmark, IoClose, IoEllipsisVertical} from 'react-icons/io5'
 import DefaultProfilePicture from '../../../profile/default-profile-picture/DefaultProfilePicture';
-import MiniAvatar from '../../../activity/mini-avatar/MiniAvatar';
+import MiniAvatar from '../../../user/mini-avatar/MiniAvatar';
 interface NotificationListProps {
     notifications: Notification[];
     handleSetRead:  (notification_id: string, index: number) => void;
