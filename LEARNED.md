@@ -75,3 +75,14 @@ let users:User[] = collection.find().toArray();
 28. To fill the remain space while specify the others siblings to remain the same dimension, use flex: 1
 29. For child of such container to actually fill the dimension of the container, dont use 100% height or width since it will cause the child element to over grow, causing the container to scroll.
 => work around: set the child to have fixed height, any is fine, then set its flex: 1
+30. For intersection observer, besure to create a call back outside of the object instantiation because it might capture the old value of parameter, causing the function inside to always receive the same param despite the state and prop provided to it changed
+31. if Operation involve passing a function and have a callback function to call that function, the state within such passed function will remain the same in a closure. To access the latest version of the state, useRef, update stateref.current = thestate to get the latest update from within a closure
+const lastCursorRef =  useRef<Date>(lastCursorDate);
+useEffect(()=>{
+    lastCursorRef.current = lastCursorDate;
+}, [lastCursorDate]);
+const functionBeingCallWithinACallBack = async () => {
+    ....
+    const response = await handleFetchBuddies(lastCursorRef.current);
+    .....
+}

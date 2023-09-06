@@ -2,30 +2,33 @@ import React, { useEffect } from 'react';
 import style from './buddies-list.module.css';
 import { Buddy } from '../../../../types/User';
 import BuddyCard from './buddy-card/BuddyCard';
+import { last } from 'lodash';
+import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
 
 interface BuddiesListProps {
     buddies: Buddy[];
     hasMore: boolean;
-    fetchMoreBuddies: (lastCursorDate: Date | undefined) => void;
+    fetchMoreBuddies: () => void;
     apiStatus: 'idle' | 'loading' | 'success' | 'error'; 
     counts: number;  
     isFetching: boolean;
-    lastCursorDate: Date | undefined;
+    lastCursorDate: Date;
 }
 
 const BuddiesList: React.FC<BuddiesListProps> = (props) => {
-    const {buddies, hasMore, fetchMoreBuddies, isFetching, apiStatus, counts, lastCursorDate} = props;
+    const {buddies, hasMore, fetchMoreBuddies, isFetching, apiStatus, counts} = props;
+    const observerCallBack = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+        if(entries[0].isIntersecting){
+            fetchMoreBuddies();
+        }
+    }
     useEffect(() => {
         if(hasMore && apiStatus === "success"){
             const option = {
                 root: document.querySelector(`.${style['buddies-list']}`) as HTMLDivElement,
             }
             const target = document.querySelector(`.${style['lazy-target']}`) as HTMLDivElement;
-            const observer = new IntersectionObserver((entries, observer) => {
-                if(entries[0].isIntersecting){
-                    fetchMoreBuddies(lastCursorDate);
-                }
-            }, option);
+            const observer = new IntersectionObserver(observerCallBack, option);
             observer.observe(target);
             return () => {
                 observer.disconnect();
@@ -33,6 +36,8 @@ const BuddiesList: React.FC<BuddiesListProps> = (props) => {
         }
     }, [hasMore, apiStatus]);
     return (
+        apiStatus === "loading" ?
+        <LoadingIndicator /> :
         <div className={style['list-container']}>
             <div className={style["result-found-banner"] + " " + style[apiStatus || '']}>
                 {

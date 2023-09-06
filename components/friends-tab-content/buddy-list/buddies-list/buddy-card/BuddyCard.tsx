@@ -43,7 +43,7 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy}) => {
             </div>
             <div className={style['profile-pic-container']}>
                 <MiniAvatar
-                    username={buddy.username}
+                    username={buddy.friendUsername}
                     profilePicturePath={buddy.profilePicture}
                     size="extra-large"
                     featuredWeather={buddy.featuredWeather ? buddy.featuredWeather.name : ""}

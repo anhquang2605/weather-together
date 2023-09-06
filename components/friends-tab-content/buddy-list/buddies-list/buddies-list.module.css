@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: 1fr;
     @screen xl{
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 .result-found-banner{
@@ -26,9 +26,11 @@
 .lazy-target{
     height: 1px;
     opacity: 0;
+    visibility: hidden;
     @apply w-full bg-slate-400/50 rounded-3xl flex flex-row justify-center items-center animate-pulse overflow-hidden;
     &.fetching{
         opacity: 1;
         height: 150px;
+        visibility: visible;
     }
 }

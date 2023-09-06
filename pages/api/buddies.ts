@@ -11,7 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             case 'GET':
                 const {username, limit, lastCursor, searchTerm} = req.query;
                 const buddies = db.collection<Buddy>('buddies');
-                console.log(lastCursor);
                 const match:{[key: string] : any} = {
                     username: username as string,
                     since: {$lt: lastCursor ? new Date(lastCursor as string) : new Date()}
@@ -31,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 delete matchForCounts.since; 
                 const counts = await buddies.countDocuments(matchForCounts);
                 const fetchLimit = parseInt(limit ? limit as string : '10') + 1;
-                const buddiesData = await buddies.find(match).limit(fetchLimit).toArray();
+                const buddiesData = await buddies.find(match).sort({since: -1}).limit(fetchLimit).toArray();
                 const hasMore = buddiesData.length > parseInt(limit as string);
                 if(hasMore){
                     buddiesData.pop();
