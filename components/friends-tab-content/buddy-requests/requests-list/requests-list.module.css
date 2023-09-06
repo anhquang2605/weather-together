@@ -1,12 +1,12 @@
 .list-container{
-    @apply relative h-1;
+    @apply relative h-1 mt-4 lg:mt-0;
     flex: 1;
 }
 .requests-list{
 /*  md:w-[calc(50%-32px)] lg:w-[calc(33%-32px)] 2xl:w-[calc(25%-32px)] */
 /*     display: grid;
     grid-template-columns: repeat(auto-fill, var(--lg-width)); */
-    @apply p-4 md:p-8 pr-0 pb-0 h-full border border-slate-400 rounded-lg overflow-y-scroll relative;
+    @apply p-4 md:p-8 lg:pr-0 lg:pb-0 h-full border border-slate-400 rounded-lg overflow-y-scroll relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -14,8 +14,7 @@
 
 .lazy-target{
     flex-grow: 1;
-    @apply min-w-full md:min-w-[calc(50%-32px)] lg:min-w-[calc(33.3%-32px)] 2xl:min-w-[calc(25%-32px)];
-    margin-right: 32px;
+    @apply min-w-full md:min-w-[calc(50%-32px)] lg:min-w-[calc(33.3%-32px)] 2xl:min-w-[calc(25%-32px)] lg:mr-[32px];
     opacity: 0;
     &.fetching{
         opacity: 1;
@@ -27,7 +26,7 @@
 }
 .result-found-banner{
     transition: all 0.3s ease-in-out 0.5s;
-    @apply absolute  -top-3 md:-top-4 left-0 w-full flex flex-col justify-center items-center text-sm md:text-base;
+    @apply absolute  -top-3 md:-top-4 left-0 w-full flex flex-col justify-center items-center text-sm md:text-base z-20;
 }
 .result-found{
     @apply py-0.5 md:py-1 px-8 rounded-lg border border-slate-400;

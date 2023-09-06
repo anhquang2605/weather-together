@@ -6,7 +6,7 @@
     display: grid;
     grid-template-columns: 1fr;
     align-items: start;
-    @apply gap-8 mx-0 lg:mx-8 -mb-8 relative;
+    @apply gap-8 mx-4 lg:mx-8 lg:mb-0 relative;
 }
 .observer-target{
     @apply w-full h-0 absolute top-full;

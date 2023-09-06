@@ -14,7 +14,7 @@
         }
     }
     @screen lg{
-        @apply flex flex-col p-4 border border-slate-400 rounded-lg mt-8 static w-auto h-auto bg-transparent backdrop-blur-none;
+        @apply p-4 border border-slate-400 rounded-lg mt-8 static w-full h-auto bg-transparent backdrop-blur-none;
     }   
 }
 .busy{

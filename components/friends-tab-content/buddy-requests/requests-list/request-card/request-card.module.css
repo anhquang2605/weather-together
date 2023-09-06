@@ -1,9 +1,8 @@
 .request-card{
     --lg-height: 220px;
     --animation-props: all 0.2s ease-in-out;
-    @apply bg-slate-200 w-full h-[268px] md:h-[252px] xl:h-[220px] lg:w-[calc(50%-32px)]  2xl:w-[calc(25%-32px)] flex flex-col rounded-3xl shadow-lg overflow-hidden border border-slate-400;
+    @apply bg-slate-200 lg:mr-[32px] w-full h-[268px] md:h-[252px] xl:h-[220px] lg:w-[calc(50%-32px)]  2xl:w-[calc(25%-32px)] flex flex-col rounded-3xl shadow-lg overflow-hidden border border-slate-400;
     transition: var(--animation-props);
-    margin-right: 32px;
     margin-bottom: 32px;
     &:hover{
         cursor: pointer;

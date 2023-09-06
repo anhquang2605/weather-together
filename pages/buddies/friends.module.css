@@ -4,7 +4,7 @@
     height: 100vh;
     --tab-number: 3;
     --width: calc(100% / var(--tab-number));
-    @apply p-4 md:p-8 pb-0 flex flex-col;
+    @apply p-4 pb-16 lg:p-8 flex flex-col;
 }
 
 .tabs-container{

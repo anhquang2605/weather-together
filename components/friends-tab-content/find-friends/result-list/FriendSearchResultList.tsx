@@ -101,7 +101,7 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
                                
                          </div>}
                          {!hasMore && <div className={style['end-of-list']}>
-                                <span className="flex flex-row items-center">Weather report: Clear skies <IoSunnyOutline /> and no more folks to load!</span>
+                                <span className="flex flex-row items-center">Clear skies <IoSunnyOutline /> and no more folks to load!</span>
                             </div>}
                          <div className={style['observer-target']}></div>
                     </div>

@@ -1,6 +1,6 @@
 .buddy-list{
     flex: 1;
-    @apply flex flex-col pb-8 overflow-auto;
+    @apply flex flex-col overflow-auto;
 }
 .search{
     flex: 0;
