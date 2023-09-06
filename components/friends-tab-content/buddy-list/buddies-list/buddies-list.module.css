@@ -3,7 +3,7 @@
     flex: 1;
 }
 .buddies-list{
-    @apply overflow-y-scroll h-full p-8 gap-8;
+    @apply overflow-y-scroll h-full p-4 md:p-8 gap-8;
     display: grid;
     grid-template-columns: 1fr;
     @screen xl{
@@ -15,7 +15,7 @@
     @apply absolute -top-4 left-0 w-full flex flex-col justify-center items-center z-20;
 }
 .result-found{
-    @apply py-1 px-8 rounded-lg border text-base border-slate-400;
+    @apply  py-1 px-8 rounded-lg border text-sm md:text-base border-slate-400;
     background-color: var(--badge-color);
     .count-badge{
         @apply justify-center items-center text-center mr-1;

@@ -4,7 +4,7 @@
     height: 100vh;
     --tab-number: 3;
     --width: calc(100% / var(--tab-number));
-    @apply p-8 pb-0 flex flex-col;
+    @apply p-4 md:p-8 pb-0 flex flex-col;
 }
 
 .tabs-container{
@@ -14,7 +14,7 @@
     flex-direction: row;
     flex-shrink: 0;
     box-shadow: 0 0 5px 2px rgba(0,0,0,0.2);
-    @apply border border-slate-400 p-1;
+    @apply border border-slate-400 p-1 text-sm md:text-base;
     @apply relative;
 }
 .tab{

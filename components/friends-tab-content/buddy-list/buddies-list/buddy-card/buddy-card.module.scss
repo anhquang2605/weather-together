@@ -73,7 +73,7 @@
     transition: var(--transition-config);
     @apply flex flex-col z-10  ml-0 text-slate-200;
     .title{
-        @apply text-2xl font-bold flex flex-row; 
+        @apply text-lg md:text-2xl font-bold flex flex-row; 
     }
     .location{
         @apply flex flex-row items-center;

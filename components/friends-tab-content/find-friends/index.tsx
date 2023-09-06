@@ -9,6 +9,7 @@ import SuggestionDropDown from '../../plugins/search-bar/suggestion-drop-down/Su
 import UserSearchCard from '../../user/user-search-card/UserSearchCard';
 import { FriendsContext } from '../../../pages/buddies/FriendsContext';
 import {  UserFilter, useFilter } from './FilterContext';
+import {IoArrowBack, IoFilter} from 'react-icons/io5';
 import FilterGroup from './filter-group/FilterGroup';
 
 function debounce(func:Function, duration:number) {
@@ -272,6 +273,10 @@ export default function FindFriends({}:FindFriendsProps) {
             </div>
         )
     }
+    const revealFilter = () => {
+        const filter = document.querySelector(`.${style.controlGroup}`) as HTMLElement;
+        filter.classList.toggle(style['overlay-reveal']);
+    }
     useEffect(() => {
         //getCitiesFromLongLat(user?.location?.latitude ?? "", user?.location?.longitude ?? "",'40')
         if(!filterBusy){
@@ -299,6 +304,9 @@ export default function FindFriends({}:FindFriendsProps) {
                         <SuggestionDropDown searchStarted={searchStarted} suggestions={searchSuggestions} suggestionRenderer={suggestionRenderer} />
                     </div>
                     <FilterGroup resetSort={resetSort} handleFilterSearch={handleApplyFilter}/>
+                    <button onClick={revealFilter} className={style['filter-reveal-btn']}>
+                        <IoFilter className="icon"/>
+                    </button>
                 </div>
 
             <FriendSearchResultList hasMore={hasMore} initiallyFetched={initiallyFetched} lastCursor={lastTimeStramp} infiniteFetcher={debounceFetchMore}  apiStatus={apiStatus} results={searchResults}/>

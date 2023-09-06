@@ -1,5 +1,9 @@
 .filter-group{
-    @apply flex flex-row lg:flex-col p-4 border border-slate-400 rounded-lg mt-8;
+    @apply fixed flex flex-col top-0 -left-full overflow-auto z-20 w-full h-screen bg-slate-900/80 backdrop-blur-lg;
+    &.overlay-reveal{
+        @apply left-0;
+    }
+    
     > div{
         @apply ml-8 mt-8 relative;
     }
@@ -9,6 +13,9 @@
             @apply mr-2;
         }
     }
+    @screen lg{
+        @apply flex flex-col p-4 border border-slate-400 rounded-lg mt-8 static w-auto h-auto bg-transparent backdrop-blur-none;
+    }   
 }
 .busy{
     pointer-events: none;

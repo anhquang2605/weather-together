@@ -1,12 +1,39 @@
 .find-friends{
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr;
     overflow: hidden;
     @apply relative h-full;
+    @screen lg{
+        grid-template-columns: 1fr 2fr;
+        .mobile-control{
+            @apply hidden;
+        }
+    }
+}
+.hide-btn{
+    @apply mb-8 lg:hidden;
 }
 .controlGroup{
-    @apply flex flex-col pt-8 px-8 border-r border-slate-400/50;
+    transition: all 0.2s ease-in-out;
+
+    @apply flex flex-row overflow-auto h-auto w-auto text-white p-4 pb-0 bg-transparent backdrop-blur-none items-center;
+    position: static;
+    top: auto;
+    left: auto;
+    flex: 0;
+    @screen lg{
+        @apply border-r pt-8 px-8  border-slate-400/50;
+    }
+    
 }
 .search-bar-control-group{
-    @apply relative;
+    @apply relative mr-8;
+    flex: 1;
+    @screen lg{
+        @apply mr-0;
+    }
+}
+.filter-reveal-btn{
+    @apply flex flex-row;
+    flex-shrink: 0;
 }

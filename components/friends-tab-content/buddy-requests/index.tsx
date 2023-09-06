@@ -190,7 +190,7 @@ const BuddyRequestTabContent: React.FC<BuddyRequestTabContentProps> = ({}) => {
                         query={mode[curMode].searchTerm}
                         setQuery={(event) => handleSetStateOfMode(curMode, "searchTerm", event.target.value)}
                         onSearch={handleOnSearch}
-                        placeholder='Search among your friend requests'
+                        placeholder='Search among requests'
                     />
                 </div>
 

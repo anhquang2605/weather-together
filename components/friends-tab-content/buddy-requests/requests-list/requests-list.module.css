@@ -6,7 +6,7 @@
 /*  md:w-[calc(50%-32px)] lg:w-[calc(33%-32px)] 2xl:w-[calc(25%-32px)] */
 /*     display: grid;
     grid-template-columns: repeat(auto-fill, var(--lg-width)); */
-    @apply p-8 pr-0 pb-0 h-full border border-slate-400 rounded-lg overflow-y-scroll relative;
+    @apply p-4 md:p-8 pr-0 pb-0 h-full border border-slate-400 rounded-lg overflow-y-scroll relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -27,10 +27,10 @@
 }
 .result-found-banner{
     transition: all 0.3s ease-in-out 0.5s;
-    @apply absolute -top-4 left-0 w-full flex flex-col justify-center items-center;
+    @apply absolute  -top-3 md:-top-4 left-0 w-full flex flex-col justify-center items-center text-sm md:text-base;
 }
 .result-found{
-    @apply py-1 px-8 rounded-lg border text-base border-slate-400;
+    @apply py-0.5 md:py-1 px-8 rounded-lg border border-slate-400;
     background-color: var(--badge-color);
     .count-badge{
         @apply justify-center items-center text-center mr-1;
