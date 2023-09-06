@@ -1,5 +1,5 @@
 .list-container{
-    @apply  h-1 border border-slate-400 rounded-lg mt-4 relative;
+    @apply  h-1 border border-slate-400 rounded-lg relative;
     flex: 1;
 }
 .buddies-list{

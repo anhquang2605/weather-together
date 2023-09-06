@@ -1,11 +1,24 @@
 .buddy-card{
-    --inner-dimension-percentage: 95%;
+    --inner-dimension-percentage: 92%;
     --invisible-border-width: 1px;
     --outline-shadow-width: 1px;
     --transition-config: all 0.2s ease-in-out;
-    --black-circle-diameter: 800px;
-    @apply w-full h-[150px] bg-slate-200 overflow-hidden rounded-3xl mb-4 mx-auto relative flex flex-row items-center border border-slate-500;
+    --black-circle-diameter: 1000px;
+    @apply w-full lg:w-3/4 h-[150px] bg-slate-200 overflow-hidden rounded-3xl mb-4 mx-auto relative flex flex-row items-center border border-slate-500;
     transition: var(--transition-config);
+
+    .dark-circular-shadow{
+        transition: var(--transition-config);
+        @apply rounded-full absolute bg-slate-200;
+        top: calc(50% - var(--black-circle-diameter) / 2);
+        left: calc(50% - var(--black-circle-diameter) / 2);
+        background: rgb(45,45,45);
+        width: var(--black-circle-diameter);
+        height: var(--black-circle-diameter);
+        transform: scale(0);
+        background: radial-gradient(circle, rgb(12, 0, 46) 0%, rgba(255,255,255,0) 70%);
+    }
+
     &:hover{
         transform: scale(1.02);
         box-shadow: 0 0 8px 2px rgba(0,0,0,0.4);
@@ -23,15 +36,11 @@
             }
         }
         .dark-circular-shadow{
-
-            width: var(--black-circle-diameter);
-            height: var(--black-circle-diameter);
-            left: calc((var(--black-circle-diameter) / 3) * -1 );
-            transition: var(--transition-config);
+            transform: scale(1);
         }
         .overlay-screen{
             transition: var(--transition-config);
-            @apply backdrop-blur-none bg-none;
+            @apply backdrop-blur-none bg-transparent;
         }
         .buddy-info{
             @apply text-slate-100;
@@ -42,14 +51,9 @@
         }
     }
 }
-.dark-circular-shadow{
-    @apply w-1 h-1 rounded-full absolute top-1/2 -translate-y-1/2;
-    left: calc(100% / 12);
-    background: rgb(45,45,45);
-    background: radial-gradient(circle, rgba(0, 0, 0, 90%) 0%, rgba(255,255,255,0) 70%);
-}
+
 .background-picture{
-    @apply h-full w-full absolute top-0 left-0 rounded-3xl;
+    @apply h-full w-full absolute top-0 left-0 rounded-3xl bg-white;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -59,15 +63,15 @@
     }
     .overlay-screen{
         transition: var(--transition-config);
-        @apply h-full w-full absolute top-0 left-0 rounded-3xl bg-slate-800/30 backdrop-blur-sm;
+        @apply h-full w-full absolute top-0 left-0 rounded-3xl bg-slate-800/40 backdrop-blur-sm;
     }
 }
 .profile-pic-container{
-    @apply ml-8  w-1/6  h-full flex flex-col justify-center items-center;
+    @apply ml-8  w-1/6  h-full flex flex-col justify-center items-center relative;
 }
 .buddy-info{
     transition: var(--transition-config);
-    @apply flex flex-col z-10  ml-0 text-slate-300;
+    @apply flex flex-col z-10  ml-0 text-slate-200;
     .title{
         @apply text-2xl font-bold flex flex-row; 
     }

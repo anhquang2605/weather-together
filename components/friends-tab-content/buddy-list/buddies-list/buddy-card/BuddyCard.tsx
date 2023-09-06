@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './buddy-card.module.css';
+import style from './buddy-card.module.scss';
 import { Buddy } from '../../../../../types/User';
 import MiniAvatar from '../../../../user/mini-avatar/MiniAvatar';
 import Image from 'next/image'
@@ -34,14 +34,15 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy}) => {
         href={`/userprofile/${buddy.friendUsername}`} className={style['buddy-card']}>
 
             <span className={style['background-picture']} style={{
-                backgroundImage: `url(${buddy.backgroundPicture})`
+                backgroundImage: `url(${buddy.backgroundPicture})`,
             }}>
                 <span className={style['overlay-screen']}>
                 </span>
             </span>
+
+            <div className={style['profile-pic-container']}>
             <div className={style['dark-circular-shadow']}>
             </div>
-            <div className={style['profile-pic-container']}>
                 <MiniAvatar
                     username={buddy.friendUsername}
                     profilePicturePath={buddy.profilePicture}

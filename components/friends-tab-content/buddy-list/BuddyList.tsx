@@ -84,7 +84,7 @@ const BuddyList: React.FC<BuddyListProps> = ({}) => {
         setCounts(response.counts);
     }
     const handleSearchBuddies = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.KeyboardEvent<HTMLInputElement>) => {
-        const response = await handleFetchBuddies(lastCursorDate);
+        const response = await handleFetchBuddies(lastCursorRef.current);
         if(response && response.success){
             handleSetResults(response);
             setApiStatus('success');
