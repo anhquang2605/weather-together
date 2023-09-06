@@ -17,6 +17,8 @@ interface MiniAvatarProps {
 export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather, variant, hoverClassName, hovered}: MiniAvatarProps) {
     const dimesion = () => {
         switch(size) {
+            case 'two-x-large':
+                return 200;
             case 'extra-large':
                 return 100;
             case 'large':
@@ -36,7 +38,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
                 <div className={style['featured-weather']}>
                     <WeatherIcon
                         weatherName={featuredWeather || ''}
-                        size='xl'
+                        size={ size === 'two-x-large' ? '2xl' : 'xl'}
                     />
                 </div>
             }

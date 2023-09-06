@@ -23,17 +23,16 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
     const editingProfile = pathLength > 3;
     const ownedProfile =  usernameFromPath === userFromSession?.username;
     return (
-        <div className="profile-banner flex w-full px-4 pt-4 pb-[20%] rounded mb-4 relative  lg:mb-24 md:mb-16 mb-8">
+        <div className="profile-banner flex flex-col w-full px-4 pt-4 pb-[20%] rounded mb-4 relative mb-8">
             <BannerBackground setEditingBackground={setEditingBackground} bannerPicturePath={user.backgroundPicturePath ?? ""} isEditing={isEditing}/>
-            <div className="absolute bottom-0  lg:-mb-24 md:-mb-16 -mb-8 flex flex-row w-full left-4">
-                <Avatar username={userFromSession?.username  } profilePicturePath={user.profilePicturePath} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
-                <div className="flex flex-row mt-auto ml-4 grow pr-4">
+            <div className="flex flex-row w-full items-center justify-center">
+                <Avatar username={user.username} featuredWeather={user.featuredWeather}  profilePicturePath={user.profilePicturePath} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
+                <div className="flex flex-row ml-4 grow pr-4">
                     <div className="flex flex-col justify-center">
                         <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>
-                        <FavWeather favWeathers={user.favoriteWeathers ?? []}/>
                     </div>
                    
-                    {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 mb-auto ml-auto flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}    
+                    {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}    
                 </div>
             </div>
         </div>
