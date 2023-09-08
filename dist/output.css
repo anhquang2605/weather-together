@@ -600,10 +600,6 @@ video {
   left: 0px;
 }
 
-.left-4 {
-  left: 1rem;
-}
-
 .right-0 {
   right: 0px;
 }
@@ -663,12 +659,12 @@ video {
   margin-bottom: auto;
 }
 
-.-mb-8 {
-  margin-bottom: -2rem;
-}
-
 .-mt-16 {
   margin-top: -4rem;
+}
+
+.-mt-\[calc\(25\%\)\] {
+  margin-top: calc(calc(25%) * -1);
 }
 
 .mb-2 {
@@ -681,10 +677,6 @@ video {
 
 .mb-8 {
   margin-bottom: 2rem;
-}
-
-.mb-auto {
-  margin-bottom: auto;
 }
 
 .ml-1 {
@@ -799,6 +791,10 @@ video {
   height: 100%;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
@@ -879,8 +875,8 @@ video {
   max-width: none;
 }
 
-.flex-1 {
-  flex: 1 1 0%;
+.flex-shrink {
+  flex-shrink: 1;
 }
 
 .shrink {
@@ -995,6 +991,10 @@ video {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
 }
 
 .rounded {
@@ -2028,14 +2028,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 }
 
 @media (min-width: 768px) {
-  .md\:-mb-16 {
-    margin-bottom: -4rem;
-  }
-
-  .md\:mb-16 {
-    margin-bottom: 4rem;
-  }
-
   .md\:block {
     display: block;
   }
@@ -2063,14 +2055,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 }
 
 @media (min-width: 1024px) {
-  .lg\:-mb-24 {
-    margin-bottom: -6rem;
-  }
-
-  .lg\:mb-24 {
-    margin-bottom: 6rem;
-  }
-
   .lg\:mr-4 {
     margin-right: 1rem;
   }

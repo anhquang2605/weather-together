@@ -3,12 +3,11 @@ import { getUserDataByUserName, getUsernamePaths} from "../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect } from 'react';
 import { User } from "../../types/User";
-import Link from "next/link";
 import Summary from "../../components/profile/summary/Summary";
 import ProfileBanner from "../../components/profile/profile-banner/ProfileBanner";
 import Bio from "../../components/profile/bio/Bio";
-import NameTitle from "../../components/profile/name-title/NameTitle";
 import { useSession } from "next-auth/react";
+import style from './user-profile.module.css'
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -48,18 +47,8 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <Head>
                 <title>{theTitle}</title>
             </Head>
-            <div className="flex flex-col glass grow p-8">
+            <div className={`${style['profile-page']}`}>
               <ProfileBanner user={user} isEditing={false} />
-
-              <div className="flex flex-wrap lg:flex-nowrap">
-                <div className="flex flex-col w-full xl:w-1/2 p-4">
-                  <Bio userBio={user.bio ?? ""}  isEditing={false} />
-                </div>
-              {/* Basic info */}
-                <div className="w-full xl:w-1/2 p-4">
-                  <Summary isEditing={false} user={user}/>    
-                </div>
-              </div>
             </div>
         </>
     )

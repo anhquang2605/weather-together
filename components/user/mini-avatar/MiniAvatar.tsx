@@ -18,15 +18,15 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
     const dimesion = () => {
         switch(size) {
             case 'two-x-large':
-                return 200;
+                return 150;
             case 'extra-large':
                 return 100;
             case 'large':
                 return 50;
             case 'medium':
-                return 35;
+                return 36;
             case 'small':
-                return 30;
+                return 32;
             default:
                 return 40;
         }
