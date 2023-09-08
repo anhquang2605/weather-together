@@ -1,4 +1,0 @@
-.profile-page{
-    @apply flex flex-col w-full h-screen overflow-y-auto p-8;
-    background-color: var(--btn-color);
-}

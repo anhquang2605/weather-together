@@ -1,0 +1,35 @@
+$weathers: (
+    (/* default */
+        name: cloudy,
+        mainColor: skyblue,
+        cloudColor: #FFFFFF,
+    ),
+    (
+        name: rainy,
+        mainColor: #4138bc,
+        cloudColor: #CCCCCC
+    ),
+    (
+        name: sunny,
+        mainColor: khaki,
+        cloudColor: orange,
+    )
+);
+.profile-page{
+    @apply flex flex-col w-full h-screen overflow-y-auto p-8;
+    background-color: var(--btn-color);
+}
+
+
+
+@each $weather in $weathers {
+    $theBackground: map-get($weather, mainColor);
+    $theCloud: map-get($weather, cloudColor);
+    $theName: map-get($weather, name);
+    .#{$theName} {
+        background-color: $theBackground;
+        .cloud {
+            background-color: $theCloud;
+        }
+    }
+};

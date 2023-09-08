@@ -791,10 +791,6 @@ video {
   height: 100%;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .max-h-60 {
   max-height: 15rem;
 }
@@ -993,10 +989,6 @@ video {
   overflow-y: auto;
 }
 
-.overflow-y-scroll {
-  overflow-y: scroll;
-}
-
 .rounded {
   border-radius: 0.25rem;
 }
@@ -1170,10 +1162,6 @@ video {
 
 .p-4 {
   padding: 1rem;
-}
-
-.p-8 {
-  padding: 2rem;
 }
 
 .px-2 {
