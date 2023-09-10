@@ -8,6 +8,7 @@ import ProfileBanner from "../../components/profile/profile-banner/ProfileBanner
 import Bio from "../../components/profile/bio/Bio";
 import { useSession } from "next-auth/react";
 import style from './user-profile.module.scss'
+import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -49,6 +50,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             </Head>
             <div className={`${style['profile-page']} ${style[user.featuredWeather?.name || '']}`}>
               <ProfileBanner user={user} isEditing={false} />
+              <SkyScroller layersNumber={3} />
             </div>
         </>
     )
