@@ -14,7 +14,7 @@ const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, width, style, h
     const SvgCloudComponent = require(`./../../../../assets/svg/userProfile/sky/cloud${variation}.svg`).default;
     return (
         <div className="w-full h-full">
-            <SvgCloudComponent width={width} className={cloudClassName}/>
+            <SvgCloudComponent width={width} height={height} className={cloudClassName}/>
         </div>
     );
 };

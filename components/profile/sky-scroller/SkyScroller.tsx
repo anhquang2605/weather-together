@@ -57,6 +57,7 @@ const BLUR = 3;
             }
             layers.push(
                 <SkyLayer
+                    key={i}
                     styles={layerStyle}
                     boxSize={boxSize}
                 />

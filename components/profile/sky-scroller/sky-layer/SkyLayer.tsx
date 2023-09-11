@@ -26,13 +26,13 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize}) => {
         const variations = [1,2,3,4,5];
         const noOFVarations = variations.length;
         for(let i = 0; i < cloudNo; i++){
-            const width = (boxSize / 2) + Math.floor(Math.random() * boxSize / 2);
-            const height = (boxSize / 2) + Math.floor(Math.random() * boxSize / 2);
+            const width = (boxSize / 3) + Math.floor(Math.random() * (boxSize / 2));
+            const height = (boxSize / 3) + Math.floor(Math.random() * (boxSize / 2));
             const left = (Math.random() * (boxSize - width) )
             const top = (Math.random() * (boxSize - height) )
             const variation = variations[Math.floor(Math.random() * noOFVarations)];
             const style = {
-               /*  transform: `translate(${left}px, ${top}px)`, */
+                transform: `translate(${left}px, ${top}px)`,
             } as React.CSSProperties;
             clouds.push(
                 <Cloud
