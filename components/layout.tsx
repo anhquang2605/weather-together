@@ -47,7 +47,7 @@ export default function RootLayout({
 
       <div className={style["layout"]}>
             { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}
-            <div className="remaining-estate overflow-y-auto flex w-full h-full z-10 relative">
+            <div className="remaining-estate overflow-y-hidden flex w-full h-full z-10 relative">
               {children}
             </div>
             { (!asPath.includes("login") && !asPath.includes("register")) && user &&<NotificationCenter/>}

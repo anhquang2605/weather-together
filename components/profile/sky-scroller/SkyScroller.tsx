@@ -76,10 +76,14 @@ const BLUR = 3;
         return layers;
     }
     return (
-        <div className={style['sky-scroller']}>
-            <div className={style['sky']}>
+        <div className={style['sky-scroller']} style={
+            {
+                height: profileDimension.height,
+            }
+        }>
+
                 {generateLayers(layersNumber)}
-            </div>
+
         </div>
     );
 };

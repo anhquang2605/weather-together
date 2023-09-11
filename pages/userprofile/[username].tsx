@@ -47,11 +47,11 @@ export default function UserProfile({userJSON}:UserProfileProps){
     {width: 0, height: 0}
   );
   const handleSettingDimensionWhenResize = () => {
-    const profilePage = document.querySelector(`.${style['profile-page']}`);
+    const profilePage = document.querySelector(`.${style['top-layer']}`);
     if(profilePage){
       setDimension({
-        width: profilePage.scrollWidth,
-        height: profilePage.scrollHeight
+        width: profilePage.clientWidth,
+        height: profilePage.clientHeight
       });
     }
   }

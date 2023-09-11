@@ -989,6 +989,10 @@ video {
   overflow-y: auto;
 }
 
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
 .whitespace-pre-line {
   white-space: pre-line;
 }
