@@ -2,62 +2,81 @@ import React, { useEffect, useState } from 'react';
 import style from './sky-layer.module.css';
 import Cloud  from '../cloud/Cloud';
 import { ca } from 'date-fns/locale';
+import { size } from 'lodash';
+import { profile } from 'console';
 interface SkyLayerProps {
     styles: React.CSSProperties;
     boxSize: number;
+    profileDimension: {
+        width: number;
+        height: number;
+    }
 }
 
-const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize}) => {
-    const [cloudNo, setCloudNo] = useState(0);
-    const numberOfBoxesOnScreen = (boxSize: number) => {
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-        const boxPerRow = Math.ceil(windowHeight / boxSize);
-        const boxPerColumn = Math.ceil(windowWidth / boxSize);
-        return boxPerColumn * boxPerRow;
-    }
-    const calculateClouds = () => {
-        const cloudsNo = numberOfBoxesOnScreen(boxSize);
-        setCloudNo(cloudsNo);
-    }
+const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) => {
+    const [clouds, setClouds] = useState<React.ReactElement[]>([]);
+    const sizeVariantionMultiplier = 3;
+    const layerRef = React.createRef<HTMLDivElement>();
+
+
     
     const fillWithClouds = () => {
-        const clouds:React.ReactNode[] = [];
-        const variations = [1,2,3,4,5];
-        const noOFVarations = variations.length;
-        for(let i = 0; i < cloudNo; i++){
-            const width = (boxSize / 3) + Math.floor(Math.random() * (boxSize / 2));
-            const height = (boxSize / 3) + Math.floor(Math.random() * (boxSize / 2));
-            const left = (Math.random() * (boxSize - width) )
-            const top = (Math.random() * (boxSize - height) )
-            const variation = variations[Math.floor(Math.random() * noOFVarations)];
+        var noOfVariations = 10;
+        var i = 0;
+        var curWidth = 0;
+        var curHeight = 0;
+        var curMaxHeight = 0;
+        var curEleOnRow = 0;
+        const clouds:React.ReactElement[] = [];
+        while(curHeight < profileDimension.height && curWidth < profileDimension.width){
+            const sizeOfBox = boxSize * ( (Math.random() * (sizeVariantionMultiplier - 0.5))  + 0.5) ; // from 0.5 to max
+           
+            curWidth += sizeOfBox;
+           
+            if (curWidth > profileDimension.width){
+                console.log("curWidth", curWidth, "- profileDimension.width", profileDimension.width);
+                curWidth = sizeOfBox;
+                curHeight += sizeOfBox;
+                curMaxHeight = 0;
+                curEleOnRow = 0;
+            }
+            console.log(curHeight, profileDimension.height);
+            curMaxHeight = Math.max(curMaxHeight, sizeOfBox);
+/*             const left = (Math.random() * (sizeOfBox - width) )
+            const top = (Math.random() * (sizeOfBox - height) ) */
+            const left = Math.random() * sizeOfBox - Math.random()* sizeOfBox;
+            const top = Math.random() * sizeOfBox - Math.random()* sizeOfBox;
+            const variation = Math.floor((Math.random() * noOfVariations + 1));
+
             const style = {
                 transform: `translate(${left}px, ${top}px)`,
             } as React.CSSProperties;
             clouds.push(
                 <Cloud
-                    key={i}
-                    variation={variation}
-                    style={style}
-                    width={width}
-                    height={height}
-                    />
-                )
-
+                key={i}
+                variation={variation}
+                style={style}
+                boxSize={sizeOfBox}
+                index={i}
+                />
+            )
+            i++;
+            curEleOnRow += 1;
         }
-        return clouds;
+        if(curEleOnRow === 1){
+            clouds.pop();
+        }
+        setClouds(clouds);
     }
     
-    useEffect(()=>{
-        window.addEventListener('resize', calculateClouds);
-        calculateClouds();
-        return () => {
-            window.removeEventListener('resize', calculateClouds);
+    useEffect(() => {
+        if(profileDimension.width > 0 && profileDimension.height > 0){
+            fillWithClouds();
         }
-    },[])
+    }, [profileDimension]);
     return (
-        <div style={styles} className={style['sky-layer']}>
-            {fillWithClouds()}
+        <div style={styles} ref={layerRef} className={style['sky-layer']}>
+            {clouds}
         </div>
     );
 };

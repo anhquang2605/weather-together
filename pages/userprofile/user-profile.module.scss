@@ -16,10 +16,11 @@ $weathers: (
     )
 );
 .profile-page{
-    @apply flex flex-col w-full h-screen overflow-y-auto p-8;
-    background-color: var(--btn-color);
+    @apply flex flex-col w-full overflow-y-auto overflow-x-hidden p-8 relative h-[2300px];
 }
-
+.top-layer{
+    @apply z-10 ;
+}
 
 
 @each $weather in $weathers {

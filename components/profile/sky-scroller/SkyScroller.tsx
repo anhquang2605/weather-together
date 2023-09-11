@@ -8,6 +8,10 @@ interface SkyScrollerProps {
     gapBetweenBoxes?: number;
     skyClassName?: string;//style is controlled by the user
     cloudClassName?: string; //style is controlled by the user
+    profileDimension?: {
+        width: number;
+        height: number;
+    }
 }
 interface LayerStyle {
     width: string;
@@ -23,27 +27,32 @@ interface LayerStyle {
 const SkyScroller: React.FC<SkyScrollerProps> = ({
     layersNumber,
     followMouse = false,
-    boxSize=300,
+    boxSize=150,
     gapBetweenBoxes = 0,
     skyClassName='',
     cloudClassName='',
+    profileDimension = {
+        width: 0,
+        height: 0,
+    }
 }) => {
 const BLUR = 3;
     const generateStyle = (dimensionOrder: number, blur:number = 0) => {
-            const scaleMultiplier = 1;
+            const scaleMultiplier = 0.75;
             return {
-                display: 'grid',
+                display: 'flex',
                 width: '100%',
                 height: '100%',
-                gridTemplateColumns: `repeat(auto-fill, ${boxSize +  (dimensionOrder * 100)}px)`,
-                gridTemplateRows: `repeat(auto-fill, ${boxSize + (dimensionOrder * 100)}px)`,
+                flexDirection: 'row',
+                flexWrap: 'wrap',
                 position: 'absolute',
                 top: 0,
                 left: 0,
                 transformOrigin: 'center',
-                zIndex: dimensionOrder * 5,
-                filter: `blur(${blur}px)`,
+                zIndex: dimensionOrder * 1,
                 gap: `${gapBetweenBoxes}px`,
+                opacity: (1/layersNumber) + (dimensionOrder * (1/layersNumber)),
+                transform: `scale(${0.5+ (scaleMultiplier * dimensionOrder)})`,
             } as CSSProperties
         }
     const generateLayers = (layersNumber: number) => {
@@ -57,9 +66,10 @@ const BLUR = 3;
             }
             layers.push(
                 <SkyLayer
+                    profileDimension={profileDimension}
                     key={i}
                     styles={layerStyle}
-                    boxSize={boxSize}
+                    boxSize={boxSize +  (i * 50)}
                 />
             )
         }

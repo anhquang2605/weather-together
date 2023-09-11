@@ -3,19 +3,25 @@ import React from 'react';
 interface CloudProps {
     cloudClassName?: string;
     variation: number; // 1, 2, 3, 4, 5
-    width: number;
-    height: number;
     style?: React.CSSProperties;
+    boxSize?: number;
+    index?: number;
 }
 /* 
     Cloud svgs for sky-scroller
 */
-const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, width, style, height}) => {
+const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, style,  boxSize,index}) => {
     const SvgCloudComponent = require(`./../../../../assets/svg/userProfile/sky/cloud${variation}.svg`).default;
     return (
-        <div className="w-full h-full">
-            <SvgCloudComponent width={width} height={height} className={cloudClassName}/>
+        <div 
+            key={index}
+            style={{
+            width: `${boxSize}px`,
+            height: `${boxSize}px`,
+        }}>
+                <SvgCloudComponent style={style} />
         </div>
+
     );
 };
 
