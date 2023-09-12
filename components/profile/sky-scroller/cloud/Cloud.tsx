@@ -18,6 +18,8 @@ const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, style,  boxSize
             style={{
             width: `${boxSize}px`,
             height: `${boxSize}px`,
+            backgroundColor: 'red',
+            border: '1px solid black',
         }}>
                 <SvgCloudComponent style={style} />
         </div>

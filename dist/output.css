@@ -663,10 +663,6 @@ video {
   margin-top: -4rem;
 }
 
-.-mt-\[calc\(25\%\)\] {
-  margin-top: calc(calc(25%) * -1);
-}
-
 .mb-2 {
   margin-bottom: 0.5rem;
 }

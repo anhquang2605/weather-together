@@ -27,7 +27,7 @@ interface LayerStyle {
 const SkyScroller: React.FC<SkyScrollerProps> = ({
     layersNumber,
     followMouse = false,
-    boxSize=150,
+    boxSize=100,
     gapBetweenBoxes = 0,
     skyClassName='',
     cloudClassName='',
@@ -76,11 +76,7 @@ const BLUR = 3;
         return layers;
     }
     return (
-        <div className={style['sky-scroller']} style={
-            {
-                height: profileDimension.height,
-            }
-        }>
+        <div className={style['sky-scroller']}>
 
                 {generateLayers(layersNumber)}
 

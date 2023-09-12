@@ -29,13 +29,15 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
             const sizeOfBox = boxSize * ( (Math.random() * (sizeVariantionMultiplier - 0.5))  + 0.5) ; // from 0.5 to max
            
             curWidth += sizeOfBox;
-            curEleOnRow += 1;
+
             if (curWidth > profileDimension.width){
                 console.log("curWidth", curWidth, "- profileDimension.width", profileDimension.width);
-                curWidth = sizeOfBox;
-                curHeight += sizeOfBox;
+                curWidth = boxSize;
+                curHeight += curMaxHeight;
+                
                 curMaxHeight = 0;
-                curEleOnRow = 1;
+                curEleOnRow = 0;
+
             }
             curMaxHeight = Math.max(curMaxHeight, sizeOfBox);
 /*             const left = (Math.random() * (sizeOfBox - width) )
@@ -47,6 +49,7 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
             const style = {
                 transform: `translate(${left}px, ${top}px)`,
             } as React.CSSProperties;
+            curEleOnRow += 1;
             clouds.push(
                 <Cloud
                 key={i}
@@ -59,6 +62,7 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
             i++;
 
         }
+        console.log(curHeight, profileDimension.height);
         if(curEleOnRow === 1){
             clouds.pop();
         }
