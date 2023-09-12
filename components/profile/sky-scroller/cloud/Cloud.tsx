@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface CloudProps {
-    cloudClassName?: string;
+    cloudClassName: string;
     variation: number; // 1, 2, 3, 4, 5
     style?: React.CSSProperties;
     boxSize?: number;
@@ -18,9 +18,9 @@ const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, style,  boxSize
             style={{
             width: `${boxSize}px`,
             height: `${boxSize}px`,
-            backgroundColor: 'red',
-            border: '1px solid black',
-        }}>
+        }}
+            className={cloudClassName}
+        >
                 <SvgCloudComponent style={style} />
         </div>
 

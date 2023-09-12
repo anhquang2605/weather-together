@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactElement, ReactNode } from 'react';
+import React, { CSSProperties, ReactElement, ReactNode, useEffect } from 'react';
 import style from './sky-scroller.module.scss';
 import SkyLayer from './sky-layer/SkyLayer';
 interface SkyScrollerProps {
@@ -6,12 +6,13 @@ interface SkyScrollerProps {
     followMouse?: boolean;
     boxSize?: number;
     gapBetweenBoxes?: number;
-    skyClassName?: string;//style is controlled by the user
-    cloudClassName?: string; //style is controlled by the user
+    skyClassName: string;//style is controlled by the user
+    cloudClassName: string; //style is controlled by the user
     profileDimension?: {
         width: number;
         height: number;
     }
+    parentClassName: string;
 }
 interface LayerStyle {
     width: string;
@@ -27,18 +28,20 @@ interface LayerStyle {
 const SkyScroller: React.FC<SkyScrollerProps> = ({
     layersNumber,
     followMouse = false,
-    boxSize=100,
+    boxSize=175,
     gapBetweenBoxes = 0,
     skyClassName='',
     cloudClassName='',
     profileDimension = {
         width: 0,
         height: 0,
-    }
+    },
+    parentClassName,
 }) => {
 const BLUR = 3;
+const scaleMultiplier = 0.75;
     const generateStyle = (dimensionOrder: number, blur:number = 0) => {
-            const scaleMultiplier = 0.75;
+            
             return {
                 display: 'flex',
                 width: '100%',
@@ -47,10 +50,11 @@ const BLUR = 3;
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                transformOrigin: 'center',
                 zIndex: dimensionOrder * 1,
                 gap: `${gapBetweenBoxes}px`,
                 opacity: (1/layersNumber) + (dimensionOrder * (1/layersNumber)),
+                transformOrigin: '50% 0',
+
             } as CSSProperties
         }
     const generateLayers = (layersNumber: number) => {
@@ -64,19 +68,39 @@ const BLUR = 3;
             }
             layers.push(
                 <SkyLayer
+                    className={`sky-layer-${i}`}
+                    cloudClassName={cloudClassName}
                     profileDimension={profileDimension}
                     key={i}
                     styles={layerStyle}
                     boxSize={boxSize +  (i * 50)}
+                    order={i}
                 />
             )
         }
         return layers;
     }
-    return (
-        <div className={style['sky-scroller']} style={{
+   
+    useEffect(()=>{
+        const parent = document.querySelector(`.${parentClassName}`) as HTMLDivElement;
 
-        }}>
+        const handleScroll = () => {
+            const parentScrollTop = parent.scrollTop;
+            for (let i = 0; i < layersNumber; i++) {
+                const layer = document.querySelector(`.sky-layer-${i}`) as HTMLDivElement;
+                const speed = 1 / (i + 1) ;
+                layer.style.transform = `scale(${scaleMultiplier + (scaleMultiplier * i)}) translateY(${-parentScrollTop * speed}px)`; 
+            }
+        }
+        parent.addEventListener('scroll', handleScroll);
+        return () => {
+            parent.removeEventListener('scroll', handleScroll);
+        }
+    },[layersNumber])
+    return (
+        <div style={{
+            height: `${profileDimension.height}px`,
+        }} className={`${style['sky-scroller']} ${skyClassName}`}>
 
                 {generateLayers(layersNumber)}
 

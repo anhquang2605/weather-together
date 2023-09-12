@@ -60,26 +60,25 @@ export default function UserProfile({userJSON}:UserProfileProps){
         height: containerRef.current.scrollHeight
       }); */
       const padding = profilePage.clientWidth - profilePage.scrollWidth;
-      dimensionRef.current = {
+      setDimension({
         width: profilePage.clientWidth,
         height: containerRef.current.clientHeight + padding
-      }
+      })
     }
   }
   useEffect(() => {
-    handleSettingDimensionWhenResize();
+    //handleSettingDimensionWhenResize();
     const resizeObserver = new ResizeObserver(entries => {
       if(resizeTimeout){
         clearTimeout(resizeTimeout);
       }
-      console.log('resize', );
       resizeTimeout = setTimeout(() => {
         for(let entry of entries){
           //const {scrollHeight} = entry.target;
           const {width, height} = entry.contentRect;
           const profilePage = document.querySelector(`.${style['profile-page']}`);
           if(profilePage){
-            const padding = profilePage.clientWidth - profilePage.scrollWidth;
+            const padding = profilePage.clientWidth - width;
             const profileWidth = profilePage.clientWidth;
 /*             setDimension({
               width,
@@ -94,7 +93,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
          
           
         }
-      },500)
+      },1000)
       
     })
     if(containerRef.current){
@@ -117,7 +116,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             </Head>
             <div ref={profileRef} className={`${style['profile-page']}  ${style[user.featuredWeather?.name || '']}`}>
               <div ref={containerRef}  className={style["top-layer"]}>
-                {/* <ProfileBanner user={user} isEditing={false} /> */}
+                <ProfileBanner user={user} isEditing={false} />
                 <p className='whitespace-pre-line'>
                 Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
 
@@ -208,7 +207,7 @@ In a broader sense, weather has shaped human civilization for millennia. Our anc
                 </p>
               </div>
 
-              <SkyScroller layersNumber={1} profileDimension={dimensionRef.current} />
+              <SkyScroller parentClassName={style['profile-page']} layersNumber={3} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
             </div>
         </>
     )

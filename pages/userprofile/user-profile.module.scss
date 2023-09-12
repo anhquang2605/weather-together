@@ -16,10 +16,10 @@ $weathers: (
     )
 );
 .profile-page{
-    @apply flex flex-col w-full overflow-y-auto p-8 relative h-full overflow-x-hidden;
+    @apply flex flex-col w-full overflow-y-auto p-8 relative h-full;
 }
 .top-layer{
-    @apply z-10 border border-black;
+    @apply z-10;
 }
 
 
@@ -30,7 +30,9 @@ $weathers: (
     .#{$theName} {
         background-color: $theBackground;
         .cloud {
-            background-color: $theCloud;
+            svg{
+                fill: $theCloud;
+            }
         }
     }
 };

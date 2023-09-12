@@ -11,9 +11,12 @@ interface SkyLayerProps {
         width: number;
         height: number;
     }
+    cloudClassName: string;
+    className: string;
+    order: number;
 }
 
-const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) => {
+const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, cloudClassName, className}) => {
     const [clouds, setClouds] = useState<React.ReactElement[]>([]);
     const sizeVariantionMultiplier = 3;
     const layerRef = React.createRef<HTMLDivElement>();
@@ -25,18 +28,18 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
         var curMaxHeight = 0;
         var curEleOnRow = 0;
         const clouds:React.ReactElement[] = [];
-        while(curHeight < profileDimension.height && curWidth < profileDimension.width){
+        while(curHeight <= profileDimension.height && curWidth <= profileDimension.width){
             const sizeOfBox = boxSize * ( (Math.random() * (sizeVariantionMultiplier - 0.5))  + 0.5) ; // from 0.5 to max
            
             curWidth += sizeOfBox;
-
+            curEleOnRow += 1;
             if (curWidth > profileDimension.width){
+                curWidth = sizeOfBox;
 
-                curWidth = boxSize;
                 curHeight += curMaxHeight;
                 
                 curMaxHeight = 0;
-                curEleOnRow = 0;
+                curEleOnRow = 1;
 
             }
             curMaxHeight = Math.max(curMaxHeight, sizeOfBox);
@@ -49,7 +52,7 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
             const style = {
                 transform: `translate(${left}px, ${top}px)`,
             } as React.CSSProperties;
-            curEleOnRow += 1;
+
             clouds.push(
                 <Cloud
                 key={i}
@@ -57,27 +60,25 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
                 style={style}
                 boxSize={sizeOfBox}
                 index={i}
+                cloudClassName={cloudClassName}
                 />
             )
             i++;
 
         }
-        console.log( profileDimension.width, profileDimension.height);
         if(curEleOnRow === 1){
-            
-            //clouds.pop();
+            clouds.pop();
         }
         setClouds(clouds);
     }
     
     useEffect(() => {
-        console.log(profileDimension, 'changed');
         if(profileDimension.width > 0 && profileDimension.height > 0){
             fillWithClouds();
         }
     }, [profileDimension]);
     return (
-        <div style={styles} ref={layerRef} className={style['sky-layer']}>
+        <div className={className} style={styles} ref={layerRef}>
             {clouds}
         </div>
     );
