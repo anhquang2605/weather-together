@@ -31,7 +31,7 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
             curWidth += sizeOfBox;
 
             if (curWidth > profileDimension.width){
-                console.log("curWidth", curWidth, "- profileDimension.width", profileDimension.width);
+
                 curWidth = boxSize;
                 curHeight += curMaxHeight;
                 
@@ -62,14 +62,16 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension}) 
             i++;
 
         }
-        console.log(curHeight, profileDimension.height);
+        console.log( profileDimension.width, profileDimension.height);
         if(curEleOnRow === 1){
-            clouds.pop();
+            
+            //clouds.pop();
         }
         setClouds(clouds);
     }
     
     useEffect(() => {
+        console.log(profileDimension, 'changed');
         if(profileDimension.width > 0 && profileDimension.height > 0){
             fillWithClouds();
         }

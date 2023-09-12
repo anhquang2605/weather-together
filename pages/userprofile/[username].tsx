@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import style from './user-profile.module.scss'
 import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
 import { debounce } from "lodash";
+import { profile } from "console";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -44,48 +45,79 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default function UserProfile({userJSON}:UserProfileProps){
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
-  const layerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
   const [dimension, setDimension] = useState(
     {width: 0, height: 0}
   );
+  const dimensionRef = useRef(dimension)
+  let resizeTimeout: NodeJS.Timeout | null = null;
   const handleSettingDimensionWhenResize = () => {
-    const profilePage = document.querySelector(`.${style['top-layer']}`);
-    if(profilePage){
-      setDimension({
+    const profilePage = document.querySelector(`.${style['profile-page']}`);
+    if(containerRef.current && profilePage){
+/*       setDimension({
+        width: containerRef.current.clientWidth,
+        height: containerRef.current.scrollHeight
+      }); */
+      const padding = profilePage.clientWidth - profilePage.scrollWidth;
+      dimensionRef.current = {
         width: profilePage.clientWidth,
-        height: profilePage.clientHeight
-      });
+        height: containerRef.current.clientHeight + padding
+      }
     }
   }
   useEffect(() => {
     handleSettingDimensionWhenResize();
-    const resizeObserver = new ResizeObserver(debounce(entries => {
-      for(let entry of entries){
-        const {width, height} = entry.contentRect;
-        setDimension({
-          width,
-          height
-        });
+    const resizeObserver = new ResizeObserver(entries => {
+      if(resizeTimeout){
+        clearTimeout(resizeTimeout);
       }
-    },100))
-    if(layerRef.current){
-      resizeObserver.observe(layerRef.current);
+      console.log('resize', );
+      resizeTimeout = setTimeout(() => {
+        for(let entry of entries){
+          //const {scrollHeight} = entry.target;
+          const {width, height} = entry.contentRect;
+          const profilePage = document.querySelector(`.${style['profile-page']}`);
+          if(profilePage){
+            const padding = profilePage.clientWidth - profilePage.scrollWidth;
+            const profileWidth = profilePage.clientWidth;
+/*             setDimension({
+              width,
+              height
+              //height: scrollHeight
+            }); */
+            setDimension({
+              width: profileWidth,
+              height: height + padding
+            })
+          }
+         
+          
+        }
+      },500)
+      
+    })
+    if(containerRef.current){
+      resizeObserver.observe(containerRef.current);
     }
     return () => {
-      if(layerRef.current){ 
-        resizeObserver.unobserve(layerRef.current)
+      if(containerRef.current){ 
+        resizeObserver.unobserve(containerRef.current)
       }
     }
   }, []);
-
+  useEffect(() =>
+  {
+    dimensionRef.current = dimension;
+  },[dimension])
     return (
         <>
             <Head>
                 <title>{theTitle}</title>
             </Head>
-            <div className={`${style['profile-page']} ${style[user.featuredWeather?.name || '']}`}>
-              <div ref={layerRef} className={style["top-layer"]}>
-                <ProfileBanner user={user} isEditing={false} />
+            <div ref={profileRef} className={`${style['profile-page']}  ${style[user.featuredWeather?.name || '']}`}>
+              <div ref={containerRef}  className={style["top-layer"]}>
+                {/* <ProfileBanner user={user} isEditing={false} /> */}
                 <p className='whitespace-pre-line'>
                 Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
 
@@ -176,7 +208,7 @@ In a broader sense, weather has shaped human civilization for millennia. Our anc
                 </p>
               </div>
 
-              <SkyScroller layersNumber={1} profileDimension={dimension} />
+              <SkyScroller layersNumber={1} profileDimension={dimensionRef.current} />
             </div>
         </>
     )

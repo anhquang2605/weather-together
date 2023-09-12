@@ -42,7 +42,6 @@ const BLUR = 3;
             return {
                 display: 'flex',
                 width: '100%',
-                height: '100%',
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 position: 'absolute',
@@ -52,7 +51,6 @@ const BLUR = 3;
                 zIndex: dimensionOrder * 1,
                 gap: `${gapBetweenBoxes}px`,
                 opacity: (1/layersNumber) + (dimensionOrder * (1/layersNumber)),
-                transform: `scale(${0.5+ (scaleMultiplier * dimensionOrder)})`,
             } as CSSProperties
         }
     const generateLayers = (layersNumber: number) => {
@@ -76,7 +74,9 @@ const BLUR = 3;
         return layers;
     }
     return (
-        <div className={style['sky-scroller']}>
+        <div className={style['sky-scroller']} style={{
+
+        }}>
 
                 {generateLayers(layersNumber)}
 
