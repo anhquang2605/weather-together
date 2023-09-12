@@ -14,9 +14,10 @@ interface SkyLayerProps {
     cloudClassName: string;
     className: string;
     order: number;
+    scale: number;
 }
 
-const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, cloudClassName, className}) => {
+const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, cloudClassName, className, scale}) => {
     const [clouds, setClouds] = useState<React.ReactElement[]>([]);
     const sizeVariantionMultiplier = 3;
     const layerRef = React.createRef<HTMLDivElement>();
@@ -27,8 +28,10 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, c
         var curHeight = 0;
         var curMaxHeight = 0;
         var curEleOnRow = 0;
+        var dimHeight = profileDimension.height * scale;
+        var dimWidth = profileDimension.width * scale;
         const clouds:React.ReactElement[] = [];
-        while(curHeight <= profileDimension.height && curWidth <= profileDimension.width){
+        while(curHeight <= dimHeight && curWidth <= dimWidth){
             const sizeOfBox = boxSize * ( (Math.random() * (sizeVariantionMultiplier - 0.5))  + 0.5) ; // from 0.5 to max
            
             curWidth += sizeOfBox;
@@ -61,6 +64,7 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, c
                 boxSize={sizeOfBox}
                 index={i}
                 cloudClassName={cloudClassName}
+                scale ={scale}
                 />
             )
             i++;

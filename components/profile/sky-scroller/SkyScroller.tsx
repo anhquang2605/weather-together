@@ -28,7 +28,7 @@ interface LayerStyle {
 const SkyScroller: React.FC<SkyScrollerProps> = ({
     layersNumber,
     followMouse = false,
-    boxSize=175,
+    boxSize=200,
     gapBetweenBoxes = 0,
     skyClassName='',
     cloudClassName='',
@@ -39,7 +39,7 @@ const SkyScroller: React.FC<SkyScrollerProps> = ({
     parentClassName,
 }) => {
 const BLUR = 3;
-const scaleMultiplier = 0.75;
+const scaleMultiplier = 0.5;
     const generateStyle = (dimensionOrder: number, blur:number = 0) => {
             
             return {
@@ -53,7 +53,6 @@ const scaleMultiplier = 0.75;
                 zIndex: dimensionOrder * 1,
                 gap: `${gapBetweenBoxes}px`,
                 opacity: (1/layersNumber) + (dimensionOrder * (1/layersNumber)),
-                transformOrigin: '50% 0',
 
             } as CSSProperties
         }
@@ -68,13 +67,14 @@ const scaleMultiplier = 0.75;
             }
             layers.push(
                 <SkyLayer
-                    className={`sky-layer-${i}`}
+                    className={style[`sky-layer-${i}`]}
                     cloudClassName={cloudClassName}
                     profileDimension={profileDimension}
                     key={i}
                     styles={layerStyle}
                     boxSize={boxSize +  (i * 50)}
                     order={i}
+                    scale={(scaleMultiplier * i) +  1}
                 />
             )
         }
@@ -87,9 +87,9 @@ const scaleMultiplier = 0.75;
         const handleScroll = () => {
             const parentScrollTop = parent.scrollTop;
             for (let i = 0; i < layersNumber; i++) {
-                const layer = document.querySelector(`.sky-layer-${i}`) as HTMLDivElement;
-                const speed = 1 / (i + 1) ;
-                layer.style.transform = `scale(${scaleMultiplier + (scaleMultiplier * i)}) translateY(${-parentScrollTop * speed}px)`; 
+                const layer = document.querySelector(`.${style[`sky-layer-${i}`]}`) as HTMLDivElement;
+                const speed = (i + 1) / layersNumber ;
+                layer.style.transform = `translateY(${-parentScrollTop * speed}px)`; 
             }
         }
         parent.addEventListener('scroll', handleScroll);

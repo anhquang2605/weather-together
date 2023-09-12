@@ -11,6 +11,7 @@ import style from './user-profile.module.scss'
 import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
 import { debounce } from "lodash";
 import { profile } from "console";
+import CityLandScape from "../../components/profile/city-landscape/CityLandscape";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -208,6 +209,7 @@ In a broader sense, weather has shaped human civilization for millennia. Our anc
               </div>
 
               <SkyScroller parentClassName={style['profile-page']} layersNumber={3} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+              <CityLandScape />
             </div>
         </>
     )

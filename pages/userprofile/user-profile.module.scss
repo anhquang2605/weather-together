@@ -29,10 +29,11 @@ $weathers: (
     $theName: map-get($weather, name);
     .#{$theName} {
         background-color: $theBackground;
-        .cloud {
-            svg{
+    
+        .cloud svg *{
                 fill: $theCloud;
-            }
+                color: $theCloud;   
         }
+        
     }
 };

@@ -5,3 +5,13 @@
     width: 100%;
     overflow: hidden;
 }
+$layersNo: 5;
+$scaleMul: 0.5;
+@mixin scaleByLayer(){
+    @for $i from 0 through $layersNo {
+        .sky-layer-#{$i} {
+            content: '';
+        }
+    }
+}
+@include scaleByLayer(); 
