@@ -739,6 +739,14 @@ video {
   margin-top: auto;
 }
 
+.-mb-\[calc\(5\%\)\] {
+  margin-bottom: calc(calc(5%) * -1);
+}
+
+.-mb-\[calc\(10\%\)\] {
+  margin-bottom: calc(calc(10%) * -1);
+}
+
 .block {
   display: block;
 }
@@ -793,6 +801,14 @@ video {
 
 .h-full {
   height: 100%;
+}
+
+.h-\[4000px\] {
+  height: 4000px;
+}
+
+.h-\[3000px\] {
+  height: 3000px;
 }
 
 .max-h-60 {

@@ -86,3 +86,66 @@ const functionBeingCallWithinACallBack = async () => {
     const response = await handleFetchBuddies(lastCursorRef.current);
     .....
 }
+32. importing svg using svgr/webpack with require 
+
+interface CloudProps {
+}
+/* 
+    Cloud svgs for sky-scroller
+*/
+const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, style,  boxSize,index, scale}) => {
+    const SvgCloudComponent = require(`./../../../../assets/svg/userProfile/sky/cloud${variation}.svg`).default;
+
+    return (
+                <SvgCloudComponent/>
+
+    );
+};
+
+export default Cloud;
+
+33. svgr will use svgo, svgo will try to remove viewBox attribute which will cause element to be cropped. To fix, in the config file of next.config.js, disable viewBox removal:
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'weather-together-image-bucket.s3.us-east-2.amazonaws.com',
+            port: '',
+            pathname: '/**',
+          },
+          {
+            protocol: 'https',
+            hostname: 'avatars.githubusercontent.com',
+            port: '',
+            pathname: '/**',
+          },
+          {
+            protocol: 'https',
+            hostname: 'cloudflare-ipfs.com',
+            port: '',
+            pathname: '/**',
+          },
+        ],
+      },
+      webpack: (config, options) => {
+        config.module.rules.push({
+            test: /\.svg$/,
+            use: [{
+              loader: '@svgr/webpack',
+              options: {
+                 svgo: {
+                    plugins: [{
+                       removeViewBox: false
+                    }]
+                 }
+              }
+           }]
+        });
+
+        return config;
+    },
+}
+
+module.exports = nextConfig

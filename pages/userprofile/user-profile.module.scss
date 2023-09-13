@@ -16,7 +16,7 @@ $weathers: (
     )
 );
 .profile-page{
-    @apply flex flex-col w-full overflow-y-auto p-8 relative h-full;
+    @apply flex flex-col w-full overflow-y-auto p-8 relative overflow-x-hidden h-full;
 }
 .top-layer{
     @apply z-10;
@@ -32,7 +32,12 @@ $weathers: (
     
         .cloud svg *{
                 fill: $theCloud;
-                color: $theCloud;   
+                color: $theCloud; 
+                flex-shrink: 0;
+                
+        }
+        .cloud svg{
+                max-width: 100%!important;
         }
         
     }

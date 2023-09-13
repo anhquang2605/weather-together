@@ -12,6 +12,8 @@ import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
 import { debounce } from "lodash";
 import { profile } from "console";
 import CityLandScape from "../../components/profile/city-landscape/CityLandscape";
+import ParalaxScroller from "../../components/plugins/paralax-scroller/ParalaxScroller";
+import ParalaxSection from "../../components/plugins/paralax-scroller/paralax-section/ParalaxSection";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -43,6 +45,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: false
     }
   }
+
+const sections = [
+  'summary',
+  'bio',
+  'activity'
+]
 export default function UserProfile({userJSON}:UserProfileProps){
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
@@ -118,98 +126,42 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <div ref={profileRef} className={`${style['profile-page']}  ${style[user.featuredWeather?.name || '']}`}>
               <div ref={containerRef}  className={style["top-layer"]}>
                 <ProfileBanner user={user} isEditing={false} />
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
-                <p className='whitespace-pre-line'>
-                Weather, in its simplest definition, refers to the short-term changes in atmospheric conditions of a specific place at a specific time. These conditions include temperature, humidity, precipitation, wind, and visibility. Weather varies daily and is influenced by a myriad of factors ranging from ocean currents to altitude.
-
-One of the most common and impactful types of weather phenomena is precipitation, which comes in various forms such as rain, snow, sleet, and hail. Rain, essential for all forms of life, plays a vital role in replenishing freshwater sources and maintaining the ecosystem's balance. In contrast, excessive or minimal rainfall can lead to problems like floods or droughts, affecting agriculture, infrastructure, and even leading to loss of life.
-
-Temperature is another crucial aspect of weather. Warm conditions can be inviting, encouraging outdoor activities and providing the needed warmth for crops to grow. On the other hand, extremely high temperatures can lead to heatwaves, which can be dangerous and even fatal for vulnerable populations. Cold temperatures herald snow in many regions, which, while picturesque and vital for certain ecosystems, can also pose challenges in terms of mobility, infrastructure, and energy consumption.
-
-Wind, an often overlooked component, plays an essential role in weather patterns. Gentle breezes can be refreshing on a warm day, while strong winds can be destructive, leading to events such as hurricanes or tornadoes.
-
-In a broader sense, weather has shaped human civilization for millennia. Our ancestors chose their habitats based on local weather patterns, and even today, many of our daily decisions, from the clothes we wear to the activities we engage in, are influenced by the weather. Furthermore, as global climates change, understanding and adapting to new weather patterns will be crucial for future generations. Weather not only affects our daily lives but also holds a profound influence over the planet's ecosystems, economies, and cultures.
-                </p>
+                 <ParalaxScroller
+                  introAnimationHandlersMap={{
+                    summary: () => {
+                      console.log('summary');
+                    },
+                    bio: () => {
+                      console.log('bio');
+                    },
+                    activity: () => {
+                      console.log('activity');
+                    }
+                  }}
+                  secctionIds={sections}
+                  snapToSections={true}
+                  scrollSpeed={0.5}
+                  scrollClassName={style['profile-page']}
+                 >
+                    {
+                      sections.map((section, index) => {
+                        return (
+                          <ParalaxSection
+                            key={index}
+                            id={section}
+                            className={style[section] + ' h-[3000px]'}
+                          > 
+                            {section}
+                          </ParalaxSection>
+                        )
+                      })
+                    }
+                 </ParalaxScroller>
+                 <CityLandScape />
               </div>
 
               <SkyScroller parentClassName={style['profile-page']} layersNumber={3} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
-              <CityLandScape />
+             
             </div>
         </>
     )

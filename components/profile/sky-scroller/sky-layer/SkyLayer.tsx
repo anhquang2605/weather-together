@@ -15,24 +15,28 @@ interface SkyLayerProps {
     className: string;
     order: number;
     scale: number;
+    last: boolean;
 }
 
-const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, cloudClassName, className, scale}) => {
+const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, cloudClassName, className, scale, order, last}) => {
     const [clouds, setClouds] = useState<React.ReactElement[]>([]);
     const sizeVariantionMultiplier = 3;
     const layerRef = React.createRef<HTMLDivElement>();
     const fillWithClouds = () => {
         var noOfVariations = 10;
+        if(last){
+            noOfVariations = 5;
+        }
         var i = 0;
         var curWidth = 0;
         var curHeight = 0;
         var curMaxHeight = 0;
         var curEleOnRow = 0;
-        var dimHeight = (profileDimension.height);
+        var dimHeight = (profileDimension.height* 1.2);
         var dimWidth = profileDimension.width;
         const clouds:React.ReactElement[] = [];
         while(curHeight <= dimHeight && curWidth <= dimWidth){
-            const sizeOfBox = boxSize * ( (Math.random() * (sizeVariantionMultiplier - 0.5))  + 0.5) ; // from 0.5 to max
+            const sizeOfBox = boxSize * ( (Math.random() * (sizeVariantionMultiplier))  + 0.5) ; // from 0.5 to max
            
             curWidth += sizeOfBox;
             curEleOnRow += 1;
@@ -49,9 +53,9 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, c
 /*             const left = (Math.random() * (sizeOfBox - width) )
             const top = (Math.random() * (sizeOfBox - height) ) */
             const allowedWidth = sizeOfBox / 2 ;
-            const allowedHeight = sizeOfBox ;
-            const left = Math.random() * allowedWidth  -  Math.random() * allowedWidth  ;
-            const top = Math.random() * allowedHeight  ;
+            const allowedHeight = sizeOfBox / 2 ;
+            const left = (Math.random() * allowedWidth) - (allowedWidth / 2) ;
+            const top = (Math.random() * allowedHeight) - (allowedHeight / 2)  ;
             const variation = Math.floor((Math.random() * noOfVariations + 1));
 
             const style = {
