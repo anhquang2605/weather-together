@@ -99,7 +99,7 @@ const scaleMultiplier = 0.5;
     },[layersNumber])
     return (
         <div style={{
-            height: `${profileDimension.height}px`,
+            height: `${profileDimension.height + 200}px`,
         }} className={`${style['sky-scroller']} ${skyClassName}`}>
 
                 {generateLayers(layersNumber)}

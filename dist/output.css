@@ -640,6 +640,10 @@ video {
   z-index: 50;
 }
 
+.z-30 {
+  z-index: 30;
+}
+
 .order-first {
   order: -9999;
 }
@@ -729,6 +733,14 @@ video {
 
 .mt-auto {
   margin-top: auto;
+}
+
+.-mt-\[60px\] {
+  margin-top: -60px;
+}
+
+.-mb-\[60px\] {
+  margin-bottom: -60px;
 }
 
 .block {
