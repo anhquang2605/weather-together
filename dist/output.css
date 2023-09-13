@@ -636,12 +636,12 @@ video {
   z-index: 10;
 }
 
-.z-50 {
-  z-index: 50;
-}
-
 .z-30 {
   z-index: 30;
+}
+
+.z-50 {
+  z-index: 50;
 }
 
 .order-first {
@@ -661,6 +661,10 @@ video {
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.-mb-\[60px\] {
+  margin-bottom: -60px;
 }
 
 .-mt-16 {
@@ -733,14 +737,6 @@ video {
 
 .mt-auto {
   margin-top: auto;
-}
-
-.-mt-\[60px\] {
-  margin-top: -60px;
-}
-
-.-mb-\[60px\] {
-  margin-bottom: -60px;
 }
 
 .block {

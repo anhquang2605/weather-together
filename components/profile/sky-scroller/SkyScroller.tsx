@@ -39,7 +39,8 @@ const SkyScroller: React.FC<SkyScrollerProps> = ({
     parentClassName,
 }) => {
 const BLUR = 3;
-const scaleMultiplier = 0.5;
+const scaleMultiplier = 0.65;
+const startingOpacity = 0.1;
     const generateStyle = (dimensionOrder: number, blur:number = 0) => {
             
             return {
@@ -52,7 +53,7 @@ const scaleMultiplier = 0.5;
                 left: 0,
                 zIndex: dimensionOrder * 1,
                 gap: `${gapBetweenBoxes}px`,
-                opacity: (1/layersNumber) + (dimensionOrder * (1/layersNumber)),
+                opacity: startingOpacity + (dimensionOrder * ((1-startingOpacity) / (layersNumber - 1))),
 
             } as CSSProperties
         }
@@ -99,7 +100,7 @@ const scaleMultiplier = 0.5;
     },[layersNumber])
     return (
         <div style={{
-            height: `${profileDimension.height + 200}px`,
+            height: `${profileDimension.height}px`,
         }} className={`${style['sky-scroller']} ${skyClassName}`}>
 
                 {generateLayers(layersNumber)}

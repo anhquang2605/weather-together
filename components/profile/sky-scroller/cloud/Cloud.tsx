@@ -20,7 +20,7 @@ const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, style,  boxSize
             width: `${boxSize}px`,
             height: `${boxSize}px`,
             transform: `scale(${scale})`,
-            transformOrigin: 'center 0',
+            transformOrigin: '0 0',
         }}
             className={cloudClassName}
         >
