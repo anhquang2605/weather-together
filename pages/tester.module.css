@@ -1,0 +1,22 @@
+@keyframes animateWave {
+    0%, 100% {
+      d: path("M0 100 Q 50 150 100 100 T 200 100 T 300 100 T 400 100 T 500 100 T 600 100 T 700 100 T 800 100 T 900 100 T 1000 100");
+    }
+    50% {
+      d: path("M0 100 Q 50 50 100 100 T 200 100 T 300 100 T 400 100 T 500 100 T 600 100 T 700 100 T 800 100 T 900 100 T 1000 100");
+    }
+  }
+  
+  #wave {
+    animation: move 10.05s linear infinite;
+  }
+
+@keyframes move{
+  0%{
+    transform: translateX(0px);
+  }
+  100%{
+    transform: translateX(1000px);
+  }
+}
+
