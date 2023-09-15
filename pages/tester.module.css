@@ -8,7 +8,6 @@
   }
   
   #wave {
-    animation: move 10.05s linear infinite;
   }
 
 @keyframes move{

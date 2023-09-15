@@ -739,14 +739,6 @@ video {
   margin-top: auto;
 }
 
-.-ml-\[1px\] {
-  margin-left: -1px;
-}
-
-.-mt-\[1px\] {
-  margin-top: -1px;
-}
-
 .block {
   display: block;
 }

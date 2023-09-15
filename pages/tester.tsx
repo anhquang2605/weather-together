@@ -12,6 +12,9 @@ import style from './tester.module.css'
 export default function Tester() {
     //const posts = generateRandomPosts(10);
     const [posts, setPosts] = useState([]);
+    const [len, setLen] = useState(0);
+    const [rate, setRate] = useState(0);
+    const [delay, setDelay] = useState(0);
     const profilePicturePaths = {
         'anhquang2605': faker.image.avatar(),
         'chuquang2605': faker.image.avatar(),
@@ -23,7 +26,24 @@ export default function Tester() {
        })
     },[])
     useEffect(() => {
-      
+     const svg = document.getElementById(style['wave']);
+      const text = document.getElementById('text');
+      if(svg instanceof SVGPathElement ){
+        const length = svg.getTotalLength();
+        const textVelocity = length / 10;
+        let timeTakesForTextToFullyAppear = 0;
+        let textLengthOverPathLength = 0;
+        let textLength = 1;
+        if(text instanceof SVGTextElement){
+            textLength = text.getComputedTextLength();
+            timeTakesForTextToFullyAppear = textLength / textVelocity;
+            textLengthOverPathLength = textLength / length;
+        }
+        setDelay(timeTakesForTextToFullyAppear);
+        setRate(textLengthOverPathLength * 100);
+
+        setLen(length * (1 - textLengthOverPathLength));
+      }
     }, []);
     return (
         <MockContext.Provider value={{profilePicturePaths}}>
@@ -35,38 +55,28 @@ export default function Tester() {
                 )) 
             } */}
             <div className="w-full flex flex-row">
-            <svg width="250" height="250" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
-    <path id="animatedWave" fill="none" stroke="blue" stroke-width="3">
-        <animate attributeName="d" begin="0s" dur="4s" repeatCount="indefinite"
-                 values="M0 125 Q 25 200 50 125 Q 75 50 100 125 Q 125 200 150 125 Q 175 50 200 125;
-                         M0 125 Q 15 175 50 125 Q 75 75 100 125 Q 125 175 150 125 Q 175 75 200 125;
-                         M0 125 Q 25 50 50 125 Q 75 200 100 125 Q 125 50 150 125 Q 175 200 200 125;
-                         M0 125 Q 15 75 50 125 Q 75 175 100 125 Q 125 75 150 125 Q 175 175 200 125"
-                 keyTimes="0;0.33;0.66;1"/>
-    </path>
-</svg>
-            <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-            <path id="loopingWave2" fill="none" stroke="blue" stroke-width="3" d="M0 125 Q 50 200 100 125 Q 150 50 200 125"/>
-    <path id="loopingWave" fill="none" stroke="blue" stroke-width="3" d="M0 125 Q 50 50 100 125 Q 150 200 200 125">
-    <animate attributeName="d" begin="0s" dur="2s" repeatCount="indefinite"
-                 values="M0 125 Q 50 50 100 125 Q 150 200 200 125;
-                         M0 125 Q 50 200 100 125 Q 150 50 200 125;
-                         M0 125 Q 50 50 100 125 Q 150 200 200 125;"
-                 keyTimes="0;0.5;1"/>
-    </path>
-</svg>
-                <svg id={style['in-place']} width="1000" height="200" viewBox="0 0 250 200" xmlns="http://www.w3.org/2000/svg">
+
+                <svg id={style['in-place']}  width="1000" height="200" viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
                     <path id={style["wave"]} fill="none" stroke="blue" strokeWidth="3" d="M0 100 Q 50 150 100 100 T 200 100 T 300 100 T 400 100 T 500 100 T 600 100 T 700 100 T 800 100 T 900 100 T 1000 100">
-                   
+
+                <animateTransform 
+            attributeName="transform"
+            type="translate"
+            from="0 0"
+            to={`${len} 0`}
+            dur="10s"
+            repeatCount="indefinite"
+        />
                     </path>
-{/*                     <text fontSize="24" fill="black">
-                        <textPath href={`#${style['wave']}`} startOffset="100%">
-                            <animate attributeName="startOffset" from="100%" to="-15%" begin="0s" dur="10s" repeatCount="indefinite" fill="freeze"></animate>
+                     <text id="text" fontSize="24" fill="black">
+
+                        {                   <textPath href={`#${style['wave']}`} startOffset={`${100 - rate}%`}>
+                            <animate attributeName="startOffset" from={`${100 - rate}%`} to={0 + "%"} begin="0" dur="10s" repeatCount="indefinite" ></animate>
                             Riding the Wave!
-                        </textPath>
-                    </text> */}
+                        </textPath>}
+                    </text>
                 </svg>
-             \
+             
                 </div>
 
 {/*             <Modal status={true} containerClassName="form-container" >
