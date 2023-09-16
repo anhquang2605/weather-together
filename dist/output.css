@@ -632,6 +632,14 @@ video {
   top: 2rem;
 }
 
+.-left-1\/2 {
+  left: -50%;
+}
+
+.-left-full {
+  left: -100%;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -799,6 +807,10 @@ video {
   height: 100%;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
@@ -873,6 +885,14 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-\[200px\] {
+  width: 200px;
+}
+
+.w-\[100px\] {
+  width: 100px;
 }
 
 .max-w-none {

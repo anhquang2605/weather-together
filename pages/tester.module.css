@@ -18,4 +18,45 @@
     transform: translateX(1000px);
   }
 }
+#textContainer{}
+#textContainer span {
+  font-size: 32px;
+  display: inline-block;
+  transform-origin: bottom;
+  animation: wave 0.4s infinite alternate;
+}
 
+#flag{
+  display: flex;
+  height: 50px;
+}
+.bar{
+  height: 100%;
+  background: yellow;
+  width: 1px;
+  animation: wave2 0.4s infinite alternate;
+  transform-origin: center;
+  @apply border-y border-red-500;
+  &:first-child{
+    @apply border-l
+  }
+  &:last-child{
+    @apply border-r
+  }
+}
+@keyframes wave {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-24px);
+  }
+}
+@keyframes wave2{
+  0%{
+    transform: translateY(0px);
+  }
+  100%{
+    transform: translateY(-12px);
+  }
+}
