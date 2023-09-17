@@ -8,6 +8,7 @@ import { faker } from "@faker-js/faker"
 import { fetchFromGetAPI } from "../libs/api-interactions"
 import { getPostByUsernamesString } from "../libs/posts"
 import style from './tester.module.css'
+import AnimatedBanner from "../components/profile/animated-banner/AnimatedBanner"
 /* this page is for testing purposes only */
 export default function Tester() {
     //const posts = generateRandomPosts(10);
@@ -22,7 +23,7 @@ export default function Tester() {
 
 
         useEffect(()=>{
-            let text = "About Me";
+  /*           let text = "About Me";
             let characters = text.split("").map(char => `<span>${char}</span>`).join("");
             if(document){
                 const textContainer = document.getElementById(style["textContainer"]);
@@ -50,7 +51,7 @@ export default function Tester() {
                         flag.appendChild(element);
                     }
                 }
-            }
+            } */
         getPostByUsernamesString('anhquang2605').then((posts) => {
                 setPosts(posts)
         })
@@ -110,10 +111,7 @@ export default function Tester() {
                 </svg> */}
              
 
-                <div id={style["flag"]} className="w-[200px] h-[200px] relative">
-                    <div className="w-full flex flex-row absolute top-0 left-0 z-10" id={style["textContainer"]}>
-                    </div>
-                 </div>
+                <AnimatedBanner text="About Me" flagClassName="flag" textClassName="text"/>
 {/*             <Modal status={true} containerClassName="form-container" >
                 <PostForm />
             </Modal> */}

@@ -1,0 +1,75 @@
+#animated-banner{
+    --animation-dur: 0.5s;
+    --border-thickness: 2px;
+    --flag-background: rgb(155, 141, 20);
+    --text-color: rgb(71, 19, 19);
+    --border-color: black;
+    padding: 16px 48px; 
+    position: relative;
+    flex-shrink: 1;
+    display: inline-block;
+}
+#text-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-shrink: 1;
+}
+#text-container span {
+  font-size: 32px;
+  transform-origin: bottom;
+  animation: wave var(--animation-dur) infinite alternate;
+  white-space: pre;
+    color: var(--text-color);
+}
+
+#flag{
+  display: flex;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.bar{
+  height: 100%;
+  background: var(--flag-background);
+  width: 1px;
+  animation: wave2 var(--animation-dur) infinite alternate, color 1s infinite alternate;
+  transform-origin: center center;
+  @apply border-y-2;
+  border-color: var(--border-color);
+  &:first-child{
+    @apply border-l-2;
+  }
+    &:last-child{
+        @apply border-r-2;
+    }
+}
+@keyframes wave {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-12px);
+  }
+}
+@keyframes wave2{
+  0%{
+    transform: translateY(0px);
+  }
+  100%{
+    transform: translateY(-12px);
+  }
+}
+/* @keyframes color{
+    0%{
+        background: var(--flag-background);
+    }
+    50%{
+        background: var(--flag-reflextive-color);
+    }
+    100%{
+        background: var(--flag-background);
+    }
+} */

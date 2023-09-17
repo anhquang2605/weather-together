@@ -18,7 +18,12 @@
     transform: translateX(1000px);
   }
 }
-#textContainer{}
+#textContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
 #textContainer span {
   font-size: 32px;
   display: inline-block;
