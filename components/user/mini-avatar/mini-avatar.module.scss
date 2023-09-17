@@ -39,7 +39,7 @@
     }
 }
 .featured-weather{
-  @apply absolute top-0 left-3/4 z-10;
+  @apply absolute top-0 left-3/4 z-10 rounded-full;
 }
 .two-x-large{
   @apply w-24 h-24  lg:w-40 lg:h-40;
@@ -70,6 +70,9 @@
 
 .cloudy {
     @include neon-shadow(#87CEEB, 5px, 2, 5px);
+    .featured-weather{
+      background-color: #87CEEB80;
+    }
   }
 /*   .cloudy .mini-avatar {
     background: linear-gradient(45deg, #87CEEB, #a0d8f1, #b9e2f7, #FFD700);
@@ -81,6 +84,9 @@
   
   .windy {
     @include neon-shadow(#008000, 3px, 5, 3px);
+    .featured-weather{
+      background-color: #00800080;
+    }
   }
   .windy .mini-avatar {
     background: linear-gradient(45deg, #00ffea, #00a000, #00c800 );
@@ -88,6 +94,9 @@
   
   .thunder {
     @include neon-shadow(#e6e601, 3px, 5, 3px);
+    .featured-weather{
+      background-color: #e6e60180;
+    }
   }
   .thunder .mini-avatar {
     background: linear-gradient(45deg, #FFFF00, #FFFF66, rgb(222, 56, 200));
@@ -95,13 +104,18 @@
   
   .sunny {
     @include neon-shadow(#FFA500, 3px, 5, 3px);
+    .featured-weather{
+      background-color: #FFA50080;
+    }
   }
   .sunny .mini-avatar {
     background: linear-gradient(45deg, #c60303, #FFB347, #FFC680);
   }
   
   .snowy {
-    @include neon-shadow(#5e5eff, 3px, 5, 3px);
+    @include neon-shadow(#5e5eff, 3px, 5, 3px);    .featured-weather{
+      background-color: #5e5eff80;
+    }
   }
   .snowy .mini-avatar {
     background: linear-gradient(45deg, #0000FF, #3333FF, #6666FF, #00FFFF);
@@ -110,6 +124,9 @@
   .rainy {
 /*     box-shadow: 0 0 10px 1px #4169E1, inset 0 0 10px 1px #4169E1; */
     @include neon-shadow(#9400D3, 3px, 5, 3px);
+    .featured-weather{
+      background-color: #9400D380;
+    }
   }
   .rainy .mini-avatar {
     background: linear-gradient(45deg, #4169E1, #ab52ff, #5400fd);

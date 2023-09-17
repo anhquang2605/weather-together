@@ -21,7 +21,9 @@ $weathers: (
 .top-layer{
     @apply z-10;
 }
-
+.profile-banner-wrapper{
+    
+}
 
 @each $weather in $weathers {
     $theBackground: map-get($weather, mainColor);

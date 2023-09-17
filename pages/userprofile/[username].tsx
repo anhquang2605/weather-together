@@ -125,7 +125,10 @@ export default function UserProfile({userJSON}:UserProfileProps){
             </Head>
             <div ref={profileRef} className={`${style['profile-page']}  ${style[user.featuredWeather?.name || '']}`}>
               <div ref={containerRef}  className={style["top-layer"]}>
-                <ProfileBanner user={user} isEditing={false} />
+                <div className={style['profile-banner-wrapper']}>
+                  <ProfileBanner user={user} isEditing={false} />
+                </div>
+                
                  <ParalaxScroller
                   introAnimationHandlersMap={{
                     summary: () => {

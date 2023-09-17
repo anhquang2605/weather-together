@@ -8,6 +8,7 @@ import NameTitle from "../name-title/NameTitle";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import style from './profile-banner.module.css';
 interface ProfileBannerProps{
     user: User;
     isEditing: boolean;
@@ -27,12 +28,12 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
 
     },[])
     return (
-        <div className='relative'>
+        <div className={style["profile-banner-wrapper"] + ' relative'}>
             <div className="profile-banner flex flex-col flex-shrink w-full px-4 pt-4 pb-[20%] rounded relative ">
                 <BannerBackground setEditingBackground={setEditingBackground} bannerPicturePath={user.backgroundPicturePath ?? ""} isEditing={isEditing}/>
 
             </div>
-            <div className="flex flex-row w-full items-center justify-center">
+            <div className={style['profile-identity'] + " flex flex-row w-full items-center justify-center"}>
                 <Avatar username={user.username} featuredWeather={user.featuredWeather}  profilePicturePath={user.profilePicturePath} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
                 <div className="flex flex-row ml-4 grow pr-4">
                     <div className="flex flex-col justify-center">
