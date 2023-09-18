@@ -9,7 +9,7 @@
     right: 0;
     margin: 0;
     box-sizing: border-box;
-    z-index: 3000;
+    z-index: 200;
 }
 .modal-background{
     position: absolute;

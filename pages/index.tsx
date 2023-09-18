@@ -3,6 +3,8 @@ import WeatherSummarySide from '../components/weather-widgets/weather-summary-si
 import ActivityBoard from '../components/activity-board/ActivityBoard';
 import Banner from '../components/banner/banner';
 import { useEffect } from 'react';
+import { Engagement } from 'next/font/google';
+import PostEngagement from '../components/activity/post/post-engagement/PostEngagement';
 export default function Home() {
 
     return (
@@ -10,9 +12,9 @@ export default function Home() {
             <Head>
                 <title>Home</title>
             </Head>
-            <div className="center w-full relative">
+            <div className="center w-full overflow-y-auto p-8">
 {/*                 <Banner/> */}
-                <ActivityBoard/>
+                <PostEngagement/>
             </div>
 {/*             <div className="right-side relative">
                 {<WeatherSummarySide />}

@@ -22,13 +22,14 @@ export default function Modal({children, onClose,status,hideCloseButton,containe
         setReveal(status ?? false);
     }, [status])
     return(
-        <div className={"fixed top-0 left-0 w-full h-full flex justify-center items-center " + (!reveal && "hidden")}>
-            <div onClick={onClose} className={"backdrop-blur bg-gradient-to-b from-slate-900 via-transparent to-slate-900  w-full h-full absolute bottom-0 right-0"}></div>
+        <div className={styles['modal'] + " " + (!reveal && " hidden")}>
+            <div onClick={onClose} className={"backdrop-blur-lg bg-gradient-to-b from-slate-900 via-transparent to-slate-900  w-full h-full absolute bottom-0 right-0"}></div>
             <div className={styles["modal-content"] + " border border-slate-400 " + (containerClassName ?? "")}>
                 {title?.length && <h3 className="form-title">{title}</h3>}
                 {!hideCloseButton && <button onClick={onClose} className={styles["modal-close-btn"] + " drop-shadow-lg"}><IoClose></IoClose></button>}
                 {children}
             </div>
+
         </div>
     )
 }

@@ -11,7 +11,7 @@
 }
 
 .share-weather-btn{
-    @apply bg-indigo-900 rounded-xl;
+    @apply bg-indigo-800 rounded-xl;
 }
 .share-weather-btn-background{
     box-sizing: content-box;

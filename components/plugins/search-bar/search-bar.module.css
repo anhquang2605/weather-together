@@ -61,6 +61,12 @@
         }
     }
 }
+.autocomplete-icon{
+
+}
+.autocomplete-icon + input{
+    padding-left: 0!important;
+}
 .searching.bordered{
     @apply bg-slate-100;
     color: var(--primary-color);

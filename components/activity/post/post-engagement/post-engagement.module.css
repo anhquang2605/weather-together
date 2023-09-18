@@ -1,0 +1,6 @@
+.post-engagement{
+
+}
+.engagement-btn{
+    @apply text-xl rounded-md px-16 py-4 flex flex-row items-center justify-center mx-auto border capitalize mt-8;
+}

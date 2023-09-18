@@ -4,9 +4,9 @@ import CustomSelect from '../../../plugins/custom-select/CustomSelect';
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 import style from './post-form.module.css'
 import AttachmentButtonGroup from './attachment-button-group/AttachmentButtonGroup';
+import BuddyTagForm from './friend-tag-form/BuddyTagForm';
 interface PostFormProps {
     username?: string;
-
 }
 export default function PostForm ({username}: PostFormProps) {
     const [content, setContent] = useState<string>("");
@@ -16,50 +16,6 @@ export default function PostForm ({username}: PostFormProps) {
     const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
-    const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
-        setContent(e.target.value);
-    }
-    const handleImageAttach = () => {
-        setPictureAttached(true);
-    }
-    const handleUploadImages = async (images:Blob[]) => {
-        /* 
-            1. wait for post to be created
-            2. Upload images to cloudinary and get the urls
-            3. Send the urls to the server
-            4. Server will save the urls to the database and return the urls
-            5. Client will receive the urls and save them to the post
-        */
-    }
-    const handleUploadPost = async () => {
-
-    }
-    const handleSubmission = () => {
-        const post = {
-            content,
-            pictureAttached,
-            taggedUsernames,
-            dateCreated: new Date(),
-            dateUpdated: new Date(),
-            visibility: visibilityOptions[selectedVisibilityIndex].value
-        }
-
-    }
-/*     const visibilityOptions = [
-        "public", 
-        "friends", 
-        "private"];
-    const visibilityDescriptions = [
-        "Anyone can see this post", 
-        "Only friends can see this post", 
-        "Only you can see this post"]; */
-/*     const visibilityOptionsJSX = visibilityOptions.map((option,index) => {
-        return ( 
-        <option key={option} value={option}>
-            {option + "-"  + visibilityDescriptions[index]}
-        </option>
-        )
-    }) */
     const visibilityOptions = [
         {
             value: "public",
@@ -79,9 +35,33 @@ export default function PostForm ({username}: PostFormProps) {
         "friends": <MdPeople className="icon"  />,
         "private":  <MdLock className="icon"  /> ,
     }
+    const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+        setContent(e.target.value);
+    }
+    const handleUploadPost = async () => {
+
+    }
+    const handleSubmission = () => {
+        const post = {
+            content,
+            pictureAttached,
+            taggedUsernames,
+            dateCreated: new Date(),
+            dateUpdated: new Date(),
+            visibility: visibilityOptions[selectedVisibilityIndex].value
+        }
+
+    }
+    const handleAddBuddyTag = (buddyUsername: string) => {
+        setTaggedUsernames([...taggedUsernames, buddyUsername]);
+    }
+    const handleRemoveBuddyTag = (buddyUsername: string) => {
+        setTaggedUsernames(taggedUsernames.filter(username => username !== buddyUsername));
+    }
+
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(
-            <div key={title} data-value={title} className={"flex flex-row align-center"}>
+            <div key={title} data-value={title} className={"flex flex-row align-center w-full"}>
                 <span className="option-icon my-auto text-indigo-800">
                     {visibilityIcons[title]}
                 </span>
@@ -96,9 +76,12 @@ export default function PostForm ({username}: PostFormProps) {
                 <span className="drop-down-icon">
 
                 </span>
+
             </div>
         )
     }
+
+
     useEffect(()=>{
         if(attachedImages.length > 0){
             setPictureAttached(true);
@@ -107,7 +90,7 @@ export default function PostForm ({username}: PostFormProps) {
         }
     },[attachedImages])
     return (
-        <div className="post-form w-full">
+        <div className="post-form w-full relative">
             <h3 className="form-title mb-4">Post Creation</h3>
             
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
@@ -136,7 +119,11 @@ export default function PostForm ({username}: PostFormProps) {
 
             <div className="btn-group">
                 <button className="action-btn w-full">Post</button>
-            </div>  
+            </div>
+            <BuddyTagForm
+                addBuddyTag={handleAddBuddyTag}
+                removeBuddyTag={handleRemoveBuddyTag}
+            />  
         </div>
     )
 }

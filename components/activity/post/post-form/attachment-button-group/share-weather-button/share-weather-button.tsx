@@ -1,9 +1,9 @@
 import style from './share-weather-button.module.css'
-import { getCurrentWeather } from '../../../../../libs/weather';
+import { getCurrentWeather } from './../../../../../../libs/weather';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { TbCloudFilled } from "react-icons/tb";
-import { convertConditionToIconName } from '../../../../../libs/weather';
+import { convertConditionToIconName } from './../../../../../../libs/weather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
 interface ShareWeatherButtonProps {

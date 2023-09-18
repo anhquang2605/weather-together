@@ -1,0 +1,11 @@
+.buddy-tag-form{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    z-index: 200;
+}
