@@ -1,0 +1,14 @@
+.buddy-card{
+    
+    @apply flex flex-row items-center p-2 rounded-lg bg-slate-200 hover:bg-slate-300 cursor-pointer shadow-lg;
+    transition: var(--short-transition);
+    .username, .city{
+        color: var(--primary-color);
+    }
+}
+.buddy-information{
+    @apply flex flex-col ml-4;
+}
+.city{
+    @apply text-sm flex flex-row items-center;
+}

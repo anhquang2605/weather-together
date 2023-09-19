@@ -1,15 +1,24 @@
 import React from 'react';
 import style from './buddy-tag-result.module.css';
-import { BuddyTag } from '../../../../../../types/BuddyTag';
+import { Buddy } from '../../../../../../types/User';
+import BuddyCard from '../../../../../user/buddy-card/BuddyCard';
+import { usePostFormContext } from '../../../post-engagement/usePostFormContext';
 
 interface BuddyTagResultProps {
-    results: BuddyTag[];
+    results: Buddy[];
 }
 
-const BuddyTagResult: React.FC<BuddyTagResultProps> = ({}) => {
+const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results}) => {
+    const {taggedUsernames,addTaggedUsername} = usePostFormContext();
+    
+    const jsxResults = results.map((buddy) => {
+        return (
+            <BuddyCard onClickHandler={addTaggedUsername} buddy={buddy} hoverTitle='Tag This Buddy'/>
+        )
+    })
     return (
         <div className={style['buddy-tag-result']}>
-            BuddyTagResult
+            {jsxResults.length > 0 ? jsxResults : <span className={style['no-result']}>No results found</span>}
         </div>
     );
 };

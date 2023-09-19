@@ -1,7 +1,8 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, use} from 'react'
 import {IoImages, IoPricetags} from 'react-icons/io5'
 import style from './attachment-button-group.module.css'
 import ShareWeatherButton from './share-weather-button/share-weather-button';
+import { useViewSliderContext } from '../../../../plugins/view-slider/useViewSliderContext';
 interface AttachmentButtonGroupProps {
     setRevealImageAttachForm: React.Dispatch<React.SetStateAction<boolean>>;
     attachedImagesLength: number;
@@ -9,6 +10,7 @@ interface AttachmentButtonGroupProps {
     setCurrentWeather: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather}: AttachmentButtonGroupProps) {
+    const setActiveSlide = useViewSliderContext().setActiveSlide;
     return (
         <div className={`${style["attachment-btn-group"]} mb-4`}>
             <span className={`${style.description}`}>
@@ -33,7 +35,13 @@ export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedU
                 ${style['attachment-btn']} 
                 ${style['tag-btn']}
                 ${taggedUsernamesLength ? style['attached'] : ''}
-                `}>
+                `}
+                    onClick={
+                        () => {
+                            setActiveSlide(1);
+                        }
+                    }
+                >
                 <IoPricetags className="icon"/>
                 Friends Tags
             </button>

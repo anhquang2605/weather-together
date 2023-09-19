@@ -755,6 +755,10 @@ video {
   height: 5rem;
 }
 
+.h-4 {
+  height: 1rem;
+}
+
 .h-40 {
   height: 10rem;
 }
@@ -795,6 +799,10 @@ video {
   height: 100%;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
@@ -829,6 +837,10 @@ video {
 
 .w-32 {
   width: 8rem;
+}
+
+.w-4 {
+  width: 1rem;
 }
 
 .w-40 {
@@ -1492,6 +1504,8 @@ video {
   --lg-screen: 1024px;
   --md-screen: 768px;
   --sm-screen: 640px;
+  --short-transition: all 0.2s ease-in-out;
+  --long-transition: all 0.5s ease-in-out;
 }
 
 .glass {

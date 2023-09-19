@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Engagement } from 'next/font/google';
 import PostEngagement from '../components/activity/post/post-engagement/PostEngagement';
 import { useSession } from 'next-auth/react';
+import { PostFormProvider } from '../components/activity/post/post-engagement/usePostFormContext';
 export default function Home() {
     const {data: session} = useSession();
     const username = session?.user?.username || "";
@@ -16,9 +17,10 @@ export default function Home() {
             </Head>
             <div className="center w-full overflow-y-auto p-8">
 {/*                 <Banner/> */}
-                <PostEngagement
-                    username={username}
-                />
+
+                    <PostEngagement
+                        username={username}
+                    />
             </div>
 {/*             <div className="right-side relative">
                 {<WeatherSummarySide />}

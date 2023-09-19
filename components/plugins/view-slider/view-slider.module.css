@@ -1,0 +1,7 @@
+.view-slider{
+    width: 100%;
+}
+.slider-container{
+    display: flex;
+    flex-direction: row;
+}

@@ -4,16 +4,19 @@ import {IoReturnUpBack} from 'react-icons/io5'
 import SearchBar from '../../../../plugins/search-bar/SearchBar';
 import useLazyFetch from '../../../../../hooks/lazy-fetch/useLazyFetch';
 import { Buddy } from '../../../../../types/User';
-import { debounce } from 'lodash';
+import { debounce, set } from 'lodash';
 import { BuddyFetchResponse, BuddyParams } from '../../../../../pages/api/buddies';
+import BuddyTagResult from './buddy-tag-result/BuddyTagResult';
+import { useViewSliderContext } from '../../../../plugins/view-slider/useViewSliderContext';
+import { usePostFormContext } from '../../post-engagement/usePostFormContext';
 interface BuddyTagFormProps {
-    addBuddyTag: (buddyUsername: string) => void;
-    removeBuddyTag: (buddyUsername: string) => void;
     username: string;
 }
 
 
-const FriendTagForm: React.FC<BuddyTagFormProps> = ({addBuddyTag,removeBuddyTag,username}) => {
+const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
+    const {taggedUsernames} = usePostFormContext();
+    const {setActiveSlide} = useViewSliderContext();
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [searchResult,  setSearchResult] = useState<Buddy[]>([]); //
     const [hasMore, setHasMore] = useState<boolean>(true); // whether there are more buddies to fetch
@@ -63,10 +66,10 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({addBuddyTag,removeBuddyTag,
 
     }
     const initialSearch = () => {
-        
+        debouncedFetch();
     }
     useEffect(()=>{
-
+        initialSearch();
     },[])
     useEffect(()=>{
         const {data} = fetchState;
@@ -75,7 +78,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({addBuddyTag,removeBuddyTag,
             setSearchResult(buddies);
             setHasMore(data.hasMore);
             setCounts(data.counts);
-            console.log(buddies, hasMore, counts);
+            setLastCursor(data.data[data.data.length-1].since);
         }
     },[fetchState])
     useEffect(()=>{
@@ -83,14 +86,23 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({addBuddyTag,removeBuddyTag,
             handleAutocompleteSearch();
         }
     },[searchTerm])
+    useEffect(()=> {
+        if(taggedUsernames.size > 0){
+            const usernames = Array.from(taggedUsernames);
+            const filteredResult = searchResult.filter((buddy) => {
+                return !usernames.includes(buddy.friendUsername);
+            })
+            setSearchResult(filteredResult);
+        }
+    },[taggedUsernames])
     return (
         <div className={style['buddy-tag-form']}>
             <button className="flex flex-row items-center" onClick={()=>{
-
+            setActiveSlide(0);
             }}>
                     <IoReturnUpBack className="w-8 h-8 mr-2"/>
             </button>
-            <div className="my-4">
+            <div className="mt-4">
                 <SearchBar
                     query={searchTerm}
                     setQuery={handleSetTerm}
@@ -100,7 +112,9 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({addBuddyTag,removeBuddyTag,
                     autoCompleteSearch={true}
                 />
             </div>
-           
+            <BuddyTagResult
+                    results={searchResult}
+            />
         </div>
     );
 };

@@ -31,6 +31,22 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
                 return 40;
         }
     }
+    const shortDimension = () => {
+        switch(size){
+            case 'two-x-large':
+                return 'xl';
+            case 'extra-large':
+                return 'lg';
+            case 'large':
+                return 'md';
+            case 'medium':
+                return 'sm';
+            case 'small':
+                return 'sm';
+            default:
+                return 'md';
+        }
+    }
     return (
         <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '')}>
             {
@@ -38,7 +54,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
                 <div className={style['featured-weather']}>
                     <WeatherIcon
                         weatherName={featuredWeather || ''}
-                        size={ size === 'two-x-large' ? '2xl' : 'xl'}
+                        size={ shortDimension()}
                     />
                 </div>
             }

@@ -3,6 +3,10 @@ import style from './post-engagement.module.css';
 import {MdOutlineAddComment} from 'react-icons/md';
 import Modal from '../../../modal/Modal';
 import PostForm from '../post-form/PostForm';
+import { PostFormProvider } from './usePostFormContext';
+import ViewSlider from '../../../plugins/view-slider/ViewSlider';
+import BuddyTagForm from '../post-form/friend-tag-form/BuddyTagForm';
+import { ViewSliderProvider } from '../../../plugins/view-slider/useViewSliderContext';
 interface PostEngagementProps {
     username: string;
 }
@@ -26,9 +30,22 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
 
         </div>
             <Modal status={revealForm} containerClassName='form-container' onClose={handleOnCloseModal}>
-                <PostForm
-                    username={username}
-                />
+                <PostFormProvider>
+                    <ViewSliderProvider
+                        childSlidesContent={
+                            [
+                                <PostForm
+                                 username={username}
+                                />,
+                                <BuddyTagForm
+                                    username={username}
+                                />
+                            ]
+                        }
+                    />
+
+                </PostFormProvider>
+               
             </Modal>
         </>
       

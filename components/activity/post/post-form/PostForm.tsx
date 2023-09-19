@@ -4,14 +4,14 @@ import CustomSelect from '../../../plugins/custom-select/CustomSelect';
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 import style from './post-form.module.css'
 import AttachmentButtonGroup from './attachment-button-group/AttachmentButtonGroup';
-import BuddyTagForm from './friend-tag-form/BuddyTagForm';
+import { usePostFormContext } from '../post-engagement/usePostFormContext';
 interface PostFormProps {
     username: string;
 }
 export default function PostForm ({username}: PostFormProps) {
     const [content, setContent] = useState<string>("");
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
-    const [taggedUsernames, setTaggedUsernames] = useState<string[]>([]);
+    const taggedUsernames:string[] = usePostFormContext().getTaggedUsernames();
     const [selectedVisibilityIndex, setSelectedVisibilityIndex] = useState<number>(0);
     const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
@@ -38,6 +38,18 @@ export default function PostForm ({username}: PostFormProps) {
     const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     }
+    const handleUploadPicture = async () => {
+/*         const formData = new FormData();
+        attachedImages.forEach((image) => {
+            formData.append('images', image);
+        })
+        const res = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        })
+        const data = await res.json();
+        return data; */
+    }
     const handleUploadPost = async () => {
 
     }
@@ -51,12 +63,6 @@ export default function PostForm ({username}: PostFormProps) {
             visibility: visibilityOptions[selectedVisibilityIndex].value
         }
 
-    }
-    const handleAddBuddyTag = (buddyUsername: string) => {
-        setTaggedUsernames([...taggedUsernames, buddyUsername]);
-    }
-    const handleRemoveBuddyTag = (buddyUsername: string) => {
-        setTaggedUsernames(taggedUsernames.filter(username => username !== buddyUsername));
     }
 
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
@@ -120,11 +126,6 @@ export default function PostForm ({username}: PostFormProps) {
             <div className="btn-group">
                 <button className="action-btn w-full">Post</button>
             </div>
-            <BuddyTagForm
-                username={username}
-                addBuddyTag={handleAddBuddyTag}
-                removeBuddyTag={handleRemoveBuddyTag}
-            />  
         </div>
     )
 }

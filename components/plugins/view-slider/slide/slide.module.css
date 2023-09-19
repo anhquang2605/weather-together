@@ -1,0 +1,17 @@
+.slide{
+    width: 0;
+    opacity: 0;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out;
+}
+.active-slide{
+    display: block;
+    opacity: 1;
+    width: 100%;
+    height: inherit;
+    visibility: visible;
+    transition: opacity 0.6s ease-in-out;
+
+}
