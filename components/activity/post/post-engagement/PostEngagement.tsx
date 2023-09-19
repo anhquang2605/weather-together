@@ -4,10 +4,10 @@ import {MdOutlineAddComment} from 'react-icons/md';
 import Modal from '../../../modal/Modal';
 import PostForm from '../post-form/PostForm';
 interface PostEngagementProps {
-
+    username: string;
 }
 
-const PostEngagement: React.FC<PostEngagementProps> = ({}) => {
+const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
     const [revealForm, setRevealForm] = useState(false)
     const handleOnCloseModal = () => {
         setRevealForm(false);
@@ -27,6 +27,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({}) => {
         </div>
             <Modal status={revealForm} containerClassName='form-container' onClose={handleOnCloseModal}>
                 <PostForm
+                    username={username}
                 />
             </Modal>
         </>

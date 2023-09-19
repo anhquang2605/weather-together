@@ -6,7 +6,7 @@ import style from './post-form.module.css'
 import AttachmentButtonGroup from './attachment-button-group/AttachmentButtonGroup';
 import BuddyTagForm from './friend-tag-form/BuddyTagForm';
 interface PostFormProps {
-    username?: string;
+    username: string;
 }
 export default function PostForm ({username}: PostFormProps) {
     const [content, setContent] = useState<string>("");
@@ -121,6 +121,7 @@ export default function PostForm ({username}: PostFormProps) {
                 <button className="action-btn w-full">Post</button>
             </div>
             <BuddyTagForm
+                username={username}
                 addBuddyTag={handleAddBuddyTag}
                 removeBuddyTag={handleRemoveBuddyTag}
             />  

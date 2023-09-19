@@ -2,7 +2,18 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { connectDB } from '../../libs/mongodb'
 import { Collection, WithId } from 'mongodb';
 import {Buddy} from '../../types/User';
-
+export interface BuddyParams{
+    username: string,
+    limit: string,
+    searchTerm: string,
+    lastCursor: string,
+}
+export interface BuddyFetchResponse{
+    success: boolean,
+    data: Buddy[],
+    hasMore: boolean,
+    counts: number,
+}
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req;
     const db = await connectDB();

@@ -632,10 +632,6 @@ video {
   top: 2rem;
 }
 
-.z-10 {
-  z-index: 10;
-}
-
 .z-30 {
   z-index: 30;
 }
@@ -799,18 +795,6 @@ video {
   height: 100%;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
-.h-16 {
-  height: 4rem;
-}
-
-.h-screen {
-  height: 100vh;
-}
-
 .max-h-60 {
   max-height: 15rem;
 }
@@ -885,22 +869,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-2\/3 {
-  width: 66.666667%;
-}
-
-.w-10 {
-  width: 2.5rem;
-}
-
-.w-16 {
-  width: 4rem;
-}
-
-.w-screen {
-  width: 100vw;
 }
 
 .max-w-none {
@@ -1206,10 +1174,6 @@ video {
 
 .p-8 {
   padding: 2rem;
-}
-
-.p-1 {
-  padding: 0.25rem;
 }
 
 .px-2 {
@@ -2105,10 +2069,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
   .lg\:w-48 {
     width: 12rem;
-  }
-
-  .lg\:w-\[400px\] {
-    width: 400px;
   }
 
   .lg\:w-\[800px\] {
