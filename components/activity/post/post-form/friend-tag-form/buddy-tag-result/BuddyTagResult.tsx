@@ -10,10 +10,11 @@ interface BuddyTagResultProps {
     fetchMore: () => void;
     hasMore: boolean;
     fetchingMore: boolean;
+    counts: number;
 }
 
-const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasMore, fetchingMore}) => {
-    const {taggedUsernames,addTaggedUsername} = usePostFormContext();
+const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasMore, fetchingMore, counts}) => {
+    const {addTaggedUsername} = usePostFormContext();
     const [fetchState] = useLazyFetch();
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
@@ -23,7 +24,6 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
         }
     }
     useEffect(()=>{
-        console.log(hasMore, fetchState.status);
         if(hasMore && fetchState.status === 'idle'){
             const options = {
                 root: document.querySelector(`.${style['buddy-tag-result']}`) as HTMLDivElement,
@@ -46,14 +46,23 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
             <span className={"w-0 h-0 overflow-hidden flex items-center justify-center bg-slate-400 animate-pulse " + (fetchState.status === 'loading' && style['loading']) }>
                 Loading...
             </span>
-            <div className={style['result-list']}>
-                {jsxResults.length > 0 ? jsxResults : <span className={style['no-result']}>No results found</span>}
+            {
+             (fetchingMore || fetchState.status !== 'loading')  &&
+            <>
+                <div className={"mb-4 text-lg " +  style["result-counts"]}>
+                    <span className={style['result-badge']}>
+                        Found {counts} {counts > 1 ? 'buddies' : 'buddy'}
+                    </span>
 
-            </div>
-            <div className={style['lazy-target'] + " " + (fetchingMore ? style['fetching'] : '')}>
-                    <span>Loading more...</span>
-            </div>
+                </div>
+                <div className={style['result-list']}>
+                    {jsxResults}
 
+                </div>
+                <div className={style['lazy-target'] + " " + (fetchingMore ? style['fetching'] : '')}>
+                        <span>Loading more...</span>
+                </div>
+            </>}
         </div>
     );
 };

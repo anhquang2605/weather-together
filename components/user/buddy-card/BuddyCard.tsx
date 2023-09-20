@@ -3,17 +3,22 @@ import style from './buddy-card.module.css';
 import { Buddy } from '../../../types/User';
 import MiniAvatar from '../mini-avatar/MiniAvatar';
 import { IoLocation } from 'react-icons/io5';
+import { UserCloud } from '../../widgets/tagged-user-cloud/TaggedUserCloud';
 
 interface BuddyCardProps {
     buddy: Buddy;
     hoverTitle?: string;
-    onClickHandler: (key: string) => void;
+    onClickHandler: (key: UserCloud) => void;
 }
 
 const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHandler}) => {
     return (
         <div onClick={()=> {
-            onClickHandler(buddy.friendUsername);
+            onClickHandler({
+                username: buddy.friendUsername,
+                name: buddy.name,
+                profilePicture: buddy.profilePicture,
+            });
         }} className={style['buddy-card']} title={hoverTitle}>
             <MiniAvatar 
                 username={buddy.friendUsername}

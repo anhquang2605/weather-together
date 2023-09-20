@@ -2,6 +2,7 @@
     position: fixed;
     width: 100vw;
     height: 100vh;
+    opacity: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,6 +11,9 @@
     margin: 0;
     box-sizing: border-box;
     z-index: 200;
+    transition: opacity 0.2s ease-in-out;
+    overflow: hidden;
+
 }
 .modal-background{
     position: absolute;
@@ -26,7 +30,10 @@
     width: 0%;
 }
 .hidden{
-    display: none!important;
+    width: 0!important;
+    height: 0!important;
+    opacity: 0!important;
+    transition: opacity 0.2s ease-in-out;
 }
 .modal-close-btn{
     position: absolute;
@@ -40,8 +47,8 @@
     align-items: center;
     cursor: pointer;
     svg{
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         color: tomato;
         transition: all 0.1s ease-in-out;
     }

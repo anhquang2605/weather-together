@@ -9,13 +9,15 @@ import { BuddyFetchResponse, BuddyParams } from '../../../../../pages/api/buddie
 import BuddyTagResult from './buddy-tag-result/BuddyTagResult';
 import { useViewSliderContext } from '../../../../plugins/view-slider/useViewSliderContext';
 import { usePostFormContext } from '../../post-engagement/usePostFormContext';
+import TaggedUserCloud from '../../../../widgets/tagged-user-cloud/TaggedUserCloud';
 interface BuddyTagFormProps {
     username: string;
 }
 
 
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
-    const {taggedUsernames} = usePostFormContext();
+    const taggedUsernames = usePostFormContext().getTaggedUsernames();
+    const {taggedUserClouds} = usePostFormContext();
     const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
     const curUsername = useRef<string>(username);
     const {setActiveSlide} = useViewSliderContext();
@@ -103,16 +105,15 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     useEffect(()=>{
             handleAutocompleteSearch();
     },[searchTerm])
-    useEffect(()=> {
-        console.log(taggedUsernames);
-        if(taggedUsernames.size > 0){
-            const usernames = Array.from(taggedUsernames);
+/*     useEffect(()=> {
+    //INFINITE STATE UPDATE HERE BE WARY
+        if(taggedUsernames.length > 0){
             const filteredResult = searchResult.filter((buddy) => {
-                return !usernames.includes(buddy.friendUsername);
+                return !taggedUsernames.includes(buddy.friendUsername);
             })
             setSearchResult(filteredResult);
         }
-    },[taggedUsernames])
+    },[taggedUsernames]) */
     useEffect(()=>{
         lastCursorRef.current = lastCursor;
     },[lastCursor])
@@ -133,18 +134,18 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
                     autoCompleteSearch={true}
                 />
             </div>
+            <TaggedUserCloud 
+                items={taggedUserClouds}
+                removeItem={usePostFormContext().removeTaggedUsername}
+            />
             <div className="w-full relative">
-                <span className={style["result-counts"]}>
-                    <span className={style['result-badge']}>
-                        {counts} {counts > 1 ? 'buddies' : 'buddy'}
-                    </span>
 
-                </span>
                 <BuddyTagResult
                         fetchMore={handleFetchMore}
                         hasMore={hasMore}
                         results={searchResult}
                         fetchingMore={fetchingMore}
+                        counts={counts}
                 />
             </div>
 

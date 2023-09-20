@@ -1,12 +1,13 @@
 import React, { useContext, createContext } from 'react';
+import { UserCloud } from '../../../widgets/tagged-user-cloud/TaggedUserCloud';
 interface PostFormProviderProps{
     children: React.ReactNode,
 }
 export interface PostFormContextType{
-    taggedUsernames: Set<string>,
-    setTaggedUsernames: React.Dispatch<React.SetStateAction<Set<string>>>,
-    addTaggedUsername: (taggedUsername: string) => void,
-    removeTaggedUsername: (taggedUsername: string) => void,
+    taggedUserClouds: Set<UserCloud>,
+    setTaggedUsernames: React.Dispatch<React.SetStateAction<Set<UserCloud>>>,
+    addTaggedUsername: (taggedUser: UserCloud) => void,
+    removeTaggedUsername: (taggedUser: UserCloud) => void,
     getTaggedUsernames: () => string[],
 }
 export const PostFormContext = createContext<PostFormContextType|undefined>(
@@ -14,21 +15,22 @@ export const PostFormContext = createContext<PostFormContextType|undefined>(
 );
 
 export function PostFormProvider ({children}:PostFormProviderProps) {
-    const [taggedUsernames, setTaggedUsernames] = React.useState<Set<string>>(new Set());
-    const addTaggedUsername = (taggedUsername: string) => {
-        console.log(taggedUsername);
-        setTaggedUsernames(taggedUsernames.add(taggedUsername));
+    const [taggedUserClouds, setTaggedUsernames] = React.useState<Set<UserCloud>>(new Set());
+    const addTaggedUsername = (taggedUser: UserCloud) => {
+        const newSet = new Set(taggedUserClouds);
+        newSet.add(taggedUser);
+        setTaggedUsernames(newSet);
     }
-    const removeTaggedUsername = (taggedUsername: string) => {
-        taggedUsernames.delete(taggedUsername);
-        setTaggedUsernames(new Set(taggedUsernames));
+    const removeTaggedUsername = (taggedUser: UserCloud) => {
+        taggedUserClouds.delete(taggedUser);
+        setTaggedUsernames(new Set(taggedUserClouds));
     }
     const getTaggedUsernames = () => {
-        return Array.from(taggedUsernames);
+        return Array.from(taggedUserClouds).map((user) => user.username);
     }
     return (
         <PostFormContext.Provider value={{
-            taggedUsernames,
+            taggedUserClouds,
             setTaggedUsernames,
             addTaggedUsername,
             removeTaggedUsername,

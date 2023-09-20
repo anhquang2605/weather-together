@@ -7,13 +7,12 @@ export interface UserCloud{
     profilePicture: string;
 }
 interface TaggedUserCloudProps {
-    addItem: (item: UserCloud) => void;
     removeItem: (item: UserCloud) => void;
     items: Set<UserCloud>;
 }
 
 const TaggedUserCloud: React.FC<TaggedUserCloudProps> = (props) => {
-    const {addItem, removeItem, items} = props;
+    const {removeItem, items} = props;
     const loadLimit = 3;
     const [overloaded, setOverloaded] = useState<boolean>(false);
     const cloudsJSX = Array.from(items).map((item,index) => {
@@ -35,7 +34,9 @@ const TaggedUserCloud: React.FC<TaggedUserCloudProps> = (props) => {
     },[overloaded])
     return (
         <div className={style['tagged-user-cloud']}>
-            {cloudsJSX}
+            <div className="absolute h-4 w-full">
+                {cloudsJSX}
+            </div>
         </div>
     );
 };

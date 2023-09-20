@@ -10,13 +10,15 @@ interface CloudBallProps {
 
 const CloudBall: React.FC<CloudBallProps> = ({user, overloaded}) => {
     return (
-        <div className={style['cloud-ball'] + " " + (overloaded? style['over-loaded'] : '')}>
+        <div className={style['cloud-ball']}>
                 <MiniAvatar
                     username={user.username}
                     profilePicturePath={user.profilePicture}
                     size='small'
                 />
-
+                <span className={style["title-name"]}>
+                    {user.name ? user.name : user.username}
+                </span>
         </div>
     );
 };

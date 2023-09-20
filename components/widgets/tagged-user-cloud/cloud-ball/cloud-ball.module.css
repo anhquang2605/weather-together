@@ -1,0 +1,24 @@
+.cloud-ball{
+    display: inline-flex;
+    flex-direction: row;
+    @apply bg-slate-200 rounded-full p-2 justify-center items-center -mr-4;
+    color: var(--primary-color);
+    .title-name{
+        @apply w-0 h-0 overflow-hidden ;
+        transition: all 0.3s ease-in-out;
+    }
+/*     div:first-child{
+        @apply mr-1;
+    } */
+    &:hover{
+        @apply p-4;
+        .title-name{
+            @apply w-auto h-auto overflow-auto;
+        }
+    }
+}
+.over-loaded{
+    div:first-child{
+        @apply mr-0;
+    }
+}
