@@ -1,10 +1,15 @@
 .buddy-tag-form{
-
     width: 100%;
-    min-height: 300px;
+    
     overflow-x: hidden;
     top: 0;
     left: 0;
     background-color: var(--primary-color);
     z-index: 200;
+}
+.result-counts{
+    @apply absolute top-0 left-0 -mt-4 w-full flex flex-row justify-center items-center;
+}
+.result-badge{
+    @apply  px-8 py-[1px] text-sm rounded-full bg-indigo-500 text-white z-50 border border-slate-300;
 }

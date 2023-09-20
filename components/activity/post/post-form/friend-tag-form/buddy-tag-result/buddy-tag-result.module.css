@@ -1,12 +1,32 @@
 .buddy-tag-result{
-    @apply border border-slate-500 rounded-lg mt-4 p-4 gap-4;
+    @apply border border-slate-500 rounded-lg mt-4 p-4 max-h-[250px]
+     lg:max-h-[300px];
+    ;
     width: 100%;
     height: 100%;
-    max-height: 400px;
     overflow-y: auto;
+   
+}
+.result-list{
     display: grid;
+    width: 100%;
     grid-template-columns:  1fr;
+    @apply gap-4;
     @screen lg{
         grid-template-columns: 1fr 1fr;
     }
+}
+.lazy-target{
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    align-self: stretch;
+    @apply animate-pulse  bg-slate-400 rounded-xl flex flex-row justify-center items-center; 
+    &.fetching{
+        @apply h-[70px] md:h-[90px] mt-4;
+    }
+}
+.loading{
+    width: 100%!important;
+    height: 100%!important;
 }

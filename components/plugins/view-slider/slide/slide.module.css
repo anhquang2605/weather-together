@@ -4,7 +4,7 @@
     height: 0;
     visibility: hidden;
     overflow: hidden;
-    transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
 }
 .active-slide{
     display: block;

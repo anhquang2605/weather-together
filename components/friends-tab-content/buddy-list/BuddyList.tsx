@@ -96,7 +96,9 @@ const BuddyList: React.FC<BuddyListProps> = ({}) => {
         setIsFetching(true);
         const response = await handleFetchBuddies(lastCursorRef.current);
         if(response && response.success){
-            setBuddyList([...buddyList, ...response.data]);
+            setBuddyList(prevList => {
+                return [...prevList, ...response.data]
+            })
             setHasMore(response.hasMore);
             setCounts(response.counts);
             setIsFetching(false);

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './buddy-tag-form.module.css';
 import {IoReturnUpBack} from 'react-icons/io5'
 import SearchBar from '../../../../plugins/search-bar/SearchBar';
 import useLazyFetch from '../../../../../hooks/lazy-fetch/useLazyFetch';
 import { Buddy } from '../../../../../types/User';
-import { debounce, set } from 'lodash';
+import { debounce, last, set } from 'lodash';
 import { BuddyFetchResponse, BuddyParams } from '../../../../../pages/api/buddies';
 import BuddyTagResult from './buddy-tag-result/BuddyTagResult';
 import { useViewSliderContext } from '../../../../plugins/view-slider/useViewSliderContext';
@@ -16,16 +16,20 @@ interface BuddyTagFormProps {
 
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const {taggedUsernames} = usePostFormContext();
+    const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
+    const curUsername = useRef<string>(username);
     const {setActiveSlide} = useViewSliderContext();
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [fetchingMore, setFetchingMore] = useState<boolean>(false); // whether the app is fetching more buddies
     const [searchResult,  setSearchResult] = useState<Buddy[]>([]); //
     const [hasMore, setHasMore] = useState<boolean>(true); // whether there are more buddies to fetch
     const [counts, setCounts] = useState<number>(0); // total number of buddies that match the search term
     const  [fetchState, fetchData] = useLazyFetch<BuddyFetchResponse>();
-    const [lastCursor, setLastCursor] = useState<Date>(); // last cursor of the last fetched page
+    const [lastCursor, setLastCursor] = useState<Date | undefined>(); // last cursor of the last fetched page
+    const lastCursorRef = React.useRef<Date | undefined>(lastCursor);
     //remember to useRef on the last cursor
     const BUDDY_URL_API = '/api/buddies';
-    const LIMIT = 10;
+    const LIMIT = 7;
     const handleSetTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     }
@@ -38,11 +42,11 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             }
         }
         const params = {
-            username,
+            username: curUsername.current,
             searchTerm,
             limit: LIMIT.toString(),
-            lastCursor: lastCursor? (
-                typeof lastCursor === 'string' ? lastCursor : lastCursor.toISOString()
+            lastCursor: lastCursorRef.current? (
+                typeof lastCursorRef.current === 'string' ? lastCursorRef.current : lastCursorRef.current.toISOString()
             ) : new Date().toISOString()
         }
         let urltoFetch = BUDDY_URL_API + '?' + new URLSearchParams(params).toString();
@@ -58,35 +62,49 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
 
 
     }
-    const debouncedFetch = debounce(handleFetch, 300);
+    const debouncedFetch = debounce(handleFetch, 500);
     const handleAutocompleteSearch = () => {
+        lastCursorRef.current = undefined;
+        setAction('search');
         debouncedFetch();
-    }
-    const handleOnSearch = () => {
 
     }
+    const handleFetchMore = () => {
+        setFetchingMore(true);
+        setAction('fetch');
+        debouncedFetch();
+    }
     const initialSearch = () => {
+        setAction('search');
         debouncedFetch();
     }
     useEffect(()=>{
-        initialSearch();
-    },[])
+        if(username.length){
+            username.length && initialSearch();
+            curUsername.current = username;
+        }
+    },[username])
     useEffect(()=>{
         const {data} = fetchState;
         if(data && data.data.length > 0){
             const buddies = data.data;
-            setSearchResult(buddies);
+            if(action === 'search'){
+                setSearchResult(buddies);
+            } else {
+                setSearchResult(
+                    prev => [...prev, ...buddies]);
+            }
             setHasMore(data.hasMore);
             setCounts(data.counts);
             setLastCursor(data.data[data.data.length-1].since);
+            setFetchingMore(false);
         }
     },[fetchState])
     useEffect(()=>{
-        if(searchTerm.length > 0){
             handleAutocompleteSearch();
-        }
     },[searchTerm])
     useEffect(()=> {
+        console.log(taggedUsernames);
         if(taggedUsernames.size > 0){
             const usernames = Array.from(taggedUsernames);
             const filteredResult = searchResult.filter((buddy) => {
@@ -95,6 +113,9 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             setSearchResult(filteredResult);
         }
     },[taggedUsernames])
+    useEffect(()=>{
+        lastCursorRef.current = lastCursor;
+    },[lastCursor])
     return (
         <div className={style['buddy-tag-form']}>
             <button className="flex flex-row items-center" onClick={()=>{
@@ -102,19 +123,31 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             }}>
                     <IoReturnUpBack className="w-8 h-8 mr-2"/>
             </button>
-            <div className="mt-4">
+            <div className="my-8">
                 <SearchBar
                     query={searchTerm}
                     setQuery={handleSetTerm}
                     placeholder='Search for buddies'
-                    onSearch={handleOnSearch}
+                    onSearch={()=>{}}
                     variant="bordered"
                     autoCompleteSearch={true}
                 />
             </div>
-            <BuddyTagResult
-                    results={searchResult}
-            />
+            <div className="w-full relative">
+                <span className={style["result-counts"]}>
+                    <span className={style['result-badge']}>
+                        {counts} {counts > 1 ? 'buddies' : 'buddy'}
+                    </span>
+
+                </span>
+                <BuddyTagResult
+                        fetchMore={handleFetchMore}
+                        hasMore={hasMore}
+                        results={searchResult}
+                        fetchingMore={fetchingMore}
+                />
+            </div>
+
         </div>
     );
 };
