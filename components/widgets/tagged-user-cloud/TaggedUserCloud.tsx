@@ -18,6 +18,7 @@ const TaggedUserCloud: React.FC<TaggedUserCloudProps> = (props) => {
     const cloudsJSX = Array.from(items).map((item,index) => {
         return (
             <CloudBall
+                last={index === items.size - 1}
             key={index}
                 user={item}
                 overloaded={overloaded}

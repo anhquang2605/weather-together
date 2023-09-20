@@ -19,7 +19,6 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
         if(target.isIntersecting){
-            console.log('fetching more');
             fetchMore();
         }
     }

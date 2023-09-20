@@ -1,14 +1,59 @@
 .buddy-card{
-    
-    @apply flex flex-row items-center p-2 rounded-lg bg-slate-200 hover:bg-slate-300 cursor-pointer shadow-lg;
-    transition: var(--short-transition);
+    --trans-dur: 0.5s;
+    @apply w-full h-[72px] relative flex flex-row items-center rounded-lg cursor-pointer overflow-hidden flex-wrap;
     .username, .city{
         color: var(--primary-color);
     }
+    transform-origin: center;
+/*     transform: scale(1);
+    transform-origin: center;
+    transition-property: border-radius, transform, width, height;
+    transition-duration: var(--trans-dur),var(--trans-dur),var(--trans-dur),var(--trans-dur);
+    transition-delay: 0s, 0s, 1s, 1s; */
+}
+.buddy-wrapper{
+    @apply opacity-100 p-2 w-full h-full rounded-lg bg-slate-200 hover:bg-slate-300 flex items-center;
+}
+.box{
+    width: 100%;
+    height: 100%;
+    @apply bg-slate-200 rounded-lg;
 }
 .buddy-information{
     @apply flex flex-col ml-4;
 }
 .city{
     @apply text-sm flex flex-row items-center;
+}
+.tagged{
+    .buddy-wrapper{
+        display: none;
+    }
+    .box{
+        @apply mx-auto my-auto;
+        animation: var(--trans-dur) ease-in-out forwards shrink;
+    }
+    @apply overflow-hidden;
+    animation: var(--trans-dur) ease-in-out forwards dissappear;
+
+    /* animation: var(--trans-dur) linear forwards dissappear;
+ */
+}
+@keyframes dissappear{
+    100%{
+        display: none;
+    }
+}
+@keyframes shrink{
+    40%{
+        width: 50px;
+        height: 50px;
+        border-radius: inherit;
+    }
+    100%{
+        width: 4px;
+        height: 4px;
+        display: none;
+        border-radius: 100%;
+    }
 }

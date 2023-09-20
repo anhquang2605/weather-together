@@ -12,28 +12,41 @@ interface BuddyCardProps {
 }
 
 const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHandler}) => {
+    const handleCardClick = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const target = event.currentTarget as HTMLDivElement;
+        target.classList.add(style['tagged']);
+        onClickHandler({
+            username: buddy.friendUsername,
+            name: buddy.name,
+            profilePicture: buddy.profilePicture,
+        });
+    }
     return (
-        <div onClick={()=> {
-            onClickHandler({
-                username: buddy.friendUsername,
-                name: buddy.name,
-                profilePicture: buddy.profilePicture,
-            });
-        }} className={style['buddy-card']} title={hoverTitle}>
-            <MiniAvatar 
-                username={buddy.friendUsername}
-                profilePicturePath={buddy.profilePicture}
-                size='large'
-                featuredWeather={buddy.featuredWeather.name}
-                variant="featured"
-            />
-            <div className={style['buddy-information']}>
-                <span className={style['username']}>
-                    {buddy.name === "" ? buddy.username : buddy.name}
-                </span>
-                <span className={style['city']}>
-                    <IoLocation className="w-4 h-4"/> {buddy.city}
-                </span> 
+        <div onClick={(event)=> {
+            handleCardClick(event);
+           
+        }} className={style['buddy-card']} id={buddy.friendUsername}  title={hoverTitle}>
+            <div className={style['buddy-wrapper'] + " "}>
+                <MiniAvatar 
+                    username={buddy.friendUsername}
+                    profilePicturePath={buddy.profilePicture}
+                    size='large'
+                    featuredWeather={buddy.featuredWeather.name}
+                    variant="featured"
+                />
+                <div className={style['buddy-information']}>
+                    <span className={style['username']}>
+                        {buddy.name === "" ? buddy.username : buddy.name}
+                    </span>
+                    <span className={style['city']}>
+                        <IoLocation className="w-4 h-4"/> {buddy.city}
+                    </span> 
+                </div>
+            </div>
+            <div className={style["box"]}>
+                
             </div>
         </div>
     );

@@ -17,8 +17,24 @@
         }
     }
 }
+.last{
+    animation: expand 0.5s ease-in-out forwards;
+}
+
 .over-loaded{
     div:first-child{
         @apply mr-0;
+    }
+}
+
+@keyframes expand{
+    0%{
+        transform: scale(0);
+    }
+    80%{
+        transform: scale(1.5);
+    }
+    100%{
+        transform: scale(1);
     }
 }

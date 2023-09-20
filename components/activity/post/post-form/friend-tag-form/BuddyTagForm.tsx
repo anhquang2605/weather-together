@@ -17,7 +17,7 @@ interface BuddyTagFormProps {
 
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const taggedUsernames = usePostFormContext().getTaggedUsernames();
-    const {taggedUserClouds} = usePostFormContext();
+    const {taggedUserClouds, actionType} = usePostFormContext();
     const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
     const curUsername = useRef<string>(username);
     const {setActiveSlide} = useViewSliderContext();
@@ -105,13 +105,21 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     useEffect(()=>{
             handleAutocompleteSearch();
     },[searchTerm])
+    useEffect(()=>{
+        
+    })
 /*     useEffect(()=> {
     //INFINITE STATE UPDATE HERE BE WARY
+        console.log('tagged usernames', taggedUsernames);
         if(taggedUsernames.length > 0){
-            const filteredResult = searchResult.filter((buddy) => {
-                return !taggedUsernames.includes(buddy.friendUsername);
-            })
-            setSearchResult(filteredResult);
+            const newResult = [...searchResult];
+            if(actionType === 'add'){
+                const newTaggedUser = taggedUsernames[taggedUsernames.length-1];
+               
+            }else{
+
+            }
+            //setSearchResult(filteredResult);
         }
     },[taggedUsernames]) */
     useEffect(()=>{

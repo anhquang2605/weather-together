@@ -6,11 +6,12 @@ import MiniAvatar from '../../../user/mini-avatar/MiniAvatar';
 interface CloudBallProps {
     user: UserCloud;
     overloaded?: boolean;
+    last?: boolean;
 }
 
 const CloudBall: React.FC<CloudBallProps> = ({user, overloaded}) => {
     return (
-        <div className={style['cloud-ball']}>
+        <div className={style['cloud-ball'] + " " + style['last']}>
                 <MiniAvatar
                     username={user.username}
                     profilePicturePath={user.profilePicture}
