@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import style from './tagged-user-cloud.module.css';
 import CloudBall from './cloud-ball/CloudBall';
-export interface UserCloud{
-    username: string;
-    name: string;
-    profilePicture: string;
-}
-interface TaggedUserCloudProps {
-    removeItem: (item: UserCloud) => void;
-    items: Set<UserCloud>;
+import { BuddyTag } from '../../activity/post/post-form/friend-tag-form/BuddyTagForm';
+
+interface TaggedBuddyProps {
+    removeItem: (item: BuddyTag) => void;
+    items: Set<BuddyTag>;
 }
 
-const TaggedUserCloud: React.FC<TaggedUserCloudProps> = (props) => {
+const TaggedBuddy: React.FC<TaggedBuddyProps> = (props) => {
     const {removeItem, items} = props;
     const [overloaded, setOverloaded] = useState<boolean>(false);
     const cloudsJSX = Array.from(items).map((item,index) => {
@@ -41,4 +38,4 @@ const TaggedUserCloud: React.FC<TaggedUserCloudProps> = (props) => {
     );
 };
 
-export default TaggedUserCloud;
+export default TaggedBuddy;

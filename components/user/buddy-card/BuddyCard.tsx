@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import style from './buddy-card.module.css';
-import { Buddy } from '../../../types/User';
+
 import MiniAvatar from '../mini-avatar/MiniAvatar';
 import { IoLocation } from 'react-icons/io5';
-import { UserCloud } from '../../widgets/tagged-user-cloud/TaggedUserCloud';
 import { usePostFormContext } from '../../activity/post/post-engagement/usePostFormContext';
+import { BuddyTag } from '../../activity/post/post-form/friend-tag-form/BuddyTagForm';
 
 interface BuddyCardProps {
-    buddy: Buddy;
+    buddy: BuddyTag;
     hoverTitle?: string;
-    onClickHandler: (key: UserCloud) => void;
+    onClickHandler: (key: BuddyTag) => void;
 }
 
 const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHandler}) => {
@@ -19,11 +19,7 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
         event.preventDefault();
         const target = event.currentTarget as HTMLDivElement;
         target.classList.add(style['tagged']);
-        onClickHandler({
-            username: buddy.friendUsername,
-            name: buddy.name,
-            profilePicture: buddy.profilePicture,
-        });
+        onClickHandler(buddy);
     }
     useEffect(()=>{
         if(buddy.friendUsername === lastItemRemoved){

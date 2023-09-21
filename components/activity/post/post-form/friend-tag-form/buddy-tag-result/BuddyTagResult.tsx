@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import style from './buddy-tag-result.module.css';
-import { Buddy } from '../../../../../../types/User';
+
 import BuddyCard from '../../../../../user/buddy-card/BuddyCard';
 import { usePostFormContext } from '../../../post-engagement/usePostFormContext';
 import useLazyFetch from '../../../../../../hooks/lazy-fetch/useLazyFetch';
+import { BuddyTag } from '../BuddyTagForm';
 
 interface BuddyTagResultProps {
-    results: Buddy[];
+    results: BuddyTag[];
     fetchMore: () => void;
     hasMore: boolean;
     fetchingMore: boolean;

@@ -9,21 +9,24 @@ import { BuddyFetchResponse, BuddyParams } from '../../../../../pages/api/buddie
 import BuddyTagResult from './buddy-tag-result/BuddyTagResult';
 import { useViewSliderContext } from '../../../../plugins/view-slider/useViewSliderContext';
 import { usePostFormContext } from '../../post-engagement/usePostFormContext';
-import TaggedUserCloud from '../../../../widgets/tagged-user-cloud/TaggedUserCloud';
+import TaggedUserCloud from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
+import TaggedBuddy from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
 interface BuddyTagFormProps {
     username: string;
 }
-
+export interface BuddyTag extends Buddy{
+    tagged?: boolean;
+}
 
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const taggedUsernames = usePostFormContext().getTaggedUsernames();
-    const {taggedUserClouds, actionType} = usePostFormContext();
+    const {taggedBuddys, actionType} = usePostFormContext();
     const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
     const curUsername = useRef<string>(username);
     const {setActiveSlide} = useViewSliderContext();
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [fetchingMore, setFetchingMore] = useState<boolean>(false); // whether the app is fetching more buddies
-    const [searchResult,  setSearchResult] = useState<Buddy[]>([]); //
+    const [searchResult,  setSearchResult] = useState<BuddyTag[]>([]); //
     const [hasMore, setHasMore] = useState<boolean>(true); // whether there are more buddies to fetch
     const [counts, setCounts] = useState<number>(0); // total number of buddies that match the search term
     const  [fetchState, fetchData] = useLazyFetch<BuddyFetchResponse>();
@@ -77,31 +80,34 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         setAction('search');
         debouncedFetch();
     }
-    useEffect(()=>{
-        if(username.length){
-            username.length && initialSearch();
-            curUsername.current = username;
-        }
-    },[username])
-    useEffect(()=>{
+    const handleSetResult = () => {
         const {data} = fetchState;
         if(data && data.data.length > 0){
 
             const buddies = data.data;
             if(action === 'search'){
                 if(taggedUsernames.length > 0){
-                    const filteredResult = buddies.filter((buddy) => {
+                    const oldTags = [...taggedBuddys];
+                    const meregedResult = mergeAndSortArrays(oldTags, buddies);
+                    setSearchResult(meregedResult);
+             /*        const filteredResult = buddies.filter((buddy) => {
                         return !taggedUsernames.includes(buddy.friendUsername);
                     });
                     setSearchResult(
                         prev => {
                             const oldFiltered = prev.filter((buddy) => {
+                                const userTagged = taggedUsernames.includes(buddy.friendUsername);
+                                if(userTagged){
+                                    buddy.tagged = true;
+                                }
+                                buddy.tagged = true;
                                 return taggedUsernames.includes(buddy.friendUsername);
                             })
                             return [...oldFiltered, ...filteredResult];
                         }
                     );
-                }else{
+                }else{} */
+                }else {
                     setSearchResult(buddies);
                 }
             } else {
@@ -113,7 +119,24 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             setLastCursor(data.data[data.data.length-1].since);
             setFetchingMore(false);
         }
-    },[fetchState])
+    }
+    //UTILS
+    const mergeAndSortArrays = (unsorted: BuddyTag[], sorted: BuddyTag[]) => {
+        let newArray = [...unsorted,...sorted];
+        newArray.sort((a,b) => {
+            return new Date(b.since).getTime() - new Date(a.since).getTime();
+        })
+        return newArray;
+    }
+    useEffect(()=>{
+        if(username.length){
+            username.length && initialSearch();
+            curUsername.current = username;
+        }
+    },[username])
+    useEffect(()=>{
+       handleSetResult();
+    },[handleSetResult,fetchState])
     useEffect(()=>{
             handleAutocompleteSearch();
     },[searchTerm])
@@ -154,8 +177,8 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
                     autoCompleteSearch={true}
                 />
             </div>
-            <TaggedUserCloud 
-                items={taggedUserClouds}
+            <TaggedBuddy
+                items={taggedBuddys}
                 removeItem={usePostFormContext().removeTaggedUsername}
             />
             <div className="w-full relative">

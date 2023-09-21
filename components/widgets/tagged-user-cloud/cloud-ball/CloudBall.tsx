@@ -1,13 +1,13 @@
 import React from 'react';
 import style from './cloud-ball.module.css';
-import { UserCloud } from '../TaggedUserCloud';
 import MiniAvatar from '../../../user/mini-avatar/MiniAvatar';
 import {IoClose} from 'react-icons/io5';
+import { BuddyTag } from '../../../activity/post/post-form/friend-tag-form/BuddyTagForm';
 interface CloudBallProps {
-    user: UserCloud;
+    user: BuddyTag;
     overloaded?: boolean;
     last?: boolean;
-    removeItem: (item: UserCloud) => void;
+    removeItem: (item: BuddyTag) => void;
 }
 
 const CloudBall: React.FC<CloudBallProps> = ({user, overloaded, removeItem}) => {
