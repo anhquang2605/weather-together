@@ -10,9 +10,10 @@ interface BuddyCardProps {
     buddy: BuddyTag;
     hoverTitle?: string;
     onClickHandler: (key: BuddyTag) => void;
+    tagged: boolean;
 }
 
-const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHandler}) => {
+const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHandler, tagged}) => {
     const {lastItemRemoved} = usePostFormContext();
     const handleCardClick = (event: React.MouseEvent) => {
         event.stopPropagation();
@@ -31,7 +32,7 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
         <div onClick={(event)=> {
             handleCardClick(event);
            
-        }} className={style['buddy-card']} id={ buddy.friendUsername}  title={hoverTitle}>
+        }} className={style['buddy-card'] + " " + (tagged? style['tagged'] : "")} id={ buddy.friendUsername}  title={hoverTitle}>
             <div className={style['buddy-wrapper'] + " "}>
                 <MiniAvatar 
                     username={buddy.friendUsername}
@@ -42,7 +43,7 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
                 />
                 <div className={style['buddy-information']}>
                     <span className={style['username']}>
-                        {buddy.name === "" ? buddy.username : buddy.name}
+                        {buddy.name === "" ? buddy.friendUsername : buddy.name}
                     </span>
                     <span className={style['city']}>
                         <IoLocation className="w-4 h-4"/> {buddy.city}

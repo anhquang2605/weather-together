@@ -87,9 +87,13 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             const buddies = data.data;
             if(action === 'search'){
                 if(taggedUsernames.length > 0){
-                    const oldTags = [...taggedBuddys];
+                    const oldTags = new Set(taggedBuddys);
+
+                    const filteredResult = buddies.filter((buddy) => {
+
+                    })
                     const meregedResult = mergeAndSortArrays(oldTags, buddies);
-                    setSearchResult(meregedResult);
+                    //setSearchResult(meregedResult);
              /*        const filteredResult = buddies.filter((buddy) => {
                         return !taggedUsernames.includes(buddy.friendUsername);
                     });
@@ -121,12 +125,16 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         }
     }
     //UTILS
-    const mergeAndSortArrays = (unsorted: BuddyTag[], sorted: BuddyTag[]) => {
-        let newArray = [...unsorted,...sorted];
-        newArray.sort((a,b) => {
-            return new Date(b.since).getTime() - new Date(a.since).getTime();
-        })
-        return newArray;
+    const mergeAndSortArrays = (unsorted: Set<BuddyTag>, sorted: BuddyTag[]) => {
+        //merge if there is duplicate
+        const merged = [];
+        for(let i = 0; i < sorted.length; i++){
+            if(unsorted.has(sorted[i])){
+                unsorted.delete(sorted[i]);
+                sorted[i].tagged = true;
+            }
+        }
+
     }
     useEffect(()=>{
         if(username.length){
@@ -136,7 +144,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     },[username])
     useEffect(()=>{
        handleSetResult();
-    },[handleSetResult,fetchState])
+    },[fetchState])
     useEffect(()=>{
             handleAutocompleteSearch();
     },[searchTerm])

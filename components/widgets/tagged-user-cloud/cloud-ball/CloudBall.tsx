@@ -15,12 +15,12 @@ const CloudBall: React.FC<CloudBallProps> = ({user, overloaded, removeItem}) => 
         <div className={style['cloud-ball'] + " " + style['last']}>
                
                 <MiniAvatar
-                    username={user.username}
+                    username={user.friendUsername}
                     profilePicturePath={user.profilePicture}
                     size='medium'
                 />
                 <span className={style["title-name"]}>
-                    {user.name ? user.name : user.username}
+                    {user.name ? user.name : user.friendUsername}
                 </span>
                 <span className={style["untag-btn"]}>
                     <IoClose className="w-6 h-6"

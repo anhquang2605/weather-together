@@ -32,10 +32,10 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
         setActionType('remove');
         taggedBuddys.delete(taggedUser);
         setTaggedUsernames(new Set(taggedBuddys));
-        setLastItemRemoved(taggedUser.username);
+        setLastItemRemoved(taggedUser.friendUsername);
     }
     const getTaggedUsernames = () => {
-        return Array.from(taggedBuddys).map((user) => user.username);
+        return Array.from(taggedBuddys).map((user) => user.friendUsername);
     }
     return (
         <PostFormContext.Provider value={{

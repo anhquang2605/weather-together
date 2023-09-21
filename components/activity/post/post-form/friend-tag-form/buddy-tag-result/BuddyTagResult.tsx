@@ -39,7 +39,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
     },[hasMore, fetchState.status])
     const jsxResults = results.map((buddy,index) => {
         return (
-            <BuddyCard key={index} onClickHandler={addTaggedUsername} buddy={buddy} hoverTitle='Tag This Buddy'/>
+            <BuddyCard key={index} tagged={buddy.tagged || false} onClickHandler={addTaggedUsername} buddy={buddy} hoverTitle='Tag This Buddy'/>
         )
     })
     return (
