@@ -18,16 +18,16 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
     const handleCardClick = (event: React.MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
-        const target = event.currentTarget as HTMLDivElement;
-        target.classList.add(style['tagged']);
-        onClickHandler(buddy);
+        const obj = {...buddy};
+        obj.tagged = true;
+        onClickHandler(obj);
     }
-    useEffect(()=>{
+/*     useEffect(()=>{
         if(buddy.friendUsername === lastItemRemoved){
             const target = document.getElementById(buddy.friendUsername) as HTMLDivElement;
             target.classList.remove(style['tagged']);
         }
-    },[lastItemRemoved])    
+    },[lastItemRemoved])    */ 
     return (
         <div onClick={(event)=> {
             handleCardClick(event);

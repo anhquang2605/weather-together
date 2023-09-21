@@ -149,3 +149,11 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+34. Batch State update
+_Putting two state setter in same function scope will make the state update simutaneously
+
+35. For any state setting that require state to be updated even though the value is repeated (say resetting the same string on same state), use timestamp, incase of adding or removing, use separate timestamp for each action
+
+36. filtering may trigger state change if applied filter on the same state object
+=> copy the state object then apply filter on this new object instead

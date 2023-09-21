@@ -1,6 +1,7 @@
 import React, { useContext, createContext } from 'react';
 
 import { BuddyTag } from '../post-form/friend-tag-form/BuddyTagForm';
+import { set } from 'lodash';
 
 interface PostFormProviderProps{
     children: React.ReactNode,
@@ -8,10 +9,13 @@ interface PostFormProviderProps{
 export interface PostFormContextType{
     taggedBuddys: Set<BuddyTag>,
     lastItemRemoved: string,
+    lastItemAdded: string,
     setTaggedUsernames: React.Dispatch<React.SetStateAction<Set<BuddyTag>>>,
     addTaggedUsername: (taggedUser: BuddyTag) => void,
     removeTaggedUsername: (taggedUser: BuddyTag) => void,
     getTaggedUsernames: () => string[],
+    addTimestamp: Date,
+    removeimestamp: Date,
     actionType: string,
 }
 export const PostFormContext = createContext<PostFormContextType|undefined>(
@@ -19,27 +23,38 @@ export const PostFormContext = createContext<PostFormContextType|undefined>(
 );
 
 export function PostFormProvider ({children}:PostFormProviderProps) {
+    const [addTimestamp, setAddTimestamp] = React.useState<Date>(new Date()); // timestamp of the last item added to the taggedBuddys
+    const [removeimestamp, setRemoveTimestamp] = React.useState<Date>(new Date()); // timestamp of the last item removed from the taggedBuddys
+    const [lastItemAdded, setLastItemAdded] = React.useState<string>(""); // last item added to the taggedBuddys [username]
     const [lastItemRemoved, setLastItemRemoved] = React.useState<string>(""); // last item removed from the taggedBuddys [username]
     const [taggedBuddys, setTaggedUsernames] = React.useState<Set<BuddyTag>>(new Set());
     const [actionType, setActionType] = React.useState<string>(""); // action to perform on the buddy list [add, remove
     const addTaggedUsername = (taggedUser: BuddyTag) => {
+        console.log(taggedUser);
         setActionType('add');
         const newSet = new Set(taggedBuddys);
         newSet.add(taggedUser);
+        setLastItemAdded(taggedUser.friendUsername);
         setTaggedUsernames(newSet);
+        setAddTimestamp(new Date());
     }
     const removeTaggedUsername = (taggedUser: BuddyTag) => {
         setActionType('remove');
-        taggedBuddys.delete(taggedUser);
-        setTaggedUsernames(new Set(taggedBuddys));
+        const newSet = new Set(taggedBuddys)
+        newSet.delete(taggedUser);
+        setTaggedUsernames(new Set(newSet));
         setLastItemRemoved(taggedUser.friendUsername);
+        setRemoveTimestamp(new Date());
     }
     const getTaggedUsernames = () => {
         return Array.from(taggedBuddys).map((user) => user.friendUsername);
     }
     return (
         <PostFormContext.Provider value={{
+            removeimestamp,
+            addTimestamp,
             lastItemRemoved,
+            lastItemAdded,
             taggedBuddys,
             setTaggedUsernames,
             addTaggedUsername,

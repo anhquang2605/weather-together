@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import style from './buddy-tag-form.module.css';
 import {IoReturnUpBack} from 'react-icons/io5'
 import SearchBar from '../../../../plugins/search-bar/SearchBar';
@@ -11,6 +11,7 @@ import { useViewSliderContext } from '../../../../plugins/view-slider/useViewSli
 import { usePostFormContext } from '../../post-engagement/usePostFormContext';
 import TaggedUserCloud from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
 import TaggedBuddy from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
+import { mergeAndSortUniqueArrays } from '../../../../../utils/arrays';
 interface BuddyTagFormProps {
     username: string;
 }
@@ -20,7 +21,7 @@ export interface BuddyTag extends Buddy{
 
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const taggedUsernames = usePostFormContext().getTaggedUsernames();
-    const {taggedBuddys, actionType} = usePostFormContext();
+    const {taggedBuddys, lastItemRemoved, lastItemAdded, addTimestamp, removeimestamp} = usePostFormContext();
     const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
     const curUsername = useRef<string>(username);
     const {setActiveSlide} = useViewSliderContext();
@@ -80,37 +81,29 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         setAction('search');
         debouncedFetch();
     }
+    const getTimeFromSince = (since: Date) => {
+        return new Date(since).getTime();
+    }
+    const compareBuddiesBySince = (a: BuddyTag, b: BuddyTag) => {
+        const aSince = getTimeFromSince(a.since);
+        const bSince = getTimeFromSince(b.since);
+        return bSince - aSince;
+    }
+    const getTimeFromBuddy = (buddy: BuddyTag) => {
+        return new Date(buddy.since).getTime();
+    }
     const handleSetResult = () => {
         const {data} = fetchState;
+        let lastFromMergedResult: Date | undefined;
         if(data && data.data.length > 0){
 
             const buddies = data.data;
             if(action === 'search'){
                 if(taggedUsernames.length > 0){
                     const oldTags = new Set(taggedBuddys);
-
-                    const filteredResult = buddies.filter((buddy) => {
-
-                    })
-                    const meregedResult = mergeAndSortArrays(oldTags, buddies);
-                    //setSearchResult(meregedResult);
-             /*        const filteredResult = buddies.filter((buddy) => {
-                        return !taggedUsernames.includes(buddy.friendUsername);
-                    });
-                    setSearchResult(
-                        prev => {
-                            const oldFiltered = prev.filter((buddy) => {
-                                const userTagged = taggedUsernames.includes(buddy.friendUsername);
-                                if(userTagged){
-                                    buddy.tagged = true;
-                                }
-                                buddy.tagged = true;
-                                return taggedUsernames.includes(buddy.friendUsername);
-                            })
-                            return [...oldFiltered, ...filteredResult];
-                        }
-                    );
-                }else{} */
+                    const mergedResult = mergeAndSortUniqueArrays(oldTags, buddies, compareBuddiesBySince, getTimeFromBuddy);
+                    setSearchResult(mergedResult);
+                    lastFromMergedResult = mergedResult[mergedResult.length - 1].since;
                 }else {
                     setSearchResult(buddies);
                 }
@@ -120,22 +113,12 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             }
             setHasMore(data.hasMore);
             setCounts(data.counts);
-            setLastCursor(data.data[data.data.length-1].since);
+            setLastCursor(lastFromMergedResult ? lastFromMergedResult : data.data[data.data.length-1].since);
             setFetchingMore(false);
         }
     }
     //UTILS
-    const mergeAndSortArrays = (unsorted: Set<BuddyTag>, sorted: BuddyTag[]) => {
-        //merge if there is duplicate
-        const merged = [];
-        for(let i = 0; i < sorted.length; i++){
-            if(unsorted.has(sorted[i])){
-                unsorted.delete(sorted[i]);
-                sorted[i].tagged = true;
-            }
-        }
 
-    }
     useEffect(()=>{
         if(username.length){
             username.length && initialSearch();
@@ -149,22 +132,28 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             handleAutocompleteSearch();
     },[searchTerm])
     useEffect(()=>{
-
-    })
-/*     useEffect(()=> {
-    //INFINITE STATE UPDATE HERE BE WARY
-        console.log('tagged usernames', taggedUsernames);
-        if(taggedUsernames.length > 0){
+        if(lastItemRemoved){
             const newResult = [...searchResult];
-            if(actionType === 'add'){
-                const newTaggedUser = taggedUsernames[taggedUsernames.length-1];
-               
-            }else{
-
+            const index = newResult.findIndex((buddy) => buddy.friendUsername === lastItemRemoved);
+            if(index !== -1){
+                newResult[index].tagged = false;
+                setSearchResult(newResult);
             }
-            //setSearchResult(filteredResult);
         }
-    },[taggedUsernames]) */
+    },[removeimestamp])
+    useEffect(()=>{
+        if(lastItemAdded){
+            const newResult = [...searchResult];
+            const index = newResult.findIndex((buddy) => buddy.friendUsername === lastItemAdded);
+            if(index !== -1){
+                newResult[index].tagged = true;
+                setSearchResult(newResult);
+            }
+        }
+    },[addTimestamp])
+    useEffect(()=>{
+        console.log('search result', searchResult);
+    },[searchResult])
     useEffect(()=>{
         lastCursorRef.current = lastCursor;
     },[lastCursor])
