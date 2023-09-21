@@ -25,7 +25,19 @@
 .city{
     @apply text-sm flex flex-row items-center;
 }
-.tagged{
+
+.tagged-inanimated{
+    .buddy-wrapper{
+        display: none;
+    }
+    .box{
+        @apply mx-auto my-auto;
+        animation: 0s ease-in-out forwards shrink;
+    }
+    @apply overflow-hidden;
+    animation: 0s ease-in-out forwards dissappear;
+}
+.buddy-card.tagged{
     .buddy-wrapper{
         display: none;
     }

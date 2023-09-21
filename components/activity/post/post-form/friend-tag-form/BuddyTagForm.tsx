@@ -17,6 +17,7 @@ interface BuddyTagFormProps {
 }
 export interface BuddyTag extends Buddy{
     tagged?: boolean;
+    animated?: boolean;
 }
 
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
@@ -147,6 +148,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             const index = newResult.findIndex((buddy) => buddy.friendUsername === lastItemAdded);
             if(index !== -1){
                 newResult[index].tagged = true;
+                newResult[index].animated = true;
                 setSearchResult(newResult);
             }
         }
@@ -180,13 +182,13 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             />
             <div className="w-full relative">
 
-                <BuddyTagResult
+                {taggedUsernames.length !== searchResult.length && <BuddyTagResult
                         fetchMore={handleFetchMore}
                         hasMore={hasMore}
                         results={searchResult}
                         fetchingMore={fetchingMore}
                         counts={counts}
-                />
+                />}
             </div>
 
         </div>

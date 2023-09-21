@@ -21,6 +21,7 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
         const obj = {...buddy};
         obj.tagged = true;
         onClickHandler(obj);
+
     }
 /*     useEffect(()=>{
         if(buddy.friendUsername === lastItemRemoved){
@@ -32,7 +33,7 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
         <div onClick={(event)=> {
             handleCardClick(event);
            
-        }} className={style['buddy-card'] + " " + (tagged? style['tagged'] : "")} id={ buddy.friendUsername}  title={hoverTitle}>
+        }} className={style['buddy-card'] + " " + (tagged? (!buddy.animated? style['tagged-inanimated'] : style['tagged']) : "")} id={ buddy.friendUsername}  title={hoverTitle}>
             <div className={style['buddy-wrapper'] + " "}>
                 <MiniAvatar 
                     username={buddy.friendUsername}
