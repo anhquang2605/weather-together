@@ -1,5 +1,5 @@
 .buddy-card{
-    --trans-dur: 0.5s;
+    --trans-dur: 0.3s;
     @apply w-full h-[72px] relative flex flex-row items-center rounded-lg cursor-pointer overflow-hidden flex-wrap;
     .username, .city{
         color: var(--primary-color);

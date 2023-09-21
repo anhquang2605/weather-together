@@ -5,6 +5,22 @@
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    @apply  text-3xl font-semibold text-slate-100 !important;
+    @apply font-semibold text-slate-100 !important;
     background-color: var(--primary-color);
+}
+.text-small{
+    @apply text-sm;
+}
+.text-medium{
+    @apply text-sm;
+}
+
+.text-large{
+    @apply text-lg;
+}
+.text-xlarge{
+    @apply text-xl;
+}
+.text-two-x-large{
+    @apply text-2xl;
 }

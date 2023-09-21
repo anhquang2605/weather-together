@@ -3,9 +3,10 @@ import style from './default-profile-picture.module.css';
 import {useEffect, useState} from 'react';
 interface DefaultProfilePictureProps {
     username: string | null | undefined,
+    size?: string
 }
 
-const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username}) => {
+const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
     const randomizedColor = () => {
         const colors = [
@@ -23,7 +24,7 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username})
         setColor(randomizedColor());
     },[])
     return (
-        <div className={style['default-profile-picture']}>
+        <div className={style['default-profile-picture'] + " " + style['text-'+size]} >
             {username?.substring(0, 2).toUpperCase()}
         </div>
     );

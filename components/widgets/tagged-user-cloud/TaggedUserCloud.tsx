@@ -13,11 +13,11 @@ interface TaggedUserCloudProps {
 
 const TaggedUserCloud: React.FC<TaggedUserCloudProps> = (props) => {
     const {removeItem, items} = props;
-    const loadLimit = 3;
     const [overloaded, setOverloaded] = useState<boolean>(false);
     const cloudsJSX = Array.from(items).map((item,index) => {
         return (
             <CloudBall
+                removeItem={removeItem}
                 last={index === items.size - 1}
             key={index}
                 user={item}
@@ -25,19 +25,18 @@ const TaggedUserCloud: React.FC<TaggedUserCloudProps> = (props) => {
             />
         )
     })
-    useEffect(()=>{
-        if(items.size > loadLimit){
-            setOverloaded(true);
-        }
-        else{
-            setOverloaded(false);
-        }
-    },[overloaded])
     return (
+        items.size > 0 &&
         <div className={style['tagged-user-cloud']}>
-            <div className="absolute h-4 w-full">
-                {cloudsJSX}
-            </div>
+
+                    <span className={style['title']}>
+                        Tagged Buddies
+                    </span>
+                
+                <div className={style['tagged-list']}>
+                    {cloudsJSX}
+                </div>
+
         </div>
     );
 };

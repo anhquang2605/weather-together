@@ -1,3 +1,9 @@
 .tagged-user-cloud{
-    @apply relative;
+    @apply relative flex flex-row flex-wrap my-8;
+}
+.title{
+    @apply uppercase mb-2;
+}
+.tagged-list{
+    @apply border max-h-[200px] rounded-bl-lg rounded-r-lg border-slate-500 p-4 w-full overflow-y-auto flex flex-row flex-wrap justify-start gap-4;
 }

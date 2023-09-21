@@ -1,24 +1,31 @@
 .cloud-ball{
     display: inline-flex;
     flex-direction: row;
-    @apply bg-slate-200 rounded-full p-2 justify-center items-center -mr-4;
+    @apply bg-slate-200 p-1 rounded-full justify-center items-center relative;
     color: var(--primary-color);
-    .title-name{
-        @apply w-0 h-0 overflow-hidden ;
-        transition: all 0.3s ease-in-out;
-    }
-/*     div:first-child{
+
+    div:first-child{
         @apply mr-1;
-    } */
+    }
+}
+.untag-btn{
+    @apply rounded-full ml-2;
+    transition: all 0.1s ease-in-out;
+    svg{
+        @apply text-indigo-500;
+        transition: all 0.1s ease-in-out;
+    }
     &:hover{
-        @apply p-4;
-        .title-name{
-            @apply w-auto h-auto overflow-auto;
+        cursor: pointer;
+        
+        svg{
+            color: tomato;
+            transform: scale(1.5);
         }
     }
 }
 .last{
-    animation: expand 0.5s ease-in-out forwards;
+    animation: expand 0.3s ease-in-out forwards;
 }
 
 .over-loaded{
@@ -32,7 +39,7 @@
         transform: scale(0);
     }
     80%{
-        transform: scale(1.5);
+        transform: scale(1.2);
     }
     100%{
         transform: scale(1);

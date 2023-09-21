@@ -60,9 +60,6 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
                 'error fetching buddies'
             )
         }
-
-
-
     }
     const debouncedFetch = debounce(handleFetch, 500);
     const handleAutocompleteSearch = () => {
@@ -89,9 +86,24 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     useEffect(()=>{
         const {data} = fetchState;
         if(data && data.data.length > 0){
+
             const buddies = data.data;
             if(action === 'search'){
-                setSearchResult(buddies);
+                if(taggedUsernames.length > 0){
+                    const filteredResult = buddies.filter((buddy) => {
+                        return !taggedUsernames.includes(buddy.friendUsername);
+                    });
+                    setSearchResult(
+                        prev => {
+                            const oldFiltered = prev.filter((buddy) => {
+                                return taggedUsernames.includes(buddy.friendUsername);
+                            })
+                            return [...oldFiltered, ...filteredResult];
+                        }
+                    );
+                }else{
+                    setSearchResult(buddies);
+                }
             } else {
                 setSearchResult(
                     prev => [...prev, ...buddies]);
@@ -106,7 +118,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             handleAutocompleteSearch();
     },[searchTerm])
     useEffect(()=>{
-        
+
     })
 /*     useEffect(()=> {
     //INFINITE STATE UPDATE HERE BE WARY

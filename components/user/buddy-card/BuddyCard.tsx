@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './buddy-card.module.css';
 import { Buddy } from '../../../types/User';
 import MiniAvatar from '../mini-avatar/MiniAvatar';
 import { IoLocation } from 'react-icons/io5';
 import { UserCloud } from '../../widgets/tagged-user-cloud/TaggedUserCloud';
+import { usePostFormContext } from '../../activity/post/post-engagement/usePostFormContext';
 
 interface BuddyCardProps {
     buddy: Buddy;
@@ -12,6 +13,7 @@ interface BuddyCardProps {
 }
 
 const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHandler}) => {
+    const {lastItemRemoved} = usePostFormContext();
     const handleCardClick = (event: React.MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
@@ -23,11 +25,17 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
             profilePicture: buddy.profilePicture,
         });
     }
+    useEffect(()=>{
+        if(buddy.friendUsername === lastItemRemoved){
+            const target = document.getElementById(buddy.friendUsername) as HTMLDivElement;
+            target.classList.remove(style['tagged']);
+        }
+    },[lastItemRemoved])    
     return (
         <div onClick={(event)=> {
             handleCardClick(event);
            
-        }} className={style['buddy-card']} id={buddy.friendUsername}  title={hoverTitle}>
+        }} className={style['buddy-card']} id={ buddy.friendUsername}  title={hoverTitle}>
             <div className={style['buddy-wrapper'] + " "}>
                 <MiniAvatar 
                     username={buddy.friendUsername}

@@ -1,8 +1,6 @@
 import Image from 'next/image'
 import style from './mini-avatar.module.scss';
 import DefaultProfilePicture from '../../profile/default-profile-picture/DefaultProfilePicture';
-import { weatherToColorClassMap, weatherNameToIconAliasMap } from '../../../constants/weathers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 interface MiniAvatarProps {
     profilePicturePath: string;
@@ -60,7 +58,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
             }
             <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
                 <div className={style['inner']}>
-                    {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture username={username}/>}
+                    {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture size={size} username={username}/>}
                 </div>
             </div>
         </div>

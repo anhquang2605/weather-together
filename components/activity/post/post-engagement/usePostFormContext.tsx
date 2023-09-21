@@ -5,7 +5,7 @@ interface PostFormProviderProps{
 }
 export interface PostFormContextType{
     taggedUserClouds: Set<UserCloud>,
-    
+    lastItemRemoved: string,
     setTaggedUsernames: React.Dispatch<React.SetStateAction<Set<UserCloud>>>,
     addTaggedUsername: (taggedUser: UserCloud) => void,
     removeTaggedUsername: (taggedUser: UserCloud) => void,
@@ -17,6 +17,7 @@ export const PostFormContext = createContext<PostFormContextType|undefined>(
 );
 
 export function PostFormProvider ({children}:PostFormProviderProps) {
+    const [lastItemRemoved, setLastItemRemoved] = React.useState<string>(""); // last item removed from the taggedUserClouds [username]
     const [taggedUserClouds, setTaggedUsernames] = React.useState<Set<UserCloud>>(new Set());
     const [actionType, setActionType] = React.useState<string>(""); // action to perform on the buddy list [add, remove
     const addTaggedUsername = (taggedUser: UserCloud) => {
@@ -29,12 +30,14 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
         setActionType('remove');
         taggedUserClouds.delete(taggedUser);
         setTaggedUsernames(new Set(taggedUserClouds));
+        setLastItemRemoved(taggedUser.username);
     }
     const getTaggedUsernames = () => {
         return Array.from(taggedUserClouds).map((user) => user.username);
     }
     return (
         <PostFormContext.Provider value={{
+            lastItemRemoved,
             taggedUserClouds,
             setTaggedUsernames,
             addTaggedUsername,
