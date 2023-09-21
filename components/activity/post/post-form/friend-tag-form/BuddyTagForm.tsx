@@ -36,7 +36,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const lastCursorRef = React.useRef<Date | undefined>(lastCursor);
     //remember to useRef on the last cursor
     const BUDDY_URL_API = '/api/buddies';
-    const LIMIT = 7;
+    const LIMIT = 8;
     const handleSetTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     }

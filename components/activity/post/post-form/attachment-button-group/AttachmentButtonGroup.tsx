@@ -43,7 +43,7 @@ export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedU
                     }
                 >
                 <IoPricetags className="icon"/>
-                Friends Tags
+                {taggedUsernamesLength ? `${taggedUsernamesLength} Tag${taggedUsernamesLength > 1 ? 's' : ""} ` :"Friends Tags"}
             </button>
             <ShareWeatherButton setCurrentWeather={setCurrentWeather} />
         </div>
