@@ -1,3 +1,16 @@
 .post-insertion-status-box{
-    
+    @apply  w-full h-full absolute top-0 left-0 flex flex-col justify-center items-center bg-slate-800/90 backdrop-blur-lg rounded-lg text-xl;
+    z-index: 200;
+}
+.status-icon{
+    @apply mb-4;
+}
+.success{
+    @apply text-green-500;
+}
+.error{
+    @apply text-red-500;
+}
+.confirm-btn{
+    @apply mt-8;
 }

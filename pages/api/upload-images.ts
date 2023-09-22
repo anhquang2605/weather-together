@@ -1,4 +1,6 @@
-import AWS from 'aws-sdk';
+
+import { Upload } from "@aws-sdk/lib-storage";
+import { S3Client } from "@aws-sdk/client-s3";
 import { NextApiRequest, NextApiResponse, PageConfig } from 'next';
 import multer from 'multer';
 import nextConnect from 'next-connect';
@@ -7,15 +9,17 @@ import nextConnect from 'next-connect';
 interface NextApiRequestWithFile extends NextApiRequest {
     files: any[];
   }
-
-const upload = multer({ storage: multer.memoryStorage() });
-AWS.config.update({
+/*   AWS.config.update({
     accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
-    region: process.env.NEXT_PUBLIC_AWS_REGION,
-});
+    region: process.env.NEXT_PUBLIC_AWS_REGION || 'us-east-2',
+}); */
+const upload = multer({ storage: multer.memoryStorage() });
 
-const s3 = new AWS.S3();
+
+const s3 = new S3Client({
+    region: process.env.NEXT_PUBLIC_AWS_REGION || 'us-east-2',
+});
 //need to extend the type
 const handler = nextConnect<NextApiRequestWithFile,NextApiResponse>(
     {onError(error, req, res) {
@@ -28,11 +32,12 @@ const handler = nextConnect<NextApiRequestWithFile,NextApiResponse>(
       }}
 );//npm install next-connect@0.10.2
 
-handler.use(upload.single('files'));
+handler.use(upload.array('files'));
 
 handler.post(async (req, res) => {
     const files = req.files;
     const urls = [];
+    const errors = [];
     for (const file of files) {
         const params = {
             Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME as string,
@@ -41,15 +46,23 @@ handler.post(async (req, res) => {
             ContentType: file.mimetype,
         }
         try{
-            const {Location} = await s3.upload(params).promise();
-            urls.push(Location);
+            
+            const uploaded = await new Upload({
+                client: s3,
+                params
+            }).done();
+            if('Location' in uploaded){
+                urls.push(uploaded.Location);
+            }
         }catch(err){
-            console.log(err);
-            res.status(500).json({error: 'Error uploading file'});
+            errors.push({error: 'Error uploading file'});
         }
     }
-    res.status(200).json({ urls });
-    
+    if(errors.length > 0){
+        res.status(500).json({errors});
+    }else{
+        res.status(200).json({ urls });
+    }
 })
 
 

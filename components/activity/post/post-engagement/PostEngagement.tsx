@@ -35,6 +35,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
                         childSlidesContent={
                             [
                                 <PostForm
+                                setRevealModal={setRevealForm}
                                  username={username}
                                 />,
                                 <BuddyTagForm

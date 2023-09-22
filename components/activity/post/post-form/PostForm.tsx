@@ -11,8 +11,9 @@ import { Post, WeatherVibe } from '../../../../types/Post';
 import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionStatusBox';
 interface PostFormProps {
     username: string;
+    setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function PostForm ({username}: PostFormProps) {
+export default function PostForm ({username, setRevealModal}: PostFormProps) {
     const [uploadingStatus, setUploadingStatus] = useState<string>("idle"); // idle, loading, success, error
     const [content, setContent] = useState<string>("");
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
@@ -55,7 +56,7 @@ export default function PostForm ({username}: PostFormProps) {
     const handleUploadPictures = async () => {
         const formData = new FormData();
         attachedImages.forEach((image) => {
-            formData.append('images', image);
+            formData.append('files', image);
         })
         const res = await fetch('/api/upload-images', {
             method: 'POST',
@@ -69,7 +70,7 @@ export default function PostForm ({username}: PostFormProps) {
         }
     }
     const handleInsertPostToDb = async (post:Post) => {
-        const path = '/api/posts';
+        const path = '/api/post/add-post';
         const options = {
             method: 'POST',
             headers: {
@@ -129,9 +130,12 @@ export default function PostForm ({username}: PostFormProps) {
         setUploadingStatus("loading");
         let uploadedImagesURLs:string[] = [];
         if(attachedImages.length > 0){
-            uploadedImagesURLs = await handleUploadPictures();
-
+            let response  = await handleUploadPictures();
+            if(response){
+                uploadedImagesURLs = response.urls;
+            }
         }
+
         const post:Post = {
             content,
             taggedUsernames,
@@ -152,32 +156,24 @@ export default function PostForm ({username}: PostFormProps) {
             }
         }        
         const res = await handleInsertPostToDb(post);
-        if(res && pictureAttached){
+        if(res && pictureAttached ){
             const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
             const pictureUploadRes = await handleInsertPicturesToDb(pictures);
             if(pictureUploadRes){
+                resetForm();
                 setUploadingStatus("success");
             }else{
                 setUploadingStatus("error");
             }
         }else if(res){
+            resetForm();
             setUploadingStatus("success");}
         else{
             setUploadingStatus("error");
         }
         
     }
-    const handleSubmission = () => {
-        const post = {
-            content,
-            pictureAttached,
-            taggedUsernames,
-            dateCreated: new Date(),
-            dateUpdated: new Date(),
-            visibility: visibilityOptions[selectedVisibilityIndex].value
-        }
 
-    }
 
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(
@@ -208,6 +204,10 @@ export default function PostForm ({username}: PostFormProps) {
         setSelectedVisibilityIndex(0);
         setUploadingStatus("idle");
         reset();
+    }
+    const handlePostSentConfirmation = () => {
+        setUploadingStatus("idle");
+        setRevealModal(false);
     }
 
     useEffect(()=>{
@@ -246,12 +246,16 @@ export default function PostForm ({username}: PostFormProps) {
                 />
 
             <div className="btn-group">
-                <button className="action-btn w-full">Post</button>
+                <button onClick={()=>{
+                    handleUploadPost();
+                }} className="action-btn w-full">Post</button>
             </div>
-            <PostInsertionStatusBox
+{ uploadingStatus !== 'idle' &&            <PostInsertionStatusBox
                 apiStatusAndMessageMap={apiStatusAndMessageMap}
                 currentApiStatus={uploadingStatus}
-            />
+                handleConfirm={handlePostSentConfirmation}
+                setCurrentApiStatus={setUploadingStatus}
+            />}
         </div>
     )
 }
