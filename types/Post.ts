@@ -10,10 +10,10 @@ export interface Post {
     weatherVibe?: WeatherVibe;
 }
 export interface WeatherVibe{
-    enabled: boolean;
     caption?: string;
     weatherData: {
         condition: string;
+        icon: string;
         temperature: number;
         location: string;
     }

@@ -5,10 +5,15 @@ import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 import style from './post-form.module.css'
 import AttachmentButtonGroup from './attachment-button-group/AttachmentButtonGroup';
 import { usePostFormContext } from '../post-engagement/usePostFormContext';
+import { set } from 'lodash';
+import { Picture } from '../../../../types/Picture';
+import { Post, WeatherVibe } from '../../../../types/Post';
+import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionStatusBox';
 interface PostFormProps {
     username: string;
 }
 export default function PostForm ({username}: PostFormProps) {
+    const [uploadingStatus, setUploadingStatus] = useState<string>("idle"); // idle, loading, success, error
     const [content, setContent] = useState<string>("");
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
     const taggedUsernames:string[] = usePostFormContext().getTaggedUsernames();
@@ -16,6 +21,15 @@ export default function PostForm ({username}: PostFormProps) {
     const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
+    const {reset} = usePostFormContext();
+    const apiStatusAndMessageMap = new Map<string, string>(
+        [
+            ["idle", ""],
+            ["loading", "Uploading..."],
+            ["success", "Post uploaded successfully!"],
+            ["error", "Error uploading post!"]
+        ]
+    );
     const visibilityOptions = [
         {
             value: "public",
@@ -38,20 +52,120 @@ export default function PostForm ({username}: PostFormProps) {
     const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     }
-    const handleUploadPicture = async () => {
-/*         const formData = new FormData();
+    const handleUploadPictures = async () => {
+        const formData = new FormData();
         attachedImages.forEach((image) => {
             formData.append('images', image);
         })
-        const res = await fetch('/api/upload', {
+        const res = await fetch('/api/upload-images', {
             method: 'POST',
             body: formData
         })
-        const data = await res.json();
-        return data; */
+        if(res.status === 200){
+            const data = await res.json();
+            return data;
+        }else{
+            return null;
+        }
     }
+    const handleInsertPostToDb = async (post:Post) => {
+        const path = '/api/posts';
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        }
+        try{
+            const res = await fetch(path, options);
+            if(res.status === 200){
+                return res.json();
+            }else{
+                return null;
+            }
+        }catch(err){
+            console.log(err);
+            return null;
+        }
+    }
+    const generatePictureObjects = async (imageURLs:string[], username: string, targetId:string, targetType: string) => {
+        const pictures:Picture[] = [];
+        imageURLs.forEach((imageURL) => {
+            const picture:Picture = {
+                picturePath: imageURL,
+                username,
+                targetId,
+                targetType,
+                createdDate: new Date(),
+            }
+            pictures.push(picture);
+        })
+        return pictures;
+    }
+    const handleInsertPicturesToDb = async (pictures:Picture[]) => {
+        const path = '/api/pictures';
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pictures)
+        }
+        try{
+            const res = await fetch(path, options);
+            if(res.status === 200){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(err){
+            console.log(err);
+            return false;
+        }
+    }
+    
     const handleUploadPost = async () => {
+        setUploadingStatus("loading");
+        let uploadedImagesURLs:string[] = [];
+        if(attachedImages.length > 0){
+            uploadedImagesURLs = await handleUploadPictures();
 
+        }
+        const post:Post = {
+            content,
+            taggedUsernames,
+            createdDate: new Date(),
+            updatedDate: new Date(),
+            visibility: visibilityOptions[selectedVisibilityIndex].value,
+            pictureAttached,
+            username,
+        }
+        if(currentWeather){
+            post.weatherVibe = {
+                weatherData:{
+                    condition: currentWeather.condition,
+                    icon: currentWeather.icon,
+                    temperature: currentWeather.temperature,
+                    location: currentWeather.location,
+                }
+            }
+        }        
+        const res = await handleInsertPostToDb(post);
+        if(res && pictureAttached){
+            const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
+            const pictureUploadRes = await handleInsertPicturesToDb(pictures);
+            if(pictureUploadRes){
+                setUploadingStatus("success");
+            }else{
+                setUploadingStatus("error");
+            }
+        }else if(res){
+            setUploadingStatus("success");}
+        else{
+            setUploadingStatus("error");
+        }
+        
     }
     const handleSubmission = () => {
         const post = {
@@ -86,7 +200,15 @@ export default function PostForm ({username}: PostFormProps) {
             </div>
         )
     }
-
+    const resetForm = () => {
+        setContent("");
+        setPictureAttached(false);
+        setAttachedImages([]);
+        setCurrentWeather(null);
+        setSelectedVisibilityIndex(0);
+        setUploadingStatus("idle");
+        reset();
+    }
 
     useEffect(()=>{
         if(attachedImages.length > 0){
@@ -126,6 +248,10 @@ export default function PostForm ({username}: PostFormProps) {
             <div className="btn-group">
                 <button className="action-btn w-full">Post</button>
             </div>
+            <PostInsertionStatusBox
+                apiStatusAndMessageMap={apiStatusAndMessageMap}
+                currentApiStatus={uploadingStatus}
+            />
         </div>
     )
 }

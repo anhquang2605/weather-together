@@ -7,7 +7,7 @@ interface AttachmentButtonGroupProps {
     setRevealImageAttachForm: React.Dispatch<React.SetStateAction<boolean>>;
     attachedImagesLength: number;
     taggedUsernamesLength: number;
-    setCurrentWeather: React.Dispatch<React.SetStateAction<boolean>>;
+    setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
 }
 export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather}: AttachmentButtonGroupProps) {
     const setActiveSlide = useViewSliderContext().setActiveSlide;

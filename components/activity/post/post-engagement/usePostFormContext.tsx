@@ -10,13 +10,16 @@ export interface PostFormContextType{
     taggedBuddys: Set<BuddyTag>,
     lastItemRemoved: string,
     lastItemAdded: string,
+    addTimestamp: Date,
+    removeimestamp: Date,
+    actionType: string,
+    reset: () => void,
     setTaggedUsernames: React.Dispatch<React.SetStateAction<Set<BuddyTag>>>,
     addTaggedUsername: (taggedUser: BuddyTag) => void,
     removeTaggedUsername: (taggedUser: BuddyTag) => void,
     getTaggedUsernames: () => string[],
-    addTimestamp: Date,
-    removeimestamp: Date,
-    actionType: string,
+    
+    
 }
 export const PostFormContext = createContext<PostFormContextType|undefined>(
    undefined
@@ -46,6 +49,14 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
         setLastItemRemoved(taggedUser.friendUsername);
         setRemoveTimestamp(new Date());
     }
+    const reset = () => {
+        setTaggedUsernames(new Set());
+        setAddTimestamp(new Date());
+        setRemoveTimestamp(new Date());
+        setLastItemAdded("");
+        setLastItemRemoved("");
+        setActionType("");
+    }
     const getTaggedUsernames = () => {
         return Array.from(taggedBuddys).map((user) => user.friendUsername);
     }
@@ -60,7 +71,8 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
             addTaggedUsername,
             removeTaggedUsername,
             getTaggedUsernames,
-            actionType
+            actionType,
+            reset,
         }}>
             {children}
         </PostFormContext.Provider>

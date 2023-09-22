@@ -6,6 +6,7 @@ import { TbCloudFilled } from "react-icons/tb";
 import { convertConditionToIconName } from './../../../../../../libs/weather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
+import { useSession } from 'next-auth/react';
 interface ShareWeatherButtonProps {
     setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
     username?: string;
@@ -13,8 +14,10 @@ interface ShareWeatherButtonProps {
 /*
 Get current weather, then apply different style for the button, animation and icon
 */
-export default function ShareWeatherButton({ setCurrentWeather,username }: ShareWeatherButtonProps) {
+export default function ShareWeatherButton({ setCurrentWeather}: ShareWeatherButtonProps) {
     const [weather, setWeather] = useState<any>(null);
+    const {data: session} = useSession();
+    const user = session?.user;
     //const user = useSelector((state:any) => state.user);
 
     const handleShareWeather = async () => {
@@ -22,7 +25,7 @@ export default function ShareWeatherButton({ setCurrentWeather,username }: Share
             setWeather(null);
             setCurrentWeather(null);
         }else{
-            const condition = await getCurrentWeather('nashville');
+            const condition = await getCurrentWeather(user?.location?.city || "");
             setWeather(condition);
             setCurrentWeather(weather);
         }

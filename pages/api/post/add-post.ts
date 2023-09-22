@@ -7,7 +7,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         const post = JSON.parse(req.body);
         if(db){
            db.collection('posts').insertOne(post).then(result => {
-            res.status(200).json(result);
+            if(result.insertedId){
+                res.status(200).json(result);
+            }
+            
            }).catch(err => {
             res.status(500).json({ error: err.message || 'DB connection error' });
            })
