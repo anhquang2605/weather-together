@@ -1,0 +1,30 @@
+// Define the gradients in a map
+$weather-gradients: (
+    cloud-rain: (#4B0082, #8A2BE2, #9400D3, #9932CC),
+  snowflake: (#EAF6FF, #007BFF, #1E90FF, #4682B4), 
+  sun: (#FFD700, #FF6347, #FF4500, #FF0000), 
+  cloud: (#1E90FF, #00BFFF, #4682B4, #5F9EA0),
+  wind: (#7FFFD4, #20B2AA, #3CB371, #2E8B57)
+);
+
+// Animation keyframes
+@keyframes gradientShift {
+  0% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+// Generate the classes using the @each loop
+@each $weather, $gradient in $weather-gradients {
+  div.#{$weather} {
+    background: linear-gradient(45deg, nth($gradient, 1), nth($gradient, 2), nth($gradient, 3), nth($gradient, 4));
+    background-size: 200% 200%; 
+    animation: gradientShift 5s ease infinite alternate;
+  }
+}
+.weather-vibe{
+    @apply ml-auto px-2 py-1 rounded-lg font-semibold;
+}

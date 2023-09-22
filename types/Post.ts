@@ -14,6 +14,7 @@ export interface WeatherVibe{
     icon: string;
     temperature: number;
     location: string;
+    caption?: string;
 }
 //64c0070f04bf25a93c066cba 
 /* 

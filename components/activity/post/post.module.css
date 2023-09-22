@@ -4,6 +4,7 @@
 
 .post__content{
     @apply p-8;
+    white-space: pre-wrap;
 }
 .post-container{
     @apply rounded-t-lg;

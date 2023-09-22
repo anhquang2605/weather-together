@@ -15,19 +15,25 @@ export default function ReactionsBar( {reactionsGroups}: ReactionButtonProps){
     }, 0);
     return (
         <div className={style['reactions-bar']}>
-            <div className={style['reactions-bar__title']}>
-                Reactions
-            </div>
-            <div className={style["target-reactions-group-names"]}>
-                {reactionsGroups.map((reactionGroup) => {
-                    return(
-                        <ReactionComponent key={reactionGroup.name} name={reactionGroup.name}/>
-                    )
-                })}
-            </div>
-            <div className={style['reactions-bar__total-count']}>
-                ... and {totalCount} reacted
-            </div>
+            {
+                totalCount > 0 &&
+                <>
+                    <div className={style['reactions-bar__title']}>
+                        Reactions
+                    </div>
+                    <div className={style["target-reactions-group-names"]}>
+                        {reactionsGroups.map((reactionGroup) => {
+                            return(
+                                <ReactionComponent key={reactionGroup.name} name={reactionGroup.name}/>
+                            )
+                        })}
+                    </div>
+                </>
+            }
+             <div className={style['reactions-bar__total-count']}>
+                        {totalCount > 0 ? totalCount + ' reacted' : 'No Reactions'}
+                    </div>
+
         </div>
     )
 }
