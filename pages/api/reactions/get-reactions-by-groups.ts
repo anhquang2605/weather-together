@@ -21,12 +21,17 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
             }
         ]
         const reactionsGroups = await reactionsCollection.aggregate(aggregation).toArray();
-        const renamedGroup = reactionsGroups.map((reactionGroup) => {
-            return {
-                name: reactionGroup._id,
-                count: reactionGroup.count
-            }
-        })
+        let renamedGroup;
+        if(reactionsGroups.length > 0){
+            renamedGroup = reactionsGroups.map((reactionGroup) => {
+                return {
+                    name: reactionGroup._id,
+                    count: reactionGroup.count
+                }
+            })
+        }
+
+
         if(renamedGroup){
             res.status(200).json(renamedGroup);
         }else{

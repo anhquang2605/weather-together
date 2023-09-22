@@ -27,7 +27,7 @@ export default function ShareWeatherButton({ setCurrentWeather}: ShareWeatherBut
         }else{
             const condition = await getCurrentWeather(user?.location?.city || "");
             setWeather(condition);
-            setCurrentWeather(weather);
+            setCurrentWeather(condition);
         }
 
     }

@@ -9,7 +9,7 @@ export default function WeatherVibeComponent(props: WeatherVibeComponentProps) {
     return(
         <div className={style['weather-vibe']}>
             <div className={style['weather-vibe__caption']}>
-                {(weatherVibe.caption ? weatherVibe.caption : `feeling the ${weatherVibe.weatherData.condition} vibe`) + ` in ${weatherVibe.weatherData.location}`}
+                {(weatherVibe.caption ? weatherVibe.caption : `Feeling the ${weatherVibe.condition.replace('-',' ')} vibe`) + ` in ${weatherVibe.location}`}
             </div>
         </div>
     )

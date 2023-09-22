@@ -54,10 +54,10 @@ export default function Post({post,username}: PostProps){
             targetId
         }
         const response = await fetchFromGetAPI(path, params);
-        if(response.length){
+        if(response && response.length){
             setReactionsGroups(response);
-            setIsFetchingReactions(false);
-        }  
+        }
+        setIsFetchingReactions(false);
     }
     const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
         if(form.current){
@@ -76,8 +76,10 @@ export default function Post({post,username}: PostProps){
             setComments(response.data.result);
             handleFetchProfilePathsToCommentors(response.data.commentors);
             setCommentChildrenSummary(response.data.children);
-            setIsFetchingComments(false);
+            
         }
+        setIsFetchingComments(false);
+        
     }
     const handleCommentBtnClick = () => {
         setIsCommenting(prev => !prev);

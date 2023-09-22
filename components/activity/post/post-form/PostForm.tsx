@@ -147,12 +147,10 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         }
         if(currentWeather){
             post.weatherVibe = {
-                weatherData:{
-                    condition: currentWeather.condition,
-                    icon: currentWeather.icon,
+                    condition: currentWeather.condition || "",
+                    icon: currentWeather.icon || "",
                     temperature: currentWeather.temperature,
-                    location: currentWeather.location,
-                }
+                    location: currentWeather.location.city,
             }
         }        
         const res = await handleInsertPostToDb(post);
@@ -217,6 +215,9 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
             setPictureAttached(false);
         }
     },[attachedImages])
+    useEffect(()=>{
+        console.log(currentWeather);
+    },[currentWeather])
     return (
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">Post Creation</h3>

@@ -76,14 +76,14 @@ export default function Tester() {
     }, []); */
     return (
         <MockContext.Provider value={{profilePicturePaths}}>
-        <div className="w-full">
+        <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
 
-     {/*   {
+            {
                  posts.map((post, index) => (
                     <Post key={index} post={post} username="anhquang2605" />
                 )) 
-            } */}
+            }
 
 
 {/*                 <svg id={style['in-place']}  width="1000" height="200" viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
@@ -110,8 +110,8 @@ export default function Tester() {
                     </text>
                 </svg> */}
              
-
-                <AnimatedBanner text="About Me" flagClassName="flag" textClassName="text"/>
+{/* 
+                <AnimatedBanner text="About Me" flagClassName="flag" textClassName="text"/> */}
 {/*             <Modal status={true} containerClassName="form-container" >
                 <PostForm />
             </Modal> */}
