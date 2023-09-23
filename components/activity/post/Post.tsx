@@ -28,6 +28,7 @@ interface ReactionGroup{
 export default function Post({post,username}: PostProps){
     const  { profilePicturePaths } = useContext(MockContext);
     const [reactionsGroups, setReactionsGroups] = useState([]);
+    const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
     const [isFetchingComments, setIsFetchingComments] = useState(false);
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
@@ -54,8 +55,9 @@ export default function Post({post,username}: PostProps){
             targetId
         }
         const response = await fetchFromGetAPI(path, params);
-        if(response && response.length){
-            setReactionsGroups(response);
+        if(response){
+            setReactionsGroups(response.renamedGroup);
+            setReactedUsernames(response.usernames);
         }
         setIsFetchingReactions(false);
     }
@@ -117,7 +119,10 @@ export default function Post({post,username}: PostProps){
                         {post.content}
                     </div>
                     <PostSummary>
-                        <ReactionsBar reactionsGroups={reactionsGroups}/>
+                        <ReactionsBar 
+                            reactionsGroups={reactionsGroups}
+                            usernames={reactedUsernames}
+                            />
                         <div className="comment-summary">
                             {comments.length > 0 ? `${comments.length} comments` : 'No comments'}
                         </div>

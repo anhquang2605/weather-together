@@ -4,7 +4,7 @@
 
 }
 .reactions-bar__title{
-    @apply mr-1;
+    @apply mr-1 underline cursor-pointer;
 }
 
 .target-reactions-group-names{

@@ -1,5 +1,6 @@
 import { NextApiRequest,NextApiResponse } from "next";
 import { connectDB } from "../../../libs/mongodb";
+import { use } from "react";
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     const { targetId } = req.query;
     const db = await connectDB();
@@ -16,24 +17,33 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                     _id: "$name",
                     count: {
                         $sum: 1
+                    },
+                    usernames: {
+                        $push: "$username"
                     }
                 }
             }
         ]
         const reactionsGroups = await reactionsCollection.aggregate(aggregation).toArray();
+
         let renamedGroup;
+        let usernames:string[] = [];
         if(reactionsGroups.length > 0){
             renamedGroup = reactionsGroups.map((reactionGroup) => {
+                usernames = [...usernames, ...reactionGroup.usernames];
                 return {
                     name: reactionGroup._id,
-                    count: reactionGroup.count
+                    count: reactionGroup.count,
+                    usernames: reactionGroup.usernames
                 }
             })
         }
 
-
         if(renamedGroup){
-            res.status(200).json(renamedGroup);
+            res.status(200).json(
+                { renamedGroup,
+                  usernames}
+                );
         }else{
             res.status(200).json(null);
         }

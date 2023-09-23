@@ -7,19 +7,39 @@ interface ReactionButtonProps{
     reactionsGroups: {
         name: string;
         count: number;
+        usernames: string[];
     }[];
+    usernames: string[];
 }
-export default function ReactionsBar( {reactionsGroups}: ReactionButtonProps){
+export default function ReactionsBar( {reactionsGroups, usernames}: ReactionButtonProps){
     const totalCount = reactionsGroups.reduce((acc, curr) => {
         return acc + curr.count;
     }, 0);
+    const handleFetchUsersFromUsernames = async () => {
+        const path = '/api/user/by-usernames';
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(usernames),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await fetch(path, options);
+        if(response.status === 200){
+            const data = await response.json();
+            
+        }
+    }
+    useEffect(()=>{
+
+    },[])
     return (
         <div className={style['reactions-bar']}>
             {
-                totalCount > 0 &&
+                totalCount > 0 ?
                 <>
                     <div className={style['reactions-bar__title']}>
-                        Reactions
+                        {totalCount} Reactions
                     </div>
                     <div className={style["target-reactions-group-names"]}>
                         {reactionsGroups.map((reactionGroup) => {
@@ -29,11 +49,23 @@ export default function ReactionsBar( {reactionsGroups}: ReactionButtonProps){
                         })}  
                     </div>
                 </>
+                :
+                <div className={style['reactions-bar__title']}>
+                    Be the first to react
+                </div>
             }
-             <div className={style['reactions-bar__total-count']}>
-                        {totalCount > 0 ? totalCount + ' reacted' : 'No Reactions'}
-                    </div>
+            
 
         </div>
     )
 }
+/* 
+    1.Fetch all users from usernames, each user will be associated with a reaction
+      - create agregation, reactions will be paired with a user
+      _ after this, check if user are with the curernt user?
+    1. If reacted User are friend, displayed at the top:
+        _How to check if user are friend?
+        _sorted by reaction time descent
+    2. If reacted User are not friend, displayed at the bottom:
+
+*/
