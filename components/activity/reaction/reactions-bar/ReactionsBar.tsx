@@ -26,7 +26,7 @@ export default function ReactionsBar( {reactionsGroups}: ReactionButtonProps){
                             return(
                                 <ReactionComponent key={reactionGroup.name} name={reactionGroup.name}/>
                             )
-                        })}
+                        })}  
                     </div>
                 </>
             }
