@@ -7,3 +7,11 @@ export interface Reaction {
     targetId: string; // Post or Comment ID
     expireAt?: Date; //countdown time for reactoin
 }
+export interface ReactionWithUser {
+    targetId: string;
+    username: string;
+    profilePicture: string;
+    name: string;
+    createdDate: Date;
+    isFriend: boolean;
+}

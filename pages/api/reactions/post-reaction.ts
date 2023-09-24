@@ -6,6 +6,11 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const db = await connectDB();
     if (db) {
         const reactionsCollection = db.collection("reactions");
+        reaction.createdDate = new Date();
+        reaction.updatedDate = new Date();
+        if(reaction.expireAt){
+            reaction.expireAt = new Date(reaction.expireAt);
+        }
         const result = await reactionsCollection.insertOne(reaction);
         if (result.insertedId) {
             res.status(201).json({message: "success"});

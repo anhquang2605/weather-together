@@ -122,6 +122,7 @@ export default function Post({post,username}: PostProps){
                         <ReactionsBar 
                             reactionsGroups={reactionsGroups}
                             usernames={reactedUsernames}
+                            targetId={post._id?.toString() || ''}
                             />
                         <div className="comment-summary">
                             {comments.length > 0 ? `${comments.length} comments` : 'No comments'}

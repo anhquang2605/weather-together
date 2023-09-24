@@ -17,6 +17,10 @@ interface UpdateDoc{
                 username: username,
                 targetId: targetId,
             }
+            updatedFields.updatedDate = new Date();
+            if("expireAt" in updatedFields){
+                updatedFields.expireAt = new Date(updatedFields.expireAt);
+            }
             const updateDoc:UpdateDoc = {
                 $set: updatedFields
             }
