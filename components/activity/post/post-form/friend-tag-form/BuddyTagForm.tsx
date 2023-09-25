@@ -154,9 +154,6 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         }
     },[addTimestamp])
     useEffect(()=>{
-        console.log('search result', searchResult);
-    },[searchResult])
-    useEffect(()=>{
         lastCursorRef.current = lastCursor;
     },[lastCursor])
     return (

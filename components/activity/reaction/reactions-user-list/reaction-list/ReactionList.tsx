@@ -15,6 +15,7 @@ interface ReactionItemProps{
 interface ReactionListProps {
     results: ReactionWithUser[];
     fetchingStatus: string ;
+    isLoaded: boolean;
     setEndOfList: (endOfList: boolean) => void;
 }
 interface FriendStatusProps {
@@ -105,7 +106,7 @@ const ReactionItem: React.FC<ReactionItemProps> = (props:ReactionItemProps) => {
 }
 
 const ReactionList: React.FC<ReactionListProps> = (props:ReactionListProps) => {
-    const {results, fetchingStatus, setEndOfList} = props;
+    const {results, fetchingStatus, setEndOfList,isLoaded} = props;
     const observerHandler = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach((entry) => {
             if(entry.isIntersecting){
@@ -114,12 +115,21 @@ const ReactionList: React.FC<ReactionListProps> = (props:ReactionListProps) => {
         })
     }
     useEffect(()=>{
-        const options = {
-            root: document.querySelector(`.${style['reaction-list']}`),
+
+        if(isLoaded){
+            const options = {
+                root: document.querySelector(`.${style['reaction-list']}`),
+            }
+            const observer = new IntersectionObserver(observerHandler, options);
+            const target = document.querySelector(`.${style['lazy-target']}`);
+            if(target){
+                observer.observe(target);
+            }
+            return () => {
+                observer.disconnect();
+            }
         }
-        const observer = new IntersectionObserver(observerHandler, options);
-        const target = document.querySelector(`.${style['lazy-target']}`);
-    },[])
+    },[isLoaded])
     return (
         <div className={style['reaction-list']}>
             {

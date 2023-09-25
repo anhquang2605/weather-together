@@ -2,7 +2,7 @@
     @apply flex flex-col flex-1 overflow-y-scroll border border-slate-500 p-4 gap-4;
 }
 .reaction-item{
-    @apply p-4 flex flex-row items-center w-full bg-slate-200 hover:bg-slate-300 rounded relative;
+    @apply p-4 flex flex-row items-center w-full bg-slate-200 hover:bg-slate-300 rounded relative shrink-0 h-[200px];
     color: var(--primary-color);
     &:hover{
         @apply cursor-pointer;
@@ -25,7 +25,7 @@
     @apply font-semibold ml-4;
 }
 .lazy-target{
-    @apply w-full flex flex-row h-0 items-center justify-center shrink-0;
+    @apply w-full flex flex-row h-1 items-center justify-center shrink-0;
 }
 .loading{
     @apply h-[100px] bg-slate-500 animate-pulse rounded;
