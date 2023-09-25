@@ -13,7 +13,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                     targetId: targetId,
                     username: {$ne: username},
                     createdDate: {$lt: lastCursor ? new Date(lastCursor as string) : new Date()},
-                    name: name ? name : {$ne: ""},
+                    name: name !== "all" ? name : {$ne: ""},
                 }
             },
            {
@@ -38,37 +38,42 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
             }, 
            {
                 $lookup:{
-                    from: 'friends',
+                    from: 'friend_requests',
                     let: {username: "$username"},
                     pipeline: [//conditional join with this
                         {
                             $match: {
                                 $expr: {
-                                    $and: [
-                                        {$eq: ["$username", "$$username"]},
-                                        {$eq: ["$friendUsername", username]}
+                                    $or: [
+                                        {$and: [{$eq: ["$username", "$$username"]}, {$eq: ["$targetUsername", username]}]},
+                                        {$and: [{$eq: ["$username", username]}, {$eq: ["$targetUsername", "$$username"]}]}
                                     ]
+                                    
                                 }
                             }
                         }
                     ],
                     as: "friend"
                 }
-            },
-            {
+            }, 
+           {
                 $project: {
                     targetId: 1,
                     username: 1,
                     profilePicture: 1,
                     name: 1,
                     createdDate: 1,
-                    isFriend: {$cond: {if: {$eq: [{$size: "$friend"}, 0]}, then: false, else: true}}
+                    status: {$cond: {if: {$eq: [{$size: "$friend"}, 0]}, then: "none", else: {$arrayElemAt: ["$friend.status", 0]}}},
                 }
             },
             {
                 //get only when isFriend is true
                 $match: {
-                    isFriend: isFriend === "true" ? true : false
+                    status: isFriend === "true" ? 
+                    {
+                        $in: ["accepted", "pending"]
+                    }
+                    : "none"
                 }
             },
             {
@@ -78,7 +83,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
             },
             {
                 $limit: theLimit + 1,
-            },
+            }, 
 /*             {
                 $group: {
                     _id: "$isFriend",
@@ -90,7 +95,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         ]
 
         const results = await reactionsCollection.aggregate(aggregation).toArray();
-      
         if(results){
             let hasMore = false;
             if(results.length > 0){

@@ -1,3 +1,12 @@
 .reaction-user-list{
-    
+    @apply p-8 flex flex-col overflow-y-auto;
+    background-color: var(--primary-color);
+    color: white;
+    min-height: 250px;
+    max-height: 450px;
+    @screen lg{
+        min-height: 300px;
+        max-height: 500px;
+    }
+
 }

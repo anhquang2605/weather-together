@@ -1,0 +1,20 @@
+.reaction-categorized-tabs{
+    @apply flex flex-row overflow-x-scroll;
+}
+.reaction-tab{
+    @apply capitalize py-2 px-4 rounded-md cursor-pointer text-lg;
+    &:hover:not(.active){
+        background-color: var(--highlighted-color);
+    }
+    transition: var(--short-transition);
+}
+.tab__icon{
+    @apply mr-1;
+}
+.tab__name{
+    @apply mr-1;
+}
+.active{
+    color: var(--primary-color);
+    @apply bg-slate-200;
+}

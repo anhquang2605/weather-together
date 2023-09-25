@@ -13,5 +13,10 @@ export interface ReactionWithUser {
     profilePicture: string;
     name: string;
     createdDate: Date;
-    isFriend: boolean;
+    status: string;
+}
+export interface ReactionGroup{
+    name: string;
+    count: number;
+    usernames: string[];
 }
