@@ -11,7 +11,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
             {
                 $match: {
                     targetId: targetId,
-                    username: {$ne: username},
                     createdDate: {$lt: lastCursor ? new Date(lastCursor as string) : new Date()},
                     name: name !== "all" ? name : {$ne: ""},
                 }
@@ -34,6 +33,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                     profilePicture: "$user.profilePicturePath",
                     name: 1,
                     createdDate: 1,
+                    fullName: {$concat: ["$user.firstName", " ", "$user.lastName"]},
                 }
             }, 
            {
@@ -60,6 +60,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                 $project: {
                     targetId: 1,
                     username: 1,
+                    fullName: 1,
                     profilePicture: 1,
                     name: 1,
                     createdDate: 1,

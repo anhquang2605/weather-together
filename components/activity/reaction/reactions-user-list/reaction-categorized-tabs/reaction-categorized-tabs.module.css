@@ -1,5 +1,5 @@
 .reaction-categorized-tabs{
-    @apply flex flex-row overflow-x-scroll;
+    @apply flex flex-row overflow-x-scroll shrink-0;
 }
 .reaction-tab{
     @apply capitalize py-2 px-4 rounded-md cursor-pointer text-lg;

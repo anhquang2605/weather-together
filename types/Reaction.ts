@@ -14,6 +14,7 @@ export interface ReactionWithUser {
     name: string;
     createdDate: Date;
     status: string;
+    fullName: string;
 }
 export interface ReactionGroup{
     name: string;

@@ -1,5 +1,6 @@
 .reaction-user-list{
-    @apply p-8 flex flex-col overflow-y-auto;
+    @apply p-8 flex flex-col h-full;
+
     background-color: var(--primary-color);
     color: white;
     min-height: 250px;

@@ -4,6 +4,7 @@ import { ReactionGroup, ReactionWithUser } from '../../../../types/Reaction';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import ReactionCategorizedTabs from './reaction-categorized-tabs/ReactionCategorizedTabs';
 import ReactionList from './reaction-list/ReactionList';
+import { init } from 'next/dist/compiled/@vercel/og/satori';
 interface ReactionUserListProps {
     targetId: string;
     username: string;
@@ -17,32 +18,29 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
 }) => {
     const LIMIT = 10;
     const lastCursorRef = useRef<Date | null>(null);
+    const [formReset, setFormReset] = useState<boolean>(false);
     const [isFriend, setIsFriend] = useState<string>('true');
     const [apiStatus, setApiStatus] = useState<string>('idle'); //idle, loading, succeeded, failed
-    const [fetching, setFetching] = useState<boolean>(false); //idle, loading, succeeded, failed
+    const [fetchingStatus, setFetchingStatus] = useState<string>('idle'); //idle, loading, succeeded, failed
     const [lastCursor, setLastCursor] = useState<Date>(new Date); 
     const [isLoadedInitially, setIsLoadedInitially] = useState<boolean>(false);
     const [results, setResults] = useState<ReactionWithUser[]>([]); 
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [currentGroup, setCurrentGroup] = useState<string>('all'); //all, like, love, haha, wow, sad, angry
-    const [remainToFetch, setRemainToFetch] = useState<number>(0); //will be updated if the first fetch is not enough
     const [endOfList, setEndOfList] = useState<boolean>(false); //will be updated if the first fetch is not enough
     const handleFetchReactionsWithUsers = async (limit: number, replace = false) => {
-        setApiStatus('loading');
-        setFetching(true);
         const path = '/reactions/get-reactions-with-users';
         const params = {
             targetId: targetId,
             username: username,
             name: currentGroup,
-            isFriend,
+            isFriend: isFriend,//
             limit,
-            lastCursor: ( typeof lastCursorRef.current === 'string' ? lastCursorRef.current : lastCursorRef.current?.toISOString() ) || ''
+            lastCursor: replace === false ? (( typeof lastCursorRef.current === 'string' ? lastCursorRef.current : lastCursorRef.current?.toISOString() ) || '') : new Date().toISOString()
         }
         const response = await fetchFromGetAPI(path, params);
         if(response.success){
             const data = response.data;
-            setFetching(false);
             setHasMore(data.hasMore);
             if(replace){
                 setResults(data.results);
@@ -52,7 +50,7 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
             if(!data.hasMore && isFriend){//flip to false, happen only once
                 let newLimit = LIMIT - data.results.length;
                 if(newLimit > 0){
-                    setRemainToFetch(newLimit);
+                   params.limit = newLimit;
                 }
                 setIsFriend('false');
                 params.isFriend = 'false';
@@ -61,16 +59,45 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
                     setResults([...data.results, ...response2.data.results]);
                 }else {
                     setApiStatus('failed');
-                    return;
+                    return false;
                 }
             }
-            setApiStatus('success');
+            setFormReset(false);
+            return true;
         }else {
-            setApiStatus('failed');
+            return false
         }
     }
+    const handleReset = () => {
+        setResults([]);
+        setLastCursor(new Date);
+        setHasMore(true);
+        setIsFriend('true');
+        setIsLoadedInitially(false);
+        setFormReset(true);
+    }
     const handleInitialFetch = async () => {
-        await handleFetchReactionsWithUsers(LIMIT, true);
+        setApiStatus('loading');
+        const success = await handleFetchReactionsWithUsers(LIMIT, true);
+        if(success){
+            setApiStatus('success');
+            setIsLoadedInitially(true);
+        }else{
+            setApiStatus('failed');
+        }
+
+    }
+    const handleFetchMore = async () => {
+        if(!hasMore || fetchingStatus === 'loading'){
+            return;
+        }
+        setFetchingStatus('loading');
+        const success = await handleFetchReactionsWithUsers(LIMIT);
+        if(success){
+            setFetchingStatus('success');
+        }else{
+            setFetchingStatus('failed');
+        }
     }
     useEffect(()=>{
         handleInitialFetch();
@@ -85,20 +112,20 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
         lastCursorRef.current = lastCursor;
     }, [lastCursor])
     useEffect(()=>{
-        if(remainToFetch > 0){
-            handleFetchReactionsWithUsers(remainToFetch);
-        }
-    }, [remainToFetch]);
-    useEffect(()=>{
-
+        handleReset();
     },[currentGroup])
+    useEffect(()=>{
+        if(formReset){
+            handleInitialFetch();
+        }
+    },[formReset])
     return (
         <div className={style['reaction-user-list']}>
             <ReactionCategorizedTabs currentTab={currentGroup} reactionsGroups={reactionGroups} setCurrentTab={setCurrentGroup}/>
             <ReactionList
                 results={results}
                 setEndOfList={setEndOfList}
-                fetching={fetching}
+                fetchingStatus={fetchingStatus}
             />
 
         </div>
