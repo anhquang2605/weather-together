@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const picturesCollection: Collection<WithId<Picture>> = db.collection('pictures');
         switch (method) {
             case 'GET':
-                const {targetId, username} = req.query;
+                const {targetId, username, many} = req.query;
                 try {
                     let result = null;
                     if(targetId){
@@ -18,10 +18,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         if(result.length > 0){
                             res.status(200).json({
                                 success: true,
-                                data: result[0],
+                                data: many === 'true' ? result : result[0],
                             });
                         }else{
-                            res.status(204).json({
+                            res.status(404).json({
                                 success: false,
                                 error: 'Not Found',
                             });

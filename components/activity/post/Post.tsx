@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import { set } from "lodash";
 import LoadingBox from "../../skeletons/loading-box/LoadingBox";
 import { Comment } from "../../../types/Comment";
+import AttachedPictures from "./attached-pictures/AttachedPictures";
 interface PostProps{
     post: Post;
     username?: string;
@@ -118,6 +119,9 @@ export default function Post({post,username}: PostProps){
                     <div className={style['post__content']}>
                         {post.content}
                     </div>
+                    {post.pictureAttached && <AttachedPictures
+                        targetId={post._id?.toString() || ''}
+                    />}
                     <PostSummary>
                         <ReactionsBar 
                             reactionsGroups={reactionsGroups}

@@ -17,7 +17,7 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
     username,
     reactionGroups
 }) => {
-    const LIMIT = 3;
+    const LIMIT = 5;
     const lastCursorRef = useRef<Date | null>(null);
     const [formReset, setFormReset] = useState<boolean>(false);
     const [isFriend, setIsFriend] = useState<string>('true');
