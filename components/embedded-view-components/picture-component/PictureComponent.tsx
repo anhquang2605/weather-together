@@ -14,10 +14,10 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
     loading,
     alt,
 }) => {
-    const {picturePath: src, width = 200, height = 100} = picture || {src: '', alt: '', width: 0, height: 0};
+    const {picturePath: src, width = 200, height = 100, username, _id} = picture || {src: '', alt: '', width: 0, height: 0};
     const {setContent, setShow} = usePictureModal();
     const handleClick = (src:string, alt:string, width: number, height:number) => {
-        setContent({src, alt, width, height});
+        setContent({src, alt, width, height, author: username || "", _id: _id || "" });
         setShow(true);
     }
     return (

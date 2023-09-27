@@ -1,9 +1,12 @@
+import { ObjectId } from 'mongodb';
 import {createContext, useState, useContext, ReactNode, useEffect} from 'react';
 interface PictureContent{
     src: string;
     width: number;
     height: number;
     alt: string;
+    author: string;
+    _id: string | ObjectId;
 }
 interface IPictureModalContext{
     content: PictureContent | null;

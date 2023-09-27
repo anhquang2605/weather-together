@@ -59,14 +59,24 @@ export async function getUsernamePaths (){
 
 export async function getUserDataByUserName(username: string){
     try{
-        let db = await connectDB()
-        if(!db) return null;
-        const usersCollection: mongoDB.Collection = await db.collection('users');
-        const user = await usersCollection.findOne({ username : username });
-        if(!user) return null;
-        return user;
+       const path = '/api/users?username=' + username;
+       const options = {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+       }
+       const res = await fetch(path, options);
+       if(res.status == 200){
+           const data = await res.json();
+           if(data.success){
+                return data.data;
+           }
+       }
+       return null;
     }catch(e){
         console.log(e);
+        return null;
     }
 }
 
@@ -115,3 +125,18 @@ export const pickUserInClients = (users: User[]) => {
     })
     return pickedUsers as UserInClient[];
 }
+export const pickUserInClient = (user: User) => {
+    const pickedUser = pick(user, [
+        'username',
+        'location',
+        'email',
+        'featuredWeather',
+        'firstName',
+        'lastName',
+        'profilePicturePath',
+        'dateJoined',
+        'backgroundPicturePath'
+    ])
+    return pickedUser as UserInClient;
+}
+

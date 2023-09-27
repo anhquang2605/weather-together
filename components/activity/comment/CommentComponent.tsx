@@ -104,7 +104,7 @@ export default function CommentComponent(
             {level !== 0 && <div className={style['merging-curve']}>
 
             </div>}
-            <MiniAvatar className={style['comment-component__profile-picture']} username={username} profilePicturePath={profilePicturePath} />
+            <MiniAvatar className={style['comment-component__profile-picture']} username={username} profilePicturePath={profilePicturePath} size="medium" />
             <div className={style['content-group']}>
                 <div className={style['content-group__self']}>
                     {(childrenNo > 0 || childComments.length > 0) && <div className={style['graph-edge']}></div>} 

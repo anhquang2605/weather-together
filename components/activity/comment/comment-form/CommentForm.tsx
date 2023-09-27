@@ -18,12 +18,12 @@ interface ErrorMessage {
 interface CommentFormProps {
     targetId: string,//will be "" if comment on post
     username: string,
-    targetLevel?: number, //for comment on comment, if none, then the target is a post, whoever call this will have level = target level + 1 but 0 if target is a post
-    postId: string,
+    targetLevel?: number, //for comment on comment, if none, then the target is a post or picture, whoever call this will have level = target level + 1 but 0 if target is a post or picture
+    postId: string,//can also be the picture id
     isCommenting: boolean,
     scrollToCommentForm: ( CommentForm: React.MutableRefObject<HTMLDivElement | null> ) => void,
     userProfilePicturePath: string,
-    targetType: string, //posts or comments
+    targetType: string, //posts or comments or pictures
     parentListRef?: React.MutableRefObject<HTMLDivElement | null>,
     setIsCommenting: React.Dispatch<React.SetStateAction<boolean>>,
     optimisticCommentInsertion: (comment: Comment) => void,
