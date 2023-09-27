@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import {createContext, useState, useContext, ReactNode, useEffect} from 'react';
-interface PictureContent{
+export interface PictureContent{
     src: string;
     width: number;
     height: number;

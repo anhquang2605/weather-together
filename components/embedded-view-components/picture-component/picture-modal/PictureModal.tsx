@@ -1,42 +1,45 @@
 import React, { useEffect } from 'react';
 import style from './picture-modal.module.css';
 import Image from 'next/image';
-import {usePictureModal} from '../PictureModalContext';
+import {PictureContent, usePictureModal} from '../PictureModalContext';
 import { IoClose } from 'react-icons/io5';
 import PictureInteractionPanel from '../picture-interaction-panel/PictureInteractionPanel';
-import { getUserDataByUserName, pickUserInClient } from '../../../../libs/users';
+import { getUserDataByUserName, pickUserInClient } from '../../../../libs/db-interactions';
 import { UserInClient } from '../../../../types/User';
+import { Picture } from '../../../../types/Picture';
 
 const PictureModal: React.FC = () => {
     const {content, show, setShow} = usePictureModal();
     const [isVertical, setIsVertical] = React.useState(false);
     const [user, setUser] = React.useState<UserInClient | null>(null);// [username, firstName, lastName, profilePicturePath
-    if(!show) return null;
-    const {src, alt, width, height, _id, author} = content!;// content is null when the modal is closed
-    const getUser = async () => {
+    
+    const getUser = async (author: string) => {
         const data = await getUserDataByUserName(author);
         if(data){
             const user = await pickUserInClient(data);
             setUser(user);
         }
     }
-    useEffect(()=>{
-        setIsVertical(height > width);
-    });
+    useEffect(() => {
+        if(content){
+            setIsVertical(content?.width! < content?.height!);
+            getUser(content.author);
+        }
+    }, [content]);
     return (
-        <div className={style['picture-modal']}>
-            <div className={style['modal-content']}>
+        content && show && <div className={style['picture-modal']}>
+            {content && <div className={style['modal-content']}>
                 <button className={style['close-btn']}>
                     <IoClose onClick={()=>{
                         setShow(false);
                     }}/>
                 </button>
                 <div className={style['picture-container']}>
-                    <Image className={`${style['picture-content']} ${isVertical ? style['vertical-image'] : ""}`} src={src} alt={alt} width={width} height={height} />
+                    <Image className={`${style['picture-content']} ${isVertical ? style['vertical-image'] : ""}`} src={content.src} alt={content.alt} width={content.width} height={content.height} />
                 </div>
-                {user && <PictureInteractionPanel pictureId={typeof _id === 'object' ? _id.toString() : _id} author={user}/>}
+                {user && <PictureInteractionPanel pictureId={typeof content._id === 'object' ? content._id.toString() : content._id} author={user}/>}
 
-            </div>
+            </div>}
             <div className={`glass-dark ${style['modal-background']}`}>
             </div>
             

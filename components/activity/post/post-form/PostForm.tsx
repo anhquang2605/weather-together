@@ -9,6 +9,7 @@ import { set } from 'lodash';
 import { Picture } from '../../../../types/Picture';
 import { Post, WeatherVibe } from '../../../../types/Post';
 import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionStatusBox';
+import { getImageDimensions } from '../../../../libs/pictures';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +24,10 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
     const {reset} = usePostFormContext();
+    let picturesDimensions:{
+        width: number,
+        height: number
+    }[] = [];
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
@@ -55,7 +60,9 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
     }
     const handleUploadPictures = async () => {
         const formData = new FormData();
-        attachedImages.forEach((image) => {
+        attachedImages.forEach(async (image) => {
+            const dim = await getImageDimensions(image);
+            picturesDimensions.push(dim as {width: number, height: number});
             formData.append('files', image);
         })
         const res = await fetch('/api/upload-images', {
@@ -92,7 +99,7 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
     }
     const generatePictureObjects = async (imageURLs:string[], username: string, targetId:string, targetType: string) => {
         const pictures:Picture[] = [];
-        imageURLs.forEach((imageURL) => {
+        imageURLs.forEach((imageURL, index) => {
             const picture:Picture = {
                 picturePath: imageURL,
                 username,
@@ -201,6 +208,7 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         setCurrentWeather(null);
         setSelectedVisibilityIndex(0);
         setUploadingStatus("idle");
+        picturesDimensions = [];
         reset();
     }
     const handlePostSentConfirmation = () => {
