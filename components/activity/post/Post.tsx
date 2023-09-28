@@ -6,7 +6,6 @@ import { MockContext } from "../../../pages/MockContext";
 import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
 import { fetchFromGetAPI, insertToPostAPI } from "../../../libs/api-interactions";
 import InteractionsBtns from "../interactions-btns/InteractionsBtns";
-import PostSummary from "./post-summary/PostSummary";
 import CommentForm from "../comment/comment-form/CommentForm";
 import { PostContext } from "./PostContext";
 import CommentList from "../comment/comment-list/CommentList";
@@ -17,6 +16,7 @@ import { set } from "lodash";
 import LoadingBox from "../../skeletons/loading-box/LoadingBox";
 import { Comment } from "../../../types/Comment";
 import AttachedPictures from "./attached-pictures/AttachedPictures";
+import ContentSummary from "../content-summary/ContentSummary";
 interface PostProps{
     post: Post;
     username?: string;
@@ -122,7 +122,7 @@ export default function Post({post,username}: PostProps){
                     {post.pictureAttached && <AttachedPictures
                         targetId={post._id?.toString() || ''}
                     />}
-                    <PostSummary>
+                    <ContentSummary>
                         <ReactionsBar 
                             reactionsGroups={reactionsGroups}
                             usernames={reactedUsernames}
@@ -131,7 +131,7 @@ export default function Post({post,username}: PostProps){
                         <div className="comment-summary">
                             {comments.length > 0 ? `${comments.length} comments` : 'No comments'}
                         </div>
-                    </PostSummary>
+                    </ContentSummary>
                     <InteractionsBtns 
                         variant="extended"
                         targetId={post._id?.toString() || ''}

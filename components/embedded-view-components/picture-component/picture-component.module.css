@@ -7,6 +7,10 @@
         &.loading{
             @apply  lg:h-[calc(var(--large-width)/2)]  md:h-[calc(var(--medium-width)/2)] h-[calc(var(--small-width)/2)] bg-slate-500 animate-pulse;
         }
+        &:hover{
+            cursor: pointer;
+            outline: 1px solid gray;
+        }
     }
     
 }

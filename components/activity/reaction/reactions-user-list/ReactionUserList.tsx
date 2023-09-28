@@ -124,9 +124,7 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
         }
     },[formReset])
     useEffect(()=>{
-        console.log('endOfList', endOfList);
         if(endOfList ){
-            console.log(endOfList);
             handleFetchMore();
         }
     },[endOfList])

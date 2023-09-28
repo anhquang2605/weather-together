@@ -49,8 +49,8 @@ export default function ReactionsBar( {reactionsGroups, usernames, targetId}: Re
                         </div>
                     </>
                     :
-                    <div className={style['reactions-bar__title']}>
-                        Be the first to react
+                    <div className={style['reactions-bar__no_reaction']}>
+                        No reaction, be the first to react!
                     </div>
                 }
                 

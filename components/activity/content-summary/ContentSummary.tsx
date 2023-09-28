@@ -1,8 +1,8 @@
-import style from './post-summary.module.css'
-interface PostSummaryProps {
+import style from './content-summary.module.css'
+interface ContentSummaryProps {
     children?: React.ReactNode;
 }
-export default function PostSummary(props: PostSummaryProps){
+export default function PostSummary(props: ContentSummaryProps){
     return (
         <div className={style["post-summary"]}>
             {props.children}

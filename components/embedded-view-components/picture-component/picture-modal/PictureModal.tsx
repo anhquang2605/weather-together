@@ -37,7 +37,7 @@ const PictureModal: React.FC = () => {
                 <div className={style['picture-container']}>
                     <Image className={`${style['picture-content']} ${isVertical ? style['vertical-image'] : ""}`} src={content.src} alt={content.alt} width={content.width} height={content.height} />
                 </div>
-                {user && <PictureInteractionPanel pictureId={typeof content._id === 'object' ? content._id.toString() : content._id} author={user}/>}
+                {user && <PictureInteractionPanel picture={content} author={user}/>}
 
             </div>}
             <div className={`glass-dark ${style['modal-background']}`}>

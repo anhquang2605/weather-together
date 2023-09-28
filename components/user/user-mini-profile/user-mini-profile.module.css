@@ -1,0 +1,18 @@
+.user-mini-profile{
+    display: flex;
+    width: 100%;
+    flex-shrink: 1;
+    align-items: center;
+    &:hover{
+        cursor: pointer;
+        .full-name{
+            @apply underline;
+        }
+    }
+}
+.dark{
+    @apply text-white;
+}
+.user-info{
+    margin-left: 1rem;
+}

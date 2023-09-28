@@ -2,7 +2,7 @@
   opacity: 0;
   display: none;
   transition: opacity 0.2s ease-in-out;
-  @apply p-4 px-8 flex-row flex-wrap border-t border-slate-300 mt-0.5 relative;   
+  @apply p-4 px-8 flex-row flex-wrap  mt-0.5 relative;   
   textarea{
     @apply w-full resize-none border-none outline-none bg-transparent mb-2;
     color: var(--primary-color);

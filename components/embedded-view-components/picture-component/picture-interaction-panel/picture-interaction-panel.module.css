@@ -1,3 +1,5 @@
 .picture-interaction-panel{
-   @apply border;
+   @apply border-l border-slate-500 overflow-y-auto p-8 flex flex-col flex-wrap;
+   flex: 1;
+   height: 100%;
 }

@@ -329,7 +329,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                     topSuggestionClassName={style['top-suggestion']}
                     scrollListRef={parentListRef}
                 />}
-                {previewRatio && previewPictureURL && <div 
+                {previewRatio && previewPictureURL ? <div 
                     style={{
                         width: `${200 * previewRatio}px`,
                         height: `${200}px`,
@@ -342,7 +342,7 @@ export default function CommentForm({targetId, username, targetLevel, postId, is
                         className={style['remove-attachment-btn']}>
                         <IoClose />
                     </button>
-                </div>}               
+                </div> : null}               
                 <div className={style['error-display']}>
                     {errorMessages.map((message, index) => 
                         <div key={index} className={style['error-message']}>
