@@ -4,10 +4,7 @@ import { ReactionGroup, ReactionWithUser } from '../../../../types/Reaction';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import ReactionCategorizedTabs from './reaction-categorized-tabs/ReactionCategorizedTabs';
 import ReactionList from './reaction-list/ReactionList';
-import { init } from 'next/dist/compiled/@vercel/og/satori';
-import { is } from 'date-fns/locale';
-import { debounce } from 'lodash';
-import { current } from '@reduxjs/toolkit';
+
 interface ReactionUserListProps {
     targetId: string;
     username: string;
@@ -32,7 +29,6 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
     const [currentGroup, setCurrentGroup] = useState<string>('all'); //all, like, love, haha, wow, sad, angry
     const [endOfList, setEndOfList] = useState<boolean>(false); //will be updated if the first fetch is not enough
     const handleFetchReactionsWithUsers = async (limit: number, replace = false) => {
-        console.log('fetching');
         const path = '/reactions/get-reactions-with-users';
         const params = {
             targetId: targetId,
@@ -43,7 +39,6 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
             lastCursor: replace === false ? (( typeof lastCursorRef.current === 'string' ? lastCursorRef.current : lastCursorRef.current?.toISOString() ) || '') : new Date().toISOString()
         }
         const response = await fetchFromGetAPI(path, params);
-
         if(response.success){
             const data = response.data;
             setHasMore(data.hasMore);
@@ -53,7 +48,7 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
                 setResults( prev => 
                     [...prev, ...data.results]);
             }
-            if(!data.hasMore && isFriend){//flip to false, happen only once
+            if(!data.hasMore && isFriend === "true"){//flip to false, happen only once, this is when the first fetch is not enough to fill the list
                 let newLimit = LIMIT - data.results.length;
                 if(newLimit > 0){
                    params.limit = newLimit;
@@ -98,17 +93,15 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
 
     }
     const handleFetchMore = async () => {
-        if(!isLoadedInitially || !hasMore || fetchingStatus === 'loading' || apiStatus === 'loading'){
-            return;
-        }
-
-        setFetchingStatus('loading');
-        const success = await handleFetchReactionsWithUsers(LIMIT);
-        if(success){
-            setFetchingStatus('success');
-            setEndOfList(false);
-        }else{
-            setFetchingStatus('failed');
+        if(isLoadedInitially && hasMore && fetchingStatus !== 'loading' && apiStatus !== 'loading'){
+            setFetchingStatus('loading');
+            const success = await handleFetchReactionsWithUsers(LIMIT);
+            if(success){
+                setFetchingStatus('success');
+                setEndOfList(false);
+            }else{
+                setFetchingStatus('failed');
+            }
         }
     }
     useEffect(()=>{
