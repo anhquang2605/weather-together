@@ -9,6 +9,7 @@ interface PictureComponentProps {
     alt: string;
     pictures?: Picture[];
     key?: number;
+    variant?: "freeStyle";
 }
 
 const PictureComponent: React.FC<PictureComponentProps> = ({
@@ -16,7 +17,8 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
     loading,
     alt,
     key,
-    pictures
+    pictures,
+    variant = ""
 }) => {
 
     const {setContent, setShow, setCurrentPictureIndex, setPictures} = usePictureModal();
@@ -30,19 +32,12 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
         }
     }
     return (
-        <div className={style["picture-component"]}>
-            {loading?
-            <div className={style['picture'] + " " +  style['loading']}>
-            </div>
-            :
-            <div onClick={()=>{
-            handleClick(picture);
-                }}className={`${style['picture']} `}>
-                {
-                    picture && <Image width={picture.width} height={picture.height}  src={picture.picturePath} alt={alt} />
-                }
-
-            </div>}
+        <div className={`${style["picture-component"]} ${style[variant]} `} 
+            onClick={()=>{
+                handleClick(picture);
+            }}
+        >
+            {picture && <Image width={picture.width} height={picture.height}  src={picture.picturePath} alt={alt} />}
         </div>
     )    
     ;

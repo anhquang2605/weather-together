@@ -1,8 +1,7 @@
 .picture-component{
-    --large-width: 200px;
-    --medium-width: 184px;
-    --small-width: 164px;
-    .picture{
+        --large-width: 200px;
+        --medium-width: 184px;
+        --small-width: 164px;
         @apply lg:w-[var(--large-width)] md:w-[var(--medium-width)] w-[var(--small-width)] rounded-lg overflow-hidden shadow-lg my-2;
         &.loading{
             @apply  lg:h-[calc(var(--large-width)/2)]  md:h-[calc(var(--medium-width)/2)] h-[calc(var(--small-width)/2)] bg-slate-500 animate-pulse;
@@ -11,6 +10,14 @@
             cursor: pointer;
             outline: 1px solid gray;
         }
+    &.freeStyle{
+        @apply w-full my-0;
+    }
+    &.freeStyle img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
     }
     
 }
