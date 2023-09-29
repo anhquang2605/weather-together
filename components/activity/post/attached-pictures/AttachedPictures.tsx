@@ -46,6 +46,7 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
                             picture={picture}
                             alt=""
                             loading={loading}
+                            pictures={pictures}
                         />
                     )
                 })

@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import style from './picture-modal.module.css';
 import Image from 'next/image';
-import {PictureContent, usePictureModal} from '../PictureModalContext';
+import { usePictureModal} from '../PictureModalContext';
 import { IoClose } from 'react-icons/io5';
 import PictureInteractionPanel from '../picture-interaction-panel/PictureInteractionPanel';
 import { getUserDataByUserName, pickUserInClient } from '../../../../libs/db-interactions';
 import { UserInClient } from '../../../../types/User';
-import { Picture } from '../../../../types/Picture';
+import {IoArrowBack, IoArrowForward} from 'react-icons/io5';
 
 const PictureModal: React.FC = () => {
-    const {content, show, setShow} = usePictureModal();
+    const {content, show, setShow, showNext, showPrevious, isSlider} = usePictureModal();
     const [isVertical, setIsVertical] = React.useState(false);
     const [user, setUser] = React.useState<UserInClient | null>(null);// [username, firstName, lastName, profilePicturePath
     
@@ -23,7 +23,7 @@ const PictureModal: React.FC = () => {
     useEffect(() => {
         if(content){
             setIsVertical(content?.width! < content?.height!);
-            getUser(content.author);
+            getUser(content.username);
         }
     }, [content]);
     return (
@@ -35,7 +35,16 @@ const PictureModal: React.FC = () => {
                     }}/>
                 </button>
                 <div className={style['picture-container']}>
-                    <Image className={`${style['picture-content']} ${isVertical ? style['vertical-image'] : ""}`} src={content.src} alt={content.alt} width={content.width} height={content.height} />
+                    {isSlider && <div className={style['picture-slider-btns']}>
+                        <button onClick={showPrevious}>
+                            <IoArrowBack/>
+                        </button>
+                        <button onClick={showNext}>
+                            <IoArrowForward/>
+                        </button>
+                    </div>
+}
+                    <Image className={`${style['picture-content']} ${isVertical ? style['vertical-image'] : ""}`} src={content.picturePath} alt={`Attached picture of ${content.username}`} width={content.width} height={content.height} />
                 </div>
                 {user && <PictureInteractionPanel picture={content} author={user}/>}
 

@@ -55,6 +55,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         success: true,
                         data: {result, commentors: uniqueUsernames, children},
                       });
+                    }else if(result.length === 0){
+                      res.status(200).json({
+                        success: true,
+                        data: {result, commentors: [], children},
+                      });
                     }else{
                       res.status(404).json({
                         success: false,

@@ -1,5 +1,4 @@
 export function fetchFromGetAPI (path: string, options: any){
-    console.log("Here" , path);
     const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
     const url = `${baseURL}/api/${path}`;
     const params = new URLSearchParams(options).toString();

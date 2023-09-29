@@ -4,21 +4,30 @@ import Image from 'next/image';
 import {usePictureModal } from './PictureModalContext';
 import { Picture } from '../../../types/Picture';
 interface PictureComponentProps {
-    picture: Picture | null;
+    picture: Picture;
     loading: boolean;
     alt: string;
+    pictures?: Picture[];
+    key?: number;
 }
 
 const PictureComponent: React.FC<PictureComponentProps> = ({
     picture,
     loading,
     alt,
+    key,
+    pictures
 }) => {
-    const {picturePath: src, width, height, username, _id} = picture || {src: '', alt: '', width: 0, height: 0};
-    const {setContent, setShow} = usePictureModal();
-    const handleClick = (src:string, alt:string, width: number, height:number) => {
-        setContent({src, alt, width, height, author: username || "", _id: _id || "" });
+
+    const {setContent, setShow, setCurrentPictureIndex, setPictures} = usePictureModal();
+    const handleClick = (picture: Picture) => {
+        setContent(picture);
+        
         setShow(true);
+        if(pictures){
+            setPictures(pictures);
+            setCurrentPictureIndex(pictures.findIndex(p => p._id === picture._id));
+        }
     }
     return (
         <div className={style["picture-component"]}>
@@ -27,10 +36,10 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
             </div>
             :
             <div onClick={()=>{
-            handleClick(src as string, alt, width || 0, height || 0);
+            handleClick(picture);
                 }}className={`${style['picture']} `}>
                 {
-                    <Image width={width} height={height}  src={src!} alt={alt} />
+                    picture && <Image width={picture.width} height={picture.height}  src={picture.picturePath} alt={alt} />
                 }
 
             </div>}

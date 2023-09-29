@@ -39,13 +39,18 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
             })
         }
 
-        if(renamedGroup){
+        if(reactionsGroups.length > 0){
             res.status(200).json(
                 { renamedGroup,
                   usernames}
                 );
-        }else{
-            res.status(200).json(null);
+        }else if(reactionsGroups.length === 0){
+            res.status(200).json({
+                renamedGroup: [],
+                usernames: []
+            });
+        } else {
+            res.status(404).json({message: "Cannot find reactions"})
         }
     }else{
         res.status(500).json({message: "Cannot connect to DB"})

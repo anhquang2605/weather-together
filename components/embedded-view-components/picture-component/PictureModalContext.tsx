@@ -1,21 +1,20 @@
 import { ObjectId } from 'mongodb';
 import {createContext, useState, useContext, ReactNode, useEffect} from 'react';
 import { usernameToProfilePicturePathMap } from '../../../pages/api/users';
-export interface PictureContent{
-    src: string;
-    width: number;
-    height: number;
-    alt: string;
-    author: string;
-    _id: string | ObjectId;
-}
+import { Picture } from '../../../types/Picture';
+
 interface IPictureModalContext{
-    content: PictureContent | null;
+    content: Picture | null;
     show: boolean;
     setShow: (show: boolean) => void;
-    setContent: (content: PictureContent | null) => void;
+    setContent: (content: Picture | null) => void;
     profilePicturePaths: usernameToProfilePicturePathMap;
     setProfilePicturePaths: (profilePicturePaths: usernameToProfilePicturePathMap) => void;
+    setCurrentPictureIndex: (index: number) => void;
+    setPictures: (pictures: Picture[]) => void;
+    showNext: () => void;
+    showPrevious: () => void;
+    isSlider: boolean;
 }
 const PictureModalContext = createContext<IPictureModalContext | undefined>(undefined);
 
@@ -33,11 +32,51 @@ interface IPictureModalProviderProps{
 }
 // This component provides the context to its children
 export const PictureModalProvider = ({children}: IPictureModalProviderProps) => {
-    const [content, setContent] = useState<PictureContent | null>(null); // [src, width, height, alt
+    const [content, setContent] = useState<Picture | null>(null); // [src, width, height, alt
     const [show, setShow] = useState(false);
+    const [pictures, setPictures] = useState<Picture[]>([]);
     const [profilePicturePaths, setProfilePicturePaths] = useState<usernameToProfilePicturePathMap>({});
+    const [currentPictureIndex, setCurrentPictureIndex] = useState<number>(0);
+    const [isSlider, setIsSlider] = useState<boolean>(false);
+    const showNext = () => {
+        setCurrentPictureIndex(prev => {
+            if(prev === pictures.length - 1){
+                return 0;
+            }
+            return prev + 1;
+        })
+    }
+    const showPrevious = () => {
+        setCurrentPictureIndex(prev => {
+            if(prev === 0){
+                return pictures.length - 1;
+            }
+            return prev - 1;
+        })
+    }
+    const resetStates = () => {
+        setContent(null);
+        setShow(false);
+        setPictures([]);
+        setCurrentPictureIndex(0);
+    }
+    useEffect(()=>{
+        setContent(pictures[currentPictureIndex]);
+    },[currentPictureIndex])
+    useEffect(()=>{
+        if(pictures.length > 1){
+            setIsSlider(true);
+        }else{
+            setIsSlider(false);
+        }
+    },[pictures])
+    useEffect(()=>{
+        if(!show){
+            resetStates();
+        }
+    },[show])
     return (
-        <PictureModalContext.Provider value={{profilePicturePaths, setProfilePicturePaths,content, setContent, show, setShow}}>
+        <PictureModalContext.Provider value={{setCurrentPictureIndex, setPictures, profilePicturePaths, setProfilePicturePaths,content, setContent, show, setShow, showNext, showPrevious, isSlider}}>
             {children}
         </PictureModalContext.Provider>
     );

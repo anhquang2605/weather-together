@@ -3,3 +3,10 @@
    flex: 1;
    height: 100%;
 }
+.loading{
+   @apply w-full h-full flex justify-center items-center;
+   svg{
+      color: white;
+      @apply w-12 h-12;
+   }
+}

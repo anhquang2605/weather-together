@@ -8,14 +8,17 @@ import { CommentChildrenSummary } from '../../../../types/CommentChildrenSummary
 import { useSession } from 'next-auth/react';
 import { Comment } from '../../../../types/Comment';
 import { fetchFromGetAPI, insertToPostAPI } from '../../../../libs/api-interactions';
-import { PictureContent, usePictureModal } from '../PictureModalContext';
+import { usePictureModal } from '../PictureModalContext';
 import CommentList from '../../../activity/comment/comment-list/CommentList';
 import CommentForm from '../../../activity/comment/comment-form/CommentForm';
 import ContentSummary from '../../../activity/content-summary/ContentSummary';
 import ReactionsBar from '../../../activity/reaction/reactions-bar/ReactionsBar';
+import { Picture } from '../../../../types/Picture';
+import { fi } from 'date-fns/locale';
+import LoadingIcon from '../../../plugins/loading-icon/LoadingIcon';
 interface PictureInteractionPanelProps {
     author: UserInClient;
-    picture: PictureContent;
+    picture: Picture;
 }
 
 const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({picture, author}) => {
@@ -47,12 +50,17 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
         const params = {
             targetId
         }
-        const response = await fetchFromGetAPI(path, params);
-        if(response){
-            setReactionsGroups(response.renamedGroup);
-            setReactedUsernames(response.usernames);
+        try{const response = await fetchFromGetAPI(path, params);
+            if(response){
+                setReactionsGroups(response.renamedGroup);
+                setReactedUsernames(response.usernames);
+            }
+
+        }catch(err){
+            console.log(err);
+        }finally{
+            setIsFetchingReactions(false);
         }
-        setIsFetchingReactions(false);
     }
     const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
         if(form.current){
@@ -66,15 +74,19 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
             targetId, 
             postId
         }
-        const response = await fetchFromGetAPI(path, params);
-        if(response.success){
-            setComments(response.data.result);
-            handleFetchProfilePathsToCommentors(response.data.commentors);
-            setCommentChildrenSummary(response.data.children);
-            
+        try{
+            const response = await fetchFromGetAPI(path, params);
+            if(response.success){
+                setComments(response.data.result);
+                handleFetchProfilePathsToCommentors(response.data.commentors);
+                setCommentChildrenSummary(response.data.children);
+                
+            }
+        }catch(err){
+            console.log(err);
+        }finally{
+            setIsFetchingComments(false);
         }
-        setIsFetchingComments(false);
-        
     }
     const handleCommentBtnClick = () => {
         setIsCommenting(prev => !prev);
@@ -89,11 +101,18 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
                 })
     }
     useEffect(() => {
-        handleFetchReactionsGroups(picture._id?.toString() || '');
-        handleFetctCommentsForPost('', picture._id?.toString() || '');
-    },[])
+        if(picture){
+            handleFetchReactionsGroups(picture._id?.toString() || '');
+            handleFetctCommentsForPost('', picture._id?.toString() || '');
+        }
+    },[picture])
     return (
         <div className={style['picture-interaction-panel']}>
+            {isFetchingComments &&  isFetchingReactions ? <div className={style["loading"]}>
+                <LoadingIcon />
+            </div>
+            :
+            <>
             <UserMiniProfile user={author} subInfo={author.location?.city} theme={'dark'} />
             
             <div className="text-white mt-4">
@@ -129,7 +148,10 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
                     userProfilePicturePath={profilePicturePaths[myUsername]}
                     setIsCommenting={setIsCommenting}
                     optimisticCommentInsertion={optimisticCommentInsertion}
-                />
+                    />
+                </>    
+                }
+            
         </div>
     );
 };
