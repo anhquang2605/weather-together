@@ -1,6 +1,5 @@
 import { NextApiRequest,NextApiResponse } from "next";
 import { connectDB } from "../../../libs/mongodb";
-import { use } from "react";
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     const { targetId, username, limit, lastCursor, name, isFriend } = req.query;
     const db = await connectDB();
@@ -96,6 +95,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         ]
 
         const results = await reactionsCollection.aggregate(aggregation).toArray();
+       
         if(results){
             let hasMore = false;
             if(results.length > 0){
@@ -139,10 +139,3 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         res.status(500).json({message: "Cannot connect to DB"})
     }
 }
-
-/**
- * Problem: you want to fetch friends first then non-friends, ofcourse within the limit
- * with last cursor continue where you left off, but only persist to the last cusor of the friend group if the friend groups exceed the limit, the other case is simpler if the friend group is exhausted, then you just need to pop the last cursor of the non-friend group
- * so we should save the cursor of two groups, if group 1 exceed the limit, then we continue using the last cusor for the group 1,
- * The next time we fetch, we will use the last cursor of the group 1, and the last cursor of the group 2 
- */
