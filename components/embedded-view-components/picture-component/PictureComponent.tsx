@@ -10,6 +10,7 @@ interface PictureComponentProps {
     pictures?: Picture[];
     key?: number;
     variant?: "freeStyle";
+    children?: React.ReactNode;
 }
 
 const PictureComponent: React.FC<PictureComponentProps> = ({
@@ -18,7 +19,8 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
     alt,
     key,
     pictures,
-    variant = ""
+    variant = "",
+    children
 }) => {
 
     const {setContent, setShow, setCurrentPictureIndex, setPictures} = usePictureModal();
@@ -37,6 +39,7 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
                 handleClick(picture);
             }}
         >
+            {children}
             {picture && <Image width={picture.width} height={picture.height}  src={picture.picturePath} alt={alt} />}
         </div>
     )    

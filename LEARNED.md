@@ -157,3 +157,5 @@ _Putting two state setter in same function scope will make the state update simu
 
 36. filtering may trigger state change if applied filter on the same state object
 => copy the state object then apply filter on this new object instead
+
+37. using grid, ensure that container (sub container of a grid container) to have overflow: hidden, width and height 100%, image: object-fit: cover, so that everything is contained within the desired dimension

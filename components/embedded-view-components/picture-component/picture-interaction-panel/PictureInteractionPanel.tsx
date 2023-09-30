@@ -78,7 +78,7 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
             const response = await fetchFromGetAPI(path, params);
             if(response.success){
                 setComments(response.data.result);
-                handleFetchProfilePathsToCommentors(response.data.commentors);
+                response.data.commentors.length > 0 && handleFetchProfilePathsToCommentors(response.data.commentors);
                 setCommentChildrenSummary(response.data.children);
                 
             }
@@ -107,8 +107,8 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
         }
     },[picture])
     return (
-        <div className={style['picture-interaction-panel']}>
-            {isFetchingComments &&  isFetchingReactions ? <div className={style["loading"]}>
+        <div className={`${style['picture-interaction-panel']}`}>
+            {loading ? <div className={style["loading"]}>
                 <LoadingIcon />
             </div>
             :

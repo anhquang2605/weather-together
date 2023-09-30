@@ -17,8 +17,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }//fetching users by filter
             else if(city){//fetching users by city
                 const users = await userCollection.find({location: {city: city}}).toArray();
+                if(!users){
+                    res.status(404).json({success: false, message: 'No users found'});
+                    return;
+                }
                 if(users.length === 0){
-                    res.status(204).end();
+                    res.status(204).json(
+                        {success: true, message: 'No users'}
+                    );
                     return;
                 }
                 const usersInClient:UserInClient[] = users.map((user) => pick(user, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'backgroundPicturePath', 'email']));
@@ -33,7 +39,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 try{
                     const friendRelationships = await friendsCollection.find({username: username}).toArray();
                     if(friendRelationships.length === 0){
-                        res.status(204).end();
+                        res.status(204).json(
+                            {success: true, message: 'No friends'}
+                        )
                         return;
                     }
                     const friendUsernames = friendRelationships.map((relationship) => relationship.friendUsername);
@@ -56,8 +64,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         success: true,
                         data: user
                     });
+                }else{
+                    res.status(404).json({success: false, message: 'User not found'});
                 } 
+            }else{
+                res.status(400).json({success: false, message: 'Bad request'});
             }
+
         }
         else if(method === 'POST'){
             const payload = req.body;
@@ -83,7 +96,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }else if(typeof payload === 'object' && payload.username){
                 //Inserting a new user
                 const user = payload;
+            } else {
+                res.status(400).json({success: false, message: 'Bad request'});
             }
+        } else {
+            res.status(400).json({success: false, message: 'Bad request'});
         }
     }else{
         res.status(500).json({success: false, message: 'Cannot connect to DB'});

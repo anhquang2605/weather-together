@@ -12,8 +12,8 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
     const { targetId } = props;
     const [pictures, setPictures] = useState<Picture[]>([]); //TODO: fetch pictures from server
     const [loading, setLoading] = useState(false); //TODO: fetch pictures from server
-    const [isFirstImageVertical, setIsFirstImageVertical] = useState(true); //TODO: fetch pictures from server
-    const [isSecondImageVertical, setIsSecondImageVertical] = useState(true); //TODO: fetch pictures from server
+    const [isFirstImageVertical, setIsFirstImageVertical] = useState(false); //TODO: fetch pictures from server
+    const [isSecondImageVertical, setIsSecondImageVertical] = useState(false); //TODO: fetch pictures from server
     const [bothNotSameOrientation, setBothNotSameOrientation] = useState(false); //TODO: fetch pictures from server
     const [isOverloaded, setIsOverloaded] = useState(false);
     const MAX_PICTURES = 4;
@@ -33,11 +33,12 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
         const url = path + '?' + new URLSearchParams(params).toString();
         fetch(url, options).then(res => 
             {if (res.ok) return res.json()}).then(data => {
-            //setIsFirstImageVertical(data.data[0].width < data.data[0].height);
+                setIsFirstImageVertical(data.data[2].width < data.data[2].height);
             if(data.data.length === 2){
-                //setIsSecondImageVertical(data.data[1].width < data.data[1].height);
+                setIsSecondImageVertical(data.data[1].width < data.data[1].height);
             }
-            setPictures([...data.data,data.data[0]]);
+            const picture = [data.data[2],...data.data];
+            setPictures(picture);
             setLoading(false);
         })
 
@@ -55,12 +56,12 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
     }
     const handleDisplayPictures = () => {
         const pictureJSX: JSX.Element[] = [];
-        for(let i = 1; i < pictures.length; i++){
-            if(i === MAX_PICTURES - 1 && pictures.length > MAX_PICTURES){
-                setIsOverloaded(true);
+        const len = pictures.length;
+        for(let i = 1; i < len; i++){
+            if(i === MAX_PICTURES - 1 && len > MAX_PICTURES){
                 pictureJSX.push(
-                    <div className={style['overloaded']} key={i}>
-                        <p>+{pictures.length - MAX_PICTURES}</p>
+                   
+                       
                         <PictureComponent
                             variant='freeStyle'
                             key={i}
@@ -68,8 +69,10 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
                             alt=""
                             loading={loading}
                             pictures={pictures}
-                        />
-                    </div>
+                        >
+                             <p className={style['extra-indicator']}>+{len - MAX_PICTURES}</p>
+                        </PictureComponent>
+
                 )
                 break;
             }else{
@@ -96,14 +99,14 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
         }
     },[isFirstImageVertical, isSecondImageVertical])
     return (
-        <div className={`${style['attached-pictures']} ${bothNotSameOrientation && style['different-orientation']}`}>
+        <div className={`${style['attached-pictures']} ${bothNotSameOrientation && pictures.length === 2 ? style['different-orientation'] : ""} ${pictures.length === 1 ? style['single'] : ""} ${pictures.length >= MAX_PICTURES ? style['crowded'] : ""}`}>
             <div className={`${style['pictures-frame']} ${isFirstImageVertical && style['vertical']}`}>
             {
-                pictures && <>
+                pictures.length >= 1 && <>
                     {firstPicture()}
-                    <div className={`${style['second-group']}`}>
+                    {pictures.length > 1 && <div className={`${style['second-group']}`}>
                         {handleDisplayPictures()}
-                    </div>
+                    </div>}
                 </>
             }
             </div>
