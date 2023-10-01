@@ -14,6 +14,7 @@ interface ReactionButtonProps{
     usernames: string[];
     targetId: string;
     isComment?: boolean;
+
 }
 export default function ReactionsBar( {reactionsGroups, usernames, targetId, isComment}: ReactionButtonProps){
     const {data: session} = useSession();
@@ -31,23 +32,30 @@ export default function ReactionsBar( {reactionsGroups, usernames, targetId, isC
    
     return (
         <>
-
-            <div className={style['reactions-bar']}>
+            
+            <div className={style['reactions-bar'] + " " + (isComment ? style['is-comment'] : "")}>
                 {
                     totalCount > 0 ?
                     <>
-                        <div onClick={()=>{
+                        <div title="View who reacted" onClick={()=>{
                            handleViewReactionsList();
                         }} className={style['reactions-bar__title']}>
-                            {totalCount} Reactions
+                            {isComment ?
+                                reactionsGroups.map((reactionGroup) => {
+                                    return(
+                                        <ReactionComponent key={reactionGroup.name} name={reactionGroup.name}/>
+                                    )
+                                })  
+                                   :
+                            `${totalCount} Reactions`}
                         </div>
-                        <div className={style["target-reactions-group-names"]}>
+                        {!isComment && <div className={style["target-reactions-group-names"]}>
                             {reactionsGroups.map((reactionGroup) => {
                                 return(
                                     <ReactionComponent key={reactionGroup.name} name={reactionGroup.name}/>
                                 )
                             })}  
-                        </div>
+                        </div>}
                     </>
                     :
                     !isComment ? <div className={style['reactions-bar__no_reaction']}>

@@ -1,7 +1,22 @@
 .reactions-bar{
     display: flex;
     flex-direction: row;
-
+    &.is-comment{
+        max-width: 100%;
+        overflow: hidden;
+        position: absolute;
+        bottom: -0.25rem;
+        right: 0;
+        @apply text-base;
+        .reactions-bar__title{
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+            margin-right: 0;
+                @apply bg-slate-300 px-1 rounded-lg hover:bg-slate-400;
+        }
+    }
 }
 .reactions-bar__title{
     @apply mr-1 underline cursor-pointer;

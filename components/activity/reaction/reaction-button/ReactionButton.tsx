@@ -11,6 +11,7 @@ export interface ReactionButtonProps{
     username: string;
     targetId: string;
     variant?: string;
+    noReactionName?: boolean;
 }
 interface ReactionFetchParams{
     username: string;
@@ -46,7 +47,8 @@ export default function ReactionButton(
     {
         username,
         targetId,
-        variant
+        variant,
+        noReactionName
     }: ReactionButtonProps
 ){
     const [reacted, setReacted] = useState(false);
@@ -209,12 +211,12 @@ export default function ReactionButton(
                            { reactionStatus === 'reacted' &&<span className={style["slash"]}>
 
                             </span>}
-                            <span className={style["reaction-button__reaction-icon"]}>
+                            <span className={style["reaction-button__reaction-icon"] + " " + (noReactionName && style['no-reaction-name'])}>
                                  {reactionStatus === 'reacted' ? REACTION_ICON_MAP[reaction?.name!] : <TbHeartPlus/>}
                             </span>
-                            <span className={style["reaction-button__reaction-name"]}>
+                            {!noReactionName && <span className={style["reaction-button__reaction-name"]}>
                                 {reactionStatus === 'reacted' ? reaction?.name : 'React'}
-                            </span>
+                            </span>}
 
             </button>
             <div className={style["reaction-list-container"] + " " + (variant && style[variant])}>

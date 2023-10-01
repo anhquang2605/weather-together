@@ -7,8 +7,9 @@ export interface InteractionsBtnsProps {
     variant: string; //extended or shrinked
     handleCommentBtnClick: () => void;
     canComment?: boolean;
+    noReactionName?: boolean;
 }
-export default function InteractionsBtns({ targetId, username, variant, handleCommentBtnClick, canComment }: InteractionsBtnsProps) {
+export default function InteractionsBtns({ targetId, username, variant, handleCommentBtnClick, canComment, noReactionName }: InteractionsBtnsProps) {
     return(
         <div className={style['interactions-btns'] + " " + style[variant]}>
             {/* reaction, comment, and might be sharing or repost */}
@@ -16,6 +17,7 @@ export default function InteractionsBtns({ targetId, username, variant, handleCo
                 targetId={targetId}
                 username={username}
                 variant={variant === 'shrinked' ? 'shrink' : undefined}
+                noReactionName={noReactionName}
             />
             {canComment && <button 
                 className={`flex flex-row items-center ${style['interaction-btn']}`}

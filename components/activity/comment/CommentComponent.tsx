@@ -139,18 +139,17 @@ export default function CommentComponent(
                         picture={picture}
                         alt={'comment picture'}
                         loading={gettingPicture}/>}
-
-                    <div className={style['content-group__content']}>
-                        {content}
-                    </div>
-                    <ContentSummary>
+                    <div className={style['comment-bubble']}>
+                        <div className={style['content-group__content']}>
+                            {content}
+                        </div>
                         <ReactionsBar 
                             reactionsGroups={reactionsGroups}
                             usernames={reactedUsernames}
                             targetId={_id?.toString() || ''}
                             isComment={true}
                         />
-                    </ContentSummary>
+                    </div>
                     <div className={style['content-group__control-and-date']}>
                         <InteractionsBtns 
                             targetId={_id?.toString() || ''}
@@ -160,6 +159,7 @@ export default function CommentComponent(
                                 setIsReplying(prev => !prev);
                             }}
                             canComment={level < MAX_LEVEL}
+                            noReactionName={true}
                         />    
                         <div className={style['content-group__created-date']}>
                             {formatDistance(new Date(createdDate), new Date(), {addSuffix: true}).replace('about', '').replace('less than', '').replace('ago','')}
