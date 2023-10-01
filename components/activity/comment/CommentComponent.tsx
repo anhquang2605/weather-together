@@ -15,6 +15,8 @@ import CommentList from './comment-list/CommentList';
 import { UsernameToProfilePicturePathMap } from '../UsernameToProfilePicturePathMap';
 import { useSession } from 'next-auth/react';
 import { UserInSession } from '../../../types/User';
+import ContentSummary from '../content-summary/ContentSummary';
+import ReactionsBar from '../reaction/reactions-bar/ReactionsBar';
 interface CommentComponentProps{
     comment: Comment;
     profilePicturePath: string;
@@ -36,6 +38,9 @@ export default function CommentComponent(
 ){
     const {username, createdDate, content, postId, pictureAttached, level, _id} = comment;
     const MAX_LEVEL = 2;
+    const [reactionsGroups, setReactionsGroups] = useState([]);
+    const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
+    const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [isReplying, setIsReplying] = useState(false);
     const [picture, setPicture] = useState<Picture | null>(null);
     const [gettingPicture, setGettingPicture] = useState(false);
@@ -71,6 +76,24 @@ export default function CommentComponent(
             form.current.scrollIntoView({behavior: 'smooth', block: 'center'});
         }
     }
+    const handleFetchReactionsGroups = async (targetId: string) => {
+        setIsFetchingReactions(true);
+        const path = `reactions/get-reactions-by-groups`;
+        const params = {
+            targetId
+        }
+        try{const response = await fetchFromGetAPI(path, params);
+            if(response){
+                setReactionsGroups(response.renamedGroup);
+                setReactedUsernames(response.usernames);
+            }
+
+        }catch(err){
+            console.log(err);
+        }finally{
+            setIsFetchingReactions(false);
+        }
+    }
     const handleFetchChildrenComments = async (targetId: string) => {
         const path = 'comments';
         const params = {
@@ -96,6 +119,7 @@ export default function CommentComponent(
         if(pictureAttached){
             handleGetPicture();
         }
+        handleFetchReactionsGroups(_id?.toString() || '');
     }, []);
     return(
         <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>
@@ -111,7 +135,7 @@ export default function CommentComponent(
                     <div className={style['content-group__username']}>
                         {username}
                     </div>
-                    {pictureAttached && <PictureComponent
+                    {pictureAttached && picture && <PictureComponent
                         picture={picture}
                         alt={'comment picture'}
                         loading={gettingPicture}/>}
@@ -119,6 +143,14 @@ export default function CommentComponent(
                     <div className={style['content-group__content']}>
                         {content}
                     </div>
+                    <ContentSummary>
+                        <ReactionsBar 
+                            reactionsGroups={reactionsGroups}
+                            usernames={reactedUsernames}
+                            targetId={_id?.toString() || ''}
+                            isComment={true}
+                        />
+                    </ContentSummary>
                     <div className={style['content-group__control-and-date']}>
                         <InteractionsBtns 
                             targetId={_id?.toString() || ''}

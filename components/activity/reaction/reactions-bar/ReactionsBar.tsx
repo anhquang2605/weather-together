@@ -13,8 +13,9 @@ interface ReactionButtonProps{
     reactionsGroups: ReactionGroup[];
     usernames: string[];
     targetId: string;
+    isComment?: boolean;
 }
-export default function ReactionsBar( {reactionsGroups, usernames, targetId}: ReactionButtonProps){
+export default function ReactionsBar( {reactionsGroups, usernames, targetId, isComment}: ReactionButtonProps){
     const {data: session} = useSession();
     const {setContent, setShowModal} = useModalContext();
     const user = session?.user;
@@ -49,9 +50,9 @@ export default function ReactionsBar( {reactionsGroups, usernames, targetId}: Re
                         </div>
                     </>
                     :
-                    <div className={style['reactions-bar__no_reaction']}>
+                    !isComment ? <div className={style['reactions-bar__no_reaction']}>
                         No reaction, be the first to react!
-                    </div>
+                    </div> : null
                 }
                 
             </div>
