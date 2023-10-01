@@ -30,11 +30,17 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
     })
 
     return (
+        comments &&  comments.length > 0 ?
         <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${scrollable && style['scroll']} ${!topLevelListContainer && style['top-level']}`}>
+
             <div className={style['edge-passing-child']}>
 
             </div>
-            {commentsJSX}
+            {comments && commentsJSX}
+        </div>
+        :
+        <div className={style['empty-comment-list']}>
+            <p>No comment yet, be the first!</p>
         </div>
     );
 };

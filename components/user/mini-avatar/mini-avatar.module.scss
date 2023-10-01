@@ -25,7 +25,7 @@
 }
 .mini-avatar{
     transition: all 0.2s ease-in-out;
-    @apply rounded-full shrink-0 relative;
+    @apply rounded-full shrink-0 relative border border-slate-400;
     z-index: 2;
     .inner{
         width: 100%;

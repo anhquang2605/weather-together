@@ -1,8 +1,14 @@
 .comment-form{
-  opacity: 0;
-  display: none;
-  transition: opacity 0.2s ease-in-out;
-  @apply p-4 px-8 flex-row flex-wrap  mt-0.5 relative;   
+    max-height: 0;
+    overflow-y: hidden;
+    z-index: -1;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(-1rem);
+
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out, max-height 0.2s ease-in-out 0.2s, padding 0.2s ease-in-out; 
+
+  @apply flex flex-row flex-wrap  mt-0.5 relative;   
   textarea{
     @apply w-full resize-none border-none outline-none bg-transparent mb-2;
     color: var(--primary-color);
@@ -102,8 +108,15 @@
 
 }
 .is-commenting{
-    opacity: 1;
-    display: flex;
+    @apply p-4 px-8;
+   opacity: 1;
+   min-height: 1px;
+   max-height: 300px;
+    z-index: 1;
+    transform: translateY(0);
+
+    transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out,  transform 0.2s ease-in-out 0.1s, opacity 0.2s ease-in-out 0.1s !important;
+
 }
 .sending{
     cursor: not-allowed;

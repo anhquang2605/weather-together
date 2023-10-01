@@ -13,7 +13,7 @@
     }
 }
 .user-card__profile-picture{
-    @apply mr-4 border-indigo-800;
+    @apply mr-4;
 }
 .user-card__profile-name{
     @apply text-center font-semibold;

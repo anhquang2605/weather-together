@@ -128,9 +128,6 @@ export default function Post({post,username}: PostProps){
                             usernames={reactedUsernames}
                             targetId={post._id?.toString() || ''}
                             />
-                        <div className="comment-summary">
-                            {comments.length > 0 ? `${comments.length} comments` : 'No comments'}
-                        </div>
                     </ContentSummary>
                     <InteractionsBtns 
                         variant="extended"
@@ -143,7 +140,7 @@ export default function Post({post,username}: PostProps){
                 </div>
 
                
-                 {comments && comments.length > 0 && <CommentList 
+                 {<CommentList 
                  scrollable={false}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 

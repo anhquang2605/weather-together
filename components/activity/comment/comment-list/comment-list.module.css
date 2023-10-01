@@ -11,3 +11,6 @@
         max-height: 50vh;
     }
 }
+.empty-comment-list{
+    @apply flex flex-col items-center justify-center py-16;
+}
