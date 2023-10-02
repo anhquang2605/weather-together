@@ -122,13 +122,16 @@ export default function Post({post,username}: PostProps){
                     {post.pictureAttached && <AttachedPictures
                         targetId={post._id?.toString() || ''}
                     />}
-                    <ContentSummary>
-                        <ReactionsBar 
-                            reactionsGroups={reactionsGroups}
-                            usernames={reactedUsernames}
-                            targetId={post._id?.toString() || ''}
-                            />
-                    </ContentSummary>
+                    <div className="mb-4">   
+                        <ContentSummary>
+                            <ReactionsBar 
+                                reactionsGroups={reactionsGroups}
+                                usernames={reactedUsernames}
+                                targetId={post._id?.toString() || ''}
+                                />
+                        </ContentSummary>
+                    </div>
+                  
                     <InteractionsBtns 
                         variant="extended"
                         targetId={post._id?.toString() || ''}

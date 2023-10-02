@@ -1,5 +1,5 @@
 .post{
-    @apply xl:w-[880px] lg:w-[720px] md:w-[640px] mx-auto mb-8 rounded-lg;
+    @apply xl:w-[680px] lg:w-[520px] md:w-[440px] mx-auto mb-8 rounded-lg;
 }
 
 .post__content{

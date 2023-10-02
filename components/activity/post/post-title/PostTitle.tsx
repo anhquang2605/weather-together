@@ -4,6 +4,7 @@ import WeatherVibeComponent from "../weather-vibe-component/WeatherVibeComponent
 import style from "./post-title.module.css"
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 import Image from 'next/image'
+import MiniAvatar from "../../../user/mini-avatar/MiniAvatar";
 interface PostTitleProps{
     username: string;
     profilePicturePath: string;
@@ -29,7 +30,11 @@ export default function PostTitle(
     return(
         <div className={style['post-title']}>
             <div className={style['post-title__profile-picture']}>
-                <Image src={profilePicturePath ?? ""} width={80} height={80} alt="profile picture" />
+               <MiniAvatar 
+                    username={username}
+                    profilePicturePath={profilePicturePath}
+                    size="large"
+               />
             </div>
             <div className="flex-grow">
                 <div className={style['title-top']}>

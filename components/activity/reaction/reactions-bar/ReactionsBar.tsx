@@ -29,7 +29,6 @@ export default function ReactionsBar( {reactionsGroups, usernames, targetId, isC
         setContent(<ReactionUserList reactionGroups={reactionsGroups} username={myUsername} targetId={targetId}/>);
         setShowModal(true);
     }
-   
     return (
         <>
             
