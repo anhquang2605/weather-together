@@ -43,7 +43,7 @@
     margin-bottom: 10px;
     height: 100%;
     width: 1px;
-    left: -2.2rem;
+    left: -2.3rem;
     background-color: var(--graph-edge-color);
     position: absolute;
     top: 0;
@@ -52,7 +52,7 @@
 .edge-passing-child{
     height: 100%;
     width: 1px;
-    left: -2.5rem;
+    left: -2.3rem;
     background-color: var(--graph-edge-color);
     position: absolute;
     top: 0;
@@ -63,7 +63,7 @@
     width: 2.5rem;
     height: 2.5rem;
     top: -1rem;
-    left: -2.5rem;
+    left: -2.3rem;
     border-bottom: 1px solid var(--graph-edge-color);
     border-left: 1px solid var(--graph-edge-color);
     @apply rounded-bl-xl;

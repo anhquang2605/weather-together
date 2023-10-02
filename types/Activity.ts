@@ -9,5 +9,5 @@ export interface Activity {
     targetId: string;
     targetType: string;//post, comment
     createdDate: Date;
-
+    targetParentId: string; //a post or picture ID, '' if targetType is a post or picture
 }
