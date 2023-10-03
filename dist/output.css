@@ -824,6 +824,14 @@ video {
   min-height: 150px;
 }
 
+.min-h-\[300px\] {
+  min-height: 300px;
+}
+
+.min-h-\[200px\] {
+  min-height: 200px;
+}
+
 .w-0 {
   width: 0px;
 }
@@ -994,20 +1002,12 @@ video {
   align-items: center;
 }
 
-.justify-end {
-  justify-content: flex-end;
-}
-
 .justify-center {
   justify-content: center;
 }
 
 .justify-between {
   justify-content: space-between;
-}
-
-.justify-items-end {
-  justify-items: end;
 }
 
 .self-start {

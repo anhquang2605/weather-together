@@ -5,15 +5,17 @@ import { UserBasic } from '../../../types/User';
 import {FaUserTag} from 'react-icons/fa';
 import UserTag from './user-tag/UserTag';
 import { useModalContext } from '../../modal/ModalContext';
+import TaggedUserList from './tagged-users-list/TaggedUsersList';
 interface UserTagsProps {
     usernames: string[];
     limit?: number;
+    username: string;
 }
 
 const UserTags: React.FC<UserTagsProps> = (props) => {
-    const { usernames, limit=5 } = props;
+    const { usernames, limit=5, username } = props;
     const [users, setUsers] = useState<UserBasic[]>([]);
-    const {setContent, setShowModal} = useModalContext(); 
+    const {setContent, setShowModal, setContainerClassName, setTitle} = useModalContext(); 
     const [apiStatus, setApiStatus] = useState<'idle' | 'loading' | 'success' | 'failed'>('idle'); //TODO: use this to show loading indicator
     const handleFetchUsers = async () => {
        setApiStatus('loading');
@@ -27,8 +29,16 @@ const UserTags: React.FC<UserTagsProps> = (props) => {
        }
        
     };
+
     const handleViewTags = () => {
-        
+        const content = <TaggedUserList 
+                            usernames={usernames}
+                            username={username}
+                        />
+        setShowModal(true);
+        setContent(content);
+        setContainerClassName(style['tagged-users-list-modal-content']);
+        setTitle('Tagged Users');
     }
     useEffect(()=> {
         handleFetchUsers();
@@ -51,7 +61,7 @@ const UserTags: React.FC<UserTagsProps> = (props) => {
             {usernames.length > limit && 
             <>
                 and 
-                <span className={`${style['tag-counts']}`}>
+                <span onClick={handleViewTags} className={`${style['tag-counts']}`}>
                         <span className={style['other-users-link']}>
                             {usernames.length - limit} others
                         </span>

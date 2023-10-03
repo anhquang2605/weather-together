@@ -113,7 +113,13 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
             </div>
             :
             <>
-            <UserMiniProfile user={author} subInfo={author.location?.city} theme={'dark'} />
+            <UserMiniProfile user={
+                {
+                    username: author.username,
+                    name: author.firstName + ' ' + author.lastName,
+                    profilePicturePath: author.profilePicturePath
+                }
+            } subInfo={author.location?.city} theme={'dark'} />
             
             <div className="text-white mt-4">
                 <ContentSummary>

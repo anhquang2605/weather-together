@@ -96,3 +96,8 @@ export interface UserBasic{
     profilePicturePath: string,
     name: string,
 }
+
+export interface UserWithFriendStatus extends UserBasic{
+    friendStatus: string;
+    city: string;
+}

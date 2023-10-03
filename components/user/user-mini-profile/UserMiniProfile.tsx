@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './user-mini-profile.module.css';
-import { UserInClient } from '../../../types/User';
+import { UserBasic} from '../../../types/User';
 import MiniAvatar from '../mini-avatar/MiniAvatar';
 import { useRouter } from 'next/router';
 
 interface UserMiniProfileProps {
-    user: UserInClient;
+    user: UserBasic;
     subInfo?: string;//location, date posted, etc, need to be the right properties name Ex: location.city, location.country....
     theme?: '' | 'dark'; //default is light
 }
@@ -26,7 +26,7 @@ const UserMiniProfile: React.FC<UserMiniProfileProps> = ({user, subInfo, theme =
             />
             <div className={`${style['user-info']} ${style[theme]}`}>
                 <div className={style['full-name']}>
-                    {user.firstName || user.lastName ? `${user.firstName} ${user.lastName}` : user.username}
+                    {user.name !== "" ? user.name : user.username}
                 </div>
                 {
                     subInfo && <div className={style['sub-info']}>

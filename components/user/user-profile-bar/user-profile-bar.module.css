@@ -1,0 +1,19 @@
+.user-profile-bar{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px;
+    @apply bg-slate-200 mb-4 rounded;
+    & > div{
+        color: var(--primary-color);
+    }
+    & button{
+        width: max-content;
+    }
+    
+}
+.user-profile-bar.last-item{
+    margin-bottom: 0;
+}

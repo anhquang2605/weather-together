@@ -121,7 +121,7 @@ export default function Post({post,username}: PostProps){
                         {post.content}
                     </div>
                     <div className="mb-4 flex">
-                        <UserTags usernames={post.taggedUsernames}/>
+                        <UserTags username={author} usernames={post.taggedUsernames}/>
                     </div>
                     {post.pictureAttached && <AttachedPictures
                         targetId={post._id?.toString() || ''}

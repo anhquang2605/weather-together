@@ -25,3 +25,14 @@
     opacity: 0;
     transform: translateY(-8px);
 }
+.tagged-users-list-modal-content{
+    width: 550px;
+    @apply p-8;
+    background-color: var(--primary-color);
+    & > h3{
+        color: white;
+    }
+    @screen lg{
+        width: 650px;
+    }
+}

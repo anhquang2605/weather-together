@@ -1,3 +1,27 @@
 .tagged-users-list{
+    overflow-y: scroll;
+    width: 100%;
+    max-height: 400px;
+    @apply border p-4 rounded border-slate-200/50;
+}
+.lazy-target{
+    height: 0;
+    overflow: hidden;
+    width: 100%;
+    &.fetching{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70px;
 
+    }
+}
+.error-fetching{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    color: tomato;
+    border: 1px solid tomato;
+    border-radius: 5px;
 }

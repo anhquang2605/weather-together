@@ -12,6 +12,8 @@ interface ModalContextType{//exposing the api of the modal context
     setContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
     setExtraCloseFunction: React.Dispatch<React.SetStateAction<()=>void>>;
     setContainerClassName: React.Dispatch<React.SetStateAction<string>>;
+    containerClassName: string;
+    setTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 interface ModalProviderProps{
     children: React.ReactNode;
@@ -28,6 +30,7 @@ export function useModalContext(): ModalContextType{
 }
 
 export function ModalProvider({children}: ModalProviderProps){
+    const [title, setTitle] = useState<string>('');
     const [showModal, setShowModal] = useState<boolean>(false);
     const [content, setContent] = useState<React.ReactNode>(null);
     const [containerClassName, setContainerClassName] = useState<string>('');
@@ -44,13 +47,13 @@ export function ModalProvider({children}: ModalProviderProps){
         }
     }, [extraCloseFunction])
     const value = useMemo(() => {//memoize the value so that it will not be re-created on every render, only when the dependencies change
-        return { showModal, setShowModal, setContent, setExtraCloseFunction, setContainerClassName };
-    }, [showModal, setShowModal, setContent, setExtraCloseFunction, setContainerClassName]);
+        return { showModal, setShowModal, setContent, setExtraCloseFunction, setContainerClassName, containerClassName, setTitle };
+    }, [showModal, setShowModal, setContent, setExtraCloseFunction, setContainerClassName, containerClassName, setTitle]);
 
     return (
         <ModalContext.Provider value={value}>
             {children}
-            {showModal &&  content && <Modal status={showModal} containerClassName={containerClassName}  onClose={()=>{onCloseHandler()}}>{content}</Modal>}
+            {showModal &&  content && <Modal title={title} status={showModal} containerClassName={containerClassName}  onClose={()=>{onCloseHandler()}}>{content}</Modal>}
         </ModalContext.Provider>
     )
 }

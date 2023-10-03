@@ -1,0 +1,6 @@
+.user-friend-status{
+
+}
+.buddy-badge{
+    @apply p-2 rounded-full flex flex-row items-center font-extrabold;
+}
