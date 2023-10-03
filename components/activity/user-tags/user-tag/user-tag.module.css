@@ -1,5 +1,6 @@
 .user-tag{
     @apply relative flex flex-row;
+
     &:hover{
         cursor: pointer;
         > div > div{

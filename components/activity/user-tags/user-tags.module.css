@@ -4,5 +4,24 @@
     @apply items-center;
 }
 .user-tags__user-list{
-    @apply flex flex-row items-center ml-2;
+    @apply flex flex-row items-center mx-2;
+}
+.other-users-link{
+    @apply font-bold ml-2;
+    &:hover{ 
+        cursor: pointer;
+        & +.user-brief-list{
+            transition: var(--short-transition);
+            z-index: 10;
+            opacity: 1;
+            transform: translateY(4px);
+        }
+    }
+}
+.user-brief-list{
+    transition: var(--short-transition);
+    @apply absolute flex flex-col p-4 rounded-lg shadow-lg bg-slate-900/70;
+    z-index: -1;
+    opacity: 0;
+    transform: translateY(-8px);
 }

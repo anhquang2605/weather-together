@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import style from './user-tags.module.css';
 import { insertToPostAPI } from '../../../libs/api-interactions';
-import { UserInClient } from '../../../types/User';
+import { UserBasic } from '../../../types/User';
 import {FaUserTag} from 'react-icons/fa';
 import UserTag from './user-tag/UserTag';
+import { useModalContext } from '../../modal/ModalContext';
 interface UserTagsProps {
     usernames: string[];
+    limit?: number;
 }
 
 const UserTags: React.FC<UserTagsProps> = (props) => {
-    const { usernames } = props;
-    const [users, setUsers] = useState<UserInClient[]>([]);
+    const { usernames, limit=5 } = props;
+    const [users, setUsers] = useState<UserBasic[]>([]);
+    const {setContent, setShowModal} = useModalContext(); 
     const [apiStatus, setApiStatus] = useState<'idle' | 'loading' | 'success' | 'failed'>('idle'); //TODO: use this to show loading indicator
     const handleFetchUsers = async () => {
        setApiStatus('loading');
-        const path = `user/by-usernames`;
-       const result = await insertToPostAPI(path, usernames.slice(0,5));
+        const path = `user/by-usernames-basic`;
+       const result = await insertToPostAPI(path, usernames);
        if(result.success){
               setApiStatus('success');
               setUsers(result.data);
@@ -24,20 +27,20 @@ const UserTags: React.FC<UserTagsProps> = (props) => {
        }
        
     };
+    const handleViewTags = () => {
+        
+    }
     useEffect(()=> {
         handleFetchUsers();
     },[])
     return (
         <div className={style['user-tags']}>
-            <span className={`${style['tag-label']} font-bold`}>
-                Tagged 
-                {usernames.length > 5 && <span className={`${style['tag-counts']}`}>
-                    {usernames.length}
-                </span>
-}            </span> 
+            <span className={`${style['tag-label']}`}>
+                Tags
+            </span> 
             {users && <div className={style['user-tags__user-list']}>
                 {
-                    users.map((user)=> {
+                    users.slice(0,limit).map((user)=> {
                         return <UserTag
                             key={user.username}
                             user={user}
@@ -45,6 +48,26 @@ const UserTags: React.FC<UserTagsProps> = (props) => {
                     })
                 }
             </div>}
+            {usernames.length > limit && 
+            <>
+                and 
+                <span className={`${style['tag-counts']}`}>
+                        <span className={style['other-users-link']}>
+                            {usernames.length - limit} others
+                        </span>
+                        <div className={style['user-brief-list']}>
+                            {
+                               users.slice(limit).map((user) => {
+                                    return <span key={user.username}>
+                                        {user.name ? user.name : user.username}
+                                    </span>
+                                })
+                            }
+                        </div>        
+                </span>
+            </>
+          
+            }
         </div>
     );
 };

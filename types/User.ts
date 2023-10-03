@@ -91,3 +91,8 @@ export interface Buddy{
     backgroundPicture: string,
     featuredWeather: Weather,
 }
+export interface UserBasic{
+    username: string,
+    profilePicturePath: string,
+    name: string,
+}

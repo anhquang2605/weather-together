@@ -120,7 +120,7 @@ export default function Post({post,username}: PostProps){
                     <div className={style['post__content']}>
                         {post.content}
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 flex">
                         <UserTags usernames={post.taggedUsernames}/>
                     </div>
                     {post.pictureAttached && <AttachedPictures
