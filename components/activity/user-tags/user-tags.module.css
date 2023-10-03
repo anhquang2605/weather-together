@@ -1,5 +1,8 @@
 .user-tags{
     display: flex;
     flex-direction: row;
-    
+    @apply items-center;
+}
+.user-tags__user-list{
+    @apply flex flex-row items-center ml-2;
 }

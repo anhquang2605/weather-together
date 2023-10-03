@@ -1,6 +1,15 @@
 .reactions-bar{
     display: flex;
     flex-direction: row;
+    &:hover{
+        cursor:pointer;
+        .reaction-count{
+            @apply bg-indigo-700;
+            &::before{
+                @apply bg-indigo-700
+            }
+        }
+    }
     &.is-comment{
         position: absolute;
         bottom: -0.25rem;
@@ -14,19 +23,36 @@
         .reactions-bar__title{
 
             text-decoration: none;
-            display: flex;
-            align-items: center;
             transition: all 0.2s ease-in-out;
             margin-right: 0;
-            margin-left: 48px;
+            margin-left: 8px;
             @apply bg-slate-300 px-1 rounded-md hover:bg-slate-400
         }
     }
 }
 .reactions-bar__title{
-    @apply mr-1 underline cursor-pointer;
+    @apply mr-1;
+    display: flex;
+    align-items: center;
 }
 
 .target-reactions-group-names{
     @apply flex flex-row items-center;
+}
+.reaction-count{
+    @apply text-sm font-bold ml-1 bg-indigo-500 w-5 h-5 flex justify-center items-center rounded-full relative;
+    transition: var(--short-transition);
+    z-index: 2;
+    &::before{  
+        content: '';
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        transform: rotate(45deg);
+        left: -1px;
+        z-index: -1;
+        @apply bg-indigo-500;
+        transition: var(--short-transition);
+        
+    }
 }

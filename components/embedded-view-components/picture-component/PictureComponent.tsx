@@ -8,7 +8,6 @@ interface PictureComponentProps {
     loading: boolean;
     alt: string;
     pictures?: Picture[];
-    key?: number;
     variant?: "freeStyle";
     children?: React.ReactNode;
 }
@@ -17,7 +16,6 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
     picture,
     loading,
     alt,
-    key,
     pictures,
     variant = "",
     children

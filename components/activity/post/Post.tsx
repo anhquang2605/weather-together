@@ -17,6 +17,7 @@ import LoadingBox from "../../skeletons/loading-box/LoadingBox";
 import { Comment } from "../../../types/Comment";
 import AttachedPictures from "./attached-pictures/AttachedPictures";
 import ContentSummary from "../content-summary/ContentSummary";
+import UserTags from "../user-tags/UserTags";
 interface PostProps{
     post: Post;
     username?: string;
@@ -118,6 +119,9 @@ export default function Post({post,username}: PostProps){
                     />
                     <div className={style['post__content']}>
                         {post.content}
+                    </div>
+                    <div className="mb-4">
+                        <UserTags usernames={post.taggedUsernames}/>
                     </div>
                     {post.pictureAttached && <AttachedPictures
                         targetId={post._id?.toString() || ''}

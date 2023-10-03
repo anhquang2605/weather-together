@@ -39,22 +39,17 @@ export default function ReactionsBar( {reactionsGroups, usernames, targetId, isC
                         <div title="View who reacted" onClick={()=>{
                            handleViewReactionsList();
                         }} className={style['reactions-bar__title']}>
-                            {isComment ?
+                            {
                                 reactionsGroups.map((reactionGroup) => {
                                     return(
                                         <ReactionComponent key={reactionGroup.name} name={reactionGroup.name}/>
                                     )
                                 })  
-                                   :
-                            `${totalCount} Reactions`}
+                            }
+                            {totalCount > 5 && <span className={style["reaction-count"]}>
+                                {totalCount}
+                            </span>}
                         </div>
-                        {!isComment && <div className={style["target-reactions-group-names"]}>
-                            {reactionsGroups.map((reactionGroup) => {
-                                return(
-                                    <ReactionComponent key={reactionGroup.name} name={reactionGroup.name}/>
-                                )
-                            })}  
-                        </div>}
                     </>
                     :
                     !isComment ? <div className={style['reactions-bar__no_reaction']}>
