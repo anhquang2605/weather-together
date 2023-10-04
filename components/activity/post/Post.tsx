@@ -18,9 +18,12 @@ import { Comment } from "../../../types/Comment";
 import AttachedPictures from "./attached-pictures/AttachedPictures";
 import ContentSummary from "../content-summary/ContentSummary";
 import UserTags from "../user-tags/UserTags";
+import { useModalContext } from "../../modal/ModalContext";
 interface PostProps{
     post: Post;
     username?: string;
+    preview?: boolean;
+
 }
 interface ReactionGroup{
     _id: string; //reaction name
@@ -29,7 +32,14 @@ interface ReactionGroup{
 interface UsernameToNameMap{
     [username: string]: string;
 }
-export default function Post({post,username}: PostProps){
+interface CommentFetchParams{
+    targetId: string;
+    postId: string;
+    limit?: string;
+    level?: string;
+}
+export default function Post({post,username, preview}: PostProps){
+  
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [reactionsGroups, setReactionsGroups] = useState([]);
@@ -45,6 +55,7 @@ export default function Post({post,username}: PostProps){
     const user = session?.user;
     const author =  user?.username || '';
     const loading = isFetchingComments || isFetchingReactions || isFetchingNameMap;
+    const commentPreviewLimit = 1;
     const optimisticCommentInsertion = (comment: Comment, name?: string) => {
         setComments(prev => [...prev, comment]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
@@ -68,16 +79,20 @@ export default function Post({post,username}: PostProps){
         setIsFetchingReactions(false);
     }
     const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
-        if(form.current){
+        if(form.current && preview){
             form.current.scrollIntoView({behavior: 'smooth', block: 'center'});
         }
     }
     const handleFetctCommentsForPost = async (targetId: string, postId:string) => {
         setIsFetchingComments(true);
         const path = `comments`;
-        const params = {
+        const params:CommentFetchParams = {
             targetId, 
             postId
+        }
+        if(preview){
+            params.limit = commentPreviewLimit.toString();
+            params.level = '0';
         }
         const response = await fetchFromGetAPI(path, params);
         if(response.success){
@@ -116,6 +131,9 @@ export default function Post({post,username}: PostProps){
                         setUsernameToName(response.data);
                     }
                 })
+    }
+    const handleViewPostModal = () => {
+      
     }
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
@@ -166,7 +184,12 @@ export default function Post({post,username}: PostProps){
                     />
                     {/* Post attached images goes here */}
                 </div>
-
+                {
+                    preview && 
+                    <button onClick={handleViewPostModal} >
+                        View more comments
+                    </button>
+                }
                
                  {<CommentList 
                  scrollable={false}
@@ -177,7 +200,7 @@ export default function Post({post,username}: PostProps){
                     _id={post._id?.toString()!}
                     targetType="posts"
                     username={author}  
-                    isCommenting={isCommenting} 
+                    isCommenting={!preview ? true : isCommenting} 
                     scrollToCommentForm={handleScrollToForm} 
                     targetId={""} 
                     postId={post._id?.toString()!} 

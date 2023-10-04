@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const commentsCollection:Collection<Comment>= db.collection('comments');
         switch(method){
             case 'GET':
-                const {username,postId, level, targetId} = req.query;
+                const {username,postId, level, targetId, limit} = req.query;
                 try {
                     let result:WithId<Comment>[] =[];
                     let children:CommentChildrenSummary = {};
@@ -37,7 +37,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         match.postId = postId.toString();
                         match.level = 0;
                       }
-                      result = await commentsCollection.find(match).toArray();
+                      if(limit){
+                        const limitNo = parseInt(limit.toString());
+                        result = await commentsCollection.find(match).sort({createdDate: -1}).limit(limitNo).toArray();
+                      }else{
+                        result = await commentsCollection.find(match).toArray();
+                      }
                       for(let i = 0; i < result.length; i++){
                         const commentId = result[i]._id.toString();
                         const childrenNo = await commentsCollection.countDocuments({targetId: commentId});

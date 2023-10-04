@@ -7,11 +7,11 @@ interface AllModalProviderProps {
 export default function AllModalProvider(props: AllModalProviderProps){
     const {children} = props;
     return (
-        <ModalProvider>
-            <PictureModalProvider>
-                {children}
-                <PictureModal/>
-            </PictureModalProvider>
-        </ModalProvider>
+        <PictureModalProvider>
+            <ModalProvider>
+                    {children}
+                    <PictureModal/>
+            </ModalProvider>
+        </PictureModalProvider>
     )
 }
