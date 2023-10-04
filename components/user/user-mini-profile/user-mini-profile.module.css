@@ -3,6 +3,9 @@
     width: 100%;
     flex-shrink: 1;
     align-items: center;
+    .full-name{
+        @apply font-semibold;
+    }
     &:hover{
         cursor: pointer;
         .full-name{

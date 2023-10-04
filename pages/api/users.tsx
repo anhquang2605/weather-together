@@ -12,10 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if(method === 'GET'){
             const {username, fetchFriends, city, filter, sort} = req.query;
             const userCollection = db.collection('users');
-            if(filter || sort){
-                
-            }//fetching users by filter
-            else if(city){//fetching users by city
+            if(city){//fetching users by city
                 const users = await userCollection.find({location: {city: city}}).toArray();
                 if(!users){
                     res.status(404).json({success: false, message: 'No users found'});

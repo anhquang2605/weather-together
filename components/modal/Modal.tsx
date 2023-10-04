@@ -25,7 +25,7 @@ export default function Modal({children, onClose,status,hideCloseButton,containe
         <div className={styles['modal'] + " " + (!reveal && styles["hidden"])}>
             <div onClick={onClose} className={"backdrop-blur-lg bg-gradient-to-b from-slate-900 via-transparent to-slate-900  w-full h-full absolute bottom-0 right-0"}></div>
             <div className={styles["modal-content"] + " border border-slate-400 " + (containerClassName ?? "")}>
-                {title?.length && <h3 className="form-title">{title}</h3>}
+                {title && title.length > 0 && <h3 className="form-title">{title}</h3>}
                 {!hideCloseButton && <button onClick={onClose} className={styles["modal-close-btn"] + " drop-shadow-lg"}><IoClose
                 ></IoClose></button>}
                 {children}

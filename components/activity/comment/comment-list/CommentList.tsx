@@ -11,9 +11,10 @@ interface CommentListProps {
     children: CommentChildrenSummary;
     topLevelListContainer?: React.MutableRefObject<HTMLDivElement | null>;
     scrollable: boolean;
+    usernamesToNames?: {[username: string]: string};
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = comments.map((comment, index) => {
         return(
@@ -23,6 +24,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
                 profilePicturePath={commentorToAvatarMap[comment.username]}
                 commentorUsername={commentor}
                 commentListRef={commentListRef}
+                usernamesToNames={usernamesToNames || {}}
                 childrenNo={children[comment._id?.toString() || '']}
                 lastChild={index === comments.length - 1}
             />

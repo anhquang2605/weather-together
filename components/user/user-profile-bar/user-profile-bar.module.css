@@ -5,10 +5,12 @@
     align-items: center;
     justify-content: flex-start;
     padding: 8px;
-    @apply bg-slate-200 mb-4 rounded;
-    & > div{
+    transition: var(--short-transition);
+    @apply bg-slate-200 mb-4 rounded hover:bg-slate-300;
+    & > div, & > span{
         color: var(--primary-color);
     }
+    
     & button{
         width: max-content;
     }

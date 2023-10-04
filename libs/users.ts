@@ -59,7 +59,8 @@ export async function getUsernamePaths (){
 
 export async function getUserDataByUserName(username: string){
     try{
-       const path = '/api/users?username=' + username;
+       const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+       const path =  baseURL + '/api/users?username=' + username;
        const options = {
               method: 'GET',
               headers: {

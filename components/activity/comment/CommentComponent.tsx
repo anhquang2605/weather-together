@@ -17,6 +17,7 @@ import { useSession } from 'next-auth/react';
 import { UserInSession } from '../../../types/User';
 import ContentSummary from '../content-summary/ContentSummary';
 import ReactionsBar from '../reaction/reactions-bar/ReactionsBar';
+import ClickableUserTitle from '../../user/clickable-user-title/ClickableUserTitle';
 interface CommentComponentProps{
     comment: Comment;
     profilePicturePath: string;
@@ -24,6 +25,7 @@ interface CommentComponentProps{
     commentListRef: React.MutableRefObject<HTMLDivElement | null>;
     childrenNo: number;
     lastChild?: boolean;
+    usernamesToNames?: {[username: string]: string};
 }
 
 export default function CommentComponent(
@@ -33,7 +35,8 @@ export default function CommentComponent(
         commentorUsername,
         commentListRef,
         childrenNo, 
-        lastChild
+        lastChild,
+        usernamesToNames
     }: CommentComponentProps
 ){
     const {username, createdDate, content, postId, pictureAttached, level, _id} = comment;
@@ -132,9 +135,10 @@ export default function CommentComponent(
             <div className={style['content-group']}>
                 <div className={style['content-group__self']}>
                     {(childrenNo > 0 || childComments.length > 0) && <div className={style['graph-edge']}></div>} 
-                    <div className={style['content-group__username']}>
-                        {username}
-                    </div>
+                    <ClickableUserTitle 
+                        username={username}
+                        name={usernamesToNames?.[username] || ''}
+                    />
                     {pictureAttached && picture && <PictureComponent
                         picture={picture}
                         alt={'comment picture'}

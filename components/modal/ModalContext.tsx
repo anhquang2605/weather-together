@@ -37,6 +37,7 @@ export function ModalProvider({children}: ModalProviderProps){
     const handleReset = () => {
         setContent(null);
         setContainerClassName('');
+        setTitle('');
     }
     const [extraCloseFunction, setExtraCloseFunction] = useState<()=>void>(()=>{});
     const onCloseHandler = useCallback(()=>{

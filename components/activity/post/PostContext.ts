@@ -4,5 +4,6 @@ export const PostContext = createContext(
     {
         post: {},
         commentorToAvatar: {},
+        usernameToName:{},
     }
 );

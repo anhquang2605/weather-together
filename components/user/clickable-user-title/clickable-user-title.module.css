@@ -1,0 +1,7 @@
+.clickable-user-title{
+    @apply font-semibold;
+    &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}

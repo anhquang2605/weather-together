@@ -5,12 +5,14 @@ import style from "./post-title.module.css"
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 import Image from 'next/image'
 import MiniAvatar from "../../../user/mini-avatar/MiniAvatar";
+import ClickableUserTitle from "../../../user/clickable-user-title/ClickableUserTitle";
 interface PostTitleProps{
     username: string;
     profilePicturePath: string;
     weatherVibe?: WeatherVibe; 
     createdDate: Date;
     visibility: string;
+    name: string;
 }
 const visibilityIcons:any ={
     "public": <MdPublic className="icon" />,
@@ -23,9 +25,11 @@ export default function PostTitle(
         profilePicturePath, 
         weatherVibe,
         createdDate,
-        visibility
+        visibility,
+        name
     }: PostTitleProps
 )
+
 {
     return(
         <div className={style['post-title']}>
@@ -38,9 +42,10 @@ export default function PostTitle(
             </div>
             <div className="flex-grow">
                 <div className={style['title-top']}>
-                    <div className={style['post-title__username']}>
-                        {username}
-                    </div>
+                    <ClickableUserTitle 
+                        username={username}
+                        name={name}
+                    />
                     {weatherVibe &&
                         <WeatherVibeComponent weatherVibe={weatherVibe}/>
                     }

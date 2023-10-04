@@ -26,22 +26,26 @@ interface ReactionGroup{
     _id: string; //reaction name
     count: number;
 }
-
+interface UsernameToNameMap{
+    [username: string]: string;
+}
 export default function Post({post,username}: PostProps){
     const  { profilePicturePaths } = useContext(MockContext);
+    const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
     const [isFetchingComments, setIsFetchingComments] = useState(false);
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
+    const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
-    const loading = isFetchingComments && isFetchingReactions;
-    const optimisticCommentInsertion = (comment: Comment) => {
+    const loading = isFetchingComments || isFetchingReactions || isFetchingNameMap;
+    const optimisticCommentInsertion = (comment: Comment, name?: string) => {
         setComments(prev => [...prev, comment]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
             setCommentChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});      
@@ -80,7 +84,7 @@ export default function Post({post,username}: PostProps){
             setComments(response.data.result);
             handleFetchProfilePathsToCommentors(response.data.commentors);
             setCommentChildrenSummary(response.data.children);
-            
+            handleFetchUsernameToName([...response.data.commentors, post.username]);
         }
         setIsFetchingComments(false);
         
@@ -97,6 +101,22 @@ export default function Post({post,username}: PostProps){
                     }
                 })
     }
+    const handleFetchUsernameToName =  (usernames: string[]) => {
+        setIsFetchingNameMap(true);
+        const path = `user/username-to-name`;
+        insertToPostAPI(path, usernames)
+                .then(async response => {
+                    setIsFetchingNameMap(false);
+                    if(!response){
+                        
+                        return;
+                    }
+                    if(response.success){
+        
+                        setUsernameToName(response.data);
+                    }
+                })
+    }
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
         handleFetctCommentsForPost('', post._id?.toString() || '');
@@ -105,7 +125,7 @@ export default function Post({post,username}: PostProps){
         return <LoadingBox variant="large" long={true} withChildren={false}/>
     }
     return(
-        <PostContext.Provider value={{post:post, commentorToAvatar}}>
+        <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         <div key={post._id} className={style['post'] + " glass-component"}>
 
         
@@ -116,6 +136,7 @@ export default function Post({post,username}: PostProps){
                         weatherVibe={post.weatherVibe}
                         createdDate={post.createdDate}
                         visibility={post.visibility}
+                        name={usernameToName[post.username] || ''}
                     />
                     <div className={style['post__content']}>
                         {post.content}
@@ -149,6 +170,7 @@ export default function Post({post,username}: PostProps){
                
                  {<CommentList 
                  scrollable={false}
+                 usernamesToNames={usernameToName}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 
                     _id={post._id?.toString()!}
