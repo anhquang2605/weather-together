@@ -18,6 +18,7 @@ interface ErrorMessage {
 interface CommentFormProps {
     targetId: string,//will be "" if comment on post
     username: string,
+    name?: string,
     targetLevel?: number, //for comment on comment, if none, then the target is a post or picture, whoever call this will have level = target level + 1 but 0 if target is a post or picture
     postId: string,//can also be the picture id
     isCommenting: boolean,
@@ -29,7 +30,7 @@ interface CommentFormProps {
     optimisticCommentInsertion: (comment: Comment) => void,
     _id: string
 }
-export default function CommentForm({targetId, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id,optimisticCommentInsertion}: CommentFormProps) {
+export default function CommentForm({targetId, name, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id,optimisticCommentInsertion}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);

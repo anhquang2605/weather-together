@@ -170,6 +170,7 @@ export default function CommentComponent(
                         </div>  
                     </div> 
                     <CommentForm 
+                        name={usernamesToNames?.[author] || ''}
                         targetId={_id?.toString() || ''} 
                         username={author} 
                         postId={postId} 

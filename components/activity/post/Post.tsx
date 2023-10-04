@@ -173,6 +173,7 @@ export default function Post({post,username}: PostProps){
                  usernamesToNames={usernameToName}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 
+                    name={usernameToName[author] || ''}
                     _id={post._id?.toString()!}
                     targetType="posts"
                     username={author}  
