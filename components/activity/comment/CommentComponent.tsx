@@ -25,9 +25,11 @@ interface CommentComponentProps{
     commentListRef: React.MutableRefObject<HTMLDivElement | null>;
     childrenNo: number;
     lastChild?: boolean;
-    usernamesToNames?: {[username: string]: string};
+    usernamesToNames: {[username: string]: string};
 }
-
+interface UsernameToNameMap{
+    [username: string]: string;
+}
 export default function CommentComponent(
     {
         comment,
@@ -39,21 +41,24 @@ export default function CommentComponent(
         usernamesToNames
     }: CommentComponentProps
 ){
-    const {username, createdDate, content, postId, pictureAttached, level, _id} = comment;
+    const {username, createdDate, content, postId, pictureAttached, level, _id, } = comment;
     const MAX_LEVEL = 2;
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
+    const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
     const [isReplying, setIsReplying] = useState(false);
     const [picture, setPicture] = useState<Picture | null>(null);
     const [gettingPicture, setGettingPicture] = useState(false);
     const [childComments, setChildComments] = useState<Comment[]>([]);
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
+    const [usernameToName, setUsernameToName] = useState<UsernameToNameMap>(usernamesToNames); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});//this is used to tell the number of children comments of a comment
     const {data: session} = useSession();
     const user = session?.user as UserInSession;
     const author = user?.username as string;
     const optimisticCommentInsertion = (comment: Comment) => {
+        console.log(comment);
         setChildComments([comment,...childComments]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
             setCommentChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});
@@ -106,7 +111,8 @@ export default function CommentComponent(
         if(response.success){
             setChildComments(response.data.result);
             setCommentChildrenSummary(response.data.children);
-            handleFetchProfilePathsToCommentors(response.data.commentors)
+            handleFetchProfilePathsToCommentors(response.data.commentors);
+            handleFetchMoreUsernameToName(response.data.commentors);
         }
     }
     const handleFetchProfilePathsToCommentors = (usernames: string[]) => {
@@ -115,6 +121,28 @@ export default function CommentComponent(
                 .then(response => {
                     if(response.success){
                         setCommentorToAvatar(response.data);
+                    }
+                })
+    }
+    const handleFetchMoreUsernameToName =  (usernames: string[], more?:boolean) => {
+        setIsFetchingNameMap(true);
+        //check if the username is already in the map
+        //if all usernames are already in the map, return
+        const usernamesTobeFetched = usernames.filter(username => usernamesToNames[username] === undefined);
+        if(usernamesTobeFetched.length === 0){
+            setIsFetchingNameMap(false);
+            return;
+        }
+        const path = `user/username-to-name`;
+        insertToPostAPI(path, usernamesTobeFetched)
+                .then(async response => {
+                    setIsFetchingNameMap(false);
+                    if(!response){
+                        
+                        return;
+                    }
+                    if(response.success){
+                        setUsernameToName({...usernameToName, ...response.data});
                     }
                 })
     }
@@ -199,6 +227,7 @@ export default function CommentComponent(
                         topLevelListContainer={commentListRef}
                         children={commentChildrenSummary || {}}
                         commentor={commentorUsername}
+                        usernamesToNames={usernameToName}
                     />
                 }   
             </div>  

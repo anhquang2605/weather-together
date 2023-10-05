@@ -9,7 +9,7 @@ interface IMatch{
   level?: number;
   postId?: string;
   username?: string;
-  createdDate: {$lt: Date};
+  createdDate?: {$lt: Date};
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const db = await connectDB();
@@ -33,7 +33,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       //get all comments based on targetId
                       const match:IMatch = {
                         targetId: targetId,
-                        createdDate: {$lt:  lastCursor ? new Date(lastCursor as string) : new Date()}
+                      }
+                      if(lastCursor){
+                        match.createdDate = {$lt: new Date(lastCursor as string)};
                       }
                       if(targetId === "" && postId){
                         match.postId = postId.toString();
@@ -43,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         const limitNo = parseInt(limit.toString());
                         result = await commentsCollection.find(match).sort({createdDate: -1}).limit(limitNo).toArray();
                       }else{
-                        result = await commentsCollection.find(match).toArray();
+                        result = await commentsCollection.find(match).sort({createdDate: -1}).toArray();
                       }
                       for(let i = 0; i < result.length; i++){
                         const commentId = result[i]._id.toString();
@@ -56,9 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     } 
                     if(result.length > 0){
                       const listOfUsernames = result.map((comment) => comment.username);
-                      result.reverse();
                       const cursor = result[result.length - 1].createdDate.toISOString();
-                      console.log(cursor);
                       const uniqueUsernames = [...new Set(listOfUsernames)];
                       res.status(200).json({
                         success: true,

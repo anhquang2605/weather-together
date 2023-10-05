@@ -16,6 +16,7 @@ interface ErrorMessage {
     type: string //picture-attachment, content-length
 }
 interface CommentFormProps {
+    preview?: boolean,
     targetId: string,//will be "" if comment on post
     username: string,
     name?: string,
@@ -30,7 +31,7 @@ interface CommentFormProps {
     optimisticCommentInsertion: (comment: Comment) => void,
     _id: string
 }
-export default function CommentForm({targetId, name, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id,optimisticCommentInsertion}: CommentFormProps) {
+export default function CommentForm({targetId, name, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id,optimisticCommentInsertion, preview}: CommentFormProps) {
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
@@ -126,6 +127,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         const file = e.target.files?.[0];
         const reader = new FileReader();
         if(file) {
+            console.log(file,preview);
             if(!file.type.startsWith('image')) {
                 addToErrorMessages({
                     message: 'File must be an image',
@@ -156,6 +158,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         setPicture(undefined);
         setPreviewRatio(0);
         setPreviewPictureDimensions([0,0]);
+
     }
 
     const addToErrorMessages = (message: ErrorMessage) => {
@@ -275,7 +278,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         }
     }, [errorMessages])
     useEffect(()=>{
-        if(isCommenting){
+        if(isCommenting && preview){
             contentTextAreaRef.current?.focus();
             if(commentFormRef.current){
                 scrollToCommentForm(commentFormRef)
@@ -285,6 +288,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
     },[isCommenting])
     useEffect(()=>{
         if(previewPictureURL && previewPictureURL.length){
+            console.log(preview, 'preview');
             const img = new Image();
             img.src = previewPictureURL;
             img.onload = () => {
@@ -354,10 +358,10 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                 <div className={style['control-group']}>
                     <div className={style['attachment-group']}>
                         <div className={style['picture-attachment']}>
-                            <label title="Attach a picture" htmlFor={_id} className={style['control-btn']}>
+                            <label title="Attach a picture" htmlFor={_id + (preview?"preview" : "")} className={style['control-btn']}>
                                 <IoCamera className={style['control-icon'] + " icon"}/>
                             </label>
-                            <input type="file" accept="image/*" id={_id} className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
+                            <input type="file" accept="image/*" id={_id + (preview?"preview" : "") } className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
                         </div> 
                         <EmojiSelector size={targetType === "comments" ? "small" : undefined} containerRef={parentListRef} buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
                     </div>

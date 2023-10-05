@@ -112,7 +112,6 @@ export default function Post({post,username, preview}: PostProps){
                 handleFetchProfilePathsToCommentors(response.data.commentors, more);
                 handleFetchUsernameToName([...response.data.commentors], more);
                 setLastCursor(response.data.lastCursor);
-                console.log(response.data.lastCursor);
             }else{
                 setComments(response.data.result);
                 handleFetchProfilePathsToCommentors(response.data.commentors);
@@ -227,7 +226,9 @@ export default function Post({post,username, preview}: PostProps){
                  scrollable={false}
                  usernamesToNames={usernameToName}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
-                {preview && <CommentForm 
+                {preview && <CommentForm
+                    key={"preview-comment-form"}
+                    preview={true} 
                     name={usernameToName[author] || ''}
                     _id={post._id?.toString()!}
                     targetType="posts"
@@ -251,6 +252,8 @@ export default function Post({post,username, preview}: PostProps){
             {
                 !preview &&
                  <CommentForm 
+                    key={"none-preview-comment-form"}
+                    preview={false}
                     name={usernameToName[author] || ''}
                     _id={post._id?.toString()!}
                     targetType="posts"
