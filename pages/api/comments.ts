@@ -9,6 +9,7 @@ interface IMatch{
   level?: number;
   postId?: string;
   username?: string;
+  createdDate: {$lte: Date};
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const db = await connectDB();
@@ -17,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const commentsCollection:Collection<Comment>= db.collection('comments');
         switch(method){
             case 'GET':
-                const {username,postId, level, targetId, limit} = req.query;
+                const {username,postId, level, targetId, limit, lastCursor} = req.query;
                 try {
                     let result:WithId<Comment>[] =[];
                     let children:CommentChildrenSummary = {};
@@ -32,6 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       //get all comments based on targetId
                       const match:IMatch = {
                         targetId: targetId,
+                        createdDate: {$lte:  lastCursor ? new Date(lastCursor.toString()) : new Date()}
                       }
                       if(targetId === "" && postId){
                         match.postId = postId.toString();
@@ -55,10 +57,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     if(result.length > 0){
                       const listOfUsernames = result.map((comment) => comment.username);
                       result.reverse();
+                      const cursor = result[result.length - 1].createdDate.toISOString();
                       const uniqueUsernames = [...new Set(listOfUsernames)];
                       res.status(200).json({
                         success: true,
-                        data: {result, commentors: uniqueUsernames, children},
+                        data: {result, commentors: uniqueUsernames, children, lastCursor: cursor},
                       });
                     }else if(result.length === 0){
                       res.status(200).json({

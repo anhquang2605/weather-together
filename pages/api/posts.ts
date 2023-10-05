@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectDB } from '../../libs/mongodb'
-import { Collection, WithId } from 'mongodb';
+import { Collection, ObjectId, WithId } from 'mongodb';
 import {Post} from '../../types/Post';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req;
     const db = await connectDB();
     if(db){
-        const postsCollection: Collection<WithId<Post>> = db.collection('posts');
+        const postsCollection: Collection = db.collection('posts');
         switch (method) {
             case 'GET':
                 const {username, _id} = req.query;
@@ -24,13 +24,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         res.status(500).json({ error: err, success: false })
                     }
                 }else if(_id){
+
                     try{
-                        const post = await postsCollection.findOne({_id: _id});
+                        const post = await postsCollection.findOne(
+                            {_id: new ObjectId(_id as string)}
+
+                        );
                         if(post){
                             res.status(200).json({
                                 success: true,
                                 data: post
                             });
+                        }else{
+                            res.status(404).json({ success: false, error: 'Post not found' });
                         }
                     }catch(err){
                         res.status(500).json({ error: err, success: false })

@@ -1,0 +1,11 @@
+.lazy-target{
+    width: 100%;
+    height: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.with-status{
+    height: 100px;
+}

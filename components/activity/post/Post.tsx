@@ -1,7 +1,7 @@
 import { Post } from "../../../types/Post";
 import PostTitle from "./post-title/PostTitle";
 import style from "./post.module.css"
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MockContext } from "../../../pages/MockContext";
 import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
 import { fetchFromGetAPI, insertToPostAPI } from "../../../libs/api-interactions";
@@ -18,7 +18,8 @@ import { Comment } from "../../../types/Comment";
 import AttachedPictures from "./attached-pictures/AttachedPictures";
 import ContentSummary from "../content-summary/ContentSummary";
 import UserTags from "../user-tags/UserTags";
-import { useModalContext } from "../../modal/ModalContext";
+import { usePostModalContext } from "./post-modal-context/PostModalContext";
+import LazyTarget from "../../lazy-taget/LazyTarget";
 interface PostProps{
     post: Post;
     username?: string;
@@ -37,25 +38,30 @@ interface CommentFetchParams{
     postId: string;
     limit?: string;
     level?: string;
+    lastCursor: string;
 }
 export default function Post({post,username, preview}: PostProps){
-  
+    const {setShow, setTitle, setPostId} = usePostModalContext();
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
+    const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
     const [isFetchingComments, setIsFetchingComments] = useState(false);
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
+    const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
+    const cursorRef = useRef(lastCursor);
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
     const loading = isFetchingComments || isFetchingReactions || isFetchingNameMap;
     const commentPreviewLimit = 1;
+    const limitPerFetch = 3;
     const optimisticCommentInsertion = (comment: Comment, name?: string) => {
         setComments(prev => [...prev, comment]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
@@ -83,40 +89,58 @@ export default function Post({post,username, preview}: PostProps){
             form.current.scrollIntoView({behavior: 'smooth', block: 'center'});
         }
     }
-    const handleFetctCommentsForPost = async (targetId: string, postId:string) => {
+    const handleFetctCommentsForPost = async (targetId: string, postId:string, more?:boolean) => {
         setIsFetchingComments(true);
+        if (more) {setFetchingStatus('loading')};
         const path = `comments`;
         const params:CommentFetchParams = {
             targetId, 
-            postId
+            postId,
+            lastCursor: typeof cursorRef.current === "object"? cursorRef.current.toISOString() : cursorRef.current
         }
         if(preview){
             params.limit = commentPreviewLimit.toString();
             params.level = '0';
+        }else{
+            params.limit = limitPerFetch.toString();
         }
         const response = await fetchFromGetAPI(path, params);
         if(response.success){
-            setComments(response.data.result);
-            handleFetchProfilePathsToCommentors(response.data.commentors);
-            setCommentChildrenSummary(response.data.children);
-            handleFetchUsernameToName([...response.data.commentors, post.username]);
+            if(more){
+                setComments(prev => [...prev, ...response.data.result]);
+                setCommentChildrenSummary(prev => ({...prev, ...response.data.children}));
+                handleFetchProfilePathsToCommentors(response.data.commentors, more);
+                handleFetchUsernameToName([...response.data.commentors], more);
+                setLastCursor(response.data.lastCursor);
+                console.log(response.data.lastCursor);
+            }else{
+                setComments(response.data.result);
+                handleFetchProfilePathsToCommentors(response.data.commentors);
+                setCommentChildrenSummary(response.data.children);
+                handleFetchUsernameToName([...response.data.commentors, post.username]);
+                setLastCursor(response.data.lastCursor);
+            }
+          
         }
         setIsFetchingComments(false);
-        
     }
     const handleCommentBtnClick = () => {
         setIsCommenting(prev => !prev);
     }
-    const handleFetchProfilePathsToCommentors = (usernames: string[]) => {
+    const handleFetchProfilePathsToCommentors = (usernames: string[], more?:boolean) => {
         const path = `users`;
         insertToPostAPI(path, usernames)
                 .then(response => {
                     if(response.success){
+                        if(more){
+                            setCommentorToAvatar(prev => ({...prev, ...response.data}));
+                            return;
+                        }
                         setCommentorToAvatar(response.data);
                     }
                 })
     }
-    const handleFetchUsernameToName =  (usernames: string[]) => {
+    const handleFetchUsernameToName =  (usernames: string[], more?:boolean) => {
         setIsFetchingNameMap(true);
         const path = `user/username-to-name`;
         insertToPostAPI(path, usernames)
@@ -127,26 +151,34 @@ export default function Post({post,username, preview}: PostProps){
                         return;
                     }
                     if(response.success){
-        
+                        if(more){
+                            setUsernameToName(prev => ({...prev, ...response.data}));
+                            return;
+                        }
                         setUsernameToName(response.data);
                     }
                 })
     }
     const handleViewPostModal = () => {
-      
+        setShow(true);
+        setTitle(`Post by ${usernameToName[post.username] || post.username}`);
+        setPostId(post._id?.toString() || '');
     }
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
         handleFetctCommentsForPost('', post._id?.toString() || '');
     },[])
+
+    useEffect(()=>{
+        cursorRef.current = lastCursor;
+    },[lastCursor])
     if(loading){
         return <LoadingBox variant="large" long={true} withChildren={false}/>
     }
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
+        <>
         <div key={post._id} className={style['post'] + " glass-component"}>
-
-        
                 <div className={`${style['post-container']} px-8 pt-8`}>
                     <PostTitle 
                         username={post.username}
@@ -186,7 +218,7 @@ export default function Post({post,username, preview}: PostProps){
                 </div>
                 {
                     preview && 
-                    <button onClick={handleViewPostModal} >
+                    <button className="mt-4 ml-8 font-bold hover:underline" onClick={handleViewPostModal} >
                         View more comments
                     </button>
                 }
@@ -195,12 +227,35 @@ export default function Post({post,username, preview}: PostProps){
                  scrollable={false}
                  usernamesToNames={usernameToName}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
-                <CommentForm 
+                {preview && <CommentForm 
                     name={usernameToName[author] || ''}
                     _id={post._id?.toString()!}
                     targetType="posts"
                     username={author}  
-                    isCommenting={!preview ? true : isCommenting} 
+                    isCommenting={isCommenting} 
+                    scrollToCommentForm={handleScrollToForm} 
+                    targetId={""} 
+                    postId={post._id?.toString()!} 
+                    userProfilePicturePath={profilePicturePaths[author]}
+                    setIsCommenting={setIsCommenting}
+                    optimisticCommentInsertion={optimisticCommentInsertion}
+                />}
+                {
+                    !preview && 
+                    <LazyTarget 
+                        targetClassName={style['lazy-target']} 
+                        fetchingStatus={fetchingStatus}
+                    />
+                }      
+            </div>
+            {
+                !preview &&
+                 <CommentForm 
+                    name={usernameToName[author] || ''}
+                    _id={post._id?.toString()!}
+                    targetType="posts"
+                    username={author}  
+                    isCommenting={true} 
                     scrollToCommentForm={handleScrollToForm} 
                     targetId={""} 
                     postId={post._id?.toString()!} 
@@ -208,9 +263,8 @@ export default function Post({post,username, preview}: PostProps){
                     setIsCommenting={setIsCommenting}
                     optimisticCommentInsertion={optimisticCommentInsertion}
                 />
-               
-                   
-        </div>
+            }
+        </>
         </PostContext.Provider>
 
     )

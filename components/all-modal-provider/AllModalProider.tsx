@@ -1,3 +1,4 @@
+import PostModalContextProvider from "../activity/post/post-modal-context/PostModalContext";
 import { PictureModalProvider } from "../embedded-view-components/picture-component/PictureModalContext";
 import PictureModal from "../embedded-view-components/picture-component/picture-modal/PictureModal";
 import { ModalProvider } from "../modal/ModalContext";
@@ -9,8 +10,10 @@ export default function AllModalProvider(props: AllModalProviderProps){
     return (
         <PictureModalProvider>
             <ModalProvider>
+                <PostModalContextProvider>
                     {children}
                     <PictureModal/>
+                </PostModalContextProvider>
             </ModalProvider>
         </PictureModalProvider>
     )

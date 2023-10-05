@@ -1,10 +1,75 @@
 .post-modal{
-    width: 100vh;
+    width: 100vw;
     height: 100vh;
     z-index: 50;
     display: flex;
     flex-direction: column;
     position: fixed;
+    align-items: center;
+    justify-content: center;
     top: 0;
     left: 0;
+    overflow: hidden;
+    transition: var(--short-transition);
+}
+.hidden-modal{
+    opacity: 0;
+    z-index: -1;
+}
+.post-modal__title{
+    color: white;
+    @apply font-bold text-2xl px-8 py-4 border-b;
+}
+.post-modal__content{
+    position: relative;
+    width: 460px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    @apply border border-slate-400 rounded-lg z-50;
+    & > div{
+        overflow-y: scroll;
+        width: 100%;
+        height: 100%;
+        flex: 1;
+        background: transparent;
+        color: white;
+        border: none;
+        box-shadow: none;
+        @apply backdrop-blur-0;
+    }
+    & > div:last-child{
+        max-height: 50%;
+        height: auto;
+        flex:  none;
+        overflow-y: auto;
+        border-top: 1px solid lightgray;
+    }
+    @screen lg{
+        width: 700px;
+        max-height: 80vh;
+    }
+}
+.modal-close-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    svg{
+        width: 32px;
+        height: 32px;
+        color: tomato;
+        transition: all 0.1s ease-in-out;
+    }
+    :hover{
+        color: rgb(253, 71, 38);
+    }
 }

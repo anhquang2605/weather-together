@@ -5,7 +5,10 @@
     @apply flex flex-row w-full items-center;
 }
 .title-top{
-    @apply flex flex-row items-center;
+    @apply flex flex-col;
+    @screen lg{
+        @apply flex-row;
+    }
 }
 .post-title__profile-picture{
     @apply flex-shrink-0 w-16 h-16 mr-4 overflow-hidden rounded-lg;
