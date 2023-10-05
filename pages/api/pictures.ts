@@ -37,6 +37,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             case 'POST':
                 const pictures = req.body;
                 if(pictures && pictures.length > 0){
+                    const newPictures = pictures.map((picture:Picture) => {
+                        picture.createdDate = new Date();
+                        return picture;
+                    });
                     try {
                         await picturesCollection.insertMany(pictures);
                         res.status(200).json({

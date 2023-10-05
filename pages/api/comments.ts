@@ -9,7 +9,7 @@ interface IMatch{
   level?: number;
   postId?: string;
   username?: string;
-  createdDate: {$lte: Date};
+  createdDate: {$lt: Date};
 }
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const db = await connectDB();
@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       //get all comments based on targetId
                       const match:IMatch = {
                         targetId: targetId,
-                        createdDate: {$lte:  lastCursor ? new Date(lastCursor.toString()) : new Date()}
+                        createdDate: {$lt:  lastCursor ? new Date(lastCursor as string) : new Date()}
                       }
                       if(targetId === "" && postId){
                         match.postId = postId.toString();
@@ -58,6 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       const listOfUsernames = result.map((comment) => comment.username);
                       result.reverse();
                       const cursor = result[result.length - 1].createdDate.toISOString();
+                      console.log(cursor);
                       const uniqueUsernames = [...new Set(listOfUsernames)];
                       res.status(200).json({
                         success: true,
@@ -85,6 +86,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             case 'POST':
                   const comment = req.body;
                   try{
+                    comment.createdDate = new Date();
+                    comment.updatedDate = new Date();
                     const result = await commentsCollection.insertOne(comment);
                     if(result.insertedId){
                         res.status(201).json({

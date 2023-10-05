@@ -6,6 +6,8 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         const db = await connectDB();
         const post = req.body;
         if(db){
+            post.createdDate = new Date();
+            post.updatedDate = new Date();
            db.collection('posts').insertOne(post).then(result => {
             if(result.insertedId){
                 res.status(200).json(result);
