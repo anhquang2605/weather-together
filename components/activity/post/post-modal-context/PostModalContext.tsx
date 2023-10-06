@@ -3,8 +3,10 @@ import React, {useEffect, useState, createContext, useContext, ReactNode, useCal
 import PostModal from './post-modal/PostModal';
 import { set } from 'lodash';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
-import Post from '../Post';
+import { Post as PostType } from '../../../../types/Post';
 import { Emoji } from '../../../../types/Emoji';
+import Post from '../Post';
+import LoadingBox from '../../../skeletons/loading-box/LoadingBox';
 
 type PostModalContextType ={
     setExtraCloseFunction: React.Dispatch<()=>void>;
@@ -47,10 +49,16 @@ export function usePostModalContext(){
     }
     return useContext(PostModalContext);
 }
-
+interface PostData {
+    post: PostType | null,
+    username: string
+}
 const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) => {
     const [fetchStatus, setFetchStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle'); //TODO: fetch the post from server
-    const [postContent, setPostContent] = useState<ReactNode | null>(null);
+    const [postData, setPostData] = useState<PostData>({
+        post: null,
+        username: ''
+    });
     const [commentFormState, setCommentFormState] = useState<CommentFormState>({
         content: '',
         picture: undefined,
@@ -90,8 +98,11 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
             extraCloseFunction();
         }
     }, [extraCloseFunction])
-    const hanleGettingPost = async (postId: string) => {
-        setPostContent(null);//prevent the cached post from haunting the modal briefly before the new post is fetched
+    const handleGettingPost = async (postId: string) => {
+        setPostData({
+            post: null,
+            username: ''
+        });//prevent the cached post from haunting the modal briefly before the new post is fetched
         setFetchStatus('loading');
         try{
             const path = "posts";
@@ -100,8 +111,7 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
             }
             const response = await fetchFromGetAPI(path, params);
             if(response.success){
-                const postJSX = <Post post={response.data} preview={false} username={response.data.username}></Post>;
-                setPostContent(postJSX);
+                setPostData(response.data);
                 setFetchStatus('success');
             }else{
                 setFetchStatus('error');
@@ -111,14 +121,21 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
         }
     }
     useEffect(() => {
-        if(curPostId.length > 0){
-            hanleGettingPost(curPostId);
+        if(curPostId.length > 0 &&  show){
+            handleGettingPost(curPostId);
         }
-    }, [curPostId])
+    }, [curPostId, show])
     return (
         <PostModalContext.Provider value={value}>
             {children}
-            {<PostModal onClose={onCloseHandler} content={ postContent} show={show} setShow={setShow} title={title}/>}
+            {show && <PostModal onClose={onCloseHandler} show={show} setShow={setShow} title={title}>
+                { 
+                    postData.post && fetchStatus === "success" ? <Post post={postData.post} preview={false} username={postData.username}></Post>
+                    :
+                    <LoadingBox/>
+                }
+             </PostModal>
+            }
         </PostModalContext.Provider>
     );
 }

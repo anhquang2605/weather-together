@@ -1,8 +1,10 @@
 .reactions-bar{
     display: flex;
     flex-direction: row;
+    @apply border border-slate-400/50 rounded-full px-2 items-center ;
     &:hover{
         cursor:pointer;
+        @apply border-slate-200/50;
         .reaction-count{
             @apply bg-indigo-700;
             &::before{
@@ -11,6 +13,8 @@
         }
     }
     &.is-comment{
+        border: none;
+        padding: 0px;
         position: absolute;
         bottom: -0.25rem;
         right: 0px;

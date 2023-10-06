@@ -6,6 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const comment = req.body;
     if(db){
         try{
+            comment.createdDate = new Date();
+            comment.updatedDate = new Date();
             const result = await db.collection('comments').insertOne(comment);
             res.status(200).json(result.insertedId.toString());
         }catch(err){

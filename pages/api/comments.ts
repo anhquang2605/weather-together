@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       const match:IMatch = {
                         targetId: targetId,
                       }
-                      if(lastCursor){
+                      if(lastCursor && typeof lastCursor === 'string'){
                         match.createdDate = {$lt: new Date(lastCursor as string)};
                       }
                       if(targetId === "" && postId){
@@ -47,15 +47,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       }else{
                         result = await commentsCollection.find(match).sort({createdDate: -1}).toArray();
                       }
+  
                       for(let i = 0; i < result.length; i++){
                         const commentId = result[i]._id.toString();
                         const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
                         children[commentId] = childrenNo;
                       }
+
                     } 
                     else if(postId){
                       result = await commentsCollection.find({postId:postId.toString()}).toArray();
                     } 
+
                     if(result.length > 0){
                       const listOfUsernames = result.map((comment) => comment.username);
                       const cursor = result[result.length - 1].createdDate.toISOString();
@@ -77,6 +80,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }
                     
                  } catch (error) {
+                  console.log(error);
                   res.status(500).json({
                     success: false,
                     error: 'Server Error',

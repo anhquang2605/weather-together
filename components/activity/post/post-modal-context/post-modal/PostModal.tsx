@@ -3,7 +3,7 @@ import style from './post-modal.module.css';
 import { IoClose } from 'react-icons/io5';
 
 interface PostModalProps {
-    content: React.ReactNode;
+    children: React.ReactNode;
     title: string;
     show: boolean;
     setShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +12,7 @@ interface PostModalProps {
 }
 
 const PostModal: React.FC<PostModalProps> = (props) => {
-    const {content, title, show, setShow, onClose} = props;
+    const {children, title, show, setShow, onClose} = props;
     return (
         <div className={style['post-modal'] + " " + (!show && style['hidden-modal'])}>
 
@@ -24,7 +24,7 @@ const PostModal: React.FC<PostModalProps> = (props) => {
                 ["modal-close-btn"] + " drop-shadow-lg"}><IoClose
                 ></IoClose></button>
                 {
-                    content
+                    children
                 }
             </div>
             <div onClick={()=>{
