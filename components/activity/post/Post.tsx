@@ -6,7 +6,7 @@ import { MockContext } from "../../../pages/MockContext";
 import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
 import { fetchFromGetAPI, insertToPostAPI } from "../../../libs/api-interactions";
 import InteractionsBtns from "../interactions-btns/InteractionsBtns";
-import CommentForm from "../comment/comment-form/CommentForm";
+import CommentForm, { CommentFormState } from "../comment/comment-form/CommentForm";
 import { PostContext } from "./PostContext";
 import CommentList from "../comment/comment-list/CommentList";
 import { UsernameToProfilePicturePathMap } from "./../UsernameToProfilePicturePathMap";
@@ -41,10 +41,11 @@ interface CommentFetchParams{
     lastCursor: string;
 }
 export default function Post({post,username, preview}: PostProps){
-    const {setShow, setTitle, setPostId} = usePostModalContext();
+    const {setShow, setTitle, setCurPostId, setExtraCloseFunction, setCommentFormState} = usePostModalContext();
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']
+    const [postCurMode, setPostCurMode] = useState(''); //['preview', 'modal'
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
@@ -54,6 +55,7 @@ export default function Post({post,username, preview}: PostProps){
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
+ 
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
     const cursorRef = useRef(lastCursor);
     const {data:session} = useSession();
@@ -161,8 +163,13 @@ export default function Post({post,username, preview}: PostProps){
     const handleViewPostModal = () => {
         setShow(true);
         setTitle(`Post by ${usernameToName[post.username] || post.username}`);
-        setPostId(post._id?.toString() || '');
+        setCurPostId(post._id?.toString() || '');
+        setPostCurMode('modal');
+        setExtraCloseFunction(() => {
+            setPostCurMode('preview');
+        })
     }
+  
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
         handleFetctCommentsForPost('', post._id?.toString() || '');
@@ -240,6 +247,7 @@ export default function Post({post,username, preview}: PostProps){
                     userProfilePicturePath={profilePicturePaths[author]}
                     setIsCommenting={setIsCommenting}
                     optimisticCommentInsertion={optimisticCommentInsertion}
+                    forPost={true}
                 />}
                 {
                     !preview && 
@@ -265,6 +273,7 @@ export default function Post({post,username, preview}: PostProps){
                     userProfilePicturePath={profilePicturePaths[author]}
                     setIsCommenting={setIsCommenting}
                     optimisticCommentInsertion={optimisticCommentInsertion}
+                    forPost={true}
                 />
             }
         </>

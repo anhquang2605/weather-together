@@ -1,5 +1,5 @@
 
-import React,{useState, useEffect, useRef} from 'react'
+import React,{useState, useEffect, useRef, use} from 'react'
 import { insertToPostAPI, uploadFileToPostAPI } from '../../../../libs/api-interactions';
 import style from './comment-form.module.css';
 import MiniAvatar from '../../../user/mini-avatar/MiniAvatar';
@@ -11,6 +11,7 @@ import { Emoji } from '../../../../types/Emoji';
 import NextImage from 'next/image';
 import { Comment } from '../../../../types/Comment';
 import { Picture } from '../../../../types/Picture';
+import { usePostModalContext } from '../../post/post-modal-context/PostModalContext';
 interface ErrorMessage {
     message: string,
     type: string //picture-attachment, content-length
@@ -29,9 +30,25 @@ interface CommentFormProps {
     parentListRef?: React.MutableRefObject<HTMLDivElement | null>,
     setIsCommenting: React.Dispatch<React.SetStateAction<boolean>>,
     optimisticCommentInsertion: (comment: Comment) => void,
-    _id: string
+    _id: string,
+    forPost?: boolean,
 }
-export default function CommentForm({targetId, name, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id,optimisticCommentInsertion, preview}: CommentFormProps) {
+export interface CommentFormState {
+    content: string,
+    picture: File | undefined,
+    pictureAttached: boolean,
+    previewPictureURL: string,
+    previewRatio: number,
+    previewPictureDimensions: number[],
+    errorMessages: ErrorMessage[],
+    validContentLength: boolean,
+    currentCursorPosition: number,
+    suggestions: Emoji[],
+    revealEmojiSuggestions: boolean,
+    emojiSuggestionTerm: string,
+}
+export default function CommentForm({targetId, name, username, targetLevel, postId, isCommenting, scrollToCommentForm, userProfilePicturePath, targetType, parentListRef, setIsCommenting, _id,optimisticCommentInsertion, preview, forPost}: CommentFormProps) {
+    const {commentFormState, setCommentFormState, curPostId, show} = usePostModalContext();
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [pictureAttached, setPictureAttached] = useState(false);
@@ -41,7 +58,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
     const [previewPictureDimensions, setPreviewPictureDimensions] = useState<number[]>([0,0]); //[width, height
     const [errorMessages, setErrorMessages] = useState<ErrorMessage[]>([]);
     const [validContentLength, setValidContentLength] = useState(false); //min should be 1 word
-    const [s3PictureURL, setS3PictureURL] = useState<string | null>(null);
     const commentFormRef = useRef<HTMLDivElement | null>(null);
     /*************************SUGGESTIONS EMOJIS SECTIONS***********************/
     //intext suggestions state, used to provide props for intext suggestion component
@@ -160,7 +176,21 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         setPreviewPictureDimensions([0,0]);
 
     }
-
+    const handleFormStateTransfer = (state: CommentFormState) => {
+        //use the comment form state from modal to update state of this form
+        setContent(state.content);
+        setPicture(state.picture);
+        setPictureAttached(state.pictureAttached);
+        setPreviewPictureURL(state.previewPictureURL);
+        setPreviewRatio(state.previewRatio);
+        setPreviewPictureDimensions(state.previewPictureDimensions);
+        setErrorMessages(state.errorMessages);
+        setValidContentLength(state.validContentLength);
+        setCurrentCursorPosition(state.currentCursorPosition);
+        setSuggestions(state.suggestions);
+        setRevealEmojiSuggestions(state.revealEmojiSuggestions);
+        setEmojiSuggestionTerm(state.emojiSuggestionTerm);
+    }
     const addToErrorMessages = (message: ErrorMessage) => {
         setErrorMessages(prev => [...prev, message]);
     }
@@ -269,6 +299,9 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         //adding picture to post if picture is attached
 
     }
+    const handleSetCommentFormState = () => {//copy local state to context state
+        setCommentFormState({content, picture, pictureAttached, previewPictureURL, previewRatio, previewPictureDimensions, errorMessages, validContentLength, currentCursorPosition, suggestions, revealEmojiSuggestions, emojiSuggestionTerm});
+    }
     useEffect(()=>{
         handleEmojiSuggestionFilter(emojiSuggestionTerm);
     }, [emojiSuggestionTerm])
@@ -297,6 +330,21 @@ export default function CommentForm({targetId, name, username, targetLevel, post
             }
         }
     },[previewPictureURL])
+    
+    //now need to update the comment form state in the context when moving away from this form
+    useEffect(()=>{
+        if(forPost){ 
+           if(postId === curPostId){
+                if(show === preview){
+                    //moving away from this form
+                    handleSetCommentFormState();
+                } else {
+                    //only update state when transition from preview to show or vice versa, also making sure that the right post's comment form state is being updated
+                    handleFormStateTransfer({...commentFormState});
+                }
+           }
+        }
+    },[show])
     return(
         <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']}`}>
             <MiniAvatar className={style['comment-form__profile-picture']} username={username} profilePicturePath={userProfilePicturePath} size="medium"/>

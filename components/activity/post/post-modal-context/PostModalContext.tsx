@@ -4,14 +4,36 @@ import PostModal from './post-modal/PostModal';
 import { set } from 'lodash';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import Post from '../Post';
+import { Emoji } from '../../../../types/Emoji';
 
 type PostModalContextType ={
     setExtraCloseFunction: React.Dispatch<()=>void>;
     setShow: React.Dispatch<React.SetStateAction<boolean>>;
     setTitle: React.Dispatch<React.SetStateAction<string>>;
-    setPostId: React.Dispatch<React.SetStateAction<string>>;
+    setCurPostId: React.Dispatch<React.SetStateAction<string>>;
+    commentFormState: CommentFormState;
+    setCommentFormState: React.Dispatch<React.SetStateAction<CommentFormState>>;
+    curPostId: string;
+    show:boolean;
 }
-
+export interface CommentFormState {
+    content: string,
+    picture: File | undefined,
+    pictureAttached: boolean,
+    previewPictureURL: string,
+    previewRatio: number,
+    previewPictureDimensions: number[],
+    errorMessages: ErrorMessage[],
+    validContentLength: boolean,
+    currentCursorPosition: number,
+    suggestions: Emoji[],
+    revealEmojiSuggestions: boolean,
+    emojiSuggestionTerm: string,
+}
+interface ErrorMessage {
+    message: string,
+    type: string //picture-attachment, content-length
+}
 interface PostModalContextProps {
     children: React.ReactNode;
 }
@@ -29,8 +51,21 @@ export function usePostModalContext(){
 const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) => {
     const [fetchStatus, setFetchStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle'); //TODO: fetch the post from server
     const [postContent, setPostContent] = useState<ReactNode | null>(null);
-
-    const [postId, setPostId] = useState<string>('');
+    const [commentFormState, setCommentFormState] = useState<CommentFormState>({
+        content: '',
+        picture: undefined,
+        pictureAttached: false,
+        previewPictureURL: '',
+        previewRatio: 0,
+        previewPictureDimensions: [0, 0],
+        errorMessages: [],
+        validContentLength: false,
+        currentCursorPosition: 0,
+        suggestions: [],
+        revealEmojiSuggestions: false,
+        emojiSuggestionTerm: ''
+    } as CommentFormState);
+    const [curPostId, setCurPostId] = useState<string>('');
     const [show, setShow] = useState(false);
     const [title, setTitle] = useState('');
     const [extraCloseFunction, setExtraCloseFunction] = useState<()=>void>(()=>{});
@@ -38,7 +73,11 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
         setShow,
         setTitle,
         setExtraCloseFunction,
-        setPostId
+        commentFormState,
+        setCommentFormState,
+        curPostId,
+        show,
+        setCurPostId
     }
     const handleReset = () => {
         setTitle('');
@@ -72,10 +111,13 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
         }
     }
     useEffect(() => {
-        if(postId.length > 0){
-            hanleGettingPost(postId);
+        if(curPostId.length > 0){
+            hanleGettingPost(curPostId);
         }
-    }, [postId])
+    }, [curPostId])
+    useEffect(()=>{
+        console.log(commentFormState);
+    },[commentFormState])
     return (
         <PostModalContext.Provider value={value}>
             {children}
