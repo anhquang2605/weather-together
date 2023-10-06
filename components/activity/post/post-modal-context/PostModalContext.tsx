@@ -115,9 +115,6 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
             hanleGettingPost(curPostId);
         }
     }, [curPostId])
-    useEffect(()=>{
-        console.log(commentFormState);
-    },[commentFormState])
     return (
         <PostModalContext.Provider value={value}>
             {children}

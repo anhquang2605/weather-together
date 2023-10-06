@@ -159,3 +159,24 @@ _Putting two state setter in same function scope will make the state update simu
 => copy the state object then apply filter on this new object instead
 
 37. using grid, ensure that container (sub container of a grid container) to have overflow: hidden, width and height 100%, image: object-fit: cover, so that everything is contained within the desired dimension
+
+38. Syncing states of two instances of same component via a context
+
+    useEffect(()=>{        
+        if(forPost){ 
+           if(postId === curPostId){
+
+                if(show === preview){
+                    //moving away from this form
+                    handleSetCommentFormState();
+                } 
+           }
+        }
+    },[show])
+    useEffect(()=>{
+        if(commentFormState && postId === curPostId){
+           //update state on both instances when there is a change in context state
+            handleFormStateTransfer({...commentFormState});
+          
+        }
+    },[commentFormState])

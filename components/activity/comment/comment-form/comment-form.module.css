@@ -111,13 +111,14 @@
     @apply p-4 px-8;
    opacity: 1;
    min-height: 1px;
-   max-height: 300px;
+   max-height: 100%;
     z-index: 1;
     transform: translateY(0);
     overflow-y: auto;
     transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out,  transform 0.2s ease-in-out 0.1s, opacity 0.2s ease-in-out 0.1s !important;
 
 }
+
 .sending{
     cursor: not-allowed;
     pointer-events: none;

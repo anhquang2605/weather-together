@@ -38,9 +38,11 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
             limit,
             lastCursor: replace === false ? (( typeof lastCursorRef.current === 'string' ? lastCursorRef.current : lastCursorRef.current?.toISOString() ) || '') : new Date().toISOString()
         }
+
         const response = await fetchFromGetAPI(path, params);
         if(response.success){
             const data = response.data;
+
             setHasMore(data.hasMore);
             if(replace){
                 setResults(data.results);
@@ -50,6 +52,7 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
             }
             if(!data.hasMore && isFriend === "true"){//flip to false, happen only once, this is when the first fetch is not enough to fill the list
                 let newLimit = LIMIT - data.results.length;
+                console.log(newLimit);
                 if(newLimit > 0){
                    params.limit = newLimit;
                 }

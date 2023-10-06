@@ -143,7 +143,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         const file = e.target.files?.[0];
         const reader = new FileReader();
         if(file) {
-            console.log(file,preview);
             if(!file.type.startsWith('image')) {
                 addToErrorMessages({
                     message: 'File must be an image',
@@ -174,7 +173,10 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         setPicture(undefined);
         setPreviewRatio(0);
         setPreviewPictureDimensions([0,0]);
-
+        let fileInput = document.getElementById(_id + (preview?"preview" : "")) as HTMLInputElement;
+        if(fileInput) {
+            fileInput.value = '';
+        }
     }
     const handleFormStateTransfer = (state: CommentFormState) => {
         //use the comment form state from modal to update state of this form
@@ -321,8 +323,8 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         }
     },[isCommenting])
     useEffect(()=>{
+        console.log(previewPictureURL);
         if(previewPictureURL && previewPictureURL.length){
-            console.log(preview, 'preview');
             const img = new Image();
             img.src = previewPictureURL;
             img.onload = () => {
@@ -352,7 +354,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         }
     },[commentFormState])
     return(
-        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']}`}>
+        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']} `}>
             <MiniAvatar className={style['comment-form__profile-picture']} username={username} profilePicturePath={userProfilePicturePath} size="medium"/>
             <div className={style['text-box']}>
                 <textarea 
