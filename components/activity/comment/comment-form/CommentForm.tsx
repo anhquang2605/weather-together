@@ -301,6 +301,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
     }
     const handleSetCommentFormState = () => {//copy local state to context state
         setCommentFormState({content, picture, pictureAttached, previewPictureURL, previewRatio, previewPictureDimensions, errorMessages, validContentLength, currentCursorPosition, suggestions, revealEmojiSuggestions, emojiSuggestionTerm});
+        console.log(content);
     }
     useEffect(()=>{
         handleEmojiSuggestionFilter(emojiSuggestionTerm);
@@ -332,19 +333,24 @@ export default function CommentForm({targetId, name, username, targetLevel, post
     },[previewPictureURL])
     
     //now need to update the comment form state in the context when moving away from this form
-    useEffect(()=>{
+    
+    useEffect(()=>{        
         if(forPost){ 
            if(postId === curPostId){
+
                 if(show === preview){
                     //moving away from this form
                     handleSetCommentFormState();
-                } else {
-                    //only update state when transition from preview to show or vice versa, also making sure that the right post's comment form state is being updated
-                    handleFormStateTransfer({...commentFormState});
-                }
+                } 
            }
         }
     },[show])
+    useEffect(()=>{
+        if(commentFormState && postId === curPostId){
+            handleFormStateTransfer({...commentFormState});
+          
+        }
+    },[commentFormState])
     return(
         <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']}`}>
             <MiniAvatar className={style['comment-form__profile-picture']} username={username} profilePicturePath={userProfilePicturePath} size="medium"/>
