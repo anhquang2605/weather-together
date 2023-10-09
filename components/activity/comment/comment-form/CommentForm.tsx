@@ -303,7 +303,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
     }
     const handleSetCommentFormState = () => {//copy local state to context state
         setCommentFormState({content, picture, pictureAttached, previewPictureURL, previewRatio, previewPictureDimensions, errorMessages, validContentLength, currentCursorPosition, suggestions, revealEmojiSuggestions, emojiSuggestionTerm});
-        console.log(content);
     }
     useEffect(()=>{
         handleEmojiSuggestionFilter(emojiSuggestionTerm);
@@ -323,7 +322,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         }
     },[isCommenting])
     useEffect(()=>{
-        console.log(previewPictureURL);
         if(previewPictureURL && previewPictureURL.length){
             const img = new Image();
             img.src = previewPictureURL;

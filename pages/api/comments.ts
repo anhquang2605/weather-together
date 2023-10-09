@@ -73,9 +73,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         data: {result, commentors: [], children},
                       });
                     }else{
-                      res.status(404).json({
+                      res.status(200).json({
                         success: false,
-                        error: 'Not Found',
+                        message: 'Not Found',
                       });
                     }
                     

@@ -23,7 +23,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
           data: result,
         });
       }else{
-        res.status(404).json({
+        res.status(200).json({
           success: false,
           error: 'Not Found',
         });

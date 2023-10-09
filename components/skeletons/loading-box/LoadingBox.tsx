@@ -10,9 +10,9 @@ interface LoadingBoxProps {
 
 const LoadingBox: React.FC<LoadingBoxProps> = ({variant = 'medium', children, long, withChildren = false}) => {
     return (
-        <div className={`${style['loading-box']} ${style[variant]} ${!withChildren && style['without-children']} ${long && style['long']}`}>
+        <span className={`${style['loading-box']} ${style[variant]} ${!withChildren && style['without-children']} ${long && style['long']}`}>
             {children}
-        </div>
+        </span>
     );
 };
 

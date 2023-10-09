@@ -11,9 +11,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         }
         const reaction = await reactionsCollection.findOne(match);
         if(reaction){
-            res.status(200).json(reaction);
+            res.status(200).json({success: true, data: reaction});
         }else{
-            res.status(404).json({message: "No reaction found"});
+            res.status(200).json({success: false, message: "No reaction found"});
         }
     } else{
         res.status(500).json({message: "Cannot connect to DB"})

@@ -118,6 +118,12 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                     }
                 }    */
                 hasMore = results.length > theLimit;
+            }else{
+                res.status(200).json({
+                    success: false,
+                    message: "Cannot find reactions"
+                })
+                return;
             }
             if(hasMore){
                 results.pop();
@@ -130,7 +136,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                 }   
             })
         }else{
-            res.status(404).json({message: "Cannot find reactions"});
+            res.status(200).json({
+                success: false,
+                message: "Cannot find reactions"
+            })
         }
 
 

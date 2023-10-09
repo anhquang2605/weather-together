@@ -94,10 +94,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 //Inserting a new user
                 const user = payload;
             } else {
-                res.status(400).json({success: false, message: 'Bad request'});
+                res.status(200).json({success: false, message: 'Bad request'});
             }
         } else {
-            res.status(400).json({success: false, message: 'Bad request'});
+            res.status(200).json({success: false, message: 'Bad request'});
         }
     }else{
         res.status(500).json({success: false, message: 'Cannot connect to DB'});

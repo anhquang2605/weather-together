@@ -2,7 +2,7 @@
     --med-width: 460px;
     --small-width: 300px;
     --large-width: 620px;
-    @apply rounded-lg p-8 bg-slate-500 mx-auto;
+    @apply rounded-lg p-8 bg-slate-500 mx-auto block;
     &.without-children{
         @apply animate-pulse;
     }

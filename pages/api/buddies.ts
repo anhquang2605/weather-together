@@ -54,7 +54,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         counts: counts
                     });
                 }else{
-                    res.status(204).end();
+                    res.status(204).end(
+                        JSON.stringify({
+                            success: false,
+                            message: 'No more buddies',
+                        })
+                    );
                 }
                 
                 break;

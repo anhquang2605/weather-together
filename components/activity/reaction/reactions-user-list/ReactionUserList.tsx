@@ -4,6 +4,8 @@ import { ReactionGroup, ReactionWithUser } from '../../../../types/Reaction';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import ReactionCategorizedTabs from './reaction-categorized-tabs/ReactionCategorizedTabs';
 import ReactionList from './reaction-list/ReactionList';
+import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
+import { set } from 'lodash';
 
 interface ReactionUserListProps {
     targetId: string;
@@ -24,6 +26,7 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
     const [fetchingStatus, setFetchingStatus] = useState<string>('idle'); //idle, loading, succeeded, failed
     const [lastCursor, setLastCursor] = useState<Date>(new Date); 
     const [isLoadedInitially, setIsLoadedInitially] = useState<boolean>(false);
+    const [initialFetchStatus, setInitialFetchStatus] = useState<string>('idle'); //idle, loading, succeeded, failed
     const [results, setResults] = useState<ReactionWithUser[]>([]); 
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [currentGroup, setCurrentGroup] = useState<string>('all'); //all, like, love, haha, wow, sad, angry
@@ -52,7 +55,6 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
             }
             if(!data.hasMore && isFriend === "true"){//flip to false, happen only once, this is when the first fetch is not enough to fill the list
                 let newLimit = LIMIT - data.results.length;
-                console.log(newLimit);
                 if(newLimit > 0){
                    params.limit = newLimit;
                 }
@@ -66,12 +68,12 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
                     setHasMore(response2.data.hasMore);
                 }else {
                     setApiStatus('failed');
-                    return false;
                 }
             }
             setFormReset(false);
             return true;
         }else {
+            setApiStatus('failed');
             return false
         }
     };
@@ -83,15 +85,17 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
         setIsLoadedInitially(false);
         setEndOfList(false);
         setFormReset(true);
+        setInitialFetchStatus('idle');
     }
     const handleInitialFetch = async () => {
-        setApiStatus('loading');
+        setInitialFetchStatus('loading');
         const success = await handleFetchReactionsWithUsers(LIMIT, true);
         if(success){
-            setApiStatus('success');
+            setInitialFetchStatus('success');
             setIsLoadedInitially(true);
         }else{
-            setApiStatus('failed');
+            setInitialFetchStatus('failed');
+            setIsLoadedInitially(false);
         }
 
     }
@@ -137,13 +141,19 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
     return (
         <div className={style['reaction-user-list']}>
             <ReactionCategorizedTabs currentTab={currentGroup} reactionsGroups={reactionGroups} setCurrentTab={setCurrentGroup}/>
+            {initialFetchStatus === 'success' &&
             <ReactionList
                 isLoaded={isLoadedInitially}
                 results={results}
                 setEndOfList={setEndOfList}
                 fetchingStatus={fetchingStatus}
-            />
-
+            />}
+            {
+                initialFetchStatus === "loading" &&<LoadingIndicator />
+            }
+            {
+                initialFetchStatus === 'failed' && <div className="text-red-500">Failed to fetch more reactions</div>
+            }
         </div>
     );
 };

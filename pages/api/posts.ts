@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 data: post
                             });
                         }else{
-                            res.status(404).json({ success: false, error: 'Post not found' });
+                            res.status(200).json({ success: false, error: 'Post not found' });
                         }
                     }catch(err){
                         res.status(500).json({ error: err, success: false })

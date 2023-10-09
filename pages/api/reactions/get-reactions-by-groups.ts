@@ -50,7 +50,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                 usernames: []
             });
         } else {
-            res.status(404).json({message: "Cannot find reactions"})
+            res.status(200).json({success: false, message: "Cannot find reactions"})
         }
     }else{
         res.status(500).json({message: "Cannot connect to DB"})

@@ -55,10 +55,7 @@ interface PostData {
 }
 const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) => {
     const [fetchStatus, setFetchStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle'); //TODO: fetch the post from server
-    const [postData, setPostData] = useState<PostData>({
-        post: null,
-        username: ''
-    });
+    const [post, setPost] = useState<PostType | null>(null);
     const [commentFormState, setCommentFormState] = useState<CommentFormState>({
         content: '',
         picture: undefined,
@@ -103,10 +100,7 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
         handleReset();
     }
     const handleGettingPost = async (postId: string) => {
-        setPostData({
-            post: null,
-            username: ''
-        });//prevent the cached post from haunting the modal briefly before the new post is fetched
+       //prevent the cached post from haunting the modal briefly before the new post is fetched
         setFetchStatus('loading');
         try{
             const path = "posts";
@@ -115,7 +109,7 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
             }
             const response = await fetchFromGetAPI(path, params);
             if(response.success){
-                setPostData(response.data);
+                setPost(response.data);
                 setFetchStatus('success');
             }else{
                 setFetchStatus('error');
@@ -134,9 +128,9 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
             {children}
             {show && <PostModal onClose={onCloseHandler} show={show} setShow={setShow} title={title}>
                 { 
-                    postData.post && fetchStatus === "success" ? <Post post={postData.post} preview={false} username={postData.username}></Post>
+                    post && fetchStatus === "success" ? <Post post={post} preview={false}></Post>
                     :
-                    <LoadingBox/>
+                    <LoadingBox variant='large' long={true}/>
                 }
              </PostModal>
             }

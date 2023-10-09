@@ -25,7 +25,12 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             if(hasMore){
                 results.pop();
             }
-            res.status(200).json({feeds:results, hasMore: hasMore});
+            if(results.length > 0){
+                res.status(200).json({success: true, feeds:results, hasMore: hasMore});
+            }else{
+                res.status(200).json({success: false, message: "No more feeds"});
+            }
+
         }else{
             res.status(500).json({ error: 'DB connection error' });
         }
