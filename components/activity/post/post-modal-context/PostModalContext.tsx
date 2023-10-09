@@ -9,7 +9,7 @@ import Post from '../Post';
 import LoadingBox from '../../../skeletons/loading-box/LoadingBox';
 
 type PostModalContextType ={
-    setExtraCloseFunction: React.Dispatch<()=>void>;
+    //setExtraCloseFunction: React.Dispatch<()=>void>;
     setShow: React.Dispatch<React.SetStateAction<boolean>>;
     setTitle: React.Dispatch<React.SetStateAction<string>>;
     setCurPostId: React.Dispatch<React.SetStateAction<string>>;
@@ -47,7 +47,7 @@ export function usePostModalContext(){
     if(!context){
         throw new Error("usePostModalContext must be used within PostModalContextProvider");
     }
-    return useContext(PostModalContext);
+    return context;
 }
 interface PostData {
     post: PostType | null,
@@ -76,11 +76,11 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
     const [curPostId, setCurPostId] = useState<string>('');
     const [show, setShow] = useState(false);
     const [title, setTitle] = useState('');
-    const [extraCloseFunction, setExtraCloseFunction] = useState<()=>void>(()=>{});
+    //const [extraCloseFunction, setExtraCloseFunction] = useState<()=>void>(()=>{});
     const value = {
         setShow,
         setTitle,
-        setExtraCloseFunction,
+        //setExtraCloseFunction,
         commentFormState,
         setCommentFormState,
         curPostId,
@@ -91,13 +91,17 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
         setTitle('');
     }
    
-    const onCloseHandler = useCallback(()=>{
+/*     const onCloseHandler = useCallback(()=>{
         setShow(false);
         handleReset();
         if(extraCloseFunction){
             extraCloseFunction();
         }
-    }, [extraCloseFunction])
+    }, [extraCloseFunction]) */
+    const onCloseHandler = () => {
+        setShow(false);
+        handleReset();
+    }
     const handleGettingPost = async (postId: string) => {
         setPostData({
             post: null,
@@ -121,10 +125,10 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
         }
     }
     useEffect(() => {
-        if(curPostId.length > 0 &&  show){
+        if(curPostId !== ''){
             handleGettingPost(curPostId);
         }
-    }, [curPostId, show])
+    }, [curPostId])
     return (
         <PostModalContext.Provider value={value}>
             {children}

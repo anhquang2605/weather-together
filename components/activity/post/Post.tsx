@@ -41,7 +41,7 @@ interface CommentFetchParams{
     lastCursor: string;
 }
 export default function Post({post,username, preview}: PostProps){
-    const {setShow, setTitle, setCurPostId, setExtraCloseFunction, setCommentFormState} = usePostModalContext();
+    const {setShow, setTitle, setCurPostId, setCommentFormState} = usePostModalContext();
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']
@@ -165,9 +165,9 @@ export default function Post({post,username, preview}: PostProps){
         setTitle(`Post by ${usernameToName[post.username] || post.username}`);
         setCurPostId(post._id?.toString() || '');
         setPostCurMode('modal');
-        setExtraCloseFunction(() => {
+/*         setExtraCloseFunction(() => {
             setPostCurMode('preview');
-        })
+        }) */
     }
   
     useEffect(() => {
