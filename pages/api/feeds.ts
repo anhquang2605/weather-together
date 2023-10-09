@@ -8,20 +8,26 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
     if (req.method === 'GET') {
         const db = await connectDB();
         if(db){
-            const notificationsCollection = db.collection('notifications');
+            const feeds = db.collection('feeds');
             const username = req.query.username as string;
+            let theLimit;
             const limit = parseInt(req.query.limit as string);//can be the current number of notifications for the case when new notification is added
-            const cursorAt = new Date(req.query.cursor as string);
+            const cursor = req.query.cursor as string;
+
+            const cursorAt = cursor ? new Date(cursor as string) : new Date();
             const unread = req.query.unread === "true";
             
             let agg:FindArgs = {
                 username: username,
+                createdDate: {$lt: cursorAt}
             }
-            if(cursorAt){
-                agg.createdDate = {$lt: cursorAt}
+            if(!limit){
+                theLimit = 10;
+            }else{
+                theLimit = limit;
             }
-            const results = await notificationsCollection.find(agg).sort({createdDate: -1}).limit(limit + 1).toArray();
-            const hasMore = results.length > limit;
+            const results = await feeds.find(agg).sort({createdDate: -1}).limit(theLimit + 1).toArray();
+            const hasMore = results.length > theLimit;
             if(hasMore){
                 results.pop();
             }
@@ -35,6 +41,8 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             res.status(500).json({ error: 'DB connection error' });
         }
         
+    } else if (req.method === 'POST') {
+
     } else {
         res.status(405).json({ error: 'Method not allowed' }); // Handle any other HTTP method
     }

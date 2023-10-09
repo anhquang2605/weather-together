@@ -5,9 +5,23 @@ import Banner from '../components/banner/banner';
 import { useEffect } from 'react';
 import { Engagement } from 'next/font/google';
 import PostEngagement from '../components/activity/post/post-engagement/PostEngagement';
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { PostFormProvider } from '../components/activity/post/post-engagement/usePostFormContext';
-export default function Home() {
+import { fetchFromGetAPI } from '../libs/api-interactions';
+export async function getStaticProps() {
+   const session = await getSession();
+   if(session){
+         console.log(session)
+   }
+    const results = await getFeedsByUsername("anhquang2605");
+    return {
+        props: {
+            feeds: results.feeds,
+            hasMore: results.hasMore
+        }
+    }
+}
+export default function Home(props: any) {
     const {data: session} = useSession();
     const username = session?.user?.username || "";
     return (
@@ -27,4 +41,14 @@ export default function Home() {
             </div> */}
         </>
     )
+}
+const getFeedsByUsername = async (username: string) => {
+    const path = 'feeds';
+    const params = {
+        username: username
+    }
+    const res = await fetchFromGetAPI(path, params);
+    if(res.success){
+        return res;
+    }
 }
