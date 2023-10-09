@@ -6,6 +6,7 @@ import ReactionCategorizedTabs from './reaction-categorized-tabs/ReactionCategor
 import ReactionList from './reaction-list/ReactionList';
 import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
 import { set } from 'lodash';
+import { is } from 'date-fns/locale';
 
 interface ReactionUserListProps {
     targetId: string;
@@ -43,6 +44,7 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
         }
 
         const response = await fetchFromGetAPI(path, params);
+
         if(response.success){
             const data = response.data;
 
@@ -73,6 +75,17 @@ const ReactionUserList: React.FC<ReactionUserListProps> = ({
             setFormReset(false);
             return true;
         }else {
+            //faled to fetch with true, try with false
+            if(isFriend === "true" && !isLoadedInitially){
+                params.isFriend = 'false';
+                const response2 = await fetchFromGetAPI(path, params);
+                if(response2.success){
+                    setResults(prev => [...prev, ...response2.data.results]);
+                    setHasMore(response2.data.hasMore);
+                    setFormReset(false);
+                    return true;
+                }
+            }
             setApiStatus('failed');
             return false
         }

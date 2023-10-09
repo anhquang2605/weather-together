@@ -216,7 +216,7 @@ export default function Post({post,username, preview}: PostProps){
                     <InteractionsBtns 
                         variant="extended"
                         targetId={post._id?.toString() || ''}
-                        username={username || ''}
+                        username={author || ''}
                         handleCommentBtnClick={handleCommentBtnClick}
                         canComment={true}
                     />

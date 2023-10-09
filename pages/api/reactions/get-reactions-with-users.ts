@@ -35,7 +35,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
                     fullName: {$concat: ["$user.firstName", " ", "$user.lastName"]},
                 }
             }, 
-           {
+          {
                 $lookup:{
                     from: 'friend_requests',
                     let: {username: "$username"},
@@ -95,7 +95,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         ]
 
         const results = await reactionsCollection.aggregate(aggregation).toArray();
-       
         if(results){
             let hasMore = false;
             if(results.length > 0){
