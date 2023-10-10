@@ -13,6 +13,7 @@ const FeedList: React.FC<FeedListProps> = ({}) => {
     const [feeds, setFeeds] = useState<Feed[]>([]);
     useEffect(() => {
         if(getFeeds().length > 0){
+            console.log("getFeeds", getFeeds());
             setFeeds(getFeeds());
         }
     },[getFeeds]);
