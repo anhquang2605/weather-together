@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     },
                 ];
                 const buddies = await buddiesCollection.aggregate(agg).toArray();
-                const buddiesUsernames = buddies.map(buddy => buddy.targetUsername);
+                const buddiesUsernames = buddies.map(buddy => buddy.friendUsername);
                 if(buddies.length === 0){
                     res.status(200).json({
                         success: false,

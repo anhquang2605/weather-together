@@ -28,15 +28,23 @@ export async function getServerSideProps(context: any) {
          }     
    }
     username = session?.user?.username || "";   
+    let results = {
+        success: false,
+        feeds: [],
+        hasMore: false
+    }
     const usernames = await getBuddiesUsernames(username);
-    const results = await getFeedsByUsernames(usernames);
+    if(usernames.length > 0 && usernames){
+        results = await getFeedsByUsernames(usernames);
+    }
+   
     const props:HomeProps = {
         feeds: [],
         hasMore: false,
         username: "",
         apiStatus: 'failed'
     }
-    if(results.success){
+    if( results && results.success){
         props.feeds = results.feeds;
         props.hasMore = results.hasMore;
         props.username = username;
@@ -94,7 +102,7 @@ const getBuddiesUsernames = async (username: string) => {
     }
     const res = await fetchFromGetAPI(path, params);
     if(res.success){
-        return res;
+        return res.data;
     }else{
         throw new Error(res.message);
     }
@@ -109,5 +117,7 @@ const getFeedsByUsernames = async (usernames: string[]) => {
     const res = await fetchFromGetAPI(path, params);
     if(res.success){
         return res;
+    }else{
+        return null;
     }
 }

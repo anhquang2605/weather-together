@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Feed } from '../../../types/Feed';
 import { insertToPostAPI } from '../../../libs/api-interactions';
 type FeedsContextType = {
@@ -39,6 +39,7 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [fetchingStatus, setFetchingStatus] = useState<string>("idle");
     const [initialLoadingStatus, setInitialLoadingStatus] = useState<string>("idle");
+    const feedsMapRef = useRef(feedsMap);
     const setFeedById = (id: string, data: Partial<Feed>) => {
         const feed = feedsMap[id];
         if(feed){
@@ -49,9 +50,12 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     const getFeedById = (id: string) => {
         return feedsMap[id];
     }
-    const getFeeds = () => {
-        return Object.values(feedsMap);
-    }
+    const getFeeds = useCallback( () => {
+        if(!feedsMapRef.current){
+            return [];
+        }
+        return Object.values(feedsMapRef.current);
+    },[feedsMap]); 
     const addFeeds = async (newFeeds: Feed[], isAppending: boolean) => {
         const newFeedsMap: IDtoFeedMap = {};
         const currentUniqueUsernames = new Set<string>();
@@ -67,12 +71,20 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         }
         
         if(isAppending){
-            setFeedsMap({...feedsMap, ...newFeedsMap});
+            setFeedsMap(prevState =>  
+                {
+                    return {...prevState, ...newFeedsMap}
+                }
+            );
         }else{
-            setFeedsMap({...newFeedsMap, ...feedsMap});
+            setFeedsMap(prevState =>  
+                {
+                    return {...newFeedsMap, ...prevState}
+                }
+            );
         }
     }
-   
+    
     const handleFetchProfilePictures = async (usernames: string[]) => {
         //check if profilePictureMap has the username, if not then fetch the profile picture path and set the profilePictureMap
         const usernamesToFetch = usernames.filter(username => !profilePicturesMap[username]);
@@ -88,6 +100,9 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
             throw new Error(res.message);
         }
     }
+    useEffect(() => {
+        feedsMapRef.current = feedsMap;
+    },[feedsMap]);
     const value = {
         hasMore,
         fetchingStatus,
@@ -101,7 +116,6 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         getFeeds,
         profilePicturesMap
     }
-    
     return (
         <FeedsContext.Provider value={value}>
             {children}

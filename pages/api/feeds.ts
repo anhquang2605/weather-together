@@ -15,7 +15,8 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 usernames = usernamesString.split(',');
             }
             let cursor = req.query.cursor as string;
-
+            let limit =  req.query.limit as string;
+            const theLimit = limit? parseInt(limit): 10;
             // Fetch the latest feeds where the username is either the issuer or the target
             const feeds = await db
                 .collection("feeds")
@@ -31,19 +32,25 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     },
                 })
                 .sort({ createdDate: -1 }) // Assuming you have a date field to sort by latest
-                .limit(10) // or however many you want to fetch at once
+                .limit(theLimit + 1) // or however many you want to fetch at once
                 .toArray();
-
             if (feeds.length === 0) {
                 res.status(200).json({
                     success: false,
-                    message: "No feeds found",     
+                    feeds: [],
+                    hasMore: false,     
                 });
                 return;
             }
+            let hasMore = false;
+            if(feeds.length > theLimit + 1){
+                hasMore = true;
+                feeds.pop();
+            }
+
 
             // Get the list of usernames for which feeds were found
-            res.status(200).json({ feeds });
+            res.status(200).json({ feeds, hasMore, success: true });
         } else if (req.method === 'POST') {
             const usernames = req.body;
             const feeds = db.collection('feeds');
@@ -58,10 +65,10 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 }
             ]
             const results = await feeds.aggregate(agg).toArray();
-            if(results.length > 0){
+            if(results.length >= 0){
                 res.status(200).json({success: true, feeds:results});
             }else{
-                res.status(200).json({success: false, message: "No more feeds"});
+                res.status(200).json({success: false, feeds: [], hasMore: false, message: "No more feeds"});
             }
         } else {
             res.status(405).json({ error: 'Method not allowed' }); // Handle any other HTTP method

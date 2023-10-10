@@ -1,6 +1,8 @@
-import React, { use, useEffect } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import style from './feed-list.module.css';
 import { useFeedContext } from '../FeedsContext';
+import { Feed } from '../../../../types/Feed';
+import FeedComponent from '../feed-component/FeedComponent';
 
 interface FeedListProps {
 
@@ -8,12 +10,21 @@ interface FeedListProps {
 
 const FeedList: React.FC<FeedListProps> = ({}) => {
     const {getFeeds} = useFeedContext();
+    const [feeds, setFeeds] = useState<Feed[]>([]);
     useEffect(() => {
-        console.log(getFeeds());
-    },[]);
+        if(getFeeds().length > 0){
+            setFeeds(getFeeds());
+        }
+    },[getFeeds]);
     return (
         <div className={style['feed-list']}>
-            FeedList
+            {
+                feeds.length > 0 && feeds.map((feed, index) => {
+                    return (
+                        <FeedComponent key={index} feed={feed}/>
+                    )   
+                })
+            }
         </div>
     );
 };
