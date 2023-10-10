@@ -2,28 +2,52 @@ import Head from 'next/head';
 import WeatherSummarySide from '../components/weather-widgets/weather-summary-side/weathersummaryside';
 import ActivityBoard from '../components/activity-board/ActivityBoard';
 import Banner from '../components/banner/banner';
-import { useEffect } from 'react';
-import { Engagement } from 'next/font/google';
 import PostEngagement from '../components/activity/post/post-engagement/PostEngagement';
-import { useSession, getSession } from 'next-auth/react';
-import { PostFormProvider } from '../components/activity/post/post-engagement/usePostFormContext';
-import { fetchFromGetAPI } from '../libs/api-interactions';
-export async function getStaticProps() {
-   const session = await getSession();
-   if(session){
-         console.log(session)
+import { getSession } from 'next-auth/react';
+import { fetchFromGetAPI, insertToPostAPI } from '../libs/api-interactions';
+import { useEffect } from 'react';
+import FeedsBoard from '../components/activity/feed/FeedsBoard';
+import { FeedContextProvider } from '../components/activity/feed/FeedsContext';
+interface HomeProps {
+    feeds: any;
+    hasMore: boolean;
+    username: string;
+    apiStatus: string;
+}
+export async function getServerSideProps(context: any) {
+   const session = await getSession(context);//need to provide context for the session
+   let username = "";
+   if(!session){
+         return {
+              props: {
+                feeds: [],
+                hasMore: false,
+                username: "",
+                apiStatus: 'failed'
+              }
+         }     
    }
-    const results = await getFeedsByUsername("anhquang2605");
+    username = session?.user?.username || "";   
+    const usernames = await getBuddiesUsernames(username);
+    const results = await getFeedsByUsernames(usernames);
+    const props:HomeProps = {
+        feeds: [],
+        hasMore: false,
+        username: "",
+        apiStatus: 'failed'
+    }
+    if(results.success){
+        props.feeds = results.feeds;
+        props.hasMore = results.hasMore;
+        props.username = username;
+        props.apiStatus = 'success';
+    }
     return {
-        props: {
-            feeds: results.feeds,
-            hasMore: results.hasMore
-        }
+       props
     }
 }
 export default function Home(props: any) {
-    const {data: session} = useSession();
-    const username = session?.user?.username || "";
+    const {feeds, hasMore, username, apiStatus} = props;
     return (
         <>
             <Head>
@@ -34,7 +58,28 @@ export default function Home(props: any) {
 
                     <PostEngagement
                         username={username}
-                    />
+                    /> 
+                    {
+                        apiStatus === 'success'
+                        &&
+                        <FeedContextProvider>
+                            <FeedsBoard
+                                username={username}
+                                initialFeeds={feeds}
+                            />
+                        </FeedContextProvider>
+                    }
+                    {
+                        apiStatus === 'failed'
+                        &&
+                        <div className="text-center text-2xl font-bold text-gray-500">
+                            Failed to load feeds
+                        </div>
+                    }
+                    {
+
+                    }
+                    
             </div>
 {/*             <div className="right-side relative">
                 {<WeatherSummarySide />}
@@ -42,12 +87,21 @@ export default function Home(props: any) {
         </>
     )
 }
-const getFeedsByUsername = async (username: string) => {
-    const path = 'feeds';
+const getBuddiesUsernames = async (username: string) => {
+    const path = 'buddy/usernames';
     const params = {
         username: username
     }
     const res = await fetchFromGetAPI(path, params);
+    if(res.success){
+        return res;
+    }else{
+        throw new Error(res.message);
+    }
+}
+const getFeedsByUsernames = async (usernames: string[]) => {
+    const path = 'feeds';
+    const res = await insertToPostAPI(path, usernames);
     if(res.success){
         return res;
     }

@@ -20,7 +20,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
         <>
         <div className={style['post-engagement'] + " glass-component p-8 w-full lg:w-[800px] mx-auto rounded-3xl"}>
               <h3 className="text-center text-3xl">
-                Weather where you are, what's on your mind?  
+                Weather you're outside or in, what's on your mind?
               </h3>
               <button onClick={()=> {
                     setRevealForm(!revealForm)

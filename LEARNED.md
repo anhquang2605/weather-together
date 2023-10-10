@@ -180,3 +180,23 @@ _Putting two state setter in same function scope will make the state update simu
           
         }
     },[commentFormState])
+    39. When getSession() inside getServerSideProps, need to provide the context to the getSession() function
+    const session = await getSession(context);//need to provide context for the session
+   let username = "";
+   if(!session){
+         return {
+              props: {
+                feeds: [],
+                hasMore: false
+              }
+         }     
+   }
+    username = session?.user?.username || "";   
+    const results = await getFeedsByUsername(username);
+    return {
+        props: {
+            feeds: results.feeds,
+            hasMore: results.hasMore,
+            username: username
+        }
+    }

@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface Feed {
-    _id?: string;
+    _id: string | ObjectId;
     title?: string;
     createdDate: Date;
     username: string;//user who created the feed
@@ -10,6 +12,8 @@ export interface Feed {
     targetType?: string;//type of target, post, comment...
     targetId?: string;//id of target post, comment
     targetParentId?: string;//id of parent post if targetType is a comment, will be '', if targetType is a post or picture
+    hidden: boolean;
+    hiddenDuration?: number;//in seconds
 }
 
 /* Here are few activities that you could include in a user's activity feed:
