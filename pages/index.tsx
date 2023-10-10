@@ -101,7 +101,12 @@ const getBuddiesUsernames = async (username: string) => {
 }
 const getFeedsByUsernames = async (usernames: string[]) => {
     const path = 'feeds';
-    const res = await insertToPostAPI(path, usernames);
+    const finalUsernames = usernames.join(',');
+    const params = {
+        usernames: finalUsernames
+    }
+
+    const res = await fetchFromGetAPI(path, params);
     if(res.success){
         return res;
     }

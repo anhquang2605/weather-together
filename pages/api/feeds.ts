@@ -9,37 +9,41 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
     if(db){
         if (req.method === 'GET') {
             // Assuming you pass an array of usernames as a query parameter
-            let usernames:String[] = req.query.usernames as String[] || [];
+            let usernamesString = req.query.usernames as string;
+            let usernames:String[] = [];
+            if(usernamesString && usernamesString.length > 0){
+                usernames = usernamesString.split(',');
+            }
+            let cursor = req.query.cursor as string;
 
             // Fetch the latest feeds where the username is either the issuer or the target
             const feeds = await db
                 .collection("feeds")
                 .find({
-                $or: [
-                    { username: { $in: usernames } },
-                    { relatedUser: { $in: usernames } },
-                ],
+                    $or: [
+                        { username: { $in: usernames } },
+                        { relatedUser: { $in: usernames } },
+                    ],
+                    createdDate: { $lt: 
+                        cursor && cursor.length > 0 ?
+                        new Date(cursor) :
+                        new Date() 
+                    },
                 })
-                .sort({ date: -1 }) // Assuming you have a date field to sort by latest
+                .sort({ createdDate: -1 }) // Assuming you have a date field to sort by latest
                 .limit(10) // or however many you want to fetch at once
                 .toArray();
 
             if (feeds.length === 0) {
-                res.status(404).json({ error: "No feeds found" });
+                res.status(200).json({
+                    success: false,
+                    message: "No feeds found",     
+                });
                 return;
             }
 
             // Get the list of usernames for which feeds were found
-            const activeUsernames = [
-                ...new Set([...feeds.map((feed) => feed.username), ...feeds.map((feed) => feed.relatedUser)]),
-            ];
-
-            // Filter out usernames that didn't have any feeds
-            const remainingUsernames = usernames.filter((username) =>
-                activeUsernames.includes(username)
-            );
-
-            res.status(200).json({ feeds, remainingUsernames });
+            res.status(200).json({ feeds });
         } else if (req.method === 'POST') {
             const usernames = req.body;
             const feeds = db.collection('feeds');
