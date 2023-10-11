@@ -12,7 +12,8 @@ type FeedsContextType = {
     setFeedById: (id: string, data: Partial<Feed>) => void,
     getFeedById: (id: string) => Feed | undefined,
     getFeeds: () => Feed[],
-    profilePicturesMap: UsernameToProfilePictureMap
+    profilePicturesMap: UsernameToProfilePictureMap,
+    feedsMap: IDtoFeedMap
 }
 interface FeedContextProviderProps {
     children: React.ReactNode
@@ -52,10 +53,11 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     }
     const getFeeds = useCallback( () => {
         if(!feedsMapRef.current){
+            
             return [];
         }
         return Object.values(feedsMapRef.current);
-    },[feedsMap]); 
+    },[]); 
     const addFeeds = async (newFeeds: Feed[], isAppending: boolean) => {
         const newFeedsMap: IDtoFeedMap = {};
         const currentUniqueUsernames = new Set<string>();
@@ -114,7 +116,8 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         setFeedById,
         getFeedById,
         getFeeds,
-        profilePicturesMap
+        profilePicturesMap,
+        feedsMap
     }
     return (
         <FeedsContext.Provider value={value}>

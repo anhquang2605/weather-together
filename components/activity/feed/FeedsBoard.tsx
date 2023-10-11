@@ -17,7 +17,7 @@ interface returnedFetchData {
 }
 
 /* 
-    Only job is to fetch the feeds, then pass the feeds to the context provider
+    Only job is to fetch the feeds, then pass the feeds to the context provider, also consolidate the feeds from the context provider, if the feed has the same targetId and username then it will be consolidated into one feed. we take the latest feed and add the username to the feed's username array.
 */
 export default function FeedsBoard (props: FeedsBoardProps) {
     const {

@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const postsCollection: Collection = db.collection('posts');
         switch (method) {
             case 'GET':
-                const {username, _id} = req.query;
+                const {username, postId} = req.query;
                 if(username){
                     try{
                         const post = await postsCollection.findOne({username: username});
@@ -23,11 +23,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }catch(err){
                         res.status(500).json({ error: err, success: false })
                     }
-                }else if(_id){
+                }else if(postId){
 
                     try{
                         const post = await postsCollection.findOne(
-                            {_id: new ObjectId(_id as string)}
+                            {_id: new ObjectId(postId as string)}
 
                         );
                         if(post){
@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 data: post
                             });
                         }else{
-                            res.status(200).json({ success: false, error: 'Post not found' });
+                            res.status(200).json({ success: false, data: null, error: 'Post not found' });
                         }
                     }catch(err){
                         res.status(500).json({ error: err, success: false })

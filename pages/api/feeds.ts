@@ -18,22 +18,41 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let limit =  req.query.limit as string;
             const theLimit = limit? parseInt(limit): 10;
             // Fetch the latest feeds where the username is either the issuer or the target
+            const aggregate = [
+                {
+                    $match: {
+                        $or: [
+                            { username: { $in: usernames } },
+                            { relatedUser: { $in: usernames } },
+                        ],
+                        createdDate: { $lt: 
+                            cursor && cursor.length > 0 ?
+                            new Date(cursor) :
+                            new Date() 
+                        },
+                    },
+                },
+                { $sort: { createdDate: -1 } },
+                {
+                    $group: {
+                        _id: {
+                            targetId: '$targetId',
+                            username: '$username',
+                            targetParentId: '$targetParentId',
+                        },
+                        latestDocument: { $first: "$$ROOT" }
+                    }
+                },
+                {
+                    $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
+                  },
+                { $limit: theLimit + 1 },
+            ]
             const feeds = await db
                 .collection("feeds")
-                .find({
-                    $or: [
-                        { username: { $in: usernames } },
-                        { relatedUser: { $in: usernames } },
-                    ],
-                    createdDate: { $lt: 
-                        cursor && cursor.length > 0 ?
-                        new Date(cursor) :
-                        new Date() 
-                    },
-                })
-                .sort({ createdDate: -1 }) // Assuming you have a date field to sort by latest
-                .limit(theLimit + 1) // or however many you want to fetch at once
+                .aggregate(aggregate)
                 .toArray();
+                console.log(feeds);
             if (feeds.length === 0) {
                 res.status(200).json({
                     success: false,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './feed-component.module.css';
 import { Feed } from '../../../../types/Feed';
 import Post from '../../post/Post';
@@ -12,7 +12,9 @@ interface FeedComponentProps {
 const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
     const {data: session} = useSession();
     const myUsername = session?.user?.username || "";
+    const [feedJSX, setFeedJSX] = React.useState<JSX.Element | null>(null);
     const FeedCategorizer = async (feed: Feed) => {
+        console.log(feed);
         if(feed.type === 'post' || feed.type === 'comment'){
             const postId = feed.type === "comment" ? feed.targetParentId : feed.targetId;
             if(!postId){
@@ -20,7 +22,9 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
             }
             const post = await fetchPost(postId);
             if(post){
-                return (
+                console.log(post);
+                setFeedJSX(
+                    //post need to have extra prop that display a specific comment in the preview
                     <Post post={post} username={myUsername} preview={true} />
                 )
             }else{
@@ -43,10 +47,16 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
         }
         return null;
     }
+    useEffect(() => {
+        feed && FeedCategorizer(feed);
+    },[feed])
     return (
         <div className={style['feed-component']}>
+            <div>
+                    {feed.title}
+            </div>
             {
-                feed && FeedCategorizer(feed)
+                feedJSX
             }
         </div>
     );

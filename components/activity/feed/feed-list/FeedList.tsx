@@ -9,14 +9,16 @@ interface FeedListProps {
 }
 
 const FeedList: React.FC<FeedListProps> = ({}) => {
-    const {getFeeds} = useFeedContext();
+    const {getFeeds, feedsMap} = useFeedContext();
     const [feeds, setFeeds] = useState<Feed[]>([]);
+    const getFeedsArray = (feedsmap: {[id: string]: Feed}) => {
+        return Object.values(feedsmap);
+    }
     useEffect(() => {
-        if(getFeeds().length > 0){
-            console.log("getFeeds", getFeeds());
-            setFeeds(getFeeds());
+        if(feedsMap){
+            setFeeds(getFeedsArray(feedsMap));
         }
-    },[getFeeds]);
+    },[feedsMap]);
     return (
         <div className={style['feed-list']}>
             {
