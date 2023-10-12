@@ -34,11 +34,12 @@ interface UsernameToNameMap{
     [username: string]: string;
 }
 interface CommentFetchParams{
-    targetId: string;
-    postId: string;
+    targetId?: string;
+    postId?: string;
     limit?: string;
     level?: string;
     lastCursor: string;
+    _id?: string;
 }
 export default function Post({post,username, preview, previewCommentId}: PostProps){
     const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
@@ -94,6 +95,8 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
         setIsFetchingComments(true);
         if (more) {setFetchingStatus('loading')};
         const path = `comments`;
+        
+       
         const params:CommentFetchParams = {
             targetId, 
             postId,
@@ -102,6 +105,9 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
         if(preview){
             params.limit = commentPreviewLimit.toString();
             params.level = '0';
+            if(previewCommentId){
+                params._id = previewCommentId;
+            }
         }else{
             params.limit = limitPerFetch.toString();
         }

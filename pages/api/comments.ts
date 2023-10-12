@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import { connectDB } from '../../libs/mongodb'
-import { Collection, WithId } from 'mongodb';
+import { Collection, ObjectId, WithId } from 'mongodb';
 import { Comment } from '../../types/Comment';
 import { CommentChildrenSummary } from '../../types/CommentChildrenSummary';
 import { type } from 'os';
@@ -18,12 +18,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const commentsCollection:Collection<Comment>= db.collection('comments');
         switch(method){
             case 'GET':
-                const {username,postId, level, targetId, limit, lastCursor} = req.query;
+                const {username,postId, level, targetId, limit, lastCursor, _id} = req.query;
                 try {
                     let result:WithId<Comment>[] =[];
                     let children:CommentChildrenSummary = {};
-                    
-                    if(username && postId){
+                    if(_id){
+                      result = await commentsCollection.find({_id: new ObjectId(_id as string)}).toArray();
+                      for(let i = 0; i < result.length; i++){
+                        const commentId = result[i]._id.toString();
+                        const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
+                        children[commentId] = childrenNo;
+                      }
+                    }
+                    else if(username && postId){
                       result = await commentsCollection.find({username,postId: postId.toString()}).toArray();
                     } 
                     else if(username){
