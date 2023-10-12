@@ -10,6 +10,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
         if (req.method === 'GET') {
             // Assuming you pass an array of usernames as a query parameter
             let usernamesString = req.query.usernames as string;
+            let username = req.query.username as string;
             let usernames:String[] = [];
             if(usernamesString && usernamesString.length > 0){
                 usernames = usernamesString.split(',');
@@ -22,7 +23,10 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 {
                     $match: {
                         $or: [
-                            { username: { $in: usernames } },
+                            { username: { 
+                                $in: usernames 
+
+                            } },
                             { relatedUser: { $in: usernames } },
                         ],
                         createdDate: { $lt: 
@@ -47,12 +51,17 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
                   },
                 { $limit: theLimit + 1 },
+                //put the document whose username is equal to the username at the top, then sort by createdDate
+                {
+                    $sort: {
+                        username: { $eq: username } ? 1 : -1,
+                    }
+                }
             ]
             const feeds = await db
                 .collection("feeds")
                 .aggregate(aggregate)
                 .toArray();
-                console.log(feeds);
             if (feeds.length === 0) {
                 res.status(200).json({
                     success: false,

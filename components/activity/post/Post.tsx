@@ -24,7 +24,7 @@ interface PostProps{
     post: Post;
     username?: string;
     preview?: boolean;
-
+    previewCommentId?: string;
 }
 interface ReactionGroup{
     _id: string; //reaction name
@@ -40,12 +40,11 @@ interface CommentFetchParams{
     level?: string;
     lastCursor: string;
 }
-export default function Post({post,username, preview}: PostProps){
-    const {setShow, setTitle, setCurPostId, setCommentFormState} = usePostModalContext();
+export default function Post({post,username, preview, previewCommentId}: PostProps){
+    const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']
-    const [postCurMode, setPostCurMode] = useState(''); //['preview', 'modal'
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
@@ -164,10 +163,6 @@ export default function Post({post,username, preview}: PostProps){
         setShow(true);
         setTitle(`Post by ${usernameToName[post.username] || post.username}`);
         setCurPostId(post._id?.toString() || '');
-        setPostCurMode('modal');
-/*         setExtraCloseFunction(() => {
-            setPostCurMode('preview');
-        }) */
     }
   
     useEffect(() => {

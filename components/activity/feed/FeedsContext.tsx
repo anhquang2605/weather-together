@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Feed } from '../../../types/Feed';
 import { insertToPostAPI } from '../../../libs/api-interactions';
+import { UserBasic } from '../../../types/User';
+import { current } from '@reduxjs/toolkit';
 type FeedsContextType = {
     hasMore: boolean,
     fetchingStatus: string,
@@ -12,17 +14,17 @@ type FeedsContextType = {
     setFeedById: (id: string, data: Partial<Feed>) => void,
     getFeedById: (id: string) => Feed | undefined,
     getFeeds: () => Feed[],
-    profilePicturesMap: UsernameToProfilePictureMap,
+    usernameToBasicProfileMap: UsernameToBasicProfileMap,
     feedsMap: IDtoFeedMap
+}
+interface UsernameToBasicProfileMap{
+    [username: string]: UserBasic
 }
 interface FeedContextProviderProps {
     children: React.ReactNode
 }
 interface IDtoFeedMap {
     [id: string]: Feed;
-}
-export interface UsernameToProfilePictureMap {
-    [username: string]: string;
 }
 export const FeedsContext = createContext<FeedsContextType | null>(null);
 
@@ -35,7 +37,7 @@ export const useFeedContext = () => {
 }
 
 export function FeedContextProvider ({children}: FeedContextProviderProps) {
-    const [profilePicturesMap, setProfilePicturesMap] = useState<UsernameToProfilePictureMap>({});//[username: string]: string} = {}
+    const [usernameToBasicProfileMap, setUsernameToBasicProfileMap] = useState<UsernameToBasicProfileMap>({});//[username: string]: UserBasic} = {}
     const [feedsMap, setFeedsMap] = useState<IDtoFeedMap>({});
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [fetchingStatus, setFetchingStatus] = useState<string>("idle");
@@ -64,10 +66,11 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         newFeeds.forEach(feed => {
             newFeedsMap[feed._id as string] = feed;
             currentUniqueUsernames.add(feed.username);
+            currentUniqueUsernames.add(feed.relatedUser as string);
         });
         const usernames = Array.from(currentUniqueUsernames);
         try{
-            await handleFetchProfilePictures(usernames);
+            await addUsernameToBasicProfileMap(usernames);
         }catch(err){
             console.log(err);
         }
@@ -87,17 +90,24 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         }
     }
     
-    const handleFetchProfilePictures = async (usernames: string[]) => {
-        //check if profilePictureMap has the username, if not then fetch the profile picture path and set the profilePictureMap
-        const usernamesToFetch = usernames.filter(username => !profilePicturesMap[username]);
+
+    const addUsernameToBasicProfileMap = async (usernames: string[]) => {
+        const usernamesToFetch = usernames.filter(username => !usernameToBasicProfileMap[username]);
         if(usernamesToFetch.length === 0){
             return;
         }
-        const path = 'user/profile-pictures';
+        const path = 'user/by-usernames-basic';
         const res = await insertToPostAPI(path, usernamesToFetch);
         if(res.success){
-            const newProfilePicturesMap: UsernameToProfilePictureMap = res.data;
-            setProfilePicturesMap({...profilePicturesMap, ...newProfilePicturesMap});
+            const newProfilePicturesMap: UsernameToBasicProfileMap = res.data.reduce((acc:UsernameToBasicProfileMap,user: UserBasic) => {
+                acc[user.username] = user;
+                return acc;
+            },{});
+            setUsernameToBasicProfileMap(
+               prev => {
+                     return {...prev, ...newProfilePicturesMap}
+               }
+            );
         }else{
             throw new Error(res.message);
         }
@@ -105,6 +115,9 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     useEffect(() => {
         feedsMapRef.current = feedsMap;
     },[feedsMap]);
+    useEffect(()=>{
+        console.log("usernameToBasicProfileMap", usernameToBasicProfileMap);
+    },[usernameToBasicProfileMap])
     const value = {
         hasMore,
         fetchingStatus,
@@ -116,8 +129,9 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         setFeedById,
         getFeedById,
         getFeeds,
-        profilePicturesMap,
-        feedsMap
+        feedsMap,
+        usernameToBasicProfileMap,
+        
     }
     return (
         <FeedsContext.Provider value={value}>

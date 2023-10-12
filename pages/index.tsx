@@ -35,7 +35,8 @@ export async function getServerSideProps(context: any) {
     }
     const usernames = await getBuddiesUsernames(username);
     if(usernames.length > 0 && usernames){
-        results = await getFeedsByUsernames(usernames);
+        results = await getFeedsByUsernames(usernames, username);
+
     }
    
     const props:HomeProps = {
@@ -45,6 +46,8 @@ export async function getServerSideProps(context: any) {
         apiStatus: 'failed'
     }
     if( results && results.success){
+        //get list of unique usernames from this list of feeds from results.feeds
+
         props.feeds = results.feeds;
         props.hasMore = results.hasMore;
         props.username = username;
@@ -107,11 +110,12 @@ const getBuddiesUsernames = async (username: string) => {
         throw new Error(res.message);
     }
 }
-const getFeedsByUsernames = async (usernames: string[]) => {
+const getFeedsByUsernames = async (usernames: string[], username:string) => {
     const path = 'feeds';
     const finalUsernames = usernames.join(',');
     const params = {
-        usernames: finalUsernames
+        usernames: finalUsernames,
+        username
     }
 
     const res = await fetchFromGetAPI(path, params);

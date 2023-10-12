@@ -17,6 +17,7 @@ type PostModalContextType ={
     setCommentFormState: React.Dispatch<React.SetStateAction<CommentFormState>>;
     curPostId: string;
     show:boolean;
+    setExtraCloseFunction: React.Dispatch<React.SetStateAction<()=>void>>;
 }
 export interface CommentFormState {
     content: string,
@@ -56,6 +57,7 @@ interface PostData {
 const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) => {
     const [fetchStatus, setFetchStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle'); //TODO: fetch the post from server
     const [post, setPost] = useState<PostType | null>(null);
+    const [extraCloseFunction, setExtraCloseFunction] = useState<()=>void>(()=>{});
     const [commentFormState, setCommentFormState] = useState<CommentFormState>({
         content: '',
         picture: undefined,
@@ -82,30 +84,28 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
         setCommentFormState,
         curPostId,
         show,
-        setCurPostId
+        setCurPostId,
+        setExtraCloseFunction
     }
     const handleReset = () => {
         setTitle('');
     }
    
-/*     const onCloseHandler = useCallback(()=>{
+    const onCloseHandler = useCallback(()=>{
         setShow(false);
         handleReset();
         if(extraCloseFunction){
             extraCloseFunction();
         }
-    }, [extraCloseFunction]) */
-    const onCloseHandler = () => {
-        setShow(false);
-        handleReset();
-    }
+    }, [extraCloseFunction])
+
     const handleGettingPost = async (postId: string) => {
        //prevent the cached post from haunting the modal briefly before the new post is fetched
         setFetchStatus('loading');
         try{
             const path = "posts";
             const params = {
-                _id: postId
+                postId
             }
             const response = await fetchFromGetAPI(path, params);
             if(response.success){

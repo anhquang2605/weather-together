@@ -5,7 +5,6 @@ import { fetchFromGetAPI } from '../../../libs/api-interactions';
 import { FeedContextProvider, FeedsContext, useFeedContext } from './FeedsContext';
 import { unique } from 'next/dist/build/utils';
 import FeedList from './feed-list/FeedList';
-import { UsernameToProfilePictureMap } from './FeedsContext';
 type FetchFunctionType = (path: string, params: any) => Promise<any>;
 interface FeedsBoardProps {
     username: string;

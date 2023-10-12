@@ -12,7 +12,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             const usersCollection = db.collection<User>('users');
             const users:User[] = await usersCollection.find({username: {$in: usernames}}).toArray();
             if(users.length === 0){
-                res.status(204).end();
+                res.status(200).json(
+                    {
+                        success: false,
+                        data: []
+
+                    }
+                );
                 return;
             }
             const filteredUsers = users.map(user => {

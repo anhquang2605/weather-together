@@ -14,11 +14,15 @@ const FeedList: React.FC<FeedListProps> = ({}) => {
     const getFeedsArray = (feedsmap: {[id: string]: Feed}) => {
         return Object.values(feedsmap);
     }
+
     useEffect(() => {
         if(feedsMap){
             setFeeds(getFeedsArray(feedsMap));
         }
     },[feedsMap]);
+    useEffect(()=>{
+        console.log('feeds', feeds);
+    },[feeds])
     return (
         <div className={style['feed-list']}>
             {

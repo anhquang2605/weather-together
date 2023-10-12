@@ -1,6 +1,5 @@
 .user-mini-profile{
     display: flex;
-    width: 100%;
     flex-shrink: 1;
     align-items: center;
     .full-name{
@@ -12,10 +11,18 @@
             @apply underline;
         }
     }
+    &.small{
+        .user-info{
+            margin-left: 0.5rem;
+        }
+    }
 }
 .dark{
     @apply text-white;
 }
 .user-info{
     margin-left: 1rem;
+}
+.full-name{
+    @apply font-bold;
 }

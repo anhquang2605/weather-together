@@ -8,9 +8,10 @@ interface UserMiniProfileProps {
     user: UserBasic;
     subInfo?: string;//location, date posted, etc, need to be the right properties name Ex: location.city, location.country....
     theme?: '' | 'dark'; //default is light
+    sizeOfAvatar?: 'small' | 'medium' | 'large';
 }
 
-const UserMiniProfile: React.FC<UserMiniProfileProps> = ({user, subInfo, theme = ''}) => {
+const UserMiniProfile: React.FC<UserMiniProfileProps> = ({user, subInfo, theme = '', sizeOfAvatar = 'large'}) => {
     const router = useRouter();
     const goToUserPage = () => {
         router.push(`/userprofile/${user.username}`);
@@ -18,13 +19,13 @@ const UserMiniProfile: React.FC<UserMiniProfileProps> = ({user, subInfo, theme =
     return (
         <span title="View this user profile" onClick={()=>{
             goToUserPage();
-        }} className={style['user-mini-profile']}>
+        }} className={style['user-mini-profile'] + " " + style[sizeOfAvatar]}>
             <MiniAvatar 
             username={user.username} 
             profilePicturePath={user.profilePicturePath}
-            size="large"
+            size={sizeOfAvatar}
             />
-            <div className={`${style['user-info']} ${style[theme]}`}>
+            <div className={`${style['user-info']} ${style[theme]} $`}>
                 <div className={style['full-name']}>
                     {user.name !== "" ? user.name : user.username}
                 </div>

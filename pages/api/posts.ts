@@ -23,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }catch(err){
                         res.status(500).json({ error: err, success: false })
                     }
+                    
                 }else if(postId){
 
                     try{
@@ -41,6 +42,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }catch(err){
                         res.status(500).json({ error: err, success: false })
                     }
+                } else if (!username && !postId) {
+                    res.status(200).json({ success: false, error: 'Please provide username or postId' });
                 }
                 break;
             case 'POST':
