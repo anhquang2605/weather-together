@@ -26,11 +26,15 @@ const FeedList: React.FC<FeedListProps> = ({}) => {
     return (
         <div className={style['feed-list']}>
             {
-                feeds.length > 0 && feeds.map((feed, index) => {
+                feeds ? feeds.map((feed, index) => {
                     return (
                         <FeedComponent key={index} feed={feed}/>
                     )   
                 })
+                :
+                <>
+                    No feeds yet, make some buddies to see their feeds!
+                </>
             }
         </div>
     );

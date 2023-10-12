@@ -25,7 +25,6 @@ const FeedTitle = (props:FeedTitleProps) => {
     const convertUserToMiniProfile = (user: UserBasic) => {
         return <UserMiniProfile user={user} sizeOfAvatar='small'/>
     }
-
     return (
         <div className={style['feed-title'] + " glass rounded-lg border border-slate-400 border-b-0"}>
         {
@@ -47,7 +46,9 @@ const FeedTitle = (props:FeedTitleProps) => {
                 relatedUser === myUsername ?
             'your' :
              
-                user2 && convertUserToMiniProfile(user2) 
+                user2.username === user.username ?
+                "their " 
+                : convertUserToMiniProfile(user2) 
              
             ) 
         }
@@ -66,12 +67,14 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
     const {usernameToBasicProfileMap} = useFeedContext();
     const [feedJSX, setFeedJSX] = React.useState<JSX.Element | null>(null);
     const FeedCategorizer = async (feed: Feed) => {
+
         if(feed.type.includes('post') || feed.type.includes('comment')){
-            const postId = feed.type === "comment" ? feed.targetParentId : feed.targetId;
+            const postId = feed.targetType?.includes("comment") ? feed.targetParentId : feed.targetId;
+            console.log('postId', postId);
             if(!postId){
                 return null;
             }
-            const targetComment = feed.type === 'comment'? feed.targetId : '';
+            const targetComment = feed.type.includes('comment')? feed.targetId : '';
             const post = await fetchPost(postId);
             if(post){
                 setFeedJSX(
@@ -124,13 +127,12 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
     }
    
     useEffect(() => {
-        feed && FeedCategorizer(feed);
-    },[feed])
-    useEffect(()=> {
-        if(usernameToBasicProfileMap && usernameToBasicProfileMap[feed.username]){
-            setUser(usernameToBasicProfileMap[feed.username]);
+        if(feed){
+            FeedCategorizer(feed);
         }
-    }, [usernameToBasicProfileMap])
+    },[feed])
+    
+
     return (
         <div className={style['feed-component']}>
             {
