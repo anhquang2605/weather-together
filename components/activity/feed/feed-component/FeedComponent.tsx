@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import UserMiniProfile from '../../../user/user-mini-profile/UserMiniProfile';
 import { UserBasic } from '../../../../types/User';
 import { useFeedContext } from '../FeedsContext';
+import { set } from 'lodash';
 
 interface FeedComponentProps {
     feed: Feed
@@ -38,13 +39,13 @@ const FeedTitle = (props:FeedTitleProps) => {
         }
 
         {
-            feed.type.includes('post') && ' released '}
+            feed.type.includes('post') && ' released a '}
 
         {
             feed.type.includes("comment") &&
             (                          
                 relatedUser === myUsername ?
-            'your' :
+            'your ' :
              
                 user2.username === user.username ?
                 "their " 
@@ -53,8 +54,8 @@ const FeedTitle = (props:FeedTitleProps) => {
             ) 
         }
         {
-            feed.targetType && feed.targetType.length > 0 && ("'s "
-            + feed.targetType)
+            feed.targetType && feed.targetType.length > 0 && (
+            feed.targetType)
         } 
          
         </div>
@@ -67,14 +68,37 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
     const {usernameToBasicProfileMap} = useFeedContext();
     const [feedJSX, setFeedJSX] = React.useState<JSX.Element | null>(null);
     const FeedCategorizer = async (feed: Feed) => {
-
-        if(feed.type.includes('post') || feed.type.includes('comment')){
+        if(feed.type.includes('post')) {
+            const postId = feed.activityId;
+            if(!postId){
+                return null;
+            }
+            const post = await fetchPost(postId);
+            if(post){
+                setFeedJSX(
+                    
+                    <div className={style['feed-header']}>
+                        <FeedTitle
+                            feed={feed}
+                            username={feed.username}
+                            relatedUser={feed.relatedUser || ''}
+                            myUsername={myUsername}
+                            usernameToBasicProfileMap={usernameToBasicProfileMap}
+                        />
+                        <Post post={post} username={myUsername} preview={true}/>
+                    </div>
+                    
+                );
+            }
+        }
+        else if(feed.type.includes('comment')){
             const postId = feed.targetType?.includes("comment") ? feed.targetParentId : feed.targetId;
             console.log('postId', postId);
             if(!postId){
                 return null;
             }
-            const targetComment = feed.type.includes('comment')? feed.targetId : '';
+            const targetComment = feed.type.includes('comment')? feed.targetId : feed.activityId;
+            console.log('targetComment', targetComment);
             const post = await fetchPost(postId);
             if(post){
                 setFeedJSX(
