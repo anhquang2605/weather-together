@@ -220,11 +220,12 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
                         username={author || ''}
                         handleCommentBtnClick={handleCommentBtnClick}
                         canComment={true}
+                        targetType="posts"
                     />
                     {/* Post attached images goes here */}
                 </div>
                 {
-                    preview && 
+                    preview &&  
                     <button className="mt-4 ml-8 font-bold hover:underline" onClick={handleViewPostModal} >
                         View more comments
                     </button>

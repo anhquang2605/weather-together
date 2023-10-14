@@ -12,6 +12,7 @@ export interface ReactionButtonProps{
     targetId: string;
     variant?: string;
     noReactionName?: boolean;
+    targetType: string;
 }
 interface ReactionFetchParams{
     username: string;
@@ -48,7 +49,8 @@ export default function ReactionButton(
         username,
         targetId,
         variant,
-        noReactionName
+        noReactionName,
+        targetType
     }: ReactionButtonProps
 ){
     const [reacted, setReacted] = useState(false);
@@ -62,6 +64,7 @@ export default function ReactionButton(
             const newReaction = {
                 username,
                 targetId,
+                targetType,
                 name : reactionName,
                 createdDate: new Date(),
                 updatedDate: new Date(),

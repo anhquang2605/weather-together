@@ -35,14 +35,14 @@ const FeedTitle = (props:FeedTitleProps) => {
         }
 
         {
-            feed.type.includes('comment') &&     ' commented on '
+            feed.type === 'comments' &&     ' commented on '
         }
 
         {
-            feed.type.includes('post') && ' released a '}
+            feed.type === 'posts' && ' released a '}
 
         {
-            feed.type.includes("comment") &&
+            feed.type === "comments" &&
             (                          
                 relatedUser === myUsername ?
             'your ' :
@@ -68,7 +68,7 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
     const {usernameToBasicProfileMap} = useFeedContext();
     const [feedJSX, setFeedJSX] = React.useState<JSX.Element | null>(null);
     const FeedCategorizer = async (feed: Feed) => {
-        if(feed.type.includes('post')) {
+        if(feed.type === 'posts') {
             const postId = feed.activityId;
             if(!postId){
                 return null;
@@ -91,14 +91,14 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
                 );
             }
         }
-        else if(feed.type.includes('comment')){
-            const postId = feed.targetType?.includes("comment") ? feed.targetParentId : feed.targetId;
+        else if(feed.type === 'comments'){
+            const postId = feed.targetType === "comments" ? feed.targetParentId : feed.targetId;
             console.log('postId', postId);
             if(!postId){
                 return null;
             }
-            const targetComment = feed.type.includes('comment')? feed.targetId : feed.activityId;
-            console.log('targetComment', targetComment);
+            const targetComment = feed.targetType === "comments"? feed.targetId : feed.activityId;
+            console.log('targetComment', targetComment, 'username', feed.username, 'date', feed.createdDate);
             const post = await fetchPost(postId);
             if(post){
                 setFeedJSX(
@@ -123,12 +123,12 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
                 return null;
             }
 
-        }else if(feed.type.includes('picture')) {
+        }else if(feed.type === 'pictures') {
             return <div>
                 Picture
             </div>
 
-        }else if(feed.type.includes('friend_made')){
+        }else if(feed.type === 'buddy_made'){
             return <div>
                 Friend made
             </div>

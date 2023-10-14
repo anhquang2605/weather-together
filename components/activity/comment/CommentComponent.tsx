@@ -192,6 +192,7 @@ export default function CommentComponent(
                             }}
                             canComment={level < MAX_LEVEL}
                             noReactionName={true}
+                            targetType='comments'
                         />    
                         <div className={style['content-group__created-date']}>
                             {formatDistance(new Date(createdDate), new Date(), {addSuffix: true}).replace('about', '').replace('less than', '').replace('ago','')}

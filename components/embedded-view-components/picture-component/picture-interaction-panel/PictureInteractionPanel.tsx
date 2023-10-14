@@ -138,6 +138,7 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
                     variant="extended"
                     canComment={true}
                     handleCommentBtnClick={handleCommentBtnClick}
+                    targetType='pictures'
                 />
             </div>
             {comments && comments.length > 0 && <CommentList 
