@@ -200,3 +200,4 @@ _Putting two state setter in same function scope will make the state update simu
             username: username
         }
     }
+    40. on MongoDB, when creating new document, must use new Date() on serverside, or else we have date stored as string

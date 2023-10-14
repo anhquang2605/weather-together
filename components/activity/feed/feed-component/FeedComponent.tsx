@@ -93,7 +93,7 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
         }
         else if(feed.type === 'comments'){
             const postId = feed.targetType === "comments" ? feed.targetParentId : feed.targetId;
-            console.log('postId', postId);
+
             if(!postId){
                 return null;
             }
