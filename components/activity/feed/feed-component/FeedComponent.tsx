@@ -111,10 +111,6 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
                             myUsername={myUsername}
                             usernameToBasicProfileMap={usernameToBasicProfileMap}
                        />
-
-                       
-
-
                     </div>
                     <Post post={post} username={myUsername} preview={true} previewCommentId={targetComment} />
                     </>

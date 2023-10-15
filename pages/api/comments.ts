@@ -18,16 +18,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const commentsCollection:Collection<Comment>= db.collection('comments');
         switch(method){
             case 'GET':
-                const {username,postId, level, targetId, limit, lastCursor, _id} = req.query;
+                const {username,postId, level, targetId, limit, lastCursor, _id } = req.query;
                 try {
-                    let result:WithId<Comment>[] =[];
+                    let result:Comment[] =[];
                     let children:CommentChildrenSummary = {};
                     if(_id){
+                      console.log(_id);
                       result = await commentsCollection.find({_id: new ObjectId(_id as string)}).toArray();
-                      for(let i = 0; i < result.length; i++){
-                        const commentId = result[i]._id.toString();
-                        const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
-                        children[commentId] = childrenNo;
+                      if(result.length > 0){
+                        if(result[0].level = 2){
+                            const uniqueUsernames = new Set();
+                            const parentId = result[0].targetId;
+                            console.log(parentId);
+                            const parent = await commentsCollection.find({_id: new ObjectId(parentId as string)}).toArray();
+
+                            if(parent){
+                              uniqueUsernames.add(parent[0].username);
+                              const grandParentId = parent[0].targetId;
+                               const grandParent = await commentsCollection.find({_id: new ObjectId(grandParentId as string)}).toArray();
+                              if(grandParent){
+                                uniqueUsernames.add(grandParent[0].username);
+                                uniqueUsernames.add(result[0].username);
+                                const resultArr = [grandParent[0], parent[0], result[0]];
+                                res.status(200).json({
+                                  success: true,
+                                  data: {result: resultArr, commentors: uniqueUsernames},
+                                })
+                                return;
+                              } 
+                            }
+                            res.status(200).json({
+                              success: false,
+                              data: {result: [], commentors: uniqueUsernames},
+                            })
+                          }else{
+                              const commentId = result[0]?._id?.toString() || "";
+                              const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
+                              children[commentId] = childrenNo;
+                            
+                          }
                       }
                     }
                     else if(username && postId){
@@ -56,7 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       }
   
                       for(let i = 0; i < result.length; i++){
-                        const commentId = result[i]._id.toString();
+                        const commentId = result[i]?._id?.toString() || "";
                         const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
                         children[commentId] = childrenNo;
                       }
