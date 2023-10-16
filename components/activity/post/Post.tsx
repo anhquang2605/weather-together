@@ -105,14 +105,28 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
         if(preview){
             params.limit = commentPreviewLimit.toString();
             params.level = '0';
-            if(previewCommentId){
+            if(previewCommentId && previewCommentId.length > 0){
                 params._id = previewCommentId;
+                delete params.targetId;
+                delete params.postId;
             }
         }else{
             params.limit = limitPerFetch.toString();
         }
+        console.log(params);
         const response = await fetchFromGetAPI(path, params);
         if(response.success){
+            console.log(response.data.result);
+            if(response.previewOnly){
+                console.log(response.data.result);
+                const resultComments = response.data.result;
+                const totalComments = response.data.result.length;
+                setComments(resultComments[totalComments - 1]);
+                setCommentChildrenSummary(response.data.children);
+                handleFetchProfilePathsToCommentors(response.data.commentors, more);
+                handleFetchUsernameToName([...response.data.commentors, post.username], more);
+                return;
+            }
             if(more){
                 setComments(prev => [...prev, ...response.data.result]);
                 setCommentChildrenSummary(prev => ({...prev, ...response.data.children}));
@@ -133,6 +147,7 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
     const handleCommentBtnClick = () => {
         setIsCommenting(prev => !prev);
     }
+    
     const handleFetchProfilePathsToCommentors = (usernames: string[], more?:boolean) => {
         const path = `users`;
         insertToPostAPI(path, usernames)
@@ -182,6 +197,7 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
     if(loading){
         return <LoadingBox variant="large" long={true} withChildren={false}/>
     }
+
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         <>

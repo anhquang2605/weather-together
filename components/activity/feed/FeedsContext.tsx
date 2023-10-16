@@ -115,9 +115,6 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     useEffect(() => {
         feedsMapRef.current = feedsMap;
     },[feedsMap]);
-    useEffect(()=>{
-        console.log("usernameToBasicProfileMap", usernameToBasicProfileMap);
-    },[usernameToBasicProfileMap])
     const value = {
         hasMore,
         fetchingStatus,

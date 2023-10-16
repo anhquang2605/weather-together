@@ -50,7 +50,9 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 {
                     $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
                   },
-                { $limit: theLimit + 1 },
+                  {
+                    $limit: theLimit + 1
+                  },
                 //put the document whose username is equal to the username at the top, then sort by createdDate
                 {
                     $sort: {
@@ -70,7 +72,19 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 });
                 return;
             }
+           
             let hasMore = false;
+            let feedGroups = [];
+            let curFeedGroupIndex = 0;
+          
+            for(const feed of feeds){
+                const feedTargetType = feed.targetType;
+                const feedType = feed.type;
+                if(feedType === "buddy_made" || feedType === "profile_updated"){
+
+                }
+                
+            }
             if(feeds.length > theLimit + 1){
                 hasMore = true;
                 feeds.pop();

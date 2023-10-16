@@ -19,45 +19,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         switch(method){
             case 'GET':
                 const {username,postId, level, targetId, limit, lastCursor, _id } = req.query;
+                console.log(req.query);
                 try {
                     let result:Comment[] =[];
                     let children:CommentChildrenSummary = {};
                     if(_id){
-                      console.log(_id);
                       result = await commentsCollection.find({_id: new ObjectId(_id as string)}).toArray();
                       if(result.length > 0){
-                        if(result[0].level = 2){
-                            const uniqueUsernames = new Set();
-                            const parentId = result[0].targetId;
-                            console.log(parentId);
-                            const parent = await commentsCollection.find({_id: new ObjectId(parentId as string)}).toArray();
-
-                            if(parent){
-                              uniqueUsernames.add(parent[0].username);
-                              const grandParentId = parent[0].targetId;
-                               const grandParent = await commentsCollection.find({_id: new ObjectId(grandParentId as string)}).toArray();
-                              if(grandParent){
-                                uniqueUsernames.add(grandParent[0].username);
-                                uniqueUsernames.add(result[0].username);
-                                const resultArr = [grandParent[0], parent[0], result[0]];
-                                res.status(200).json({
-                                  success: true,
-                                  data: {result: resultArr, commentors: uniqueUsernames},
-                                })
-                                return;
-                              } 
-                            }
-                            res.status(200).json({
-                              success: false,
-                              data: {result: [], commentors: uniqueUsernames},
-                            })
-                          }else{
-                              const commentId = result[0]?._id?.toString() || "";
-                              const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
-                              children[commentId] = childrenNo;
-                            
-                          }
+                        let resultArr = [];
+                        let curLevel = result[0].level;
+                        let curComment = result[0];
+                        let uniqueUsernames = [];
+                        while(curLevel){
+                          const parentId = curComment.targetId;
+                          uniqueUsernames.push(curComment.username);
+                          const parent = await commentsCollection.find({_id: new ObjectId(parentId as string)}).toArray();
+                          resultArr.push(parent[0]);
+                          curComment = parent[0];                          
+                          curLevel--;
+                        }                       
+                        const commentId = result[0]?._id?.toString() || "";
+                        const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
+                        children[commentId] = childrenNo;
+                        res.status(200).json({
+                          success: true,
+                          data: {result: resultArr, commentors: uniqueUsernames, children, previewOnly: true},
+                        });
+                      }else{
+                        res.status(200).json({
+                          success: false,
+                          message: 'Not Found',
+                        });
                       }
+                      return;
                     }
                     else if(username && postId){
                       result = await commentsCollection.find({username,postId: postId.toString()}).toArray();
@@ -65,7 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     else if(username){
                       result = await commentsCollection.find({username}).toArray();
                     }
-                    else if(typeof targetId === 'string'){
+                    else if(targetId && typeof targetId === 'string'){
                       //get all comments based on targetId
                       const match:IMatch = {
                         targetId: targetId,
@@ -93,12 +87,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     } 
                     else if(postId){
                       result = await commentsCollection.find({postId:postId.toString()}).toArray();
+                    } else {
+                      res.status(400).json({
+                        success: false,
+                        error: 'Invalid query',
+                      })
                     } 
 
                     if(result.length > 0){
                       const listOfUsernames = result.map((comment) => comment.username);
                       const cursor = result[result.length - 1].createdDate.toISOString();
                       const uniqueUsernames = [...new Set(listOfUsernames)];
+                      console.log(result);
                       res.status(200).json({
                         success: true,
                         data: {result, commentors: uniqueUsernames, children, lastCursor: cursor},

@@ -20,9 +20,6 @@ const FeedList: React.FC<FeedListProps> = ({}) => {
             setFeeds(getFeedsArray(feedsMap));
         }
     },[feedsMap]);
-    useEffect(()=>{
-        console.log('feeds', feeds);
-    },[feeds])
     return (
         <div className={style['feed-list']}>
             {

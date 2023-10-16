@@ -97,8 +97,7 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
             if(!postId){
                 return null;
             }
-            const targetComment = feed.targetType === "comments"? feed.targetId : feed.activityId;
-            console.log('targetComment', targetComment, 'username', feed.username, 'date', feed.createdDate);
+            const thisComment = feed.activityId;
             const post = await fetchPost(postId);
             if(post){
                 setFeedJSX(
@@ -112,7 +111,7 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
                             usernameToBasicProfileMap={usernameToBasicProfileMap}
                        />
                     </div>
-                    <Post post={post} username={myUsername} preview={true} previewCommentId={targetComment} />
+                    <Post post={post} username={myUsername} preview={true} previewCommentId={thisComment} />
                     </>
                 )
             }else{

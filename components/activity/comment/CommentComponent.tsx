@@ -58,7 +58,6 @@ export default function CommentComponent(
     const user = session?.user as UserInSession;
     const author = user?.username as string;
     const optimisticCommentInsertion = (comment: Comment) => {
-        console.log(comment);
         setChildComments([comment,...childComments]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
             setCommentChildrenSummary({...commentChildrenSummary, [comment._id?.toString() || '']: 0});
