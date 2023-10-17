@@ -15,6 +15,10 @@ export interface Feed {
     hidden: boolean;
     hiddenDuration?: number;//in seconds
 }
+export interface FeedGroup{
+    targetContentId: string;
+    feeds: Feed[];
+}
 
 /* Here are few activities that you could include in a user's activity feed:
 

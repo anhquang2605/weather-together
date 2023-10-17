@@ -73,44 +73,35 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 return;
             }
            
-            let hasMore = false;
-            let feedGroups = [];
-            let curFeedGroupIndex = 0;
-          
-            for(const feed of feeds){
-                const targetId = feed.targetId;
-                const parentId = feed.targetParentId;
-                if(targetId === "" && parentId === ""){
-                    let feedGroup = {
-                        feeds: [feed],
-                        targetContentId: "",
-                    }
-                    feedGroups.push(feedGroup);
-                    curFeedGroupIndex++;
-                }else{
-                    //if the feed has the same targetContentId with the current group, add it to the group, else create a new group and add it to the group
-                    let theParentId = parentId !== "" ? parentId : targetId;
-                    if(feedGroups[curFeedGroupIndex] && feedGroups[curFeedGroupIndex].targetContentId === theParentId){
-                        feedGroups[curFeedGroupIndex].feeds.push(feed);
-                    }else{
-                        let feedGroup = {
-                            feeds: [feed],
-                            targetContentId: theParentId,
-                        }
-                        feedGroups.push(feedGroup);
-                        curFeedGroupIndex++;
-                    }
-                }
-            }
-            console.log(feedGroups);
+            let hasMore = false;  
             if(feeds.length > theLimit + 1){
                 hasMore = true;
                 feeds.pop();
             }
-
+            let feedGroups = [];
+            let curFeedGroupIndex = -1;
+            let i = 0;
+            for(const feed of feeds){
+                console.log(i, curFeedGroupIndex);
+                const targetId = feed.targetId;
+                const parentId = feed.targetParentId;
+                let theParentId = parentId !== "" ? parentId : targetId;
+                if(feedGroups[curFeedGroupIndex] && feedGroups[curFeedGroupIndex].targetContentId === theParentId && theParentId !== "" && curFeedGroupIndex !== -1){
+                    feedGroups[curFeedGroupIndex].feeds.push(feed);
+                }else{
+                    let feedGroup = {
+                        feeds: [feed],
+                        targetContentId: theParentId,
+                    }
+                    feedGroups.push(feedGroup);
+                    curFeedGroupIndex++;
+                }
+                
+                i++;
+            }
 
             // Get the list of usernames for which feeds were found
-            res.status(200).json({ feeds, hasMore, success: true });
+            res.status(200).json({ feedGroups, hasMore, success: true });
         } else if (req.method === 'POST') {
             const usernames = req.body;
             const feeds = db.collection('feeds');

@@ -8,11 +8,17 @@ import { fetchFromGetAPI, insertToPostAPI } from '../libs/api-interactions';
 import { useEffect } from 'react';
 import FeedsBoard from '../components/activity/feed/FeedsBoard';
 import { FeedContextProvider } from '../components/activity/feed/FeedsContext';
+import { Feed, FeedGroup } from '../types/Feed';
 interface HomeProps {
-    feeds: any;
+    feedGroups: FeedGroup[];
     hasMore: boolean;
     username: string;
     apiStatus: string;
+}
+interface Result{
+    success: boolean;
+    feedGroups: FeedGroup[];
+    hasMore: boolean;
 }
 export async function getServerSideProps(context: any) {
    const session = await getSession(context);//need to provide context for the session
@@ -28,9 +34,9 @@ export async function getServerSideProps(context: any) {
          }     
    }
     username = session?.user?.username || "";   
-    let results = {
+    let results:Result = {
         success: false,
-        feeds: [],
+        feedGroups: [],
         hasMore: false
     }
     const usernames = await getBuddiesUsernames(username);
@@ -40,15 +46,15 @@ export async function getServerSideProps(context: any) {
     }
    
     const props:HomeProps = {
-        feeds: [],
+        feedGroups: [],
         hasMore: false,
         username: "",
         apiStatus: 'failed'
     }
     if( results && results.success){
         //get list of unique usernames from this list of feeds from results.feeds
-
-        props.feeds = results.feeds;
+        const groups = await results.feedGroups;
+        props.feedGroups = groups;
         props.hasMore = results.hasMore;
         props.username = username;
         props.apiStatus = 'success';
@@ -58,7 +64,7 @@ export async function getServerSideProps(context: any) {
     }
 }
 export default function Home(props: any) {
-    const {feeds, hasMore, username, apiStatus} = props;
+    const {feedGroups, hasMore, username, apiStatus} = props;
     return (
         <>
             <Head>
@@ -76,7 +82,7 @@ export default function Home(props: any) {
                         <FeedContextProvider>
                             <FeedsBoard
                                 username={username}
-                                initialFeeds={feeds}
+                                initialFeedGroups={feedGroups}
                             />
                         </FeedContextProvider>
                     }
