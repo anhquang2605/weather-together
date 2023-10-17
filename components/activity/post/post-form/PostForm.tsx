@@ -60,11 +60,18 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
     }
     const handleUploadPictures = async () => {
         const formData = new FormData();
-        attachedImages.forEach(async (image) => {
+            // Map through each image and return an array of promises
+        const dimensionsPromises = attachedImages.map(async (image) => {
             const dim = await getImageDimensions(image);
-            picturesDimensions.push(dim as {width: number, height: number});
             formData.append('files', image);
-        })
+            return dim;
+        });
+
+        // Wait for all promises to resolve
+        const allDimensions = await Promise.all(dimensionsPromises);
+
+        picturesDimensions.push(...allDimensions);
+        
         const res = await fetch('/api/upload-images', {
             method: 'POST',
             body: formData
@@ -138,6 +145,7 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         let uploadedImagesURLs:string[] = [];
         if(attachedImages.length > 0){
             let response  = await handleUploadPictures();
+            console.log(response);
             if(response){
                 uploadedImagesURLs = response.urls;
             }
@@ -157,7 +165,7 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
                     condition: currentWeather.condition || "",
                     icon: currentWeather.icon || "",
                     temperature: currentWeather.temperature,
-                    location: currentWeather.location.city,
+                    location: currentWeather.location?.city || "",
             }
         }        
         const res = await handleInsertPostToDb(post);

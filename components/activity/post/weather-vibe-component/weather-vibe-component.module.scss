@@ -37,7 +37,7 @@ $weather-gradients: (
     }
 }
 .weather-vibe{
-
+    width: max-content;
     @apply  px-2 py-1 text-sm rounded-lg font-semibold inline-block;
     @screen lg{
         @apply ml-auto text-base block;

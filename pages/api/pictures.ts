@@ -42,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         return picture;
                     });
                     try {
-                        await picturesCollection.insertMany(pictures);
+                        await picturesCollection.insertMany(newPictures);
                         res.status(200).json({
                             success: true,
                         });

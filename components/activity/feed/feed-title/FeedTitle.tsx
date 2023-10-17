@@ -2,30 +2,38 @@ import { Feed } from "../../../../types/Feed";
 import { UserBasic } from "../../../../types/User";
 import UserMiniProfile from "../../../user/user-mini-profile/UserMiniProfile";
 import style from './feed-title.module.css';
+import {subDays, formatDistance} from 'date-fns';
 interface FeedTitleProps {
     feed: Feed,
-    username: string,
-    relatedUser: string,
     myUsername: string,
     usernameToBasicProfileMap: {[username: string]: UserBasic}
 }
 const FeedTitle = (props:FeedTitleProps) => {
-    const {feed, username, relatedUser, myUsername, usernameToBasicProfileMap} = props;
+    const {feed, myUsername, usernameToBasicProfileMap} = props;
+    const username = feed.username;
+    const relatedUser = feed.relatedUser;
     const user = usernameToBasicProfileMap[username];
-    const user2 = usernameToBasicProfileMap[relatedUser];
+    const user2 = usernameToBasicProfileMap[relatedUser || ""];
     const convertUserToMiniProfile = (user: UserBasic) => {
         return <UserMiniProfile user={user} sizeOfAvatar='small'/>
     }
     return (
-        <div className={style['feed-title'] + " glass rounded-lg border border-slate-400 border-b-0"}>
+        <div className={style['feed-title'] }>
         {
-            username === myUsername ? 
-            'You' : 
+            username === myUsername ?
+            <span className="font-bold">
+                You
+            </span> 
+             : 
             user && convertUserToMiniProfile(user )
         }
 
         {
             feed.type === 'comments' &&     ' commented on '
+        }
+        
+        {
+            feed.type === "reaction" && ' reacted to'
         }
 
         {
@@ -35,19 +43,37 @@ const FeedTitle = (props:FeedTitleProps) => {
             feed.type === "comments" &&
             (                          
                 relatedUser === myUsername ?
-            'your ' :
+            'your' :
              
-                user2.username === user.username ?
-                "their " 
-                : convertUserToMiniProfile(user2) 
+                user2?.username === user?.username ?
+                "their" 
+                : 
+                <>
+                    {user2 && convertUserToMiniProfile(user2)} 's
+                </>
+                 
              
             ) 
         }
         {
             feed.targetType && feed.targetType.length > 0 && (
-            feed.targetType)
+            ` ${feed.targetType}`)
+        }
+        {
+            feed.type === 'buddy_made' && 
+            <>
+                {` made buddies with `}
+                {
+                    user2 && convertUserToMiniProfile(user2) 
+                }
+            </>
+
         } 
-         
+            <span className={style['feed-date']}>
+                {
+                    formatDistance(new Date(feed.createdDate), new Date(), { addSuffix: true })
+                }
+            </span>
         </div>
     )
 }

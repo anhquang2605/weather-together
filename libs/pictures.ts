@@ -1,4 +1,4 @@
-export const getImageDimensions = (blob:Blob) => {
+export const getImageDimensions = (blob:Blob): Promise<{ width: number, height: number }>  => {
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(blob);
       const img = new Image();
