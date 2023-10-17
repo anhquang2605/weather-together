@@ -28,16 +28,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         let resultArr = [result[0]];
                         let curLevel = result[0].level;
                         let curComment = result[0];
-                        let uniqueUsernames = [];
+                        let uniqueUsernames = new Set().add(curComment.username);
                         while(curLevel){
-                          const parentId = curComment.targetId;
-                          uniqueUsernames.push(curComment.username);
+                          const parentId = curComment.targetId;    
                           const parent = await commentsCollection.find({_id: new ObjectId(parentId as string)}).toArray();
                           const commentId = parent[0]?._id?.toString() || "";
                           children[commentId] = 1;
                           resultArr.push(parent[0]);
                           curComment = parent[0];
-
+                          uniqueUsernames.add(curComment.username);
                           curLevel--;
                           
                         }                       
@@ -46,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         children[commentId] = childrenNo;
                         res.status(200).json({
                           success: true,
-                          data: {result: resultArr, commentors: uniqueUsernames, children, previewOnly: true},
+                          data: {result: resultArr, commentors: Array.from(uniqueUsernames), children, previewOnly: true},
                         });
                       }else{
                         res.status(200).json({

@@ -21,7 +21,6 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
     const commentsJSX = 
         () => {
             if(waterFall){
-                console.log(curLevel);
                 let comment = comments[curLevel || 0];
                 return(
                     [<CommentComponent

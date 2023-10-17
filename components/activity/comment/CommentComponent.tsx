@@ -237,7 +237,7 @@ export default function CommentComponent(
                         children={commentChildrenSummary || {}}
                         commentor={commentorUsername}
                         usernamesToNames={usernameToName}
-                        waterFall={waterFall}
+                        waterFall={waterFall && childComments.length === 0}
                         curLevel={curLevel !== undefined? curLevel - 1 : 0}
 
                     />
