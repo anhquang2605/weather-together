@@ -8,60 +8,14 @@ import UserMiniProfile from '../../../user/user-mini-profile/UserMiniProfile';
 import { UserBasic } from '../../../../types/User';
 import { useFeedContext } from '../FeedsContext';
 import { set } from 'lodash';
+import FeedTitle from '../feed-title/FeedTitle';
 
 interface FeedComponentProps {
-    feed: Feed
-}
-interface FeedTitleProps {
     feed: Feed,
-    username: string,
-    relatedUser: string,
-    myUsername: string,
-    usernameToBasicProfileMap: {[username: string]: UserBasic}
+    willFetchContent?: boolean
 }
-const FeedTitle = (props:FeedTitleProps) => {
-    const {feed, username, relatedUser, myUsername, usernameToBasicProfileMap} = props;
-    const user = usernameToBasicProfileMap[username];
-    const user2 = usernameToBasicProfileMap[relatedUser];
-    const convertUserToMiniProfile = (user: UserBasic) => {
-        return <UserMiniProfile user={user} sizeOfAvatar='small'/>
-    }
-    return (
-        <div className={style['feed-title'] + " glass rounded-lg border border-slate-400 border-b-0"}>
-        {
-            username === myUsername ? 
-            'You' : 
-            user && convertUserToMiniProfile(user )
-        }
 
-        {
-            feed.type === 'comments' &&     ' commented on '
-        }
-
-        {
-            feed.type === 'posts' && ' released a '}
-
-        {
-            feed.type === "comments" &&
-            (                          
-                relatedUser === myUsername ?
-            'your ' :
-             
-                user2.username === user.username ?
-                "their " 
-                : convertUserToMiniProfile(user2) 
-             
-            ) 
-        }
-        {
-            feed.targetType && feed.targetType.length > 0 && (
-            feed.targetType)
-        } 
-         
-        </div>
-    )
-}
-const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
+const FeedComponent: React.FC<FeedComponentProps> = ({feed, willFetchContent}) => {
     const [user, setUser] = useState<UserBasic | null>(null);//[username: string]: UserBasic} = {}
     const {data: session} = useSession();
     const myUsername = session?.user?.username || "";
@@ -75,16 +29,8 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
             }
             const post = await fetchPost(postId);
             if(post){
-                setFeedJSX(
-                    
+                setFeedJSX(       
                     <div className={style['feed-header']}>
-                        <FeedTitle
-                            feed={feed}
-                            username={feed.username}
-                            relatedUser={feed.relatedUser || ''}
-                            myUsername={myUsername}
-                            usernameToBasicProfileMap={usernameToBasicProfileMap}
-                        />
                         <Post post={post} username={myUsername} preview={true}/>
                     </div>
                     
@@ -98,18 +44,14 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
                 return null;
             }
             const thisComment = feed.activityId;
+            let FeedJSX = null;
+
             const post = await fetchPost(postId);
             if(post){
                 setFeedJSX(
                     <>
                     <div className={style['feed-header']}>
-                       <FeedTitle
-                          feed={feed}
-                            username={feed.username}
-                            relatedUser={feed.relatedUser || ''}
-                            myUsername={myUsername}
-                            usernameToBasicProfileMap={usernameToBasicProfileMap}
-                       />
+
                     </div>
                     <Post post={post} username={myUsername} preview={true} previewCommentId={thisComment} />
                     </>
@@ -146,7 +88,7 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
     }
    
     useEffect(() => {
-        if(feed){
+        if(feed && willFetchContent){
             FeedCategorizer(feed);
         }
     },[feed])
@@ -154,6 +96,13 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed}) => {
 
     return (
         <div className={style['feed-component']}>
+            <FeedTitle
+                feed={feed}
+                username={feed.username}
+                relatedUser={feed.relatedUser || ''}
+                myUsername={myUsername}
+                usernameToBasicProfileMap={usernameToBasicProfileMap}
+            />
             {
                 feedJSX
             }

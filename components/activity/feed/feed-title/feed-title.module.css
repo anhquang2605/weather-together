@@ -1,0 +1,12 @@
+.feed-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    white-space: pre-wrap;
+    
+    @apply p-4;
+    > *{
+        width: max-content;
+    }
+}

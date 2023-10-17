@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import style from './feeds-board.module.css';
-import { Feed } from '../../../types/Feed';
+import { Feed, FeedGroup } from '../../../types/Feed';
 import { fetchFromGetAPI } from '../../../libs/api-interactions';
 import { FeedContextProvider, FeedsContext, useFeedContext } from './FeedsContext';
 import { unique } from 'next/dist/build/utils';
@@ -8,11 +8,12 @@ import FeedList from './feed-list/FeedList';
 type FetchFunctionType = (path: string, params: any) => Promise<any>;
 interface FeedsBoardProps {
     username: string;
-    initialFeeds: Feed[];
+    initialFeedGroups: FeedGroup[];
 }
 interface returnedFetchData {
-    feeds: Feed[];
+    feedGroups: FeedGroup[];
     hasMore: boolean;
+    success: boolean;
 }
 
 /* 
@@ -21,7 +22,7 @@ interface returnedFetchData {
 export default function FeedsBoard (props: FeedsBoardProps) {
     const {
         username,
-        initialFeeds,
+        initialFeedGroups,
     } = props;
 
     const FEEDS_PER_PAGE = 10;
@@ -55,13 +56,13 @@ export default function FeedsBoard (props: FeedsBoardProps) {
           }
     },[]);
     useEffect(()=>{
-        if(initialFeeds.length > 0){
-            addFeeds(initialFeeds, true);
+        if(initialFeedGroups.length > 0){
+            addFeeds(initialFeedGroups, true);
         }
     },[])
     return (
             <div className={style["feeds-board"]}>
-                <FeedList/>
+                <FeedList feedGroups={initialFeedGroups}/>
             </div>
     )
 }

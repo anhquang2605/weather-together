@@ -18,6 +18,9 @@ export interface Feed {
 export interface FeedGroup{
     targetContentId: string;
     feeds: Feed[];
+    lastestCreatedDate: Date;
+    latestActivityId: string; //refer to the comments id specifically
+    latestIndex: number;
 }
 
 /* Here are few activities that you could include in a user's activity feed:

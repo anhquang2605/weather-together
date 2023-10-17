@@ -1,14 +1,14 @@
 import React, { use, useEffect, useState } from 'react';
 import style from './feed-list.module.css';
 import { useFeedContext } from '../FeedsContext';
-import { Feed } from '../../../../types/Feed';
+import { Feed, FeedGroup } from '../../../../types/Feed';
 import FeedComponent from '../feed-component/FeedComponent';
 
 interface FeedListProps {
-
+    feedGroups: FeedGroup[];
 }
 
-const FeedList: React.FC<FeedListProps> = ({}) => {
+const FeedList: React.FC<FeedListProps> = ({feedGroups}) => {
     const {getFeeds, feedsMap} = useFeedContext();
     const [feeds, setFeeds] = useState<Feed[]>([]);
     const getFeedsArray = (feedsmap: {[id: string]: Feed}) => {
@@ -16,10 +16,10 @@ const FeedList: React.FC<FeedListProps> = ({}) => {
     }
 
     useEffect(() => {
-        if(feedsMap){
-            setFeeds(getFeedsArray(feedsMap));
-        }
-    },[feedsMap]);
+      if(feedGroups){
+        
+      }
+    },[feedGroups]);
     useEffect(()=>{
         //group by targer
         console.log(feeds);

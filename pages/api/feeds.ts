@@ -82,16 +82,23 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let curFeedGroupIndex = -1;
             let i = 0;
             for(const feed of feeds){
-                console.log(i, curFeedGroupIndex);
                 const targetId = feed.targetId;
                 const parentId = feed.targetParentId;
                 let theParentId = parentId !== "" ? parentId : targetId;
                 if(feedGroups[curFeedGroupIndex] && feedGroups[curFeedGroupIndex].targetContentId === theParentId && theParentId !== "" && curFeedGroupIndex !== -1){
+                    if((feed.type === "comments" || feed.typ === "reaction") && feedGroups[curFeedGroupIndex].latestCreatedDate < feed.createdDate){
+                        feedGroups[curFeedGroupIndex].latestCreatedDate = feed.createdDate;
+                        feedGroups[curFeedGroupIndex].lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
+                        feedGroups[curFeedGroupIndex].latestIndex += 1;
+                    }
                     feedGroups[curFeedGroupIndex].feeds.push(feed);
                 }else{
                     let feedGroup = {
                         feeds: [feed],
                         targetContentId: theParentId,
+                        latestCreatedDate: feed.createdDate,
+                        lastestActivityId: (feed.type !== "comments" && feed.type !== "reaction") ? "" : feed.activityId,
+                        latestIndex: 0,
                     }
                     feedGroups.push(feedGroup);
                     curFeedGroupIndex++;
@@ -99,7 +106,6 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 
                 i++;
             }
-
             // Get the list of usernames for which feeds were found
             res.status(200).json({ feedGroups, hasMore, success: true });
         } else if (req.method === 'POST') {

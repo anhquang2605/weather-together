@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { Feed } from '../../../types/Feed';
+import { Feed, FeedGroup } from '../../../types/Feed';
 import { insertToPostAPI } from '../../../libs/api-interactions';
 import { UserBasic } from '../../../types/User';
 import { current } from '@reduxjs/toolkit';
@@ -7,7 +7,7 @@ type FeedsContextType = {
     hasMore: boolean,
     fetchingStatus: string,
     initialLoadingStatus: string,
-    addFeeds: (newFeeds: Feed[], isAppending: boolean) => void,
+    addFeeds: (newFeedGroups: FeedGroup[], isAppending: boolean) => void,
     setHasMore: (hasMore: boolean) => void,
     setFetchingStatus: (status: string) => void,
     setInitialLoadingStatus: (status: string) => void,
@@ -60,9 +60,16 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         }
         return Object.values(feedsMapRef.current);
     },[]); 
-    const addFeeds = async (newFeeds: Feed[], isAppending: boolean) => {
+    const addFeeds = async (newFeedGroups: FeedGroup[], isAppending: boolean) => {
         const newFeedsMap: IDtoFeedMap = {};
         const currentUniqueUsernames = new Set<string>();
+        const newFeeds = newFeedGroups.reduce((acc: Feed[], feedGroup: FeedGroup) => {
+            const {feeds} = feedGroup;
+            feeds.forEach(feed => {
+                acc.push(feed);
+            });
+            return acc;
+        },[]);
         newFeeds.forEach(feed => {
             newFeedsMap[feed._id as string] = feed;
             currentUniqueUsernames.add(feed.username);
