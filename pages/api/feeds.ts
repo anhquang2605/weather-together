@@ -78,13 +78,31 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let curFeedGroupIndex = 0;
           
             for(const feed of feeds){
-                const feedTargetType = feed.targetType;
-                const feedType = feed.type;
-                if(feedType === "buddy_made" || feedType === "profile_updated"){
-
+                const targetId = feed.targetId;
+                const parentId = feed.targetParentId;
+                if(targetId === "" && parentId === ""){
+                    let feedGroup = {
+                        feeds: [feed],
+                        targetContentId: "",
+                    }
+                    feedGroups.push(feedGroup);
+                    curFeedGroupIndex++;
+                }else{
+                    //if the feed has the same targetContentId with the current group, add it to the group, else create a new group and add it to the group
+                    let theParentId = parentId !== "" ? parentId : targetId;
+                    if(feedGroups[curFeedGroupIndex] && feedGroups[curFeedGroupIndex].targetContentId === theParentId){
+                        feedGroups[curFeedGroupIndex].feeds.push(feed);
+                    }else{
+                        let feedGroup = {
+                            feeds: [feed],
+                            targetContentId: theParentId,
+                        }
+                        feedGroups.push(feedGroup);
+                        curFeedGroupIndex++;
+                    }
                 }
-                
             }
+            console.log(feedGroups);
             if(feeds.length > theLimit + 1){
                 hasMore = true;
                 feeds.pop();
