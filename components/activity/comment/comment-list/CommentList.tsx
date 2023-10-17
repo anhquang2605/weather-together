@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import style from './comment-list.module.css';
 import { Comment } from '../../../../types/Comment';
 import { UsernameToProfilePicturePathMap } from '../../UsernameToProfilePicturePathMap';
@@ -12,25 +12,52 @@ interface CommentListProps {
     topLevelListContainer?: React.MutableRefObject<HTMLDivElement | null>;
     scrollable: boolean;
     usernamesToNames?: {[username: string]: string};
+    waterFall?: boolean;
+    curLevel?: number;
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
-    const commentsJSX = comments.map((comment, index) => {
-        return(
-            <CommentComponent
-                key={index}
-                comment={comment}
-                profilePicturePath={commentorToAvatarMap[comment.username]}
-                commentorUsername={commentor}
-                commentListRef={commentListRef}
-                usernamesToNames={usernamesToNames || {}}
-                childrenNo={children[comment._id?.toString() || '']}
-                lastChild={index === comments.length - 1}
-            />
-        )
-    })
-
+    const commentsJSX = 
+        () => {
+            if(waterFall){
+                console.log(curLevel);
+                let comment = comments[curLevel || 0];
+                return(
+                    [<CommentComponent
+                        key={comment._id?.toString() || ''}
+                        comment={comment}
+                        profilePicturePath={commentorToAvatarMap[comment.username]}
+                        commentorUsername={commentor}
+                        commentListRef={commentListRef}
+                        usernamesToNames={usernamesToNames || {}}
+                        childrenNo={children[comment._id?.toString() || '']}
+                        lastChild={true}
+                        waterFallComments={comments}
+                        waterFall={waterFall}
+                        curLevel={curLevel || 0}
+                        childrenSummaryWaterFall={children}
+                    />]
+                )
+            }else{
+                return comments.map((comment, index) => {
+                    return(
+                        <CommentComponent
+                            key={index}
+                            comment={comment}
+                            profilePicturePath={commentorToAvatarMap[comment.username]}
+                            commentorUsername={commentor}
+                            commentListRef={commentListRef}
+                            usernamesToNames={usernamesToNames || {}}
+                            childrenNo={children[comment._id?.toString() || '']}
+                            lastChild={index === comments.length - 1}
+                            
+                        />
+                    )
+                })
+            }
+           
+        }
     return (
         comments &&  comments.length > 0 ?
         <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${scrollable && style['scroll']} ${!topLevelListContainer && style['top-level']}`}>
@@ -38,7 +65,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
             <div className={style['edge-passing-child']}>
 
             </div>
-            {comments && commentsJSX}
+            {comments && commentsJSX()}
         </div>
         :
         <div className={style['empty-comment-list']}>

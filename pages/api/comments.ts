@@ -19,14 +19,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         switch(method){
             case 'GET':
                 const {username,postId, level, targetId, limit, lastCursor, _id } = req.query;
-                console.log(req.query);
                 try {
                     let result:Comment[] =[];
                     let children:CommentChildrenSummary = {};
                     if(_id){
                       result = await commentsCollection.find({_id: new ObjectId(_id as string)}).toArray();
                       if(result.length > 0){
-                        let resultArr = [];
+                        let resultArr = [result[0]];
                         let curLevel = result[0].level;
                         let curComment = result[0];
                         let uniqueUsernames = [];
@@ -34,9 +33,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                           const parentId = curComment.targetId;
                           uniqueUsernames.push(curComment.username);
                           const parent = await commentsCollection.find({_id: new ObjectId(parentId as string)}).toArray();
+                          const commentId = parent[0]?._id?.toString() || "";
+                          children[commentId] = 1;
                           resultArr.push(parent[0]);
-                          curComment = parent[0];                          
+                          curComment = parent[0];
+
                           curLevel--;
+                          
                         }                       
                         const commentId = result[0]?._id?.toString() || "";
                         const childrenNo = await commentsCollection.countDocuments({targetId: commentId});
@@ -59,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     else if(username){
                       result = await commentsCollection.find({username}).toArray();
                     }
-                    else if(targetId && typeof targetId === 'string'){
+                    else if(typeof targetId === 'string'){
                       //get all comments based on targetId
                       const match:IMatch = {
                         targetId: targetId,
@@ -98,7 +101,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       const listOfUsernames = result.map((comment) => comment.username);
                       const cursor = result[result.length - 1].createdDate.toISOString();
                       const uniqueUsernames = [...new Set(listOfUsernames)];
-                      console.log(result);
                       res.status(200).json({
                         success: true,
                         data: {result, commentors: uniqueUsernames, children, lastCursor: cursor},

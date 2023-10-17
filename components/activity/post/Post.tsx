@@ -53,6 +53,7 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
+    const [waterFall, setWaterFall] = useState<boolean>(false); //TODO: fetch comments from server
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
  
@@ -113,18 +114,16 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
         }else{
             params.limit = limitPerFetch.toString();
         }
-        console.log(params);
         const response = await fetchFromGetAPI(path, params);
         if(response.success){
-            console.log(response.data.result);
-            if(response.previewOnly){
-                console.log(response.data.result);
+            if(preview){
                 const resultComments = response.data.result;
-                const totalComments = response.data.result.length;
-                setComments(resultComments[totalComments - 1]);
+                setWaterFall(true);
+                setComments(resultComments);
                 setCommentChildrenSummary(response.data.children);
-                handleFetchProfilePathsToCommentors(response.data.commentors, more);
-                handleFetchUsernameToName([...response.data.commentors, post.username], more);
+                handleFetchProfilePathsToCommentors(response.data.commentors);
+                handleFetchUsernameToName([...response.data.commentors, post.username]);
+                setIsFetchingComments(false);
                 return;
             }
             if(more){
@@ -248,6 +247,8 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
                 }
                
                  {<CommentList 
+                 waterFall={waterFall}
+                 curLevel={comments.length - 1}
                  scrollable={false}
                  usernamesToNames={usernameToName}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}

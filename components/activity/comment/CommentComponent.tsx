@@ -26,6 +26,10 @@ interface CommentComponentProps{
     childrenNo: number;
     lastChild?: boolean;
     usernamesToNames: {[username: string]: string};
+    waterFall?: boolean;
+    waterFallComments?: Comment[];//case of waterfall
+    curLevel?: number;
+    childrenSummaryWaterFall?: CommentChildrenSummary;
 }
 interface UsernameToNameMap{
     [username: string]: string;
@@ -38,10 +42,14 @@ export default function CommentComponent(
         commentListRef,
         childrenNo, 
         lastChild,
-        usernamesToNames
+        usernamesToNames,
+        waterFall,
+        waterFallComments,
+        curLevel, 
+        childrenSummaryWaterFall
     }: CommentComponentProps
 ){
-    const {username, createdDate, content, postId, pictureAttached, level, _id, } = comment;
+    const {username, createdDate, content, postId, pictureAttached, level, _id,  } = comment;
     const MAX_LEVEL = 2;
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
@@ -53,7 +61,7 @@ export default function CommentComponent(
     const [childComments, setChildComments] = useState<Comment[]>([]);
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [usernameToName, setUsernameToName] = useState<UsernameToNameMap>(usernamesToNames); //TODO: fetch comments from server
-    const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});//this is used to tell the number of children comments of a comment
+    const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>(childrenSummaryWaterFall ? childrenSummaryWaterFall : {});//this is used to tell the number of children comments of a comment
     const {data: session} = useSession();
     const user = session?.user as UserInSession;
     const author = user?.username as string;
@@ -150,6 +158,7 @@ export default function CommentComponent(
             handleGetPicture();
         }
         handleFetchReactionsGroups(_id?.toString() || '');
+        console.log(_id, childrenNo);
     }, []);
     return(
         <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>
@@ -213,21 +222,24 @@ export default function CommentComponent(
                         _id={_id?.toString() || ''}
                         />
                 {
-                   ( childrenNo > 0 && childComments.length === 0) && <button className={style['view-replies-btn']}  onClick={()=> handleFetchChildrenComments(_id?.toString() || '')}>
+                   ( childrenNo > 0 && childComments.length === 0 && (!waterFall || (curLevel !== undefined && curLevel === 0))) && <button className={style['view-replies-btn']}  onClick={()=> handleFetchChildrenComments(_id?.toString() || '')}>
                        <IoChatbubbles className="icon mr-1"/> {childrenNo} Replies
                     </button>
                 }
                 </div>
                 {
-                    childComments.length > 0 &&
+                    ((curLevel !== undefined && curLevel > 0) || childComments.length > 0) &&
                     <CommentList 
                         scrollable={false}
-                        comments={childComments}
+                        comments={waterFall && waterFallComments && !childComments.length ? waterFallComments : childComments}
                         commentorToAvatarMap={commentorToAvatar}
                         topLevelListContainer={commentListRef}
                         children={commentChildrenSummary || {}}
                         commentor={commentorUsername}
                         usernamesToNames={usernameToName}
+                        waterFall={waterFall}
+                        curLevel={curLevel !== undefined? curLevel - 1 : 0}
+
                     />
                 }   
             </div>  

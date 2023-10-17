@@ -20,6 +20,10 @@ const FeedList: React.FC<FeedListProps> = ({}) => {
             setFeeds(getFeedsArray(feedsMap));
         }
     },[feedsMap]);
+    useEffect(()=>{
+        //group by targer
+        console.log(feeds);
+    },[feeds])
     return (
         <div className={style['feed-list']}>
             {
