@@ -3,6 +3,7 @@ import { Feed, FeedGroup } from '../../../types/Feed';
 import { insertToPostAPI } from '../../../libs/api-interactions';
 import { UserBasic } from '../../../types/User';
 import { current } from '@reduxjs/toolkit';
+import { set } from 'lodash';
 type FeedsContextType = {
     hasMore: boolean,
     fetchingStatus: string,
@@ -14,8 +15,12 @@ type FeedsContextType = {
     setFeedById: (id: string, data: Partial<Feed>) => void,
     getFeedById: (id: string) => Feed | undefined,
     getFeeds: () => Feed[],
+    feedGroups: FeedGroup[],
+    setFeedGroups: React.Dispatch<React.SetStateAction<FeedGroup[]>>,
     usernameToBasicProfileMap: UsernameToBasicProfileMap,
-    feedsMap: IDtoFeedMap
+    feedsMap: IDtoFeedMap,
+    lastCursor: Date,
+    setLastCursor: React.Dispatch<React.SetStateAction<Date>>,
 }
 interface UsernameToBasicProfileMap{
     [username: string]: UserBasic
@@ -39,9 +44,11 @@ export const useFeedContext = () => {
 export function FeedContextProvider ({children}: FeedContextProviderProps) {
     const [usernameToBasicProfileMap, setUsernameToBasicProfileMap] = useState<UsernameToBasicProfileMap>({});//[username: string]: UserBasic} = {}
     const [feedsMap, setFeedsMap] = useState<IDtoFeedMap>({});
+    const [feedGroups, setFeedGroups] = useState<FeedGroup[]>([]);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [fetchingStatus, setFetchingStatus] = useState<string>("idle");
     const [initialLoadingStatus, setInitialLoadingStatus] = useState<string>("idle");
+    const [lastCursor, setLastCursor] = useState<Date>(new Date());
     const feedsMapRef = useRef(feedsMap);
     const setFeedById = (id: string, data: Partial<Feed>) => {
         const feed = feedsMap[id];
@@ -88,12 +95,14 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
                     return {...prevState, ...newFeedsMap}
                 }
             );
+            setFeedGroups(prevState => [...prevState, ...newFeedGroups]);
         }else{
             setFeedsMap(prevState =>  
                 {
                     return {...newFeedsMap, ...prevState}
                 }
             );
+            setFeedGroups(prevState =>  [...newFeedGroups, ...prevState]);
         }
     }
     
@@ -122,6 +131,7 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     useEffect(() => {
         feedsMapRef.current = feedsMap;
     },[feedsMap]);
+
     const value = {
         hasMore,
         fetchingStatus,
@@ -135,6 +145,10 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         getFeeds,
         feedsMap,
         usernameToBasicProfileMap,
+        feedGroups,
+        setFeedGroups,
+        lastCursor,
+        setLastCursor,
         
     }
     return (

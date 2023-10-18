@@ -53,16 +53,12 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     $limit: theLimit + 1
                   },
                 //put the document whose username is equal to the username at the top, then sort by createdDate
-                {
-                    $sort: {
-                        username: { $eq: username } ? -1 : 1,
-                    }
-                }
             ]
             const feeds = await db
                 .collection("feeds")
                 .aggregate(aggregate)
                 .toArray();
+
             if (feeds.length === 0) {
                 res.status(200).json({
                     success: false,
@@ -71,12 +67,17 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 });
                 return;
             }
-           
             let hasMore = false;  
+            feeds.sort((a,b)=>{
+                if (a.username === username) return -1;
+                if (b.username === username) return 1;
+                return 0;
+            })
             if(feeds.length > theLimit ){
                 hasMore = true;
                 feeds.pop();
             }
+            let lastCursor = feeds[feeds.length - 1].createdDate;
             let feedGroups = [];
             let contentIdToIndex = new Map<string,number>(
             );
@@ -119,7 +120,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 i++;
             }
             // Get the list of usernames for which feeds were found
-            res.status(200).json({ feedGroups, hasMore, success: true });
+            res.status(200).json({ feedGroups, hasMore, success: true, lastCursor });
         } else if (req.method === 'POST') {
             const usernames = req.body;
             const feeds = db.collection('feeds');

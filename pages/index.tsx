@@ -5,20 +5,23 @@ import Banner from '../components/banner/banner';
 import PostEngagement from '../components/activity/post/post-engagement/PostEngagement';
 import { getSession } from 'next-auth/react';
 import { fetchFromGetAPI, insertToPostAPI } from '../libs/api-interactions';
-import { useEffect } from 'react';
-import FeedsBoard from '../components/activity/feed/FeedsBoard';
-import { FeedContextProvider } from '../components/activity/feed/FeedsContext';
+import { use, useEffect } from 'react';
+import FeedsBoard, { getFeedsByUsernames } from '../components/activity/feed/FeedsBoard';
+import { FeedContextProvider, useFeedContext } from '../components/activity/feed/FeedsContext';
 import { Feed, FeedGroup } from '../types/Feed';
 interface HomeProps {
     feedGroups: FeedGroup[];
     hasMore: boolean;
     username: string;
     apiStatus: string;
+    lastCursor: Date;
+    buddiesUsernames: string[];
 }
 interface Result{
     success: boolean;
     feedGroups: FeedGroup[];
     hasMore: boolean;
+    lastCursor: Date;
 }
 export async function getServerSideProps(context: any) {
    const session = await getSession(context);//need to provide context for the session
@@ -37,7 +40,8 @@ export async function getServerSideProps(context: any) {
     let results:Result = {
         success: false,
         feedGroups: [],
-        hasMore: false
+        hasMore: false,
+        lastCursor: new Date()
     }
     const usernames = await getBuddiesUsernames(username);
     if(usernames.length > 0 && usernames){
@@ -49,7 +53,9 @@ export async function getServerSideProps(context: any) {
         feedGroups: [],
         hasMore: false,
         username: "",
-        apiStatus: 'failed'
+        apiStatus: 'failed',
+        lastCursor: new Date(),
+        buddiesUsernames: []
     }
     if( results && results.success){
         //get list of unique usernames from this list of feeds from results.feeds
@@ -58,13 +64,17 @@ export async function getServerSideProps(context: any) {
         props.hasMore = results.hasMore;
         props.username = username;
         props.apiStatus = 'success';
+        props.lastCursor = results.lastCursor;
+        props.buddiesUsernames = usernames;
     }
     return {
        props
     }
 }
 export default function Home(props: any) {
-    const {feedGroups, hasMore, username, apiStatus} = props;
+
+    const {feedGroups, hasMore, username, apiStatus, lastCursor,buddiesUsernames} = props;
+   
     return (
         <>
             <Head>
@@ -83,6 +93,9 @@ export default function Home(props: any) {
                             <FeedsBoard
                                 username={username}
                                 initialFeedGroups={feedGroups}
+                                initiallyHasMore={hasMore}
+                                initialLastCursor={lastCursor}
+                                buddiesUsernames={buddiesUsernames}
                             />
                         </FeedContextProvider>
                     }
@@ -114,20 +127,5 @@ const getBuddiesUsernames = async (username: string) => {
         return res.data;
     }else{
         throw new Error(res.message);
-    }
-}
-const getFeedsByUsernames = async (usernames: string[], username:string) => {
-    const path = 'feeds';
-    const finalUsernames = usernames.join(',');
-    const params = {
-        usernames: finalUsernames,
-        username
-    }
-
-    const res = await fetchFromGetAPI(path, params);
-    if(res.success){
-        return res;
-    }else{
-        return null;
     }
 }
