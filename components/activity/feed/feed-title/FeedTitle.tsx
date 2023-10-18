@@ -47,7 +47,7 @@ const FeedTitle = (props:FeedTitleProps) => {
                 relatedUser === myUsername ?
             'your' :
              
-                user2?.username === user?.username ?
+                relatedUser === username ?
                 "their" 
                 : 
                 <>
@@ -66,7 +66,7 @@ const FeedTitle = (props:FeedTitleProps) => {
             <>
                 {` made buddies with `}
                 {
-                    user2 && convertUserToMiniProfile(user2) 
+                    relatedUser === myUsername ? "You" : convertUserToMiniProfile(user2) 
                 }
             </>
 

@@ -19,7 +19,7 @@ export interface FeedGroup{
     targetContentId: string;
     feeds: Feed[];
     lastestCreatedDate: Date;
-    latestActivityId: string; //refer to the comments id specifically
+    lastestActivityId: string; //refer to the comments id specifically
     latestIndex: number;
 }
 

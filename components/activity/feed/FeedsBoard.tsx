@@ -52,6 +52,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     }
     useEffect(() => {
         if(initialFeedGroups){
+            console.log("initialFeedGroups", initialFeedGroups);
             addFeeds(initialFeedGroups, false);
             setHasMore(initiallyHasMore);
             setLastCursor(initialLastCursor);
@@ -79,7 +80,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     },[]);
     useEffect(()=>{
         if(endOfList && hasMore && initialFeedGroups){
-            fetchMore(username, lastCursor);
+            //fetchMore(username, lastCursor);
         }   
     },[endOfList])
     return (

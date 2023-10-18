@@ -32,6 +32,7 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
         }
         else if(type === 'comments'){
             const thisComment = activityId;
+            console.log("thisComment", thisComment)
             let FeedJSX = null;
             const post = await fetchPost(contentId);
             if(post){
@@ -63,7 +64,16 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
             }else{
                 return null;
             }
-        }else{
+        }else if(type==="reaction") {
+            const post = await fetchPost(contentId);
+            if(post){
+                setFeedJSX(
+                    <div className={style['feed-header']}>
+                        <Post post={post} username={myUsername} preview={true} previewCommentId={activityId}/>
+                    </div>
+                )
+            }
+        } else {
             return null;
         }
     };

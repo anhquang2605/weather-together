@@ -32,7 +32,7 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
                     {group.targetContentId !== "" && 
                         <FeedContent
                             contentId={group.targetContentId}
-                            activityId={group.latestActivityId}
+                            activityId={group.lastestActivityId}
                             type={group.feeds[group.latestIndex].type}                    
                         />
                     }

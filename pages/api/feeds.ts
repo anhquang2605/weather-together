@@ -93,7 +93,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 }
                 let theContentIndex = contentIdToIndex.get(theParentId);
                 if(theContentIndex !== undefined && theParentId !== "" && curFeedGroupIndex !== -1){
-                    if((feed.type === "comments" || feed.type === "reaction") && feedGroups[theContentIndex].latestCreatedDate < feed.createdDate){
+                    if((feed.type === "comments" || feed.type === "reaction") && feedGroups[theContentIndex].latestCreatedDate > feed.createdDate){
                         feedGroups[theContentIndex].latestCreatedDate = feed.createdDate;
                         feedGroups[theContentIndex].lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
                         feedGroups[theContentIndex].latestIndex += 1;
