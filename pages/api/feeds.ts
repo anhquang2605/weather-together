@@ -40,16 +40,15 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
 /*                 {
                     $group: {
                         _id: {
-                            targetId: '$targetId',
-                            username: '$username',
-                            targetParentId: '$targetParentId',
+                            targetId: "$targetId",
+                            targetParentId: "$targetParentId",
                         },
                         latestDocument: { $first: "$$ROOT" }
                     }
-                }, */
-/*                 {
+                }, 
+                 {
                     $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
-                  }, */
+                  },  */
                   {
                     $limit: theLimit + 1
                   },
@@ -79,24 +78,32 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 feeds.pop();
             }
             let feedGroups = [];
+            let contentIdToIndex = new Map<string,number>(
+            );
+            contentIdToIndex.set("", 0);
             let curFeedGroupIndex = -1;
             let i = 0;
             for(const feed of feeds){
                 const targetId = feed.targetId;
                 const parentId = feed.targetParentId;
                 let theParentId = parentId !== "" ? parentId : targetId;
-                if(feedGroups[curFeedGroupIndex] && feedGroups[curFeedGroupIndex].targetContentId === theParentId && theParentId !== "" && curFeedGroupIndex !== -1){
-                    if((feed.type === "comments" || feed.type === "reaction") && feedGroups[curFeedGroupIndex].latestCreatedDate < feed.createdDate){
-                        feedGroups[curFeedGroupIndex].latestCreatedDate = feed.createdDate;
-                        feedGroups[curFeedGroupIndex].lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
-                        feedGroups[curFeedGroupIndex].latestIndex += 1;
+                if(feed.type === "post" || feed.type === "post_tag"){
+                    theParentId = feed.activityId;
+                }
+                let theContentIndex = contentIdToIndex.get(theParentId);
+                if(theContentIndex !== undefined && theParentId !== "" && curFeedGroupIndex !== -1){
+                    if((feed.type === "comments" || feed.type === "reaction") && feedGroups[theContentIndex].latestCreatedDate < feed.createdDate){
+                        feedGroups[theContentIndex].latestCreatedDate = feed.createdDate;
+                        feedGroups[theContentIndex].lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
+                        feedGroups[theContentIndex].latestIndex += 1;
                     }
-                    feedGroups[curFeedGroupIndex].feeds.push(feed);
+                    feedGroups[theContentIndex].feeds.push(feed);
                 }else{
-                    console.log("feed", feed);
+                    let theContentId = (feed.type === "posts" || feed.type === "post_tag") ? feed.activityId : theParentId;
+                   
                     let feedGroup = {
                         feeds: [feed],
-                        targetContentId: (feed.type === "posts" || feed.type === "post_tag") ? feed.activityId : theParentId,
+                        targetContentId: theContentId,
                         latestCreatedDate: feed.createdDate,
                         lastestActivityId: (feed.type !== "comments" && feed.type !== "reaction" 
                         ) ? "" : feed.activityId,
@@ -104,11 +111,13 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     }
                     feedGroups.push(feedGroup);
                     curFeedGroupIndex++;
+                    if(theContentId !== ""){
+                        contentIdToIndex.set(theContentId, curFeedGroupIndex);
+                    }
                 }
                 
                 i++;
             }
-            console.log("feedGroups", feedGroups);
             // Get the list of usernames for which feeds were found
             res.status(200).json({ feedGroups, hasMore, success: true });
         } else if (req.method === 'POST') {
