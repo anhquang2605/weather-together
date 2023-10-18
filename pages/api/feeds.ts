@@ -92,13 +92,16 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     theParentId = feed.activityId;
                 }
                 let theContentIndex = contentIdToIndex.get(theParentId);
+               
                 if(theContentIndex !== undefined && theParentId !== "" && curFeedGroupIndex !== -1){
-                    if((feed.type === "comments" || feed.type === "reaction") && feedGroups[theContentIndex].latestCreatedDate > feed.createdDate){
-                        feedGroups[theContentIndex].latestCreatedDate = feed.createdDate;
-                        feedGroups[theContentIndex].lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
-                        feedGroups[theContentIndex].latestIndex += 1;
+                    let theGroup = feedGroups[theContentIndex];
+                    //priority: comments, then createdDate, if the latest is a reation that target a post, then it is replaced by other activity, if the latest is a reaction that target a comment, then it is not replaced
+                    if((feed.type === "comments" || feed.type === "reaction") && (theGroup.lastestActivityId === "" || theGroup.latestCreatedDate < feed.createdDate)){
+                                theGroup.latestCreatedDate = feed.createdDate;
+                                theGroup.lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
+                                theGroup.latestIndex += 1;
                     }
-                    feedGroups[theContentIndex].feeds.push(feed);
+                    theGroup.feeds.push(feed);
                 }else{
                     let theContentId = (feed.type === "posts" || feed.type === "post_tag") ? feed.activityId : theParentId;
                    
