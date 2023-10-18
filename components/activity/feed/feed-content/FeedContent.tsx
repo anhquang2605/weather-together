@@ -52,6 +52,17 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
                 Picture
             </div>
 
+        }else if(type ==="post_tag"){
+            const post = await fetchPost(contentId);
+            if(post){
+                setFeedJSX(
+                    <div className={style['feed-header']}>
+                        <Post post={post} username={myUsername} preview={true}/>
+                    </div>
+                )
+            }else{
+                return null;
+            }
         }else{
             return null;
         }

@@ -27,7 +27,9 @@ const FeedTitle = (props:FeedTitleProps) => {
              : 
             user && convertUserToMiniProfile(user )
         }
-
+        {
+            feed.type === "post_tag" && ' tagged '
+        }
         {
             feed.type === 'comments' &&     ' commented on '
         }
@@ -37,10 +39,10 @@ const FeedTitle = (props:FeedTitleProps) => {
         }
 
         {
-            feed.type === 'posts' && ' released a '}
+            feed.type === 'posts' && ' released a thought'}
 
         {
-            feed.type === "comments" &&
+            (feed.type === "comments" || feed.type==="post_tag") &&
             (                          
                 relatedUser === myUsername ?
             'your' :
@@ -49,7 +51,7 @@ const FeedTitle = (props:FeedTitleProps) => {
                 "their" 
                 : 
                 <>
-                    {user2 && convertUserToMiniProfile(user2)} 's
+                    {user2 && convertUserToMiniProfile(user2)} { feed.type === 'comments' ? "'s" : " in a post"}
                 </>
                  
              

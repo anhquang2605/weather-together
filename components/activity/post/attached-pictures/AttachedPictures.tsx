@@ -33,11 +33,11 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
         const url = path + '?' + new URLSearchParams(params).toString();
         fetch(url, options).then(res => 
             {if (res.ok) return res.json()}).then(data => {
-                setIsFirstImageVertical(data.data[2].width < data.data[2].height);
+                setIsFirstImageVertical(data.data[0].width < data.data[0].height);
             if(data.data.length === 2){
                 setIsSecondImageVertical(data.data[1].width < data.data[1].height);
             }
-            const picture = [data.data[2],...data.data];
+            const picture = [...data.data];
             setPictures(picture);
             setLoading(false);
         })

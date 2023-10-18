@@ -46,7 +46,8 @@ export default function FeedsBoard (props: FeedsBoardProps) {
           }
           ws.onmessage = (message) => {
             const payload = JSON.parse(message.data);
-              if(payload.type === 'feeds-added'){
+              if(payload.type === 'feeds-changestream'){
+                  
                   addFeeds(payload.data, false);
               } 
   

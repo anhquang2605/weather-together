@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     },
                 },
                 { $sort: { createdDate: -1 } },
-                {
+/*                 {
                     $group: {
                         _id: {
                             targetId: '$targetId',
@@ -46,17 +46,17 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                         },
                         latestDocument: { $first: "$$ROOT" }
                     }
-                },
-                {
+                }, */
+/*                 {
                     $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
-                  },
+                  }, */
                   {
                     $limit: theLimit + 1
                   },
                 //put the document whose username is equal to the username at the top, then sort by createdDate
                 {
                     $sort: {
-                        username: { $eq: username } ? 1 : -1,
+                        username: { $eq: username } ? -1 : 1,
                     }
                 }
             ]
@@ -74,7 +74,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }
            
             let hasMore = false;  
-            if(feeds.length > theLimit + 1){
+            if(feeds.length > theLimit ){
                 hasMore = true;
                 feeds.pop();
             }
@@ -86,18 +86,20 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 const parentId = feed.targetParentId;
                 let theParentId = parentId !== "" ? parentId : targetId;
                 if(feedGroups[curFeedGroupIndex] && feedGroups[curFeedGroupIndex].targetContentId === theParentId && theParentId !== "" && curFeedGroupIndex !== -1){
-                    if((feed.type === "comments" || feed.typ === "reaction") && feedGroups[curFeedGroupIndex].latestCreatedDate < feed.createdDate){
+                    if((feed.type === "comments" || feed.type === "reaction") && feedGroups[curFeedGroupIndex].latestCreatedDate < feed.createdDate){
                         feedGroups[curFeedGroupIndex].latestCreatedDate = feed.createdDate;
                         feedGroups[curFeedGroupIndex].lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
                         feedGroups[curFeedGroupIndex].latestIndex += 1;
                     }
                     feedGroups[curFeedGroupIndex].feeds.push(feed);
                 }else{
+                    console.log("feed", feed);
                     let feedGroup = {
                         feeds: [feed],
-                        targetContentId: theParentId,
+                        targetContentId: (feed.type === "posts" || feed.type === "post_tag") ? feed.activityId : theParentId,
                         latestCreatedDate: feed.createdDate,
-                        lastestActivityId: (feed.type !== "comments" && feed.type !== "reaction") ? "" : feed.activityId,
+                        lastestActivityId: (feed.type !== "comments" && feed.type !== "reaction" 
+                        ) ? "" : feed.activityId,
                         latestIndex: 0,
                     }
                     feedGroups.push(feedGroup);
@@ -106,6 +108,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 
                 i++;
             }
+            console.log("feedGroups", feedGroups);
             // Get the list of usernames for which feeds were found
             res.status(200).json({ feedGroups, hasMore, success: true });
         } else if (req.method === 'POST') {
