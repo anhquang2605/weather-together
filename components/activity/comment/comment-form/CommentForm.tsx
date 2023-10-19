@@ -318,7 +318,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
             if(commentFormRef.current){
                 scrollToCommentForm(commentFormRef)
             }
-            
+            console.log(postId);
         }
     },[isCommenting])
     useEffect(()=>{
@@ -337,7 +337,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
     useEffect(()=>{        
         if(forPost){ 
            if(postId === curPostId){
-
                 if(show === preview){
                     //moving away from this form
                     handleSetCommentFormState();
@@ -352,7 +351,8 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         }
     },[commentFormState])
     return(
-        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']} `}>
+        //comment form in preview mode will have overflow-y set to visible, but somehow the suggestion box is over lapped by the next element (feed)
+        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']} ${preview ? style['preview'] : ""}`}>
             <MiniAvatar className={style['comment-form__profile-picture']} username={username} profilePicturePath={userProfilePicturePath} size="medium"/>
             <div className={style['text-box']}>
                 <textarea 

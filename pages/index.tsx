@@ -74,7 +74,6 @@ export async function getServerSideProps(context: any) {
 export default function Home(props: any) {
 
     const {feedGroups, hasMore, username, apiStatus, lastCursor,buddiesUsernames} = props;
-   
     return (
         <>
             <Head>
