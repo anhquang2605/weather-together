@@ -103,7 +103,18 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         if(e.key === triggerChar) {
             setCurrentCursorPosition(e.currentTarget.selectionStart || 0);
             setRevealEmojiSuggestions(true);
-        } 
+        }
+        //get the class of the current top suggestion box who is the immediate sibling of this text box arget, then calculate the height of the suggestion box so we can always put the box at bottom as the text box change height
+        if(revealEmojiSuggestions){
+            const topSuggestion = e.currentTarget.nextElementSibling?.nextElementSibling as HTMLDivElement;
+            if(topSuggestion.classList.contains(style['top-suggestion'])){
+                const topSuggestionHeight = topSuggestion.getBoundingClientRect().height;
+                const lineHeight = parseFloat(window.getComputedStyle(e.currentTarget).lineHeight);
+                topSuggestion.style.top = `-${topSuggestionHeight - lineHeight / 3}px`;
+    
+            } 
+        }
+    
     }
     //stop revealing when backspace is pressed and the trigger char is deleted
     const handleKeyDownTextArea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -134,6 +145,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                 setEmojiSuggestionTerm(prev => prev + e.key);
             }
         }
+
     }
     /******************END EMOJI SUGGESTIONS SECTION*******************/
     const checkIfPrintableKey = (event: React.KeyboardEvent) => {
@@ -387,6 +399,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                     suggestionContainerClassName={suggestionsContainerClassName}
                     topSuggestionClassName={style['top-suggestion']}
                     scrollListRef={parentListRef}
+                    noAlternate={forPost}
                 />}
                 {previewRatio && previewPictureURL ? <div 
                     style={{
@@ -417,7 +430,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                             </label>
                             <input type="file" accept="image/*" id={_id + (preview?"preview" : "") } className={style['image-attachment__input'] + " hidden"} onChange={handlePictureInptChange}/>
                         </div> 
-                        <EmojiSelector size={targetType === "comments" ? "small" : undefined} containerRef={parentListRef} buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect}/>
+                        <EmojiSelector size={targetType === "comments" ? "small" : undefined} containerRef={parentListRef} buttonClassName={style['control-btn']} handleEmojiSelect={handleEmojiSelect} noAlternate={forPost}/>
                     </div>
                     <button  onClick={handleSubmit} title="Send" className={style['send-btn'] + " " + style['control-btn'] + " " + (
                         isSending || !validContentLength ? style['disabled'] : ''

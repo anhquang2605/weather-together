@@ -12,6 +12,8 @@
     @apply w-full resize-none border-none outline-none bg-transparent mb-2;
     color: var(--primary-color);
     min-height: 1rem;
+    max-height: 10rem;
+    overflow-y: scroll;
   }
   &.comment{
     padding: 0!important;
@@ -65,7 +67,7 @@
     max-width: 25%;
     max-height: 10rem;
     overflow-y: auto;
-    @apply p-2 rounded-lg z-20;
+    @apply rounded-lg z-30;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
 }
 .emoji-intext-suggestion-item{
@@ -111,17 +113,19 @@
    opacity: 1;
    min-height: 1px;
    max-height: 100%;
-    z-index: 1;
+    z-index: 20;
     transform: translateY(0);
     transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out,  transform 0.2s ease-in-out 0.1s, opacity 0.2s ease-in-out 0.1s !important;
-    overflow-y: auto;
-    &.preview{
-        overflow-y: visible;
-    }
+    overflow-y: visible;
+
 }
 
 .sending{
     cursor: not-allowed;
     pointer-events: none;
     @apply animate-pulse;
+}
+
+.top-suggestion{
+    
 }

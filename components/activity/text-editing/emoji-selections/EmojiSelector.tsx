@@ -8,8 +8,9 @@ interface EmojiSelectorProps {
     buttonClassName?: string;
     containerRef?: React.MutableRefObject<HTMLElement | null>;
     size?: string;
+    noAlternate?: boolean;
 }
-export default function EmojiSelector({ handleEmojiSelect, buttonClassName, containerRef, size }: EmojiSelectorProps) {
+export default function EmojiSelector({ handleEmojiSelect, buttonClassName, containerRef, size, noAlternate }: EmojiSelectorProps) {
     const [reveal, setReveal] = useState(false);
     const [emojisSelections, setEmojisSelections] = useState(EMOJIS);
     const [listPosition, setListPosition] = useState('top');
@@ -18,6 +19,9 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName, cont
     const emojiListRef = useRef<HTMLDivElement | null>(null);
     const handleEmojiButtonClick = () => {
         setReveal(prev => !prev);
+        if(noAlternate){
+            return;
+        }
         if(emojiButtonRef.current && emojiListRef.current){
             const btn = emojiButtonRef.current;
 
@@ -37,6 +41,7 @@ export default function EmojiSelector({ handleEmojiSelect, buttonClassName, cont
             }
 
             const threshold = listHeight + 16;
+
             if(distanceToBottom > threshold){
                 setListPosition('bottom');
             }else{

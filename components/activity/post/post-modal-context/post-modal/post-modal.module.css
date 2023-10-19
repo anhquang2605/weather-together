@@ -24,7 +24,7 @@
     position: relative;
     width: 460px;
     max-height: 85vh;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     @apply border border-slate-400 rounded-lg z-50;

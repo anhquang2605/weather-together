@@ -18,8 +18,9 @@ interface IntextSuggestionProps<T> {
     content: string;
     topSuggestionClassName?: string;
     scrollListRef?: React.MutableRefObject<HTMLDivElement | null>;
+    noAlternate?: boolean;
 }
-export default function IntextSuggestion<T extends {}>({ term, handleSuggestionChose, reveal, setReveal, triggerChar, suggestions, suggestionJSX, suggestionContainerClassName, inputRef, content, topSuggestionClassName, scrollListRef}: IntextSuggestionProps<T>) {
+export default function IntextSuggestion<T extends {}>({ term, handleSuggestionChose, reveal, setReveal, triggerChar, suggestions, suggestionJSX, suggestionContainerClassName, inputRef, content, topSuggestionClassName, scrollListRef, noAlternate}: IntextSuggestionProps<T>) {
     const getTextSizeOfRef = (ref: React.MutableRefObject<HTMLTextAreaElement | HTMLInputElement | null>) => {
         if(ref.current){
             return parseFloat(window.getComputedStyle(ref.current).fontSize);
@@ -44,7 +45,6 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
                 const input = inputRef.current;
                 const inputRect = input.getBoundingClientRect();
                 const inputWidth = inputRect.width;
-
                 const inputTop = input.offsetTop;
                 const inputLeft = input.offsetLeft;
                 const suggestionBox = document.querySelector(`.${style['intext-suggestion']}`) as HTMLDivElement;
@@ -74,13 +74,20 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
                             const suggestionBoxWidth = suggestionBox.getBoundingClientRect().width;
                             const distanceOfInsertionFromTop = getDistanceFromTopOfScrollableParent(insertionPoint, scrollList);
                             const distanceOfInsertionFromLeft =getDistanceFromLeftOfScrollableParent(insertionPoint, scrollList);
-                            if(distanceOfInsertionFromLeft + suggestionBoxWidth > scrollListWidth){
+                            if((distanceOfInsertionFromLeft + suggestionBoxWidth > scrollListWidth)){
+                                //hit the right side
                                 suggestionBox.style.left = `${insertionPointLeft + inputLeft - suggestionBoxWidth}px`;
                             }
-                            if(distanceOfInsertionFromTop + suggestionBoxHeight > scrollListHeight){
+                            if(noAlternate || (distanceOfInsertionFromTop + suggestionBoxHeight > scrollListHeight)){
+                                //hit the bottom
                                 suggestionBox.style.top = `${insertionPointTop + inputTop - suggestionBoxHeight }px`;
+                                suggestionBox.classList.add(topSuggestionClassName ?? "");
                             }
-                            return;
+                        }
+                        if(noAlternate){
+                            const suggestionBoxHeight = suggestionBox.getBoundingClientRect().height;
+                            suggestionBox.classList.add(topSuggestionClassName ?? "");
+                            suggestionBox.style.top = `${insertionPointTop + inputTop - suggestionBoxHeight }px`;
                         }
 
                     }

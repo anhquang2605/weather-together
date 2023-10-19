@@ -1,7 +1,8 @@
 .intext-suggestion{
     position: absolute;
-    z-index: 40;
+    z-index: 50;
     background: white;
+    margin: 0.5rem;
 }
 .content-rendered{
     position: absolute;
