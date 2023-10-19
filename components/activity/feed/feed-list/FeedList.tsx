@@ -58,7 +58,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                 </>
             }
             {fetchingStatus === 'loading' &&
-                <div className={style['loading'] + " h-[200px"}>
+                <div className={style['loading'] + " h-vh"}>
                     <LoadingIndicator fluid={true}/>
                 </div> 
                 

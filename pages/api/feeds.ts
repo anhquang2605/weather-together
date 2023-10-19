@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }
             let cursor = req.query.cursor as string;
             let limit =  req.query.limit as string;
-            const theLimit = /* limit? parseInt(limit): 10 */ 20;
+            const theLimit = limit? parseInt(limit): 10;
             // Fetch the latest feeds where the username is either the issuer or the target
             const aggregate = [
                 {
