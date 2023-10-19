@@ -92,9 +92,7 @@ export default function Home(props: any) {
                         <FeedContextProvider>
                             <FeedsBoard
                                 username={username}
-                                initialFeedGroups={feedGroups}
-                                initiallyHasMore={hasMore}
-                                initialLastCursor={lastCursor}
+      
                                 buddiesUsernames={buddiesUsernames}
                             />
                         </FeedContextProvider>

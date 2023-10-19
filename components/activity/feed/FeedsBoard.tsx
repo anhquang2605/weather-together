@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import style from './feeds-board.module.css';
 import { Feed, FeedGroup } from '../../../types/Feed';
 import { fetchFromGetAPI } from '../../../libs/api-interactions';
@@ -6,12 +6,10 @@ import { FeedContextProvider, FeedsContext, useFeedContext } from './FeedsContex
 import { unique } from 'next/dist/build/utils';
 import FeedList from './feed-list/FeedList';
 import { add, set } from 'lodash';
+import { time } from 'console';
 type FetchFunctionType = (path: string, params: any) => Promise<any>;
 interface FeedsBoardProps {
     username: string;
-    initialFeedGroups: FeedGroup[];
-    initiallyHasMore: boolean;
-    initialLastCursor: Date;
     buddiesUsernames: string[];
 }
 interface returnedFetchData {
@@ -26,15 +24,13 @@ interface returnedFetchData {
 export default function FeedsBoard (props: FeedsBoardProps) {
     const {
         username,
-        initiallyHasMore, 
-        initialFeedGroups,
-        initialLastCursor,
         buddiesUsernames
     } = props;
-
+    const feedListRef = useRef<HTMLDivElement>(null);
     const FEEDS_PER_PAGE = 10;
     const {addFeeds, setHasMore, setFetchingStatus, feedGroups, hasMore, setLastCursor, lastCursor} = useFeedContext();
     const [endOfList, setEndOfList] = useState<boolean>(false);
+    const [listRendered, setListRendered] = useState<boolean>(false);
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
     const SERVER_PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
     //helpers
@@ -51,12 +47,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
        }
     }
     useEffect(() => {
-        if(initialFeedGroups){
-            console.log("initialFeedGroups", initialFeedGroups);
-            addFeeds(initialFeedGroups, false);
-            setHasMore(initiallyHasMore);
-            setLastCursor(initialLastCursor);
-        }
         const ws = new WebSocket(`${SERVER_HOST}:${SERVER_PORT}`);
         ws.onopen = () => {
             ws.send(JSON.stringify({
@@ -79,13 +69,20 @@ export default function FeedsBoard (props: FeedsBoardProps) {
           }
     },[]);
     useEffect(()=>{
-        if(endOfList && hasMore && initialFeedGroups){
-            //fetchMore(username, lastCursor);
-        }   
+        let timeout: NodeJS.Timeout;
+        if(endOfList && hasMore){
+            fetchMore(username, lastCursor);
+            timeout = setTimeout(() => {
+                setEndOfList(false);
+            }, 500);
+        }
+        return () => {
+            clearTimeout(timeout);
+        }
     },[endOfList])
     return (
             <div className={style["feeds-board"]}>
-                <FeedList setIsEndOfList={setEndOfList} feedGroups={feedGroups}/>
+                <FeedList setIsEndOfList={setEndOfList} onRendered={setListRendered}/>
             </div>
     )
 }

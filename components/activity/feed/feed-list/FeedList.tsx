@@ -8,12 +8,12 @@ import FeedGroupComponent from '../feed-group-component/FeedGroupComponent';
 import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
 
 interface FeedListProps {
-    feedGroups: FeedGroup[];
     setIsEndOfList: React.Dispatch<React.SetStateAction<boolean>>;
+    onRendered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FeedList: React.FC<FeedListProps> = ({feedGroups, setIsEndOfList}) => {
-    const {fetchingStatus} = useFeedContext();
+const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
+    const {fetchingStatus, feedGroups} = useFeedContext();
     useEffect(()=>{
         if(feedGroups){
             const option = {
@@ -51,18 +51,18 @@ const FeedList: React.FC<FeedListProps> = ({feedGroups, setIsEndOfList}) => {
                             />
                         )
                     })}
-                    <div className={style['lazy-target'] + " " + style[fetchingStatus]}>
-                        {fetchingStatus === 'loading' && 
-                            <LoadingIndicator/>
-                        }
-                        {fetchingStatus === 'failed' && <div>Failed to load, please try again.</div>}
-                    </div>
                 </>
                 :
                 <>
                     No feeds yet, make some buddies to see their feeds!
                 </>
             }
+            <div className={style['lazy-target'] + " " + style[fetchingStatus]}>
+                        {fetchingStatus === 'loading' && 
+                            <LoadingIndicator/>
+                        }
+                        {fetchingStatus === 'failed' && <div>Failed to load, please try again.</div>}
+            </div>
         </div>
     );
 };
