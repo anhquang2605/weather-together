@@ -8,7 +8,7 @@ interface LoadingIndicatorProps {
 
 const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({fluid}) => {
     return (
-        <div className={'animate-pulse w-full h-full flex flex-row justify-center rounded-lg items-center bg-slate-400/30' + (fluid ? '' : ' min-h-[200px]')}>
+        <div className={'animate-pulse w-full h-full flex flex-row justify-center rounded-lg items-center bg-slate-500/30' + (fluid ? '' : ' min-h-[200px]')}>
             <LoadingIcon />
         </div>
     );

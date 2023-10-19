@@ -57,11 +57,15 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                     No feeds yet, make some buddies to see their feeds!
                 </>
             }
-            <div className={style['lazy-target'] + " " + style[fetchingStatus]}>
-                        {fetchingStatus === 'loading' && 
-                            <LoadingIndicator/>
-                        }
-                        {fetchingStatus === 'failed' && <div>Failed to load, please try again.</div>}
+            {fetchingStatus === 'loading' &&
+                <div className={style['loading'] + " h-[200px"}>
+                    <LoadingIndicator fluid={true}/>
+                </div> 
+                
+            }
+            {fetchingStatus === 'failed' && <div>Failed to load, please try again.</div>}
+            <div className={style['lazy-target']}>
+                      
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import { fetchFromGetAPI } from '../../../libs/api-interactions';
 import { FeedContextProvider, FeedsContext, useFeedContext } from './FeedsContext';
 import { unique } from 'next/dist/build/utils';
 import FeedList from './feed-list/FeedList';
-import { add, set } from 'lodash';
+import { add, debounce, set } from 'lodash';
 import { time } from 'console';
 type FetchFunctionType = (path: string, params: any) => Promise<any>;
 interface FeedsBoardProps {
@@ -34,7 +34,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
     const SERVER_PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
     //helpers
-    const fetchMore = async (username: string, lastCursor: Date) => {
+    const fetchMore = debounce(async (username: string, lastCursor: Date) => {
        setFetchingStatus('loading');
        const response = await getFeedsByUsernames(buddiesUsernames, username, lastCursor)
        if(response && response.success){
@@ -42,10 +42,11 @@ export default function FeedsBoard (props: FeedsBoardProps) {
             setHasMore(response.hasMore);
             setLastCursor(new Date(response.lastCursor));
             setFetchingStatus('success');
+            setEndOfList(false);
        }else{
             setFetchingStatus('failed');
        }
-    }
+    },500)
     useEffect(() => {
         const ws = new WebSocket(`${SERVER_HOST}:${SERVER_PORT}`);
         ws.onopen = () => {
@@ -72,9 +73,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
         let timeout: NodeJS.Timeout;
         if(endOfList && hasMore){
             fetchMore(username, lastCursor);
-            timeout = setTimeout(() => {
-                setEndOfList(false);
-            }, 500);
         }
         return () => {
             clearTimeout(timeout);

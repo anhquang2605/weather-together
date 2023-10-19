@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }
             let cursor = req.query.cursor as string;
             let limit =  req.query.limit as string;
-            const theLimit = limit? parseInt(limit): 10;
+            const theLimit = /* limit? parseInt(limit): 10 */ 20;
             // Fetch the latest feeds where the username is either the issuer or the target
             const aggregate = [
                 {
@@ -88,7 +88,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 const targetId = feed.targetId;
                 const parentId = feed.targetParentId;
                 let theParentId = parentId !== "" ? parentId : targetId;
-                if(feed.type === "post" || feed.type === "post_tag"){
+                if(feed.type === "posts" || feed.type === "post_tag"){
                     theParentId = feed.activityId;
                 }
                 let theContentIndex = contentIdToIndex.get(theParentId);
