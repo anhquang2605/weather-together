@@ -107,11 +107,13 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         //get the class of the current top suggestion box who is the immediate sibling of this text box arget, then calculate the height of the suggestion box so we can always put the box at bottom as the text box change height
         if(revealEmojiSuggestions){
             const topSuggestion = e.currentTarget.nextElementSibling?.nextElementSibling as HTMLDivElement;
-            if(topSuggestion.classList.contains(style['top-suggestion'])){
+            const hiddenInput = e.currentTarget.nextElementSibling as HTMLInputElement;
+            if(topSuggestion.classList.contains(style['top-suggestion'])&& hiddenInput){
                 const topSuggestionHeight = topSuggestion.getBoundingClientRect().height;
+                const topSuggestionMaxHeight = parseFloat(window.getComputedStyle(topSuggestion).maxHeight);
+                const hiddenInputHeight = hiddenInput.getBoundingClientRect().height;
                 const lineHeight = parseFloat(window.getComputedStyle(e.currentTarget).lineHeight);
-                topSuggestion.style.top = `-${topSuggestionHeight - lineHeight / 3}px`;
-    
+                topSuggestion.style.marginTop = `${lineHeight + topSuggestionMaxHeight - topSuggestionHeight}px`;
             } 
         }
     

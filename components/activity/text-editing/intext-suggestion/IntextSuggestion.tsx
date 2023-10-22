@@ -78,16 +78,16 @@ export default function IntextSuggestion<T extends {}>({ term, handleSuggestionC
                                 //hit the right side
                                 suggestionBox.style.left = `${insertionPointLeft + inputLeft - suggestionBoxWidth}px`;
                             }
-                            if(noAlternate || (distanceOfInsertionFromTop + suggestionBoxHeight > scrollListHeight)){
+                            if((distanceOfInsertionFromTop + suggestionBoxHeight > scrollListHeight)){
                                 //hit the bottom
-                                suggestionBox.style.top = `${insertionPointTop + inputTop - suggestionBoxHeight }px`;
+                                suggestionBox.style.top = `${insertionPointTop + inputTop - lineHeight - suggestionBoxHeight }px`;
                                 suggestionBox.classList.add(topSuggestionClassName ?? "");
                             }
                         }
                         if(noAlternate){
                             const suggestionBoxHeight = suggestionBox.getBoundingClientRect().height;
                             suggestionBox.classList.add(topSuggestionClassName ?? "");
-                            suggestionBox.style.top = `${insertionPointTop + inputTop - suggestionBoxHeight }px`;
+                            suggestionBox.style.top = `${insertionPointTop + inputTop - lineHeight - suggestionBoxHeight }px`;
                         }
 
                     }

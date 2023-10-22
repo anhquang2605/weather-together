@@ -1,9 +1,8 @@
-import {NextApiRequest, NextApiResponse} from 'next'
-import { connectDB } from '../../libs/mongodb'
-import { Collection, ObjectId, WithId } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { connectDB } from '../../libs/mongodb';
 import { Comment } from '../../types/Comment';
 import { CommentChildrenSummary } from '../../types/CommentChildrenSummary';
-import { type } from 'os';
 interface IMatch{
   targetId?: string;
   level?: number;
