@@ -201,3 +201,4 @@ _Putting two state setter in same function scope will make the state update simu
         }
     }
     40. on MongoDB, when creating new document, must use new Date() on serverside, or else we have date stored as string
+    41. select with peusdo class :empty for item that does not have any content or height or width is equal 0

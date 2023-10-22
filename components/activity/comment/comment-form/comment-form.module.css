@@ -4,7 +4,7 @@
     padding: 0;
     opacity: 0;
     transform: translateY(-1rem);
-    overflow-y: hidden;
+    overflow: hidden;
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out, max-height 0.2s ease-in-out 0.2s, padding 0.2s ease-in-out; 
 
   @apply flex flex-row flex-wrap  mt-0.5 relative;   
@@ -12,8 +12,6 @@
     @apply w-full resize-none border-none outline-none bg-transparent mb-2;
     color: var(--primary-color);
     min-height: 1rem;
-    max-height: 10rem;
-    overflow-y: scroll;
   }
   &.comment{
     padding: 0!important;
@@ -114,15 +112,12 @@
 .is-commenting{
     @apply p-4 px-8;
    opacity: 1;
-   min-height: 1px;
-   max-height: 100%;
+   max-height: 50%;
     z-index: 20;
     transform: translateY(0);
     transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out,  transform 0.2s ease-in-out 0.1s, opacity 0.2s ease-in-out 0.1s !important;
-    overflow-y: visible;
-
+    overflow: visible;
 }
-
 .sending{
     cursor: not-allowed;
     pointer-events: none;

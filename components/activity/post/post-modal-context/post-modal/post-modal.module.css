@@ -43,7 +43,7 @@
         max-height: 50%;
         height: auto;
         flex:  none;
-        overflow-y: auto;
+        overflow: visible;
         border-top: 1px solid lightgray;
     }
     @screen lg{

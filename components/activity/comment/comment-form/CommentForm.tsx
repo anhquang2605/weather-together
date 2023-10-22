@@ -111,7 +111,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
             if(topSuggestion.classList.contains(style['top-suggestion'])&& hiddenInput){
                 const topSuggestionHeight = topSuggestion.getBoundingClientRect().height;
                 const topSuggestionMaxHeight = parseFloat(window.getComputedStyle(topSuggestion).maxHeight);
-                const hiddenInputHeight = hiddenInput.getBoundingClientRect().height;
                 const lineHeight = parseFloat(window.getComputedStyle(e.currentTarget).lineHeight);
                 topSuggestion.style.marginTop = `${lineHeight + topSuggestionMaxHeight - topSuggestionHeight}px`;
             } 
@@ -364,9 +363,35 @@ export default function CommentForm({targetId, name, username, targetLevel, post
           
         }
     },[commentFormState])
+    useEffect(()=>{
+        if(!preview && forPost){
+            const observedElement = document.querySelector('#post-form-'+postId+" textarea") as HTMLDivElement;
+            if(observedElement){
+                console.log(observedElement);
+                const resizeObserver = new ResizeObserver(entries => {
+                    let entry = entries[0];
+                    console.log(entries);
+                    if(entry){
+                        console.log("resize");
+                        const height = entry.contentRect.height;
+                        const maxHeight = parseFloat(window.getComputedStyle(observedElement).maxHeight);
+                        if(height >= maxHeight){
+                            observedElement.style.overflowY = 'scroll';
+                        }else{
+                            observedElement.style.overflowY = 'visible';
+                        }
+                    }
+                });
+                resizeObserver.observe(observedElement);
+/*                 return () => {
+                    resizeObserver.unobserve(observedElement);
+                } */
+            }
+        }
+    },[])
     return(
         //comment form in preview mode will have overflow-y set to visible, but somehow the suggestion box is over lapped by the next element (feed)
-        <div ref={commentFormRef} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']} ${preview ? style['preview'] : ""}`}>
+        <div ref={commentFormRef} id={"post-form-" + postId} className={`${style['comment-form']} ${isCommenting ? style['is-commenting'] : ""} ${targetType === 'comments' ? style['comment'] : ''} ${isSending && style['sending']} ${preview ? style['preview'] : style["modal"]}`}>
             <MiniAvatar className={style['comment-form__profile-picture']} username={username} profilePicturePath={userProfilePicturePath} size="medium"/>
             <div className={style['text-box']}>
                 <textarea 
@@ -380,7 +405,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                     rows={1}
                     style={{
                       overflow: 'hidden',
-                      resize: 'none',
                     }}
                     onInput={ (e:React.FormEvent<HTMLElement>) => {
                         const target = e.target as HTMLElement;
