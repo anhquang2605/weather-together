@@ -12,8 +12,9 @@ export interface Feed {
     targetType?: string;//type of target, post, comment...
     targetId?: string;//id of target post, comment
     targetParentId?: string;//id of parent post if targetType is a comment, will be '', if targetType is a post or picture
-    hidden: boolean;
+    hidden?: boolean;
     hiddenDuration?: number;//in seconds
+    relatedUsers?: string[];//users who are related to the feed, for example, the users who are tagged in a post, only found in post_tag feed
 }
 export interface FeedGroup{
     targetContentId: string;

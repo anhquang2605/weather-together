@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             // Fetch the latest feeds where the username is either the issuer or the target
             const aggregate = [
                 {
-                    $match: {
+                    $match: {// find filters relating to the users in provided list
                         $or: [
                             { username: { 
                                 $in: usernames 
@@ -37,21 +37,67 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     },
                 },
                 { $sort: { createdDate: -1 } },
-/*                 {
-                    $group: {
-                        _id: {
-                            targetId: "$targetId",
-                            targetParentId: "$targetParentId",
-                        },
-                        latestDocument: { $first: "$$ROOT" }
+                // Branch the pipeline: one for post_tag grouping, one for others
+                {
+                    $facet: {
+                        postTags: [
+                            {
+                                $match: { type: "post_tag" }
+                            },
+                            {
+                                $group: {
+                                    _id: "$activityId",
+                                    createdDate: { $first: "$createdDate" },
+                                    type: { $first: "$type" },
+                                    relatedUsers: { $push: "$relatedUser" },
+                                    username: { $first: "$username" }
+                                }
+                            },
+                            {
+                                $project: {
+                                    activityId: "$_id",
+                                    username: 1,
+                                    createdDate: 1,
+                                    type: 1,
+                                    relatedUsers: 1,
+                                    _id: 0
+                                }
+                            }
+                        ],
+                        otherFeeds: [
+                            {
+                                $match: { type: { $ne: "post_tag" } }
+                            }
+                        ]
                     }
-                }, 
-                 {
-                    $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
-                  },  */
-                  {
+                },
+                // Combine the two branches
+                {
+                    $project: {
+                        combinedFeeds: { $concatArrays: ["$postTags", "$otherFeeds"] }
+                    }
+                },
+                {  
+                    $unwind: "$combinedFeeds" 
+                },
+                {
+                    $replaceRoot: { newRoot: "$combinedFeeds" } 
+                },
+        /*                 {
+                            $group: {
+                                _id: {
+                                    targetId: "$targetId",
+                                    targetParentId: "$targetParentId",
+                                },
+                                latestDocument: { $first: "$$ROOT" }
+                            }
+                        }, 
+                        {
+                            $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
+                        },  */
+                {
                     $limit: theLimit + 1
-                  },
+                },
                 //put the document whose username is equal to the username at the top, then sort by createdDate
             ]
             const feeds = await db
@@ -81,6 +127,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let feedGroups = [];
             let contentIdToIndex = new Map<string,number>(
             );
+            console.log(feeds);
             contentIdToIndex.set("", 0);
             let curFeedGroupIndex = -1;
             let i = 0;
@@ -122,6 +169,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 
                 i++;
             }
+            console.log(feedGroups);
             // Get the list of usernames for which feeds were found
             res.status(200).json({ feedGroups, hasMore, success: true, lastCursor });
         } else if (req.method === 'POST') {

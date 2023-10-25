@@ -161,9 +161,9 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                 const postHeight = parseFloat(window.getComputedStyle(thisPost).height);
                 console.log(targetHeight, (maxHeight * postHeight) / 100);
                 if(targetHeight >= maxHeight){
-                    target.style.overflowY = 'scroll';
+                    thisForm.style.overflowY = 'scroll';
                 }else{
-                    target.style.overflowY = 'visible';
+                    thisForm.style.overflowY = 'visible';
                 }
             }
     }

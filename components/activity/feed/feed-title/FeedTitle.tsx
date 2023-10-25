@@ -11,7 +11,8 @@ interface FeedTitleProps {
 const FeedTitle = (props:FeedTitleProps) => {
     const {feed, myUsername, usernameToBasicProfileMap} = props;
     const username = feed.username;
-    const relatedUser = feed.relatedUser;
+    const relatedUser = feed.relatedUser || null;
+    const relatedUsers = feed.relatedUsers || [];
     const user = usernameToBasicProfileMap[username];
     const user2 = usernameToBasicProfileMap[relatedUser || ""];
     const convertUserToMiniProfile = (user: UserBasic) => {
@@ -42,7 +43,7 @@ const FeedTitle = (props:FeedTitleProps) => {
             feed.type === 'posts' && ' released a thought'}
 
         {
-            (feed.type === "comments" || feed.type==="post_tag") &&
+            (feed.type === "comments")  &&
             (                          
                 relatedUser === myUsername ?
             'your' :
@@ -56,6 +57,25 @@ const FeedTitle = (props:FeedTitleProps) => {
                  
              
             ) 
+        }
+        {
+            feed.type === 'post_tag' && relatedUsers && relatedUsers.length > 0 && 
+                relatedUsers.map((relatedUser, index) => {
+                    return (
+                        <>
+                            {
+                                relatedUser === myUsername ?
+                                'You' :
+                                convertUserToMiniProfile(usernameToBasicProfileMap[relatedUser])
+                            }
+                            {
+                                index < relatedUsers.length - 1 ?
+                                ", ":
+                                ""
+                            }
+                        </>
+                    )
+                })
         }
         {
             feed.targetType && feed.targetType.length > 0 && (

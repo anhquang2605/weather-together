@@ -81,6 +81,11 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
             newFeedsMap[feed._id as string] = feed;
             currentUniqueUsernames.add(feed.username);
             currentUniqueUsernames.add(feed.relatedUser as string);
+            if(feed.relatedUsers && feed.relatedUsers.length > 0){
+                feed.relatedUsers.forEach(relatedUser => {
+                    currentUniqueUsernames.add(relatedUser);
+                });
+            }
         });
         const usernames = Array.from(currentUniqueUsernames);
         try{

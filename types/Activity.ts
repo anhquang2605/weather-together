@@ -10,4 +10,5 @@ export interface Activity {
     targetType: string;//post, comment
     createdDate: Date;
     targetParentId: string; //a post or picture ID, '' if targetType is a post or picture
+    reactionType?:string;
 }
