@@ -148,6 +148,25 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         }
 
     }
+    //when form is in preview mode, the textarea will have a max height, so we need to set the overflow-y to scroll when the content is too long
+    const handleOnInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+            const target = e.target as HTMLElement;
+            target.style.height = 'auto';
+            target.style.height = (target.scrollHeight) + 'px';
+            if(!preview && forPost){
+                const thisForm = target.parentElement?.parentElement as HTMLDivElement;
+                const thisPost = thisForm.parentElement?.parentElement as HTMLDivElement;
+                const maxHeight = parseFloat(window.getComputedStyle(thisForm).maxHeight);
+                const targetHeight = parseFloat(window.getComputedStyle(target).height);
+                const postHeight = parseFloat(window.getComputedStyle(thisPost).height);
+                console.log(targetHeight, (maxHeight * postHeight) / 100);
+                if(targetHeight >= maxHeight){
+                    target.style.overflowY = 'scroll';
+                }else{
+                    target.style.overflowY = 'visible';
+                }
+            }
+    }
     /******************END EMOJI SUGGESTIONS SECTION*******************/
     const checkIfPrintableKey = (event: React.KeyboardEvent) => {
         return (/^.$/u.test(event.key) && !event.ctrlKey && !event.metaKey && !event.altKey);
@@ -404,11 +423,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                     style={{
                       overflow: 'hidden',
                     }}
-                    onInput={ (e:React.FormEvent<HTMLElement>) => {
-                        const target = e.target as HTMLElement;
-                        target.style.height = 'auto';
-                        target.style.height = (target.scrollHeight) + 'px';
-                    }}
+                    onInput={handleOnInput}
                 ></textarea>
                 {revealEmojiSuggestions && <IntextSuggestion<Emoji>
                     reveal={revealEmojiSuggestions}
