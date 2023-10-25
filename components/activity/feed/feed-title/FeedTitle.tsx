@@ -20,77 +20,78 @@ const FeedTitle = (props:FeedTitleProps) => {
     }
     return (
         <div className={style['feed-title'] }>
-        {
-            username === myUsername ?
-            <span className="font-bold">
-                You
-            </span> 
-             : 
-            user && convertUserToMiniProfile(user )
-        }
-        {
-            feed.type === "post_tag" && ' tagged '
-        }
-        {
-            feed.type === 'comments' &&     ' commented on '
-        }
-        
-        {
-            feed.type === "reaction" && ' reacted to'
-        }
-
-        {
-            feed.type === 'posts' && ' released a thought'}
-
-        {
-            (feed.type === "comments")  &&
-            (                          
-                relatedUser === myUsername ?
-            'your' :
-             
-                relatedUser === username ?
-                "their" 
+            {
+                username === myUsername ?
+                <span className="font-bold">
+                    You
+                </span> 
                 : 
-                <>
-                    {user2 && convertUserToMiniProfile(user2)} { feed.type === 'comments' ? "'s" : " in a post"}
-                </>
-                 
-             
-            ) 
-        }
-        {
-            feed.type === 'post_tag' && relatedUsers && relatedUsers.length > 0 && 
-                relatedUsers.map((relatedUser, index) => {
-                    return (
-                        <>
-                            {
-                                relatedUser === myUsername ?
-                                'You' :
-                                convertUserToMiniProfile(usernameToBasicProfileMap[relatedUser])
-                            }
-                            {
-                                index < relatedUsers.length - 1 ?
-                                ", ":
-                                ""
-                            }
-                        </>
-                    )
-                })
-        }
-        {
-            feed.targetType && feed.targetType.length > 0 && (
-            ` ${feed.targetType}`)
-        }
-        {
-            feed.type === 'buddy_made' && 
-            <>
-                {` made buddies with `}
+                user && convertUserToMiniProfile(user )
+            }
+            <div className={style['feed-action']}>
                 {
-                    relatedUser === myUsername ? "You" : convertUserToMiniProfile(user2) 
+                    feed.type === "post_tag" && ' tagged '
                 }
-            </>
+                {
+                    feed.type === 'comments' &&     ' commented on '
+                }
+                
+                {
+                    feed.type === "reaction" && ' reacted to'
+                }
 
-        } 
+                {
+                    feed.type === 'posts' && ' released a thought'}
+            </div>
+            {
+                (feed.type === "comments")  &&
+                (                          
+                    relatedUser === myUsername ?
+                'your' :
+                
+                    relatedUser === username ?
+                    "their" 
+                    : 
+                    <>
+                        {user2 && convertUserToMiniProfile(user2)} { feed.type === 'comments' ? "'s" : " in a post"}
+                    </>
+                    
+                
+                ) 
+            }
+            {
+                feed.type === 'post_tag' && relatedUsers && relatedUsers.length > 0 && 
+                    relatedUsers.map((relatedUser, index) => {
+                        return (
+                            <>
+                                {
+                                    relatedUser === myUsername ?
+                                    'You' :
+                                    convertUserToMiniProfile(usernameToBasicProfileMap[relatedUser])
+                                }
+                                {
+                                    index < relatedUsers.length - 1 ?
+                                    ", ":
+                                    ""
+                                }
+                            </>
+                        )
+                    })
+            }
+            {
+                feed.targetType && feed.targetType.length > 0 && (
+                ` ${feed.targetType}`)
+            }
+            {
+                feed.type === 'buddy_made' && 
+                <>
+                    {` made buddies with `}
+                    {
+                        relatedUser === myUsername ? "You" : convertUserToMiniProfile(user2) 
+                    }
+                </>
+
+            } 
             <span className={style['feed-date']}>
                 {
                     formatDistance(new Date(feed.createdDate), new Date(), { addSuffix: true })

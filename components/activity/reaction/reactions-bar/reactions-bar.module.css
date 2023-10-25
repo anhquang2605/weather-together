@@ -6,10 +6,7 @@
         cursor:pointer;
         @apply border-slate-200/50;
         .reaction-count{
-            @apply bg-indigo-700;
-            &::before{
-                @apply bg-indigo-700
-            }
+            @apply bg-indigo-700 outline outline-1 outline-slate-400;
         }
     }
     &.is-comment{
@@ -47,16 +44,4 @@
     @apply text-sm font-bold ml-1 bg-indigo-500 w-5 h-5 flex justify-center items-center rounded-full relative;
     transition: var(--short-transition);
     z-index: 2;
-    &::before{  
-        content: '';
-        position: absolute;
-        width: 50%;
-        height: 50%;
-        transform: rotate(45deg);
-        left: -1px;
-        z-index: -1;
-        @apply bg-indigo-500;
-        transition: var(--short-transition);
-        
-    }
 }

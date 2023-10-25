@@ -127,7 +127,6 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let feedGroups = [];
             let contentIdToIndex = new Map<string,number>(
             );
-            console.log(feeds);
             contentIdToIndex.set("", 0);
             let curFeedGroupIndex = -1;
             let i = 0;
@@ -169,7 +168,6 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 
                 i++;
             }
-            console.log(feedGroups);
             // Get the list of usernames for which feeds were found
             res.status(200).json({ feedGroups, hasMore, success: true, lastCursor });
         } else if (req.method === 'POST') {
