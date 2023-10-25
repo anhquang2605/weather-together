@@ -367,25 +367,23 @@ export default function CommentForm({targetId, name, username, targetLevel, post
         if(!preview && forPost){
             const observedElement = document.querySelector('#post-form-'+postId+" textarea") as HTMLDivElement;
             if(observedElement){
-                console.log(observedElement);
                 const resizeObserver = new ResizeObserver(entries => {
-                    let entry = entries[0];
-                    console.log(entries);
-                    if(entry){
-                        console.log("resize");
-                        const height = entry.contentRect.height;
-                        const maxHeight = parseFloat(window.getComputedStyle(observedElement).maxHeight);
-                        if(height >= maxHeight){
-                            observedElement.style.overflowY = 'scroll';
-                        }else{
-                            observedElement.style.overflowY = 'visible';
+                    for(const entry of entries){
+                        if(entry){
+                            const height = entry.contentRect.height;
+                            const maxHeight = parseFloat(window.getComputedStyle(observedElement).maxHeight);
+                            if(height >= maxHeight){
+                                observedElement.style.overflowY = 'scroll';
+                            }else{
+                                observedElement.style.overflowY = 'visible';
+                            }
                         }
                     }
                 });
                 resizeObserver.observe(observedElement);
-/*                 return () => {
+                return () => {
                     resizeObserver.unobserve(observedElement);
-                } */
+                }
             }
         }
     },[])
