@@ -32,7 +32,6 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
         }
         else if(type === 'comments'){
             const thisComment = activityId;
-            console.log("thisComment", thisComment)
             let FeedJSX = null;
             const post = await fetchPost(contentId);
             if(post){

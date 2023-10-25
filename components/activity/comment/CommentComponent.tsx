@@ -158,7 +158,6 @@ export default function CommentComponent(
             handleGetPicture();
         }
         handleFetchReactionsGroups(_id?.toString() || '');
-        console.log(_id, childrenNo);
     }, []);
     return(
         <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>
