@@ -27,7 +27,9 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
                 group &&
                 <>
                     <FeedTitleGroup 
-                        feeds={group.feeds}
+                        feeds={group.feeds.sort((a,b) => {
+                            return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
+                        })}
                     />
                     {group.targetContentId !== "" && 
                         <FeedContent

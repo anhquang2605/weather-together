@@ -43,7 +43,9 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
             {
                 feedGroups && feedGroups.length > 0 ?
                 <>
-                    {feedGroups.map((feedGroup, index) => {
+                    {feedGroups.sort((a,b) => {
+                        return new Date(b.lastestCreatedDate).getTime() - new Date(a.lastestCreatedDate).getTime();
+                    }).map((feedGroup, index) => {
                         return(
                             <FeedGroupComponent 
                                 key={index}
