@@ -38,6 +38,10 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
             }
         }
     },[feedGroups])
+    useEffect(()=>{
+        onRendered(feedGroups && feedGroups.length > 0);
+    },[
+    ]);
     return (
         <div className={style['feed-list']}>
             {

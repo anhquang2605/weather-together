@@ -28,7 +28,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     } = props;
     const feedListRef = useRef<HTMLDivElement>(null);
     const FEEDS_PER_PAGE = 10;
-    const {addFeeds, setHasMore, setFetchingStatus, feedGroups, hasMore, setLastCursor, lastCursor} = useFeedContext();
+    const {addFeeds, setHasMore, setFetchingStatus, feedGroups, hasMore, setLastCursor, lastCursor, allContentLoaded} = useFeedContext();
     const [endOfList, setEndOfList] = useState<boolean>(false);
     const [listRendered, setListRendered] = useState<boolean>(false);
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
@@ -42,7 +42,12 @@ export default function FeedsBoard (props: FeedsBoardProps) {
             setHasMore(response.hasMore);
             setLastCursor(new Date(response.lastCursor));
             setFetchingStatus('success');
-            setEndOfList(false);
+            //wait until the list is rendered then set the end of list to false
+            while(!listRendered){
+                await new Promise((resolve) => setTimeout(resolve, 100));
+            }
+
+            //setEndOfList(false);
        }else{
             setFetchingStatus('failed');
        }
@@ -69,6 +74,14 @@ export default function FeedsBoard (props: FeedsBoardProps) {
               ws.close();
           }
     },[]);
+    useEffect(()=>{
+        console.log('list rendered');
+    },[listRendered])
+    useEffect(()=>{
+        if(allContentLoaded){
+            console.log('all content loaded');
+        }
+    },[allContentLoaded])
     useEffect(()=>{
         let timeout: NodeJS.Timeout;
         if(endOfList && hasMore){

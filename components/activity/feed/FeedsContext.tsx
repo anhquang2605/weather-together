@@ -21,6 +21,8 @@ type FeedsContextType = {
     feedsMap: IDtoFeedMap,
     lastCursor: Date,
     setLastCursor: React.Dispatch<React.SetStateAction<Date>>,
+    updateContentLoaded: () => void,
+    allContentLoaded: boolean
 }
 interface UsernameToBasicProfileMap{
     [username: string]: UserBasic
@@ -49,6 +51,12 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     const [fetchingStatus, setFetchingStatus] = useState<string>("idle");
     const [initialLoadingStatus, setInitialLoadingStatus] = useState<string>("idle");
     const [lastCursor, setLastCursor] = useState<Date>(new Date());
+    const [totalContentCount, setTotalContentCount] = useState<number>(0);
+    const [contentLoadedCount, setContentLoadedCount] = useState<number>(0);
+    const [allContentLoaded, setAllContentLoaded] = useState<boolean>(false);
+    const updateContentLoaded = () => {
+       setContentLoadedCount(prev => prev + 1);
+    }
     const feedsMapRef = useRef(feedsMap);
     const setFeedById = (id: string, data: Partial<Feed>) => {
         const feed = feedsMap[id];
@@ -68,11 +76,16 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         return Object.values(feedsMapRef.current);
     },[]); 
     const addFeeds = async (newFeedGroups: FeedGroup[], isAppending: boolean) => {
+        setAllContentLoaded(false);
         const newFeedsMap: IDtoFeedMap = {};
         const currentUniqueUsernames = new Set<string>();
+        let noOfFeedGroupsWithContent = 0;
         const newFeeds = newFeedGroups.reduce((acc: Feed[], feedGroup: FeedGroup) => {
             const {feeds} = feedGroup;
             feeds.forEach(feed => {
+                if(feedGroup.targetContentId !== ""){
+                    noOfFeedGroupsWithContent++;
+                }
                 acc.push(feed);
             });
             return acc;
@@ -88,6 +101,7 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
             }
         });
         const usernames = Array.from(currentUniqueUsernames);
+        setTotalContentCount(prev => prev + noOfFeedGroupsWithContent);
         try{
             await addUsernameToBasicProfileMap(usernames);
         }catch(err){
@@ -136,7 +150,11 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     useEffect(() => {
         feedsMapRef.current = feedsMap;
     },[feedsMap]);
-
+    useEffect(()=>{
+        if(contentLoadedCount === totalContentCount && totalContentCount > 0){
+            setAllContentLoaded(true);
+        }
+    },[contentLoadedCount])
     const value = {
         hasMore,
         fetchingStatus,
@@ -154,7 +172,8 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         setFeedGroups,
         lastCursor,
         setLastCursor,
-        
+        updateContentLoaded,
+        allContentLoaded
     }
     return (
         <FeedsContext.Provider value={value}>

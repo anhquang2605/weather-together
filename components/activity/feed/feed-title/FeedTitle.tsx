@@ -16,7 +16,7 @@ const FeedTitle = (props:FeedTitleProps) => {
     const user = usernameToBasicProfileMap[username];
     const user2 = usernameToBasicProfileMap[relatedUser || ""];
     const convertUserToMiniProfile = (user: UserBasic) => {
-        return <UserMiniProfile user={user} sizeOfAvatar='small'/>
+        return <UserMiniProfile key={user.username} user={user} sizeOfAvatar='small'/>
     }
     return (
         <div className={style['feed-title'] }>

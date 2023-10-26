@@ -11,11 +11,11 @@ interface FeedContentProps {
     contentId: string;
     activityId: string; //commentid
     type: string;
-
 }
 
 const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) => {
     const {data: session} = useSession();
+    const {updateContentLoaded} = useFeedContext();
     const myUsername = session?.user?.username || "";
     const [feedJSX, setFeedJSX] = React.useState<JSX.Element | null>(null);
     const FeedCategorizer = async (type: string) => {
@@ -57,7 +57,7 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
             if(post){
                 setFeedJSX(
                     <div className={style['feed-header']}>
-                        <Post post={post} username={myUsername} preview={true}/>
+                        <Post post={post} username={myUsername} onFinishedLoading={updateContentLoaded} preview={true}/>
                     </div>
                 )
             }else{
@@ -68,7 +68,7 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
             if(post){
                 setFeedJSX(
                     <div className={style['feed-header']}>
-                        <Post post={post} username={myUsername} preview={true} previewCommentId={activityId}/>
+                        <Post post={post} username={myUsername} onFinishedLoading={updateContentLoaded} preview={true} previewCommentId={activityId}/>
                     </div>
                 )
             }

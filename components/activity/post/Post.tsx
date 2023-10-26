@@ -1,7 +1,7 @@
 import { Post } from "../../../types/Post";
 import PostTitle from "./post-title/PostTitle";
 import style from "./post.module.css"
-import { useContext, useEffect, useRef, useState } from "react";
+import { use, useContext, useEffect, useRef, useState } from "react";
 import { MockContext } from "../../../pages/MockContext";
 import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
 import { fetchFromGetAPI, insertToPostAPI } from "../../../libs/api-interactions";
@@ -25,6 +25,7 @@ interface PostProps{
     username?: string;
     preview?: boolean;
     previewCommentId?: string;
+    onFinishedLoading?: () => void;
 }
 interface ReactionGroup{
     _id: string; //reaction name
@@ -41,7 +42,7 @@ interface CommentFetchParams{
     lastCursor: string;
     _id?: string;
 }
-export default function Post({post,username, preview, previewCommentId}: PostProps){
+export default function Post({post,username, preview, previewCommentId, onFinishedLoading}: PostProps){
     const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
@@ -49,9 +50,9 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
-    const [isFetchingComments, setIsFetchingComments] = useState(false);
-    const [isFetchingReactions, setIsFetchingReactions] = useState(false);
-    const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
+    const [isFetchingComments, setIsFetchingComments] = useState(true);
+    const [isFetchingReactions, setIsFetchingReactions] = useState(true);
+    const [isFetchingNameMap, setIsFetchingNameMap] = useState(true);
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
     const [waterFall, setWaterFall] = useState<boolean>(false); //TODO: fetch comments from server
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
@@ -193,6 +194,11 @@ export default function Post({post,username, preview, previewCommentId}: PostPro
     useEffect(()=>{
         cursorRef.current = lastCursor;
     },[lastCursor])
+    useEffect(()=>{
+        if(!loading){
+            onFinishedLoading && onFinishedLoading();
+        }
+    },[loading])
     if(loading){
         return <LoadingBox variant="large" long={true} withChildren={false}/>
     }

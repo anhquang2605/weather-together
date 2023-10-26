@@ -98,8 +98,6 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed, willFetchContent}) =
         <div className={style['feed-component']}>
             <FeedTitle
                 feed={feed}
-                username={feed.username}
-                relatedUser={feed.relatedUser || ''}
                 myUsername={myUsername}
                 usernameToBasicProfileMap={usernameToBasicProfileMap}
             />
