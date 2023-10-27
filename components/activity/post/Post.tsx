@@ -196,7 +196,8 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     },[lastCursor])
     useEffect(()=>{
         if(!loading){
-            onFinishedLoading && onFinishedLoading();
+            if(onFinishedLoading)
+            onFinishedLoading();
         }
     },[loading])
     if(loading){
