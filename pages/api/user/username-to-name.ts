@@ -21,6 +21,12 @@ export default async function handler(
             }, {});
             if(user){
                 res.status(200).json({ success: true, data: usernamesToNameMap });
+            }else{
+                res.status(200).json({
+                    success: false,
+                    message: "No user found"
+                
+                })
             }
         }else{
             res.status(500).json({ statusCode: 500, message: "Database error, cannot connect" });

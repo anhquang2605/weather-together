@@ -20,6 +20,7 @@ import ContentSummary from "../content-summary/ContentSummary";
 import UserTags from "../user-tags/UserTags";
 import { usePostModalContext } from "./post-modal-context/PostModalContext";
 import LazyTarget from "../../lazy-taget/LazyTarget";
+import { is } from "date-fns/locale";
 interface PostProps{
     post: Post;
     username?: string;
@@ -53,6 +54,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const [isFetchingComments, setIsFetchingComments] = useState(true);
     const [isFetchingReactions, setIsFetchingReactions] = useState(true);
     const [isFetchingNameMap, setIsFetchingNameMap] = useState(true);
+    const [loading, setLoading] = useState(true); //TODO: fetch comments from server
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
     const [waterFall, setWaterFall] = useState<boolean>(false); //TODO: fetch comments from server
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
@@ -63,7 +65,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
-    const loading = isFetchingComments || isFetchingReactions || isFetchingNameMap;
+    
     const commentPreviewLimit = 1;
     const limitPerFetch = 3;
     const optimisticCommentInsertion = (comment: Comment, name?: string) => {
@@ -164,20 +166,24 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const handleFetchUsernameToName =  (usernames: string[], more?:boolean) => {
         setIsFetchingNameMap(true);
         const path = `user/username-to-name`;
+        console.log('fetching name');
         insertToPostAPI(path, usernames)
-                .then(async response => {
-                    setIsFetchingNameMap(false);
-                    if(!response){
-                        
-                        return;
-                    }
+                .then((response) => {
+                    console.log( response);
                     if(response.success){
                         if(more){
                             setUsernameToName(prev => ({...prev, ...response.data}));
-                            return;
+                        }else{
+                            setUsernameToName(response.data);
                         }
-                        setUsernameToName(response.data);
+                    }else{
+                        throw new Error("did not get username to name map");
                     }
+                }).catch(e => {
+                    console.log(e);
+                }).finally(()=>{
+                    console.log('fetch naem');
+                    setIsFetchingNameMap(false);    
                 })
     }
     const handleViewPostModal = () => {
@@ -195,19 +201,20 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         cursorRef.current = lastCursor;
     },[lastCursor])
     useEffect(()=>{
-        if(!loading){
-            if(onFinishedLoading)
-            onFinishedLoading();
-        }
-    },[loading])
-    if(loading){
-        return <LoadingBox variant="large" long={true} withChildren={false}/>
-    }
+        console.log(
+            isFetchingComments,
+            isFetchingReactions,
+            isFetchingNameMap,
+            "belongs to post number " + post._id?.toString() || ''
+        )
+        setLoading(isFetchingComments || isFetchingReactions || isFetchingNameMap);
+    },[isFetchingComments, isFetchingReactions, isFetchingNameMap])
 
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
+        {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
         <>
-        <div key={post._id} className={style['post'] + " glass-component"}>
+            <div key={post._id} className={style['post'] + " glass-component"}>
                 <div className={`${style['post-container']} px-8 pt-8`}>
                     <PostTitle 
                         username={post.username}
@@ -303,6 +310,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                 />
             }
         </>
+        }
         </PostContext.Provider>
 
     )
