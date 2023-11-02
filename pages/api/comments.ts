@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         switch(method){
             case 'GET':
                 const {username,postId, level, targetId, limit, lastCursor, _id } = req.query;
+                console.log(postId, targetId, username)
                 try {
                     let result:Comment[] =[];
                     let children:CommentChildrenSummary = {};

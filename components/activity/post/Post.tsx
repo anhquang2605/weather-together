@@ -51,9 +51,9 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
-    const [isFetchingComments, setIsFetchingComments] = useState(true);
-    const [isFetchingReactions, setIsFetchingReactions] = useState(true);
-    const [isFetchingNameMap, setIsFetchingNameMap] = useState(true);
+    const [isFetchingComments, setIsFetchingComments] = useState(false);
+    const [isFetchingReactions, setIsFetchingReactions] = useState(false);
+    const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
     const [loading, setLoading] = useState(true); //TODO: fetch comments from server
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
     const [waterFall, setWaterFall] = useState<boolean>(false); //TODO: fetch comments from server
@@ -118,6 +118,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
             params.limit = limitPerFetch.toString();
         }
         const response = await fetchFromGetAPI(path, params);
+        console.log(response, "for " + postId);
         if(response.success){
             if(preview){
                 const resultComments = response.data.result;
@@ -166,10 +167,8 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const handleFetchUsernameToName =  (usernames: string[], more?:boolean) => {
         setIsFetchingNameMap(true);
         const path = `user/username-to-name`;
-        console.log('fetching name');
         insertToPostAPI(path, usernames)
                 .then((response) => {
-                    console.log( response);
                     if(response.success){
                         if(more){
                             setUsernameToName(prev => ({...prev, ...response.data}));
@@ -201,12 +200,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         cursorRef.current = lastCursor;
     },[lastCursor])
     useEffect(()=>{
-        console.log(
-            isFetchingComments,
-            isFetchingReactions,
-            isFetchingNameMap,
-            "belongs to post number " + post._id?.toString() || ''
-        )
+
         setLoading(isFetchingComments || isFetchingReactions || isFetchingNameMap);
     },[isFetchingComments, isFetchingReactions, isFetchingNameMap])
 

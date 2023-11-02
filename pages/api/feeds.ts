@@ -144,7 +144,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     //priority: comments, then createdDate, if the latest is a reation that target a post, then it is replaced by other activity, if the latest is a reaction that target a comment, then it is not replaced
                     if((feed.type === "comments" || feed.type === "reaction") && (theGroup.lastestActivityId === "" || theGroup.latestCreatedDate < feed.createdDate)){
                                 theGroup.latestCreatedDate = feed.createdDate;
-                                theGroup.lastestActivityId = feed.type === "comments" ? feed.activityId : feed.targetId;
+                                theGroup.lastestActivityId = feed.type === "comments" ? feed.activityId : "";
                                 theGroup.latestIndex += 1;
                     }
                     theGroup.feeds.push(feed);
@@ -168,6 +168,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 
                 i++;
             }
+            console.log("feedGroups", feedGroups);
             // Get the list of usernames for which feeds were found
             res.status(200).json({ feedGroups, hasMore, success: true, lastCursor });
         } else if (req.method === 'POST') {
