@@ -17,7 +17,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
     useEffect(()=>{
         if(feedGroups){
             const option = {
-                root: document.querySelector(`.${style['feed-list']}`),
+                root: null,
             }
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {

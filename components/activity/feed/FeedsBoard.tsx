@@ -43,9 +43,10 @@ export default function FeedsBoard (props: FeedsBoardProps) {
             setLastCursor(new Date(response.lastCursor));
             setFetchingStatus('success');
             //wait until the list is rendered then set the end of list to false
-            while(!listRendered){
-                await new Promise((resolve) => setTimeout(resolve, 100));
-            }
+            setTimeout(()=>{
+                console.log("end of list set to false");
+                setEndOfList(false);
+            },2000)
 
             //setEndOfList(false);
        }else{
@@ -75,20 +76,10 @@ export default function FeedsBoard (props: FeedsBoardProps) {
           }
     },[]);
     useEffect(()=>{
-        console.log('list rendered');
-    },[listRendered])
-    useEffect(()=>{
-        if(allContentLoaded){
-            console.log('all content loaded');
-        }
-    },[allContentLoaded])
-    useEffect(()=>{
         let timeout: NodeJS.Timeout;
+        console.log(endOfList);
         if(endOfList && hasMore){
             fetchMore(username, lastCursor);
-        }
-        return () => {
-            clearTimeout(timeout);
         }
     },[endOfList])
     return (
