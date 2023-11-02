@@ -118,7 +118,6 @@ export default function Post({post,username, preview, previewCommentId, onFinish
             params.limit = limitPerFetch.toString();
         }
         const response = await fetchFromGetAPI(path, params);
-        console.log(response, "for " + postId);
         if(response.success){
             if(preview){
                 const resultComments = response.data.result;
@@ -181,7 +180,6 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                 }).catch(e => {
                     console.log(e);
                 }).finally(()=>{
-                    console.log('fetch naem');
                     setIsFetchingNameMap(false);    
                 })
     }

@@ -18,7 +18,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         switch(method){
             case 'GET':
                 const {username,postId, level, targetId, limit, lastCursor, _id } = req.query;
-                console.log(postId, targetId, username)
                 try {
                     let result:Comment[] =[];
                     let children:CommentChildrenSummary = {};
@@ -129,14 +128,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   try{
                     comment.createdDate = new Date();
                     comment.updatedDate = new Date();
-                    console.log(comment);
-/*                     const result = await commentsCollection.insertOne(comment);
+                    const result = await commentsCollection.insertOne(comment);
                     if(result.insertedId){
                         res.status(201).json({
                           success: true,
                           data: {id: result.insertedId.toString()}
                         });
-                    } */
+                    }
                    } catch (error) {
                     res.status(500).json({
                       success: false,

@@ -168,7 +168,6 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 
                 i++;
             }
-            console.log("feedGroups", feedGroups);
             // Get the list of usernames for which feeds were found
             res.status(200).json({ feedGroups, hasMore, success: true, lastCursor });
         } else if (req.method === 'POST') {
