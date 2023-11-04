@@ -11,6 +11,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             // Assuming you pass an array of usernames as a query parameter
             let usernamesString = req.query.usernames as string;
             let username = req.query.username as string;
+            console.log(username);
             let usernames:String[] = [];
             usernames.push(username)
             if(usernamesString && usernamesString.length > 0){
@@ -23,6 +24,11 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             const aggregate = [
                 {
                     $match: {// find filters relating to the users in provided list
+                        createdDate: { $lt: 
+                            cursor && cursor.length > 0 ?
+                            new Date(cursor) :
+                            new Date() 
+                        },
                         $or: [
                             { username: { 
                                 $in: usernames 
@@ -30,19 +36,12 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                             } },
                             { relatedUser: { $in: usernames } },
                         ],
-                        createdDate: { $lt: 
-                            cursor && cursor.length > 0 ?
-                            new Date(cursor) :
-                            new Date() 
-                        },
+                       
                     },
                 },
                 { $sort: { createdDate: -1 } },
-                {
-                    $limit: theLimit + 1
-                },
                 // Branch the pipeline: one for post_tag grouping, one for others
-                {
+               {
                     $facet: {
                         postTags: [
                             {
@@ -87,6 +86,9 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 {
                     $replaceRoot: { newRoot: "$combinedFeeds" } 
                 },
+                {
+                    $limit: theLimit + 1
+                },
                 { $sort: { createdDate: -1 } },
         /*                 {
                             $group: {
@@ -107,7 +109,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 .collection("feeds")
                 .aggregate(aggregate)
                 .toArray();
-
+            console.log(feeds);
             if (feeds.length === 0) {
                 res.status(200).json({
                     success: false,

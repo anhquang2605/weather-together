@@ -63,7 +63,7 @@ const FeedTitle = (props:FeedTitleProps) => {
                 feed.type === 'post_tag' && relatedUsers && relatedUsers.length > 0 && 
                     relatedUsers.map((relatedUser, index) => {
                         return (
-                            <>
+                            <span className="flex flex-row whitespace-pre-wrap" key={index}>
                                 {
                                     relatedUser === myUsername ?
                                     'You' :
@@ -71,10 +71,10 @@ const FeedTitle = (props:FeedTitleProps) => {
                                 }
                                 {
                                     index < relatedUsers.length - 1 ?
-                                    ", ":
+                                    "  ":
                                     ""
                                 }
-                            </>
+                            </span>
                         )
                     })
             }
