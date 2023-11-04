@@ -220,7 +220,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                         {post.content}
                     </div>
                     <div className="mb-4 flex">
-                        <UserTags username={author} usernames={post.taggedUsernames}/>
+                        {post.taggedUsernames && post.taggedUsernames.length > 0 &&<UserTags username={author} usernames={post.taggedUsernames}/>}
                     </div>
                     {post.pictureAttached && <AttachedPictures
                         targetId={post._id?.toString() || ''}
