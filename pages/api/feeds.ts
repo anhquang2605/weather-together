@@ -12,6 +12,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let usernamesString = req.query.usernames as string;
             let username = req.query.username as string;
             let usernames:String[] = [];
+            usernames.push(username)
             if(usernamesString && usernamesString.length > 0){
                 usernames = usernamesString.split(',');
             }
@@ -86,6 +87,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 {
                     $replaceRoot: { newRoot: "$combinedFeeds" } 
                 },
+                { $sort: { createdDate: -1 } },
         /*                 {
                             $group: {
                                 _id: {
