@@ -65,6 +65,9 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
 
             </div>
             {comments && commentsJSX()}
+            {!waterFall && <div className={style['lazy-target']}>
+
+            </div>}
         </div>
         :
         <div className={style['empty-comment-list']}>

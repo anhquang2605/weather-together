@@ -67,7 +67,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const author =  user?.username || '';
     
     const commentPreviewLimit = 1;
-    const limitPerFetch = 3;
+    const limitPerFetch = 10;
     const optimisticCommentInsertion = (comment: Comment, name?: string) => {
         setComments(prev => [...prev, comment]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){

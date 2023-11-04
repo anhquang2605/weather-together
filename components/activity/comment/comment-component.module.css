@@ -73,3 +73,6 @@
     @apply relative inline-flex flex-row items-center mb-1;
 
 }
+.lazy-target{
+    @apply w-full h-0;
+}
