@@ -44,7 +44,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
             setFetchingStatus('success');
             //wait until the list is rendered then set the end of list to false
             setTimeout(()=>{
-                console.log("end of list set to false");
                 setEndOfList(false);
             },2000)
 
@@ -77,7 +76,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     },[]);
     useEffect(()=>{
         let timeout: NodeJS.Timeout;
-        console.log(endOfList);
         if(endOfList && hasMore){
             fetchMore(username, lastCursor);
         }

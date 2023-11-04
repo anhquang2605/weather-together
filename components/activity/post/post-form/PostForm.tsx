@@ -24,10 +24,8 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
     const {reset} = usePostFormContext();
-    let picturesDimensions:{
-        width: number,
-        height: number
-    }[] = [];
+    const [picturesDimensions, setPicturesDimensions] = useState<{width: number, height: number}[]>([]);
+    
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
@@ -69,10 +67,10 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
 
         // Wait for all promises to resolve
         const allDimensions = await Promise.all(dimensionsPromises);
-
-        picturesDimensions.push(...allDimensions);
+        console.log(allDimensions);
+        setPicturesDimensions(allDimensions);
         
-        const res = await fetch('/api/upload-images', {
+/*         const res = await fetch('/api/upload-images', { ************ REMOVE ***********
             method: 'POST',
             body: formData
         })
@@ -81,7 +79,7 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
             return data;
         }else{
             return null;
-        }
+        } */
     }
     const handleInsertPostToDb = async (post:Post) => {
         const path = '/api/post/add-post';
@@ -105,6 +103,7 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         }
     }
     const generatePictureObjects = async (imageURLs:string[], username: string, targetId:string, targetType: string) => {
+        console.log(picturesDimensions);
         const pictures:Picture[] = [];
         imageURLs.forEach((imageURL, index) => {
             const picture:Picture = {
@@ -113,6 +112,8 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
                 targetId,
                 targetType,
                 createdDate: new Date(),
+                width: picturesDimensions[index].width,
+                height: picturesDimensions[index].height,
             }
             pictures.push(picture);
         })
@@ -145,10 +146,9 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         let uploadedImagesURLs:string[] = [];
         if(attachedImages.length > 0){
             let response  = await handleUploadPictures();
-            console.log(response);
-            if(response){
+/*             if(response){  ************ REMOVE ***********
                 uploadedImagesURLs = response.urls;
-            }
+            } */
         }
 
         const post:Post = {
@@ -168,7 +168,10 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
                     location: currentWeather.location?.city || "",
             }
         }        
-        const res = await handleInsertPostToDb(post);
+        //const res = await handleInsertPostToDb(post); ************ REMOVE ***********
+        const res = {
+            insertedId: "123"
+        }
         if(res && pictureAttached ){
             const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
             const pictureUploadRes = await handleInsertPicturesToDb(pictures);
@@ -216,7 +219,7 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         setCurrentWeather(null);
         setSelectedVisibilityIndex(0);
         setUploadingStatus("idle");
-        picturesDimensions = [];
+        setPicturesDimensions([]);
         reset();
     }
     const handlePostSentConfirmation = () => {
