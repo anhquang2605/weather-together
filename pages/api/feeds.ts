@@ -12,13 +12,12 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             let usernamesString = req.query.usernames as string;
             let username = req.query.username as string;
             let usernames:String[] = [];
-            usernames.push(username)
             if(usernamesString && usernamesString.length > 0){
                 usernames = usernamesString.split(',');
             }
+            usernames.push(username)
             let cursor = req.query.cursor as string;
             let limit =  req.query.limit as string;
-            console.log(username, cursor);
             const theLimit = limit? parseInt(limit): 10;
             // Fetch the latest feeds where the username is either the issuer or the target
             const aggregate = [
