@@ -14,9 +14,10 @@ interface CommentListProps {
     usernamesToNames?: {[username: string]: string};
     waterFall?: boolean;
     curLevel?: number;
+    postID?: string;
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = 
         () => {
@@ -57,6 +58,29 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
             }
            
         }
+        useEffect(()=>{
+            if(postID && !waterFall){
+                const option = {
+                    root: document.querySelector(`#${postID}`),
+                }
+                const target = document.querySelector(`#${postID} .${style['lazy-target']}`)
+                const observer = new IntersectionObserver((entries)=>{
+                    entries.forEach(entry => {
+                        if(entry.isIntersecting){
+                            console.log('intersecting')
+                        }
+                    })
+                })
+                if(target){
+                    observer.observe(target)
+                }
+                return ()=>{
+                    if(target){
+                        observer.unobserve(target)
+                    }
+                }
+            }
+        },[])
     return (
         comments &&  comments.length > 0 ?
         <div ref={topLevelListContainer ? null : commentListRef } className={`${style['comment-list']} ${scrollable && style['scroll']} ${!topLevelListContainer && style['top-level']}`}>

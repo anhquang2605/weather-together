@@ -206,7 +206,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
         <>
-            <div key={post._id} className={style['post'] + " glass-component"}>
+            <div key={post._id} id={"post_"+ (preview ? "" : "modal_")  + post._id} className={style['post'] + " glass-component"}>
                 <div className={`${style['post-container']} px-8 pt-8`}>
                     <PostTitle 
                         username={post.username}
@@ -257,6 +257,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                  curLevel={comments.length - 1}
                  scrollable={false}
                  usernamesToNames={usernameToName}
+                 postID={"post_"+ (preview ? "" : "modal_") + post._id?.toString()!}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 {preview && <CommentForm
                     key={"preview-comment-form"}
