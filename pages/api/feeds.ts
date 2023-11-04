@@ -37,6 +37,9 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     },
                 },
                 { $sort: { createdDate: -1 } },
+                {
+                    $limit: theLimit + 1
+                },
                 // Branch the pipeline: one for post_tag grouping, one for others
                 {
                     $facet: {
@@ -95,9 +98,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                         {
                             $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
                         },  */
-                {
-                    $limit: theLimit + 1
-                },
+
                 //put the document whose username is equal to the username at the top, then sort by createdDate
             ]
             const feeds = await db
@@ -114,11 +115,11 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 return;
             }
             let hasMore = false;  
-            feeds.sort((a,b)=>{
+           /*  feeds.sort((a,b)=>{ //push the document whose username is equal to the username at the top
                 if (a.username === username) return -1;
                 if (b.username === username) return 1;
                 return 0;
-            })
+            }) */
             if(feeds.length > theLimit ){
                 hasMore = true;
                 feeds.pop();
