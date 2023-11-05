@@ -55,11 +55,12 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
     const [loading, setLoading] = useState(true); //TODO: fetch comments from server
+    const [endOfList, setEndOfList] = useState(false); //when comment list hit the bottom
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
     const [waterFall, setWaterFall] = useState<boolean>(false); //TODO: fetch comments from server
     const [comments, setComments] = useState<Comment[]>([]); //TODO: fetch comments from server
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
- 
+    const [hasMoreComments, setHasMoreComments] = useState(true); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
     const cursorRef = useRef(lastCursor);
     const {data:session} = useSession();
@@ -67,7 +68,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const author =  user?.username || '';
     
     const commentPreviewLimit = 1;
-    const limitPerFetch = 10;
+    const limitPerFetch = 3;
     const optimisticCommentInsertion = (comment: Comment, name?: string) => {
         setComments(prev => [...prev, comment]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
@@ -143,6 +144,8 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                 setLastCursor(response.data.lastCursor);
             }
           
+        }else{
+            setHasMoreComments(false);
         }
         setIsFetchingComments(false);
     }
@@ -201,7 +204,11 @@ export default function Post({post,username, preview, previewCommentId, onFinish
 
         setLoading(isFetchingComments || isFetchingReactions || isFetchingNameMap);
     },[isFetchingComments, isFetchingReactions, isFetchingNameMap])
-
+    useEffect(()=>{
+        if(endOfList && hasMoreComments && !preview){
+            handleFetctCommentsForPost('', post._id?.toString() || '', true);
+        }
+    },[endOfList])
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
@@ -256,6 +263,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                  waterFall={waterFall}
                  curLevel={comments.length - 1}
                  scrollable={false}
+                 setEndOfList={setEndOfList}
                  usernamesToNames={usernameToName}
                  postID={"post_"+ (preview ? "" : "modal_") + post._id?.toString()!}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}

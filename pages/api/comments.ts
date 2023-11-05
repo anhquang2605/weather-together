@@ -105,12 +105,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       });
                     }else if(result.length === 0){
                       res.status(200).json({
-                        success: true,
+                        success: false,
                         data: {result, commentors: [], children},
                       });
                     }else{
                       res.status(200).json({
                         success: false,
+                        data: null,
                         message: 'Not Found',
                       });
                     }

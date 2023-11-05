@@ -15,9 +15,10 @@ interface CommentListProps {
     waterFall?: boolean;
     curLevel?: number;
     postID?: string;
+    setEndOfList?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = 
         () => {
@@ -59,18 +60,20 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
            
         }
         useEffect(()=>{
-            if(postID && !waterFall){
+            if(postID && !waterFall){//observe the comment list
                 const option = {
                     root: document.querySelector(`#${postID}`),
                 }
-                const target = document.querySelector(`#${postID} .${style['lazy-target']}`)
+                const target = document.querySelector(`#${postID + '_lazy-target'}`)
                 const observer = new IntersectionObserver((entries)=>{
-                    entries.forEach(entry => {
+                    for (let entry of entries) {
                         if(entry.isIntersecting){
-                            console.log('intersecting')
+                            if(setEndOfList){
+                                setEndOfList(true)
+                            }
                         }
-                    })
-                })
+                    }
+                }, option)
                 if(target){
                     observer.observe(target)
                 }
@@ -89,7 +92,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
 
             </div>
             {comments && commentsJSX()}
-            {!waterFall && <div className={style['lazy-target']}>
+            {!waterFall && <div id={postID + '_lazy-target'} className={style['lazy-comment-target']}>
 
             </div>}
         </div>
