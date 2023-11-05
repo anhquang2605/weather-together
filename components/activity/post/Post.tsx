@@ -282,14 +282,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                     setIsCommenting={setIsCommenting}
                     optimisticCommentInsertion={optimisticCommentInsertion}
                     forPost={true}
-                />}
-                {
-                    !preview && 
-                    <LazyTarget 
-                        targetClassName={style['lazy-target']} 
-                        fetchingStatus={fetchingStatus}
-                    />
-                }      
+                />}    
             </div>
             {
                 !preview &&
