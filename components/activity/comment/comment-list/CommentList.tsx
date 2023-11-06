@@ -4,6 +4,7 @@ import { Comment } from '../../../../types/Comment';
 import { UsernameToProfilePicturePathMap } from '../../UsernameToProfilePicturePathMap';
 import CommentComponent from '../CommentComponent';
 import { CommentChildrenSummary } from '../../../../types/CommentChildrenSummary';
+import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
 interface CommentListProps {
     comments : Comment[];
     commentorToAvatarMap: UsernameToProfilePicturePathMap;
@@ -16,9 +17,10 @@ interface CommentListProps {
     curLevel?: number;
     postID?: string;
     setEndOfList?: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchingMoreCommentStatus?: string;
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList, fetchingMoreCommentStatus}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = 
         () => {
@@ -95,6 +97,16 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
             {!waterFall && <div id={postID + '_lazy-target'} className={style['lazy-comment-target']}>
 
             </div>}
+            {
+                fetchingMoreCommentStatus === 'loading' &&
+                <LoadingIndicator/>
+            }
+            {
+                fetchingMoreCommentStatus === 'error' &&
+                <div className="text-red-500 font-semibold text-center w-full py-16">
+                    <p>Failed to fetch more comments</p>
+                </div>
+            }
         </div>
         :
         <div className={style['empty-comment-list']}>

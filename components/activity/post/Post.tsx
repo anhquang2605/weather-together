@@ -52,6 +52,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [isCommenting, setIsCommenting] = useState(false);
     const [isFetchingComments, setIsFetchingComments] = useState(false);
+    const [isFetchingMoreComments, setIsFetchingMoreComments] = useState(false); 
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
     const [loading, setLoading] = useState(true); //TODO: fetch comments from server
@@ -97,8 +98,10 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         }
     }
     const handleFetctCommentsForPost = async (targetId: string, postId:string, more?:boolean) => {
-        setIsFetchingComments(true);
-        if (more) {setFetchingStatus('loading')};
+        if (more) {setFetchingStatus('loading')}
+        else{
+            setIsFetchingComments(true);
+        };
         const path = `comments`;
         
        
@@ -145,9 +148,17 @@ export default function Post({post,username, preview, previewCommentId, onFinish
             }
           
         }else{
-            setHasMoreComments(false);
+            if(response.data.result.length === 0){
+                setFetchingStatus('empty')
+                setHasMoreComments(false);
+            }else{
+                setFetchingStatus('error');
+            }
+            
         }
-        setIsFetchingComments(false);
+        if(!more){
+            setIsFetchingComments(false);
+        }
     }
     const handleCommentBtnClick = () => {
         setIsCommenting(prev => !prev);
@@ -163,7 +174,12 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                             return;
                         }
                         setCommentorToAvatar(response.data);
+                    }else{
+                        if(more){
+                            return false;
+                        }
                     }
+                    
                 })
     }
     const handleFetchUsernameToName =  (usernames: string[], more?:boolean) => {
@@ -174,11 +190,13 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                     if(response.success){
                         if(more){
                             setUsernameToName(prev => ({...prev, ...response.data}));
+                            return true;
                         }else{
                             setUsernameToName(response.data);
                         }
                     }else{
                         throw new Error("did not get username to name map");
+                        
                     }
                 }).catch(e => {
                     console.log(e);
@@ -201,8 +219,13 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         cursorRef.current = lastCursor;
     },[lastCursor])
     useEffect(()=>{
-
-        setLoading(isFetchingComments || isFetchingReactions || isFetchingNameMap);
+        if(fetchingStatus === "loading"){
+            if(!isFetchingComments && !isFetchingNameMap){
+                setFetchingStatus('success');
+            }
+        }else{
+            setLoading(isFetchingComments || isFetchingReactions || isFetchingNameMap);
+        }
     },[isFetchingComments, isFetchingReactions, isFetchingNameMap])
     useEffect(()=>{
         if(endOfList && hasMoreComments && !preview){
@@ -264,6 +287,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                  curLevel={comments.length - 1}
                  scrollable={false}
                  setEndOfList={setEndOfList}
+                 fetchingMoreCommentStatus={fetchingStatus}
                  usernamesToNames={usernameToName}
                  postID={"post_"+ (preview ? "" : "modal_") + post._id?.toString()!}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
@@ -303,6 +327,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                     forPost={true}
                 />
             }
+            
         </>
         }
         </PostContext.Provider>
