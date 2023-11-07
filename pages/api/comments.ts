@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if(db){
         const commentsCollection:Collection<Comment>= db.collection('comments');
         switch(method){
-            case 'GET':
+            case 'GET':{
                 const {username,postId, level, targetId, limit, lastCursor, _id } = req.query;
                 try {
                     let result:Comment[] =[];
@@ -122,10 +122,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     success: false,
                     error: 'Server Error',
                   });
-                 }
+                 }}
               break;
             case 'POST':
-                  const comment = req.body;
+                  {const comment = req.body;
                   try{
                     comment.createdDate = new Date();
                     comment.updatedDate = new Date();
@@ -141,12 +141,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       success: false,
                       error: 'Server Error',
                     });
-                   }
+                   }}
                 break;
             case 'PUT':
 
                 break;
             case 'DELETE':
+              //delete comments by postId
+              {
+                const {postId} = req.query;
+                if(postId && typeof postId === 'string'){
+                  const match = {
+                    postId: postId.toString(),
+                  }
+                  
+                }
+                
+              } 
   /*   
   const docId = changeEvent.documentKey._id.toString(0);
   const FullDocument = changeEvent.FullDocument;

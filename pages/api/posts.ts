@@ -53,7 +53,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 
                 break;
             case 'DELETE':
-                
+                /**
+                 * Delete post steps
+                 * 1. Delete all the attached pictures
+                 * 2. Delete all the pictures associated with the post (post ID) is the search criteria
+                 * 3. Delete all the comments and their reactions and children comments (using post ID associated with the comments)
+                 * 4. Delete all the reactions and the feeds associated with the post (target ID is the post ID) need to double check
+                 * 5. delete the feed associated with the post (post ID is the search criteria)
+                 * 6. delete the notifications associated with the post (post ID is the search criteria)
+                 * 7. delete the activities relating to the post
+                 * 8. delete the post tags associated with the post and the feeds, notifications, activities
+                 * 9. when all is deleted, delete the post
+                 */
                 break;
             default:
                 res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
