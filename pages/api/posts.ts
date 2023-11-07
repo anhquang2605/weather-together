@@ -55,17 +55,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             case 'DELETE':
                 /**
                  * Delete post steps
-                 * 1. Delete all the attached pictures
-                 * 2. Delete all the pictures associated with the post (post ID) is the search criteria
-                 * 3. Delete all the comments and their reactions and children comments (using post ID associated with the comments)
-                 * 4. Delete all the reactions and the feeds associated with the post (target ID is the post ID) need to double check
-                 * 5. delete the feed associated with the post (post ID is the search criteria)
-                 * 6. delete the notifications associated with the post (post ID is the search criteria)
-                 * 7. delete the activities relating to the post
-                 * 8. delete the post tags associated with the post and the feeds, notifications, activities
-                 * 9. when all is deleted, delete the post
-                 */
-                break;
+                */
+                 //1. Delete all reactions associated with the post (post ID is the search criteria) CLIENT
+
+                 //2. Delete all the pictures associated with the post (post ID) is the search criteria CLIENT
+
+                 //3. Delete all the comments and children comments (using post ID associated with the comments) CLIENT
+
+                 //4. delete the feed associated with the post (post ID match with activityId of the feed is the search criteria) 
+
+                 //5. delete the notifications associated with the post (post ID is the search criteria) SERVER
+
+                 //6. delete the activities relating to the post SERVER
+
+                 //7. delete the post tags associated with the post and the feeds, notifications, activities SERVER
+
+                 //8. when all is deleted, delete the post
+                {
+                    const {postId} = req.query;
+                    if(postId && typeof postId === 'string'){
+                        const match = {
+                            _id: new ObjectId(postId.toString()),
+                        }
+                        const result = await postsCollection.deleteOne(match);
+                        if(result.deletedCount){
+                            res.status(200).json({
+                                success: true,
+                                data: {deletedCount: result.deletedCount}
+                            });
+                        } else {
+                            res.status(200).json({
+                                success: false,
+                                data: {deletedCount: result.deletedCount}
+                            });
+                        }
+                    } else {
+                        res.status(400).json({success: false, error: 'Bad Request'});
+                    }
+                    break;
+                }
             default:
                 res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
                 res.status(405).end(`Method method Not Allowed`);

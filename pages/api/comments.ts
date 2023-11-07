@@ -147,17 +147,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                 break;
             case 'DELETE':
-              //delete comments by postId
+              //delete comments by postId ensure that the comments and children comments are deleted
+              //NOTE: need to set up a trigger to delete all associated reactions, feeds, notifications, activities, and pictures (if pictureAttached is true) associated with the comment
               {
                 const {postId} = req.query;
                 if(postId && typeof postId === 'string'){
                   const match = {
                     postId: postId.toString(),
                   }
-                  
-                }
-                
-              } 
+                  const result = await commentsCollection.deleteMany(match);
+                  if(result.deletedCount){
+                    res.status(200).json({
+                      success: true,
+                      data: {deletedCount: result.deletedCount}
+                    });
+                  } else {
+                    res.status(200).json({
+                      success: false,
+                      message: "failed to delete comments"
+                    });
+                  }
+                } else {
+                  res.status(400).json({
+                    success: false,
+                    message: "invalid query"
+                  });
+                }  
+              
   /*   
   const docId = changeEvent.documentKey._id.toString(0);
   const FullDocument = changeEvent.FullDocument;
@@ -172,6 +188,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
   } */
                 break;
+            }
             default:
                 res.status(400).json({error: "Invalid method"});
                 break;

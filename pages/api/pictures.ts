@@ -63,8 +63,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 
                 break;
             case 'DELETE':
-                
+                //delete all pictures associated with post using postId
+                //NOTE: need to set up a trigger to delete all associated reactions, feeds, notifications, activities, and comments associated with the picture
+                {
+                    const {targetId} = req.query;
+                    if(targetId){
+                        try {
+                            const result = await picturesCollection.deleteMany({targetId: targetId});
+                            if(result.deletedCount > 0){
+                                res.status(200).json({
+                                    success: true,
+                                });
+                            }else{
+                                res.status(404).json({
+                                    success: false,
+                                    error: 'Not Found',
+                                });
+                            }
+                        } catch (error) {
+                            res.status(500).json({
+                                success: false,
+                                error: 'Server Error',
+                            });
+                        }
+                } else {
+                    res.status(400).json({
+                        success: false,
+                        error: 'Bad Request',
+                    });
+                }
                 break;
+            }
             default:
                 res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
                 res.status(405).end(`Method method Not Allowed`);

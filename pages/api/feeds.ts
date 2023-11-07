@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { connectDB } from "../../libs/mongodb";
 import { NextApiRequest, NextApiResponse } from 'next'
 interface FindArgs{
@@ -191,6 +192,19 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 res.status(200).json({success: true, feeds:results});
             }else{
                 res.status(200).json({success: false, feeds: [], hasMore: false, message: "No more feeds"});
+            }
+        } else if (req.method === 'DELETE') {
+            //delete all feeds associated with the activityId (post, post_tag, comment, reaction)
+            const {activityId} = req.query;
+            if(activityId && typeof activityId === 'string'){
+                const result = await db.collection('feeds').deleteMany({activityId: activityId});
+                if(result.deletedCount > 0){
+                    res.status(200).json({success: true, data: result.deletedCount});
+                }else{
+                    res.status(404).json({success: false, error: 'Not Found'});
+                }
+            } else {
+                res.status(400).json({success: false, error: 'Bad Request'});
             }
         } else {
             res.status(405).json({ error: 'Method not allowed' }); // Handle any other HTTP method
