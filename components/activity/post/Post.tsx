@@ -21,6 +21,7 @@ import UserTags from "../user-tags/UserTags";
 import { usePostModalContext } from "./post-modal-context/PostModalContext";
 import LazyTarget from "../../lazy-taget/LazyTarget";
 import { is } from "date-fns/locale";
+import ContentManagement, { ManagementItem } from "../content-management/ContentManagement";
 interface PostProps{
     post: Post;
     username?: string;
@@ -43,6 +44,7 @@ interface CommentFetchParams{
     lastCursor: string;
     _id?: string;
 }
+
 export default function Post({post,username, preview, previewCommentId, onFinishedLoading}: PostProps){
     const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
     const  { profilePicturePaths } = useContext(MockContext);
@@ -67,9 +69,27 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const {data:session} = useSession();
     const user = session?.user;
     const author =  user?.username || '';
-    
     const commentPreviewLimit = 1;
     const limitPerFetch = 3;
+    //POST MANAGEMENT ITEMS
+    //define higher order functions, the function will accept the postid as an argument
+    const handleEditPost = (postid: string) => () => {
+        console.log("edit post #" + postid);
+    }
+    const items:ManagementItem[] = [
+        {
+            type: 'Edit',
+            handler: handleEditPost(post._id?.toString() || ''),
+        },
+        {
+            type: 'Delete',
+            handler: () => {},
+        },
+        {
+            type: 'Save',
+            handler: () => {},
+        }
+    ]
     const optimisticCommentInsertion = (comment: Comment, name?: string) => {
         setComments(prev => [...prev, comment]);
         if(commentChildrenSummary[comment._id?.toString() || ''] === undefined){
@@ -237,6 +257,9 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
         <>
             <div key={post._id} id={"post_"+ (preview ? "" : "modal_")  + post._id} className={style['post'] + " glass-component"}>
+                <ContentManagement  
+                    items={items}
+                />
                 <div className={`${style['post-container']} px-8 pt-8`}>
                     <PostTitle 
                         username={post.username}
