@@ -90,11 +90,11 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         },
         {
             type: 'Delete',
-            handler: () => {},
+            handler: handleDeletePost(post._id?.toString() || ''),
         },
         {
             type: 'Save',
-            handler: () => {},
+            handler:  handleSavePost(post._id?.toString() || ''),   
         }
     ]
     const optimisticCommentInsertion = (comment: Comment, name?: string) => {
