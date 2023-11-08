@@ -62,3 +62,17 @@ export function uploadFileToPostAPI(path: string, file: any){
         }
     });
 }
+export function deleteFromDeleteAPI(path: string, params: any){
+    const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+    const url = `${baseURL}/api/${path}`;
+    const paramsString = new URLSearchParams(params).toString();
+    return fetch(`${url}?${paramsString}`, {
+        method: "DELETE"
+    }).then(res => {
+        if(res.ok){
+            return res.json();
+        }else{
+            return Promise.reject(res);
+        }
+    });
+}

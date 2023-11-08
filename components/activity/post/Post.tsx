@@ -4,7 +4,7 @@ import style from "./post.module.css"
 import { use, useContext, useEffect, useRef, useState } from "react";
 import { MockContext } from "../../../pages/MockContext";
 import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
-import { fetchFromGetAPI, insertToPostAPI } from "../../../libs/api-interactions";
+import { deleteFromDeleteAPI, fetchFromGetAPI, insertToPostAPI } from "../../../libs/api-interactions";
 import InteractionsBtns from "../interactions-btns/InteractionsBtns";
 import CommentForm, { CommentFormState } from "../comment/comment-form/CommentForm";
 import { PostContext } from "./PostContext";
@@ -77,8 +77,16 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         //trigger post form and feed all the current post information into it
         console.log("edit post #" + postid);
     }
-    const handleDeletePost = (postid: string) => () => {
+    const handleDeletePost =  (postid: string) => () => {
         console.log("delete post #" + postid);
+        //first delete all the picture associated with this post
+        const pictureDeletePath = "pictures";
+        const params = {
+            targetId: postid
+        }
+        deleteFromDeleteAPI(pictureDeletePath, params)
+        //second delete all the reactions associated with this post
+        //third delete all the comments aossicate with this post
     }
     const handleSavePost = (postid: string) => () => {
         console.log("save post #" + postid);
