@@ -74,7 +74,14 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     //POST MANAGEMENT ITEMS
     //define higher order functions, the function will accept the postid as an argument
     const handleEditPost = (postid: string) => () => {
+        //trigger post form and feed all the current post information into it
         console.log("edit post #" + postid);
+    }
+    const handleDeletePost = (postid: string) => () => {
+        console.log("delete post #" + postid);
+    }
+    const handleSavePost = (postid: string) => () => {
+        console.log("save post #" + postid);
     }
     const items:ManagementItem[] = [
         {

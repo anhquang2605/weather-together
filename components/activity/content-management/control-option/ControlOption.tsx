@@ -36,6 +36,7 @@ const ControlOption: React.FC<ControlOptionProps> = ({
 }) => {
     return (
         <button
+        onClick={onClick}
         className={style['control-option']}>
             <span className={style['icon']}>
                 {
