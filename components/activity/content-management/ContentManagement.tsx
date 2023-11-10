@@ -6,14 +6,17 @@ export interface ManagementItem{
     type: string; //edit, delete, save.... for title and icons
     handler: () => void; //handler function in a form of higher order function
     description?: string; //description for the item
+   
 }
 
 interface ContentManagementProps {
     items: ManagementItem[];
+    isOwner: boolean; //if the user is the owner of the post
 }
 
 const ContentManagement: React.FC<ContentManagementProps> = ({
-    items
+    items,
+    isOwner
 }) => {
     const [reveal, setReveal] = useState<boolean>(false);
     return (
@@ -24,6 +27,9 @@ const ContentManagement: React.FC<ContentManagementProps> = ({
             <div className={`${style["control-list"]} ${reveal ? style['reveal'] : ""}`}>
                 {
                     items.map((item, index) => {
+                        if(item.type === 'Delete' && !isOwner){
+                            return null;
+                        }
                         const {type, handler, description} = item;
                         return(
                             <ControlOption

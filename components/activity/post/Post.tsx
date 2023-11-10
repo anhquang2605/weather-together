@@ -57,6 +57,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const [isFetchingMoreComments, setIsFetchingMoreComments] = useState(false); 
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
+    const [deletePostStatus, setDeletePostStatus] = useState('idle'); //['idle', 'loading', 'error', 'success'
     const [loading, setLoading] = useState(true); //TODO: fetch comments from server
     const [endOfList, setEndOfList] = useState(false); //when comment list hit the bottom
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
@@ -78,15 +79,19 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         console.log("edit post #" + postid);
     }
     const handleDeletePost = (postid: string) => async () => {
-        console.log("delete post #" + postid);
-        //first delete all the picture associated with this post
-        const pictureDeletePath = "pictures";
-        const params = {
-            targetId: postid
+        setDeletePostStatus('loading');
+
+        //finally delete the post itself
+        const postPath = "posts";
+        const postParams = {
+            _id: postid
         }
-        const deleteResult = await deleteFromDeleteAPI(pictureDeletePath, params)
-        //second delete all the reactions associated with this post
-        //third delete all the comments aossicate with this post
+        const response = await deleteFromDeleteAPI(postPath, postParams);
+        if(response.success){
+            setDeletePostStatus('success');
+        } else{
+            setDeletePostStatus('error');
+        }
     }
     const handleSavePost = (postid: string) => async () => {
         console.log("save post #" + postid);
@@ -274,6 +279,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
             <div key={post._id} id={"post_"+ (preview ? "" : "modal_")  + post._id} className={style['post'] + " glass-component"}>
                 <ContentManagement  
                     items={items}
+                    isOwner = {author === username}
                 />
                 <div className={`${style['post-container']} px-8 pt-8`}>
                     <PostTitle 
