@@ -2,10 +2,11 @@ import React from 'react';
 import style from './control-option.module.css';
 import {IoEllipsisHorizontal} from 'react-icons/io5';
 import {TbEdit, TbBookmarkPlus, TbTrash} from 'react-icons/tb';
+import { on } from 'events';
 interface ControlOptionProps {
     title: string;
     description?: string;
-    onClick?: () => void;
+    onClick?: Promise<() => void>;
 }
 const getIconJSX = (title: string) => {
 
@@ -36,7 +37,13 @@ const ControlOption: React.FC<ControlOptionProps> = ({
 }) => {
     return (
         <button
-        onClick={onClick}
+        onClick={ async () => {
+                if(onClick){
+                    //await for the higher order function to return the handler function then call it
+                  (await onClick)();
+                }
+            }
+        }
         className={style['control-option']}>
             <span className={style['icon']}>
                 {

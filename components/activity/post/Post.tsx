@@ -73,11 +73,11 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const limitPerFetch = 3;
     //POST MANAGEMENT ITEMS
     //define higher order functions, the function will accept the postid as an argument
-    const handleEditPost = (postid: string) => () => {
+    const handleEditPost = async (postid: string) => () => {
         //trigger post form and feed all the current post information into it
         console.log("edit post #" + postid);
     }
-    const handleDeletePost =  (postid: string) => () => {
+    const handleDeletePost = async (postid: string) => () => {
         console.log("delete post #" + postid);
         //first delete all the picture associated with this post
         const pictureDeletePath = "pictures";
@@ -88,7 +88,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         //second delete all the reactions associated with this post
         //third delete all the comments aossicate with this post
     }
-    const handleSavePost = (postid: string) => () => {
+    const handleSavePost = async (postid: string) => () => {
         console.log("save post #" + postid);
     }
     const items:ManagementItem[] = [
