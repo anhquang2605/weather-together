@@ -27,10 +27,11 @@ const ContentManagement: React.FC<ContentManagementProps> = ({
             <div className={`${style["control-list"]} ${reveal ? style['reveal'] : ""}`}>
                 {
                     items.map((item, index) => {
-                        if(item.type === 'Delete' && !isOwner){
+                        
+                        const {type, handler, description} = item;
+                        if(type !== 'Save' && !isOwner){
                             return null;
                         }
-                        const {type, handler, description} = item;
                         return(
                             <ControlOption
                                 key={index}
