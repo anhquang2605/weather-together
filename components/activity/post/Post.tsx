@@ -279,7 +279,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
             <div key={post._id} id={"post_"+ (preview ? "" : "modal_")  + post._id} className={style['post'] + " glass-component"}>
                 <ContentManagement  
                     items={items}
-                    isOwner = {author === username}
+                    isOwner = {author === post.username}
                 />
                 <div className={`${style['post-container']} px-8 pt-8`}>
                     <PostTitle 

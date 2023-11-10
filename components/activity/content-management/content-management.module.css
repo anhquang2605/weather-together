@@ -1,3 +1,30 @@
 .content-management{
-    
+    position: relative;
+}
+.control-reveal-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all 0.2s;
+    @apply m-1 text-lg p-2 rounded-full;
+    &:hover, &.active{
+        @apply bg-slate-100 text-indigo-800;
+    }
+}
+.control-list{
+    z-index: -1;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    @apply w-max border border-slate-400 bg-slate-100 rounded-md top-4 right-0;
+    position: absolute;
+    transition: all 0.1s;
+    &.reveal{
+        z-index: 1;
+        opacity: 1;
+        @apply top-8 right-8 shadow-lg;
+    }
 }

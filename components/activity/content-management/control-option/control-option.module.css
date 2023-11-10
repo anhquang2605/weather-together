@@ -1,3 +1,15 @@
 .control-option{
-    
+    display: flex;
+    align-items: center;
+    @apply py-3 px-4 w-full transition-all duration-200;
+    &:hover{
+        background-color: var(--btn-color);
+        color: white;
+    }
+    .icon{
+        @apply mr-2 text-xl;
+    }
+    .title{
+        @apply font-semibold;
+    }
 }

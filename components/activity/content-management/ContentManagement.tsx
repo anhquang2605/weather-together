@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './content-management.module.css';
 import {IoEllipsisHorizontal} from 'react-icons/io5';
 import ControlOption from './control-option/ControlOption';
@@ -19,9 +19,27 @@ const ContentManagement: React.FC<ContentManagementProps> = ({
     isOwner
 }) => {
     const [reveal, setReveal] = useState<boolean>(false);
+    const handleToggleReveal = () => {
+        setReveal(prev => !prev);
+    }
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if(target.closest(`.${style['content-management']}`)){
+                return;
+            }
+            setReveal(false);
+        }
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        }
+    }, []);
     return (
         <div className={style['content-management']}>
-            <button className={style["control-reveal-btn"]}>
+            <button 
+              onClick={handleToggleReveal}
+              className={`${style["control-reveal-btn"]} ${reveal && style['active']}`}>
                 <IoEllipsisHorizontal/>
             </button>
             <div className={`${style["control-list"]} ${reveal ? style['reveal'] : ""}`}>
