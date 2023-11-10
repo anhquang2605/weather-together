@@ -5,13 +5,14 @@ const USER = process.env.NEXT_PUBLIC_MONGO_USER;
 const DB = process.env.NEXT_PUBLIC_MONGO_DB;
 const uri = `mongodb+srv://${USER}:${PW}@${DB}.8lqcwfi.mongodb.net/?retryWrites=true&w=majority`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
+export const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
       strict: false,
       deprecationErrors: true,
     }
   });
+
 let db: mongoDB.Db;
 export async function connectDB() {
     try{

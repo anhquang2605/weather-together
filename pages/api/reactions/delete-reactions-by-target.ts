@@ -24,15 +24,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     targetId: targetId.toString(),
                 }
                 const result = await reactionsCollection.updateMany(match, {$set: {isDeleted: true}});
-                if(result.modifiedCount > 0){
+                if(result.modifiedCount> 0){
                     res.status(200).json({
                         success: true,
-                        data: result.modifiedCount,
+                        data: {modifiedCount: result.modifiedCount},
                     });
                 }else{
-                    res.status(404).json({
-                        success: false,
-                        error: 'Not Found',
+                    res.status(200).json({
+                        success: true,
+                        data: {modifiedCount: 0},
                     });
                 }
             } else {

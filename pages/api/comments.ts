@@ -158,15 +158,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   const result = await commentsCollection.updateMany(match,{
                     $set: {isDeleted: true}
                   });
-                  if(result.modifiedCount){
+                  if(result.modifiedCount > 0){
                     res.status(200).json({
                       success: true,
                       data: {modifiedCount: result.modifiedCount}
                     });
                   } else {
                     res.status(200).json({
-                      success: false,
-                      message: "failed to delete comments"
+                      success: true,
+                     data: {modifiedCount: 0}
                     });
                   }
                 } else {

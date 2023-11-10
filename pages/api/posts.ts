@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connectDB } from '../../libs/mongodb'
+import { connectDB, client } from '../../libs/mongodb'
 import { Collection, ObjectId, WithId } from 'mongodb';
 import {Post} from '../../types/Post';
+import { deleteFromDeleteAPI } from '../../libs/api-interactions';
+import { mongo } from 'mongoose';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req;
@@ -72,23 +74,63 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                  //8. when all is deleted, delete the post
                 {
-                    const {postId} = req.query;
+                    const {postId, pictureAttached} = req.query;
                     if(postId && typeof postId === 'string'){
-                        const match = {
-                            _id: new ObjectId(postId.toString()),
+                        const post = await postsCollection.findOne({_id: new ObjectId(postId)});
+                        if(!post){
+                            res.status(404).json({success: false, error: 'Post not found'});
+                            return;
                         }
-                        const result = await postsCollection.updateOne(match,
-                            {isDeleted: true});
-                        if(result.modifiedCount){
-                            res.status(200).json({
-                                success: true,
-                                data: {modifiedCount: result.modifiedCount}
+                        const session = await client.startSession();
+                        //delete all the reactions associated with the post, if there is any error, rollback
+                        try {
+                            await session.withTransaction(async () => {
+                                //first delete all the picture associated with this post
+                                const pictureDeletePath = "pictures";
+                                const params = {
+                                    targetId: postId
+                                }
+                                await deleteFromDeleteAPI(pictureDeletePath, params);
+                                const reactionDeletePath = "reactions/delete-reactions-by-target";
+                                const reactionParams = {
+                                    targetId: postId
+                                }
+                                await deleteFromDeleteAPI(reactionDeletePath, reactionParams);
+                                //third delete all the comments aossicate with this post
+                                const commentsPath = "comments";
+                                const commentsParams = {
+                                    postId: postId
+                                }
+                                await deleteFromDeleteAPI(commentsPath, commentsParams);
+                                //fourth delete the pictures attached to this post and its data on s3
+                                if(pictureAttached === "true"){//need to have a trigger to delete the pictures on s3
+                                    const attachedPicturesPath = "pictures";
+                                    const attachedPicturesParams = {
+                                        targetId: postId
+                                    }
+                                    await deleteFromDeleteAPI(attachedPicturesPath, attachedPicturesParams);
+                                }
+                                const match = {
+                                    _id: new ObjectId(postId.toString()),
+                                }
+                                const result = await postsCollection.updateOne(match,
+                                    {isDeleted: true});
+                                if(result && result.modifiedCount){
+                                    res.status(200).json({
+                                        success: true,
+                                        data: {modifiedCount: result.modifiedCount}
+                                    });
+                                }else{
+                                    res.status(500).json({
+                                        success: false,
+                                        error: "Server Error",
+                                    });
+                                }
                             });
-                        } else {
-                            res.status(200).json({
-                                success: false,
-                                data: {modifiedCount: result.modifiedCount}
-                            });
+                        }catch(err){
+                            res.status(500).json({ error: err, success: false })
+                        }finally{
+                            session.endSession();
                         }
                     } else {
                         res.status(400).json({success: false, error: 'Bad Request'});
