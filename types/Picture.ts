@@ -10,4 +10,5 @@ export interface Picture{
     width?: number;
     height?: number;
     targetType?: string; // post or comment
+    isDeleted?: boolean;
 }

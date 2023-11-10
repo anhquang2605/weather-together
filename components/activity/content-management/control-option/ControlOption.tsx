@@ -6,7 +6,7 @@ import { on } from 'events';
 interface ControlOptionProps {
     title: string;
     description?: string;
-    onClick?: Promise<() => void>;
+    onClick?: () => void;
 }
 const getIconJSX = (title: string) => {
 
@@ -40,7 +40,7 @@ const ControlOption: React.FC<ControlOptionProps> = ({
         onClick={ async () => {
                 if(onClick){
                     //await for the higher order function to return the handler function then call it
-                  (await onClick)();
+                  onClick();
                 }
             }
         }

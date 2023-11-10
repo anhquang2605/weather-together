@@ -18,11 +18,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if(db){
             const {targetId} = req.query;
             if(targetId && typeof targetId === 'string'){
-                const result = await db.collection('reactions').deleteMany({targetId: targetId});
-                if(result.deletedCount > 0){
+                //update the pictures with field isDeleted = true
+                const reactionsCollection = db.collection('reactions');
+                const match = {
+                    targetId: targetId.toString(),
+                }
+                const result = await reactionsCollection.updateMany(match, {$set: {isDeleted: true}});
+                if(result.modifiedCount > 0){
                     res.status(200).json({
                         success: true,
-                        data: result.deletedCount,
+                        data: result.modifiedCount,
                     });
                 }else{
                     res.status(404).json({

@@ -8,6 +8,7 @@ export interface Post {
     taggedUsernames: string[];
     visibility: string;
     weatherVibe?: WeatherVibe;
+    isDeleted?: boolean;
 }
 export interface WeatherVibe{
     condition: string;

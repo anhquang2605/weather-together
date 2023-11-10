@@ -77,16 +77,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         const match = {
                             _id: new ObjectId(postId.toString()),
                         }
-                        const result = await postsCollection.deleteOne(match);
-                        if(result.deletedCount){
+                        const result = await postsCollection.updateOne(match,
+                            {isDeleted: true});
+                        if(result.modifiedCount){
                             res.status(200).json({
                                 success: true,
-                                data: {deletedCount: result.deletedCount}
+                                data: {modifiedCount: result.modifiedCount}
                             });
                         } else {
                             res.status(200).json({
                                 success: false,
-                                data: {deletedCount: result.deletedCount}
+                                data: {modifiedCount: result.modifiedCount}
                             });
                         }
                     } else {

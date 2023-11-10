@@ -73,22 +73,22 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const limitPerFetch = 3;
     //POST MANAGEMENT ITEMS
     //define higher order functions, the function will accept the postid as an argument
-    const handleEditPost = async (postid: string) => () => {
+    const handleEditPost = (postid: string) => async () => {
         //trigger post form and feed all the current post information into it
         console.log("edit post #" + postid);
     }
-    const handleDeletePost = async (postid: string) => () => {
+    const handleDeletePost = (postid: string) => async () => {
         console.log("delete post #" + postid);
         //first delete all the picture associated with this post
         const pictureDeletePath = "pictures";
         const params = {
             targetId: postid
         }
-        deleteFromDeleteAPI(pictureDeletePath, params)
+        const deleteResult = await deleteFromDeleteAPI(pictureDeletePath, params)
         //second delete all the reactions associated with this post
         //third delete all the comments aossicate with this post
     }
-    const handleSavePost = async (postid: string) => () => {
+    const handleSavePost = (postid: string) => async () => {
         console.log("save post #" + postid);
     }
     const items:ManagementItem[] = [

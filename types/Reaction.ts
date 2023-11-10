@@ -6,6 +6,7 @@ export interface Reaction {
     name: string;
     targetId: string; // Post or Comment ID
     expireAt?: Date; //countdown time for reactoin
+    isDeleted?: boolean;
 }
 export interface ReactionWithUser {
     targetId: string;

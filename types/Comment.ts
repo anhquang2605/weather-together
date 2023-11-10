@@ -12,4 +12,5 @@ export interface Comment {
     postId: string; // the post that the comment is associated with
     level: number; // the level of the comment, 0 is a direct comment to a post, 1 is a comment to a comment, 2 is a comment to a comment to a comment, etc. max level is 2, at this level, cannot reply to this comment;
     pictureAttached: boolean;
+    isDeleted?: boolean;
 }

@@ -4,7 +4,7 @@ import {IoEllipsisHorizontal} from 'react-icons/io5';
 import ControlOption from './control-option/ControlOption';
 export interface ManagementItem{
     type: string; //edit, delete, save.... for title and icons
-    handler: Promise<() => void>; //handler function in a form of higher order function
+    handler: () => void; //handler function in a form of higher order function
     description?: string; //description for the item
 }
 
