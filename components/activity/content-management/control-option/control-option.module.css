@@ -1,7 +1,7 @@
 .control-option{
     display: flex;
     align-items: center;
-    @apply py-3 px-4 w-full transition-all duration-200;
+    @apply py-2 px-8 w-full transition-all duration-200;
     &:hover{
         background-color: var(--btn-color);
         color: white;

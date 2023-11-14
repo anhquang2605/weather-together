@@ -25,6 +25,6 @@
     &.reveal{
         z-index: 1;
         opacity: 1;
-        @apply top-8 right-8 shadow-lg;
+        @apply top-10 shadow-lg;
     }
 }
