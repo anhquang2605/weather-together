@@ -23,16 +23,15 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
     const handleHideFeeds = async (feeds: Feed[]) => {
         if(feeds.length >= 1){
             const feedIds = feeds.map(feed => feed._id);
-            const path = "feeds";
-            const params = {
+            const path = "feeds/hide-feeds-by-ids";
+            const body = {
                 feedIds: feedIds
             }
-            const result = await deleteFromDeleteAPI(path, params);
-            console.log(result);
+            const result = await deleteFromDeleteAPI(path, body);
             if(result.success){
                 setHide(true);
-            } else {
-                console.log("delete failed");
+            }else{
+                console.log(result);
             }
         }
     }
