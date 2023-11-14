@@ -36,10 +36,13 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
             }
         }
     }
-    const handleUnhideFeeds = (feeds: Feed[]) => {
+    const handleUnhideFeeds = async (feeds: Feed[]) => {
         if(feeds.length >= 1){
-            
-            setHide(false);
+            const path = "feeds/undelete-feeds-by-ids";
+            const body = {
+                feedIds: feeds.map(feed => feed._id)
+            }
+            const result = await deleteFromDeleteAPI(path, body);
         }
     }
    
