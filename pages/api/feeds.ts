@@ -195,7 +195,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }
         } else if (req.method === 'DELETE') {
             //delete all feeds associated with the activityId (post, post_tag, comment, reaction)
-            const {activityId} = req.query;
+            const {activityId, feedIds} = req.query;
             if(activityId && typeof activityId === 'string'){
                 const result = await db.collection('feeds').deleteMany({activityId: activityId});
                 if(result.deletedCount > 0){
@@ -203,9 +203,22 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 }else{
                     res.status(404).json({success: false, error: 'Not Found'});
                 }
+            } else if(feedIds && typeof feedIds === 'string'){
+                const feedIdArray = feedIds.split(',');
+                const objectIds = feedIdArray.map((id)=>{return new ObjectId(id)});
+                //update many
+                const result = await db.collection('feeds').updateMany({_id: {$in: objectIds}}, {$set: {isDeleted: true}});
+                if(result.modifiedCount > 0){
+                    res.status(200).json({success: true, data: {modifiedCount: result.modifiedCount}});
+                } else {
+                    res.status(200).json({success: false, data: {modifiedCount: 0}});
+                }
             } else {
                 res.status(400).json({success: false, error: 'Bad Request'});
             }
+        } else if (req.method === 'PUT') {
+            const {feedIds, } = req.body;
+
         } else {
             res.status(405).json({ error: 'Method not allowed' }); // Handle any other HTTP method
         }

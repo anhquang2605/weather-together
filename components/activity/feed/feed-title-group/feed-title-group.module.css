@@ -5,3 +5,10 @@
     background-color: var(--primary-color);
     @apply px-4 py-1 rounded mb-2 inline-block font-semibold;
 }
+.feed-hide-btn{
+    @apply absolute top-2 right-2 p-2 rounded-full;
+    transition: var(--short-transition);
+    &:hover{
+        @apply bg-slate-200 text-red-700;
+    }
+}

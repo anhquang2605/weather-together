@@ -5,6 +5,7 @@ import { UserBasic } from '../../../../types/User';
 import Post from '../../post/Post';
 import FeedTitleGroup from '../feed-title-group/FeedTitleGroup';
 import FeedContent from '../feed-content/FeedContent';
+import { deleteFromDeleteAPI } from '../../../../libs/api-interactions';
 
 interface FeedGroupComponentProps {
     feedGroup: FeedGroup;
@@ -12,17 +13,39 @@ interface FeedGroupComponentProps {
 
 const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
     const [group, setGroup] = useState<FeedGroup | null>(null);
+    const [hide, setHide] = useState<boolean>(false);
     useEffect(()=>{
         if(feedGroup){
             setGroup(feedGroup);
         }
     },[feedGroup])
     const [user, setUser] = useState<UserBasic | null>(null);//[username: string]: UserBasic} = {}
-    
+    const handleHideFeeds = async (feeds: Feed[]) => {
+        if(feeds.length >= 1){
+            const feedIds = feeds.map(feed => feed._id);
+            const path = "feeds";
+            const params = {
+                feedIds: feedIds
+            }
+            const result = await deleteFromDeleteAPI(path, params);
+            console.log(result);
+            if(result.success){
+                setHide(true);
+            } else {
+                console.log("delete failed");
+            }
+        }
+    }
+    const handleUnhideFeeds = (feeds: Feed[]) => {
+        if(feeds.length >= 1){
+            
+            setHide(false);
+        }
+    }
    
 
     return (
-        <div className={style['feed-group-component']}>
+        <div className={`${style['feed-group-component']} ${hide ? style['hidden-feed'] : ""}`  }>
             {
                 group &&
                 <>
@@ -30,6 +53,7 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
                         feeds={group.feeds.sort((a,b) => {
                             return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
                         })}
+                        feedsDeleteHandler={handleHideFeeds}
                     />
                     {group.targetContentId !== "" && 
                         <FeedContent
