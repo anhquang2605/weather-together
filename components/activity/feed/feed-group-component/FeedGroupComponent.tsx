@@ -22,10 +22,10 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
     const [user, setUser] = useState<UserBasic | null>(null);//[username: string]: UserBasic} = {}
     const handleHideFeeds = async (feeds: Feed[]) => {
         if(feeds.length >= 1){
-            const feedIds = feeds.map(feed => feed._id);
+            const feedActIds = feeds.map(feed => feed.activityId);
             const path = "feeds/hide-feeds-by-ids";
             const body = {
-                feedIds: feedIds
+                actIds: feedActIds
             }
             const result = await updateToPutAPI(path, body);
             if(result.success){

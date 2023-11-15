@@ -6,10 +6,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = await connectDB();
     if (db) {
         if (req.method === 'PUT') {
-            const {feedIds} = req.body;
+            const {actIds} = req.body;
+            console.log(actIds);
             const collection = db.collection('feeds');
-            const objectIds = feedIds.map((feedId: string) => new ObjectId(feedId));
-            const result = await collection.updateMany({_id: {$in: objectIds}}, {$set: {isDeleted: true}});
+            const result = await collection.updateMany({activityId: {$in: actIds}}, {$set: {isDeleted: true}});
             if(result.modifiedCount > 0){
                 res.status(200).json(
                     {
