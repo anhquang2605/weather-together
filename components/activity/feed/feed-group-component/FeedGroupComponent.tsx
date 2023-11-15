@@ -5,7 +5,7 @@ import { UserBasic } from '../../../../types/User';
 import Post from '../../post/Post';
 import FeedTitleGroup from '../feed-title-group/FeedTitleGroup';
 import FeedContent from '../feed-content/FeedContent';
-import { deleteFromDeleteAPI } from '../../../../libs/api-interactions';
+import { deleteFromDeleteAPI, updateToPutAPI } from '../../../../libs/api-interactions';
 
 interface FeedGroupComponentProps {
     feedGroup: FeedGroup;
@@ -27,7 +27,7 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
             const body = {
                 feedIds: feedIds
             }
-            const result = await deleteFromDeleteAPI(path, body);
+            const result = await updateToPutAPI(path, body);
             if(result.success){
                 setHide(true);
             }else{
