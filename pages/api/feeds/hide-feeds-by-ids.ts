@@ -7,7 +7,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (db) {
         if (req.method === 'PUT') {
             const {actIds} = req.body;
-            console.log(actIds);
             const collection = db.collection('feeds');
             const result = await collection.updateMany({activityId: {$in: actIds}}, {$set: {isDeleted: true}});
             if(result.modifiedCount > 0){
