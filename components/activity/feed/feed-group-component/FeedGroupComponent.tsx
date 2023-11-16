@@ -47,7 +47,7 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
    
 
     return (
-        <div className={`${style['feed-group-component']} ${hide ? style['hidden-feed'] : ""}`  }>
+        !hide ? <div className={`${style['feed-group-component']} `  }>
             {
                 group &&
                 <>
@@ -67,7 +67,15 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
                 </>
 
             }
+        </div> : 
+        <div className={style['unhide-header']}>
+            <button onClick={()=>{
+                handleUnhideFeeds(group?.feeds || []);
+            }}>
+                Unhide
+            </button>
         </div>
+        
     );
 };
 
