@@ -6,6 +6,7 @@ import Post from '../../post/Post';
 import FeedTitleGroup from '../feed-title-group/FeedTitleGroup';
 import FeedContent from '../feed-content/FeedContent';
 import { deleteFromDeleteAPI, updateToPutAPI } from '../../../../libs/api-interactions';
+import { CiUndo } from "react-icons/ci";
 
 interface FeedGroupComponentProps {
     feedGroup: FeedGroup;
@@ -68,11 +69,12 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
 
             }
         </div> : 
-        <div className={style['unhide-header']}>
-            <button onClick={()=>{
+        <div className={`${style['unhide-header']} glass flex justify-center items-center py-4 rounded-lg large border border-slate-500 mb-4`}>
+            <button className={"font-semibold flex flex-row justify-center items-center border border-slate-200 px-16 py-4 rounded-md hover:bg-slate-200 hover:text-indigo-800 transition-all duration-200"} onClick={()=>{
                 handleUnhideFeeds(group?.feeds || []);
             }}>
-                Unhide
+                <CiUndo className="icon mr-1" />
+                <span>Undo</span>
             </button>
         </div>
         
