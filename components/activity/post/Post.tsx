@@ -390,6 +390,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                                 setRevealModal={setRevealEditForm}
                                  username={author}
                                  post = {post}
+                                 revealed={revealEditForm}
                                 />,
                                 <BuddyTagForm
                                     username={author}

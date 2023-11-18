@@ -16,8 +16,9 @@ interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
     post?: Post;
+    revealed?: boolean;
 }
-export default function PostForm ({username, setRevealModal, post}: PostFormProps) {
+export default function PostForm ({username, setRevealModal, post, revealed}: PostFormProps) {
     const [uploadingStatus, setUploadingStatus] = useState<string>("idle"); // idle, loading, success, error
     const [content, setContent] = useState<string>("");
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
@@ -256,7 +257,11 @@ export default function PostForm ({username, setRevealModal, post}: PostFormProp
             setPictureAttached(false);
         }
     },[attachedImages])
-    
+    useEffect(()=>{
+        if(revealed && post){
+            handleFillFormForEditPost(post);
+        }
+    },[revealed])
     return (
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">Post Creation</h3>
