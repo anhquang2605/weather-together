@@ -10,11 +10,14 @@ import { Picture } from '../../../../types/Picture';
 import { Post, WeatherVibe } from '../../../../types/Post';
 import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionStatusBox';
 import { getImageDimensions } from '../../../../libs/pictures';
+import { fetchFromGetAPI } from '../../../../libs/api-interactions';
+import { current } from '@reduxjs/toolkit';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
+    post?: Post;
 }
-export default function PostForm ({username, setRevealModal}: PostFormProps) {
+export default function PostForm ({username, setRevealModal, post}: PostFormProps) {
     const [uploadingStatus, setUploadingStatus] = useState<string>("idle"); // idle, loading, success, error
     const [content, setContent] = useState<string>("");
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
@@ -183,7 +186,34 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         
     }
 
-
+    const handleGettingPicturesForEditPost = async (postId: string) => {
+        const params = {
+            targetId: postId,
+            many: "true"
+        }
+        const path = 'pictures';
+        const result = await fetchFromGetAPI(path, params);
+        if(result.success){
+            const imagePath = result.data.map((picture:Picture) => {
+                return picture.picturePath;
+            });
+            const imageBlobs = await Promise.all(imagePath.map(async (path:string) => {
+                //get blob from url
+                const res = await fetch(path);
+                const blob = await res.blob();
+                return blob;
+            }))
+            setAttachedImages(imageBlobs);
+        }
+    }
+    const handleFillFormForEditPost = (post: Post) => {
+        setContent(post.content);
+        setSelectedVisibilityIndex(visibilityOptions.findIndex((option) => option.value === post.visibility));
+        if(post.pictureAttached){
+            handleGettingPicturesForEditPost(post._id as string);
+        }
+        currentWeather && setCurrentWeather(post.weatherVibe);
+    }
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(
             <div key={title} data-value={title} className={"flex flex-row align-center w-full"}>
@@ -226,6 +256,11 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
             setPictureAttached(false);
         }
     },[attachedImages])
+    useEffect(()=>{
+        if(post){
+            handleFillFormForEditPost(post);
+        }
+    },[post])
     return (
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">Post Creation</h3>
@@ -268,3 +303,5 @@ export default function PostForm ({username, setRevealModal}: PostFormProps) {
         </div>
     )
 }
+
+

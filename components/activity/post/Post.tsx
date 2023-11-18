@@ -22,6 +22,11 @@ import { usePostModalContext } from "./post-modal-context/PostModalContext";
 import LazyTarget from "../../lazy-taget/LazyTarget";
 import { is } from "date-fns/locale";
 import ContentManagement, { ManagementItem } from "../content-management/ContentManagement";
+import Modal from "../../modal/Modal";
+import { PostFormProvider } from "./post-engagement/usePostFormContext";
+import { ViewSliderProvider } from "../../plugins/view-slider/useViewSliderContext";
+import PostForm from "./post-form/PostForm";
+import BuddyTagForm from "./post-form/friend-tag-form/BuddyTagForm";
 interface PostProps{
     post: Post;
     username?: string;
@@ -66,6 +71,8 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [hasMoreComments, setHasMoreComments] = useState(true); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
+    //edit form
+    const [revealEditForm, setRevealEditForm] = useState(false);
     const cursorRef = useRef(lastCursor);
     const {data:session} = useSession();
     const user = session?.user;
@@ -76,7 +83,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     //define higher order functions, the function will accept the postid as an argument
     const handleEditPost = (postid: string) => async () => {
         //trigger post form and feed all the current post information into it
-        console.log("edit post #" + postid);
+        setRevealEditForm(true);
     }
     const handleDeletePost = (postid: string) => async () => {
         setDeletePostStatus('loading');
@@ -249,6 +256,9 @@ export default function Post({post,username, preview, previewCommentId, onFinish
         setTitle(`Post by ${usernameToName[post.username] || post.username}`);
         setCurPostId(post._id?.toString() || '');
     }
+    const handleOnCloseModal = () => {
+        setRevealEditForm(false);
+    }
   
     useEffect(() => {
         handleFetchReactionsGroups(post._id?.toString() || '');
@@ -371,7 +381,26 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                     forPost={true}
                 />
             }
-            
+            <Modal status={revealEditForm} containerClassName='form-container' onClose={handleOnCloseModal}>
+                <PostFormProvider>
+                    <ViewSliderProvider
+                        childSlidesContent={
+                            [
+                                <PostForm
+                                setRevealModal={setRevealEditForm}
+                                 username={author}
+                                 post = {post}
+                                />,
+                                <BuddyTagForm
+                                    username={author}
+                                />
+                            ]
+                        }
+                    />
+
+                </PostFormProvider>
+               
+            </Modal>
         </>
         }
         </PostContext.Provider>
