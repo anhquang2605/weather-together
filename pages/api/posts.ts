@@ -52,8 +52,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 
                 break;
             case 'PUT':
-                
+                {
+                const {
+                    postId,
+                    updatedFields
+                } = req.body;
+                if(postId && typeof postId === 'string'){
+                    try{
+                        const match = {
+                            _id: new ObjectId(postId.toString()),
+                        }
+                        const result = await postsCollection.updateOne(match,
+                            {$set: updatedFields});
+                        if(result && result.modifiedCount){
+                            res.status(200).json({
+                                success: true,
+                                data: {modifiedCount: result.modifiedCount}
+                            });
+                        }else{
+                            res.status(500).json({
+                                success: false,
+                                error: "Server Error",
+                            });
+                        }
+                    }catch(err){
+                        res.status(500).json({ error: err, success: false })
+                    }
+                } else {
+                    res.status(400).json({success: false, error: 'Bad Request'});
+                }
                 break;
+            }
             case 'DELETE':
                 /**
                  * Delete post steps
