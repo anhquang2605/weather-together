@@ -40,9 +40,12 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
         if(feeds.length >= 1){
             const path = "feeds/undelete-feeds-by-ids";
             const body = {
-                feedIds: feeds.map(feed => feed._id)
+                actIds: feeds.map(feed => feed.activityId)
             }
-            const result = await deleteFromDeleteAPI(path, body);
+            const result = await updateToPutAPI(path, body);
+            if(result.success){
+                setHide(false);
+            }
         }
     }
    
