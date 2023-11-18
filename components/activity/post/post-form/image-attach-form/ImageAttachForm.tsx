@@ -10,6 +10,7 @@ interface ImageAttachFormProps {
     setAttachedImages: (value:Blob[]) => void;
     attachedImages?: Blob[];
 }
+
 export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, attachedImages}: ImageAttachFormProps) {
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);

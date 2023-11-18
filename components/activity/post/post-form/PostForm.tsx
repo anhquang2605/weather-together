@@ -26,6 +26,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [selectedVisibilityIndex, setSelectedVisibilityIndex] = useState<number>(0);
     const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
+    const [originalAttachedImagePaths, setOriginalAttachedImagePaths] = useState<String[]>([]);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
     const {reset} = usePostFormContext();
 
@@ -59,7 +60,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     }
-    const handleUploadPictures = async () => {
+    const handleUploadPictures = async (editing?:boolean) => {
         const formData = new FormData();
         attachedImages.forEach((image) => {
             formData.append('files', image);
@@ -103,7 +104,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             return dim;
         });
         const picturesDimensions = await Promise.all(dimensionsPromises);
-        console.log(picturesDimensions);
         const pictures:Picture[] = [];
         imageURLs.forEach((imageURL, index) => {
             const picture:Picture = {
@@ -145,6 +145,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         setUploadingStatus("loading");
         let uploadedImagesURLs:string[] = [];
         if(attachedImages.length > 0){
+
             let response  = await handleUploadPictures();
             if(response){  
                 uploadedImagesURLs = response.urls;
@@ -192,12 +193,12 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             targetId: postId,
             many: "true"
         }
-        const path = 'pictures';
+        const path = 'pictures/targetId/picture-path';
         const result = await fetchFromGetAPI(path, params);
         if(result.success){
-            const imagePath = result.data.map((picture:Picture) => {
-                return picture.picturePath;
-            });
+            const imagePath = result.data as string[];
+            set
+            setOriginalAttachedImagePaths(imagePath);
             const imageBlobs = await Promise.all(imagePath.map(async (path:string) => {
                 //get blob from url
                 const res = await fetch(path);
