@@ -256,11 +256,7 @@ export default function PostForm ({username, setRevealModal, post}: PostFormProp
             setPictureAttached(false);
         }
     },[attachedImages])
-    useEffect(()=>{
-        if(post){
-            handleFillFormForEditPost(post);
-        }
-    },[post])
+    
     return (
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">Post Creation</h3>
