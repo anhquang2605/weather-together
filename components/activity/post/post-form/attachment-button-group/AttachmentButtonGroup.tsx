@@ -8,8 +8,9 @@ interface AttachmentButtonGroupProps {
     attachedImagesLength: number;
     taggedUsernamesLength: number;
     setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
+    taggedUsernames?: string[];
 }
-export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather}: AttachmentButtonGroupProps) {
+export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather, taggedUsernames}: AttachmentButtonGroupProps) {
     const setActiveSlide = useViewSliderContext().setActiveSlide;
     return (
         <div className={`${style["attachment-btn-group"]} mb-4`}>

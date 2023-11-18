@@ -8,8 +8,9 @@ interface ImageAttachFormProps {
     setPictureAttached: (value:boolean) => void;
     revealState?: boolean;
     setAttachedImages: (value:Blob[]) => void;
+    attachedImages?: Blob[];
 }
-export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages}: ImageAttachFormProps) {
+export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, attachedImages}: ImageAttachFormProps) {
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
@@ -79,6 +80,10 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
             return newState;
         })
     }
+    const handleSetImageUrlsFromAttachedImages = (images: Blob[]) => {
+        const urls = images.map(image => URL.createObjectURL(image));
+        setPreviewImageURLs(urls);
+    }
     const handleRemoveAllImagePreview = () => {
         setPreviewImageURLs([]);
         setDroppedImages([]);
@@ -86,6 +91,11 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     useEffect(()=>{
         setAttachedImages(droppedImages);
     },[droppedImages])
+    useEffect(()=>{
+        if(attachedImages && attachedImages.length > 0){
+            handleSetImageUrlsFromAttachedImages(attachedImages);
+        }
+    },[attachedImages])
     return (
     <div 
         onDragOver={handleCancelDragOver}

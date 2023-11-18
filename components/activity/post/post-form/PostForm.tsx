@@ -281,12 +281,14 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 setPictureAttached={setPictureAttached} 
                 setReveal={setRevealImageAttachForm}
                 setAttachedImages={setAttachedImages}
+                attachedImages={attachedImages}
                 />}
 
            <AttachmentButtonGroup 
                 setRevealImageAttachForm={setRevealImageAttachForm} 
                 attachedImagesLength={attachedImages.length}
                 taggedUsernamesLength={taggedUsernames.length}
+                taggedUsernames={taggedUsernames}
                 setCurrentWeather={setCurrentWeather}
                 />
 
