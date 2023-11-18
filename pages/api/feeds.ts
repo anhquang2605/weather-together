@@ -24,6 +24,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             const aggregate = [
                 {
                     $match: {// find filters relating to the users in provided list
+                       // isDeleted: {$ne: true},
                         createdDate: { $lt: 
                             cursor && cursor.length > 0 ?
                             new Date(cursor) :
