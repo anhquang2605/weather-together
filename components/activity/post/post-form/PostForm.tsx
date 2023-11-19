@@ -152,7 +152,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 uploadedImagesURLs = response.urls;
             }
         }
-
         const post:Post = {
             content,
             taggedUsernames,
@@ -186,7 +185,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         else{
             setUploadingStatus("error");
         }
-        
     }
 
     const handleGettingPicturesForEditPost = async (postId: string) => {
@@ -214,7 +212,10 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         if(post.pictureAttached){
             handleGettingPicturesForEditPost(post._id as string);
         }
-        post.weatherVibe && setCurrentWeather(post.weatherVibe);
+        if(post.weatherVibe){
+            setCurrentWeather(post.weatherVibe);
+        }
+        
     }
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(
@@ -266,8 +267,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     },[revealed])
     return (
         <div className="post-form w-full relative">
-            <h3 className="form-title mb-4">Post Creation</h3>
-            
+            <h3 className="form-title mb-4">Post Creation</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
             <textarea 

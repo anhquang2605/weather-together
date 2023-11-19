@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 import { getCitiesFromLongLat } from '../../../../../../libs/geodb';
+import { current } from '@reduxjs/toolkit';
 interface ShareWeatherButtonProps {
     setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
     username?: string;
@@ -43,12 +44,13 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
                     setCurrentWeather(condition);
                 }
             });
-           
-           
         }
-
     }
-
+    useEffect(()=>{
+        if(currentWeather){
+            setWeather(currentWeather);
+        }
+    },[currentWeather])
     return(
         <>
             <Head>
