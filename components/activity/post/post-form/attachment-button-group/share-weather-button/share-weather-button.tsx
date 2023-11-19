@@ -7,6 +7,7 @@ import { convertConditionToIconName } from './../../../../../../libs/weather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
+import { getCitiesFromLongLat } from '../../../../../../libs/geodb';
 interface ShareWeatherButtonProps {
     setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
     username?: string;
@@ -20,12 +21,22 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
     const {data: session} = useSession();
     const user = session?.user;
     //const user = useSelector((state:any) => state.user);
-
     const handleShareWeather = async () => {
         if(weather){
             setWeather(null);
             setCurrentWeather(null);
         }else{
+            const geoloc = await navigator.geolocation.getCurrentPosition(async (position) => {
+                const coords = position.coords;
+                console.log(coords);
+                const cities = await getCitiesFromLongLat(
+                    coords.latitude + "",
+                    coords.longitude + "",
+                    "10"
+                )
+                console.log(cities);
+            });
+           
             //need to be the user location, will pop up with the warning saying that the user will consent the app to have the location of the user
             const condition = await getCurrentWeather(user?.location?.city || "");
             setWeather(condition);
@@ -33,9 +44,7 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
         }
 
     }
-    useEffect(()=>{
-        console.log(currentWeather);
-    },[])
+
     return(
         <>
             <Head>

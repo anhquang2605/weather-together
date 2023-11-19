@@ -60,6 +60,7 @@ export async function getCitiesFromLongLat(latitue:string, longitude: string, ra
     try{
         const response = await fetch(url, options);
         const data = await response.json();
+        console.log(data);
         return data.data as City[];
     }catch(e){
         console.log(e);
