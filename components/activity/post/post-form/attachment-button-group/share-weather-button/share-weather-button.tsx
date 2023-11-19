@@ -1,7 +1,7 @@
 import style from './share-weather-button.module.css'
 import { getCurrentWeather } from './../../../../../../libs/weather';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TbCloudFilled } from "react-icons/tb";
 import { convertConditionToIconName } from './../../../../../../libs/weather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,12 +10,13 @@ import { useSession } from 'next-auth/react';
 interface ShareWeatherButtonProps {
     setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
     username?: string;
+    currentWeather:any
 }
 /*
 Get current weather, then apply different style for the button, animation and icon
 */
-export default function ShareWeatherButton({ setCurrentWeather}: ShareWeatherButtonProps) {
-    const [weather, setWeather] = useState<any>(null);
+export default function ShareWeatherButton({ setCurrentWeather, currentWeather}: ShareWeatherButtonProps) {
+    const [weather, setWeather] = useState<any>(currentWeather);
     const {data: session} = useSession();
     const user = session?.user;
     //const user = useSelector((state:any) => state.user);
@@ -25,15 +26,16 @@ export default function ShareWeatherButton({ setCurrentWeather}: ShareWeatherBut
             setWeather(null);
             setCurrentWeather(null);
         }else{
+            //need to be the user location, will pop up with the warning saying that the user will consent the app to have the location of the user
             const condition = await getCurrentWeather(user?.location?.city || "");
             setWeather(condition);
             setCurrentWeather(condition);
         }
 
     }
-    const handleGetWeather = async () => {
-
-    }
+    useEffect(()=>{
+        console.log(currentWeather);
+    },[])
     return(
         <>
             <Head>

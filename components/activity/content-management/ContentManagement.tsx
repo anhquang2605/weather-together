@@ -37,11 +37,7 @@ const ContentManagement: React.FC<ContentManagementProps> = ({
     }, []);
     return (
         <div className={style['content-management']}>
-            <button 
-              onClick={handleToggleReveal}
-              className={`${style["control-reveal-btn"]} ${reveal && style['active']}`}>
-                <IoEllipsisHorizontal/>
-            </button>
+           
             <div className={`${style["control-list"]} ${reveal ? style['reveal'] : ""}`}>
                 {
                     items.map((item, index) => {
@@ -61,6 +57,11 @@ const ContentManagement: React.FC<ContentManagementProps> = ({
                     })
                 }
             </div>
+            <button 
+              onClick={handleToggleReveal}
+              className={`${style["control-reveal-btn"]} ${reveal && style['active']}`}>
+                <IoEllipsisHorizontal/>
+            </button>
         </div>
     );
 };

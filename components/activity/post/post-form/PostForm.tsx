@@ -27,6 +27,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
     const [originalAttachedImagePaths, setOriginalAttachedImagePaths] = useState<String[]>([]);
+    const [isEditing, setIsEditing] = useState(false);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
     const {reset} = usePostFormContext();
 
@@ -197,7 +198,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         const result = await fetchFromGetAPI(path, params);
         if(result.success){
             const imagePath = result.data as string[];
-            set
             setOriginalAttachedImagePaths(imagePath);
             const imageBlobs = await Promise.all(imagePath.map(async (path:string) => {
                 //get blob from url
@@ -214,7 +214,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         if(post.pictureAttached){
             handleGettingPicturesForEditPost(post._id as string);
         }
-        currentWeather && setCurrentWeather(post.weatherVibe);
+        post.weatherVibe && setCurrentWeather(post.weatherVibe);
     }
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(
@@ -261,6 +261,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     useEffect(()=>{
         if(revealed && post){
             handleFillFormForEditPost(post);
+            setIsEditing(true);
         }
     },[revealed])
     return (
@@ -291,12 +292,13 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 taggedUsernamesLength={taggedUsernames.length}
                 taggedUsernames={taggedUsernames}
                 setCurrentWeather={setCurrentWeather}
+                currentWeather={currentWeather}
                 />
 
             <div className="btn-group">
                 <button onClick={()=>{
                     handleUploadPost();
-                }} className="action-btn w-full">Post</button>
+                }} className="action-btn w-full">{isEditing ? "Finish Edit" : "Post"}</button>
             </div>
 { uploadingStatus !== 'idle' &&            <PostInsertionStatusBox
                 apiStatusAndMessageMap={apiStatusAndMessageMap}

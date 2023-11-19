@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if(db){
                 const picturesCollection = db.collection('pictures');
                 const pictures = await picturesCollection.find({targetId: targetId}).toArray();
-                const picturePaths = pictures.map(picture => picture.path);
+                const picturePaths = pictures.map(picture => picture.picturePath);
                 res.status(200).json({
                     success: true,
                     data: picturePaths,

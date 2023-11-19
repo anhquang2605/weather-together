@@ -9,8 +9,9 @@ interface AttachmentButtonGroupProps {
     taggedUsernamesLength: number;
     setCurrentWeather: React.Dispatch<React.SetStateAction<any>>;
     taggedUsernames?: string[];
+    currentWeather: any;
 }
-export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather, taggedUsernames}: AttachmentButtonGroupProps) {
+export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather, taggedUsernames, currentWeather}: AttachmentButtonGroupProps) {
     const setActiveSlide = useViewSliderContext().setActiveSlide;
     return (
         <div className={`${style["attachment-btn-group"]} mb-4`}>
@@ -46,7 +47,7 @@ export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedU
                 <IoPricetags className="icon"/>
                 {taggedUsernamesLength ? `${taggedUsernamesLength} Tag${taggedUsernamesLength > 1 ? 's' : ""} ` :"Friends Tags"}
             </button>
-            <ShareWeatherButton setCurrentWeather={setCurrentWeather} />
+            <ShareWeatherButton currentWeather={currentWeather} setCurrentWeather={setCurrentWeather} />
         </div>
     )
 }
