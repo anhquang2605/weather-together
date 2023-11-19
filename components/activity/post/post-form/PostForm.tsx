@@ -166,8 +166,8 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             post.weatherVibe = {
                     condition: currentWeather.condition || "",
                     icon: currentWeather.icon || "",
-                    temperature: currentWeather.temperature,
-                    location: currentWeather.location?.city || "",
+                    temperature: currentWeather.temp,
+                    location: currentWeather.location || "",
             }
         }        
         const res = await handleInsertPostToDb(post); 

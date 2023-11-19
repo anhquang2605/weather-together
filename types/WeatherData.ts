@@ -53,6 +53,7 @@ export interface CurrentConditions {
     humidity:         number | null;
     wgust:            null | number;
     windchill:        null | number;
+    location?:        string;
 }
 
 export interface Value {

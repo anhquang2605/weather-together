@@ -26,21 +26,25 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
             setWeather(null);
             setCurrentWeather(null);
         }else{
-            const geoloc = await navigator.geolocation.getCurrentPosition(async (position) => {
+            await navigator.geolocation.getCurrentPosition(async (position) => {
                 const coords = position.coords;
-                console.log(coords);
                 const cities = await getCitiesFromLongLat(
                     coords.latitude + "",
                     coords.longitude + "",
-                    "10"
+                    "2"
                 )
-                console.log(cities);
+                 //need to be the user location, will pop up with the warning saying that the user will consent the app to have the location of the user
+                
+                let condition = await getCurrentWeather(cities[cities.length - 1].city || "");
+                if(condition){
+                    const location = cities[cities.length - 1].city;
+                    condition.location = location;
+                    setWeather(condition);
+                    setCurrentWeather(condition);
+                }
             });
            
-            //need to be the user location, will pop up with the warning saying that the user will consent the app to have the location of the user
-            const condition = await getCurrentWeather(user?.location?.city || "");
-            setWeather(condition);
-            setCurrentWeather(condition);
+           
         }
 
     }
