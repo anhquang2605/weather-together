@@ -63,9 +63,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
                 
                 break;
-            case 'POST':
-               
-                break;
+            case 'POST':{
+                const usernames = req.body;
+                const buddiesCollection = db.collection<Buddy>('buddies');
+                const buddies = await buddiesCollection.find({friendUsername: {$in: usernames}}).toArray();
+                if(buddies.length > 0){
+                    res.status(200).json({
+                        success: true,
+                        data: buddies,
+                    });
+                }else{
+                    res.status(200).json({
+                        success: false,
+                        data: [],
+                    });
+                }
+                break;}
             case 'PUT':
                 
                 break;

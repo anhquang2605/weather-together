@@ -12,6 +12,7 @@ import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionSta
 import { getImageDimensions } from '../../../../libs/pictures';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { current } from '@reduxjs/toolkit';
+import { BuddyTag } from './friend-tag-form/BuddyTagForm';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,7 +31,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [isEditing, setIsEditing] = useState(false);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
     const {reset} = usePostFormContext();
-
+    const addTaggedBuddies = usePostFormContext().addTaggedBuddies;
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
@@ -206,7 +207,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setAttachedImages(imageBlobs);
         }
     }
-    const handleFillFormForEditPost = (post: Post) => {
+    const handleFillFormForEditPost = async (post: Post) => {
         setContent(post.content);
         setSelectedVisibilityIndex(visibilityOptions.findIndex((option) => option.value === post.visibility));
         if(post.pictureAttached){
@@ -215,7 +216,39 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         if(post.weatherVibe){
             setCurrentWeather(post.weatherVibe);
         }
-        
+        if(post.taggedUsernames && post.taggedUsernames.length > 0){
+            const res = await handleFetchBuddiesFromUsernames(post.taggedUsernames);
+
+            if(res.success){
+                const buddies:BuddyTag[] = res.data;
+                console.log(buddies);
+                buddies.forEach((buddy) => {
+                    buddy.tagged = true;
+                })
+                addTaggedBuddies(buddies);
+            }
+        }
+    }
+    const handleFetchBuddiesFromUsernames = async (usernames:string[]) => {
+        const path = '/api/buddies';
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(usernames)
+        }
+        try{
+            const res = await fetch(path, options);
+            if(res.status === 200){
+                return res.json();
+            }else{
+                return null;
+            }
+        }catch(err){
+            console.log(err);
+            return null;
+        }
     }
     const optionTemplate = (title:string, description:string, selectedOption:boolean) => {
         return(

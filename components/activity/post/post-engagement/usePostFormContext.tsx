@@ -2,6 +2,7 @@ import React, { useContext, createContext } from 'react';
 
 import { BuddyTag } from '../post-form/friend-tag-form/BuddyTagForm';
 import { set } from 'lodash';
+import { Buddy } from '../../../../types/User';
 
 interface PostFormProviderProps{
     children: React.ReactNode,
@@ -18,7 +19,7 @@ export interface PostFormContextType{
     addTaggedUsername: (taggedUser: BuddyTag) => void,
     removeTaggedUsername: (taggedUser: BuddyTag) => void,
     getTaggedUsernames: () => string[],
-    
+    addTaggedBuddies: (taggedBuddies: BuddyTag[]) => void,
     
 }
 export const PostFormContext = createContext<PostFormContextType|undefined>(
@@ -33,11 +34,20 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
     const [taggedBuddys, setTaggedUsernames] = React.useState<Set<BuddyTag>>(new Set());
     const [actionType, setActionType] = React.useState<string>(""); // action to perform on the buddy list [add, remove
     const addTaggedUsername = (taggedUser: BuddyTag) => {
-        console.log(taggedUser);
         setActionType('add');
         const newSet = new Set(taggedBuddys);
         newSet.add(taggedUser);
         setLastItemAdded(taggedUser.friendUsername);
+        setTaggedUsernames(newSet);
+        setAddTimestamp(new Date());
+    }
+    const addTaggedBuddies = (taggedBuddies: BuddyTag[]) => {
+        setActionType('add');
+        const newSet = new Set(taggedBuddies);
+        taggedBuddies.forEach((buddy) => {
+            buddy.tagged = true;
+            newSet.add(buddy);
+        })
         setTaggedUsernames(newSet);
         setAddTimestamp(new Date());
     }
@@ -73,6 +83,7 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
             getTaggedUsernames,
             actionType,
             reset,
+            addTaggedBuddies
         }}>
             {children}
         </PostFormContext.Provider>
