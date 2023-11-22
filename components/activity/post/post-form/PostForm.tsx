@@ -66,6 +66,10 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         setContent(e.target.value);
     }
     const handleUploadPictures = async (editing?:boolean) => {
+        if(editing){
+            //remove deleted images from s3 need to create api for this
+
+        }
         const formData = new FormData();
         attachedImages.forEach((image) => {
             formData.append('files', image);
@@ -147,6 +151,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     }
     
     const handleUploadPost = async () => {
+        //need to distinguish when edit or upload the new post
         setUploadingStatus("loading");
         let uploadedImagesURLs:string[] = [];
         if(attachedImages.length > 0){
