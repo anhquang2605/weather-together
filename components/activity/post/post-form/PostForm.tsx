@@ -32,6 +32,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [currentWeather, setCurrentWeather] = useState<any>(null);
     const {reset} = usePostFormContext();
     const addTaggedBuddies = usePostFormContext().addTaggedBuddies;
+    const [imageURLtoS3URLMap, setImageURLtoS3URLMap] = useState<Map<string, string>>(new Map<string, string>()); // [imageURL, s3URL
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
