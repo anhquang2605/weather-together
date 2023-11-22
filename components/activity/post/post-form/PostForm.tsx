@@ -34,6 +34,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const addTaggedBuddies = usePostFormContext().addTaggedBuddies;
     const [imageURLtoS3URLMap, setImageURLtoS3URLMap] = useState<Map<string, string>>(new Map<string, string>()); // [imageURL, s3URL
     const [editPreviewImageURLs, setEditPreviewImageURLs] = useState<string[]>([]);
+    const [removedAttachedImages, setRemovedAttachedImages] = useState<string[]>([]);
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
@@ -326,6 +327,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 setReveal={setRevealImageAttachForm}
                 setAttachedImages={setAttachedImages}
                 editPreviewImageURLs={editPreviewImageURLs}
+                setRemovedAttachedImages={setRemovedAttachedImages}
                 />}
 
            <AttachmentButtonGroup 

@@ -9,9 +9,10 @@ interface ImageAttachFormProps {
     revealState?: boolean;
     setAttachedImages: (value:Blob[]) => void;
     editPreviewImageURLs?: string[];
+    setRemovedAttachedImages?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs}: ImageAttachFormProps) {
+export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages}: ImageAttachFormProps) {
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
@@ -73,6 +74,11 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         setPreviewImageURLs(prevState => {
             const newState = [...prevState];
             newState.splice(index, 1);
+            return newState;
+        })
+        setRemovedAttachedImages && setRemovedAttachedImages(prevState => {
+            const newState = [...prevState];
+            newState.push(editPreviewImageURLs![index]);
             return newState;
         })
         setDroppedImages(prevState => {
