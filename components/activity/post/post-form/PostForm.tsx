@@ -33,6 +33,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const {reset} = usePostFormContext();
     const addTaggedBuddies = usePostFormContext().addTaggedBuddies;
     const [imageURLtoS3URLMap, setImageURLtoS3URLMap] = useState<Map<string, string>>(new Map<string, string>()); // [imageURL, s3URL
+    const [editPreviewImageURLs, setEditPreviewImageURLs] = useState<string[]>([]);
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
@@ -201,13 +202,15 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setOriginalAttachedImagePaths(imagePath);
             const imageBlobs = await Promise.all(imagePath.map(async (path:string) => {
                 //get blob from url
-                setImageURLtoS3URLMap(prevState => {
-                    const newState = new Map(prevState);
-                    newState.set(path, path);
-                    return newState;
-                })
                 const res = await fetch(path);
                 const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                setImageURLtoS3URLMap(prevState => {
+                    const newState = new Map(prevState);
+                    newState.set(url, path);
+                    return newState;
+                })
+                setEditPreviewImageURLs(prevState => [...prevState, url]);
                 return blob;
             }))
             setAttachedImages(imageBlobs);
@@ -322,7 +325,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 setPictureAttached={setPictureAttached} 
                 setReveal={setRevealImageAttachForm}
                 setAttachedImages={setAttachedImages}
-                attachedImages={attachedImages}
+                editPreviewImageURLs={editPreviewImageURLs}
                 />}
 
            <AttachmentButtonGroup 

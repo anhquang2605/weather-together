@@ -8,10 +8,10 @@ interface ImageAttachFormProps {
     setPictureAttached: (value:boolean) => void;
     revealState?: boolean;
     setAttachedImages: (value:Blob[]) => void;
-    attachedImages?: Blob[];
+    editPreviewImageURLs?: string[];
 }
 
-export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, attachedImages}: ImageAttachFormProps) {
+export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs}: ImageAttachFormProps) {
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
@@ -81,22 +81,26 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
             return newState;
         })
     }
-    const handleSetImageUrlsFromAttachedImages = (images: Blob[]) => {
-        const urls = images.map(image => URL.createObjectURL(image));
-        setPreviewImageURLs(urls);
+    const handleSetImageUrlsFromAttachedImages = (imagesURLs: string[]) => {
+        setPreviewImageURLs(prev => {
+            const newState = [...prev];
+            newState.push(...imagesURLs);
+            return newState;
+        });
     }
     const handleRemoveAllImagePreview = () => {
         setPreviewImageURLs([]);
         setDroppedImages([]);
+        //for edit case, make sure to remove all images attached to the post
     }
     useEffect(()=>{
         setAttachedImages(droppedImages);
     },[droppedImages])
     useEffect(()=>{
-        if(attachedImages && attachedImages.length > 0){
-            handleSetImageUrlsFromAttachedImages(attachedImages);
+        if(editPreviewImageURLs && editPreviewImageURLs.length > 0){
+            handleSetImageUrlsFromAttachedImages(editPreviewImageURLs);
         }
-    },[attachedImages])
+    },[editPreviewImageURLs])
     return (
     <div 
         onDragOver={handleCancelDragOver}
