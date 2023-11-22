@@ -201,6 +201,11 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setOriginalAttachedImagePaths(imagePath);
             const imageBlobs = await Promise.all(imagePath.map(async (path:string) => {
                 //get blob from url
+                setImageURLtoS3URLMap(prevState => {
+                    const newState = new Map(prevState);
+                    newState.set(path, path);
+                    return newState;
+                })
                 const res = await fetch(path);
                 const blob = await res.blob();
                 return blob;
