@@ -1,22 +1,17 @@
+import nextConnect from 'next-connect';
 import  s3Client from './s3client';
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
-
-export default async function deleteObjects(keys: string[]) {
-    const params = {
-        Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME as string,
-        Delete: {
-            Objects: keys.map((Key) => ({ Key })),
-            Quiet: false,
-        },
-    };
-    
-    try {
-        
-        const data = await s3Client.send(new DeleteObjectsCommand(params));
-        return data;
-    } catch (err) {
-        
-        console.log("Error", err);
-    }
-
-}
+import {NextApiRequest, NextApiResponse} from 'next';
+const handler = nextConnect<NextApiRequest,NextApiResponse>(
+    {onError(error, req, res) {
+        res
+          .status(501)
+          .json({ error: `Sorry something Happened! ${error.message}` });
+      },
+      onNoMatch(req, res) {
+        res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
+      }}
+);//npm install next-connect@0.10.2
+handler.delete(async (req, res) => {
+    console.log(req);
+})
