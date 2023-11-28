@@ -13,6 +13,7 @@ import { getImageDimensions } from '../../../../libs/pictures';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { current } from '@reduxjs/toolkit';
 import { BuddyTag } from './friend-tag-form/BuddyTagForm';
+import { is } from 'date-fns/locale';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,13 +66,24 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const handleContentChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     }
+    const handleDeletePicturesFromS3 = async (s3ImagePaths:string[]) => {
+        
+    }
     const handleUploadPictures = async (editing?:boolean) => {
+        let toBeUpload = [...attachedImages];
         if(editing){
-            //remove deleted images from s3 need to create api for this
-
+            //only upload new pictures
+            toBeUpload = attachedImages.filter((image) => {
+                const url = imageURLtoS3URLMap.get(URL.createObjectURL(image));
+                if(url){
+                    return false;
+                }else{
+                    return true;
+                }
+            })
         }
         const formData = new FormData();
-        attachedImages.forEach((image) => {
+        toBeUpload.forEach((image) => {
             formData.append('files', image);
         });
 
@@ -154,9 +166,19 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         //need to distinguish when edit or upload the new post
         setUploadingStatus("loading");
         let uploadedImagesURLs:string[] = [];
+        //if editing, check in the removed images, remove them from s3
+        if(isEditing){
+            for(let i = 0; i < removedAttachedImages.length; i++){
+               //check if the url is in the map, then remove from s3
+                const url = removedAttachedImages[i];
+                const s3URL = imageURLtoS3URLMap.get(url);
+                
+            }
+        }
         if(attachedImages.length > 0){
-
-            let response  = await handleUploadPictures();
+            
+            //check if there are any new images, upload them to s3
+            let response  = await handleUploadPictures(isEditing);
             if(response){  
                 uploadedImagesURLs = response.urls;
             }
