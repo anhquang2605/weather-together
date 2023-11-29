@@ -67,7 +67,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         setContent(e.target.value);
     }
     const handleDeletePicturesFromS3 = async (s3ImagePaths:string[]) => {
-        const urls = ['s3://weather-together-image-bucket/1688676886208-profile-picture.JPG','s3://weather-together-image-bucket/1688680002978-profile-picture.jpeg'];
         const path = '/api/s3/delete-urls';
         const options = {
             method: 'POST',
@@ -75,16 +74,18 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                urls: urls
+                urls: s3ImagePaths
             })
         }
         try{
             const res = await fetch(path, options);
             if(res.status === 200){
-                return true;
-            }else{
-                return false;
+                const result = await res.json();
+                if(result.success){
+                    return true;
+                }
             }
+            return false;
         }catch(err){
             console.log(err);
             return false;
@@ -189,11 +190,19 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         let uploadedImagesURLs:string[] = [];
         //if editing, check in the removed images, remove them from s3
         if(isEditing){
+            const matchedRemovedURLS = [];
             for(let i = 0; i < removedAttachedImages.length; i++){
                //check if the url is in the map, then remove from s3
                 const url = removedAttachedImages[i];
                 const s3URL = imageURLtoS3URLMap.get(url);
-
+                if(s3URL){
+                    matchedRemovedURLS.push(s3URL);
+                }
+            };
+            const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
+            if(!deleteRes){
+                setUploadingStatus("error");
+                return;
             }
         }
         if(attachedImages.length > 0){
@@ -356,6 +365,10 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setIsEditing(true);
         }
     },[revealed])
+    /*TO BE DELETED */
+    useEffect(()=>{
+        console.log("attached images: ", removedAttachedImages);
+    }, [removedAttachedImages])
     return (
         <div className="post-form w-full relative">
             <button onClick={() => {

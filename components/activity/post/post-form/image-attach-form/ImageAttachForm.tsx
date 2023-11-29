@@ -89,12 +89,23 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     }
     const handleSetImageUrlsFromAttachedImages = (imagesURLs: string[]) => {
         setPreviewImageURLs(prev => {
-            const newState = [...prev];
-            newState.push(...imagesURLs);
-            return newState;
+            const prevLen = prev.length;
+            const imagesURLsLen = imagesURLs.length;
+            if(imagesURLsLen > prevLen){
+                return imagesURLs;
+            }else{
+                const newState = [...prev];
+                newState.splice(imagesURLsLen, prevLen - imagesURLsLen);
+                return newState;
+            }
         });
     }
     const handleRemoveAllImagePreview = () => {
+        setRemovedAttachedImages && setRemovedAttachedImages(prevState => {
+            const newState = [...prevState];
+            newState.push(...editPreviewImageURLs!);
+            return newState;
+        })
         setPreviewImageURLs([]);
         setDroppedImages([]);
         //for edit case, make sure to remove all images attached to the post
