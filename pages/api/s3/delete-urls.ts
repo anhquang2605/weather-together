@@ -33,8 +33,7 @@ handler.post(async (req, res) => {//using post since the delete method does not 
               },
          });
         try{
-            const Deleted:Number[] = []
-            //const {Deleted} = await s3Client.send(command);
+            const {Deleted} = await s3Client.send(command);
             if(Deleted && Deleted.length > 0){
                 res.status(200).json({success: true, deleted: Deleted});
             }else{
@@ -46,7 +45,6 @@ handler.post(async (req, res) => {//using post since the delete method does not 
         }
 
     }
-    res.status(200).json({message: 'ok'});
 })
 
 export default handler;

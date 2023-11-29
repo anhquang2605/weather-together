@@ -67,6 +67,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         setContent(e.target.value);
     }
     const handleDeletePicturesFromS3 = async (s3ImagePaths:string[]) => {
+/*         const test = ['https://weather-together-image-bucket.s3.us-east-2.amazonaws.com/galaxy.png', 'https://weather-together-image-bucket.s3.us-east-2.amazonaws.com/google_bug.PNG'] */
         const path = '/api/s3/delete-urls';
         const options = {
             method: 'POST',
@@ -76,6 +77,9 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             body: JSON.stringify({
                 urls: s3ImagePaths
             })
+/*             body: JSON.stringify({
+                urls: test
+            }) */
         }
         try{
             const res = await fetch(path, options);
@@ -365,10 +369,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setIsEditing(true);
         }
     },[revealed])
-    /*TO BE DELETED */
-    useEffect(()=>{
-        console.log("attached images: ", removedAttachedImages);
-    }, [removedAttachedImages])
     return (
         <div className="post-form w-full relative">
             <button onClick={() => {
