@@ -29,13 +29,23 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
         }else{
             await navigator.geolocation.getCurrentPosition(async (position) => {
                 const coords = position.coords;
-                const cities = await getCitiesFromLongLat(
+                let cities = await getCitiesFromLongLat(
                     coords.latitude + "",
                     coords.longitude + "",
                     "2"
                 )
                  //need to be the user location, will pop up with the warning saying that the user will consent the app to have the location of the user
-                
+                if(!cities || cities.length === 0){
+                    //try again with larger radius
+                    cities = await getCitiesFromLongLat(
+                        coords.latitude + "",
+                        coords.longitude + "",
+                        "5"
+                    )
+                    if(!cities || cities.length === 0){
+                       return;
+                    }
+                }
                 let condition = await getCurrentWeather(cities[cities.length - 1].city || "");
                 if(condition){
                     const location = cities[cities.length - 1].city;

@@ -284,9 +284,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         if(post.pictureAttached){
             handleGettingPicturesForEditPost(post._id as string);
         }
-        if(post.weatherVibe){
-            setCurrentWeather(post.weatherVibe);
-        }
         if(post.taggedUsernames && post.taggedUsernames.length > 0){
             const res = await handleFetchBuddiesFromUsernames(post.taggedUsernames);
 
@@ -398,6 +395,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 taggedUsernames={taggedUsernames}
                 setCurrentWeather={setCurrentWeather}
                 currentWeather={currentWeather}
+                isEditing={isEditing}
                 />
 
             <div className="btn-group">
