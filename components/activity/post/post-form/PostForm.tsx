@@ -371,14 +371,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     },[revealed])
     return (
         <div className="post-form w-full relative">
-            <button onClick={() => {
-                handleDeletePicturesFromS3(
-                    [""]
-                )
-                }
-            }>
-                Delete Test
-            </button>
             <h3 className="form-title mb-4">Post Creation</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
