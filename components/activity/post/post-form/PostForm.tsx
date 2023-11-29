@@ -67,7 +67,26 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         setContent(e.target.value);
     }
     const handleDeletePicturesFromS3 = async (s3ImagePaths:string[]) => {
-        
+        const urls = ['s3://weather-together-image-bucket/1688676886208-profile-picture.JPG','s3://weather-together-image-bucket/1688680002978-profile-picture.jpeg'];
+        const path = '/api/s3/delete-urls';
+        const options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(urls)
+        }
+        try{
+            const res = await fetch(path, options);
+            if(res.status === 200){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(err){
+            console.log(err);
+            return false;
+        }
     }
     const handleUploadPictures = async (editing?:boolean) => {
         let toBeUpload = [...attachedImages];
@@ -172,7 +191,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                //check if the url is in the map, then remove from s3
                 const url = removedAttachedImages[i];
                 const s3URL = imageURLtoS3URLMap.get(url);
-                
+
             }
         }
         if(attachedImages.length > 0){
@@ -337,6 +356,14 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     },[revealed])
     return (
         <div className="post-form w-full relative">
+            <button onClick={() => {
+                handleDeletePicturesFromS3(
+                    [""]
+                )
+                }
+            }>
+                Delete Test
+            </button>
             <h3 className="form-title mb-4">Post Creation</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             

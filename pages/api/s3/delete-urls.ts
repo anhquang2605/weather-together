@@ -13,7 +13,8 @@ const handler = nextConnect<NextApiRequest,NextApiResponse>(
       }}
 );//npm install next-connect@0.10.2
 handler.delete(async (req, res) => {
-    const urls  = req.body;
+    const urls  = req;
+    console.log(req.body);
     if(!urls || !Array.isArray(urls)){
         res.status(400).json({error: 'Invalid request'});
     } else if(urls.length === 0){
@@ -32,7 +33,8 @@ handler.delete(async (req, res) => {
               },
          });
         try{
-            const {Deleted} = await s3Client.send(command);
+            const Deleted:Number[] = []
+            //const {Deleted} = await s3Client.send(command);
             if(Deleted && Deleted.length > 0){
                 res.status(200).json({success: true, deleted: Deleted});
             }else{
