@@ -12,7 +12,7 @@ const handler = nextConnect<NextApiRequest,NextApiResponse>(
         res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
       }}
 );//npm install next-connect@0.10.2
-handler.post(async (req, res) => {
+handler.post(async (req, res) => {//using post since the delete method does not have body in nextjs
     const urls  = req.body.urls;
     console.log(urls);
     if(!urls || !Array.isArray(urls)){
