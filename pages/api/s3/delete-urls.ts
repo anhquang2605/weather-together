@@ -12,9 +12,9 @@ const handler = nextConnect<NextApiRequest,NextApiResponse>(
         res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
       }}
 );//npm install next-connect@0.10.2
-handler.delete(async (req, res) => {
-    const urls  = req;
-    console.log(req.body);
+handler.post(async (req, res) => {
+    const urls  = req.body.urls;
+    console.log(urls);
     if(!urls || !Array.isArray(urls)){
         res.status(400).json({error: 'Invalid request'});
     } else if(urls.length === 0){

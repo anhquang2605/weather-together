@@ -70,11 +70,13 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         const urls = ['s3://weather-together-image-bucket/1688676886208-profile-picture.JPG','s3://weather-together-image-bucket/1688680002978-profile-picture.jpeg'];
         const path = '/api/s3/delete-urls';
         const options = {
-            method: 'DELETE',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(urls)
+            body: JSON.stringify({
+                urls: urls
+            })
         }
         try{
             const res = await fetch(path, options);
