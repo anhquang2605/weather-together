@@ -10,11 +10,12 @@ interface ImageAttachFormProps {
     setAttachedImages: (value:Blob[]) => void;
     editPreviewImageURLs?: string[];
     setRemovedAttachedImages?: React.Dispatch<React.SetStateAction<string[]>>;
+    previewImageURLs: string[];
+    setPreviewImageURLs: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages}: ImageAttachFormProps) {
+export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages, previewImageURLs, setPreviewImageURLs}: ImageAttachFormProps) {
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
-    const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
     //Editing states
     const fileInputRef = useRef<HTMLInputElement>(null);
 

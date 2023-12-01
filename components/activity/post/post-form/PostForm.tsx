@@ -28,6 +28,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [selectedVisibilityIndex, setSelectedVisibilityIndex] = useState<number>(0);
     const [revealImageAttachForm, setRevealImageAttachForm] = useState<boolean>(false);
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
+    const [previewImageURLs,setPreviewImageURLs] = useState<string[]>([]); // [blob url
     const [originalAttachedImagePaths, setOriginalAttachedImagePaths] = useState<String[]>([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
@@ -97,6 +98,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     }
     const handleUploadPictures = async (editing?:boolean) => {
         let toBeUpload = [...attachedImages];
+        
         if(editing){
             //only upload new pictures
             toBeUpload = attachedImages.filter((image) => {
@@ -386,6 +388,8 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 setAttachedImages={setAttachedImages}
                 editPreviewImageURLs={editPreviewImageURLs}
                 setRemovedAttachedImages={setRemovedAttachedImages}
+                previewImageURLs={previewImageURLs}
+                setPreviewImageURLs={setPreviewImageURLs}
                 />}
 
            <AttachmentButtonGroup 
