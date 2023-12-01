@@ -14,7 +14,6 @@ const handler = nextConnect<NextApiRequest,NextApiResponse>(
 );//npm install next-connect@0.10.2
 handler.post(async (req, res) => {//using post since the delete method does not have body in nextjs
     const urls  = req.body.urls;
-    console.log(urls);
     if(!urls || !Array.isArray(urls)){
         res.status(400).json({error: 'Invalid request'});
     } else if(urls.length === 0){
