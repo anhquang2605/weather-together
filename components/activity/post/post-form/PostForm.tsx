@@ -30,6 +30,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [attachedImages, setAttachedImages] = useState<Blob[]>([]);
     const [previewImageURLs,setPreviewImageURLs] = useState<string[]>([]); // [blob url
     const [originalAttachedImagePaths, setOriginalAttachedImagePaths] = useState<String[]>([]);
+    const [URLtoBlobMap, setURLtoBlobMap] = useState<Map<string, Blob>>(new Map<string, Blob>()); // [blob url, blob
     const [isEditing, setIsEditing] = useState(false);
     const [currentWeather, setCurrentWeather] = useState<any>(null);
     const {reset} = usePostFormContext();
@@ -97,18 +98,17 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
     }
     const handleUploadPictures = async (editing?:boolean) => {
-        let toBeUpload = [...attachedImages];
-        
-        if(editing){
-            //only upload new pictures
-            toBeUpload = attachedImages.filter((image) => {
-                const url = imageURLtoS3URLMap.get(URL.createObjectURL(image));
-                if(url){
-                    return false;
-                }else{
-                    return true;
-                }
-            })
+        // from the preview urls, get the blob, then upload to s3
+        // if editing, only upload new pictures
+        let toBeUpload:Blob[] = [];
+        for(let i = 0; i < previewImageURLs.length; i++){
+            const url = previewImageURLs[i];
+            const blob = URLtoBlobMap.get(url);
+            const thisBlobRemoved = removedAttachedImages.includes(url);
+            const s3URL = imageURLtoS3URLMap.get(url);
+            if(blob && !thisBlobRemoved && !s3URL){
+                toBeUpload.push(blob);
+            }
         }
         const formData = new FormData();
         toBeUpload.forEach((image) => {
@@ -269,6 +269,11 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 const res = await fetch(path);
                 const blob = await res.blob();
                 const url = URL.createObjectURL(blob);
+                setURLtoBlobMap(prevState => {
+                    const newState = new Map(prevState);
+                    newState.set(url, blob);
+                    return newState;
+                })
                 setImageURLtoS3URLMap(prevState => {
                     const newState = new Map(prevState);
                     newState.set(url, path);
@@ -370,7 +375,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     },[revealed])
     return (
         <div className="post-form w-full relative">
-            <h3 className="form-title mb-4">Post Creation</h3>        
+            <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
             <textarea 
@@ -390,6 +395,8 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 setRemovedAttachedImages={setRemovedAttachedImages}
                 previewImageURLs={previewImageURLs}
                 setPreviewImageURLs={setPreviewImageURLs}
+                URLtoBlobMap={URLtoBlobMap}
+                setURLtoBlobMap={setURLtoBlobMap}
                 />}
 
            <AttachmentButtonGroup 

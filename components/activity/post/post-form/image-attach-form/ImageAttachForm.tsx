@@ -3,6 +3,7 @@ import style from './image-attach-form.module.css'
 import { ImCloudUpload } from "react-icons/im";
 import {IoClose} from "react-icons/io5";
 import ImagePreviews from "./image-previews/ImagePreviews";
+import { set } from "lodash";
 interface ImageAttachFormProps {
     setReveal: React.Dispatch<React.SetStateAction<boolean>>;
     setPictureAttached: (value:boolean) => void;
@@ -12,9 +13,11 @@ interface ImageAttachFormProps {
     setRemovedAttachedImages?: React.Dispatch<React.SetStateAction<string[]>>;
     previewImageURLs: string[];
     setPreviewImageURLs: React.Dispatch<React.SetStateAction<string[]>>;
+    URLtoBlobMap: Map<string, Blob>;
+    setURLtoBlobMap: React.Dispatch<React.SetStateAction<Map<string, Blob>>>;
 }
 
-export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages, previewImageURLs, setPreviewImageURLs}: ImageAttachFormProps) {
+export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages, previewImageURLs, setPreviewImageURLs, setURLtoBlobMap}: ImageAttachFormProps) {
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     //Editing states
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -41,20 +44,14 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         if (files) {
             // Loop through all items in the DataTransferItemList object
             for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            // If items are files, proceed as that
-            if (file.kind === 'file') {
-                theFile = file.getAsFile();
-            }
+                const file = files[i];
+                // If items are files, proceed as that
+                if (file.kind === 'file') {
+                    theFile = file.getAsFile();
+                }
             }
             if (theFile) {
-            setDroppedImages(prevState => [...prevState, theFile as Blob]);
-            setPreviewImageURLs(prevState => 
-                    [
-                        ...prevState,
-                    URL.createObjectURL(theFile as Blob)
-                    ]
-                );
+                handleSettingImageFiles(theFile);
             }
         } 
     }
@@ -62,14 +59,23 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     const handleFileInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] ?? null;
         if(file){
-            setDroppedImages(prevState => [...prevState, file as Blob]);
-            setPreviewImageURLs(prevState => 
+            handleSettingImageFiles(file);
+        }
+    }
+    const handleSettingImageFiles = (theFile: Blob) => {
+        setDroppedImages(prevState => [...prevState, theFile as Blob]);
+        const theURL = URL.createObjectURL(theFile as Blob);
+        setURLtoBlobMap(prevState => {
+            const newState = new Map(prevState);
+            newState.set(theURL, theFile as Blob);
+            return newState;
+        })
+        setPreviewImageURLs(prevState => 
                 [
                     ...prevState,
-                URL.createObjectURL(file as Blob)
+                theURL
                 ]
-            );
-        }
+        );        
     }
     const handleRemoveImagePreview = (index:number) => {
         setPreviewImageURLs(prevState => {
