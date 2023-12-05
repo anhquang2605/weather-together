@@ -52,6 +52,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             username: curUsername.current,
             searchTerm,
             limit: LIMIT.toString(),
+            taggedUsernames: taggedUsernames.join(','),
             lastCursor: lastCursorRef.current? (
                 typeof lastCursorRef.current === 'string' ? lastCursorRef.current : lastCursorRef.current.toISOString()
             ) : new Date().toISOString()
@@ -118,10 +119,8 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         }
     }
     //UTILS
-
     useEffect(()=>{
         if(username.length && taggedUsernames.length === 0){
-            console.log("here");
             username.length && initialSearch();
             curUsername.current = username;
         }else {
