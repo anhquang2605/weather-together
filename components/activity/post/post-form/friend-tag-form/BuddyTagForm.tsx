@@ -97,7 +97,6 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         const {data} = fetchState;
         let lastFromMergedResult: Date | undefined;
         if(data && data.data.length > 0){
-
             const buddies = data.data;
             if(action === 'search'){
                 if(taggedUsernames.length > 0){
@@ -121,9 +120,11 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     //UTILS
 
     useEffect(()=>{
-        if(username.length){
+        if(username.length && taggedUsernames.length === 0){
             username.length && initialSearch();
             curUsername.current = username;
+        }else {
+            
         }
     },[username])
     useEffect(()=>{

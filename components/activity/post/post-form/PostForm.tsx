@@ -2,18 +2,15 @@ import { useEffect, useState } from 'react'
 import ImageAttachForm from './image-attach-form/ImageAttachForm';
 import CustomSelect from '../../../plugins/custom-select/CustomSelect';
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
-import style from './post-form.module.css'
 import AttachmentButtonGroup from './attachment-button-group/AttachmentButtonGroup';
 import { usePostFormContext } from '../post-engagement/usePostFormContext';
-import { set } from 'lodash';
 import { Picture } from '../../../../types/Picture';
-import { Post, WeatherVibe } from '../../../../types/Post';
+import { Post} from '../../../../types/Post';
 import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionStatusBox';
 import { getImageDimensions } from '../../../../libs/pictures';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
-import { current } from '@reduxjs/toolkit';
 import { BuddyTag } from './friend-tag-form/BuddyTagForm';
-import { is } from 'date-fns/locale';
+
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
