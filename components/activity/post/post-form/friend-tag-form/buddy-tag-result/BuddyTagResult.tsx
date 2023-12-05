@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import style from './buddy-tag-result.module.css';
-
 import BuddyCard from '../../../../../user/buddy-card/BuddyCard';
 import { usePostFormContext } from '../../../post-engagement/usePostFormContext';
 import useLazyFetch from '../../../../../../hooks/lazy-fetch/useLazyFetch';

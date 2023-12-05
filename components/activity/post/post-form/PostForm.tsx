@@ -288,7 +288,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         if(post.pictureAttached){
             handleGettingPicturesForEditPost(post._id as string);
         }
-/*         if(post.taggedUsernames && post.taggedUsernames.length > 0){
+        if(post.taggedUsernames && post.taggedUsernames.length > 0){
             const res = await handleFetchBuddiesFromUsernames(post.taggedUsernames);
             if(res.success){
                 const buddies:BuddyTag[] = res.data;
@@ -297,7 +297,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 })
                 addTaggedBuddies(buddies);
             }
-        } //for some cases, the list received have multiple Quang Chu*/
+        }
     }
     const handleFetchBuddiesFromUsernames = async (usernames:string[]) => {
         const path = '/api/buddies';
