@@ -290,10 +290,8 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
         if(post.taggedUsernames && post.taggedUsernames.length > 0){
             const res = await handleFetchBuddiesFromUsernames(post.taggedUsernames);
-
             if(res.success){
                 const buddies:BuddyTag[] = res.data;
-                console.log(buddies);
                 buddies.forEach((buddy) => {
                     buddy.tagged = true;
                 })

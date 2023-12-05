@@ -121,10 +121,11 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
 
     useEffect(()=>{
         if(username.length && taggedUsernames.length === 0){
+            console.log("here");
             username.length && initialSearch();
             curUsername.current = username;
         }else {
-            
+
         }
     },[username])
     useEffect(()=>{
