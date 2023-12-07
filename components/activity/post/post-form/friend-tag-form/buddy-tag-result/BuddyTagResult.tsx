@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import style from './buddy-tag-result.module.css';
 import BuddyCard from '../../../../../user/buddy-card/BuddyCard';
 import { usePostFormContext } from '../../../post-engagement/usePostFormContext';
@@ -17,6 +17,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
     const {postId} = useContext(PostFormContext);
     const {addTaggedUsername, getUniquePostId} = usePostFormContext();
     const [fetchState] = useLazyFetch();
+    const [postUniqueId, setPostUniqueId] = useState<string>(getUniquePostId(postId));
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
         if(target.isIntersecting){
@@ -28,7 +29,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
             const options = {
                 root: document.querySelector(`.${style['buddy-tag-result']}`) as HTMLDivElement,
             }
-            const target = document.querySelector(`.${style['lazy-target']}`) as HTMLDivElement;
+            const target = document.querySelector(`#lazy-target-${postUniqueId}`) as HTMLDivElement;
             const observer = new IntersectionObserver(handleIntersect, options);
             observer.observe(target);
             return () => {
@@ -58,7 +59,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
                         {jsxResults}
 
                     </div>
-                    <div id="" className={style['lazy-target'] + " " + (fetchingMore ? style['fetching'] : '')}>
+                    <div id={"lazy-target-" + (postUniqueId)} className={style['lazy-target'] + " " + (fetchingMore ? style['fetching'] : '')}>
                             <span>Loading more...</span>
                     </div>
                 </>}
