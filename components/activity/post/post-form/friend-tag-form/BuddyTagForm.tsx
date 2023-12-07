@@ -14,6 +14,7 @@ import TaggedBuddy from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
 import { mergeAndSortUniqueArrays } from '../../../../../utils/arrays';
 interface BuddyTagFormProps {
     username: string;
+    postId?: string;
 }
 export interface BuddyTag extends Buddy{
     tagged?: boolean;
