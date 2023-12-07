@@ -5,6 +5,7 @@ import { usePostFormContext } from '../../../post-engagement/usePostFormContext'
 import useLazyFetch from '../../../../../../hooks/lazy-fetch/useLazyFetch';
 import { BuddyTag } from '../BuddyTagForm';
 import PostFormContext from '../../postFormConext';
+import { uniqueId } from 'lodash';
 interface BuddyTagResultProps {
     results: BuddyTag[];
     fetchMore: () => void;
@@ -28,7 +29,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
         
         if(hasMore && fetchState.status === 'idle'){
             const options = {
-                root: document.querySelector(`.${style['buddy-tag-result']}`) as HTMLDivElement,
+                root: document.querySelector(`#result-${postUniqueId}`) as HTMLDivElement,
             }
             const target = document.querySelector(`#lazy-target-${postUniqueId}`) as HTMLDivElement;
             const observer = new IntersectionObserver(handleIntersect, options);
@@ -49,7 +50,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
             
                     buddies found
             </div>   
-            <div className={style['buddy-tag-result']}>
+            <div id={"result-"+postUniqueId} className={style['buddy-tag-result']}>
                 <span className={"w-0 h-0 overflow-hidden flex items-center justify-center bg-slate-400 animate-pulse " + (fetchState.status === 'loading' && style['loading']) }>
                     Loading...
                 </span>
