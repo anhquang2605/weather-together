@@ -10,7 +10,7 @@ import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionSta
 import { getImageDimensions } from '../../../../libs/pictures';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { BuddyTag } from './friend-tag-form/BuddyTagForm';
-
+import  PostFormContext  from './postFormConext';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -369,6 +369,9 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
     },[revealed])
     return (
+        <PostFormContext.Provider value={{
+            postId: post && post._id ? post._id : "",
+        }}>
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
@@ -416,6 +419,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 setCurrentApiStatus={setUploadingStatus}
             />}
         </div>
+        </PostFormContext.Provider>
     )
 }
 

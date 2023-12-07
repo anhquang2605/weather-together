@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import style from './buddy-tag-result.module.css';
 import BuddyCard from '../../../../../user/buddy-card/BuddyCard';
 import { usePostFormContext } from '../../../post-engagement/usePostFormContext';
 import useLazyFetch from '../../../../../../hooks/lazy-fetch/useLazyFetch';
 import { BuddyTag } from '../BuddyTagForm';
-
+import PostFormContext from '../../postFormConext';
 interface BuddyTagResultProps {
     results: BuddyTag[];
     fetchMore: () => void;
@@ -14,7 +14,8 @@ interface BuddyTagResultProps {
 }
 
 const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasMore, fetchingMore, counts}) => {
-    const {addTaggedUsername} = usePostFormContext();
+    const {postId} = useContext(PostFormContext);
+    const {addTaggedUsername, getUniquePostId} = usePostFormContext();
     const [fetchState] = useLazyFetch();
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
@@ -57,7 +58,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
                         {jsxResults}
 
                     </div>
-                    <div className={style['lazy-target'] + " " + (fetchingMore ? style['fetching'] : '')}>
+                    <div id="" className={style['lazy-target'] + " " + (fetchingMore ? style['fetching'] : '')}>
                             <span>Loading more...</span>
                     </div>
                 </>}
