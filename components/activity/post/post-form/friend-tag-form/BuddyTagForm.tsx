@@ -75,6 +75,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
 
     }
     const handleFetchMore = () => {
+        console.log("fetchching more");
         setFetchingMore(true);
         setAction('fetch');
         debouncedFetch();

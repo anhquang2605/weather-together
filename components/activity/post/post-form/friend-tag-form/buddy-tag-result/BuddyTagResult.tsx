@@ -33,7 +33,6 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
             return () => {
                 observer.disconnect();
             }
-        
         }
     },[hasMore, fetchState.status])
     const jsxResults = results.map((buddy,index) => {
