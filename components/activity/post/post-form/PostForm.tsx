@@ -368,6 +368,11 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setIsEditing(true);
         }
     },[revealed])
+    useEffect(()=>{
+        if(isEditing){
+            setRevealImageAttachForm(true);
+        }
+    },[isEditing])
     return (
         <PostFormContext.Provider value={{
             postId: post && post._id ? post._id : "",
