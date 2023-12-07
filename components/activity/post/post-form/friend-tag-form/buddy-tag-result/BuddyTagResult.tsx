@@ -25,6 +25,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
         }
     }
     useEffect(()=>{
+        
         if(hasMore && fetchState.status === 'idle'){
             const options = {
                 root: document.querySelector(`.${style['buddy-tag-result']}`) as HTMLDivElement,
