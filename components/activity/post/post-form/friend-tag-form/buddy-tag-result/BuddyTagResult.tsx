@@ -13,7 +13,10 @@ interface BuddyTagResultProps {
     fetchingMore: boolean;
     counts: number;
 }
-
+/*
+    First detect whenever there is buddy tag added (preferably during the initial state)
+    Then from here, filter out the result of the buddy tag result
+*/
 const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasMore, fetchingMore, counts}) => {
     const {postId} = useContext(PostFormContext);
     const {addTaggedUsername, getUniquePostId} = usePostFormContext();
