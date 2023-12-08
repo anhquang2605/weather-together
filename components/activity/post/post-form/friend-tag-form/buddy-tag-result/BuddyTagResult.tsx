@@ -20,11 +20,8 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
     const [fetchState] = useLazyFetch();
     const [postUniqueId, setPostUniqueId] = useState<string>(getUniquePostId(postId));
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-        console.log("here");
-        const target = entries[0];
-        console.log(target);
+        const target = entries.find(entry => entry.target.id.includes(postUniqueId));
         if(target && target.isIntersecting){
-            console.log(postUniqueId + " is intersecting")
             fetchMore();
         }
     }
