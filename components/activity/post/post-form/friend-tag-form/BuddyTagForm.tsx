@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { use, useContext, useEffect, useRef, useState } from 'react';
 import style from './buddy-tag-form.module.css';
 import {IoReturnUpBack} from 'react-icons/io5'
 import SearchBar from '../../../../plugins/search-bar/SearchBar';
@@ -12,6 +12,7 @@ import { usePostFormContext } from '../../post-engagement/usePostFormContext';
 import TaggedUserCloud from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
 import TaggedBuddy from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
 import { mergeAndSortUniqueArrays } from '../../../../../utils/arrays';
+import PostFormContext from '../postFormConext';
 interface BuddyTagFormProps {
     username: string;
     postId?: string;
@@ -24,6 +25,7 @@ export interface BuddyTag extends Buddy{
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const taggedUsernames = usePostFormContext().getTaggedUsernames();
     const {taggedBuddys, lastItemRemoved, lastItemAdded, addTimestamp, removeimestamp} = usePostFormContext();
+    const editMode = useContext(PostFormContext).editMode;
     const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
     const curUsername = useRef<string>(username);
     const {setActiveSlide} = useViewSliderContext();
@@ -159,6 +161,19 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     useEffect(()=>{
         lastCursorRef.current = lastCursor;
     },[lastCursor])
+    useEffect(()=>{
+        if(taggedBuddys && taggedBuddys.size > 0 && editMode){  
+            const newResult = [...searchResult];
+            taggedBuddys.forEach((buddy) => {//need to improve this later on, this is not efficient
+                const index = newResult.findIndex((b) => b.friendUsername === buddy.friendUsername);
+                if(index !== -1){
+                    newResult[index].tagged = true;
+                }
+            })
+            setSearchResult(newResult);    
+        }
+        
+    },[taggedBuddys])
     return (
         <div className={style['buddy-tag-form']}>
             <button className="flex flex-row items-center" onClick={()=>{

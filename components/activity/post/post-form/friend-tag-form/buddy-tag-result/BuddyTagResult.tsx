@@ -19,7 +19,7 @@ interface BuddyTagResultProps {
 */
 const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasMore, fetchingMore, counts}) => {
     const {postId} = useContext(PostFormContext);
-    const {addTaggedUsername, getUniquePostId} = usePostFormContext();
+    const {addTaggedUsername, getUniquePostId, taggedBuddys} = usePostFormContext();
     const [fetchState] = useLazyFetch();
     const [postUniqueId, setPostUniqueId] = useState<string>(getUniquePostId(postId));
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
@@ -46,6 +46,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
             <BuddyCard key={index} tagged={buddy.tagged || false} onClickHandler={addTaggedUsername} buddy={buddy} hoverTitle='Tag This Buddy'/>
         )
     })
+    
     return (
         <>
             <div className={style['result-header'] + " mb-2 uppercase"}>

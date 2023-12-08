@@ -376,6 +376,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     return (
         <PostFormContext.Provider value={{
             postId: post && post._id ? post._id : "",
+            editMode: isEditing,
         }}>
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        
