@@ -22,6 +22,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
     const {addTaggedUsername, getUniquePostId, taggedBuddys} = usePostFormContext();
     const [fetchState] = useLazyFetch();
     const [postUniqueId, setPostUniqueId] = useState<string>(getUniquePostId(postId));
+    const [resultsState, setResultsState] = useState<BuddyTag[]>(results);
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
         const target = entries.find(entry => entry.target.id.includes(postUniqueId));
         if(target && target.isIntersecting){
@@ -41,7 +42,13 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
             }
         }
     },[hasMore, fetchState.status])
-    const jsxResults = results.map((buddy,index) => {
+    useEffect(()=>{
+        if(results.length > 0){
+            console.log(results);
+            setResultsState(results);
+        }
+    },[results])
+    const jsxResults = resultsState.map((buddy,index) => {
         return (
             <BuddyCard key={index} tagged={buddy.tagged || false} onClickHandler={addTaggedUsername} buddy={buddy} hoverTitle='Tag This Buddy'/>
         )
