@@ -7,7 +7,7 @@ interface PostFormContextType{
     setEditMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PostFormContext = createContext<PostFormContextType|null>(null);
+const PostFormContext = createContext<PostFormContextType|undefined>(undefined);
 
 interface PostFormContextProviderProps{
     children: React.ReactNode
@@ -30,7 +30,7 @@ export const PostFormContextProvider: React.FC<PostFormContextProviderProps> = (
 }
 export const usePostFormContext2 = () => {
     const context = useContext(PostFormContext);
-    if(context === null){
+    if(context === undefined){
         throw new Error('usePostFormContext must be used within PostFormContextProvider');
     }
     return context;
