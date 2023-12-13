@@ -44,7 +44,7 @@ const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasM
     },[hasMore, fetchState.status])
     useEffect(()=>{
         if(results.length > 0){
-            console.log(results);
+        
             setResultsState(results);
         }
     },[results])

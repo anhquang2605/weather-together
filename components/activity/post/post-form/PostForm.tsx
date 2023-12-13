@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ImageAttachForm from './image-attach-form/ImageAttachForm';
 import CustomSelect from '../../../plugins/custom-select/CustomSelect';
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
@@ -35,6 +35,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [imageURLtoS3URLMap, setImageURLtoS3URLMap] = useState<Map<string, string>>(new Map<string, string>()); // [imageURL, s3URL
     const [editPreviewImageURLs, setEditPreviewImageURLs] = useState<string[]>([]);
     const [removedAttachedImages, setRemovedAttachedImages] = useState<string[]>([]);
+    const isEditingRef = useRef<boolean>(false);
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
@@ -369,14 +370,16 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
     },[revealed])
     useEffect(()=>{
+    console.log(isEditing);
         if(isEditing){
             setRevealImageAttachForm(true);
         }
+        isEditingRef.current = isEditing;
     },[isEditing])
     return (
         <PostFormContext.Provider value={{
             postId: post && post._id ? post._id : "",
-            editMode: isEditing,
+            editMode: isEditingRef.current,
         }}>
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        
