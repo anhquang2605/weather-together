@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import ImageAttachForm from './image-attach-form/ImageAttachForm';
 import CustomSelect from '../../../plugins/custom-select/CustomSelect';
 import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
@@ -10,7 +10,8 @@ import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionSta
 import { getImageDimensions } from '../../../../libs/pictures';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { BuddyTag } from './friend-tag-form/BuddyTagForm';
-import  PostFormContext  from './postFormConext';
+import  PostFormContext, { usePostFormContext2 }  from './postFormContext';
+import { set } from 'lodash';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,7 +36,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const [imageURLtoS3URLMap, setImageURLtoS3URLMap] = useState<Map<string, string>>(new Map<string, string>()); // [imageURL, s3URL
     const [editPreviewImageURLs, setEditPreviewImageURLs] = useState<string[]>([]);
     const [removedAttachedImages, setRemovedAttachedImages] = useState<string[]>([]);
-    const isEditingRef = useRef<boolean>(false);
+    const {setEditMode, setPostId} = usePostFormContext2();
     const apiStatusAndMessageMap = new Map<string, string>(
         [
             ["idle", ""],
@@ -365,21 +366,21 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     },[attachedImages])
     useEffect(()=>{
         if(revealed && post){
+            setPostId(post._id as string);
             handleFillFormForEditPost(post);
             setIsEditing(true);
+        }else if(!revealed){
+            resetForm();
+            setIsEditing(false);
         }
     },[revealed])
     useEffect(()=>{
         if(isEditing){
             setRevealImageAttachForm(true);
         }
-        
+        setEditMode(isEditing);
     },[isEditing])
     return (
-        <PostFormContext.Provider value={{
-            postId: post && post._id ? post._id : "",
-            editMode: isEditing,
-        }}>
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
@@ -427,7 +428,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 setCurrentApiStatus={setUploadingStatus}
             />}
         </div>
-        </PostFormContext.Provider>
+
     )
 }
 

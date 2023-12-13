@@ -4,8 +4,7 @@ import BuddyCard from '../../../../../user/buddy-card/BuddyCard';
 import { usePostFormContext } from '../../../post-engagement/usePostFormContext';
 import useLazyFetch from '../../../../../../hooks/lazy-fetch/useLazyFetch';
 import { BuddyTag } from '../BuddyTagForm';
-import PostFormContext from '../../postFormConext';
-import { uniqueId } from 'lodash';
+import { usePostFormContext2 } from '../../postFormContext';
 interface BuddyTagResultProps {
     results: BuddyTag[];
     fetchMore: () => void;
@@ -18,7 +17,7 @@ interface BuddyTagResultProps {
     Then from here, filter out the result of the buddy tag result
 */
 const BuddyTagResult: React.FC<BuddyTagResultProps> = ({results, fetchMore, hasMore, fetchingMore, counts}) => {
-    const {postId} = useContext(PostFormContext);
+    const {postId} = usePostFormContext2();
     const {addTaggedUsername, getUniquePostId, taggedBuddys} = usePostFormContext();
     const [fetchState] = useLazyFetch();
     const [postUniqueId, setPostUniqueId] = useState<string>(getUniquePostId(postId));

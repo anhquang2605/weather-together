@@ -9,10 +9,11 @@ import { BuddyFetchResponse, BuddyParams } from '../../../../../pages/api/buddie
 import BuddyTagResult from './buddy-tag-result/BuddyTagResult';
 import { useViewSliderContext } from '../../../../plugins/view-slider/useViewSliderContext';
 import { usePostFormContext } from '../../post-engagement/usePostFormContext';
+import { usePostFormContext2 } from '../postFormContext';
 import TaggedUserCloud from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
 import TaggedBuddy from '../../../../widgets/tagged-user-cloud/TaggedBuddy';
 import { mergeAndSortUniqueArrays } from '../../../../../utils/arrays';
-import PostFormContext from '../postFormConext';
+
 interface BuddyTagFormProps {
     username: string;
     postId?: string;
@@ -25,7 +26,7 @@ export interface BuddyTag extends Buddy{
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const taggedUsernames = usePostFormContext().getTaggedUsernames();
     const {taggedBuddys, lastItemRemoved, lastItemAdded, addTimestamp, removeimestamp} = usePostFormContext();
-    const editMode = useContext(PostFormContext).editMode;
+    const {editMode} = usePostFormContext2();
     const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
     const curUsername = useRef<string>(username);
     const {setActiveSlide} = useViewSliderContext();
@@ -160,7 +161,10 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     useEffect(()=>{
         lastCursorRef.current = lastCursor;
     },[lastCursor])
-    useEffect(()=>{
+/*     useEffect(()=>{
+        console.log(editMode);
+    },[editMode]) */
+ /*    useEffect(()=>{
         console.log(taggedBuddys, searchResult, editMode);
         if(taggedBuddys && taggedBuddys.size > 0 && searchResult && editMode){  
 
@@ -174,7 +178,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             setSearchResult(newResult);    
         }
         
-    },[taggedBuddys, searchResult, editMode])
+    },[taggedBuddys, searchResult, editMode]) */
     return (
         <div className={style['buddy-tag-form']}>
             <button className="flex flex-row items-center" onClick={()=>{
