@@ -370,16 +370,15 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
     },[revealed])
     useEffect(()=>{
-    console.log(isEditing);
         if(isEditing){
             setRevealImageAttachForm(true);
         }
-        isEditingRef.current = isEditing;
+        
     },[isEditing])
     return (
         <PostFormContext.Provider value={{
             postId: post && post._id ? post._id : "",
-            editMode: isEditingRef.current,
+            editMode: isEditing,
         }}>
         <div className="post-form w-full relative">
             <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        

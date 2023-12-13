@@ -29,9 +29,6 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy, hoverTitle = '', onClickHan
             target.classList.remove(style['tagged']);
         }
     },[lastItemRemoved])    */ 
-    useEffect(()=>{
-        console.log(buddy.tagged);
-    },[])
     return (
         <div onClick={(event)=> {
             handleCardClick(event);

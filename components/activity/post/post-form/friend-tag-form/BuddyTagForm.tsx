@@ -78,7 +78,6 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
 
     }
     const handleFetchMore = () => {
-        console.log("fetchching more");
         setFetchingMore(true);
         setAction('fetch');
         debouncedFetch();
@@ -175,7 +174,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             setSearchResult(newResult);    
         }
         
-    },[taggedBuddys, searchResult])
+    },[taggedBuddys, searchResult, editMode])
     return (
         <div className={style['buddy-tag-form']}>
             <button className="flex flex-row items-center" onClick={()=>{
