@@ -6,14 +6,13 @@ interface PostFormContextType{
     setPostId: React.Dispatch<React.SetStateAction<string>>,
     setEditMode: React.Dispatch<React.SetStateAction<boolean>>
 }
-
-const PostFormContext = createContext<PostFormContextType|undefined>(undefined);
+export const PostFormContext = createContext<PostFormContextType|undefined>(undefined);
 
 interface PostFormContextProviderProps{
     children: React.ReactNode
 }
 
-export const PostFormContextProvider: React.FC<PostFormContextProviderProps> = ({children}) => {
+export function PostFormContextProvider ({children}:PostFormContextProviderProps) {
     const [postId, setPostId] = useState<string>('');
     const [editMode, setEditMode] = useState<boolean>(false);
     const value = {
@@ -28,11 +27,10 @@ export const PostFormContextProvider: React.FC<PostFormContextProviderProps> = (
         </PostFormContext.Provider>
     )
 }
-export const usePostFormContext2 = () => {
+export const usePostFormContext2 = ():PostFormContextType => {
     const context = useContext(PostFormContext);
     if(context === undefined){
         throw new Error('usePostFormContext must be used within PostFormContextProvider');
     }
     return context;
 }
-export default PostFormContext;

@@ -10,7 +10,7 @@ import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionSta
 import { getImageDimensions } from '../../../../libs/pictures';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { BuddyTag } from './friend-tag-form/BuddyTagForm';
-import  PostFormContext, { usePostFormContext2 }  from './postFormContext';
+import { usePostFormContext2 }  from './postFormContext';
 import { set } from 'lodash';
 interface PostFormProps {
     username: string;
