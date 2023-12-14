@@ -104,7 +104,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         if(data && data.data.length > 0){
             const buddies = data.data;
             if(action === 'search'){
-                if(taggedUsernames.length > 0){
+                if(taggedUsernames.length > 0 || taggedBuddys.size > 0){
                     const oldTags = new Set(taggedBuddys);
                     const mergedResult = mergeAndSortUniqueArrays(oldTags, buddies, compareBuddiesBySince, getTimeFromBuddy);
                     setSearchResult(mergedResult);
@@ -162,8 +162,8 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         lastCursorRef.current = lastCursor;
     },[lastCursor])
     useEffect(()=>{
-        if(taggedBuddys && taggedBuddys.size > 0 && editMode){  
-
+        if(taggedBuddys && taggedBuddys.size > 0 &&  editMode){  
+            //Need to filter whenever the result is updated
             const newResult = [...searchResult];
             taggedBuddys.forEach((buddy) => {//need to improve this later on, this is not efficient
                 const index = newResult.findIndex((b) => b.friendUsername === buddy.friendUsername);
