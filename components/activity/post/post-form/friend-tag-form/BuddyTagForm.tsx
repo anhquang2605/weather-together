@@ -161,12 +161,8 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     useEffect(()=>{
         lastCursorRef.current = lastCursor;
     },[lastCursor])
-/*     useEffect(()=>{
-        console.log(editMode);
-    },[editMode]) */
- /*    useEffect(()=>{
-        console.log(taggedBuddys, searchResult, editMode);
-        if(taggedBuddys && taggedBuddys.size > 0 && searchResult && editMode){  
+    useEffect(()=>{
+        if(taggedBuddys && taggedBuddys.size > 0 && editMode){  
 
             const newResult = [...searchResult];
             taggedBuddys.forEach((buddy) => {//need to improve this later on, this is not efficient
@@ -178,7 +174,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
             setSearchResult(newResult);    
         }
         
-    },[taggedBuddys, searchResult, editMode]) */
+    },[taggedBuddys, editMode])
     return (
         <div className={style['buddy-tag-form']}>
             <button className="flex flex-row items-center" onClick={()=>{
