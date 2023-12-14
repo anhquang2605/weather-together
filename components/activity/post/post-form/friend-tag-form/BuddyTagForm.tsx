@@ -98,6 +98,20 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const getTimeFromBuddy = (buddy: BuddyTag) => {
         return new Date(buddy.since).getTime();
     }
+    /**
+     * This function is called to filter result using the taggedBuddys state
+     */
+    const handleFilterThenSetResult = () => {
+        //Need to filter whenever the result is updated
+        const newResult = [...searchResult];
+        taggedBuddys.forEach((buddy) => {//need to improve this later on, this is not efficient
+            const index = newResult.findIndex((b) => b.friendUsername === buddy.friendUsername);
+            if(index !== -1){
+                newResult[index].tagged = true;
+            }
+        })
+        setSearchResult(newResult);  
+    }
     const handleSetResult = () => {
         const {data} = fetchState;
         let lastFromMergedResult: Date | undefined;
@@ -163,15 +177,7 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     },[lastCursor])
     useEffect(()=>{
         if(taggedBuddys && taggedBuddys.size > 0 &&  editMode){  
-            //Need to filter whenever the result is updated
-            const newResult = [...searchResult];
-            taggedBuddys.forEach((buddy) => {//need to improve this later on, this is not efficient
-                const index = newResult.findIndex((b) => b.friendUsername === buddy.friendUsername);
-                if(index !== -1){
-                    newResult[index].tagged = true;
-                }
-            })
-            setSearchResult(newResult);    
+              handleFilterThenSetResult();
         }
         
     },[taggedBuddys, editMode])
