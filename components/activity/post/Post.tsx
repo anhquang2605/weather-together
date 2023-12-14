@@ -383,17 +383,20 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                 />
             }
             <Modal status={revealEditForm} containerClassName='form-container' onClose={handleOnCloseModal}>
-                <PostFormContextProvider>
+  
                     <PostFormProvider>
                         <ViewSliderProvider
                             childSlidesContent={
                                 [
-                                    <PostForm
-                                    setRevealModal={setRevealEditForm}
-                                    username={author}
-                                    post = {post}
-                                    revealed={revealEditForm}
-                                    />,
+                                    <PostFormContextProvider>
+                                            <PostForm
+                                        setRevealModal={setRevealEditForm}
+                                        username={author}
+                                        post = {post}
+                                        revealed={revealEditForm}
+                                        />
+                                    </PostFormContextProvider>
+                                        ,
                                     <BuddyTagForm
                                         username={author}
                                     />
@@ -402,7 +405,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                         />
 
                     </PostFormProvider>
-                </PostFormContextProvider>
+                
                
             </Modal>
         </>

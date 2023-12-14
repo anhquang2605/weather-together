@@ -7,6 +7,7 @@ import { PostFormProvider } from './usePostFormContext';
 import ViewSlider from '../../../plugins/view-slider/ViewSlider';
 import BuddyTagForm from '../post-form/friend-tag-form/BuddyTagForm';
 import { ViewSliderProvider } from '../../../plugins/view-slider/useViewSliderContext';
+import { PostFormContextProvider } from '../post-form/postFormContext';
 interface PostEngagementProps {
     username: string;
 }
@@ -30,23 +31,23 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
 
         </div>
             <Modal status={revealForm} containerClassName='form-container' onClose={handleOnCloseModal}>
-                <PostFormProvider>
-                    <ViewSliderProvider
-                        childSlidesContent={
-                            [
-                                <PostForm
-                                setRevealModal={setRevealForm}
-                                 username={username}
-                                />,
-                                <BuddyTagForm
+                <PostFormContextProvider>
+                    <PostFormProvider>
+                        <ViewSliderProvider
+                            childSlidesContent={
+                                [
+                                    <PostForm
+                                    setRevealModal={setRevealForm}
                                     username={username}
-                                />
-                            ]
-                        }
-                    />
-
-                </PostFormProvider>
-               
+                                    />,
+                                    <BuddyTagForm
+                                        username={username}
+                                    />
+                                ]
+                            }
+                        />
+                    </PostFormProvider>
+                </PostFormContextProvider>
             </Modal>
         </>
       
