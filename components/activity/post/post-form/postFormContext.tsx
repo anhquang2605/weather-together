@@ -1,12 +1,12 @@
 import {createContext, useContext, useState} from 'react';
 
-interface PostFormContextType{
+interface PostFormContextType2{
     postId: string,
     editMode: boolean,
     setPostId: React.Dispatch<React.SetStateAction<string>>,
     setEditMode: React.Dispatch<React.SetStateAction<boolean>>
 }
-export const PostFormContext2 = createContext<PostFormContextType|undefined>(undefined);
+export const PostFormContext2 = createContext<PostFormContextType2|undefined>(undefined);
 
 interface PostFormContextProviderProps{
     children: React.ReactNode
@@ -27,7 +27,7 @@ export function PostFormContextProvider ({children}:PostFormContextProviderProps
         </PostFormContext2.Provider>
     )
 }
-export const usePostFormContext2 = ():PostFormContextType => {
+export const usePostFormContext2 = ():PostFormContextType2 => {
     const context = useContext(PostFormContext2);
     if(context === undefined){
         throw new Error('usePostFormContext must be used within PostFormContextProvider');
