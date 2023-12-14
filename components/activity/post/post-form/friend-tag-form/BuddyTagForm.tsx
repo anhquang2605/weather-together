@@ -116,7 +116,10 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         const {data} = fetchState;
         let lastFromMergedResult: Date | undefined;
         if(data && data.data.length > 0){
-            const buddies = data.data;
+            let buddies = data.data;
+            if(taggedBuddys.size > 0 && editMode){
+                handleFilterThenSetResult();
+            }
             if(action === 'search'){
                 if(taggedUsernames.length > 0 || taggedBuddys.size > 0){
                     const oldTags = new Set(taggedBuddys);
