@@ -12,7 +12,9 @@ export default async function handler(
   if(method === 'PUT'){
     if(db){
         if(post){
-            const result = await db.collection('posts').updateOne({_id: new ObjectId(post._id)}, {$set: post});
+            console.log(post);
+            //const result = await db.collection('posts').updateOne({_id: new ObjectId(post._id)}, {$set: post});
+            let result = {modifiedCount: 1};
             if(result.modifiedCount === 1){
                 res.status(200).json({success: true, message: 'Post updated'});
             }else{

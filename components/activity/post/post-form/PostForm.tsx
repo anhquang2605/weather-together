@@ -96,6 +96,31 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             return false;
         }
     }
+    const handleDeletePicturesFromDb = async (picturePaths:string[]) => {
+        const path = '/api/pictures/detele-pictures';
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(picturePaths)
+        }
+        try{
+            const res = await fetch(path, options);
+            if(res.status !== 200){
+                return false;
+            }
+            const result = await res.json();
+            if(result.success){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(err){
+            console.log(err);
+            return false;
+        }
+    }
     const handleUploadPictures = async (editing?:boolean) => {
         // from the preview urls, get the blob, then upload to s3
         // if editing, only upload new pictures
@@ -109,7 +134,6 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 toBeUpload.push(blob);
             }
         }
-        console.log(toBeUpload)
         if(toBeUpload.length > 0){
             const formData = new FormData();
             toBeUpload.forEach((image) => {
@@ -231,10 +255,11 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 }
             };
            const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
-            if(!deleteRes){
+           const deleteDbRes = await handleDeletePicturesFromDb(matchedRemovedURLS);
+            if(!deleteRes || !deleteDbRes){
                 setUploadingStatus("error");
                 return;
-            } 
+            }
         }
         if(attachedImages.length > 0){
             
@@ -261,7 +286,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                     location: currentWeather.location || "",
             }
         }        
-/*         const res = await handleInsertPostToDb(post); 
+        const res = await handleInsertPostToDb(post); 
         if(res && pictureAttached ){
             const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
             const pictureUploadRes = await handleInsertPicturesToDb(pictures);
@@ -276,7 +301,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setUploadingStatus("success");}
         else{
             setUploadingStatus("error");
-        } */
+        }
     }
 
     const handleGettingPicturesForEditPost = async (postId: string) => {
