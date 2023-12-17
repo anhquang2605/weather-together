@@ -109,19 +109,24 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 toBeUpload.push(blob);
             }
         }
-        const formData = new FormData();
-        toBeUpload.forEach((image) => {
-            formData.append('files', image);
-        });
+        console.log(toBeUpload)
+        if(toBeUpload.length > 0){
+            const formData = new FormData();
+            toBeUpload.forEach((image) => {
+                formData.append('files', image);
+            });
 
-        const res = await fetch('/api/upload-images', { 
-            method: 'POST',
-            body: formData
-        })
-        if(res.status === 200){
-            const data = await res.json();
-            return data;
-        }else{
+            /* const res = await fetch('/api/upload-images', { 
+                method: 'POST',
+                body: formData
+            })
+            if(res.status === 200){
+                const data = await res.json();
+                return data;
+            }else{
+                return null;
+            } */
+        } else {
             return null;
         }
     }
@@ -204,19 +209,19 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                     matchedRemovedURLS.push(s3URL);
                 }
             };
-            const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
+           /*  const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
             if(!deleteRes){
                 setUploadingStatus("error");
                 return;
-            }
+            } */
         }
         if(attachedImages.length > 0){
             
             //check if there are any new images, upload them to s3
             let response  = await handleUploadPictures(isEditing);
-            if(response){  
+/*             if(response){  
                 uploadedImagesURLs = response.urls;
-            }
+            } */
         }
         const post:Post = {
             content,
@@ -235,7 +240,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                     location: currentWeather.location || "",
             }
         }        
-        const res = await handleInsertPostToDb(post); 
+/*         const res = await handleInsertPostToDb(post); 
         if(res && pictureAttached ){
             const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
             const pictureUploadRes = await handleInsertPicturesToDb(pictures);
@@ -250,7 +255,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setUploadingStatus("success");}
         else{
             setUploadingStatus("error");
-        }
+        } */
     }
 
     const handleGettingPicturesForEditPost = async (postId: string) => {
