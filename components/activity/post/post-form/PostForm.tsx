@@ -97,7 +97,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
     }
     const handleDeletePicturesFromDb = async (picturePaths:string[]) => {
-        const path = '/api/pictures/detele-pictures';
+        const path = '/api/pictures/delete-pictures';
         const options = {
             method: 'POST',
             headers: {
@@ -256,6 +256,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             };
            const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
            const deleteDbRes = await handleDeletePicturesFromDb(matchedRemovedURLS);
+           console.log(deleteRes, deleteDbRes);
             if(!deleteRes || !deleteDbRes){
                 setUploadingStatus("error");
                 return;
