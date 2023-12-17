@@ -116,7 +116,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 formData.append('files', image);
             });
 
-            /* const res = await fetch('/api/upload-images', { 
+            const res = await fetch('/api/upload-images', { 
                 method: 'POST',
                 body: formData
             })
@@ -125,7 +125,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 return data;
             }else{
                 return null;
-            } */
+            } 
         } else {
             return null;
         }
@@ -193,6 +193,27 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             return false;
         }
     }
+    const handleUpdatePostToDb = async (post:Post) => {
+        const path = '/api/post/update-post';
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        }
+        try{
+            const res = await fetch(path, options);
+            if(res.status === 200){
+                return res.json();
+            }else{
+                return null;
+            }
+        }catch(err){
+            console.log(err);
+            return null;
+        }
+    }
     
     const handleUploadPost = async () => {
         //need to distinguish when edit or upload the new post
@@ -209,19 +230,19 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                     matchedRemovedURLS.push(s3URL);
                 }
             };
-           /*  const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
+           const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
             if(!deleteRes){
                 setUploadingStatus("error");
                 return;
-            } */
+            } 
         }
         if(attachedImages.length > 0){
             
             //check if there are any new images, upload them to s3
             let response  = await handleUploadPictures(isEditing);
-/*             if(response){  
+            if(response){  
                 uploadedImagesURLs = response.urls;
-            } */
+            } 
         }
         const post:Post = {
             content,
