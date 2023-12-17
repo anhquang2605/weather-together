@@ -25,7 +25,7 @@ export interface BuddyTag extends Buddy{
 
 const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
     const taggedUsernames = usePostFormContext().getTaggedUsernames();
-    const {taggedBuddys, lastItemRemoved, lastItemAdded, addTimestamp, removeimestamp} = usePostFormContext();
+    const {taggedBuddys, getUsernameSet, lastItemRemoved, lastItemAdded, addTimestamp, removeimestamp} = usePostFormContext();
     const {editMode} = usePostFormContext2();
     const [action, setAction] = useState<string>("search"); // action to perform on the buddy list [add, remove
     const curUsername = useRef<string>(username);
@@ -117,9 +117,10 @@ const FriendTagForm: React.FC<BuddyTagFormProps> = ({username}) => {
         let lastFromMergedResult: Date | undefined;
         if(data && data.data.length > 0){
             let buddies:BuddyTag[] = data.data;
-            if(taggedBuddys.size > 0 && editMode){
+            let taggedUsernameSet = new Set(taggedUsernames);
+            if(taggedUsernameSet.size > 0 && editMode){
                 buddies = buddies.map((buddy) => {
-                    if(taggedBuddys.has(buddy)){
+                    if(taggedUsernameSet.has(buddy.friendUsername)){
                         buddy.tagged = true;
                     }
                     return buddy;

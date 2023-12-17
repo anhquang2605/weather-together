@@ -21,6 +21,8 @@ export interface PostFormContextType{
     getTaggedUsernames: () => string[],
     addTaggedBuddies: (taggedBuddies: BuddyTag[]) => void,
     getUniquePostId: (post:string) => string,
+    getUsernameSet: () => Set<string>,
+
     
 }
 export const PostFormContext = createContext<PostFormContextType|undefined>(
@@ -68,6 +70,9 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
         setLastItemRemoved("");
         setActionType("");
     }
+    const hasUserBeenTagged = (username: string) => {
+        return Array.from(taggedBuddys).some((buddy) => buddy.friendUsername === username);
+    }
     const getUniquePostId = (post:string) => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let result = '';
@@ -76,6 +81,11 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return post + result;
+    }
+    const getUsernameSet = () => {
+        let buddies = Array.from(taggedBuddys).map((buddy) => buddy.friendUsername);
+        let simpleBuddySet = new Set(buddies);
+        return simpleBuddySet;
     }
     const getTaggedUsernames = () => {
         return Array.from(taggedBuddys).map((user) => user.friendUsername);
@@ -94,7 +104,8 @@ export function PostFormProvider ({children}:PostFormProviderProps) {
             actionType,
             reset,
             addTaggedBuddies,
-            getUniquePostId
+            getUniquePostId,
+            getUsernameSet,
         }}>
             {children}
         </PostFormContext.Provider>
