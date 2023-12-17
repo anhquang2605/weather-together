@@ -270,7 +270,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                 uploadedImagesURLs = response.urls;
             } 
         }
-        const post:Post = {
+        const postData:Post = {
             content,
             taggedUsernames,
             createdDate: new Date(),
@@ -280,14 +280,20 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             username,
         }
         if(currentWeather){
-            post.weatherVibe = {
+            postData.weatherVibe = {
                     condition: currentWeather.condition || "",
                     icon: currentWeather.icon || "",
                     temperature: currentWeather.temp,
                     location: currentWeather.location || "",
             }
-        }        
-        const res = await handleInsertPostToDb(post); 
+        }
+        let res = null;
+        if(isEditing){
+            postData._id = post?._id || "";
+            res = await handleUpdatePostToDb(postData);
+        } else {
+            res = await handleInsertPostToDb(postData); 
+        }       
         if(res && pictureAttached ){
             const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
             const pictureUploadRes = await handleInsertPicturesToDb(pictures);

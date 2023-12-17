@@ -95,9 +95,9 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         })
     }
     const handleSetImageUrlsFromAttachedImages = (imagesURLs: string[]) => {
+        const imagesURLsLen = imagesURLs.length;
         setPreviewImageURLs(prev => {
             const prevLen = prev.length;
-            const imagesURLsLen = imagesURLs.length;
             if(imagesURLsLen > prevLen){
                 return imagesURLs;
             }else{
@@ -106,6 +106,19 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
                 return newState;
             }
         });
+        setDroppedImages(prev => {
+            //convert each image urls to blob then set to droppedImages
+            if(imagesURLsLen > 0){
+                const newState = [...prev];
+                for(let i = 0; i < imagesURLsLen; i++){
+                    const blob = new Blob([imagesURLs[i]]);
+                    newState[i] = blob;
+                }
+                return newState;
+            }else{
+                return [];
+            }
+        })
     }
     const handleRemoveAllImagePreview = () => {
         setRemovedAttachedImages && setRemovedAttachedImages(prevState => {
