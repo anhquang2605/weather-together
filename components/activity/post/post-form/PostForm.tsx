@@ -114,6 +114,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             if(result.success){
                 return true;
             }else{
+                result.error && console.log(result.error);
                 return false;
             }
         }catch(err){

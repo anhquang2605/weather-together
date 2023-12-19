@@ -5,8 +5,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = await connectDB();
     const method = req.method;
     const picturePaths: string[] = req.body; 
+    console.log(method, picturePaths)
     if (method !== 'POST'){
-        res.status(400).json({message: 'Method not allowed'});
+        res.status(400).json({error: 'Method not allowed'});
         return;
     }
     if (!db){
