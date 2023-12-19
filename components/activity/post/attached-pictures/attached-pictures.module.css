@@ -63,7 +63,8 @@
         @apply bg-slate-600/50 rounded-lg;
         .pictures-frame{
             position: relative;
-            grid-template-rows: 0.5fr;
+            /*Change this value if horizontal pictures messed up*/
+            grid-template-rows: 1.5fr;
             &.vertical{
                 grid-template-rows: none;
                 grid-template-columns: 0.5fr;
