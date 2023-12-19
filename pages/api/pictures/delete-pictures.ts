@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
     }
     try{
-        const result = await db.collection('pictures').deleteMany({path: {$in: picturePaths}});
+        const result = await db.collection('pictures').deleteMany({picturePath: {$in: picturePaths}});
         res.status(200).json(result);
     } catch(err){
         res.status(500).json(err);
