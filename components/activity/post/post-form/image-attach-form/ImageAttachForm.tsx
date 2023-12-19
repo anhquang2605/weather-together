@@ -57,6 +57,7 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     }
 
     const handleFileInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        /*during edit mode, file chosen but image preview is not added */
         const file = e.target.files?.[0] ?? null;
         if(file){
             handleSettingImageFiles(file);
