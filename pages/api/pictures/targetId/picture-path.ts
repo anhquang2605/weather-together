@@ -3,6 +3,7 @@ import { connectDB } from '../../../../libs/mongodb'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if(req.method === 'GET'){
+        //upstream problem with image url, investigate later
         const {targetId} = req.query;
         if(targetId){
             const db = await connectDB();
