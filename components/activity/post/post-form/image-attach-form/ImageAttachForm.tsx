@@ -20,7 +20,7 @@ interface ImageAttachFormProps {
 
 export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages, previewImageURLs, setPreviewImageURLs, setURLtoBlobMap}: ImageAttachFormProps) {
     const {getUniquePostId} = usePostFormContext();
-    const uniqueId = getUniquePostId("");
+    const [uniqueId, setUniqueId] = useState(""); 
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
     //Editing states
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -133,6 +133,9 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         setDroppedImages([]);
         //for edit case, make sure to remove all images attached to the post
     }
+    useEffect(()=>{
+        setUniqueId(getUniquePostId(""));
+    },[])
     useEffect(()=>{
         setAttachedImages(droppedImages);
     },[droppedImages])

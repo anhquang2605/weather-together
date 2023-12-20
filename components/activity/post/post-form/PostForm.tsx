@@ -255,13 +255,14 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
                     matchedRemovedURLS.push(s3URL);
                 }
             };
-           const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
-           const deleteDbRes = await handleDeletePicturesFromDb(matchedRemovedURLS);
-           console.log(deleteRes, deleteDbRes);
+           if(matchedRemovedURLS.length > 0){
+            const deleteRes = await handleDeletePicturesFromS3(matchedRemovedURLS);
+            const deleteDbRes = await handleDeletePicturesFromDb(matchedRemovedURLS);
             if(!deleteRes || !deleteDbRes){
                 setUploadingStatus("error");
                 return;
             }
+          }
         }
         if(attachedImages.length > 0){
             
