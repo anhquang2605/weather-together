@@ -57,15 +57,14 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     }
 
     const handleFileInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        /*during edit mode, file chosen but image preview is not added */
         const file = e.target.files?.[0] ?? null;
         if(file){
             handleSettingImageFiles(file);
         }
     }
-    const handleSettingImageFiles = (theFile: Blob) => {
+    const handleSettingImageFiles = async (theFile: Blob) => {
         setDroppedImages(prevState => [...prevState, theFile as Blob]);
-        const theURL = URL.createObjectURL(theFile as Blob);
+        const theURL = await URL.createObjectURL(theFile as Blob);
         setURLtoBlobMap(prevState => {
             const newState = new Map(prevState);
             newState.set(theURL, theFile as Blob);
