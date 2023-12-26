@@ -2,7 +2,7 @@ export const getImageDimensions = (blob:Blob): Promise<{ width: number, height: 
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(blob);
       const img = new Image();
-  
+      console.log(img);
       img.onload = () => {
         const width = img.width;
         const height = img.height;
@@ -10,7 +10,8 @@ export const getImageDimensions = (blob:Blob): Promise<{ width: number, height: 
         resolve({ width, height });
       };
   
-      img.onerror = () => {
+      img.onerror = (err,source,lineno,colno,error) => {
+        console.log(err);
         reject(new Error("Failed to load image from blob"));
       };
   

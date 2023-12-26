@@ -115,7 +115,9 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
                 const newState = [...prev];
                 for(let i = 0; i < imagesURLsLen; i++){
                     const blob = new Blob([imagesURLs[i]]);
-                    newState[i] = blob;
+                    const file = new File([blob], "image.png", {type: "image/png"});
+                    newState[i] = file;
+                    console.log(file);
                 }
                 return newState;
             }else{

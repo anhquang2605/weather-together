@@ -177,6 +177,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
     }
     const generatePictureObjects = async (imageURLs:string[], username: string, targetId:string, targetType: string) => {
+        console.log(attachedImages);
         const dimensionsPromises = attachedImages.map(async (image) => {
             const dim = await getImageDimensions(image);
             return dim;
@@ -243,7 +244,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
     const handleUploadPost = async () => {
         //need to distinguish when edit or upload the new post
         setUploadingStatus("loading");
-        let uploadedImagesURLs:string[] = [];
+/*         let uploadedImagesURLs:string[] = [];
         //if editing, check in the removed images, remove them from s3
         if(isEditing){
             const matchedRemovedURLS = [];
@@ -275,12 +276,13 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         const postData:Post = {
             content,
             taggedUsernames,
-            createdDate: new Date(),
+            createdDate: isEditing ? post?.createdDate as Date : new Date(),
             updatedDate: new Date(),
             visibility: visibilityOptions[selectedVisibilityIndex].value,
             pictureAttached,
             username,
         }
+       
         if(currentWeather){
             postData.weatherVibe = {
                     condition: currentWeather.condition || "",
@@ -310,7 +312,9 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             setUploadingStatus("success");}
         else{
             setUploadingStatus("error");
-        }
+        } */
+        let results = generatePictureObjects(previewImageURLs, username, "", "post");
+        console.log(results);
     }
 
     const handleGettingPicturesForEditPost = async (postId: string) => {
