@@ -5,6 +5,7 @@ import {IoClose} from "react-icons/io5";
 import ImagePreviews from "./image-previews/ImagePreviews";
 import { set } from "lodash";
 import { usePostFormContext } from "../../post-engagement/usePostFormContext";
+import { getBlob } from "../../../../../libs/pictures";
 interface ImageAttachFormProps {
     setReveal: React.Dispatch<React.SetStateAction<boolean>>;
     setPictureAttached: (value:boolean) => void;
@@ -109,15 +110,14 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
                 return newState;
             }
         });
-        setDroppedImages(prev => {
+        setDroppedImages( (prev) => {
             //convert each image urls to blob then set to droppedImages
             if(imagesURLsLen > 0){
                 const newState = [...prev];
                 for(let i = 0; i < imagesURLsLen; i++){
-                    const blob = new Blob([imagesURLs[i]]);
-                    const file = new File([blob], "image.png", {type: "image/png"});
-                    newState[i] = file;
-                    console.log(file);
+                    getBlob(imagesURLs[i]).then(blob => {
+                        newState[i] = blob;
+                    })
                 }
                 return newState;
             }else{
