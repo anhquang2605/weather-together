@@ -15,7 +15,7 @@ export default async function handler(
           const {_id , ...rest} = post;
             const result = await db.collection('posts').updateOne({_id: new ObjectId(_id)}, {$set: rest}, {upsert: true});
             if(result.modifiedCount === 1){
-                res.status(200).json({success: true, message: 'Post updated'});
+                res.status(200).json({success: true, message: 'Post updated', insertedId: post._id});
             }else{
                 res.status(200).json({success: false, message: 'Post not updated'});
             }
