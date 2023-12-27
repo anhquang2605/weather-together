@@ -53,6 +53,7 @@ interface CommentFetchParams{
 
 export default function Post({post,username, preview, previewCommentId, onFinishedLoading}: PostProps){
     const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
+    const [updatedPost, setUpdatedPost] = useState<Post|null>(null); //TODO: fetch post from server
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']
