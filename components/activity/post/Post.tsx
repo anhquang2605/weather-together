@@ -29,7 +29,7 @@ import PostForm from "./post-form/PostForm";
 import BuddyTagForm from "./post-form/friend-tag-form/BuddyTagForm";
 import { PostFormContextProvider } from "./post-form/postFormContext";
 interface PostProps{
-    post: Post;
+    postProp: Post;
     username?: string;
     preview?: boolean;
     previewCommentId?: string;
@@ -50,10 +50,19 @@ interface CommentFetchParams{
     lastCursor: string;
     _id?: string;
 }
-
-export default function Post({post,username, preview, previewCommentId, onFinishedLoading}: PostProps){
+const INITIAL_POST_STATE: Post = {
+   _id: '',
+    username: '',
+    content: '',
+    visibility: 'public',
+    taggedUsernames: [],
+    pictureAttached: false,
+    createdDate: new Date(),
+    updatedDate: new Date(), 
+}
+export default function Post({postProp,username, preview, previewCommentId, onFinishedLoading}: PostProps){
     const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
-    const [updatedPost, setUpdatedPost] = useState<Post|null>(null); //TODO: fetch post from server
+    const [post, setPost] = useState<Post>({...INITIAL_POST_STATE}); //TODO: fetch post from server
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']
@@ -261,11 +270,17 @@ export default function Post({post,username, preview, previewCommentId, onFinish
     const handleOnCloseModal = () => {
         setRevealEditForm(false);
     }
-  
+    useEffect(()=>{
+        if(postProp){
+            setPost(postProp);
+        }
+    },[postProp])
     useEffect(() => {
-        handleFetchReactionsGroups(post._id?.toString() || '');
-        handleFetctCommentsForPost('', post._id?.toString() || '');
-    },[])
+        if(post){
+            handleFetchReactionsGroups(post._id?.toString() || '');
+            handleFetctCommentsForPost('', post._id?.toString() || '');
+        }
+    },[post])
 
     useEffect(()=>{
         cursorRef.current = lastCursor;
@@ -284,6 +299,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
             handleFetctCommentsForPost('', post._id?.toString() || '', true);
         }
     },[endOfList])
+    
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
@@ -395,6 +411,7 @@ export default function Post({post,username, preview, previewCommentId, onFinish
                                     username={author}
                                     post = {post}
                                     revealed={revealEditForm}
+                                    setPost={setPost}
                                     />
                                     ,
                                 <BuddyTagForm

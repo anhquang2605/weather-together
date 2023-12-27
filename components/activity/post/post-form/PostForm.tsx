@@ -17,8 +17,9 @@ interface PostFormProps {
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
     post?: Post;
     revealed?: boolean;
+    setPost?: React.Dispatch<React.SetStateAction<Post>>;
 }
-export default function PostForm ({username, setRevealModal, post, revealed}: PostFormProps) {
+export default function PostForm ({username, setRevealModal, post, revealed, setPost}: PostFormProps) {
     const [uploadingStatus, setUploadingStatus] = useState<string>("idle"); // idle, loading, success, error
     const [content, setContent] = useState<string>("");
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
@@ -298,18 +299,23 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
             res = await handleInsertPostToDb(postData); 
         }       
         if(res && pictureAttached && uploadedImagesURLs.length > 0 ){
-            const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
-            const pictureUploadRes = await handleInsertPicturesToDb(pictures);
-            if(pictureUploadRes){
-                resetForm();
-                setUploadingStatus("success");
-            }else{
-                setUploadingStatus("error");
+            if(pictureAttached && uploadedImagesURLs.length > 0){
+                const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
+                const pictureUploadRes = await handleInsertPicturesToDb(pictures);
+                if(!pictureUploadRes){
+                    setUploadingStatus("error");
+                    return;
+                }
             }
-        }else if(res){
+            
             resetForm();
-            setUploadingStatus("success");}
-        else{
+            setUploadingStatus("success");
+            if(setPost){
+                setPost(postData)
+            }
+                
+            
+        }else {
             setUploadingStatus("error");
         }
 /*         let results = generatePictureObjects(previewImageURLs, username, "", "post");
@@ -428,7 +434,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         }
     },[attachedImages])
     useEffect(()=>{
-        if(revealed && post){
+        if(revealed && post && post?._id !== ""){
             setPostId(post._id as string);
             handleFillFormForEditPost(post);
             setIsEditing(true);

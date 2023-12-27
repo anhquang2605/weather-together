@@ -24,7 +24,7 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
             if(post){
                 setFeedJSX(       
                     <div className={style['feed-header']}>
-                        <Post post={post} username={myUsername} preview={true}/>
+                        <Post postProp={post} username={myUsername} preview={true}/>
                     </div>
                     
                 );
@@ -40,7 +40,7 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
                     <div className={style['feed-header']}>
 
                     </div>
-                    <Post post={post} username={myUsername} preview={true} previewCommentId={thisComment} />
+                    <Post postProp={post} username={myUsername} preview={true} previewCommentId={thisComment} />
                     </>
                 )
             }else{
@@ -57,7 +57,7 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
             if(post){
                 setFeedJSX(
                     <div className={style['feed-header']}>
-                        <Post post={post} username={myUsername} onFinishedLoading={updateContentLoaded} preview={true}/>
+                        <Post postProp={post} username={myUsername} onFinishedLoading={updateContentLoaded} preview={true}/>
                     </div>
                 )
             }else{
@@ -68,7 +68,7 @@ const FeedContent: React.FC<FeedContentProps> = ({type, activityId, contentId}) 
             if(post){
                 setFeedJSX(
                     <div className={style['feed-header']}>
-                        <Post post={post} username={myUsername} onFinishedLoading={updateContentLoaded} preview={true} previewCommentId={activityId}/>
+                        <Post postProp={post} username={myUsername} onFinishedLoading={updateContentLoaded} preview={true} previewCommentId={activityId}/>
                     </div>
                 )
             }
