@@ -5,7 +5,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = await connectDB();
     const method = req.method;
     const picturePaths: string[] = req.body; 
-    console.log(method, picturePaths)
     if (method !== 'POST'){
         res.status(400).json({error: 'Method not allowed'});
         return;
@@ -20,7 +19,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     try{
         const result = await db.collection('pictures').deleteMany({picturePath: {$in: picturePaths}});
-        res.status(200).json(result);
+        res.status(200).json({
+            success: true,
+            data: result
+        });
     } catch(err){
         res.status(500).json(err);
     }

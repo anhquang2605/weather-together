@@ -41,7 +41,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         [
             ["idle", ""],
             ["loading", "Uploading..."],
-            ["success", "Post " + isEditing? "updated" : "uploaded"  + " successfully!"],
+            ["success", "Post " + (isEditing? "updated" : "uploaded")  + " successfully!"],
             ["error", "Error uploading post!"]
         ]
     );
@@ -297,7 +297,7 @@ export default function PostForm ({username, setRevealModal, post, revealed}: Po
         } else {
             res = await handleInsertPostToDb(postData); 
         }       
-        if(res && pictureAttached ){
+        if(res && pictureAttached && uploadedImagesURLs.length > 0 ){
             const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
             const pictureUploadRes = await handleInsertPicturesToDb(pictures);
             if(pictureUploadRes){
