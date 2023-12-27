@@ -28,6 +28,7 @@ import { ViewSliderProvider } from "../../plugins/view-slider/useViewSliderConte
 import PostForm from "./post-form/PostForm";
 import BuddyTagForm from "./post-form/friend-tag-form/BuddyTagForm";
 import { PostFormContextProvider } from "./post-form/postFormContext";
+import { getRandomString } from "../../../libs/general";
 interface PostProps{
     postProp: Post;
     username?: string;
@@ -60,6 +61,7 @@ const INITIAL_POST_STATE: Post = {
     createdDate: new Date(),
     updatedDate: new Date(), 
 }
+const RANDOM_STRING_LENGTH = 20;
 export default function Post({postProp,username, preview, previewCommentId, onFinishedLoading}: PostProps){
     const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
     const [post, setPost] = useState<Post>({...INITIAL_POST_STATE}); //TODO: fetch post from server
@@ -82,6 +84,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     const [commentorToAvatar, setCommentorToAvatar] = useState<UsernameToProfilePicturePathMap>({}); //TODO: fetch comments from server
     const [hasMoreComments, setHasMoreComments] = useState(true); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
+    const [uniqueString, setUniqueString] = useState<string>(''); //TODO: fetch comments from server
     //edit form
     const [revealEditForm, setRevealEditForm] = useState(false);
     const cursorRef = useRef(lastCursor);
@@ -276,9 +279,10 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         }
     },[postProp])
     useEffect(() => {
-        if(post){
+        if(post && post._id !== ''){
             handleFetchReactionsGroups(post._id?.toString() || '');
             handleFetctCommentsForPost('', post._id?.toString() || '');
+            setUniqueString(getRandomString(RANDOM_STRING_LENGTH));
         }
     },[post])
 
@@ -326,6 +330,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                     </div>
                     {post.pictureAttached && <AttachedPictures
                         targetId={post._id?.toString() || ''}
+                        uniqueString={uniqueString}
                     />}
                     <div className="mb-4">   
                         <ContentSummary>

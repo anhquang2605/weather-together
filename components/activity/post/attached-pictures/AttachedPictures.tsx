@@ -6,10 +6,13 @@ import PictureComponent from '../../../embedded-view-components/picture-componen
 
 interface AttachedPicturesProps {
     targetId: string;
+    uniqueString?: string;
 }
-
+interface DataFromPictureServer {
+    data: Picture[]
+}
 const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicturesProps) => {
-    const { targetId } = props;
+    const { targetId, uniqueString } = props;
     const [pictures, setPictures] = useState<Picture[]>([]); //TODO: fetch pictures from server
     const [loading, setLoading] = useState(false); //TODO: fetch pictures from server
     const [isFirstImageVertical, setIsFirstImageVertical] = useState(false); //TODO: fetch pictures from server
@@ -33,15 +36,25 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
         const url = path + '?' + new URLSearchParams(params).toString();
         fetch(url, options).then(res => 
             {if (res.ok) return res.json()}).then(data => {
-                setIsFirstImageVertical(data.data[0].width < data.data[0].height);
-            if(data.data.length === 2){
-                setIsSecondImageVertical(data.data[1].width < data.data[1].height);
-            }
-            const picture = [...data.data];
-            setPictures(picture);
-            setLoading(false);
+                handleDertemineOrientation(data.data);
+            
         })
 
+    }
+    const handleDertemineOrientation = (data:Picture[]) => {
+        if(data && data.length > 0){
+            if(data[0] && data[0].width && data[0].height){
+                setIsFirstImageVertical(data[0].width < data[0].height);
+            }
+
+            if(data.length === 2){
+                if(data[1] && data[1].width && data[1].height)
+                {setIsSecondImageVertical(data[1].width < data[1].height)};
+            }
+            const picture = [...data];
+            setPictures(picture);
+            setLoading(false);
+        }
     }
     const firstPicture = () => {
         return (
@@ -90,9 +103,12 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
         }
         return pictureJSX;
     }
-    useEffect(()=>{
-        handleFetchPictures();
-    },[])
+    useEffect(()=> {
+        if(uniqueString!=="" && targetId){
+            console.log(uniqueString, targetId)
+            handleFetchPictures();
+        }
+    },[uniqueString, targetId])
     useEffect(()=>{
         if(isFirstImageVertical !== isSecondImageVertical){
             setBothNotSameOrientation(true);
