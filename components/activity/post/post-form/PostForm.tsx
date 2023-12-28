@@ -12,6 +12,7 @@ import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { BuddyTag } from './friend-tag-form/BuddyTagForm';
 import { usePostFormContext2 }  from './postFormContext';
 import { set } from 'lodash';
+import { is } from 'date-fns/locale';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -299,7 +300,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
         } else {
             res = await handleInsertPostToDb(postData); 
         }       
-        if(res && pictureAttached && uploadedImagesURLs.length > 0 ){
+        if(res){
             if(pictureAttached && uploadedImagesURLs.length > 0){
                 const pictures:Picture[] = await generatePictureObjects(uploadedImagesURLs, username, res.insertedId, "post");
                 const pictureUploadRes = await handleInsertPicturesToDb(pictures);
@@ -311,6 +312,9 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
             
             resetForm();
             setUploadingStatus("success");
+            if(isEditing){
+                setRevealModal(false);
+            }
             if(setPost){
                 setPost(postData)
             }

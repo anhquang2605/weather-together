@@ -105,7 +105,6 @@ const AttachedPictures: React.FC<AttachedPicturesProps> = (props:AttachedPicture
     }
     useEffect(()=> {
         if(uniqueString!=="" && targetId){
-            console.log(uniqueString, targetId)
             handleFetchPictures();
         }
     },[uniqueString, targetId])
