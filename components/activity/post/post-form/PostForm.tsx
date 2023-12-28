@@ -20,6 +20,7 @@ interface PostFormProps {
     setPost?: React.Dispatch<React.SetStateAction<Post>>;
 }
 export default function PostForm ({username, setRevealModal, post, revealed, setPost}: PostFormProps) {
+    const [fetchingAttachedImages, setFetchingAttachedImages] = useState<boolean>(false);
     const [uploadingStatus, setUploadingStatus] = useState<string>("idle"); // idle, loading, success, error
     const [content, setContent] = useState<string>("");
     const [pictureAttached, setPictureAttached] = useState<boolean>(false);
@@ -323,6 +324,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
     }
 
     const handleGettingPicturesForEditPost = async (postId: string) => {
+        setFetchingAttachedImages(true);
         const params = {
             targetId: postId,
             many: "true"
@@ -351,6 +353,10 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
                 return blob;
             }))
             setAttachedImages(imageBlobs);
+            setFetchingAttachedImages(false);
+        }else{
+            setFetchingAttachedImages(false);
+            console.log(result.error);
         }
     }
     const handleFillFormForEditPost = async (post: Post) => {
@@ -502,6 +508,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
                 currentApiStatus={uploadingStatus}
                 handleConfirm={handlePostSentConfirmation}
                 setCurrentApiStatus={setUploadingStatus}
+                isEditing={isEditing}
             />}
         </div>
 

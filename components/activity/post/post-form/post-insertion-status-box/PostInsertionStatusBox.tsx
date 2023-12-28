@@ -8,6 +8,7 @@ interface PostInsertionStatusBoxProps {
     currentApiStatus: string;// idle, loading, success, error
     handleConfirm: () => void;
     setCurrentApiStatus: React.Dispatch<React.SetStateAction<string>>;
+    isEditing: boolean;
 }
 interface ApiStatusToIconMap {
     [key:string]: JSX.Element,
@@ -21,7 +22,8 @@ const PostInsertionStatusBox: React.FC<PostInsertionStatusBoxProps> = ({
     apiStatusAndMessageMap,
     currentApiStatus,
     handleConfirm,
-    setCurrentApiStatus
+    setCurrentApiStatus,
+    isEditing,
 }) => {
     const handleCancel = () => {
         setCurrentApiStatus("idle");
@@ -34,7 +36,7 @@ const PostInsertionStatusBox: React.FC<PostInsertionStatusBoxProps> = ({
             </div>
             {apiStatusAndMessageMap.get(currentApiStatus)}
             {
-                currentApiStatus === "success" &&
+                currentApiStatus === "success" && !isEditing &&
                 <button className={`${style['confirm-btn']} action-btn`}>
                     <span onClick={()=>{
                         handleConfirm();
