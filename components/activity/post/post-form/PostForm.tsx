@@ -419,6 +419,13 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
         setCurrentWeather(null);
         setSelectedVisibilityIndex(0);
         setUploadingStatus("idle");
+        setPreviewImageURLs([]);
+        setEditPreviewImageURLs([]);
+        setOriginalAttachedImagePaths([]);
+        setRemovedAttachedImages([]);
+        setURLtoBlobMap(new Map<string, Blob>());
+        setImageURLtoS3URLMap(new Map<string, string>());
+        setRevealImageAttachForm(false);
         reset();
     }
     const handlePostSentConfirmation = () => {
