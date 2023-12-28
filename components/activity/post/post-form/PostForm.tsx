@@ -486,6 +486,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
                 setPreviewImageURLs={setPreviewImageURLs}
                 URLtoBlobMap={URLtoBlobMap}
                 setURLtoBlobMap={setURLtoBlobMap}
+                fetchingAttachedImages={fetchingAttachedImages}
                 />}
 
            <AttachmentButtonGroup 

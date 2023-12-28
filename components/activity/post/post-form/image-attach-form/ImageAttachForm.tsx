@@ -6,6 +6,7 @@ import ImagePreviews from "./image-previews/ImagePreviews";
 import { set } from "lodash";
 import { usePostFormContext } from "../../post-engagement/usePostFormContext";
 import { getBlob } from "../../../../../libs/pictures";
+import LoadingIndicator from "../../../../loading-indicator/LoadingIndicator";
 interface ImageAttachFormProps {
     setReveal: React.Dispatch<React.SetStateAction<boolean>>;
     setPictureAttached: (value:boolean) => void;
@@ -17,9 +18,10 @@ interface ImageAttachFormProps {
     setPreviewImageURLs: React.Dispatch<React.SetStateAction<string[]>>;
     URLtoBlobMap: Map<string, Blob>;
     setURLtoBlobMap: React.Dispatch<React.SetStateAction<Map<string, Blob>>>;
+    fetchingAttachedImages: boolean;
 }
 
-export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages, previewImageURLs, setPreviewImageURLs, setURLtoBlobMap}: ImageAttachFormProps) {
+export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages, previewImageURLs, setPreviewImageURLs, setURLtoBlobMap, fetchingAttachedImages}: ImageAttachFormProps) {
     const {getUniquePostId} = usePostFormContext();
     const [uniqueId, setUniqueId] = useState(""); 
     const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
@@ -156,25 +158,27 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
             " " + (revealState ? "" : style["not-reveal"])} 
         onDrop={handleDrop}
     >         
-            {previewImageURLs.length ?
-                <ImagePreviews
-                    previewImageURLs={previewImageURLs}
-                    setPreviewImageURLs={setPreviewImageURLs}
-                    removePreviewImage={handleRemoveImagePreview}
-                    imageInputRef={fileInputRef}
-                    handleFileInputChange={handleFileInputChange}
-                    handleRemoveAllImagePreview={handleRemoveAllImagePreview}
-                />
-            :
-            <>                        
-                <ImCloudUpload className="w-12 h-12 mx-auto mt-8"/>
-                <h3 className="mb-4">Drag and drop your image in this box</h3>
-                <h4 className="text">Or </h4>
-                <label className="action-btn block cursor-pointer mt-4 mb-8"htmlFor={"image-upload-" + uniqueId}>
-                    Upload from device
-                </label>
-                <input type="file" id={"image-upload-"+uniqueId} className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
-            </>
+            {fetchingAttachedImages ? 
+                <LoadingIndicator/>
+                : (previewImageURLs.length ?
+                    <ImagePreviews
+                        previewImageURLs={previewImageURLs}
+                        setPreviewImageURLs={setPreviewImageURLs}
+                        removePreviewImage={handleRemoveImagePreview}
+                        imageInputRef={fileInputRef}
+                        handleFileInputChange={handleFileInputChange}
+                        handleRemoveAllImagePreview={handleRemoveAllImagePreview}
+                    />
+                :
+                <>                        
+                    <ImCloudUpload className="w-12 h-12 mx-auto mt-8"/>
+                    <h3 className="mb-4">Drag and drop your image in this box</h3>
+                    <h4 className="text">Or </h4>
+                    <label className="action-btn block cursor-pointer mt-4 mb-8"htmlFor={"image-upload-" + uniqueId}>
+                        Upload from device
+                    </label>
+                    <input type="file" id={"image-upload-"+uniqueId} className="hidden" ref={fileInputRef} onChange={handleFileInputChange}/>
+                </>)
             }
         <button onClick={handleCloseForm} className="absolute top-0 right-0"><IoClose className="w-8 h-8"></IoClose></button>       
     </div>
