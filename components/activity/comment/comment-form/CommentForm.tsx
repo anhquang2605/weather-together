@@ -389,6 +389,7 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                 const resizeObserver = new ResizeObserver(entries => {
                     for(const entry of entries){
                         if(entry){
+                            console.log(entry);
                             const height = entry.contentRect.height;
                             const maxHeight = parseFloat(window.getComputedStyle(observedElement).maxHeight);
                             if(height >= maxHeight){
