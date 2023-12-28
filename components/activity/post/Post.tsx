@@ -235,7 +235,6 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     }
     const handleFetchUsernameToName =  (usernames: string[], more?:boolean) => {
         setIsFetchingNameMap(true);
-        console.log(usernames);
         const path = `user/username-to-name`;
         insertToPostAPI(path, usernames)
                 .then((response) => {

@@ -128,7 +128,7 @@ const PostModalContextProvider: React.FC<PostModalContextProps> = ({children}) =
             {children}
             {show && <PostModal onClose={onCloseHandler} show={show} setShow={setShow} title={title}>
                 { 
-                    post && fetchStatus === "success" ? <Post post={post} preview={false}></Post>
+                    post && fetchStatus === "success" ? <Post postProp={post} preview={false}></Post>
                     :
                     <LoadingBox variant='large' long={true}/>
                 }
