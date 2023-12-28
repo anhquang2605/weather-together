@@ -230,11 +230,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         insertToPostAPI(path, usernames)
                 .then(response => {
                     if(response.success){
-                        if(more){
-                            setCommentorToAvatar(prev => ({...prev, ...response.data}));
-                            return;
-                        }
-                        setCommentorToAvatar(response.data);
+                        setCommentorToAvatar(prev => ({...prev, ...response.data}));
                     }else{
                         if(more){
                             return false;
@@ -249,12 +245,14 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         insertToPostAPI(path, usernames)
                 .then((response) => {
                     if(response.success){
-                        if(more){
-                            setUsernameToName(prev => ({...prev, ...response.data}));
-                            return true;
-                        }else{
-                            setUsernameToName(response.data);
-                        }
+
+                        setUsernameToName(prev => 
+                            {
+                                console.log(prev, response.data);
+                                const newState = {...prev, ...response.data}
+                                return newState;
+                            }
+                        );
                     }else{
                         throw new Error("did not get username to name map");
                         
@@ -268,6 +266,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     const handleViewPostModal = () => {
         setShow(true);
         setTitle(`Post by ${usernameToName[post.username] || post.username}`);
+
         setCurPostId(post._id?.toString() || '');
     }
     const handleOnCloseModal = () => {
@@ -303,7 +302,9 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             handleFetctCommentsForPost('', post._id?.toString() || '', true);
         }
     },[endOfList])
-    
+    useEffect(()=>{
+        console.log(usernameToName)
+    },[usernameToName])
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
