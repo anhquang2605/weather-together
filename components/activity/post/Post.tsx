@@ -248,7 +248,6 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
 
                         setUsernameToName(prev => 
                             {
-                                console.log(prev, response.data);
                                 const newState = {...prev, ...response.data}
                                 return newState;
                             }
@@ -302,9 +301,6 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             handleFetctCommentsForPost('', post._id?.toString() || '', true);
         }
     },[endOfList])
-    useEffect(()=>{
-        console.log(usernameToName)
-    },[usernameToName])
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
