@@ -183,7 +183,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             params.limit = limitPerFetch.toString();
         }
         const response = await fetchFromGetAPI(path, params);
-        if(response.success){
+        if(response){
             if(preview){
                 const resultComments = response.data.result;
                 setWaterFall(true);
@@ -209,13 +209,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             }
           
         }else{
-            if(response.data.result.length === 0){
-                setFetchingStatus('empty')
-                setHasMoreComments(false);
-            }else{
-                setFetchingStatus('error');
-            }
-            
+            setFetchingStatus('error');           
         }
         if(!more){
             setIsFetchingComments(false);
@@ -241,6 +235,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     }
     const handleFetchUsernameToName =  (usernames: string[], more?:boolean) => {
         setIsFetchingNameMap(true);
+        console.log(usernames);
         const path = `user/username-to-name`;
         insertToPostAPI(path, usernames)
                 .then((response) => {
@@ -248,7 +243,12 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
 
                         setUsernameToName(prev => 
                             {
-                                const newState = {...prev, ...response.data}
+                                const newState = {...prev};
+                                for (const [key, value] of Object.entries(response.data)) {
+                                    if(newState[key] === undefined){
+                                        newState[key as string] = value as string;
+                                    }
+                                }
                                 return newState;
                             }
                         );
