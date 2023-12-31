@@ -204,3 +204,4 @@ _Putting two state setter in same function scope will make the state update simu
     41. select with peusdo class :empty for item that does not have any content or height or width is equal 0
     42. To define two constants with same name in switch, besure to add {} for each case to create a block scope so Typescript does not complaint
     43. Image from urls must be created by using fetch function instead of new Blob() since new Blob will always result in image size less than 63 and no information with that image
+    44. Flex: none (if there is another flex: 1 item, this item will be shrunk to its normal height) is different from flex: 0 (will not leave any space for the other flex item with this property aside from its padding)

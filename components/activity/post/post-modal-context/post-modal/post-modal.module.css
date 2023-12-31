@@ -39,7 +39,7 @@
         box-shadow: none;
         @apply backdrop-blur-0;
     }
-    & > div:last-of-type{
+    & > div:nth-of-type(2){
         max-height: 50%;
         height: auto;
         flex:  none;
