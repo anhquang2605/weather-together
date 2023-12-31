@@ -401,29 +401,28 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                 />
             }
             <Modal status={revealEditForm} containerClassName='form-container' onClose={handleOnCloseModal}>
-            <PostFormContextProvider>
-                <PostFormProvider>
-                    <ViewSliderProvider
-                        childSlidesContent={
-                            [
-                                
-                                        <PostForm
-                                    setRevealModal={setRevealEditForm}
-                                    username={author}
-                                    post = {post}
-                                    revealed={revealEditForm}
-                                    setPost={setPost}
+                <PostFormContextProvider>
+                    <PostFormProvider>
+                        <ViewSliderProvider
+                            childSlidesContent={
+                                [
+                                    
+                                            <PostForm
+                                        setRevealModal={setRevealEditForm}
+                                        username={author}
+                                        post = {post}
+                                        revealed={revealEditForm}
+                                        setPost={setPost}
+                                        />
+                                        ,
+                                    <BuddyTagForm
+                                        username={author}
                                     />
-                                    ,
-                                <BuddyTagForm
-                                    username={author}
-                                />
-                            ]
-                        }
-                    />
-                </PostFormProvider>
-            </PostFormContextProvider>
-               
+                                ]
+                            }
+                        />
+                    </PostFormProvider>
+                </PostFormContextProvider>
             </Modal>
         </>
         }

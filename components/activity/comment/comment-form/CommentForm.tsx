@@ -159,7 +159,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
                 const maxHeight = parseFloat(window.getComputedStyle(thisForm).maxHeight);
                 const targetHeight = parseFloat(window.getComputedStyle(target).height);
                 const postHeight = parseFloat(window.getComputedStyle(thisPost).height);
-                console.log(targetHeight, (maxHeight * postHeight) / 100);
                 if(targetHeight >= maxHeight){
                     thisForm.style.overflowY = 'scroll';
                 }else{
@@ -350,7 +349,6 @@ export default function CommentForm({targetId, name, username, targetLevel, post
             if(commentFormRef.current){
                 scrollToCommentForm(commentFormRef)
             }
-            console.log(postId);
         }
     },[isCommenting])
     useEffect(()=>{
@@ -384,12 +382,11 @@ export default function CommentForm({targetId, name, username, targetLevel, post
     },[commentFormState])
     useEffect(()=>{
         if(!preview && forPost){
-            const observedElement = document.querySelector('#post-form-'+postId+" textarea") as HTMLDivElement;
+            const observedElement = document.querySelector('#post-form-'+postId+ "."+style['modal'] +" ." + style['text-box']) as HTMLDivElement;
             if(observedElement){
                 const resizeObserver = new ResizeObserver(entries => {
                     for(const entry of entries){
                         if(entry){
-                            console.log(entry);
                             const height = entry.contentRect.height;
                             const maxHeight = parseFloat(window.getComputedStyle(observedElement).maxHeight);
                             if(height >= maxHeight){
