@@ -23,16 +23,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const match = {
                     targetId: targetId.toString(),
                 }
-                const result = await reactionsCollection.updateMany(match, {$set: {isDeleted: true}});
-                if(result.modifiedCount> 0){
+                const result = await reactionsCollection.deleteMany(match);
+                if(result.deletedCount> 0){
                     res.status(200).json({
                         success: true,
-                        data: {modifiedCount: result.modifiedCount},
+                        data: {deletedCount: result.deletedCount},
                     });
                 }else{
                     res.status(200).json({
                         success: true,
-                        data: {modifiedCount: 0},
+                        data: {deletedCount: 0},
                     });
                 }
             } else {

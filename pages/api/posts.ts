@@ -114,12 +114,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         //delete all the reactions associated with the post, if there is any error, rollback
                         try {
                             await session.withTransaction(async () => {
-                                //first delete all the picture associated with this post
-                                const pictureDeletePath = "pictures";
-                                const params = {
-                                    targetId: postId
-                                }
-                                await deleteFromDeleteAPI(pictureDeletePath, params);
                                 const reactionDeletePath = "reactions/delete-reactions-by-target";
                                 const reactionParams = {
                                     targetId: postId
@@ -139,15 +133,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                     }
                                     await deleteFromDeleteAPI(attachedPicturesPath, attachedPicturesParams);
                                 }
+                                //next delete all notifications
+                                const notificationsPath = "notification/delete-notification";
+                                const notificationsParams = {
+                                    referenceId: postId
+                                }
+                                await deleteFromDeleteAPI(notificationsPath, notificationsParams);
+                                //then delete all feeds
+                                const feedsPath = "feeds";
+                                const feedsParams = {
+                                    activityId: postId
+                                }
+                                await deleteFromDeleteAPI(feedsPath, feedsParams);
                                 const match = {
                                     _id: new ObjectId(postId.toString()),
                                 }
-                                const result = await postsCollection.updateOne(match,
-                                    {isDeleted: true});
-                                if(result && result.modifiedCount){
+                                const result = await postsCollection.deleteOne(match);
+                                if(result){
                                     res.status(200).json({
                                         success: true,
-                                        data: {modifiedCount: result.modifiedCount}
+                                        data: {result}
                                     });
                                 }else{
                                     res.status(500).json({

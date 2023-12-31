@@ -5,13 +5,19 @@ import { ObjectId } from "mongodb";
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === "DELETE"){
         const db = await connectDB();
-        const { id, curPageNo, username, limit } = req.query as { id: string, curPageNo: string, username: string, limit: string };
-        if (db) {          
-            await db.collection("notifications").deleteOne(
-                { _id: new ObjectId(id) },
-            );
-            res.status(200).json({ message: "Notification deleted"});
-            
+        const { id, curPageNo, username, limit, referenceId } = req.query as { id: string, curPageNo: string, username: string, limit: string, referenceId: string };
+        if (db) {  
+            if(id){
+                await db.collection("notifications").deleteOne(
+                    { _id: new ObjectId(id) },
+                );
+                res.status(200).json({ message: "Notification deleted"});
+            } else if (referenceId){
+                await db.collection("notifications").deleteMany(
+                    { referenceId: referenceId },
+                );
+                res.status(200).json({ message: "Notifications deleted"});
+            }        
             //get the one new notification
           
         } else {

@@ -155,18 +155,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   const match = {
                     postId: postId.toString(),
                   }
-                  const result = await commentsCollection.updateMany(match,{
-                    $set: {isDeleted: true}
-                  });
-                  if(result.modifiedCount > 0){
+                  const result = await commentsCollection.deleteMany(match);
+
+                  if(result.deletedCount > 0){
+                    const comments = await commentsCollection.find(match).project({
+                      _id: 1
+                    }).toArray();
+                    const commentIds = comments.map((comment) => comment._id.toString());
+                    //delete reactions
+                    //delete pictures
+                    //delete feeds
+                    //delete notifications
                     res.status(200).json({
                       success: true,
-                      data: {modifiedCount: result.modifiedCount}
+                      data: {deletedCount: result.deletedCount}
                     });
                   } else {
                     res.status(200).json({
                       success: true,
-                     data: {modifiedCount: 0}
+                     data: {deletedCount: 0}
                     });
                   }
                 } else {
