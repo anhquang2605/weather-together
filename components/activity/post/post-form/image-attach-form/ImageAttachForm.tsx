@@ -24,7 +24,7 @@ interface ImageAttachFormProps {
 export default function ImageAttachForm({setReveal, setPictureAttached, revealState, setAttachedImages, editPreviewImageURLs, setRemovedAttachedImages, previewImageURLs, setPreviewImageURLs, setURLtoBlobMap, fetchingAttachedImages}: ImageAttachFormProps) {
     const {getUniquePostId} = usePostFormContext();
     const [uniqueId, setUniqueId] = useState(""); 
-    const [droppedImages, setDroppedImages] = useState<Blob[] >([]);
+    const [droppedImages, setDroppedImages] = useState<Blob[] | null>(null);
     //Editing states
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -69,7 +69,7 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         }
     }
     const handleSettingImageFiles = async (theFile: Blob) => {
-        setDroppedImages(prevState => [...prevState, theFile as Blob]);
+        setDroppedImages(prevState => [...prevState!, theFile as Blob]);
         const theURL = await URL.createObjectURL(theFile as Blob);
         setURLtoBlobMap(prevState => {
             const newState = new Map(prevState);
@@ -95,7 +95,7 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
             return newState;
         })
         setDroppedImages(prevState => {
-            const newState = [...prevState];
+            const newState = [...prevState!];
             newState.splice(index, 1);
             return newState;
         })
@@ -115,7 +115,7 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         setDroppedImages( (prev) => {
             //convert each image urls to blob then set to droppedImages
             if(imagesURLsLen > 0){
-                const newState = [...prev];
+                const newState = [...prev!];
                 for(let i = 0; i < imagesURLsLen; i++){
                     getBlob(imagesURLs[i]).then(blob => {
                         newState[i] = blob;
@@ -139,10 +139,13 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     }
     useEffect(()=>{
         setUniqueId(getUniquePostId(""));
+        setDroppedImages([]);
     },[])
     useEffect(()=>{
-        if(droppedImages.length > 0){
+        if(droppedImages){
+            console.log(droppedImages);
             setAttachedImages(droppedImages);
+            setPictureAttached(droppedImages.length > 0);
         }
     },[droppedImages])
     useEffect(()=>{
