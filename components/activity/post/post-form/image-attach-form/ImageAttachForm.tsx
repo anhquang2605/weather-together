@@ -141,7 +141,9 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         setUniqueId(getUniquePostId(""));
     },[])
     useEffect(()=>{
-        setAttachedImages(droppedImages);
+        if(droppedImages.length > 0){
+            setAttachedImages(droppedImages);
+        }
     },[droppedImages])
     useEffect(()=>{
         if(editPreviewImageURLs && editPreviewImageURLs.length > 0){

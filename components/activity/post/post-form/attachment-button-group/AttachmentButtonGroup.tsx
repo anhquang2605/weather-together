@@ -14,7 +14,6 @@ interface AttachmentButtonGroupProps {
 }
 export default function AttachmentButtonGroup({setRevealImageAttachForm, taggedUsernamesLength, attachedImagesLength, setCurrentWeather, taggedUsernames, currentWeather, isEditing}: AttachmentButtonGroupProps) {
     const setActiveSlide = useViewSliderContext().setActiveSlide;
-
     return (
         <div className={`${style["attachment-btn-group"]} mb-4`}>
             <span className={`${style.description}`}>

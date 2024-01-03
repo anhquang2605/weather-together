@@ -445,6 +445,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
 
     useEffect(()=>{
         if(attachedImages.length > 0){
+
             setPictureAttached(true);
         }else{
             setPictureAttached(false);
