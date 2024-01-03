@@ -349,7 +349,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                     {/* Post attached images goes here */}
                 </div>
                 {
-                    preview &&  
+                    preview && comments.length > 0 && 
                     <button className="mt-4 ml-8 font-bold hover:underline" onClick={handleViewPostModal} >
                         View more comments
                     </button>
