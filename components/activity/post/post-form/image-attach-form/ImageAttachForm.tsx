@@ -102,6 +102,7 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     }
     const handleSetImageUrlsFromAttachedImages = (imagesURLs: string[]) => {
         const imagesURLsLen = imagesURLs.length;
+        if(imagesURLsLen === 0) return;
         setPreviewImageURLs(prev => {
             const prevLen = prev.length;
             if(imagesURLsLen > prevLen){
@@ -112,19 +113,13 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
                 return newState;
             }
         });
-        setDroppedImages( (prev) => {
-            //convert each image urls to blob then set to droppedImages
-            if(imagesURLsLen > 0){
-                const newState = [...prev!];
-                for(let i = 0; i < imagesURLsLen; i++){
-                    getBlob(imagesURLs[i]).then(blob => {
-                        newState[i] = blob;
-                    })
-                }
-                return newState;
-            }else{
-                return [];
-            }
+        const blobs = imagesURLs.map(url => {
+            return getBlob(url).then(blob => {
+                return blob;
+            });
+        })
+        Promise.all(blobs).then(blobs => {
+            setDroppedImages(blobs);
         })
     }
     const handleRemoveAllImagePreview = () => {
@@ -142,17 +137,20 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
         setDroppedImages([]);
     },[])
     useEffect(()=>{
-        if(droppedImages){
-            console.log(droppedImages);
-            setAttachedImages(droppedImages);
-            setPictureAttached(droppedImages.length > 0);
-        }
-    },[droppedImages])
-    useEffect(()=>{
         if(editPreviewImageURLs && editPreviewImageURLs.length > 0){
             handleSetImageUrlsFromAttachedImages(editPreviewImageURLs);
         }
     },[editPreviewImageURLs])
+    useEffect(()=>{
+        let timeStamp = new Date().getTime();
+        console.log(droppedImages, timeStamp);
+        if(droppedImages){
+
+            setAttachedImages(droppedImages);
+            setPictureAttached(droppedImages.length > 0);
+        }
+    },[droppedImages])
+
     return (
     <div 
         onDragOver={handleCancelDragOver}
