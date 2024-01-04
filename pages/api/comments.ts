@@ -23,9 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     let children:CommentChildrenSummary = {};
                     if(_id){
                       result = await commentsCollection.find({_id: new ObjectId(_id as string)}).toArray();
-                      console.log(result);
                       if(result.length > 0){
-                        console.log(result[0]);
                         let resultArr = [result[0]];
                         let curLevel = result[0].level;
                         let curComment = result[0];
