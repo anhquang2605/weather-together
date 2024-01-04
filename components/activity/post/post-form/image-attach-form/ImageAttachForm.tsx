@@ -143,7 +143,6 @@ export default function ImageAttachForm({setReveal, setPictureAttached, revealSt
     },[editPreviewImageURLs])
     useEffect(()=>{
         let timeStamp = new Date().getTime();
-        console.log(droppedImages, timeStamp);
         if(droppedImages){
 
             setAttachedImages(droppedImages);
