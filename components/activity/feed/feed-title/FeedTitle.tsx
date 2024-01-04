@@ -1,6 +1,8 @@
+import { EMOJIS } from "../../../../constants/emojis";
 import { Feed } from "../../../../types/Feed";
 import { UserBasic } from "../../../../types/User";
 import UserMiniProfile from "../../../user/user-mini-profile/UserMiniProfile";
+import { REACTION_ICON_MAP } from "../../reaction/reaction-icon-map";
 import style from './feed-title.module.css';
 import {subDays, formatDistance} from 'date-fns';
 interface FeedTitleProps {
@@ -37,7 +39,10 @@ const FeedTitle = (props:FeedTitleProps) => {
                 }
                 
                 {
-                    feed.type === "reaction" && ' reacted to'
+                    feed.type === "reaction" && ` reacted ${
+                        REACTION_ICON_MAP[feed.reactionType as string]
+
+                    } to`
                 }
 
                 {

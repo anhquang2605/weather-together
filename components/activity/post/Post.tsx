@@ -182,9 +182,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         }else{
             params.limit = limitPerFetch.toString();
         }
-        console.log(params);
         const response = await fetchFromGetAPI(path, params);
-        console.log(response);
         if(response && response.data){
             if(preview){
                 const resultComments = response.data.result;
