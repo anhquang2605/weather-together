@@ -160,7 +160,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                         feeds: [feed],
                         targetContentId: theContentId,
                         latestCreatedDate: feed.createdDate,
-                        lastestActivityId: (feed.type !== "comments" && feed.type !== "reaction" 
+                        lastestActivityId: (feed.type !== "comments" 
                         ) ? "" : feed.activityId,
                         latestIndex: 0,
                     }
