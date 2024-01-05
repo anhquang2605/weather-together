@@ -162,14 +162,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       _id: 1
                     }).toArray();
                     const commentIds = comments.map((comment) => comment._id.toString());
-                    //delete reactions
-                    //delete pictures
-                    //delete feeds
-                    //delete notifications
-                    res.status(200).json({
-                      success: true,
-                      data: {deletedCount: result.deletedCount}
-                    });
+                    if(commentIds.length > 0){
+                      try{
+                        //delete reactions
+                        await db.collection('reactions').deleteMany({targetId: {$in: commentIds}});
+                        //delete reactions feeds and notifications
+                        const reactionsids = (await db.collection('reactions').find({targetId: {$in: commentIds}}).project({_id:1}).toArray()).map((reaction) => reaction._id.toString());
+                        if(reactionsids.length > 0){
+                          await db.collection('feeds').deleteMany({activityId: {$in: reactionsids}});
+                          await db.collection('notifications').deleteMany({subject_id: {$in: reactionsids}});
+                        }
+                        //delete pictures
+                        await db.collection('pictures').deleteMany({targetId: {$in: commentIds}});
+                      }catch(e){
+                        console.log(e);
+                        res.status(500).json({
+                          success: false,
+                          error: 'Server Error',
+                        })
+                        return;
+                      }                    
+
+                      res.status(200).json({
+                        success: true,
+                        data: {deletedCount: result.deletedCount}
+                      });
+                    }
+                   
                   } else {
                     res.status(200).json({
                       success: true,
