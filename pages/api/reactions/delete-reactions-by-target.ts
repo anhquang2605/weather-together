@@ -25,6 +25,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
                 const result = await reactionsCollection.deleteMany(match);
                 if(result.deletedCount> 0){
+                    const reactions = await reactionsCollection.find(match).project({_id: 1}).toArray();
+                    const reactionIds = reactions.map((reaction) => reaction._id.toString());
+                    if(reactionIds.length > 0){
+                        //delete feeds
+                        try{
+                            await db.collection('feeds').deleteMany({activityId: {$in: reactionIds}});
+                            //delete notifications
+                            await db.collection('notifications').deleteMany({subject_id: {$in: reactionIds}});
+                        }catch(e){
+                            console.log(e);
+                            res.status(500).json({
+                                success: false,
+                                error: 'Server Error',
+                            })
+                            return;
+                        }
+                    }
+
                     res.status(200).json({
                         success: true,
                         data: {deletedCount: result.deletedCount},
