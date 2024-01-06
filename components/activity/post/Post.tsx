@@ -29,6 +29,7 @@ import PostForm from "./post-form/PostForm";
 import BuddyTagForm from "./post-form/friend-tag-form/BuddyTagForm";
 import { PostFormContextProvider } from "./post-form/postFormContext";
 import { getRandomString } from "../../../libs/general";
+import ApiStatusPop from "../../api-status-pop/apistatuspop";
 interface PostProps{
     postProp: Post;
     username?: string;
@@ -70,12 +71,16 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
+    const [reveal, setReveal] = useState(false); //for delete api status pop
     const [isCommenting, setIsCommenting] = useState(false);
     const [isFetchingComments, setIsFetchingComments] = useState(false);
     const [isFetchingMoreComments, setIsFetchingMoreComments] = useState(false); 
     const [isFetchingReactions, setIsFetchingReactions] = useState(false);
     const [isFetchingNameMap, setIsFetchingNameMap] = useState(false);
-    const [deletePostStatus, setDeletePostStatus] = useState('idle'); //['idle', 'loading', 'error', 'success'
+    const [deletePostStatus, setDeletePostStatus] = useState({
+        type: 'idle',
+        message: ''
+    }); //['idle', 'loading', 'error', 'success'
     const [loading, setLoading] = useState(true); //TODO: fetch comments from server
     const [endOfList, setEndOfList] = useState(false); //when comment list hit the bottom
     const [lastCursor, setLastCursor] = useState<Date>(new Date()); //TODO: fetch comments from server
@@ -100,7 +105,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         setRevealEditForm(true);
     }
     const handleDeletePost = (postid: string) => async () => {
-        setDeletePostStatus('loading');
+        setDeletePostStatus({type:'loading', message: 'Deleting post...'});
 
         //finally delete the post itself
         const postPath = "posts";
@@ -109,9 +114,9 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         }
         const response = await deleteFromDeleteAPI(postPath, postParams);
         if(response.success){
-            setDeletePostStatus('success');
+            setDeletePostStatus({type:'success', message: 'Delete Successful!'});
         } else{
-            setDeletePostStatus('error');
+            setDeletePostStatus({type:'error', message: 'Delete Failed!'});
         }
     }
     const handleSavePost = (postid: string) => async () => {
@@ -300,6 +305,14 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             handleFetctCommentsForPost('', post._id?.toString() || '', true);
         }
     },[endOfList])
+    useEffect(()=>{
+        if(deletePostStatus.type === 'loading' || deletePostStatus.type === 'error'){
+            setReveal(true);
+        }else{
+            setReveal(false);
+        }
+    },[deletePostStatus])
+    
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
@@ -400,6 +413,12 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                     forPost={true}
                 />
             }
+            <ApiStatusPop status={deletePostStatus} redirectPageName="" show={
+                deletePostStatus.type !== 'idle'
+            }
+            setApiStatus={setDeletePostStatus}
+            setReveal={setReveal}    
+            />
             <Modal status={revealEditForm} containerClassName='form-container' onClose={handleOnCloseModal}>
                 <PostFormContextProvider>
                     <PostFormProvider>
