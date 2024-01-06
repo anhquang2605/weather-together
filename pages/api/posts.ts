@@ -84,6 +84,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 break;
             }
             case 'DELETE':
+                console.log("delete post");
                 /**
                  * Delete post steps
                 */
@@ -104,27 +105,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                  //8. when all is deleted, delete the post
                 {
                     const {postId, pictureAttached} = req.query;
+                    console.log(postId);
                     if(postId && typeof postId === 'string'){
+                        console.log(postId);
                         const post = await postsCollection.findOne({_id: new ObjectId(postId)});
                         if(!post){
                             res.status(404).json({success: false, error: 'Post not found'});
                             return;
                         }
+                        console.log("post found")
                         const session = await client.startSession();
                         //delete all the reactions associated with the post, if there is any error, rollback
                         try {
                             await session.withTransaction(async () => {
+                                console.log("deleting...")
                                 const reactionDeletePath = "reactions/delete-reactions-by-target";
                                 const reactionParams = {
                                     targetId: postId
                                 }
                                 await deleteFromDeleteAPI(reactionDeletePath, reactionParams);
                                 //third delete all the comments aossicate with this post
+                                console.log("reactions deleted")
                                 const commentsPath = "comments";
                                 const commentsParams = {
                                     postId: postId
                                 }
                                 await deleteFromDeleteAPI(commentsPath, commentsParams);
+                                console.log("comments deleted")
                                 //fourth delete the pictures attached to this post and its data on s3
                                 if(pictureAttached === "true"){//need to have a trigger to delete the pictures on s3
                                     const attachedPicturesPath = "pictures";
@@ -134,22 +141,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                     await deleteFromDeleteAPI(attachedPicturesPath, attachedPicturesParams);
                                 }
                                 //next delete all notifications
+                                console.log("pictures deleted")
                                 const notificationsPath = "notification/delete-notification";
                                 const notificationsParams = {
                                     referenceId: postId
                                 }
                                 await deleteFromDeleteAPI(notificationsPath, notificationsParams);
                                 //then delete all feeds
+                                console.log("notifications deleted")
                                 const feedsPath = "feeds";
                                 const feedsParams = {
                                     activityId: postId
                                 }
+  
                                 await deleteFromDeleteAPI(feedsPath, feedsParams);
                                 const match = {
                                     _id: new ObjectId(postId.toString()),
                                 }
+                                console.log("feeds deleted")
+
                                 const result = await postsCollection.deleteOne(match);
                                 if(result){
+                                    console.log("post deleted")
                                     res.status(200).json({
                                         success: true,
                                         data: {result}

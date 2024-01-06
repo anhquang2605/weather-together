@@ -17,13 +17,15 @@ interface ApiStatusPopProps {
         message: string;
     }>>
     redirectDuration?: number,
+    closeButtonShown?: boolean,
     setReveal: React.Dispatch<React.SetStateAction<boolean>>
 }/*
 This component depends on tailwindcss for styling
 */
-export default function ApiStatusPop({ status, show, redirect = "", redirectPageName="", redirectDuration = 0, redirectButtonText = "", setApiStatus, setReveal}:    ApiStatusPopProps) {
+export default function ApiStatusPop({ status, show, redirect = "", redirectPageName="", redirectDuration = 0, redirectButtonText = "", setApiStatus, setReveal, closeButtonShown=true}:    ApiStatusPopProps) {
     const [dastyle, setdaStyle] = useState("");
     const [redirectCountdown, setRedirectCountdown] = useState<number>(0);
+    const [showCloseButton, setShowCloseButton] = useState<boolean>(closeButtonShown);
     const router = useRouter();
     const redirectTo = (path: string) => {
         router.push(path);
@@ -47,6 +49,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
                 break;
             case "error":
                 setdaStyle("text-red-400");
+                setShowCloseButton(true);
                 break;
             case "loading":
                 setdaStyle("text-blue-400");
@@ -68,7 +71,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
             } className="absolute top-0 left-0 backdrop-blur bg-slate-900 bg-opacity-70 w-full h-full"></div>
             <div className={"bg-indigo-900 mx-auto my-auto rounded p-24 w-3/4 md:w-2/4 lg:w-1/3 flex justify-center items-center flex-col relative"}>
                 <div className={"flex flex-col items-center justify-center " + dastyle}>
-                    {status.type!== "success" && <button onClick={()=>{
+                    {status.type!== "success" || showCloseButton && <button onClick={()=>{
                         setReveal(false);
                         setApiStatus({
                             type: "idle",

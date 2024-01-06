@@ -110,7 +110,8 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         //finally delete the post itself
         const postPath = "posts";
         const postParams = {
-            _id: postid
+            postId: postid,
+            pictureAttached: post.pictureAttached
         }
         const response = await deleteFromDeleteAPI(postPath, postParams);
         if(response.success){
@@ -418,6 +419,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             }
             setApiStatus={setDeletePostStatus}
             setReveal={setReveal}    
+            closeButtonShown={false}
             />
             <Modal status={revealEditForm} containerClassName='form-container' onClose={handleOnCloseModal}>
                 <PostFormContextProvider>
