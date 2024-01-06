@@ -25,15 +25,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
                 const result = await reactionsCollection.deleteMany(match);
                 if(result.deletedCount> 0){
-                    const reactions = await reactionsCollection.find(match).project({_id: 1}).toArray();
-                    const reactionIds = reactions.map((reaction) => reaction._id.toString());
-                    if(reactionIds.length > 0){
-                        console.log({reactionIds})
+                   
+
                         //delete feeds
                         try{
-                            await db.collection('feeds').deleteMany({activityId: {$in: reactionIds, type: 'reaction'}});
+                            await db.collection('feeds').deleteMany({targetId: targetId, type: 'reaction'});
                             //delete notifications
-                            await db.collection('notifications').deleteMany({subject_id: {$in: reactionIds}, type: 'reactions'});
+                            await db.collection('notifications').deleteMany({reference_id:  targetId, type: 'reactions'});
                         }catch(e){
                             console.log(e);
                             res.status(500).json({
@@ -42,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             })
                             return;
                         }
-                    }
+                        
 
                     res.status(200).json({
                         success: true,

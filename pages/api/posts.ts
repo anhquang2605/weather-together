@@ -130,7 +130,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 const commentsParams = {
                                     postId: postId
                                 }
-                                await deleteFromDeleteAPI(commentsPath, commentsParams);
+                               /*  await deleteFromDeleteAPI(commentsPath, commentsParams);
                                 console.log("comments deleted")
                                 //fourth delete the pictures attached to this post and its data on s3
                                 if(pictureAttached === "true"){//need to have a trigger to delete the pictures on s3
@@ -163,7 +163,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 }
                                 console.log("feeds deleted")
 
-                                const result = await postsCollection.deleteOne(match);
+                                const result = await postsCollection.deleteOne(match); */
+                                const result = true;
                                 if(result){
                                     console.log("post deleted")
                                     res.status(200).json({

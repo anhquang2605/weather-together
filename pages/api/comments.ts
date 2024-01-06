@@ -167,11 +167,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         //delete reactions
                         await db.collection('reactions').deleteMany({targetId: {$in: commentIds}});
                         //delete reactions feeds and notifications
-                        const reactionsids = (await db.collection('reactions').find({targetId: {$in: commentIds}}).project({_id:1}).toArray()).map((reaction) => reaction._id.toString());
-                        if(reactionsids.length > 0){
-                          await db.collection('feeds').deleteMany({activityId: {$in: reactionsids}, type: 'reaction'});
-                          await db.collection('notifications').deleteMany({subject_id: {$in: reactionsids}, type: 'reactions'});
-                        }
+                      //delete feeds
+
+                        await db.collection('feeds').deleteMany({targetId: { in: commentIds}, type: 'reaction'});
+                        //delete notifications
+                        await db.collection('notifications').deleteMany({reference_id: { in:  commentIds}, type: 'reactions'});
+                
+
                         //delete pictures
                         await db.collection('pictures').deleteMany({targetId: {$in: commentIds}});
                         //delete feeds and notifications
