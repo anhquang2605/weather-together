@@ -155,9 +155,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   const match = {
                     postId: postId.toString(),
                   }
-                  const result = await commentsCollection.deleteMany(match);
-
-                  if(result.deletedCount > 0){
                     const comments = await commentsCollection.find(match).project({
                       _id: 1
                     }).toArray();
@@ -179,6 +176,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         //delete feeds and notifications
                         await db.collection('feeds').deleteMany({activityId: {$in: commentIds}, type: 'comment'});
                         await db.collection('notifications').deleteMany({subject_id: {$in: commentIds}, type: 'comments'});
+                        const result = await commentsCollection.deleteMany(match);
+
+                        res.status(200).json({
+                          success: true,
+                          data: {deletedCount: result.deletedCount}
+                        });
                       }catch(e){
                         console.log(e);
                         res.status(500).json({
@@ -187,13 +190,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         })
                         return;
                       }                    
-
-                      res.status(200).json({
-                        success: true,
-                        data: {deletedCount: result.deletedCount}
-                      });
-                    }
-                   
                   } else {
                     res.status(200).json({
                       success: true,
