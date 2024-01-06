@@ -196,8 +196,8 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             }
         } else if (req.method === 'DELETE') {
             //delete all feeds associated with the activityId (post, post_tag, comment, reaction)
-            const {activityId, feedIds} = req.query;
-            if(activityId && typeof activityId === 'string'){
+            const {activityId, feedIds, type} = req.query;
+            if(activityId && typeof activityId === 'string' && type && typeof type === 'string'){
                 const result = await db.collection('feeds').deleteMany({activityId: activityId});
                 if(result.deletedCount > 0){
                     res.status(200).json({success: true, data: result.deletedCount});

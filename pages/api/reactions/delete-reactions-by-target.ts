@@ -28,11 +28,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     const reactions = await reactionsCollection.find(match).project({_id: 1}).toArray();
                     const reactionIds = reactions.map((reaction) => reaction._id.toString());
                     if(reactionIds.length > 0){
+                        console.log({reactionIds})
                         //delete feeds
                         try{
-                            await db.collection('feeds').deleteMany({activityId: {$in: reactionIds}});
+                            await db.collection('feeds').deleteMany({activityId: {$in: reactionIds, type: 'reaction'}});
                             //delete notifications
-                            await db.collection('notifications').deleteMany({subject_id: {$in: reactionIds}});
+                            await db.collection('notifications').deleteMany({subject_id: {$in: reactionIds}, type: 'reactions'});
                         }catch(e){
                             console.log(e);
                             res.status(500).json({

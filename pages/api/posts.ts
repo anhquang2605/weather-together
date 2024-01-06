@@ -144,19 +144,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 console.log("pictures deleted")
                                 const notificationsPath = "notification/delete-notification";
                                 const notificationsParams = {
-                                    referenceId: postId
+                                    referenceId: postId,
+                                    type: 'posts'
                                 }
                                 await deleteFromDeleteAPI(notificationsPath, notificationsParams);
                                 //then delete all feeds
                                 console.log("notifications deleted")
                                 const feedsPath = "feeds";
                                 const feedsParams = {
-                                    activityId: postId
+                                    activityId: postId,
+                                    type: "post"
                                 }
   
                                 await deleteFromDeleteAPI(feedsPath, feedsParams);
                                 const match = {
                                     _id: new ObjectId(postId.toString()),
+                                    
                                 }
                                 console.log("feeds deleted")
 
