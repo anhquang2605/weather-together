@@ -68,10 +68,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 //NOTE: need to set up a trigger to delete all associated reactions, feeds, notifications, activities, and comments associated with the picture
                 {
                     const {targetIds} = req.query;
+                    console.log(typeof targetIds);
                     if(targetIds && targetIds.length > 0){
                         try {
                             const matches = await picturesCollection.find({targetId: {in: targetIds}}).toArray();
+                            console.log(targetIds);
                             const urls = matches.map((match:Picture) => match.picturePath);
+                            console.log(urls);
                             if(urls.length > 0){
                                 const S3URLsDeletionPath = 's3/delete-urls';
                                 const body = {

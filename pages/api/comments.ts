@@ -156,12 +156,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   const match = {
                     postId: postId
                   }
-                  console.log(postId);
                     const comments = await commentsCollection.find(match).project({
                       _id: 1
                     }).toArray();
                     const commentIds = comments.map((comment) => comment._id.toString());
-                    console.log(commentIds)
+
                     if(commentIds.length > 0){
                       try{
                         //delete reactions
@@ -172,8 +171,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         await db.collection('feeds').deleteMany({targetId: { in: commentIds}, type: 'reaction'});
                         //delete notifications
                         await db.collection('notifications').deleteMany({reference_id: { in:  commentIds}, type: 'reactions'});
-                
-
                         //delete pictures
                         const picturePath = 'pictures';
                         const params = {
