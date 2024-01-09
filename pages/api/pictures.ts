@@ -67,38 +67,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 //delete all pictures associated with post using postId
                 //NOTE: need to set up a trigger to delete all associated reactions, feeds, notifications, activities, and comments associated with the picture
                 {
-                    const {targetIds} = req.query;
-                    console.log(typeof targetIds);
-                    if(targetIds && targetIds.length > 0){
+                    const {targetId} = req.query;
+                    if(targetId ){
                         try {
-                            const matches = await picturesCollection.find({targetId: {in: targetIds}}).toArray();
-                            console.log(targetIds);
-                            const urls = matches.map((match:Picture) => match.picturePath);
-                            console.log(urls);
-                            if(urls.length > 0){
-                                const S3URLsDeletionPath = 's3/delete-urls';
-                                const body = {
-                                    urls: urls
-                                }
-                                await insertToPostAPI(S3URLsDeletionPath, body);
-                                const result = await picturesCollection.deleteMany({targetId: {in: targetIds}});
-                                if(result.deletedCount > 0){
-                                    res.status(200).json({
-                                        success: true,
-                                        data: {deletedCount: result.deletedCount}
-                                    });
-                                }else{
-                                    res.status(200).json({
-                                        success: true,
-                                        data: {deletedCount: 0}
-                                    });
-                                }
+                            const result = await picturesCollection.deleteMany({targetId: targetId});
+                            if(result.deletedCount > 0){
+                                res.status(200).json({
+                                    success: true,
+                                    data: {deletedCount: result.deletedCount}
+                                });
                             }else{
                                 res.status(200).json({
                                     success: true,
                                     data: {deletedCount: 0}
                                 });
                             }
+                    
                             
                         } catch (error) {
                             res.status(500).json({
