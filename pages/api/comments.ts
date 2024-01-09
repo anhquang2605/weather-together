@@ -174,7 +174,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                         //delete pictures
                         await db.collection('pictures').deleteMany({targetId: {$in: commentIds}});
-                        
+                        //delete feeds and notifications
+                        await db.collection('feeds').deleteMany({activityId: { in: commentIds}});
+                        //delete notifications
+                        await db.collection('notifications').deleteMany({reference_id: { in:  commentIds}});
                         //delete the comments themselves
                         const result = await commentsCollection.deleteMany(match);
 
