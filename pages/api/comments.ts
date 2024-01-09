@@ -118,7 +118,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }
                     
                  } catch (error) {
-                  console.log(error);
                   res.status(500).json({
                     success: false,
                     error: 'Server Error',
@@ -168,9 +167,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         //delete reactions feeds and notifications
                       //delete feeds
 
-                        await db.collection('feeds').deleteMany({targetId: { in: commentIds}, type: 'reaction'});
+                        await db.collection('feeds').deleteMany({targetId: { $in: commentIds}, type: 'reaction'});
                         //delete notifications
-                        await db.collection('notifications').deleteMany({reference_id: { in:  commentIds}, type: 'reactions'});
+                        await db.collection('notifications').deleteMany({reference_id: { $in:  commentIds}, type: 'reactions'});
                         //delete pictures
                         const picturePath = 'pictures/delete-by-targetIds';
                         const params = {
@@ -178,9 +177,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         }
                         await insertToPostAPI(picturePath, params);
                         //delete feeds and notifications
-                        await db.collection('feeds').deleteMany({activityId: { in: commentIds}});
+                        await db.collection('feeds').deleteMany({activityId: { $in: commentIds}});
                         //delete notifications
-                        await db.collection('notifications').deleteMany({reference_id: { in:  commentIds}});
+                        await db.collection('notifications').deleteMany({reference_id: { $in:  commentIds}});
                         //delete the comments themselves
                         //const result = await commentsCollection.deleteMany(match);
                         const result = {

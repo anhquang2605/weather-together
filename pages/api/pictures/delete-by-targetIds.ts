@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log(targetIds, targetIds[0])
             if(targetIds && targetIds.length > 0){
                 try {
-                    const matches = await picturesCollection.find({targetId: {in: targetIds}}).toArray();
+                    const matches = await picturesCollection.find({targetId: {$in: targetIds}}).toArray();
                     console.log(matches);
                     const urls = matches.map((match:Picture) => match.picturePath);
                     if(urls.length > 0){
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             urls: urls
                         }
                         await insertToPostAPI(S3URLsDeletionPath, body);
-                        const result = await picturesCollection.deleteMany({targetId: {in: targetIds}});
+                        const result = await picturesCollection.deleteMany({targetId: {$in: targetIds}});
                         if(result.deletedCount > 0){
                             res.status(200).json({
                                 success: true,
