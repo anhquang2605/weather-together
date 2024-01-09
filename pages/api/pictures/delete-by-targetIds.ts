@@ -5,16 +5,17 @@ import {Picture} from '../../../types/Picture';
 import { insertToPostAPI } from '../../../libs/api-interactions';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { method } = req;
     const db = await connectDB();
     if(db){
         const picturesCollection: Collection<WithId<Picture>> = db.collection('pictures');
         if(req.method === 'POST'){
             //upstream problem with image url, investigate later
-            const targetIds = req.body;
+            const {targetIds} = req.body;
+            console.log(targetIds, targetIds[0])
             if(targetIds && targetIds.length > 0){
                 try {
                     const matches = await picturesCollection.find({targetId: {in: targetIds}}).toArray();
+                    console.log(matches);
                     const urls = matches.map((match:Picture) => match.picturePath);
                     if(urls.length > 0){
                         const S3URLsDeletionPath = 's3/delete-urls';
@@ -47,12 +48,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         error: 'Server Error',
                     });
                 }
-        } else {
-            res.status(400).json({
-                success: false,
-                error: 'Bad Request',
-            });
-        }
+            } else {
+                res.status(400).json({
+                    success: false,
+                    error: 'Bad Request',
+                });
+            }
         }else{
             res.status(400).json({
                 success: false,
