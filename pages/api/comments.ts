@@ -181,10 +181,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         //delete notifications
                         await db.collection('notifications').deleteMany({reference_id: { $in:  commentIds}});
                         //delete the comments themselves
-                        //const result = await commentsCollection.deleteMany(match);
-                        const result = {
-                          deletedCount: 0
-                        }
+                        const result = await commentsCollection.deleteMany(match);
+                        
                         res.status(200).json({
                           success: true,
                           data: {deletedCount: result.deletedCount}

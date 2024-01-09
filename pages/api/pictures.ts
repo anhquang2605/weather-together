@@ -70,6 +70,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     const {targetId} = req.query;
                     if(targetId ){
                         try {
+                            const matches = await picturesCollection.find({targetId: targetId}).toArray();
+                            const S3URLsDeletionPath = 's3/delete-urls';
+                            if(!matches){
+                                res.status(404).json({
+                                    success: false,
+                                    error: 'Not Found',
+                                });
+                                return;
+                            }
+                            if(matches.length > 0){
+                                const body = {
+                                    urls: matches
+                                }
+                                await insertToPostAPI(S3URLsDeletionPath, body);
+                            }
                             const result = await picturesCollection.deleteMany({targetId: targetId});
                             if(result.deletedCount > 0){
                                 res.status(200).json({

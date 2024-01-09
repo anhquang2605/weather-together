@@ -11,11 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if(req.method === 'POST'){
             //upstream problem with image url, investigate later
             const {targetIds} = req.body;
-            console.log(targetIds, targetIds[0])
             if(targetIds && targetIds.length > 0){
                 try {
                     const matches = await picturesCollection.find({targetId: {$in: targetIds}}).toArray();
-                    console.log(matches);
                     const urls = matches.map((match:Picture) => match.picturePath);
                     if(urls.length > 0){
                         const S3URLsDeletionPath = 's3/delete-urls';
