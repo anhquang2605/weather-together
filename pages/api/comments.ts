@@ -161,6 +161,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                       _id: 1
                     }).toArray();
                     const commentIds = comments.map((comment) => comment._id.toString());
+                    console.log(commentIds)
                     if(commentIds.length > 0){
                       try{
                         //delete reactions
@@ -184,8 +185,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         //delete notifications
                         await db.collection('notifications').deleteMany({reference_id: { in:  commentIds}});
                         //delete the comments themselves
-                        const result = await commentsCollection.deleteMany(match);
-
+                        //const result = await commentsCollection.deleteMany(match);
+                        const result = {
+                          deletedCount: 0
+                        }
                         res.status(200).json({
                           success: true,
                           data: {deletedCount: result.deletedCount}
