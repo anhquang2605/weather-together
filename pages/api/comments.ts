@@ -153,8 +153,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const {postId} = req.query;
                 if(postId && typeof postId === 'string'){
                   const match = {
-                    postId: postId.toString(),
+                    postId: postId
                   }
+                  console.log(postId);
                     const comments = await commentsCollection.find(match).project({
                       _id: 1
                     }).toArray();
