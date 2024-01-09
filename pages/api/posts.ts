@@ -136,7 +136,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 /*if(pictureAttached === "true"){//need to have a trigger to delete the pictures on s3
                                     const attachedPicturesPath = "pictures";
                                     const attachedPicturesParams = {
-                                        targetId: postId
+                                        targetIds: [postId]
                                     }
                                     await deleteFromDeleteAPI(attachedPicturesPath, attachedPicturesParams);
                                 }

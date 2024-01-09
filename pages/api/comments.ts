@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { connectDB } from '../../libs/mongodb';
 import { Comment } from '../../types/Comment';
 import { CommentChildrenSummary } from '../../types/CommentChildrenSummary';
+import { deleteFromDeleteAPI } from '../../libs/api-interactions';
 interface IMatch{
   targetId?: string;
   level?: number;
@@ -173,7 +174,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 
 
                         //delete pictures
-                        await db.collection('pictures').deleteMany({targetId: {$in: commentIds}});
+                        const picturePath = 'pictures';
+                        const params = {
+                          targetIds: commentIds,
+                        }
+                        await deleteFromDeleteAPI(picturePath, params);
                         //delete feeds and notifications
                         await db.collection('feeds').deleteMany({activityId: { in: commentIds}});
                         //delete notifications
