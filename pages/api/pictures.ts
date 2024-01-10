@@ -71,7 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     if(targetId ){
                         try {
                             const matches = await picturesCollection.find({targetId: targetId}).toArray();
-                            const S3URLsDeletionPath = 's3/delete-urls';
+                           
                             if(!matches){
                                 res.status(404).json({
                                     success: false,
@@ -79,9 +79,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 });
                                 return;
                             }
+                            const S3URLsDeletionPath = 's3/delete-urls';
                             if(matches.length > 0){
+                                const urls = matches.map((match:Picture) => match.picturePath);
                                 const body = {
-                                    urls: matches
+                                    urls
                                 }
                                 await insertToPostAPI(S3URLsDeletionPath, body);
                             }

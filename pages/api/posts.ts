@@ -105,9 +105,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                  //8. when all is deleted, delete the post
                 {
                     const {postId, pictureAttached} = req.query;
-                    console.log(postId);
                     if(postId && typeof postId === 'string'){
-                        console.log(postId);
                         const post = await postsCollection.findOne({_id: new ObjectId(postId)});
                         if(!post){
                             res.status(404).json({success: false, error: 'Post not found'});
@@ -136,16 +134,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 if(pictureAttached === "true"){//need to have a trigger to delete the pictures on s3
                                     const attachedPicturesPath = "pictures";
                                     const attachedPicturesParams = {
-                                        targetId: [postId]
+                                        targetId: postId
                                     }
                                     await deleteFromDeleteAPI(attachedPicturesPath, attachedPicturesParams);
                                 }
                                 //next delete all notifications
                                 console.log("pictures deleted")
-                                /*const notificationsPath = "notification/delete-notification";
+                                const notificationsPath = "notification/delete-notification";
                                 const notificationsParams = {
                                     referenceId: postId,
-                                    type: 'posts'
                                 }
                                 await deleteFromDeleteAPI(notificationsPath, notificationsParams);
                                 //then delete all feeds
@@ -153,7 +150,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 const feedsPath = "feeds";
                                 const feedsParams = {
                                     activityId: postId,
-                                    type: "post"
                                 }
   
                                 await deleteFromDeleteAPI(feedsPath, feedsParams);
@@ -163,7 +159,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 }
                                 console.log("feeds deleted")
 
-                                const result = await postsCollection.deleteOne(match); */
+/*                                 const result = await postsCollection.deleteOne(match);  */
                                 const result = true;
                                 if(result){
                                     console.log("post deleted")
