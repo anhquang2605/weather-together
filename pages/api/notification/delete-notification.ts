@@ -13,8 +13,9 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                 );
                 res.status(200).json({ message: "Notification deleted"});
             } else if (referenceId){
+                console.log("referenceId", referenceId);
                 await db.collection("notifications").deleteMany(
-                    { referenceId: referenceId },
+                    { reference_id: referenceId },
                 );
                 res.status(200).json({ message: "Notifications deleted"});
             }        

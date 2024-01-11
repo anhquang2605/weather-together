@@ -448,6 +448,5 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         </>
         }
         </PostContext.Provider>
-
     )
 }
