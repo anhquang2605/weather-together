@@ -15,6 +15,7 @@ export interface Feed {
     hidden?: boolean;
     hiddenDuration?: number;//in seconds
     relatedUsers?: string[];//users who are related to the feed, for example, the users who are tagged in a post, only found in post_tag feed
+    hiddenBy: string[];
 }
 export interface FeedGroup{
     targetContentId: string;

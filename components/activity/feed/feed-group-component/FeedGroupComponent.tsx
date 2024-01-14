@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import style from './feed-group-component.module.css';
 import { Feed, FeedGroup } from '../../../../types/Feed';
 import { UserBasic } from '../../../../types/User';
@@ -7,6 +7,7 @@ import FeedTitleGroup from '../feed-title-group/FeedTitleGroup';
 import FeedContent from '../feed-content/FeedContent';
 import { deleteFromDeleteAPI, updateToPutAPI } from '../../../../libs/api-interactions';
 import { CiUndo } from "react-icons/ci";
+import { useFeedContext } from '../FeedsContext';
 
 interface FeedGroupComponentProps {
     feedGroup: FeedGroup;
@@ -15,8 +16,8 @@ interface FeedGroupComponentProps {
 const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
     const [group, setGroup] = useState<FeedGroup | null>(null);
     const [hide, setHide] = useState<boolean>(false);
+    const {username}  = useFeedContext();
     useEffect(()=>{
-        console.log(feedGroup);
         if(feedGroup){
             setGroup(feedGroup);
         }
@@ -27,7 +28,8 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
             const feedActIds = feeds.map(feed => feed.activityId);
             const path = "feeds/hide-feeds-by-ids";
             const body = {
-                actIds: feedActIds
+                actIds: feedActIds,
+                username
             }
             const result = await updateToPutAPI(path, body);
             if(result.success){
@@ -41,7 +43,8 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
         if(feeds.length >= 1){
             const path = "feeds/undelete-feeds-by-ids";
             const body = {
-                actIds: feeds.map(feed => feed.activityId)
+                actIds: feeds.map(feed => feed.activityId),
+                username
             }
             const result = await updateToPutAPI(path, body);
             if(result.success){

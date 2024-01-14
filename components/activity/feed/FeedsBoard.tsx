@@ -28,7 +28,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     } = props;
     const feedListRef = useRef<HTMLDivElement>(null);
     const FEEDS_PER_PAGE = 10;
-    const {addFeeds, setHasMore, setFetchingStatus, feedGroups, hasMore, setLastCursor, lastCursor, allContentLoaded} = useFeedContext();
+    const {addFeeds, setHasMore, setFetchingStatus, feedGroups, hasMore, setLastCursor, lastCursor, allContentLoaded, setUsername} = useFeedContext();
     const [endOfList, setEndOfList] = useState<boolean>(false);
     const [listRendered, setListRendered] = useState<boolean>(false);
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
@@ -53,6 +53,9 @@ export default function FeedsBoard (props: FeedsBoardProps) {
        }
     },500)
     useEffect(() => {
+        if(username){
+            setUsername(username);
+        }
         const ws = new WebSocket(`${SERVER_HOST}:${SERVER_PORT}`);
         ws.onopen = () => {
             ws.send(JSON.stringify({

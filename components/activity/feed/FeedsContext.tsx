@@ -22,7 +22,9 @@ type FeedsContextType = {
     lastCursor: Date,
     setLastCursor: React.Dispatch<React.SetStateAction<Date>>,
     updateContentLoaded: () => void,
-    allContentLoaded: boolean
+    allContentLoaded: boolean,
+    username: string,
+    setUsername: React.Dispatch<React.SetStateAction<string>> 
 }
 interface UsernameToBasicProfileMap{
     [username: string]: UserBasic
@@ -54,6 +56,7 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
     const [totalContentCount, setTotalContentCount] = useState<number>(0);
     const [contentLoadedCount, setContentLoadedCount] = useState<number>(0);
     const [allContentLoaded, setAllContentLoaded] = useState<boolean>(false);
+    const [username, setUsername] = useState<string>("");
     const updateContentLoaded = () => {
        setContentLoadedCount(prev => prev + 1);
     }
@@ -173,7 +176,9 @@ export function FeedContextProvider ({children}: FeedContextProviderProps) {
         lastCursor,
         setLastCursor,
         updateContentLoaded,
-        allContentLoaded
+        allContentLoaded,
+        username,
+        setUsername,
     }
     return (
         <FeedsContext.Provider value={value}>
