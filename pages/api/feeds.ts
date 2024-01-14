@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                             } },
                             { relatedUser: { $in: usernames } },
                         ],
-                       
+                        isDeleted: {$ne: true},
                     },
                 },
                 { $sort: { createdDate: -1 } },

@@ -16,6 +16,7 @@ const FeedGroupComponent: React.FC<FeedGroupComponentProps> = ({feedGroup}) => {
     const [group, setGroup] = useState<FeedGroup | null>(null);
     const [hide, setHide] = useState<boolean>(false);
     useEffect(()=>{
+        console.log(feedGroup);
         if(feedGroup){
             setGroup(feedGroup);
         }
