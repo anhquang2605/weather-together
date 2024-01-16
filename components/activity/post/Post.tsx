@@ -130,11 +130,9 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         setRevealDeleteConfirmation(false);
     }
     const handleDeletionConfirmation = async () => {
-        //setRevealDeleteConfirmation(false);
+        setRevealDeleteConfirmation(false);
         try{
-                await handleDeletePost(post._id?.toString() || '')
-            
-            
+                (await handleDeletePost(post._id?.toString() || ''))()
         }catch(e){
             console.log(e);
         }

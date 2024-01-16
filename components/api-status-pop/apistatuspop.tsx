@@ -25,6 +25,7 @@ This component depends on tailwindcss for styling
 */
 export default function ApiStatusPop({ status, show, redirect = "", redirectPageName="", redirectDuration = 0, redirectButtonText = "", setApiStatus, setReveal, closeButtonShown=true}:    ApiStatusPopProps) {
     const [dastyle, setdaStyle] = useState("");
+    const [revealPop, setRevealPop] = useState<boolean>(show);//this is for the pop up to reveal itself after the status is set
     const [redirectCountdown, setRedirectCountdown] = useState<number>(0);
     const [showCloseButton, setShowCloseButton] = useState<boolean>(closeButtonShown);
     const router = useRouter();
@@ -66,7 +67,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
         }
     },[redirectCountdown])
     return (
-        <div className={"fixed z-50 top-0 left-0 w-full h-full flex " + (show? "" : "hidden ")}>
+        <div className={"fixed z-50 top-0 left-0 w-full h-full flex " + (revealPop? "" : "hidden ")}>
             <div onClick={
                 handleClosePop
             } className="absolute top-0 left-0 backdrop-blur bg-slate-900 bg-opacity-70 w-full h-full"></div>
@@ -93,6 +94,8 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
                     </p>
 
                     {status.type == "success" && <button className="action-btn mt-4" onClick={()=>{
+                        setRevealPop(false);
+                        setReveal(false);
                         redirectTo(redirect) 
                     }}>
                     {redirectButtonText.length > 0 ? redirectButtonText : "Confirm"}</button>}

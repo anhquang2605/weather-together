@@ -206,3 +206,8 @@ _Putting two state setter in same function scope will make the state update simu
     43. Image from urls must be created by using fetch function instead of new Blob() since new Blob will always result in image size less than 63 and no information with that image
     44. Flex: none (if there is another flex: 1 item, this item will be shrunk to its normal height) is different from flex: 0 (will not leave any space for the other flex item with this property aside from its padding)
     45. in Mongo, $in and in are two different things
+    46. Execute an async function returned by a function:
+    When define a func like so const func = (var) => async () => {
+      ....
+    }
+    to call this function, first need to resolve the promise from the async function by wrapping () around the func call with await used, the call the resolved promise as a function (await func("sth"))()
