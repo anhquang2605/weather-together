@@ -36,6 +36,14 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
         setReveal(false);
         
     }
+    const handleConfirm = () => {
+        setRevealPop(false);
+        if(redirect.length > 0){
+            redirectTo(redirect);
+        }else{
+            router.reload();
+        } 
+    }
     useEffect(() => {
         let redirectTimer: NodeJS.Timeout;
         switch(status.type) {
@@ -93,11 +101,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
                         </span>}
                     </p>
 
-                    {status.type == "success" && <button className="action-btn mt-4" onClick={()=>{
-                        setRevealPop(false);
-                        setReveal(false);
-                        redirectTo(redirect) 
-                    }}>
+                    {status.type == "success" && <button className="action-btn mt-4" onClick={handleConfirm}>
                     {redirectButtonText.length > 0 ? redirectButtonText : "Confirm"}</button>}
                 </div>
             </div>
