@@ -107,6 +107,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         setRevealEditForm(true);
     }
     const handleDeletePost = (postid: string) => async () => {
+        console.log("delete post #" + postid);
         setDeletePostStatus({type:'loading', message: 'Deleting post...'});
 
         //finally delete the post itself
@@ -128,10 +129,16 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     const handleCancelDelete = () => async () => {
         setRevealDeleteConfirmation(false);
     }
-    const handleDeletionConfirmation = () => {
-        setRevealDeleteConfirmation(false);
-        handleDeletePost(post._id?.toString() || '')
-
+    const handleDeletionConfirmation = async () => {
+        //setRevealDeleteConfirmation(false);
+        try{
+                await handleDeletePost(post._id?.toString() || '')
+            
+            
+        }catch(e){
+            console.log(e);
+        }
+        
     }
     const handleSavePost = (postid: string) => async () => {
         console.log("save post #" + postid);

@@ -2059,19 +2059,19 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
 @media (min-width: 768px) {
   .feed-page-main-components {
-    width: 440px;
+    width: 640px;
   }
 }
 
 @media (min-width: 1024px) {
   .feed-page-main-components {
-    width: 520px;
+    width: 700px;
   }
 }
 
 @media (min-width: 1280px) {
   .feed-page-main-components {
-    width: 680px;
+    width: 750px;
   }
 }
 
@@ -2155,10 +2155,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
     width: 40%;
   }
 
-  .md\:w-\[440px\] {
-    width: 440px;
-  }
-
   .md\:grow {
     flex-grow: 1;
   }
@@ -2190,10 +2186,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
     width: 12rem;
   }
 
-  .lg\:w-\[520px\] {
-    width: 520px;
-  }
-
   .lg\:flex-nowrap {
     flex-wrap: nowrap;
   }
@@ -2220,9 +2212,5 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
   .xl\:w-1\/4 {
     width: 25%;
-  }
-
-  .xl\:w-\[680px\] {
-    width: 680px;
   }
 }

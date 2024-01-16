@@ -313,5 +313,5 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 
 /* feed page dimensions */
 .feed-page-main-components{
-  @apply xl:w-[680px] lg:w-[520px] md:w-[440px];
+  @apply xl:w-[750px] lg:w-[700px] md:w-[640px];
 }

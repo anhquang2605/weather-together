@@ -61,7 +61,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
         }    
     },[status.type])
     useEffect(() => {
-        if(redirectCountdown >= redirectDuration) {
+        if(redirectCountdown >= redirectDuration && redirectDuration > 0) {
             redirectTo(redirect);
         }
     },[redirectCountdown])
