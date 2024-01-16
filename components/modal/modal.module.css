@@ -56,15 +56,29 @@
         color: rgb(253, 71, 38);
     }
 }
+.sm{
 
+}
+.md{
+
+}
+.lg{
+
+}
 @media (min-width: 1440px ) {
     .modal-content{
         width: 45%;
+    }
+    .sm .modal-content{
+        width: 30%;
     }
 }
 @media (min-width: 1024px) and (max-width: 1440px){
     .modal-content{
         width: 60%;
+    }
+    .sm .modal-content{
+        width: 30%;
     }
 }
 

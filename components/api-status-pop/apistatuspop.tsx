@@ -18,7 +18,8 @@ interface ApiStatusPopProps {
     }>>
     redirectDuration?: number,
     closeButtonShown?: boolean,
-    setReveal: React.Dispatch<React.SetStateAction<boolean>>
+    setReveal: React.Dispatch<React.SetStateAction<boolean>>,
+
 }/*
 This component depends on tailwindcss for styling
 */

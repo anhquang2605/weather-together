@@ -30,6 +30,7 @@ import BuddyTagForm from "./post-form/friend-tag-form/BuddyTagForm";
 import { PostFormContextProvider } from "./post-form/postFormContext";
 import { getRandomString } from "../../../libs/general";
 import ApiStatusPop from "../../api-status-pop/apistatuspop";
+import ConfirmationBox from "../../confirmation-box/ConfirmationBox";
 interface PostProps{
     postProp: Post;
     username?: string;
@@ -90,6 +91,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     const [hasMoreComments, setHasMoreComments] = useState(true); //TODO: fetch comments from server
     const [commentChildrenSummary, setCommentChildrenSummary] = useState<CommentChildrenSummary>({});
     const [uniqueString, setUniqueString] = useState<string>(''); //TODO: fetch comments from server
+    const [revealDeleteConfirmation, setRevealDeleteConfirmation] = useState(false); //TODO: fetch comments from server
     //edit form
     const [revealEditForm, setRevealEditForm] = useState(false);
     const cursorRef = useRef(lastCursor);
@@ -120,6 +122,12 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             setDeletePostStatus({type:'error', message: 'Delete Failed!'});
         }
     }
+    const handleRevealDeleteConfirmation = () => async () => {
+        setRevealDeleteConfirmation(true);
+    }
+    const handleCancelDelete = () => async () => {
+        setRevealDeleteConfirmation(false);
+    }
     const handleSavePost = (postid: string) => async () => {
         console.log("save post #" + postid);
     }
@@ -130,7 +138,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         },
         {
             type: 'Delete',
-            handler: handleDeletePost(post._id?.toString() || ''),
+            handler: handleRevealDeleteConfirmation(),
         },
         {
             type: 'Save',
@@ -444,6 +452,13 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                         />
                     </PostFormProvider>
                 </PostFormContextProvider>
+            </Modal>
+            <Modal size="sm" containerClassName='form-container' status={revealDeleteConfirmation} onClose={handleCancelDelete()}>
+                <ConfirmationBox
+                    confirmHandler={handleDeletePost(post._id?.toString() || '')}
+                    cancelHandler={handleCancelDelete()}
+                    confirmText="Are you sure you want to delete this post?"
+                />
             </Modal>
         </>
         }
