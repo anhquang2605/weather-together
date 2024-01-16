@@ -20,14 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     message: "database error"
                 })
             }
-            const result = await collection.updateMany({activityId: {$in: actIds}}, { $pull: {
-                                results: {
-                                    hiddenBy: {
-                                        username
-                                    }
-                                }
-                            }
+            const result = await collection.updateMany({activityId: {$in: actIds}}, { $pull: {       
+                            hiddenBy: username     
                         }
+                    }
             );
             if(result.modifiedCount > 0){
                 res.status(200).json(

@@ -9,6 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const {actIds, username} = req.body;
             const collection = db.collection('feeds');
             const result = await collection.updateMany({activityId: {$in: actIds}}, {$push: {
+                hiddenBy:
                 username
             }});
             if(result.modifiedCount > 0){
