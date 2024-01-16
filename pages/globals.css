@@ -310,3 +310,8 @@ textarea, input[type="text"], input[type="email"], input[type="password"]{
 .loading-screen{
   z-index: 999;
 }
+
+/* feed page dimensions */
+.feed-page-main-components{
+  @apply xl:w-[680px] lg:w-[520px] md:w-[440px];
+}

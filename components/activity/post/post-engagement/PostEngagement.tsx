@@ -19,7 +19,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
     }
     return (
         <>
-        <div className={style['post-engagement'] + " glass-component p-8 w-full lg:w-[800px] mx-auto rounded-3xl"}>
+        <div className={style['post-engagement'] + " glass-component p-8 w-full feed-page-main-components mx-auto rounded-3xl"}>
               <h3 className="text-center text-3xl">
                 Weather outside or in, what's on your mind?
               </h3>

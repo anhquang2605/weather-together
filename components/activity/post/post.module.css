@@ -1,5 +1,5 @@
 .post{
-    @apply xl:w-[680px] lg:w-[520px] md:w-[440px] mx-auto rounded-lg;
+    @apply  mx-auto rounded-lg;
 }
 
 .post__content{

@@ -128,6 +128,11 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     const handleCancelDelete = () => async () => {
         setRevealDeleteConfirmation(false);
     }
+    const handleDeletionConfirmation = () => {
+        setRevealDeleteConfirmation(false);
+        handleDeletePost(post._id?.toString() || '')
+
+    }
     const handleSavePost = (postid: string) => async () => {
         console.log("save post #" + postid);
     }
@@ -324,9 +329,9 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
-        {loading ? <LoadingBox variant="large" long={true} withChildren={false}/> :
+        {loading ? <LoadingBox extraClassname="feed-page-main-components" variant="" long={true} withChildren={false}/> :
         <>
-            <div key={post._id} id={"post_"+ (preview ? "" : "modal_")  + post._id} className={style['post'] + " glass-component"}>
+            <div key={post._id} id={"post_"+ (preview ? "" : "modal_")  + post._id} className={style['post'] + " glass-component " + (preview? "feed-page-main-components" :  "")}>
                 <ContentManagement  
                     items={items}
                     isOwner = {author === post.username}
@@ -455,7 +460,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             </Modal>
             <Modal size="sm" containerClassName='form-container' status={revealDeleteConfirmation} onClose={handleCancelDelete()}>
                 <ConfirmationBox
-                    confirmHandler={handleDeletePost(post._id?.toString() || '')}
+                    confirmHandler={handleDeletionConfirmation}
                     cancelHandler={handleCancelDelete()}
                     confirmText="Are you sure you want to delete this post?"
                 />

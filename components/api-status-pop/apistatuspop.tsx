@@ -93,9 +93,7 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
                     </p>
 
                     {status.type == "success" && <button className="action-btn mt-4" onClick={()=>{
-                        redirect.length > 0 ?
-                        redirectTo(redirect) :
-                        router.back();
+                        redirectTo(redirect) 
                     }}>
                     {redirectButtonText.length > 0 ? redirectButtonText : "Confirm"}</button>}
                 </div>
