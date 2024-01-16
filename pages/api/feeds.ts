@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                             } },
                             { relatedUser: { $in: usernames } },
                         ],
-                        hiddenBy: { $nin: username}
+                        hiddenBy: { $nin: [username]}
                     },
                 },
                 { $sort: { createdDate: -1 } },
