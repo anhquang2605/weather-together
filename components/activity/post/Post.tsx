@@ -433,7 +433,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                 />
             }
             <ApiStatusPop status={deletePostStatus} redirectPageName="" show={
-                deletePostStatus.type !== 'idle'
+                reveal
             }
             setApiStatus={setDeletePostStatus}
             setReveal={setReveal}    

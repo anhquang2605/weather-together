@@ -74,6 +74,9 @@ export default function ApiStatusPop({ status, show, redirect = "", redirectPage
             redirectTo(redirect);
         }
     },[redirectCountdown])
+    useEffect(() => {
+        setRevealPop(show);
+    },[show])
     return (
         <div className={"fixed z-50 top-0 left-0 w-full h-full flex " + (revealPop? "" : "hidden ")}>
             <div onClick={
