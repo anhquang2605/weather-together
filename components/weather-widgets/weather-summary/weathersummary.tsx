@@ -4,19 +4,24 @@ import WeatherAnimatedIcon from "../pluggins/weather-animated-icon/weatheranimat
 import { useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import {CurrentConditions } from "../../../types/WeatherData";
+import { set } from "lodash";
 interface WeatherSummaryProps {
-    location?: Location,
+    currentConditions: CurrentConditions;
 }
-export default function WeatherSummary({location}: WeatherSummaryProps){
-    const [curWeather,setCurWeather] = useState<CurrentConditions | null>();
+export default function WeatherSummary({currentConditions}: WeatherSummaryProps){
+    const [curWeather,setCurWeather] = useState<CurrentConditions | null>(currentConditions);
     useEffect(() => {
-        getCurrentWeather(location?.city ?? "")
+        /* getCurrentWeather(location?.city ?? "")
             .then((data) => {
                 setCurWeather(data)  
             })
             .catch((err) => {
                 console.log(err)
-            })
+            }) */
+        //get mock weather data from data folder, this mock weather is a json file, name this json as WeatherData
+        //import the mock weather data from data folder
+
+
     },[])
     return (
         <div className="weather-summary">
