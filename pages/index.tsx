@@ -81,7 +81,7 @@ export default function Home(props: any) {
             </Head>
             <div className="center w-full overflow-y-auto p-8">
 {/*                 <Banner/> */}
-
+                    <WeatherSummarySide />
                     <PostEngagement
                         username={username}
                     /> 
