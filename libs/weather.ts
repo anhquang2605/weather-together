@@ -35,6 +35,10 @@ export async function getCurrentWeather(locationName: string){
     totalWeatherData = await getWeatherDataByTime(locationName, 1, 'us') ;
     return totalWeatherData ? totalWeatherData.locations[locationName].currentConditions : null;
 }
+export async function getWeather(locationName: string){
+    const weatherData = await getWeatherDataByTime(locationName, 24, 'us') ;
+    return weatherData;
+}
 export function convertConditionToIconName(condition:string = ""){
     if(condition.includes('rain')){
         return 'cloud-rain';

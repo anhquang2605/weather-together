@@ -1,6 +1,6 @@
 import { createContext, use, useContext, useEffect, useState } from "react";
 import { CurrentConditions, Value } from "../types/WeatherData";
-import { getCurrentWeather } from "../libs/weather";
+import { getWeather } from "../libs/weather";
 
 interface WeatherContextProviderProps {
     children: React.ReactNode
@@ -21,17 +21,21 @@ export const WeatherContextProvider = ({children}: WeatherContextProviderProps) 
     const [curWeather, setCurWeather] = useState<CurrentConditions | null>(null);
     const [weeklyWeather, setWeeklyWeather] = useState<Value[]>([]);
     const getWeatherData = async (location: string) => {
-        /* const weatherData = require('../../../data/mock-weather.json');
+        const weatherData = require('../data/mock-weather.json');
         const data:any = Object.values(weatherData.locations)[0];
         setCurWeather(data.currentConditions);
-        setWeeklyWeather(data.values); */
-        getCurrentWeather(location).then((data) => {
-            setCurWeather(data);
-        })
+        setWeeklyWeather(data.values);
+/*         getWeather(location).then((data) => {
+            if(data){
+                const locations = Object.values(data.locations);
+                const location = locations[0];
+                setWeeklyWeather(location.values.slice(0,7));
+                setCurWeather(location.currentConditions);
+            }
+        }).catch((err) => {
+            console.log(err)
+        }) */
     }
-    useEffect(() => {
-
-    },[])
     return (
         <WeatherContext.Provider value={{ getWeatherData, curWeather, weeklyWeather, setCurWeather, setWeeklyWeather }}>
             {children}

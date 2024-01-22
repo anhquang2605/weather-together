@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import {CurrentConditions } from "../../../types/WeatherData";
 import { set } from "lodash";
 interface WeatherSummaryProps {
-    currentConditions: CurrentConditions;
+    currentConditions: CurrentConditions | null;
 }
 export default function WeatherSummary({currentConditions}: WeatherSummaryProps){
     const [curWeather,setCurWeather] = useState<CurrentConditions | null>(currentConditions);
