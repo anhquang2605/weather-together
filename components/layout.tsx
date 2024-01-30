@@ -8,6 +8,7 @@ import NotificationCenter from './notifications/notification-center/Notification
 import { useSession } from 'next-auth/react'
 import style from './layout.module.css'
 import { redirect } from 'react-router-dom'
+import { useWeatherContext } from '../pages/weatherContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
@@ -16,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const {data:session, status} = useSession();
+  const {getWeatherData} = useWeatherContext();
   const user = session?.user;
   const router = useRouter();
   const asPath = router.asPath;
@@ -28,7 +30,7 @@ export default function RootLayout({
   }
   useEffect(() => {
     router.events.on('routeChangeStart', routeChangeHandler)
-    router.events.on('routeChangeComplete', routeChangeCompleteHandler)
+    router.events.on('routeChangeComplete', routeChangeCompleteHandler);
     return () => {
       router.events.off('routeChangeStart', routeChangeHandler)
       router.events.off('routeChangeComplete',  routeChangeCompleteHandler)
@@ -39,11 +41,15 @@ export default function RootLayout({
       router.push('/authentication/login');
     }
   },[status]);
+  useEffect(()=>{
+    console.log(user);
+    if(user){
+      getWeatherData(user.location?.city ?? "");
+    }
+  },[user])
   return (
     <>
-    <Head>
-    
-    </Head>
+
 
       <div className={style["layout"]}>
             { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}

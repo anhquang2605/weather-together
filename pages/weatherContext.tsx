@@ -25,6 +25,7 @@ export const WeatherContextProvider = ({children}: WeatherContextProviderProps) 
         const data:any = Object.values(weatherData.locations)[0];
         setCurWeather(data.currentConditions);
         setWeeklyWeather(data.values);
+        console.log(data);
 /*         getWeather(location).then((data) => {
             if(data){
                 const locations = Object.values(data.locations);
