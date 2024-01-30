@@ -13,14 +13,10 @@ interface WeatherBarProps {
 const WeatherBar: React.FC<WeatherBarProps> = ({}) => {
     const [isExpanded, setIsExpanded] =useState(false);
     const {todayWeather} = useWeatherContext();
-    useEffect(() => {
-        if(todayWeather){
-            console.log(todayWeather);
-        }
-    }, [todayWeather]);
+   
     return (
         <div className={style['weather-bar']}>
-            <DateInfo/>
+            <DateInfo dateStr={todayWeather?.datetimeStr ?? ""}/>
             <WeatherStatus/>
             <AnimatedBarBackground/>
         </div>
