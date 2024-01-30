@@ -12,12 +12,12 @@ interface WeatherBarProps {
 
 const WeatherBar: React.FC<WeatherBarProps> = ({}) => {
     const [isExpanded, setIsExpanded] =useState(false);
-    const {curWeather} = useWeatherContext();
+    const {todayWeather} = useWeatherContext();
     useEffect(() => {
-        if(curWeather){
-            console.log(curWeather);
+        if(todayWeather){
+            console.log(todayWeather);
         }
-    }, [curWeather]);
+    }, [todayWeather]);
     return (
         <div className={style['weather-bar']}>
             <DateInfo/>
