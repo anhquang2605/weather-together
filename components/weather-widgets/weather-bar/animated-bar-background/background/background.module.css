@@ -1,0 +1,7 @@
+.background{
+
+}
+.rain{
+    background: rgb(150,5,171);
+    background: linear-gradient(45deg, rgba(150,5,171,1) 0%, rgba(59,23,103,1) 74%);
+}

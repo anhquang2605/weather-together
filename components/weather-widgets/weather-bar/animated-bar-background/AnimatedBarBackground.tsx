@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './animated-bar-background.module.css';
+import Background from './background/Background';
 
 interface AnimatedBarBackgroundProps {
     weatherType: string;
@@ -11,6 +12,7 @@ const AnimatedBarBackground: React.FC<AnimatedBarBackgroundProps> = ({weatherTyp
             {
                 weatherType.replace('-', ' ')
             }
+            <Background weatherType={weatherType} /> 
         </div>
     );
 };

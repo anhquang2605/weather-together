@@ -48,16 +48,17 @@ export default function Navigation() {
                         {navMenuStatus === "" ? <IoArrowBack className="w-8 h-8 ml-4"></IoArrowBack> : <IoMenu className="w-8 h-8 ml-4"/> }
                     </button>
                 </div>
+                <div>
+                    <WeatherBar/>
+                </div>
                 {user && <UserCard user={user} variant={navMenuStatus !== "" ? "compact" : "expanded"}/>
     }
                 <ul className="flex flex-col grow">
                     
                         {<UserMenu handleSignOut={handleSignOut} user={user} withUser={withUser} />}
+                        
                 </ul>
-                <div>
-                <WeatherBar/>
 
-                </div>
             </div>
             <div className={"nav-bar bottom-nav relative"}>
                 <BottomNavigation user={user} className={'bottom-nav'} navigationItems={user ? withUser : []}></BottomNavigation>
