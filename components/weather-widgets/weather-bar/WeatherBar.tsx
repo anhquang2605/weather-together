@@ -5,6 +5,7 @@ import WeatherStatus from './weather-status/WeatherStatus';
 import AnimatedBarBackground from './animated-bar-background/AnimatedBarBackground';
 import { CurrentConditions } from '../../../types/WeatherData';
 import { useWeatherContext } from '../../../pages/weatherContext';
+import LoadingBox from '../../skeletons/loading-box/LoadingBox';
 
 interface WeatherBarProps {
 
@@ -16,9 +17,18 @@ const WeatherBar: React.FC<WeatherBarProps> = ({}) => {
    
     return (
         <div className={style['weather-bar']}>
-            <DateInfo dateStr={todayWeather?.datetimeStr ?? ""}/>
-            <WeatherStatus/>
-            <AnimatedBarBackground/>
+            {
+                todayWeather ?
+                <>
+                     <DateInfo dateStr={todayWeather?.datetimeStr ?? ""}/>
+                    <WeatherStatus temp={todayWeather.temp ?? 0} conditions={todayWeather.conditions} />
+                    <AnimatedBarBackground weatherType={todayWeather?.conditions ?? ""}/>
+                </>
+                : 
+                <LoadingBox />
+
+            }
+           
         </div>
     );
 };

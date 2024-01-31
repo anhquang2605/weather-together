@@ -1,0 +1,9 @@
+.date-info{
+    @apply flex;
+}
+.day-in-week{
+    @apply mr-2
+}
+.date{
+
+}
