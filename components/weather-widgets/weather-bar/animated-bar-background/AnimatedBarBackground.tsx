@@ -10,7 +10,7 @@ const AnimatedBarBackground: React.FC<AnimatedBarBackgroundProps> = ({weatherTyp
     return (
         <div className={style['animated-bar-background']}>
             {
-                weatherType.replace('-', ' ')
+                //weatherType.replace('-', ' ')
             }
             <Background weatherType={weatherType} /> 
         </div>

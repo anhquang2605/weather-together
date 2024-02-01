@@ -1,0 +1,4 @@
+.weather-bar{
+    position: relative;
+    @apply p-4 border rounded-lg border-slate-400 mb-4;
+}
