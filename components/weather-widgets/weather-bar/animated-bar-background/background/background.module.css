@@ -20,7 +20,7 @@
 }
 .snow{
     background: rgb(15,1,125);
-    background: linear-gradient(217deg, rgba(15,1,125,1) 0%, rgba(41,235,233,1) 100%);
+    background: linear-gradient(217deg, rgba(41,235,233,1)  0%,  rgba(15,1,125,1) 80%);
 }
 .night{
     background: rgb(67,1,148);
