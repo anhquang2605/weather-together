@@ -1,7 +1,4 @@
 .background{
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
 }
@@ -26,6 +23,6 @@
     background: linear-gradient(217deg, rgba(15,1,125,1) 0%, rgba(41,235,233,1) 100%);
 }
 .night{
-    background: rgb(8,0,85);
-    background: linear-gradient(217deg, rgba(8,0,85,1) 0%, rgba(72,2,91,1) 100%);
+    background: rgb(67,1,148);
+background: linear-gradient(217deg, rgba(67,1,148,1) 0%, rgba(27,2,91,1) 100%);
 }

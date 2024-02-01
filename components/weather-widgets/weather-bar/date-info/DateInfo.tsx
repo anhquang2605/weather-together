@@ -17,7 +17,7 @@ const DateInfo: React.FC<DateInfoProps> = ({dateStr}) => {
             </span>
             <span className={style['date']}>
                 {
-                    format(date, "MM dd")
+                    format(date, "MM / dd")
                 }
             </span>
         </div>

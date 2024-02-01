@@ -1,5 +1,9 @@
 .weather-status{
+
     span:first-child{
-        @apply mr-2 inline-block font-bold;
+        @apply inline-block font-bold;
+    }
+    span:last-child{
+        @apply ml-2;
     }
 }

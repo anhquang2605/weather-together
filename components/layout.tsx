@@ -42,7 +42,6 @@ export default function RootLayout({
     }
   },[status]);
   useEffect(()=>{
-    console.log(user);
     if(user){
       getWeatherData(user.location?.city ?? "");
     }

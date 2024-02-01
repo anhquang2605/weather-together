@@ -7,7 +7,7 @@ interface backgroundProps {
 
 const background: React.FC<backgroundProps> = ({weatherType}) => {
     return (
-        <div className={`${style['background']} ${style[weatherType]} ${style['']}`}>
+        <div className={`${style['background']} ${style[weatherType]} ${style['night']}`}>
         </div>
     );
 };

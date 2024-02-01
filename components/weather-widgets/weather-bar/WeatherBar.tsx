@@ -20,9 +20,10 @@ const WeatherBar: React.FC<WeatherBarProps> = ({}) => {
             {
                 todayWeather ?
                 <>
+                    <AnimatedBarBackground weatherType={todayWeather?.conditions ?? ""}/>
                      <DateInfo dateStr={todayWeather?.datetimeStr ?? ""}/>
                     <WeatherStatus temp={todayWeather.temp ?? 0} conditions={todayWeather.conditions} />
-                    <AnimatedBarBackground weatherType={todayWeather?.conditions ?? ""}/>
+                    
                 </>
                 : 
                 <LoadingBox />
