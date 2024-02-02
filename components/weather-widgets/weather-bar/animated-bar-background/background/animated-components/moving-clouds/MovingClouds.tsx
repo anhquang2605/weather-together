@@ -19,6 +19,7 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
             const SvgCloud = require("./../../../../../../../assets/svg/weatherbar/cloud.svg").default;
             clouds.push(
                 <SvgCloud
+                    
                     id={"cloud-bg-weather-bar-"+ i}
                 />
             );        
