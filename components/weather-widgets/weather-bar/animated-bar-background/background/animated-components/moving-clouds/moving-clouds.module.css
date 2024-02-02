@@ -1,3 +1,9 @@
 .moving-clouds{
-    
+
+}
+.svg-cloud{
+    g path{
+        transform: scale(0.5);
+        
+    }
 }

@@ -12,14 +12,25 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     cloudColor = "white",
     speed = 1
 }) => {
-    const SvgCloud = require("./../../../../../../../assets/svg/weatherbar/cloud.svg").default;
-    const spawnCloud = (cloudNo : number) => {
-        
+    
+    const spawnClouds = (cloudNo : number) => {
+        const clouds = [];
+        for(let i = 0; i < cloudNo; i += 1){
+            const SvgCloud = require("./../../../../../../../assets/svg/weatherbar/cloud.svg").default;
+            clouds.push(
+                <SvgCloud
+                    id={"cloud-bg-weather-bar-"+ i}
+                />
+            );        
+        }
+        return clouds;
     }
     return (
         <div className={style['moving-clouds']}>
             <div className="frame">
-                <SvgCloud> </SvgCloud>    
+                    {
+                        spawnClouds(noOfClouds)
+                    }
             </div>    
         </div>
     );
