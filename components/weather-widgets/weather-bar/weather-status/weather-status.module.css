@@ -1,5 +1,5 @@
 .weather-status{
-
+    @apply bg-slate-800 bg-opacity-10 max-w-fit p-1;
     span:first-child{
         @apply inline-block font-bold;
     }

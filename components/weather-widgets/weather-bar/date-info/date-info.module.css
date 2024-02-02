@@ -1,5 +1,5 @@
 .date-info{
-    @apply flex font-thin text-sm mb-2;
+    @apply flex font-thin text-sm mb-2 p-1 bg-slate-800 bg-opacity-10 rounded max-w-fit;
 }
 .day-in-week{
     @apply mr-2
