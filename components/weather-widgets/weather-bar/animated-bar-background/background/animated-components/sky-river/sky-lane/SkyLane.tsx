@@ -13,6 +13,15 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     widthSize = "full",
     speed = 1
 }) => {
+    /**
+     * Get randomized coordinates contained within the box
+     * @param boxWidth 
+     * @param boxHeight
+     * @returns x and y coordinates relatively to the box
+     */
+    const getRandomLocation = (boxWidth : number, boxHeight: number) => {
+
+    }
     return (
         <div className={`${style['sky-lane']} ${style[widthSize]}`}>
             
