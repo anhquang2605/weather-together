@@ -1,6 +1,7 @@
 .sky-lane{
     width: 150%;
     margin-left: -25%;
+    
 }
 .full{
     flex-grow: 1;
