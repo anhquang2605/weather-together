@@ -8,6 +8,7 @@ interface MovingCloudsProps {
     color?: string;
     isMoving: boolean;
     distance?: number;
+    initialLeft?: number;
 }
 
 const MovingClouds: React.FC<MovingCloudsProps> = ({
@@ -15,7 +16,9 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     color = "white",
     speed = 1,
     isMoving,
-    distance = 1
+    distance = 1,
+
+    initialLeft = 0
 }) => {
     const SvgCloud  =  require('./../../../../../../../assets/svg/weatherbar/cloud.svg').default;
     const ref = useRef<HTMLDivElement | null>(null);
@@ -24,7 +27,7 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
         if(curRef){
             let curRefLef = curRef.style.left;
             if(curRefLef === ""){
-                curRef.style.left = "0px";
+                curRef.style.left =  initialLeft + "px";
             }else{
                 let left = curRefLef.replace("px","");
                 let newLeft = parseFloat(left) + 1;
@@ -32,6 +35,9 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
             }
         }
     }
+    useEffect(()=>{
+
+    },[])
     useEffect(()=>{
         let timer:NodeJS.Timeout | null = null; 
         if(isMoving && ref.current){
