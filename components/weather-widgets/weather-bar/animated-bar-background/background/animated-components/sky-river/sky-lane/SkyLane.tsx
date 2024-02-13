@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './sky-lane.module.css';
+import MovingClouds from '../../moving-clouds/MovingClouds';
 
 
 
@@ -24,7 +25,7 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     }
     return (
         <div className={`${style['sky-lane']} ${style[widthSize]}`}>
-            
+            <MovingClouds speed = {0.1} isMoving={true} />
         </div>
     );
 };

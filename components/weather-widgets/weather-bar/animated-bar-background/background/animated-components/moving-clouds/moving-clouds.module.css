@@ -1,5 +1,5 @@
 .moving-clouds{
-
+    @apply absolute top-0 left-0;
 }
 .svg-cloud{
     g path{
