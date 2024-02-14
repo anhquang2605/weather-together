@@ -21,10 +21,16 @@ const SkyLane: React.FC<SkyLaneProps> = ({
      * @param boxHeight
      * @returns x and y coordinates relatively to the box
      */
+    const CLOUD_MIN_DISTANCE = 0.5;
     const {isHovered} = useWeatherBarContext();
     const [objWidth, setObjWidth] = useState<number>(0);
     const [objHeight, setObjHeight] = useState<number>(0);
     const [cloudWidth, setCloudWidth] = useState<number>(0);
+    const [boxWidth, setBoxWidth] = useState<number>(0);
+    const [boxHeight, setBoxHeight] = useState<number>(0);
+    const [objLeft, setObjLeft] = useState<number>(0);
+    const [objTop, setObjTop] = useState<number>(0);
+    const [cloudDistance, setCloudDistance] = useState<number>(1);
     const ref = useRef<HTMLDivElement|null>(null);
     const getRandomXYCoordinates = (boxWidth : number, boxHeight: number, objectWidth: number, objectHeight: number) => {
         const xPositionRange = boxWidth - objectWidth;
@@ -37,20 +43,42 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     const getRandomSize = (max: number, min: number) => {
         return Math.random()*max + min; 
     }
-    const getRandomPosition = () => {
+    const getAndSetRandomPosition = () => {
+        const coordinate = getRandomXYCoordinates(
+            boxWidth,boxHeight,objWidth,objHeight
+        )
+        console.log(coordinate);
+        setObjLeft(coordinate.x);
+        setObjTop(coordinate.y);
 
     }
+    const getAndSetBoxDimension = (box: HTMLDivElement) => {
+        const {height,width} = box.getBoundingClientRect();
+        setBoxHeight(height);
+        setBoxWidth(width);
+    }
     useEffect(()=>{
-
+        if(ref.current){
+            getAndSetBoxDimension(ref.current);
+            setCloudDistance(Math.random() + CLOUD_MIN_DISTANCE)
+        }
     }, [])
     useEffect(()=>{
-        if(objHeight > 0){
-            console.log(objHeight);
+        if(boxHeight > 0){
+            const height = getRandomSize(boxHeight, boxHeight / 2);
+            setObjHeight(height);
         }
-    },[objHeight])
+    },[boxHeight])
+    useEffect(()=>{
+        if(objWidth > 0){
+           getAndSetRandomPosition();
+        }
+    },[objWidth])
     return (
         <div ref={ref} className={`${style['sky-lane']} ${style[widthSize]}`}>
-            <MovingClouds setObjHeight={setObjHeight} speed = {0.025} isMoving={isHovered} />
+            <MovingClouds initialLeft= {objLeft} initialTop={objTop} size={objHeight} setObjWidth={setObjWidth} distance={
+                cloudDistance
+            } speed = {(1 - cloudDistance) / 10} isMoving={isHovered} />
         </div>
     );
 };
