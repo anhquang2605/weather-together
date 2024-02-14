@@ -47,7 +47,6 @@ const SkyLane: React.FC<SkyLaneProps> = ({
         const coordinate = getRandomXYCoordinates(
             boxWidth,boxHeight,objWidth,objHeight
         )
-        console.log(coordinate);
         setObjLeft(coordinate.x);
         setObjTop(coordinate.y);
 

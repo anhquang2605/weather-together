@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './moving-clouds.module.css';
 
 interface MovingCloudsProps {
@@ -25,14 +25,14 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
 }) => {
     const SvgCloud  =  require('./../../../../../../../assets/svg/weatherbar/cloud.svg').default;
     const ref = useRef<HTMLDivElement | null>(null);
+    const [animationId, setAnimationId] = useState<number>(0);
+    const [position, setPosition] = useState<number>(0);
+    const requestRef = useRef<number>(0);
+    let endPos = 200;
     const move = () => {
         const curRef = ref.current;
-        if(curRef){
-            let curRefLef = curRef.style.left;          
-            let left = curRefLef.replace("px","");
-            let newLeft = parseFloat(left) + 1;
-            curRef.style.left = newLeft + "px";
-        }
+        setPosition(prev => prev + (speed));
+        requestRef.current = requestAnimationFrame(move);
     }
     const setInitialPosition = (cloud: HTMLDivElement,left: number, top: number) => {
         if(cloud){
@@ -55,24 +55,19 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
         }
     },[size])
     useEffect(()=>{
-        let timer:NodeJS.Timeout | null = null; 
-        if(isMoving && ref.current){
-            timer = setInterval(move,speed * 1000);       
+        if(isMoving){
+            requestRef.current = requestAnimationFrame(move)
         }else{
-            if(timer){
-                clearInterval(timer)
-            }
-            
+            window.cancelAnimationFrame(requestRef.current);
         }
-        return () => {
-            if(timer){
-                clearInterval(timer)
-            }
+        return ()=> {
+            cancelAnimationFrame(requestRef.current);
         }
     },[isMoving])
     return (
         <div style={{
-            opacity: distance
+            opacity: distance,
+            transform: `translateX(${position}px)`
         }} ref = {ref} className={style['moving-clouds']}>
             <svg height={size} viewBox="0 0 83 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_3_5)">
