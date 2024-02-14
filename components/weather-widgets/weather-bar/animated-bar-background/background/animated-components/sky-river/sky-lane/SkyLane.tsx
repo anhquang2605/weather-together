@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './sky-lane.module.css';
 import MovingClouds from '../../moving-clouds/MovingClouds';
 import { useWeatherBarContext } from '../../../../../useWeatherBarContext';
@@ -22,12 +22,35 @@ const SkyLane: React.FC<SkyLaneProps> = ({
      * @returns x and y coordinates relatively to the box
      */
     const {isHovered} = useWeatherBarContext();
-    const getRandomLocation = (boxWidth : number, boxHeight: number) => {
+    const [objWidth, setObjWidth] = useState<number>(0);
+    const [objHeight, setObjHeight] = useState<number>(0);
+    const [cloudWidth, setCloudWidth] = useState<number>(0);
+    const ref = useRef<HTMLDivElement|null>(null);
+    const getRandomXYCoordinates = (boxWidth : number, boxHeight: number, objectWidth: number, objectHeight: number) => {
+        const xPositionRange = boxWidth - objectWidth;
+        const yPositionRange = boxHeight - objectHeight;
+        return {
+            x: Math.random() * xPositionRange,
+            y: Math.random() * yPositionRange
+        }
+    }
+    const getRandomSize = (max: number, min: number) => {
+        return Math.random()*max + min; 
+    }
+    const getRandomPosition = () => {
 
     }
+    useEffect(()=>{
+
+    }, [])
+    useEffect(()=>{
+        if(objHeight > 0){
+            console.log(objHeight);
+        }
+    },[objHeight])
     return (
-        <div className={`${style['sky-lane']} ${style[widthSize]}`}>
-            <MovingClouds speed = {0.1} isMoving={isHovered} />
+        <div ref={ref} className={`${style['sky-lane']} ${style[widthSize]}`}>
+            <MovingClouds setObjHeight={setObjHeight} speed = {0.025} isMoving={isHovered} />
         </div>
     );
 };

@@ -9,6 +9,7 @@ interface MovingCloudsProps {
     isMoving: boolean;
     distance?: number;
     initialLeft?: number;
+    setObjHeight: React.Dispatch<number>;
 }
 
 const MovingClouds: React.FC<MovingCloudsProps> = ({
@@ -17,8 +18,8 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     speed = 1,
     isMoving,
     distance = 1,
-
-    initialLeft = 0
+    initialLeft = 0,
+    setObjHeight,
 }) => {
     const SvgCloud  =  require('./../../../../../../../assets/svg/weatherbar/cloud.svg').default;
     const ref = useRef<HTMLDivElement | null>(null);
@@ -35,9 +36,15 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
             }
         }
     }
+    const obtainAndSetCloudHeight = (refCurrent: HTMLDivElement) => {
+        const boxHeight = refCurrent.getBoundingClientRect().height;
+        setObjHeight(boxHeight);
+    }
     useEffect(()=>{
-
-    },[])
+        if(ref.current){
+            obtainAndSetCloudHeight(ref.current);
+        }
+    },[size])
     useEffect(()=>{
         let timer:NodeJS.Timeout | null = null; 
         if(isMoving && ref.current){
