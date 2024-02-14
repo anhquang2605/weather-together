@@ -28,22 +28,27 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     const move = () => {
         const curRef = ref.current;
         if(curRef){
-            let curRefLef = curRef.style.left;
-            let curRefTop = curRef.style.top;
-            if(curRefLef === "" || curRefTop === ""){
-                curRef.style.left =  initialLeft + "px";
-                curRef.style.top = initialTop + "px";
-            }else{
-                let left = curRefLef.replace("px","");
-                let newLeft = parseFloat(left) + 1;
-                curRef.style.left = newLeft + "px";
-            }
+            let curRefLef = curRef.style.left;          
+            let left = curRefLef.replace("px","");
+            let newLeft = parseFloat(left) + 1;
+            curRef.style.left = newLeft + "px";
+        }
+    }
+    const setInitialPosition = (cloud: HTMLDivElement,left: number, top: number) => {
+        if(cloud){
+           cloud.style.left = left + "px";
+           cloud.style.top = top + "px"; 
         }
     }
     const obtainAndSetCloudHeight = (refCurrent: HTMLDivElement) => {
         const boxWidth = refCurrent.getBoundingClientRect().width;
         setObjWidth(boxWidth);
     }
+    useEffect(()=>{
+        if(initialLeft > 0 && initialTop > 0 && ref.current){
+            setInitialPosition(ref.current, initialLeft, initialTop);
+        }
+    },[initialLeft,initialTop, ref.current])
     useEffect(()=>{
         if(ref.current){
             obtainAndSetCloudHeight(ref.current);
