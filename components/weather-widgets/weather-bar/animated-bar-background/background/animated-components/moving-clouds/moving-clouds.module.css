@@ -1,6 +1,6 @@
 .moving-clouds{
     @apply absolute top-0 left-0;
-    transition: linear 1s;
+    /* transition: all linear 1s; */
     
 }
 .svg-cloud{

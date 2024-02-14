@@ -12,6 +12,7 @@ import Username from "../../pages/userprofile/edit/[username]"
 import BottomNavigation from "./bottom-navigation/BottomNavigation"
 import { closeWSConnection } from "../../utils/websocket-service"
 import WeatherBar from "../weather-widgets/weather-bar/WeatherBar"
+import { WeatherBarContextProvider } from "../weather-widgets/weather-bar/useWeatherBarContext"
 export default function Navigation() {
     const {data: session} = useSession();
     const user = session?.user as UserInSession;
@@ -49,7 +50,9 @@ export default function Navigation() {
                     </button>
                 </div>
                 <div>
-                    <WeatherBar/>
+                    <WeatherBarContextProvider>
+                        <WeatherBar/>
+                    </WeatherBarContextProvider>
                 </div>
                 {user && <UserCard user={user} variant={navMenuStatus !== "" ? "compact" : "expanded"}/>
     }

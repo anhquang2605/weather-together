@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './sky-lane.module.css';
 import MovingClouds from '../../moving-clouds/MovingClouds';
+import { useWeatherBarContext } from '../../../../../useWeatherBarContext';
 
 
 
@@ -20,12 +21,13 @@ const SkyLane: React.FC<SkyLaneProps> = ({
      * @param boxHeight
      * @returns x and y coordinates relatively to the box
      */
+    const {isHovered} = useWeatherBarContext();
     const getRandomLocation = (boxWidth : number, boxHeight: number) => {
 
     }
     return (
         <div className={`${style['sky-lane']} ${style[widthSize]}`}>
-            <MovingClouds speed = {0.1} isMoving={true} />
+            <MovingClouds speed = {0.1} isMoving={isHovered} />
         </div>
     );
 };
