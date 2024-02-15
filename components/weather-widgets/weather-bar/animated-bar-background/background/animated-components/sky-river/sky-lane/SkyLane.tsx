@@ -9,11 +9,13 @@ interface SkyLaneProps {
     widthSize?: string; // full, half, double, one-half
     zDistance?: number; // between 0 to 1
     speed?: number;
+    isNight?: boolean;
 }
 
 const SkyLane: React.FC<SkyLaneProps> = ({
     widthSize = "full",
-    speed = 1
+    speed = 1,
+    isNight = false
 }) => {
     /**
      * Get randomized coordinates contained within the box
@@ -64,7 +66,7 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     }, [])
     useEffect(()=>{
         if(boxHeight > 0){
-            const height = getRandomSize(boxHeight/ 2 , boxHeight / 2);
+            const height = getRandomSize(boxHeight * 0.75 , boxHeight / 4);
             setObjHeight(height);
         }
     },[boxHeight])
@@ -77,7 +79,7 @@ const SkyLane: React.FC<SkyLaneProps> = ({
         <div ref={ref} className={`${style['sky-lane']} ${style[widthSize]}`}>
             <MovingClouds containerWidth={boxWidth} initialLeft= {objLeft} initialTop={objTop} size={objHeight} setObjWidth={setObjWidth} distance={
                 cloudDistance
-            } speed = {(2 + (1 - cloudDistance))/10} isMoving={isHovered} />
+            } speed = {cloudDistance /5} isMoving={isHovered} />
         </div>
     );
 };
