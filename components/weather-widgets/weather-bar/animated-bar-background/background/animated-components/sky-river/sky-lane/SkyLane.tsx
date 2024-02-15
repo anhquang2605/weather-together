@@ -64,7 +64,7 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     }, [])
     useEffect(()=>{
         if(boxHeight > 0){
-            const height = getRandomSize(boxHeight, boxHeight / 2);
+            const height = getRandomSize(boxHeight/ 2 , boxHeight / 2);
             setObjHeight(height);
         }
     },[boxHeight])
