@@ -11,6 +11,7 @@ interface MovingCloudsProps {
     initialLeft?: number;
     initialTop?: number;
     setObjWidth: React.Dispatch<number>;
+    containerWidth: number;
 }
 
 const MovingClouds: React.FC<MovingCloudsProps> = ({
@@ -22,6 +23,7 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     initialLeft = 0,
     initialTop = 0,
     setObjWidth,
+    containerWidth
 }) => {
     const SvgCloud  =  require('./../../../../../../../assets/svg/weatherbar/cloud.svg').default;
     const ref = useRef<HTMLDivElement | null>(null);
@@ -31,7 +33,17 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     let endPos = 200;
     const move = () => {
         const curRef = ref.current;
-        setPosition(prev => prev + (speed));
+        if(curRef){
+            let transformRule = curRef.style.transform;
+            let firstSub = transformRule.substring(11);
+            let curPos = parseFloat(firstSub.replace("px)",""));
+            if(curPos >= (containerWidth - size)){//reset when pass the boundaries
+                curRef.style.left = "0px";
+                setPosition(0);
+            }else{
+                setPosition(prev => prev + (speed));
+            }
+        }
         requestRef.current = requestAnimationFrame(move);
     }
     const setInitialPosition = (cloud: HTMLDivElement,left: number, top: number) => {

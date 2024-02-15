@@ -75,7 +75,7 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     },[objWidth])
     return (
         <div ref={ref} className={`${style['sky-lane']} ${style[widthSize]}`}>
-            <MovingClouds initialLeft= {objLeft} initialTop={objTop} size={objHeight} setObjWidth={setObjWidth} distance={
+            <MovingClouds containerWidth={boxWidth} initialLeft= {objLeft} initialTop={objTop} size={objHeight} setObjWidth={setObjWidth} distance={
                 cloudDistance
             } speed = {(2 + (1 - cloudDistance))/10} isMoving={isHovered} />
         </div>
