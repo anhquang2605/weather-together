@@ -28,7 +28,7 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     const SvgCloud  =  require('./../../../../../../../assets/svg/weatherbar/cloud.svg').default;
     const ref = useRef<HTMLDivElement | null>(null);
     const [animationId, setAnimationId] = useState<number>(0);
-    const [position, setPosition] = useState<number>(initialLeft);
+    const [position, setPosition] = useState<number>(0);
     const requestRef = useRef<number>(0);
     let endPos = 200;
     const move = () => {
@@ -48,8 +48,8 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     }
     const setInitialPosition = (cloud: HTMLDivElement,left: number, top: number) => {
         if(cloud){
-           cloud.style.left = left + "px";
            cloud.style.top = top + "px"; 
+           setPosition(left);
         }
     }
     const obtainAndSetCloudHeight = (refCurrent: HTMLDivElement) => {
