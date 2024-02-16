@@ -56,3 +56,24 @@ export function compareAny(a:any, b:any){
         return -1;
     }
 }
+/**
+ * return array with randomized number within a given length starting from 1, if want to start from 0 then will take in optional flag
+ * @param len length of array
+ * @param isIndex boolean, if index is considered so starting from 0 instead of 1
+ */
+export function generateRandomizedArray(len: number, isIndex:boolean = false){
+    let arr = [];
+    for(let i = 0; i < len; i+=1){
+        let curVal = i;
+        if(!isIndex){
+            curVal += 1; 
+        }
+        arr[i] = curVal;
+    }
+    //shuffle array
+    for(let i = 0; i < len; i += 1){
+        let j = Math.floor(Math.random() * len);
+        [arr[i],arr[j]] = [arr[j],arr[i]];//to swap element of array
+    }
+    return arr;
+}

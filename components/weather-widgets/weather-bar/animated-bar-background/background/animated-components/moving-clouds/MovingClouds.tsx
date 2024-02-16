@@ -28,7 +28,7 @@ const MovingClouds: React.FC<MovingCloudsProps> = ({
     const SvgCloud  =  require('./../../../../../../../assets/svg/weatherbar/cloud.svg').default;
     const ref = useRef<HTMLDivElement | null>(null);
     const [animationId, setAnimationId] = useState<number>(0);
-    const [position, setPosition] = useState<number>(0);
+    const [position, setPosition] = useState<number>(initialLeft);
     const requestRef = useRef<number>(0);
     let endPos = 200;
     const move = () => {

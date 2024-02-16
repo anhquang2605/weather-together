@@ -10,12 +10,14 @@ interface SkyLaneProps {
     zDistance?: number; // between 0 to 1
     speed?: number;
     isNight?: boolean;
+    offset?: number;
 }
 
 const SkyLane: React.FC<SkyLaneProps> = ({
     widthSize = "full",
     speed = 1,
-    isNight = false
+    isNight = false,
+    offset = 100
 }) => {
     /**
      * Get randomized coordinates contained within the box
@@ -35,10 +37,10 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     const [cloudDistance, setCloudDistance] = useState<number>(1);
     const ref = useRef<HTMLDivElement|null>(null);
     const getRandomXYCoordinates = (boxWidth : number, boxHeight: number, objectWidth: number, objectHeight: number) => {
-        const xPositionRange = boxWidth - objectWidth;
+        const xPositionRange = (boxWidth * 1/2) - objectWidth;
         const yPositionRange = boxHeight - objectHeight;
         return {
-            x: Math.random() * xPositionRange,
+            x: Math.random() * xPositionRange + offset,
             y: Math.random() * yPositionRange
         }
     }
@@ -66,7 +68,7 @@ const SkyLane: React.FC<SkyLaneProps> = ({
     }, [])
     useEffect(()=>{
         if(boxHeight > 0){
-            const height = getRandomSize(boxHeight * 0.75 , boxHeight / 4);
+            const height = getRandomSize(boxHeight * 2/3 , boxHeight / 3);
             setObjHeight(height);
         }
     },[boxHeight])
