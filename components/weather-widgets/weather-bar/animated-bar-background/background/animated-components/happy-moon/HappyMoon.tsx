@@ -7,8 +7,8 @@ interface HappyMoonProps {
 
 const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
     const [speed, setSpeed] = useState(1);
-    const greeting = () => {
-        spin();
+    const greeting = (isAnimated:boolean) => {
+        spin(isAnimated);
     }
     const glow = () => {
 
@@ -19,21 +19,25 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
     const squint = () => {
 
     }
-    const spin = () => {
+    const spin = (isReversed:boolean) => {
         const theFace = document.getElementById('the-face');
-        if(theFace){
-            theFace.style.transform = "translateX(0)";
+        const theMoonBody = document.getElementById('moon_2');
+        if(theFace && theMoonBody){
+            if(isReversed){
+                theFace.style.transform = "translateX()";
+                theMoonBody.style.transform = "translateX(0)";
+            } else {
+                theFace.style.transform = "translateX(0)";
+                theMoonBody.style.transform = "translateX(-150px)";
+            }
+           
         }
     }
     const armToggle = () => {
 
     }
     useEffect(()=>{
-        if(isAnimated){
-            greeting();
-        }else{
-
-        }
+            greeting(isAnimated);
     },[isAnimated])
     return (
         <div className={styles['happy-moon']}>

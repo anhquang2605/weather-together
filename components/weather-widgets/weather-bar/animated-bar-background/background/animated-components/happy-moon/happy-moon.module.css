@@ -2,7 +2,6 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: all 0.3s;
 }
 .happy-moon svg{
     position: absolute;
@@ -12,4 +11,8 @@
 }
 .mask-alpha{
     mask-type: alpha;
+}
+
+.happy-moon svg *{
+    transition: all 0.3s ease;
 }
