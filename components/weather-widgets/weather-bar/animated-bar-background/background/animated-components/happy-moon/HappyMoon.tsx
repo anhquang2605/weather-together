@@ -24,17 +24,20 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
         const theMoonBody = document.getElementById('moon_2');
         if(theFace && theMoonBody){
             if(isReversed){
-                theFace.style.transform = "translateX()";
-                theMoonBody.style.transform = "translateX(0)";
+                theFace.style.transform = "translateX(0px)";
+                theMoonBody.style.transform = "translateX(0px)";
             } else {
-                theFace.style.transform = "translateX(0)";
-                theMoonBody.style.transform = "translateX(-150px)";
+                theFace.style.transform = "translateX(-300px)";
+                theMoonBody.style.transform = "translateX(-300px)";
             }
            
         }
     }
     const armToggle = () => {
 
+    }
+    const jiggle = () => {
+        
     }
     useEffect(()=>{
             greeting(isAnimated);
@@ -56,13 +59,20 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
                     </mask>
                     <g mask="url(#mask0_0_1)">
                         <g id="moon_2">
-                            <rect id="Rectangle 1" x="47" y="32" width="712" height="345" fill="#FAE62D"/>
-                            <circle id="Ellipse 8_2" cx="253.5" cy="72.5" r="6.5" fill="#FCC000"/>
-                            <circle id="Ellipse 11" cx="264.5" cy="307.5" r="12.5" fill="#FCC000"/>
-                            <circle id="Ellipse 18" cx="146" cy="269" r="31" fill="#FCC000"/>
-                            <circle id="Ellipse 17" cx="100" cy="145" r="15" fill="#FCC000"/>
-                            <circle id="Ellipse 13" cx="287" cy="191" r="13" fill="#FCC000"/>
-                            <circle id="Ellipse 10" cx="251.5" cy="329.5" r="21.5" fill="#FCC000"/>
+                        <rect width="712" height="345" fill="#FAE62D"/>
+                        <circle cx="206.5" cy="40.5" r="6.5" fill="#FCC000"/>
+                        <circle cx="217.5" cy="275.5" r="12.5" fill="#FCC000"/>
+                        <circle cx="368" cy="215" r="31" fill="#FCC000"/>
+                        <circle cx="99" cy="237" r="31" fill="#FCC000"/>
+                        <circle cx="606.5" cy="114.5" r="43.5" fill="#FCC000"/>
+                        <circle cx="528.5" cy="295.5" r="49.5" fill="#FCC000"/>
+                        <circle cx="5.5" cy="5.5" r="5.5" transform="matrix(-1 0 0 1 484 265)" fill="#FCC000"/>
+                        <circle cx="658" cy="237" r="15" fill="#FCC000"/>
+                        <circle cx="563" cy="143" r="15" fill="#FCC000"/>
+                        <circle cx="53" cy="113" r="15" fill="#FCC000"/>
+                        <circle cx="240" cy="159" r="13" fill="#FCC000"/>
+                        <circle cx="460" cy="74" r="13" fill="#FCC000"/>
+                        <circle cx="204.5" cy="297.5" r="21.5" fill="#FCC000"/>
                         </g>
                     </g>
                 </g>
@@ -70,9 +80,7 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
                 <rect id="Rectangle 3" x="54" y="168" width="300" height="68" fill="#D9D9D9"/>
                 </mask>
                 <g mask="url(#mask1_0_1)">
-                    <g style={{
-                        transform: 'translateX(-300px)'
-                    }} id="the-face">
+                    <g id="the-face">
                         <g id="face">
                             <g id="eyes">
                                 <circle id="eye l" cx="155" cy="196" r="13" fill="#3C1212"/>
