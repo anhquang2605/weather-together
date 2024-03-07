@@ -48,10 +48,7 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
             <g id="moon" clip-path="url(#clip0_0_1)">
                 <circle id="second-radiant" cx="202.5" cy="202.5" r="202.5" fill="#FAE62D" fill-opacity="0.13"/>
                 <circle id="first-radiant" cx="204.5" cy="202.5" r="177.5" fill="#FAE62D" fill-opacity="0.13"/>
-                <g id="arm group">
-                    <path id="higher-arm" d="M23.656 193.359C18.3315 191.892 12.8261 195.019 11.3592 200.344C9.89229 205.668 13.0195 211.174 18.344 212.641L23.656 193.359ZM67.8989 205.548L23.656 193.359L18.344 212.641L62.5869 224.83L67.8989 205.548Z" fill="#3B1212"/>
-                    <path id="lower-arm" d="M21.9439 116.951C21.3596 111.459 16.434 107.48 10.9421 108.065C5.45028 108.649 1.47187 113.574 2.05611 119.066L21.9439 116.951ZM17 165.008L26.9478 163.988L26.9459 163.969L26.9439 163.951L17 165.008ZM30.9478 202.988L26.9478 163.988L7.05219 166.029L11.0522 205.029L30.9478 202.988ZM26.9439 163.951L21.9439 116.951L2.05611 119.066L7.05611 166.066L26.9439 163.951Z" fill="#3B1212"/>
-                </g>
+                <path id="arms" d="M58.0002 210.947C50.0456 215.943 28.4319 215.538 19.5001 195C6.83787 165.884 48 120.5 49.5 114.5" stroke="#3B1212" stroke-width="20" stroke-linecap="round"/>
                 <ellipse id="dark body" cx="202.5" cy="202" rx="148.5" ry="150" fill="#FCC000"/>
                 <g id="light-body">
                     <mask id="mask0_0_1" className={styles['mask-alpha']} maskUnits="userSpaceOnUse" x="65" y="66" width="275" height="275">

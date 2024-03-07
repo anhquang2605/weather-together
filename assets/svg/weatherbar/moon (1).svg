@@ -2,7 +2,7 @@
 <g id="moon" clip-path="url(#clip0_0_1)">
 <circle id="second radiant" cx="202.5" cy="202.5" r="202.5" fill="#FAE62D" fill-opacity="0.13"/>
 <circle id="first radiant" cx="204.5" cy="202.5" r="177.5" fill="#FAE62D" fill-opacity="0.13"/>
-<path id="arms" d="M58.0002 210.947C50.0456 215.943 28.4319 215.538 19.5001 195C6.83787 165.884 48 120.5 49.5 114.5" stroke="#3B1212" stroke-width="15" stroke-linecap="round"/>
+<path id="arms" d="M58.0002 210.947C50.0456 215.943 28.4319 215.538 19.5001 195C6.83787 165.884 48 120.5 49.5 114.5" stroke="#3B1212" stroke-width="20" stroke-linecap="round"/>
 <ellipse id="dark body" cx="202.5" cy="202" rx="148.5" ry="150" fill="#FCC000"/>
 <g id="light body">
 <mask id="mask0_0_1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="65" y="66" width="275" height="275">
