@@ -14,7 +14,7 @@ const background: React.FC<backgroundProps> = ({weatherType}) => {
     return (
         <div className={`${style['background']} ${style[weatherType]} ${style['night']}`}>
                         <HappyMoon isAnimated={isHovered} />
-            <SkyRiver noOfLane={3} />
+      {/*       <SkyRiver noOfLane={3} /> */}
 
         </div>
     );
