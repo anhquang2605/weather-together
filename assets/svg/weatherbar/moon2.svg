@@ -1,24 +1,47 @@
-<svg width="712" height="345" viewBox="0 0 712 345" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_1_17)">
-<rect width="712" height="345" fill="white"/>
-<rect width="712" height="345" fill="#FAE62D"/>
-<circle cx="206.5" cy="40.5" r="6.5" fill="#FCC000"/>
-<circle cx="217.5" cy="275.5" r="12.5" fill="#FCC000"/>
-<circle cx="368" cy="215" r="31" fill="#FCC000"/>
-<circle cx="99" cy="237" r="31" fill="#FCC000"/>
-<circle cx="606.5" cy="114.5" r="43.5" fill="#FCC000"/>
-<circle cx="528.5" cy="295.5" r="49.5" fill="#FCC000"/>
-<circle cx="5.5" cy="5.5" r="5.5" transform="matrix(-1 0 0 1 484 265)" fill="#FCC000"/>
-<circle cx="658" cy="237" r="15" fill="#FCC000"/>
-<circle cx="563" cy="143" r="15" fill="#FCC000"/>
-<circle cx="53" cy="113" r="15" fill="#FCC000"/>
-<circle cx="240" cy="159" r="13" fill="#FCC000"/>
-<circle cx="460" cy="74" r="13" fill="#FCC000"/>
-<circle cx="204.5" cy="297.5" r="21.5" fill="#FCC000"/>
+<svg width="405" height="405" viewBox="0 0 405 405" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="moon" clip-path="url(#clip0_0_1)">
+<circle id="second radiant" cx="202.5" cy="202.5" r="202.5" fill="#FAE62D" fill-opacity="0.13"/>
+<circle id="first radiant" cx="204.5" cy="202.5" r="177.5" fill="#FAE62D" fill-opacity="0.13"/>
+<path id="arms" d="M58 210.148C51.0597 215.516 23.7929 213.067 16 191C4.9523 159.716 -5.30875 110.447 -4 104" stroke="#3B1212" stroke-width="20" stroke-linecap="round"/>
+<ellipse id="dark body" cx="202.5" cy="202" rx="148.5" ry="150" fill="#FCC000"/>
+<g id="light body">
+<mask id="mask0_0_1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="65" y="66" width="275" height="275">
+<circle id="Ellipse 8" cx="202.5" cy="203.5" r="137.5" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_0_1)">
+<g id="moon_2">
+<rect id="Rectangle 1" x="47" y="32" width="712" height="345" fill="#FAE62D"/>
+<circle id="Ellipse 8_2" cx="253.5" cy="72.5" r="6.5" fill="#FCC000"/>
+<circle id="Ellipse 11" cx="264.5" cy="307.5" r="12.5" fill="#FCC000"/>
+<circle id="Ellipse 18" cx="146" cy="269" r="31" fill="#FCC000"/>
+<circle id="Ellipse 17" cx="100" cy="145" r="15" fill="#FCC000"/>
+<circle id="Ellipse 13" cx="287" cy="191" r="13" fill="#FCC000"/>
+<circle id="Ellipse 10" cx="251.5" cy="329.5" r="21.5" fill="#FCC000"/>
+</g>
+</g>
+</g>
+<mask id="mask1_0_1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="54" y="168" width="300" height="68">
+<rect id="Rectangle 3" x="54" y="168" width="300" height="68" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask1_0_1)">
+<g id="the face">
+<g id="face">
+<g id="eyes">
+<circle id="eye l" cx="155" cy="196" r="13" fill="#3C1212"/>
+<circle id="eye r" cx="243" cy="196" r="13" fill="#3C1212"/>
+</g>
+<g id="cheek eyes">
+<circle id="cheek eye l" cx="155" cy="223" r="13" fill="#FAE62D"/>
+<circle id="cheek eye r" cx="243" cy="223" r="13" fill="#FAE62D"/>
+</g>
+<path id="smile" d="M184 209C184 209 185.24 221 201.354 221C217.469 221 218 209 218 209" stroke="#3B1212" stroke-width="10" stroke-linecap="round"/>
+</g>
+</g>
+</g>
 </g>
 <defs>
-<clipPath id="clip0_1_17">
-<rect width="712" height="345" fill="white"/>
+<clipPath id="clip0_0_1">
+<rect width="405" height="405" fill="white"/>
 </clipPath>
 </defs>
 </svg>

@@ -1,0 +1,44 @@
+<svg width="477" height="460" viewBox="0 0 477 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="moon">
+<g id="Group 1">
+<circle id="second radiant" cx="240.613" cy="229.5" r="202.5" fill="#FAE62D" fill-opacity="0.13"/>
+<circle id="first radiant" cx="242.613" cy="229.5" r="177.5" fill="#FAE62D" fill-opacity="0.13"/>
+<path id="arms" d="M96.1131 237.148C89.1728 242.516 51.7929 241.067 44 219C32.9523 187.716 12.6912 137.447 14 131" stroke="#3B1212" stroke-width="20" stroke-linecap="round"/>
+<ellipse id="dark body" cx="240.613" cy="229" rx="148.5" ry="150" fill="#FCC000"/>
+<g id="light body">
+<mask id="mask0_0_1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="103" y="93" width="276" height="275">
+<circle id="Ellipse 8" cx="240.613" cy="230.5" r="137.5" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_0_1)">
+<g id="moon_2">
+<rect id="Rectangle 1" x="85.1131" y="59" width="712" height="345" fill="#FAE62D"/>
+<circle id="Ellipse 8_2" cx="291.613" cy="99.5" r="6.5" fill="#FCC000"/>
+<circle id="Ellipse 11" cx="302.613" cy="334.5" r="12.5" fill="#FCC000"/>
+<circle id="Ellipse 18" cx="184.113" cy="296" r="31" fill="#FCC000"/>
+<circle id="Ellipse 17" cx="138.113" cy="172" r="15" fill="#FCC000"/>
+<circle id="Ellipse 13" cx="325.113" cy="218" r="13" fill="#FCC000"/>
+<circle id="Ellipse 10" cx="289.613" cy="356.5" r="21.5" fill="#FCC000"/>
+</g>
+</g>
+</g>
+<mask id="mask1_0_1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="92" y="195" width="301" height="68">
+<rect id="Rectangle 3" x="92.1131" y="195" width="300" height="68" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask1_0_1)">
+<g id="the face">
+<g id="face">
+<g id="eyes">
+<circle id="eye l" cx="193.113" cy="223" r="13" fill="#3C1212"/>
+<circle id="eye r" cx="281.113" cy="223" r="13" fill="#3C1212"/>
+</g>
+<g id="cheek eyes">
+<circle id="cheek eye l" cx="193.113" cy="250" r="13" fill="#FAE62D"/>
+<circle id="cheek eye r" cx="281.113" cy="250" r="13" fill="#FAE62D"/>
+</g>
+<path id="smile" d="M222.113 236C222.113 236 223.353 248 239.467 248C255.582 248 256.113 236 256.113 236" stroke="#3B1212" stroke-width="10" stroke-linecap="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
