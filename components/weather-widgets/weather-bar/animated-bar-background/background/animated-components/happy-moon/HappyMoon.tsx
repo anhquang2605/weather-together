@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './happy-moon.module.css';
-import anime from 'animejs';
+import anime, { AnimeInstance } from 'animejs';
+import { PiBellSimpleRinging } from 'react-icons/pi';
 interface HappyMoonProps {
     isAnimated: boolean;
 }
 
 const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
     const [speed, setSpeed] = useState(1);
+    const armToggleAnimationRef = useRef<undefined | AnimeInstance >();
     const greeting = (isAnimated:boolean) => {
         spin(isAnimated);
-        armToggle();
+        armSpin(isAnimated);
+        armToggle(isAnimated);
     }
     const glow = () => {
 
@@ -19,12 +22,13 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
     }
     const squint = () => {
     }
-    const spin = (isReversed:boolean) => {
+    const spin = (isAnimated:boolean) => {
         const theFace = document.getElementById('the-face');
         const theMoonBody = document.getElementById('moon_2');
 
         if(theFace && theMoonBody){
-            if(isReversed){
+            if(isAnimated){
+               
                 theFace.style.transform = "translateX(0px)";
                 theMoonBody.style.transform = "translateX(0px)";
             } else {
@@ -34,39 +38,66 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
            
         }
     }
-    const armToggle = () => {
-        const animation = anime({
-            targets: '#arms',
-            d:{
-                value: [
-                    "M96.1131 237.148C89.1728 242.516 61.906 240.067 54.1131 218C43.0654 186.716 84.6913 133.447 86 127",
-                    "M96.1131 237.148C89.1728 242.516 51.7929 241.067 44 219C32.9523 187.716 12.6912 137.447 14 131"
-                ],
-                easing: 'spring',
-                duration: 1000,
-            },
-            loop: true
-            
-        })
-        return animation
+    const armSpin = (isAnimated: boolean) => {
+        if(isAnimated){
+            anime({
+                targets: "#arms",
+                rotate: 20,
+                duration: 300,
+                easing: 'spring'
+            })
+        }
+    }
+    const armToggle = (isAnimated: boolean) => {
+        let animation;
+            if(armToggleAnimationRef && armToggleAnimationRef.current){
+                if(!isAnimated){
+                    armToggleAnimationRef.current.pause();
+                }else{
+                    armToggleAnimationRef.current.play();
+                }
+                
+            }else{
+                if(!isAnimated){
+                    return;
+                }
+                animation = anime({
+                    targets: '#arms',
+                    d:{
+                        value: [
+                            "M96.1131 237.148C89.1728 242.516 61.906 240.067 54.1131 218C43.0654 186.716 84.6913 133.447 86 127",
+                            "M96.1131 237.148C89.1728 242.516 51.7929 241.067 44 219C32.9523 187.716 12.6912 137.447 14 131"
+                        ],
+                        easing: 'spring',
+                        duration: 1000,
+                    },
+                    loop: true
+                    
+                })
+                armToggleAnimationRef.current = animation;
+            }
     }
     const jiggle = () => {
-        
+        const theBody = document.getElementById('the-body');
+
     }
     useEffect(()=>{
             greeting(isAnimated);
     },[isAnimated])
     return (
         <div className={styles['happy-moon']}>
-            <svg width="35%"   viewBox="0 0 477 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="45%" style={{
+                border: '1px solid black'
+            }}   viewBox="0 -25 450 450" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="moon" clip-path="url(#clip0_0_1)">
-                <circle id="second-radiant" cx="202.5" cy="202.5" r="202.5" fill="#FAE62D" fill-opacity="0.13"/>
-                <circle id="first-radiant" cx="204.5" cy="202.5" r="177.5" fill="#FAE62D" fill-opacity="0.13"/>
+                <g id="the-body">
+                <circle id="second-radiant" cx="232.5" cy="202.5" r="202.5" fill="#FAE62D" fill-opacity="0.13"/>
+                <circle id="first-radiant" cx="234.5" cy="202.5" r="177.5" fill="#FAE62D" fill-opacity="0.13"/>
                 <path id="arms" d="M96.1131 237.148C89.1728 242.516 61.906 240.067 54.1131 218C43.0654 186.716 84.6913 133.447 86 127" stroke="#3B1212" stroke-width="25" stroke-linecap="round"/>
-                <ellipse id="dark body" cx="202.5" cy="202" rx="148.5" ry="150" fill="#FCC000"/>
+                <ellipse id="dark body" cx="232.5" cy="202" rx="148.5" ry="150" fill="#FCC000"/>
                 <g id="light-body">
-                    <mask id="mask0_0_1" className={styles['mask-alpha']} maskUnits="userSpaceOnUse" x="65" y="66" width="275" height="275">
-                    <circle id="Ellipse 8" cx="202.5" cy="203.5" r="137.5" fill="#D9D9D9"/>
+                    <mask id="mask0_0_1" className={styles['mask-alpha']} maskUnits="userSpaceOnUse" x="95" y="66" width="275" height="275">
+                    <circle id="Ellipse 8" cx="232.5" cy="203.5" r="137.5" fill="#D9D9D9"/>
                     </mask>
                     <g mask="url(#mask0_0_1)">
                         <g id="moon_2">
@@ -87,30 +118,27 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
                         </g>
                     </g>
                 </g>
-                <mask id="mask1_0_1" className={styles['mask-alpha']} maskUnits="userSpaceOnUse" x="54" y="168" width="300" height="68">
-                <rect id="Rectangle 3" x="54" y="168" width="300" height="68" fill="#D9D9D9"/>
+                <mask id="mask1_0_1" className={styles['mask-alpha']} maskUnits="userSpaceOnUse" x="84" y="168" width="300" height="68">
+                <rect id="Rectangle 3" x="84" y="168" width="300" height="68" fill="#D9D9D9"/>
                 </mask>
                 <g mask="url(#mask1_0_1)">
-                    <g id="the-face">
+                    <g  id="the-face">
                         <g id="face">
                             <g id="eyes">
-                                <circle id="eye l" cx="155" cy="196" r="13" fill="#3C1212"/>
-                                <circle id="eye r" cx="243" cy="196" r="13" fill="#3C1212"/>
+                                <circle id="eye l" cx="185" cy="196" r="13" fill="#3C1212"/>
+                                <circle id="eye r" cx="273" cy="196" r="13" fill="#3C1212"/>
                             </g>
                         <g id="cheek-eyes">
-                            <circle id="cheek-eye-l" cx="155" cy="223" r="13" fill="#FAE62D"/>
-                            <circle id="cheek-eye-r" cx="243" cy="223" r="13" fill="#FAE62D"/>
+                            <circle id="cheek-eye-l" cx="185" cy="223" r="13" fill="#FAE62D"/>
+                            <circle id="cheek-eye-r" cx="273" cy="223" r="13" fill="#FAE62D"/>
                         </g>
-                        <path id="smile" d="M184 209C184 209 185.24 221 201.354 221C217.469 221 218 209 218 209" stroke="#3B1212" stroke-width="10" stroke-linecap="round"/>
+                        <path id="smile" d="M214 209C214 209 215.24 221 231.354 221C247.469 221 248 209 248 209" stroke="#3B1212" stroke-width="10" stroke-linecap="round"/>
                         </g>
                     </g>
                 </g>
+                </g>
+                
             </g>
-                <defs>
-                <clipPath id="clip0_0_1">
-                <rect width="405" height="405" fill="white"/>
-                </clipPath>
-                </defs>
             </svg>
 
         </div>
