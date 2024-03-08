@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './happy-moon.module.css';
-
+import anime from 'animejs/lib/anime.es';
 interface HappyMoonProps {
     isAnimated: boolean;
 }
@@ -17,7 +17,6 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
 
     }
     const squint = () => {
-
     }
     const spin = (isReversed:boolean) => {
         const theFace = document.getElementById('the-face');
@@ -34,7 +33,7 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
         }
     }
     const armToggle = () => {
-
+        
     }
     const jiggle = () => {
         
