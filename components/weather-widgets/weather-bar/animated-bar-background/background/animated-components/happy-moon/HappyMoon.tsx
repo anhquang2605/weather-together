@@ -11,19 +11,16 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
     const armToggleAnimationRef = useRef<undefined | AnimeInstance >();
     const cheeksRaiseAnimationRef = useRef<undefined | AnimeInstance>();
 
-    const greeting = (isAnimated:boolean) => {
-        spin(isAnimated);
-        armSpin(isAnimated);
-        armToggle(isAnimated);
-        squint(isAnimated);
+    const greeting = () => {
+        spin();
+        armSpin();
+        armToggle();
+        squint();
     }
-    const glow = () => {
+    const float = () => {
 
     }
-    const wave = () => {
-
-    }
-    const squint = (isAnimated:boolean) => {
+    const squint = () => {
         if(cheeksRaiseAnimationRef && cheeksRaiseAnimationRef.current){
             if(isAnimated){
                 cheeksRaiseAnimationRef.current.play();
@@ -36,15 +33,16 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
             }
             cheeksRaiseAnimationRef.current = anime({
                 targets: '#cheek-eyes',
-                duration: 1000,
-                transform: 'translateY(-10px)',
+                duration: 1500,
+                translateY: "-10",
+                direction: 'alternate',
                 easing: 'spring',
                 loop: true
             })
         }
         
     }
-    const spin = (isAnimated:boolean) => {
+    const spin = () => {
         const theFace = document.getElementById(styles['the-face']);
         const theMoonBody = document.getElementById(styles['moon_2']);
 
@@ -60,24 +58,24 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
            
         }
     }
-    const armSpin = (isAnimated: boolean) => {
+    const armSpin = () => {
         if(isAnimated){
             anime({
                 targets: `#${styles['arms']}`,
                 rotate: 0,
-                duration: 300,
+                duration: 500,
                 easing: 'spring'
             })
         }else{
             anime({
                 targets: `#${styles['arms']}`,
                 rotate: 30,
-                duration: 300,
+                duration: 500,
                 easing: 'spring'
             })
         }
     }
-    const armToggle = (isAnimated: boolean) => {
+    const armToggle = () => {
         let animation;
             if(armToggleAnimationRef && armToggleAnimationRef.current){
                 if(!isAnimated){
@@ -97,9 +95,10 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
                             "M96.1131 237.148C89.1728 242.516 61.906 240.067 54.1131 218C43.0654 186.716 84.6913 133.447 86 127",
                             "M96.1131 237.148C89.1728 242.516 51.7929 241.067 44 219C32.9523 187.716 12.6912 137.447 14 131"
                         ],
-                        easing: 'spring',
-                        duration: 2000,
+                        duration: 500,
+                        easing: 'linear',
                     },
+                    direction: 'alternate',
                     loop: true
                     
                 })
@@ -111,16 +110,16 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
 
     }
     useEffect(()=>{
-            greeting(isAnimated);
+            greeting();
     },[isAnimated])
     return (
         <div className={styles['happy-moon']}>
             <svg width="45%"   viewBox="0 -25 450 450" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="moon" clip-path="url(#clip0_0_1)">
+            <g id="moon" clipPath="url(#clip0_0_1)">
                 <g id="the-body">
-                <circle id="second-radiant" cx="232.5" cy="202.5" r="202.5" fill="#FAE62D" fill-opacity="0.13"/>
-                <circle id="first-radiant" cx="234.5" cy="202.5" r="177.5" fill="#FAE62D" fill-opacity="0.13"/>
-                <path id={styles["arms"]} d="M96.1131 237.148C89.1728 242.516 61.906 240.067 54.1131 218C43.0654 186.716 84.6913 133.447 86 127" stroke="#3B1212" stroke-width="25" stroke-linecap="round"/>
+                <circle id="second-radiant" cx="232.5" cy="202.5" r="202.5" fill="#FAE62D" fillOpacity="0.13"/>
+                <circle id="first-radiant" cx="234.5" cy="202.5" r="177.5" fill="#FAE62D" fillOpacity="0.13"/>
+                <path id={styles["arms"]} d="M96.1131 237.148C89.1728 242.516 61.906 240.067 54.1131 218C43.0654 186.716 84.6913 133.447 86 127" stroke="#3B1212" strokeWidth="25" strokeLinecap="round"/>
                 <ellipse id="dark body" cx="232.5" cy="202" rx="148.5" ry="150" fill="#FCC000"/>
                 <g id="light-body">
                     <mask id="mask0_0_1" className={styles['mask-alpha']} maskUnits="userSpaceOnUse" x="95" y="66" width="275" height="275">
@@ -159,7 +158,7 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
                             <circle id="cheek-eye-l" cx="185" cy="223" r="13" fill="#FAE62D"/>
                             <circle id="cheek-eye-r" cx="273" cy="223" r="13" fill="#FAE62D"/>
                         </g>
-                        <path id="smile" d="M214 209C214 209 215.24 221 231.354 221C247.469 221 248 209 248 209" stroke="#3B1212" stroke-width="10" stroke-linecap="round"/>
+                        <path id="smile" d="M214 209C214 209 215.24 221 231.354 221C247.469 221 248 209 248 209" stroke="#3B1212" strokeWidth="10" strokeLinecap="round"/>
                         </g>
                     </g>
                 </g>

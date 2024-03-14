@@ -1,4 +1,7 @@
 .weather-bar{
     position: relative;
     @apply p-4 border rounded-lg border-slate-600 mb-2 overflow-hidden;
+    &:hover{
+        cursor:pointer;
+    }
 }
