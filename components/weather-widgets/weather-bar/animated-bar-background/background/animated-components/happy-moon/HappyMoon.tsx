@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './happy-moon.module.css';
 import anime, { AnimeInstance } from 'animejs';
-import { PiBellSimpleRinging } from 'react-icons/pi';
 interface HappyMoonProps {
     isAnimated: boolean;
 }
