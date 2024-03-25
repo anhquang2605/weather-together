@@ -1,14 +1,36 @@
-import React from 'react';
-import style from './cool-sun.module.css';
-
+import React, { useEffect } from 'react';
+import styles from './cool-sun.module.css';
+import anime, { AnimeInstance } from 'animejs';
 interface CoolSunProps {
     isAnimated: boolean;
 }
 
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
+    const toggle = () => {
+        eyes();
+    }
+    const eyes = () => {
+        const leftEye = document.getElementById('left_eye_closed');
+        const rightEye = document.getElementById('right_eye_closed');
+        if(leftEye && rightEye){
+            if(isAnimated){
+                leftEye.style.width = "5px";
+                rightEye.style.width = '5px';
+            }else{
+                leftEye.style.width = "0px";
+                rightEye.style.width = '0px';
+            }
+        }
+        
+    }
+    useEffect(()=>{
+        toggle();
+    },[
+        isAnimated
+    ])
     return (
-        <div className={style['cool-sun']}>
-            <svg width="304" height="304" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className={styles['cool-sun']}>
+            <svg width="45%" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="cool_sun" clip-path="url(#clip0_12_4)">
                     <circle id="Ellipse 3" cx="152" cy="152" r="108" fill="#FF881A" fill-opacity="0.2"/>
                     <circle id="Ellipse 4" cx="151" cy="148" r="136" fill="#FF881A" fill-opacity="0.2"/>
@@ -32,8 +54,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 </g>
                 <g id="face_1">
                     <g id="eyes_closed">
-                        <path id="Vector 1" d="M127 140H137" stroke="black" stroke-width="5" stroke-linecap="round"/>
-                        <path id="Vector 3" d="M168 140H177.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
+                        <path id="left_eye_closed" d="M127 140H137" stroke="black" stroke-width="5" stroke-linecap="round"/>
+                        <path id="right_eye_closed" d="M168 140H177.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
                     </g>
                     <path id="mouth closed" d="M147 151.5C152.5 151.5 147.2 151.5 152 151.5C156.8 151.5 152.5 151.5 157 151.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
                 </g>
