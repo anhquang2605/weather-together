@@ -9,3 +9,9 @@
     transform: translateY(-50%);
     right: 0;
 }
+#left_eye, #right_eye{
+    &:path{
+        stroke-dasharray: 100% 100%;
+        transition: stroke-dashoffset 0.3s ease;
+    }
+}

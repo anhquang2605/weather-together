@@ -22,8 +22,14 @@
 </g>
 <g id="face_1">
 <g id="eyes_closed">
-<path id="Vector 1" d="M127 140H137" stroke="black" stroke-width="5" stroke-linecap="round"/>
-<path id="Vector 3" d="M168 140H177.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<g id="left_eye">
+<path id="left" d="M131 140H126" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="right" d="M131 140H136" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g id="right_eye">
+<path id="left_2" d="M172 140H167" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="right_2" d="M172 140H177" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
 </g>
 <path id="mouth closed" d="M147 151.5C152.5 151.5 147.2 151.5 152 151.5C156.8 151.5 152.5 151.5 157 151.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
 </g>
