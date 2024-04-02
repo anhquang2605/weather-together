@@ -9,14 +9,23 @@ interface AnimePropertyType {
 }
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
-    const eyeAppearAnimationRef = useRef<AnimeInstance | null>(null);
+    const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
+    const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
     const toggle = () => {
         faceReveal();
         armReveal();
+        sunRadiate();
     }
     const initializeAnimation = () => {
-        animeSet('#arms path', {strokeDashoffset: [anime.setDashoffset,0]});
-        animeSet('#eyes path', {strokeDashoffset: 100});
+        const radiantPath:SVGGeometryElement|null = document.querySelector('#sun_radiant path:first-child');
+        let pathLength = 0;
+        if(radiantPath){
+            pathLength = radiantPath.getTotalLength();
+        }
+        animeSet('#arms path', {strokeDashoffset: anime.setDashoffset});
+        animeSet('#eyes path', {strokeDashoffset: anime.setDashoffset});
+        animeSet('#mouth path', {strokeDashoffset: anime.setDashoffset} );
+        animeSet('#sun_radiant path', {strokeDashoffset: pathLength / 2})
         setIsInitialized(true);
     }
     const animeSet = (targets: string,   properties:AnimePropertyType) => {
@@ -48,6 +57,25 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         const targets = ['#eyes path','#mouth path']
         pathRevealAnimation(targets, 100);    
     }
+    const sunRadiate = () => {
+        const targets = "#sun_radiant path";
+        if(sunRadiationAnimationRef && sunRadiationAnimationRef.current ){
+            if(isAnimated){
+                sunRadiationAnimationRef.current.play();
+            }else{
+                sunRadiationAnimationRef.current.pause();
+            }
+        }else{
+            sunRadiationAnimationRef.current =  anime({
+                targets: targets,
+                strokeDashoffset: [anime.setDashoffset],
+                loop: true,
+                duration: 1000,
+                direction: 'alternate'
+            })
+        }
+       
+    }
     useEffect(()=>{
         if(isInitialized){
             toggle();
@@ -70,14 +98,14 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                         <circle id="outer_body" cx="151.5" cy="151.5" r="83.5" fill="#FDC04C"/>
                     </g>
                 <g id="sun_radiant">
-                    <path id="Line 8" d="M48.4089 48.4089L77.4002 77.4002" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
-                    <path id="Line 7" d="M46.5 152H5.5" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
-                    <path id="Line 6" d="M77.4002 226.6L48.4089 255.591" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
-                    <path id="Line 5" d="M152 257.5V298.5" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
-                    <path id="Line 4" d="M255.591 255.591L226.6 226.6" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
-                    <path id="Line 3" d="M257.5 152H298.5" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
-                    <path id="Line 2" d="M226.6 77.4002L255.591 48.4089" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
-                    <path id="Line 1" d="M152 46.5V5.5" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
+                    <path id="Line 10" d="M227 227L255.991 255.991" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+                    <path id="Line 7" d="M46.5 152H5.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+                    <path id="Line 6" d="M77.4002 226.6L48.4089 255.591" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+                    <path id="Line 5" d="M152 257.5V298.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+                    <path id="Line 9" d="M76.9914 77.9914L48 49" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+                    <path id="Line 3" d="M257.5 152H298.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+                    <path id="Line 2" d="M226.6 77.4002L255.591 48.4089" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+                    <path id="Line 1" d="M152 46.5V5.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
                 </g>
                 <g id="arms">
                     <path id="left_arm" d="M58 152C76.8404 167.5 79.8404 169.5 100.5 184.5" stroke="black" strokeWidth="5" strokeLinecap="round"/>

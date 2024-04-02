@@ -7,11 +7,11 @@
 <circle id="outer_body" cx="151.5" cy="151.5" r="83.5" fill="#FDC04C"/>
 </g>
 <g id="sun_radiant">
-<path id="Line 8" d="M48.4089 48.4089L77.4002 77.4002" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 10" d="M227 227L255.991 255.991" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
 <path id="Line 7" d="M46.5 152H5.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
 <path id="Line 6" d="M77.4002 226.6L48.4089 255.591" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
 <path id="Line 5" d="M152 257.5V298.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 4" d="M255.591 255.591L226.6 226.6" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 9" d="M76.9914 77.9914L48 49" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
 <path id="Line 3" d="M257.5 152H298.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
 <path id="Line 2" d="M226.6 77.4002L255.591 48.4089" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
 <path id="Line 1" d="M152 46.5V5.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
