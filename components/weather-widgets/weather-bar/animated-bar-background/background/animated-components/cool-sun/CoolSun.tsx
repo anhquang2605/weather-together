@@ -1,40 +1,64 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './cool-sun.module.css';
 import anime, { AnimeInstance } from 'animejs';
 interface CoolSunProps {
     isAnimated: boolean;
 }
-
+interface AnimePropertyType {
+    [key: string]: any
+}
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
+    const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const eyeAppearAnimationRef = useRef<AnimeInstance | null>(null);
     const toggle = () => {
-        eyes();
+        faceReveal();
+        armReveal();
     }
-    const eyes = () => {
-      
+    const initializeAnimation = () => {
+        animeSet('#arms path', {strokeDashoffset: [anime.setDashoffset,0]});
+        animeSet('#eyes path', {strokeDashoffset: 100});
+        setIsInitialized(true);
+    }
+    const animeSet = (targets: string,   properties:AnimePropertyType) => {
+        anime.set(targets, properties);
+    }
+    const pathRevealAnimation = (paths: string[], duration: number) => {
         if(isAnimated){
             anime({
-                targets: '#eyes path',
+                targets: paths,
                 strokeDashoffset: [anime.setDashoffset, 0],
-                easing: 'spring',
-                duration: 300,
+                easing: 'linear',
+                duration: duration,
                })
+            
         }else{
             anime({
-                targets: '#eyes path',
+                targets: paths,
                 strokeDashoffset: [0, anime.setDashoffset],
-                easing: 'spring',
-                duration: 300,
+                easing: 'linear',
+                duration: duration,
                })
         }
-      
-        
+    }
+    const armReveal = () => {
+        const targets = ['#arms path']
+        pathRevealAnimation(targets, 100);
+    }
+    const faceReveal = () => {
+        const targets = ['#eyes path','#mouth path']
+        pathRevealAnimation(targets, 100);    
     }
     useEffect(()=>{
-        toggle();
+        if(isInitialized){
+            toggle();
+        }
     },[
         isAnimated
     ])
+    
+    useEffect(()=>{
+        initializeAnimation();
+    })
     return (
         <div className={styles['cool-sun']}>
             <svg width="45%" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,9 +79,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     <path id="Line 2" d="M226.6 77.4002L255.591 48.4089" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
                     <path id="Line 1" d="M152 46.5V5.5" stroke="#BA3902" stroke-opacity="0.98" strokeWidth="10" strokeLinecap="round"/>
                 </g>
-                <g id="arm_idle">
-                    <path id="Vector 7" d="M58 152C76.8404 167.5 79.8404 169.5 100.5 184.5" stroke="black" strokeWidth="5" strokeLinecap="round"/>
-                    <path id="Vector 8" d="M246.84 152C229.84 166 226.84 168.5 204.34 184.5" stroke="black" strokeWidth="5" strokeLinecap="round"/>
+                <g id="arms">
+                    <path id="left_arm" d="M58 152C76.8404 167.5 79.8404 169.5 100.5 184.5" stroke="black" strokeWidth="5" strokeLinecap="round"/>
+                    <path id="right_arm" d="M246.84 152C229.84 166 226.84 168.5 204.34 184.5" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                 </g>
                 <g id="face_1">
                     <g id="eyes">
@@ -70,7 +94,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                             <path id="right_2" d="M172 140H177" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                         </g>
                     </g>
-                    <path id="mouth" d="M147 151.5C152.5 151.5 147.2 151.5 152 151.5C156.8 151.5 152.5 151.5 157 151.5" stroke="black" strokeWidth="5" strokeLinecap="round"/>
+                    <g id="mouth">
+                        <path id="left_3" d="M152 153H147" stroke="black" stroke-width="5" stroke-linecap="round"/>
+                        <path id="right_3" d="M152 153H157" stroke="black" stroke-width="5" stroke-linecap="round"/>
+                    </g>
                 </g>
             </g>
             <defs>
