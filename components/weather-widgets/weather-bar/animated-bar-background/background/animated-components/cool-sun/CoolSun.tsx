@@ -10,7 +10,7 @@ interface AnimePropertyType {
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
-    const eyeAppearAnimationRefu = useRef<AnimeInstance | undefined>();
+    const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
     const toggle = () => {
         faceReveal();
         armReveal();
