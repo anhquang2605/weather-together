@@ -7,14 +7,14 @@
 <circle id="outer_body" cx="151.5" cy="151.5" r="83.5" fill="#FDC04C"/>
 </g>
 <g id="sun_radiant">
-<path id="Line 8" d="M48.4089 48.4089L77.4002 77.4002" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 7" d="M46.5 152H5.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 6" d="M77.4002 226.6L48.4089 255.591" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 5" d="M152 257.5V298.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 4" d="M255.591 255.591L226.6 226.6" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 3" d="M257.5 152H298.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 2" d="M226.6 77.4002L255.591 48.4089" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
-<path id="Line 1" d="M152 46.5V5.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 10" d="M255.991 255.991L227 227" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 7" d="M5.5 152L46.5 152" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 6" d="M48.4089 255.591L77.4002 226.6" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 5" d="M152 298.5V257.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 9" d="M48 49L76.9914 77.9914" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 3" d="M298.5 152H257.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 2" d="M255.591 48.4089L226.6 77.4002" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 1" d="M152 5.5V46.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
 </g>
 <g id="arm_idle">
 <path id="Vector 7" d="M58 152C76.8404 167.5 79.8404 169.5 100.5 184.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
@@ -31,7 +31,14 @@
 <path id="right_2" d="M172 140H177" stroke="black" stroke-width="5" stroke-linecap="round"/>
 </g>
 </g>
-<path id="mouth closed" d="M147 151.5C152.5 151.5 147.2 151.5 152 151.5C156.8 151.5 152.5 151.5 157 151.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<g id="eyes_opened">
+<circle id="left_open_eye" cx="130.75" cy="139.75" r="7.75" fill="black"/>
+<circle id="right_open_eye" cx="171.75" cy="139.75" r="7.75" fill="black"/>
+</g>
+<g id="mouth">
+<path id="left_3" d="M152 153H147" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="right_3" d="M152 153H157" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
 </g>
 </g>
 <defs>
