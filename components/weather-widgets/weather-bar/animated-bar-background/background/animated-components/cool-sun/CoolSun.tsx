@@ -9,7 +9,7 @@ interface AnimePropertyType {
 }
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     //CONSTANTS
-    const REVEAL_DURATION = 100;
+    const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 500;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
 
@@ -22,14 +22,16 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         armReveal();
         sunRadiate();
         eyeBlink();
+        smile();
     }
     const initializeAnimation = () => {
-
-        animeSet('#arms path', {strokeDashoffset: anime.setDashoffset});
-        animeSet('#eyes path', {strokeDashoffset: anime.setDashoffset});
-        animeSet('#mouth path', {strokeDashoffset: anime.setDashoffset} );
-        animeSet('#eyes_opened circle', {style: 'transform:scaleY(0)'});
-        //animeSet('#sun_radiant path', {strokeDashoffset: pathLength / 2})
+        const FULL_STROKE_SET_PROPERTY_OBJECT = {strokeDashoffset: anime.setDashoffset}; 
+        animeSet('#arms path', FULL_STROKE_SET_PROPERTY_OBJECT );
+        animeSet('#eyes path', FULL_STROKE_SET_PROPERTY_OBJECT);
+        animeSet('#mouth path', FULL_STROKE_SET_PROPERTY_OBJECT );
+        animeSet('#eyes_opened circle', {scaleY: 0});
+        animeSet('#sun_radiant path', FULL_STROKE_SET_PROPERTY_OBJECT);
+        animeSet('#mouth_smile', {opacity:0})
         setIsInitialized(true);
     }
     const animeSet = (targets: string,   properties:AnimePropertyType) => {
@@ -70,7 +72,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         pathRevealAnimation(targets, REVEAL_DURATION);    
     }
     const eyeBlink = (isOpened?: boolean) => {
-        const target = '#eyes_opened circle';
+        const target = `#${styles['eyes_opened']} circle`;
         if(isOpened || isAnimated){
             anime({
                 targets: target,
@@ -82,6 +84,40 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 targets: target,
                 duration: REVEAL_DURATION,
                 scaleY: '0',
+            })
+        }
+    }
+    const smile = (isSmiling?: boolean) => {
+        const straight = 'M147 154C151 154 146.827 154 151.733 154C156.64 154 152 154 156.5 154';
+        const smile = 'M140 149C143.067 153.091 145.827 154 150.733 154C155.64 154 159.933 153.091 163 149';
+        const mouth_smile = '#mouth_smile';
+        if(isAnimated){
+            animeSet(mouth_smile,{
+                opacity: 1
+            })
+        }
+        if(isSmiling || isAnimated){
+            anime({
+                targets: mouth_smile,
+                d: {
+                    value: [
+                        straight,
+                        smile
+                    ],
+                    duration: REVEAL_DURATION,
+                    easing: 'linear'
+                }
+            })
+        }else{
+            anime({
+                targets: mouth_smile,
+                d: {
+                    value: [
+                        smile,
+                        straight
+                    ],
+                    duration: REVEAL_DURATION
+                }
             })
         }
     }
@@ -155,9 +191,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                             <path id="right_2" d="M172 140H177" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                         </g>
                     </g>
-                    <g style={{
-                        transformOrigin: "50% 50%",
-                    }} id="eyes_opened">
+                    <g  id={styles["eyes_opened"]}>
                         <circle id="left_open_eye" cx="130.75" cy="139.75" r="7.75" fill="black"/>
                         <circle id="right_open_eye" cx="171.75" cy="139.75" r="7.75" fill="black"/>
                     </g>
@@ -165,6 +199,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                         <path id="left_3" d="M152 153H147" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                         <path id="right_3" d="M152 153H157" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                     </g>
+                    <path id="mouth_smile" d="M147 154C151 154 146.827 154 151.733 154C156.64 154 152 154 156.5 154" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                 </g>
             </g>
             <defs>

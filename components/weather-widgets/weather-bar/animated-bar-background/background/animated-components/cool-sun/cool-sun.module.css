@@ -15,3 +15,8 @@
         transition: stroke-dashoffset 0.3s ease;
     }
 }
+#eyes_opened{
+    circle{
+        transform-origin: 0% 45%;
+    }
+}

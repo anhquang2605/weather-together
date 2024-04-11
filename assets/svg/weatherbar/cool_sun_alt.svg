@@ -1,0 +1,50 @@
+<svg width="304" height="304" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="cool_sun" clip-path="url(#clip0_12_4)">
+<circle id="Ellipse 3" cx="152" cy="152" r="108" fill="#FF881A" fill-opacity="0.2"/>
+<circle id="Ellipse 4" cx="151" cy="148" r="136" fill="#FF881A" fill-opacity="0.2"/>
+<g id="body">
+<circle id="inner_body" cx="152" cy="152" r="92" fill="#EDA10D"/>
+<circle id="outer_body" cx="151.5" cy="151.5" r="83.5" fill="#FDC04C"/>
+</g>
+<g id="sun_radiant">
+<path id="Line 10" d="M255.991 255.991L227 227" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 7" d="M5.5 152L46.5 152" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 6" d="M48.4089 255.591L77.4002 226.6" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 5" d="M152 298.5V257.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 9" d="M48 49L76.9914 77.9914" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 3" d="M298.5 152H257.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 2" d="M255.591 48.4089L226.6 77.4002" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+<path id="Line 1" d="M152 5.5V46.5" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
+</g>
+<g id="arm_idle">
+<path id="Vector 7" d="M58 152C76.8404 167.5 79.8404 169.5 100.5 184.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="Vector 8" d="M246.84 152C229.84 166 226.84 168.5 204.34 184.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g id="face_1">
+<g id="eyes_closed">
+<g id="left_eye">
+<path id="left" d="M131 140H126" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="right" d="M131 140H136" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g id="right_eye">
+<path id="left_2" d="M172 140H167" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="right_2" d="M172 140H177" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
+</g>
+<g id="eyes_opened">
+<circle id="left_open_eye" cx="130.75" cy="139.75" r="7.75" fill="black"/>
+<circle id="right_open_eye" cx="171.75" cy="139.75" r="7.75" fill="black"/>
+</g>
+<g id="mouth">
+<path id="left_3" d="M152 154H147" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="right_3" d="M152 154H157" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
+<path id="mouth_smile" d="M147 154C151 154 146.827 154 151.733 154C156.64 154 152 154 156.5 154" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_12_4">
+<rect width="304" height="304" fill="white"/>
+</clipPath>
+</defs>
+</svg>
