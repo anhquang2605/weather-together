@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './cool-sun.module.css';
 import anime, { AnimeInstance } from 'animejs';
+import { endOfDay } from 'date-fns';
 interface CoolSunProps {
     isAnimated: boolean;
 }
@@ -12,24 +13,29 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 500;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
+    const FLEXING_DURATION = 500;
+    const FLEX_DELAY = 200;
 
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
     const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
+    const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
+    const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const toggle = () => {
         faceReveal();
         armReveal();
-        sunRadiate();
+        //sunRadiate();
         eyeBlink();
         smile();
+        armFlexing(isAnimated);
     }
     const initializeAnimation = () => {
         const FULL_STROKE_SET_PROPERTY_OBJECT = {strokeDashoffset: anime.setDashoffset}; 
         animeSet('#arms path', FULL_STROKE_SET_PROPERTY_OBJECT );
         animeSet('#eyes path', FULL_STROKE_SET_PROPERTY_OBJECT);
         animeSet('#mouth path', FULL_STROKE_SET_PROPERTY_OBJECT );
-        animeSet('#eyes_opened circle', {scaleY: 0});
+        animeSet(`#${styles['eyes_opened']} circle`, {scaleY: 0});
         animeSet('#sun_radiant path', FULL_STROKE_SET_PROPERTY_OBJECT);
         animeSet('#mouth_smile', {opacity:0})
         setIsInitialized(true);
@@ -91,14 +97,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         const straight = 'M147 154C151 154 146.827 154 151.733 154C156.64 154 152 154 156.5 154';
         const smile = 'M140 149C143.067 153.091 145.827 154 150.733 154C155.64 154 159.933 153.091 163 149';
         const mouth_smile = '#mouth_smile';
-        if(isAnimated){
-            animeSet(mouth_smile,{
-                opacity: 1
-            })
-        }
+
         if(isSmiling || isAnimated){
             anime({
                 targets: mouth_smile,
+                opacity: 1,
                 d: {
                     value: [
                         straight,
@@ -111,6 +114,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         }else{
             anime({
                 targets: mouth_smile,
+                opacity: 0,
                 d: {
                     value: [
                         smile,
@@ -144,6 +148,56 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             })
         }
        
+    }
+    const armFlexing = (isFlexing:boolean) => {
+        //PATH DEFINITION CONSTANT
+        const LEFT_ARM_OUT = "M57.4939 154C10.8344 154 4.83454 192 21.3345 205";
+        const LEFT_ARM_CLOSE = "M57.6596 154C53.1596 172.5 72.1596 186.5 100.16 186.5";
+        const RIGHT_ARM_OUT = "M247 154C293.66 154 299.659 192 283.159 205";
+        const RIGHT_ARM_CLOSE = "M246.5 154C251 172.5 232 186.5 204 186.5";
+        
+        //PATHS' ID
+        const LEFT_ARM_SELECTION = "#left_arm";
+        const RIGHT_ARM_SELECTION = "#right_arm";
+        //ANIMATION HOLDER
+        let leftAnimation;
+        let rightAnimation;
+            if(leftFlexingAnimationRef && leftFlexingAnimationRef.current && rightFlexingAnimationRef && rightFlexingAnimationRef.current){
+                if(!isAnimated){
+                    leftFlexingAnimationRef.current.restart();
+                    leftFlexingAnimationRef.current.pause();
+                    rightFlexingAnimationRef.current.restart();
+                    leftFlexingAnimationRef.current.pause();
+                }else{
+                    leftFlexingAnimationRef.current.play();
+                    rightFlexingAnimationRef.current.play();
+                }
+                
+            }else{
+                if(!isAnimated){
+                    return;
+                }
+                leftAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
+                rightAnimation =  producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
+                leftFlexingAnimationRef.current = leftAnimation;
+            }
+    }
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0) =>{
+        return anime({
+            targets: target,
+            d:{
+                value: [
+                   d1,
+                   d2
+                ],
+                duration: duration,
+                easing: 'linear',
+                delay: delay,
+                endDelay:delay,
+            },
+            direction: 'alternate',
+            loop: true
+        })
     }
     useEffect(()=>{
         if(isInitialized){
