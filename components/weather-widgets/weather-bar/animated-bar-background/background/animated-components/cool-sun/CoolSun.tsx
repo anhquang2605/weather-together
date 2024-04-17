@@ -13,13 +13,15 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 500;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
-    const FLEXING_DURATION = 500;
+    const FLEXING_DURATION = 200;
+    const LOOSE_DURATION = 500;
     const FLEX_DELAY = 200;
 
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
     const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
+    const armFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const toggle = () => {
@@ -160,30 +162,39 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         const LEFT_ARM_SELECTION = "#left_arm";
         const RIGHT_ARM_SELECTION = "#right_arm";
         //ANIMATION HOLDER
+        let leftFlexAnimation;
+        let leftLooseAnimation;
+        let rightFlexAnimation;
+        let rightLooseAnimation;
         let leftAnimation;
         let rightAnimation;
-            if(leftFlexingAnimationRef && leftFlexingAnimationRef.current && rightFlexingAnimationRef && rightFlexingAnimationRef.current){
+            if(leftFlexingAnimationRef && leftFlexingAnimationRef.current){
                 if(!isAnimated){
                     leftFlexingAnimationRef.current.restart();
                     leftFlexingAnimationRef.current.pause();
-                    rightFlexingAnimationRef.current.restart();
-                    leftFlexingAnimationRef.current.pause();
                 }else{
                     leftFlexingAnimationRef.current.play();
-                    rightFlexingAnimationRef.current.play();
                 }
                 
             }else{
                 if(!isAnimated){
                     return;
                 }
-                leftAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                rightAnimation =  producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                leftFlexingAnimationRef.current = leftAnimation;
+                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,false);
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY,false, true);
+                rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,false);
+                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY,false, true);
+                leftFlexingAnimationRef.current  = anime.timeline({
+                    loop: true,
+                    duration: FLEXING_DURATION + LOOSE_DURATION
+                }).add(leftFlexAnimation).add(leftLooseAnimation)
+                leftFlexingAnimationRef.current.loop = true;
+          
+
             }
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0) =>{
-        return anime({
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, isLoop:boolean = true, reverse:boolean = false ) =>{
+        return {
             targets: target,
             d:{
                 value: [
@@ -195,10 +206,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 delay: delay,
                 endDelay:delay,
             },
-            direction: 'alternate',
-            loop: true
-        })
+            direction: reverse? 'reverse' : 'alternate',
+            loop: isLoop,
+        }
     }
+    
     useEffect(()=>{
         if(isInitialized){
             toggle();
