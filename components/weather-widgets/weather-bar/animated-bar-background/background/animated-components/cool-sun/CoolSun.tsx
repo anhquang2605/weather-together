@@ -13,8 +13,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 500;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
-    const FLEXING_DURATION = 200;
-    const LOOSE_DURATION = 500;
+    const FLEXING_DURATION = 250;
+    const LOOSE_DURATION = 1000;
     const FLEX_DELAY = 200;
 
     //STATES
@@ -180,15 +180,14 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 if(!isAnimated){
                     return;
                 }
-                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,false);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY,false, true);
+                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY);
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,false);
                 rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY,false, true);
                 leftFlexingAnimationRef.current  = anime.timeline({
                     loop: true,
-                    duration: FLEXING_DURATION + LOOSE_DURATION
+                    duration: LOOSE_DURATION + FLEXING_DURATION
                 }).add(leftFlexAnimation).add(leftLooseAnimation)
-                leftFlexingAnimationRef.current.loop = true;
           
 
             }
@@ -203,11 +202,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 ],
                 duration: duration,
                 easing: 'linear',
-                delay: delay,
-                endDelay:delay,
             },
             direction: reverse? 'reverse' : 'alternate',
-            loop: isLoop,
         }
     }
     

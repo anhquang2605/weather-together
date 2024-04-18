@@ -13,10 +13,10 @@ interface backgroundProps {
 const background: React.FC<backgroundProps> = ({weatherType}) => {
     const {isHovered} = useWeatherBarContext();
     const currentHour = new Date().getHours();
-
+    const isNight = currentHour > 25;
     return (
-        <div className={`${style['background']} ${style[weatherType]} ${style[`${currentHour > 18 ? "night" : "day"}`]}`}>
-                        {currentHour > 18 ? <HappyMoon isAnimated={isHovered} /> : <CoolSun isAnimated={isHovered}/>}
+        <div className={`${style['background']} ${style[weatherType]} ${style[`${isNight ? "night" : "day"}`]}`}>
+                        {isNight ? <HappyMoon isAnimated={isHovered} /> : <CoolSun isAnimated={isHovered}/>}
         <SkyRiver noOfLane={3} />
 
         </div>
