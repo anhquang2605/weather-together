@@ -13,9 +13,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 500;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
-    const FLEXING_DURATION = 250;
-    const LOOSE_DURATION = 1000;
-    const FLEX_DELAY = 200;
+    const FLEXING_DURATION = 750;
+    const LOOSE_DURATION = 250;
+    const FLEX_DELAY = 1000;
 
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -181,9 +181,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     return;
                 }
                 leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY);
-                rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,false);
-                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY,false, true);
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'elastic'
+                );
+                rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION);
+                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY);
                 leftFlexingAnimationRef.current  = anime.timeline({
                     loop: true,
                     duration: LOOSE_DURATION + FLEXING_DURATION
@@ -192,7 +193,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
 
             }
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, isLoop:boolean = true, reverse:boolean = false ) =>{
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, easing : string = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
         return {
             targets: target,
             d:{
@@ -201,9 +202,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                    d2
                 ],
                 duration: duration,
-                easing: 'linear',
+               
+                delay: delay
             },
             direction: reverse? 'reverse' : 'alternate',
+            easing: easing,
         }
     }
     
