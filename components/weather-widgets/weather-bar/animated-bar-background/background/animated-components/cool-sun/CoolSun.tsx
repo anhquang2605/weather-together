@@ -168,12 +168,13 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         let rightLooseAnimation;
         let leftAnimation;
         let rightAnimation;
-            if(leftFlexingAnimationRef && leftFlexingAnimationRef.current){
+            if(leftFlexingAnimationRef && leftFlexingAnimationRef.current && rightFlexingAnimationRef && rightFlexingAnimationRef.current){
                 if(!isAnimated){
-                    leftFlexingAnimationRef.current.restart();
-                    leftFlexingAnimationRef.current.pause();
+                    timelineRefReset(leftFlexingAnimationRef.current);
+                    timelineRefReset(rightFlexingAnimationRef.current)
                 }else{
                     leftFlexingAnimationRef.current.play();
+                    rightFlexingAnimationRef.current.play();
                 }
                 
             }else{
@@ -181,17 +182,34 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     return;
                 }
                 leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'elastic'
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring(1, 80, 10, 0)'
                 );
-                rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION);
-                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY);
-                leftFlexingAnimationRef.current  = anime.timeline({
+                rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
+                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring(1, 80, 10, 0)');
+                let timeline1  = anime.timeline({
                     loop: true,
                     duration: LOOSE_DURATION + FLEXING_DURATION
-                }).add(leftFlexAnimation).add(leftLooseAnimation)
-          
+                })
+                let timeline2 = anime.timeline({
+                    loop: true,
+                    duration: LOOSE_DURATION + FLEXING_DURATION
+                })
+                timeline1.add(leftFlexAnimation).add(leftLooseAnimation)
+                timeline2.add(rightFlexAnimation).add(rightLooseAnimation)
+                leftFlexingAnimationRef.current = timeline1;
+                rightFlexingAnimationRef.current = timeline2;
 
             }
+    }
+    const timelineRefReset = (animeObj: AnimeInstance) => {
+        animeObj.restart();
+        animeObj.pause();
+    }
+    const timelineRefPlay = (animeObj: AnimeInstance) => {
+        animeObj.play();
+    }
+    const armShaking = () => {
+
     }
     const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, easing : string = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
         return {
@@ -202,8 +220,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                    d2
                 ],
                 duration: duration,
-               
-                delay: delay
+                delay: delay,
             },
             direction: reverse? 'reverse' : 'alternate',
             easing: easing,
