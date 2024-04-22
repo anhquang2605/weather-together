@@ -211,7 +211,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armShaking = () => {
 
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, easing : string = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, easing : string | number = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
         return {
             targets: target,
             d:{
@@ -223,9 +223,13 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 delay: delay,
             },
             direction: reverse? 'reverse' : 'alternate',
-            easing: easing,
+            easing: 'bounce',
         }
     }
+    function springEasing(t:number) {
+        return 1 - Math.pow(Math.cos(t * Math.PI * 4), 3);
+      }
+      
     
     useEffect(()=>{
         if(isInitialized){
