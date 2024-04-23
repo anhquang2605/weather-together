@@ -11,12 +11,12 @@ interface AnimePropertyType {
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     //CONSTANTS
     const REVEAL_DURATION = 200;
-    const SUN_RADIATE_DURATION = 500;
+    const SUN_RADIATE_DURATION = 3000;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
     const FLEXING_DURATION = 750;
-    const LOOSE_DURATION = 250;
+    const LOOSE_DURATION = 350;
     const FLEX_DELAY = 1000;
-
+    const LOOSE_DELAY = SUN_RADIATE_DURATION;
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
@@ -151,6 +151,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         }
        
     }
+    const armFlexEndCallBack = (anim: AnimeInstance) => {
+        console.log('done');
+    }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT
         const LEFT_ARM_OUT = "M57.4939 154C10.8344 154 4.83454 192 21.3345 205";
@@ -181,18 +184,19 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 if(!isAnimated){
                     return;
                 }
-                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION,0);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, FLEX_DELAY, 'spring'
+                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,0,'linear', armFlexEndCallBack);
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, LOOSE_DELAY, FLEX_DELAY,'spring'
                 );
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 0, 'spring');
+                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION,LOOSE_DELAY, FLEX_DELAY, 'spring');
+                const flexDuration = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
                 let timeline1  = anime.timeline({
                     loop: true,
-                    duration: LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY,
+                    duration: flexDuration,
                 })
                 let timeline2 = anime.timeline({
                     loop: true,
-                    duration: LOOSE_DURATION + FLEXING_DURATION
+                    duration: flexDuration
                 })
                 timeline1.add(leftFlexAnimation).add(leftLooseAnimation)
                 timeline2.add(rightFlexAnimation).add(rightLooseAnimation)
@@ -211,7 +215,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armShaking = () => {
 
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0, easing : string = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', midCallback: (anim:AnimeInstance) => void = () => {} ) =>{
         return {
             targets: target,
             d:{
@@ -220,11 +224,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                    d2
                 ],
                 duration: duration,
-                delay: delay,
-                endDelay: endDelay
             },
-            direction: reverse? 'reverse' : 'alternate',
+            delay: delay,
+            endDelay: endDelay,
             easing: easing,
+            complete: midCallback
         }
     }
     function springEasing(t:number) {
