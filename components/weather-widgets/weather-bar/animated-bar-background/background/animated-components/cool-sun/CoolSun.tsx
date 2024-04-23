@@ -181,14 +181,14 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 if(!isAnimated){
                     return;
                 }
-                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring(1, 80, 10, 0)'
+                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION,0);
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring'
                 );
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring(1, 80, 10, 0)');
+                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring');
                 let timeline1  = anime.timeline({
                     loop: true,
-                    duration: LOOSE_DURATION + FLEXING_DURATION
+                    duration: LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2,
                 })
                 let timeline2 = anime.timeline({
                     loop: true,
@@ -211,7 +211,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armShaking = () => {
 
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, easing : string | number = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, easing : string = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
         return {
             targets: target,
             d:{
@@ -223,7 +223,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 delay: delay,
             },
             direction: reverse? 'reverse' : 'alternate',
-            easing: 'bounce',
+            easing: easing,
         }
     }
     function springEasing(t:number) {
