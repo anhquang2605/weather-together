@@ -182,13 +182,13 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     return;
                 }
                 leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION,0);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring'
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, FLEX_DELAY, 'spring'
                 );
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
-                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 'spring');
+                rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION, FLEX_DELAY, 0, 'spring');
                 let timeline1  = anime.timeline({
                     loop: true,
-                    duration: LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2,
+                    duration: LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY,
                 })
                 let timeline2 = anime.timeline({
                     loop: true,
@@ -211,7 +211,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armShaking = () => {
 
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, easing : string = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0, easing : string = 'linear', isLoop:boolean = true, reverse:boolean = false ) =>{
         return {
             targets: target,
             d:{
@@ -221,6 +221,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 ],
                 duration: duration,
                 delay: delay,
+                endDelay: endDelay
             },
             direction: reverse? 'reverse' : 'alternate',
             easing: easing,
