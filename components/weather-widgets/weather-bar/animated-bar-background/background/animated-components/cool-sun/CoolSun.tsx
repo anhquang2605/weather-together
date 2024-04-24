@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './cool-sun.module.css';
 import anime, { AnimeInstance } from 'animejs';
 import { endOfDay } from 'date-fns';
+import e from 'express';
 interface CoolSunProps {
     isAnimated: boolean;
 }
@@ -19,6 +20,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
+    const [isFlexEnded, setIsFlexEnded] = useState<boolean>(false);
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
     const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
     const armFlexingAnimationRef = useRef<AnimeInstance | undefined>();
@@ -127,10 +129,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             })
         }
     }
-    const sunRadiate = () => {
+    const sunRadiate = (isReady: boolean) => {
         const targets = "#sun_radiant path";
         if(sunRadiationAnimationRef && sunRadiationAnimationRef.current ){
-            if(isAnimated){
+            if(isReady){
                 sunRadiationAnimationRef.current.play();
             }else{
                 sunRadiationAnimationRef.current.restart();
@@ -138,21 +140,30 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
 
             }
         }else{
+            if(!isReady){
+                return;
+            }
             const firstRadiationSelector = '#sun_radiant path:first-child';
             const pathLen = getSVGPathLen(firstRadiationSelector);
-            sunRadiationAnimationRef.current =  anime({
-                targets: targets,
-                strokeDashoffset: [-pathLen, anime.setDashoffset],
+            const timeline = anime.timeline( {
                 loop: Infinity,
                 duration: SUN_RADIATE_DURATION,
+            }).add({
+                targets: targets,
+                strokeDashoffset: [-pathLen, anime.setDashoffset],
+                
                 endDelay: SUN_RADIATE_END_DELAY_DURATION,
                 easing: 'linear'
-            })
+            });
+            sunRadiationAnimationRef.current =  timeline
         }
        
     }
     const armFlexEndCallBack = (anim: AnimeInstance) => {
-        console.log('done');
+        setIsFlexEnded(true);
+    }
+    const armLooseEndCallBack = (anim:AnimeInstance) => {
+        setIsFlexEnded(false);
     }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT
@@ -185,7 +196,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     return;
                 }
                 leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,0,'linear', armFlexEndCallBack);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, LOOSE_DELAY, FLEX_DELAY,'spring'
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, LOOSE_DELAY, FLEX_DELAY,'spring', armLooseEndCallBack
                 );
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
                 rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION,LOOSE_DELAY, FLEX_DELAY, 'spring');
@@ -243,7 +254,13 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     },[
         isAnimated
     ])
-    
+    useEffect(()=>{
+        if(isFlexEnded){
+            sunRadiate(true);
+        }else{
+            sunRadiate(false);
+        }
+    }, [isFlexEnded])
     useEffect(()=>{
         initializeAnimation();
     })
