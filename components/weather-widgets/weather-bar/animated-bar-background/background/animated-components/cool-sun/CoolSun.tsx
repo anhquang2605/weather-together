@@ -18,9 +18,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const LOOSE_DURATION = 350;
     const FLEX_DELAY = 1000;
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
+    const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
-    const [isFlexEnded, setIsFlexEnded] = useState<boolean>(false);
+    const isFlexEndedRef = useRef<boolean>(false);
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
     const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
     const armFlexingAnimationRef = useRef<AnimeInstance | undefined>();
@@ -29,7 +30,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const toggle = () => {
         faceReveal();
         armReveal();
-        //sunRadiate();
+        sunRadiate();
         eyeBlink();
         smile();
         armFlexing(isAnimated);
@@ -129,29 +130,28 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             })
         }
     }
-    const sunRadiate = (isReady: boolean) => {
+    const sunRadiate = () => {
         const targets = "#sun_radiant path";
         if(sunRadiationAnimationRef && sunRadiationAnimationRef.current ){
-            if(isReady){
+            if(isAnimated){
+            
                 sunRadiationAnimationRef.current.play();
             }else{
                 sunRadiationAnimationRef.current.restart();
                 sunRadiationAnimationRef.current.pause();
-
             }
         }else{
-            if(!isReady){
+            if(!isAnimated){
                 return;
             }
             const firstRadiationSelector = '#sun_radiant path:first-child';
             const pathLen = getSVGPathLen(firstRadiationSelector);
-            const timeline = anime.timeline( {
-                loop: Infinity,
-                duration: SUN_RADIATE_DURATION,
-            }).add({
+            const timeline = anime({
+                repeat: 5,
+                duration: SUN_RADIATE_DURATION / 5,
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
-                
+                delay: FLEXING_DURATION + FLEX_DELAY,
                 endDelay: SUN_RADIATE_END_DELAY_DURATION,
                 easing: 'linear'
             });
@@ -160,10 +160,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
        
     }
     const armFlexEndCallBack = (anim: AnimeInstance) => {
-        setIsFlexEnded(true);
+        isFlexEndedRef.current = true;
     }
     const armLooseEndCallBack = (anim:AnimeInstance) => {
-        setIsFlexEnded(false);
+        isFlexEndedRef.current = false;
     }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT
@@ -200,14 +200,13 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 );
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
                 rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION,LOOSE_DELAY, FLEX_DELAY, 'spring');
-                const flexDuration = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
                 let timeline1  = anime.timeline({
                     loop: true,
-                    duration: flexDuration,
+                    duration: FLEXING_DURATION,
                 })
                 let timeline2 = anime.timeline({
                     loop: true,
-                    duration: flexDuration
+                    duration: FLEXING_DURATION
                 })
                 timeline1.add(leftFlexAnimation).add(leftLooseAnimation)
                 timeline2.add(rightFlexAnimation).add(rightLooseAnimation)
@@ -236,10 +235,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 ],
                 duration: duration,
             },
+                            complete: midCallback,
             delay: delay,
             endDelay: endDelay,
             easing: easing,
-            complete: midCallback
+
         }
     }
     function springEasing(t:number) {
@@ -254,13 +254,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     },[
         isAnimated
     ])
-    useEffect(()=>{
-        if(isFlexEnded){
-            sunRadiate(true);
-        }else{
-            sunRadiate(false);
-        }
-    }, [isFlexEnded])
+/*     useEffect(()=>{
+        //sunRadiate(isFlexEnded);
+        console.log(isFlexEnded);
+    }, [isFlexEnded]) */
     useEffect(()=>{
         initializeAnimation();
     })
