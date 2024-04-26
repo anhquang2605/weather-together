@@ -43,6 +43,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
         isFlexEnded = newState;
+        console.log(isFlexEnded);
         sunRadiate();
     }
     const initializeAnimation = () => {
@@ -142,13 +143,12 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     const sunRadiate = () => {
         const targets = "#sun_radiant path";
-        console.log(isFlexEnded);
         if(sunRadiationAnimationRef && sunRadiationAnimationRef.current ){
-            if(isFlexEnded){
+            if(isFlexEnded && isAnimated){
    
                 sunRadiationAnimationRef.current.play();
-                sunRadiationAnimationRef.current.restart();
             }else{
+                sunRadiationAnimationRef.current.restart();
                 sunRadiationAnimationRef.current.pause();
             }
         }else{
@@ -158,7 +158,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             const firstRadiationSelector = '#sun_radiant path:first-child';
             const pathLen = getSVGPathLen(firstRadiationSelector);
             const timeline = anime({
-                loop: SUN_RADIATION_SPEED,
+                loop: true,
                 duration: SUN_RADIATE_DURATION / SUN_RADIATION_SPEED,
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
