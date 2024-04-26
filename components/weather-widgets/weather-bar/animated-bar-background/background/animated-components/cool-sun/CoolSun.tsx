@@ -19,6 +19,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const FLEX_DELAY = 1000;
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
+    const SUN_RADIATION_SPEED = 6;
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const isFlexEndedRef = useRef<boolean>(false);
@@ -147,12 +148,12 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             const firstRadiationSelector = '#sun_radiant path:first-child';
             const pathLen = getSVGPathLen(firstRadiationSelector);
             const timeline = anime({
-                repeat: 5,
-                duration: SUN_RADIATE_DURATION / 5,
+                loop: SUN_RADIATION_SPEED,
+                duration: SUN_RADIATE_DURATION / SUN_RADIATION_SPEED,
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
-                delay: FLEXING_DURATION + FLEX_DELAY,
-                endDelay: SUN_RADIATE_END_DELAY_DURATION,
+                //delay: FLEXING_DURATION + FLEX_DELAY,
+
                 easing: 'linear'
             });
             sunRadiationAnimationRef.current =  timeline
