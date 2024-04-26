@@ -22,7 +22,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
     const SUN_RADIATION_SPEED = 6;
     //hook states
-    const {toggleFlex} = useFlexState();
+    //const {toggleFlex, memorizedIsFlexed} = useFlexState();
+    //interal variables
+    let isFlexEnded:boolean = false;
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const isFlexEndedRef = useRef<boolean>(false);
@@ -30,7 +32,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
     const armFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
-    const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>();
+    const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>(); 
     const toggle = () => {
         faceReveal();
         armReveal();
@@ -38,6 +40,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         eyeBlink();
         smile();
         armFlexing(isAnimated);
+    }
+    const toggleFlexEndedVariable = (newState: boolean) => {
+        isFlexEnded = newState;
+        sunRadiate();
     }
     const initializeAnimation = () => {
         const FULL_STROKE_SET_PROPERTY_OBJECT = {strokeDashoffset: anime.setDashoffset}; 
@@ -136,16 +142,17 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     const sunRadiate = () => {
         const targets = "#sun_radiant path";
+        console.log(isFlexEnded);
         if(sunRadiationAnimationRef && sunRadiationAnimationRef.current ){
-            if(isAnimated){
-            
+            if(isFlexEnded){
+   
                 sunRadiationAnimationRef.current.play();
-            }else{
                 sunRadiationAnimationRef.current.restart();
+            }else{
                 sunRadiationAnimationRef.current.pause();
             }
         }else{
-            if(!isAnimated){
+            if(!isFlexEnded){
                 return;
             }
             const firstRadiationSelector = '#sun_radiant path:first-child';
@@ -164,10 +171,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
        
     }
     const armFlexEndCallBack = (anim: AnimeInstance) => {
-        toggleFlex(true);
+        toggleFlexEndedVariable(true);
     }
     const armLooseEndCallBack = (anim:AnimeInstance) => {
-        toggleFlex(false);
+        toggleFlexEndedVariable(false);
     }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT

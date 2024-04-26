@@ -211,3 +211,4 @@ _Putting two state setter in same function scope will make the state update simu
       ....
     }
     to call this function, first need to resolve the promise from the async function by wrapping () around the func call with await used, the call the resolved promise as a function (await func("sth"))()
+    47. For state changes without trigger component rerendering, use callback, closures. make change to internal variable of component
