@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useFlexState from './useFlexState';
 import styles from './cool-sun.module.css';
 import anime, { AnimeInstance } from 'animejs';
 import { endOfDay } from 'date-fns';
@@ -20,6 +21,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
     const SUN_RADIATION_SPEED = 6;
+    //hook states
+    const {toggleFlex} = useFlexState();
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const isFlexEndedRef = useRef<boolean>(false);
@@ -31,7 +34,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const toggle = () => {
         faceReveal();
         armReveal();
-        sunRadiate();
+        //sunRadiate();
         eyeBlink();
         smile();
         armFlexing(isAnimated);
@@ -161,10 +164,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
        
     }
     const armFlexEndCallBack = (anim: AnimeInstance) => {
-        isFlexEndedRef.current = true;
+        toggleFlex(true);
     }
     const armLooseEndCallBack = (anim:AnimeInstance) => {
-        isFlexEndedRef.current = false;
+        toggleFlex(false);
     }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT
