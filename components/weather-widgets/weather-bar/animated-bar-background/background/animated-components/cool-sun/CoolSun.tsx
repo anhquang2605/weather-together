@@ -4,6 +4,7 @@ import styles from './cool-sun.module.css';
 import anime, { AnimeInstance } from 'animejs';
 import { endOfDay } from 'date-fns';
 import e from 'express';
+import { findLastKey } from 'lodash';
 interface CoolSunProps {
     isAnimated: boolean;
 }
@@ -208,8 +209,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 if(!isAnimated){
                     return;
                 }
-                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,0,'linear', armFlexEndCallBack);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, LOOSE_DELAY, FLEX_DELAY,'spring', armLooseEndCallBack
+                leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,0,'linear', true, armFlexEndCallBack);
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, LOOSE_DELAY, FLEX_DELAY,'spring', true, armLooseEndCallBack
                 );
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
                 rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION,LOOSE_DELAY, FLEX_DELAY, 'spring');
@@ -238,8 +239,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armShaking = () => {
 
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', midCallback: () => void = () => {} ) =>{
-        return anime({
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', hasCallback:boolean = false, callback: () => void = () => {} ) =>{
+        let animObj:any = {
             targets: target,
             d:{
                 value: [
@@ -250,17 +251,20 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             },
             delay: delay,
             endDelay: endDelay,
-            update:(anim:AnimeInstance)=>{
-                let animDuration = anim.duration;
-                let totalDuration = animDuration + delay + endDelay;
-                let elasped = anim.timelineOffset; 
-            },//complete: midCallback,,
+            //complete: midCallback,,
             easing: easing,
 
-        }).finished.then(()=>{
-            midCallback();
         }
-        )
+        if(hasCallback){
+            animObj.update = (anim:AnimeInstance)=>{
+                let currentTime = anim.currentTime;
+                let duration = anim.duration
+                if(currentTime == duration){
+                    callback();
+                }
+            }
+        }
+        return animObj;
     }
     function springEasing(t:number) {
         return 1 - Math.pow(Math.cos(t * Math.PI * 4), 3);
