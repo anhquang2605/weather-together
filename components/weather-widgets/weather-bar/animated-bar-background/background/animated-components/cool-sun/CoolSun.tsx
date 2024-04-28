@@ -148,8 +148,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
    
                 sunRadiationAnimationRef.current.play();
             }else{
-                sunRadiationAnimationRef.current.restart();
                 sunRadiationAnimationRef.current.pause();
+                sunRadiationAnimationRef.current.restart();
             }
         }else{
             if(!isFlexEnded){
@@ -158,7 +158,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             const firstRadiationSelector = '#sun_radiant path:first-child';
             const pathLen = getSVGPathLen(firstRadiationSelector);
             const timeline = anime({
-                loop: true,
+                loop: 5,
                 duration: SUN_RADIATE_DURATION / SUN_RADIATION_SPEED,
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
@@ -170,10 +170,12 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         }
        
     }
-    const armFlexEndCallBack = (anim: AnimeInstance) => {
+    const armFlexEndCallBack = () => {
+        console.log('end');
         toggleFlexEndedVariable(true);
     }
-    const armLooseEndCallBack = (anim:AnimeInstance) => {
+    const armLooseEndCallBack = () => {
+        console.log('start');
         toggleFlexEndedVariable(false);
     }
     const armFlexing = (isFlexing:boolean) => {
@@ -236,8 +238,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armShaking = () => {
 
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', midCallback: (anim:AnimeInstance) => void = () => {} ) =>{
-        return {
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', midCallback: () => void = () => {} ) =>{
+        return anime({
             targets: target,
             d:{
                 value: [
@@ -246,12 +248,15 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 ],
                 duration: duration,
             },
-                            complete: midCallback,
             delay: delay,
             endDelay: endDelay,
+            //complete: midCallback,
             easing: easing,
 
+        }).finished.then(()=>{
+            midCallback();
         }
+        )
     }
     function springEasing(t:number) {
         return 1 - Math.pow(Math.cos(t * Math.PI * 4), 3);
