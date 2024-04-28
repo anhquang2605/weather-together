@@ -250,7 +250,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             },
             delay: delay,
             endDelay: endDelay,
-            //complete: midCallback,
+            update:(anim:AnimeInstance)=>{
+                let animDuration = anim.duration;
+                let totalDuration = animDuration + delay + endDelay;
+                let elasped = anim.timelineOffset; 
+            },//complete: midCallback,,
             easing: easing,
 
         }).finished.then(()=>{
