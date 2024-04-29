@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import useFlexState from './useFlexState';
 import styles from './cool-sun.module.css';
 import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
-import { endOfDay } from 'date-fns';
-import e from 'express';
-import { findLastKey } from 'lodash';
 interface CoolSunProps {
     isAnimated: boolean;
 }
@@ -22,6 +18,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
     const SUN_RADIATION_SPEED = 5;
+    const SUN_RADIATION_PER_LOOP_DURATION = SUN_RADIATE_DURATION / SUN_RADIATION_SPEED
     //hook states
     //const {toggleFlex, memorizedIsFlexed} = useFlexState();
     //interal variables
@@ -153,15 +150,21 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         const targets = "#sun_radiant path";
         if(sunRadiationAnimationRef && sunRadiationAnimationRef.current ){
             if(isFlexEnded && isAnimated){
-   
-                sunRadiationAnimationRef.current.play();
+                console.log("flex-triggered");
+                sunRadiationAnimationRef.current.restart();
             }else{
-                sunRadiationAnimationRef.current.finished.then((anim)=>{
+/*                 sunRadiationAnimationRef.current.
+                finished.then((anim)=>{
                     if (sunRadiationAnimationRef && sunRadiationAnimationRef.current){
                         sunRadiationAnimationRef.current.pause();
                         
                     }
-                })
+                }) */
+
+                        sunRadiationAnimationRef.current.pause();
+                        sunRadiationAnimationRef.current.seek(SUN_RADIATION_PER_LOOP_DURATION);
+
+                    
             }
         }else{
             if(!isFlexEnded){
@@ -171,7 +174,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             const pathLen = getSVGPathLen(firstRadiationSelector);
             const timeline = anime({
                 loop: SUN_RADIATION_SPEED,
-                duration: SUN_RADIATE_DURATION / (SUN_RADIATION_SPEED),
+                duration: SUN_RADIATION_PER_LOOP_DURATION,
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
                 //delay: FLEXING_DURATION + FLEX_DELAY,
@@ -187,7 +190,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         let totalDuration = anim.duration;
 
         if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted){
-            console.log("flex end");
             toggleFlexEndedVariable(true);
             flexCallbackCompleted = true;
         }
@@ -195,7 +197,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armLooseStartCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
         if(currentTime >= LOOSE_DELAY && isFlexEnded && !looseCallbackCompleted){
-            console.log('loose start');
             toggleFlexEndedVariable(false);
             looseCallbackCompleted = true;
         }
