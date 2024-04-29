@@ -43,6 +43,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         armFlexing(isAnimated);
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
+        console.log(newState);
         isFlexEnded = newState;
         sunRadiate();
     }
@@ -171,17 +172,15 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
        
     }
     const armFlexEndCallBack = (anim:AnimeInstance) => {
-        let currentTime =anim.currentTime;
+        let currentTime = anim.currentTime;
         let totalDuration = anim.duration;
-        if(currentTime == totalDuration && isFlexEnded == false){
+        if(currentTime >= totalDuration && isFlexEnded == false){
             toggleFlexEndedVariable(true);
         }
     }
     const armLooseStartCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
-        console.log(isFlexEnded);
-        if(currentTime == LOOSE_DELAY && isFlexEnded == true){
-            console.log("here");
+        if(currentTime >= LOOSE_DELAY && isFlexEnded == true){
             toggleFlexEndedVariable(false);
         }
         
