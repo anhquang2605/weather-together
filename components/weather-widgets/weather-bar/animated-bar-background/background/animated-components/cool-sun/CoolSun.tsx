@@ -21,7 +21,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const FLEX_DELAY = 1000;
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
-    const SUN_RADIATION_SPEED = 5;
+    const SUN_RADIATION_SPEED = 7;
     //hook states
     //const {toggleFlex, memorizedIsFlexed} = useFlexState();
     //interal variables
@@ -40,7 +40,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const toggle = () => {
         faceReveal();
         armReveal();
-        //sunRadiate();
         eyeBlink();
         smile();
         armFlexing(isAnimated);
@@ -151,9 +150,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
    
                 sunRadiationAnimationRef.current.play();
             }else{
-                sunRadiationAnimationRef.current.restart();
-                sunRadiationAnimationRef.current.pause();
-                
+                sunRadiationAnimationRef.current.finished.then((anim)=>{
+                    if (sunRadiationAnimationRef && sunRadiationAnimationRef.current){
+                        sunRadiationAnimationRef.current.pause();
+                    }
+                })
             }
         }else{
             if(!isFlexEnded){
@@ -162,8 +163,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             const firstRadiationSelector = '#sun_radiant path:first-child';
             const pathLen = getSVGPathLen(firstRadiationSelector);
             const timeline = anime({
-                loop: 5,
-                duration: SUN_RADIATE_DURATION / SUN_RADIATION_SPEED,
+                loop: SUN_RADIATION_SPEED,
+                duration: SUN_RADIATE_DURATION / (SUN_RADIATION_SPEED - 1),
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
                 //delay: FLEXING_DURATION + FLEX_DELAY,
