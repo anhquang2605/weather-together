@@ -44,7 +44,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
         isFlexEnded = newState;
-        console.log(isFlexEnded);
         sunRadiate();
     }
     const initializeAnimation = () => {
@@ -171,13 +170,21 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         }
        
     }
-    const armFlexEndCallBack = () => {
-        console.log('end');
-        toggleFlexEndedVariable(true);
+    const armFlexEndCallBack = (anim:AnimeInstance) => {
+        let currentTime =anim.currentTime;
+        let totalDuration = anim.duration;
+        if(currentTime == totalDuration && isFlexEnded == false){
+            toggleFlexEndedVariable(true);
+        }
     }
-    const armLooseEndCallBack = () => {
-        console.log('start');
-        toggleFlexEndedVariable(false);
+    const armLooseStartCallBack = (anim:AnimeInstance) => {
+        let currentTime = anim.currentTime;
+        console.log(isFlexEnded);
+        if(currentTime == LOOSE_DELAY && isFlexEnded == true){
+            console.log("here");
+            toggleFlexEndedVariable(false);
+        }
+        
     }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT
@@ -210,7 +217,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     return;
                 }
                 leftFlexAnimation = producePathMorphAnimation(LEFT_ARM_OUT,LEFT_ARM_CLOSE, LEFT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY,0,'linear', true, armFlexEndCallBack);
-                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, LOOSE_DELAY, FLEX_DELAY,'spring', true, armLooseEndCallBack
+                leftLooseAnimation = producePathMorphAnimation(LEFT_ARM_CLOSE,LEFT_ARM_OUT, LEFT_ARM_SELECTION, LOOSE_DURATION, LOOSE_DELAY, FLEX_DELAY,'spring', true, armLooseStartCallBack
                 );
                 rightFlexAnimation = producePathMorphAnimation(RIGHT_ARM_OUT,RIGHT_ARM_CLOSE, RIGHT_ARM_SELECTION, FLEXING_DURATION, FLEX_DELAY);
                 rightLooseAnimation = producePathMorphAnimation(RIGHT_ARM_CLOSE, RIGHT_ARM_OUT, RIGHT_ARM_SELECTION, LOOSE_DURATION,LOOSE_DELAY, FLEX_DELAY, 'spring');
@@ -239,7 +246,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armShaking = () => {
 
     }
-    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', hasCallback:boolean = false, callback: () => void = () => {} ) =>{
+    const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', hasCallback:boolean = false, callback: (anim:AnimeInstance) => void = () => {}, callbackStage: string = 'update' ) =>{
         let animObj:any = {
             targets: target,
             d:{
@@ -256,12 +263,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
 
         }
         if(hasCallback){
-            animObj.update = (anim:AnimeInstance)=>{
-                let currentTime = anim.currentTime;
-                let duration = anim.duration
-                if(currentTime == duration){
-                    callback();
-                }
+            animObj[callbackStage] = (anim:AnimeInstance)=>{
+                callback(anim)
             }
         }
         return animObj;
