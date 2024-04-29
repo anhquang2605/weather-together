@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useFlexState from './useFlexState';
 import styles from './cool-sun.module.css';
-import anime, { AnimeInstance } from 'animejs';
+import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
 import { endOfDay } from 'date-fns';
 import e from 'express';
 import { findLastKey } from 'lodash';
@@ -14,14 +14,14 @@ interface AnimePropertyType {
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     //CONSTANTS
     const REVEAL_DURATION = 200;
-    const SUN_RADIATE_DURATION = 3000;
+    const SUN_RADIATE_DURATION = 1500;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
-    const FLEXING_DURATION = 1000;
-    const LOOSE_DURATION = 350;
+    const FLEXING_DURATION = 550;
+    const LOOSE_DURATION = 250;
     const FLEX_DELAY = 1000;
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
-    const SUN_RADIATION_SPEED = 7;
+    const SUN_RADIATION_SPEED = 5;
     //hook states
     //const {toggleFlex, memorizedIsFlexed} = useFlexState();
     //interal variables
@@ -185,9 +185,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armFlexEndCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
         let totalDuration = anim.duration;
-        console.log(currentTime, ' flex')
-        if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted){
 
+        if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted){
+            console.log("flex end");
             toggleFlexEndedVariable(true);
             flexCallbackCompleted = true;
         }
@@ -219,8 +219,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         let leftLooseAnimation;
         let rightFlexAnimation;
         let rightLooseAnimation;
-        let leftAnimation;
-        let rightAnimation;
             if(leftFlexingAnimationRef && leftFlexingAnimationRef.current && rightFlexingAnimationRef && rightFlexingAnimationRef.current){
                 if(!isAnimated){
                     timelineRefReset(leftFlexingAnimationRef.current);
@@ -262,10 +260,20 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     const timelineRefReset = (animeObj: AnimeInstance) => {
       animeObj.pause();
+      animeObj.seek(animeObj.duration);
         
         
 
     }
+    function pauseTimeline(timeline:AnimeTimelineInstance) {
+        timeline.pause();
+        
+        /* for (const stage of timeline) {
+          if (stage. && stage.remainingProgress > 0) {
+            stage.seek(stage.duration);
+          }
+        } */
+      }
     const timelineRefPlay = (animeObj: AnimeInstance) => {
         animeObj.play();
     }
