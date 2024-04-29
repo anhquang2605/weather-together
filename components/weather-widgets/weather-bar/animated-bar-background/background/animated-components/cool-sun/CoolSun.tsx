@@ -43,6 +43,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         eyeBlink();
         smile();
         armFlexing(isAnimated);
+        resetAnimationStateVariables();
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
         isFlexEnded = newState;
@@ -57,6 +58,11 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         animeSet('#sun_radiant path', FULL_STROKE_SET_PROPERTY_OBJECT);
         animeSet('#mouth_smile', {opacity:0})
         setIsInitialized(true);
+    }
+    const resetAnimationStateVariables = () => {
+        isFlexEnded = false;
+        flexCallbackCompleted = false;
+        looseCallbackCompleted = false;
     }
     const animeSet = (targets: string,   properties:AnimePropertyType) => {
         anime.set(targets, properties);
