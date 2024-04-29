@@ -38,15 +38,17 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>(); 
     const toggle = () => {
+        resetAnimationStateVariables();
         faceReveal();
         armReveal();
         eyeBlink();
         smile();
         armFlexing(isAnimated);
-        resetAnimationStateVariables();
+
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
         isFlexEnded = newState;
+        console.log(newState);
         sunRadiate();
     }
     const initializeAnimation = () => {
@@ -159,6 +161,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 sunRadiationAnimationRef.current.finished.then((anim)=>{
                     if (sunRadiationAnimationRef && sunRadiationAnimationRef.current){
                         sunRadiationAnimationRef.current.pause();
+                        
                     }
                 })
             }
@@ -223,8 +226,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     timelineRefReset(leftFlexingAnimationRef.current);
                     timelineRefReset(rightFlexingAnimationRef.current)
                 }else{
-                    leftFlexingAnimationRef.current.play();
-                    rightFlexingAnimationRef.current.play();
+                    leftFlexingAnimationRef.current.restart();
+                    leftFlexingAnimationRef.current.restart();
+                    
                 }
                 
             }else{
@@ -257,8 +261,12 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         looseCallbackCompleted = false;
     }
     const timelineRefReset = (animeObj: AnimeInstance) => {
-        animeObj.restart();
-        animeObj.pause();
+        animeObj.finished.then(()=>{
+            animeObj.pause();
+        })
+        
+        
+
     }
     const timelineRefPlay = (animeObj: AnimeInstance) => {
         animeObj.play();
