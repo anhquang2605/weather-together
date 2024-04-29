@@ -16,16 +16,19 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 3000;
     const SUN_RADIATE_END_DELAY_DURATION = 250;
-    const FLEXING_DURATION = 750;
+    const FLEXING_DURATION = 1000;
     const LOOSE_DURATION = 350;
     const FLEX_DELAY = 1000;
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
-    const SUN_RADIATION_SPEED = 6;
+    const SUN_RADIATION_SPEED = 5;
     //hook states
     //const {toggleFlex, memorizedIsFlexed} = useFlexState();
     //interal variables
     let isFlexEnded:boolean = false;
+    //locks for flex end loose callback
+    let flexCallbackCompleted = false;
+    let looseCallbackCompleted = false;
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const isFlexEndedRef = useRef<boolean>(false);
@@ -43,7 +46,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         armFlexing(isAnimated);
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
-        console.log(newState);
         isFlexEnded = newState;
         sunRadiate();
     }
@@ -149,8 +151,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
    
                 sunRadiationAnimationRef.current.play();
             }else{
-                sunRadiationAnimationRef.current.pause();
                 sunRadiationAnimationRef.current.restart();
+                sunRadiationAnimationRef.current.pause();
+                
             }
         }else{
             if(!isFlexEnded){
@@ -174,16 +177,22 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armFlexEndCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
         let totalDuration = anim.duration;
-        if(currentTime >= totalDuration && isFlexEnded == false){
+        
+        if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted){
             toggleFlexEndedVariable(true);
+            flexCallbackCompleted = true;
         }
     }
     const armLooseStartCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
-        if(currentTime >= LOOSE_DELAY && isFlexEnded == true){
+        if(currentTime >= LOOSE_DELAY && isFlexEnded && !looseCallbackCompleted){
             toggleFlexEndedVariable(false);
+            looseCallbackCompleted = true;
         }
         
+    }
+    const approximateCompare = (num1: number, num2: number, tolerance: number) => {
+        return Math.abs(num1 -num2) <= tolerance;
     }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT
@@ -223,6 +232,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 let timeline1  = anime.timeline({
                     loop: true,
                     duration: FLEXING_DURATION,
+                    loopBegin: flipFlexLooseCallbackFlag
                 })
                 let timeline2 = anime.timeline({
                     loop: true,
@@ -234,6 +244,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 rightFlexingAnimationRef.current = timeline2;
 
             }
+    }
+    const flipFlexLooseCallbackFlag = () => {
+        flexCallbackCompleted = false;
+        looseCallbackCompleted = false;
     }
     const timelineRefReset = (animeObj: AnimeInstance) => {
         animeObj.restart();
