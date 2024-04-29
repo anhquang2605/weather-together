@@ -44,11 +44,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         eyeBlink();
         smile();
         armFlexing(isAnimated);
-
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
         isFlexEnded = newState;
-        console.log(newState);
         sunRadiate();
     }
     const initializeAnimation = () => {
@@ -173,7 +171,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             const pathLen = getSVGPathLen(firstRadiationSelector);
             const timeline = anime({
                 loop: SUN_RADIATION_SPEED,
-                duration: SUN_RADIATE_DURATION / (SUN_RADIATION_SPEED - 1),
+                duration: SUN_RADIATE_DURATION / (SUN_RADIATION_SPEED),
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
                 //delay: FLEXING_DURATION + FLEX_DELAY,
@@ -187,8 +185,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armFlexEndCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
         let totalDuration = anim.duration;
-        
+        console.log(currentTime, ' flex')
         if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted){
+
             toggleFlexEndedVariable(true);
             flexCallbackCompleted = true;
         }
@@ -196,6 +195,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armLooseStartCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
         if(currentTime >= LOOSE_DELAY && isFlexEnded && !looseCallbackCompleted){
+            console.log('loose start');
             toggleFlexEndedVariable(false);
             looseCallbackCompleted = true;
         }
@@ -227,7 +227,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     timelineRefReset(rightFlexingAnimationRef.current)
                 }else{
                     leftFlexingAnimationRef.current.restart();
-                    leftFlexingAnimationRef.current.restart();
+                    rightFlexingAnimationRef.current.restart();
                     
                 }
                 
@@ -261,9 +261,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         looseCallbackCompleted = false;
     }
     const timelineRefReset = (animeObj: AnimeInstance) => {
-        animeObj.finished.then(()=>{
-            animeObj.pause();
-        })
+      animeObj.pause();
         
         
 
