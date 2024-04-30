@@ -11,12 +11,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     //CONSTANTS
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 1500;
-    const SUN_RADIATE_END_DELAY_DURATION = 250;
     const FLEXING_DURATION = 550;
     const LOOSE_DURATION = 250;
     const FLEX_DELAY = 1000;
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
-    const SUN_FLEX_LOOSE_DURATION = LOOSE_DURATION + FLEXING_DURATION + FLEX_DELAY * 2 + LOOSE_DELAY;
     const SUN_RADIATION_SPEED = 5;
     const SUN_RADIATION_PER_LOOP_DURATION = SUN_RADIATE_DURATION / SUN_RADIATION_SPEED
     //hook states
@@ -28,10 +26,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     let looseCallbackCompleted = false;
     //STATES
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
-    const isFlexEndedRef = useRef<boolean>(false);
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
-    const eyeAppearAnimationRef = useRef<AnimeInstance | undefined>();
-    const armFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>(); 
     const toggle = () => {
@@ -61,17 +56,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         flexCallbackCompleted = false;
         looseCallbackCompleted = false;
     }
-    const animeSet = (targets: string,   properties:AnimePropertyType) => {
-        anime.set(targets, properties);
-    }
-    const getSVGPathLen = (target: string) =>  {
-        const thePath:SVGGeometryElement|null = document.querySelector(target);
-        let len = 0;
-        if(thePath){
-            len = thePath.getTotalLength();
-        }
-        return len;
-    }
+
     const pathRevealAnimation = (paths: string[], duration: number) => {
         if(isAnimated){
             anime({
@@ -150,21 +135,10 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         const targets = "#sun_radiant path";
         if(sunRadiationAnimationRef && sunRadiationAnimationRef.current ){
             if(isFlexEnded && isAnimated){
-                console.log("flex-triggered");
                 sunRadiationAnimationRef.current.restart();
             }else{
-/*                 sunRadiationAnimationRef.current.
-                finished.then((anim)=>{
-                    if (sunRadiationAnimationRef && sunRadiationAnimationRef.current){
-                        sunRadiationAnimationRef.current.pause();
-                        
-                    }
-                }) */
-
-                        sunRadiationAnimationRef.current.pause();
-                        sunRadiationAnimationRef.current.seek(SUN_RADIATION_PER_LOOP_DURATION);
-
-                    
+                sunRadiationAnimationRef.current.pause();
+                sunRadiationAnimationRef.current.seek(SUN_RADIATION_PER_LOOP_DURATION);
             }
         }else{
             if(!isFlexEnded){
@@ -177,8 +151,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 duration: SUN_RADIATION_PER_LOOP_DURATION,
                 targets: targets,
                 strokeDashoffset: [-pathLen, anime.setDashoffset],
-                //delay: FLEXING_DURATION + FLEX_DELAY,
-
                 easing: 'linear'
             });
             sunRadiationAnimationRef.current =  timeline
@@ -189,21 +161,17 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         let currentTime = anim.currentTime;
         let totalDuration = anim.duration;
 
-        if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted){
+        if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted && isAnimated){
             toggleFlexEndedVariable(true);
             flexCallbackCompleted = true;
         }
     }
     const armLooseStartCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
-        if(currentTime >= LOOSE_DELAY && isFlexEnded && !looseCallbackCompleted){
+        if(currentTime >= LOOSE_DELAY && isFlexEnded && !looseCallbackCompleted && isAnimated){
             toggleFlexEndedVariable(false);
             looseCallbackCompleted = true;
         }
-        
-    }
-    const approximateCompare = (num1: number, num2: number, tolerance: number) => {
-        return Math.abs(num1 -num2) <= tolerance;
     }
     const armFlexing = (isFlexing:boolean) => {
         //PATH DEFINITION CONSTANT
@@ -227,9 +195,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 }else{
                     leftFlexingAnimationRef.current.restart();
                     rightFlexingAnimationRef.current.restart();
-                    
                 }
-                
             }else{
                 if(!isAnimated){
                     return;
@@ -259,27 +225,20 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         flexCallbackCompleted = false;
         looseCallbackCompleted = false;
     }
+    const armShaking = () => {
+
+    }
+
+    //HELPERS
     const timelineRefReset = (animeObj: AnimeInstance) => {
       animeObj.pause();
       animeObj.seek(animeObj.duration);
-        
-        
-
     }
-    function pauseTimeline(timeline:AnimeTimelineInstance) {
-        timeline.pause();
-        
-        /* for (const stage of timeline) {
-          if (stage. && stage.remainingProgress > 0) {
-            stage.seek(stage.duration);
-          }
-        } */
-      }
-    const timelineRefPlay = (animeObj: AnimeInstance) => {
-        animeObj.play();
+    const approximateCompare = (num1: number, num2: number, tolerance: number) => {
+        return Math.abs(num1 -num2) <= tolerance;
     }
-    const armShaking = () => {
-
+    const seekEnd = (anim:AnimeInstance) => {
+        anim.seek(anim.duration);
     }
     const producePathMorphAnimation = (d1: string, d2: string, target: string, duration: number, delay:number = 0, endDelay:number = 0,  easing : string = 'linear', hasCallback:boolean = false, callback: (anim:AnimeInstance) => void = () => {}, callbackStage: string = 'update' ) =>{
         let animObj:any = {
@@ -304,6 +263,17 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         }
         return animObj;
     }
+        const animeSet = (targets: string,   properties:AnimePropertyType) => {
+        anime.set(targets, properties);
+    }
+    const getSVGPathLen = (target: string) =>  {
+        const thePath:SVGGeometryElement|null = document.querySelector(target);
+        let len = 0;
+        if(thePath){
+            len = thePath.getTotalLength();
+        }
+        return len;
+    }
     function springEasing(t:number) {
         return 1 - Math.pow(Math.cos(t * Math.PI * 4), 3);
       }
@@ -316,10 +286,20 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     },[
         isAnimated
     ])
-/*     useEffect(()=>{
-        //sunRadiate(isFlexEnded);
-        console.log(isFlexEnded);
-    }, [isFlexEnded]) */
+/*  function pauseTimeline(timeline:AnimeTimelineInstance) {
+        timeline.pause();
+        
+        for (const stage of timeline) {
+          if (stage. && stage.remainingProgress > 0) {
+            stage.seek(stage.duration);
+          }
+
+      }
+    const timelineRefPlay = (animeObj: AnimeInstance) => {
+        animeObj.play();
+    } */
+
+    //EFFECTS
     useEffect(()=>{
         initializeAnimation();
     })
