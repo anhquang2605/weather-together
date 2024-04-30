@@ -14,6 +14,7 @@
         stroke-dasharray: 100% 100%;
         transition: stroke-dashoffset 0.3s ease;
     }
+    transform-origin: center;
 }
 #eyes_opened{
     circle{

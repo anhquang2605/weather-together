@@ -6,6 +6,11 @@
 <circle id="inner_body" cx="152" cy="152" r="92" fill="#EDA10D"/>
 <circle id="outer_body" cx="151.5" cy="151.5" r="83.5" fill="#FDC04C"/>
 <circle id="mouth_inhale" cx="152" cy="152" r="11" fill="black"/>
+<g id="squinted_mouth">
+<path id="Vector 4" d="M149 152H154" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="Vector 5" d="M143 146C143 146 148 146.22 148 151.5C148 156.78 143 157.5 143 157.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path id="Vector 6" d="M161 157.5C161 157.5 156 157.28 156 152C156 146.72 161 146 161 146" stroke="black" stroke-width="5" stroke-linecap="round"/>
+</g>
 </g>
 <g id="sun_radiant">
 <path id="Line 10" d="M255.991 255.991L227 227" stroke="#BA3902" stroke-opacity="0.98" stroke-width="10" stroke-linecap="round"/>
