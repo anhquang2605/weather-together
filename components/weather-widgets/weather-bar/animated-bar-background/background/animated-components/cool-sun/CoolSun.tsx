@@ -8,7 +8,7 @@ interface AnimePropertyType {
     [key: string]: any
 }
 const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
-    //CONSTANTS
+    //CONSTANTS'
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 1500;
     const FLEXING_DURATION = 550;
@@ -17,6 +17,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_RADIATION_SPEED = 5;
     const SUN_RADIATION_PER_LOOP_DURATION = SUN_RADIATE_DURATION / SUN_RADIATION_SPEED
+    const MOUTH_INHALE_DURATION = FLEXING_DURATION;
     //hook states
     //const {toggleFlex, memorizedIsFlexed} = useFlexState();
     //interal variables
@@ -109,7 +110,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         const straight = 'M147 154C151 154 146.827 154 151.733 154C156.64 154 152 154 156.5 154';
         const smile = 'M140 149C143.067 153.091 145.827 154 150.733 154C155.64 154 159.933 153.091 163 149';
         const mouth_smile = '#mouth_smile';
-
         if(isSmiling){
             anime({
                 targets: mouth_smile,
@@ -142,13 +142,13 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         if(isOpened){
             anime({
                 targets: target,
-                duration: REVEAL_DURATION,
+                duration: MOUTH_INHALE_DURATION,
                 scaleY: '1',
             })
         }else{
             anime({
                 targets: target,
-                duration: REVEAL_DURATION,
+                duration: MOUTH_INHALE_DURATION / 2,
                 scaleY: '0',
             })
         }
