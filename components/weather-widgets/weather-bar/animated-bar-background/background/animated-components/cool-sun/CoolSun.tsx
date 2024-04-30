@@ -125,14 +125,14 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         }else{
             anime({
                 targets: mouth_smile,
-                opacity: 0,
                 d: {
                     value: [
                         smile,
                         straight
                     ],
                     duration: REVEAL_DURATION
-                }
+                },
+                opacity: 0,
             })
         }
     }
@@ -165,7 +165,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const armFlexEndCallBack = (anim:AnimeInstance) => {
         let currentTime = anim.currentTime;
         let totalDuration = anim.duration;
-        if(currentTime < totalDuration && isAnimated){
+        let delay = anim.delay;
+        if(currentTime >= delay){
             preInhale(true);
         }  
         if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted && isAnimated){
@@ -182,7 +183,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             toggleFlexEndedVariable(false);
             looseCallbackCompleted = true;
         }
-        if(currentTime >= totalDuration && isAnimated){
+        if(currentTime >= (totalDuration -  FLEX_DELAY) ){
             preInhale(false);
         }
             
