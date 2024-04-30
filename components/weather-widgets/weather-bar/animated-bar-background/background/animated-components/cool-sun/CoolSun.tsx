@@ -13,7 +13,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const SUN_RADIATE_DURATION = 1500;
     const FLEXING_DURATION = 550;
     const LOOSE_DURATION = 250;
-    const FLEX_DELAY = 2000;
+    const FLEX_DELAY = 1000;
     const LOOSE_DELAY = SUN_RADIATE_DURATION;
     const SUN_RADIATION_SPEED = 5;
     const SUN_RADIATION_PER_LOOP_DURATION = SUN_RADIATE_DURATION / SUN_RADIATION_SPEED
@@ -33,8 +33,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         resetAnimationStateVariables();
         faceReveal();
         armReveal();
-        eyeBlink(true);
-        smile(true);
+        eyeBlink(isAnimated);
+        smile(isAnimated);
         armFlexing(isAnimated);
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
@@ -52,6 +52,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         animeSet('#eyes path', FULL_STROKE_SET_PROPERTY_OBJECT);
         animeSet('#mouth path', FULL_STROKE_SET_PROPERTY_OBJECT );
         animeSet(`#${styles['eyes_opened']} circle`, {scaleY: 0});
+        animeSet(`#${styles['mouth_inhale']}`, {scaleY: 0})
         animeSet('#sun_radiant path', FULL_STROKE_SET_PROPERTY_OBJECT);
         animeSet('#mouth_smile', {opacity:0})
         setIsInitialized(true);
@@ -90,7 +91,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     const eyeBlink = (isOpened?: boolean) => {
         const target = `#${styles['eyes_opened']} circle`;
-        if(isOpened && isAnimated){
+        if(isOpened){
             anime({
                 targets: target,
                 duration: REVEAL_DURATION,
@@ -109,7 +110,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         const smile = 'M140 149C143.067 153.091 145.827 154 150.733 154C155.64 154 159.933 153.091 163 149';
         const mouth_smile = '#mouth_smile';
 
-        if(isSmiling && isAnimated){
+        if(isSmiling){
             anime({
                 targets: mouth_smile,
                 opacity: 1,
@@ -133,6 +134,22 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     duration: REVEAL_DURATION
                 },
                 opacity: 0,
+            })
+        }
+    }
+    const mounthOpen = (isOpened: boolean) => {
+        const target = `#${styles['mouth_inhale']}`;
+        if(isOpened){
+            anime({
+                targets: target,
+                duration: REVEAL_DURATION,
+                scaleY: '1',
+            })
+        }else{
+            anime({
+                targets: target,
+                duration: REVEAL_DURATION,
+                scaleY: '0',
             })
         }
     }
@@ -166,12 +183,14 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         let currentTime = anim.currentTime;
         let totalDuration = anim.duration;
         let delay = anim.delay;
-        if(currentTime >= delay){
+        if(approximateCompare(currentTime,delay,5)){
             preInhale(true);
+            mounthOpen(true);
         }  
         if(currentTime >= totalDuration && !isFlexEnded && !flexCallbackCompleted && isAnimated){
             toggleFlexEndedVariable(true);
             flexCallbackCompleted = true;
+            mounthOpen(false);
         }
  
         
@@ -183,7 +202,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             toggleFlexEndedVariable(false);
             looseCallbackCompleted = true;
         }
-        if(currentTime >= (totalDuration -  FLEX_DELAY) ){
+        if(approximateCompare(currentTime,(totalDuration -  FLEX_DELAY),5) ){
             preInhale(false);
         }
             
@@ -367,7 +386,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                         <path id="right_3" d="M152 153H157" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                     </g>
                     <path id="mouth_smile" d="M147 154C151 154 146.827 154 151.733 154C156.64 154 152 154 156.5 154" stroke="black" strokeWidth="5" strokeLinecap="round"/>
-{/*                     <circle id="mouth_inhale" cx="152" cy="152" r="11" fill="black"/> */}
+                     <circle id={styles["mouth_inhale"]} cx="152" cy="152" r="11" fill="black"/>
                 </g>
             </g>
             <defs>
