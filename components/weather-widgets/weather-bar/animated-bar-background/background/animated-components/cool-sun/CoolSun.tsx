@@ -274,16 +274,16 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         }
     }
     const eyesSquinted = (isSquinted:boolean) => {
-        let DURATION = SUN_RADIATE_DURATION / 3;
+        let DURATION = SUN_RADIATE_DURATION
         let ROTATE_DEGREE = 15;
         let left_eye = `#${styles['left_eye']}`;
         let right_eye = `#${styles['right_eye']}`;
         if(isSquinted){
-            rotatePath(left_eye,ROTATE_DEGREE,SUN_RADIATE_DURATION);
-            rotatePath(right_eye, -ROTATE_DEGREE, SUN_RADIATE_DURATION);
+            rotatePath(left_eye,ROTATE_DEGREE,DURATION);
+            rotatePath(right_eye, -ROTATE_DEGREE, DURATION);
         }else{
-            rotatePath(left_eye, 0,SUN_RADIATE_DURATION);
-            rotatePath(right_eye, 0, SUN_RADIATE_DURATION);
+            rotatePath(left_eye, 0, DURATION);
+            rotatePath(right_eye, 0, DURATION);
         }
     }
     const rotatePath = (target: string, deg:number, duration: number) => {
