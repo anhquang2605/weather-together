@@ -31,14 +31,19 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>(); 
     const toggle = () => {
+        if(!isAnimated){
+            initializeAnimation();
+        }
         resetAnimationStateVariables();
         faceReveal();
         armReveal();
         eyeBlink(isAnimated);
         smile(isAnimated);
         armFlexing(isAnimated);
+        
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
+        console.log('here');
         isFlexEnded = newState;
         sunRadiate();
         //inhale(newState);
