@@ -30,6 +30,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
     const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>(); 
+    const leftReturnAnimationRef = useRef<AnimeInstance | undefined>();
+    const rightReturnAnimationRef = useRef<AnimeInstance | undefined>();
     const toggle = () => {
         if(!isAnimated){
             initializeAnimation();
@@ -62,6 +64,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         animeSet('#sun_radiant path', FULL_STROKE_SET_PROPERTY_OBJECT);
         animeSet('#mouth_smile', {opacity:0})
         animeSet('#mouth_squinted', {opacity: 0})
+        
         setIsInitialized(true);
     }
     const resetAnimationStateVariables = () => {
@@ -165,8 +168,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
             if(isFlexEnded && isAnimated){
                 sunRadiationAnimationRef.current.restart();
             }else{
+                sunRadiationAnimationRef.current.seek(SUN_RADIATE_DURATION);
                 sunRadiationAnimationRef.current.pause();
-                sunRadiationAnimationRef.current.seek(SUN_RADIATION_PER_LOOP_DURATION);
+                
             }
         }else{
             if(!isFlexEnded){
@@ -300,8 +304,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     //HELPERS
     const timelineRefReset = (animeObj: AnimeInstance) => {
-      animeObj.seek(0);
-      animeObj.pause();
+        animeObj.pause();
+        animeObj.seek(animeObj.duration);
     }
     const approximateCompare = (num1: number, num2: number, tolerance: number) => {
         return Math.abs(num1 -num2) <= tolerance;
