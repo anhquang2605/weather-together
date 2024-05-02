@@ -43,7 +43,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
-        console.log('here');
+        console.log('here ', newState);
         isFlexEnded = newState;
         sunRadiate();
         //inhale(newState);
@@ -234,8 +234,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     timelineRefReset(leftFlexingAnimationRef.current);
                     timelineRefReset(rightFlexingAnimationRef.current)
                 }else{
-                    leftFlexingAnimationRef.current.restart();
-                    rightFlexingAnimationRef.current.restart();
+                    leftFlexingAnimationRef.current.play();
+                    rightFlexingAnimationRef.current.play();
                 }
             }else{
                 if(!isAnimated){
@@ -300,8 +300,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     }
     //HELPERS
     const timelineRefReset = (animeObj: AnimeInstance) => {
+      animeObj.seek(0);
       animeObj.pause();
-      animeObj.seek(animeObj.duration);
     }
     const approximateCompare = (num1: number, num2: number, tolerance: number) => {
         return Math.abs(num1 -num2) <= tolerance;
@@ -418,9 +418,9 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                     <path id="mouth_smile" d="M147 154C151 154 146.827 154 151.733 154C156.64 154 152 154 156.5 154" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                      <circle id={styles["mouth_inhale"]} cx="152" cy="152" r="11" fill="black"/>
                      <g id="mouth_squinted">
-                        <path id="Vector 4" d="M149 152H154" stroke="black" stroke-width="5" stroke-linecap="round"/>
-                        <path id="Vector 5" d="M143 146C143 146 148 146.22 148 151.5C148 156.78 143 157.5 143 157.5" stroke="black" stroke-width="5" stroke-linecap="round"/>
-                        <path id="Vector 6" d="M161 157.5C161 157.5 156 157.28 156 152C156 146.72 161 146 161 146" stroke="black" stroke-width="5" stroke-linecap="round"/>
+                        <path id="Vector 4" d="M149 152H154" stroke="black" strokeWidth="5" strokeLinecap="round"/>
+                        <path id="Vector 5" d="M143 146C143 146 148 146.22 148 151.5C148 156.78 143 157.5 143 157.5" stroke="black" strokeWidth="5" strokeLinecap="round"/>
+                        <path id="Vector 6" d="M161 157.5C161 157.5 156 157.28 156 152C156 146.72 161 146 161 146" stroke="black" strokeWidth="5" strokeLinecap="round"/>
                     </g>
                 </g>
             </g>
