@@ -18,6 +18,16 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const SUN_RADIATION_SPEED = 5;
     const SUN_RADIATION_PER_LOOP_DURATION = SUN_RADIATE_DURATION / SUN_RADIATION_SPEED
     const MOUTH_INHALE_DURATION = FLEXING_DURATION;
+    //FLEXING ARMS PATH CONSTANTS
+    //PATH DEFINITION CONSTANT
+    const LEFT_ARM_OUT = "M57.4939 154C10.8344 154 4.83454 192 21.3345 205";
+    const LEFT_ARM_CLOSE = "M57.6596 154C53.1596 172.5 72.1596 186.5 100.16 186.5";
+    const RIGHT_ARM_OUT = "M247 154C293.66 154 299.659 192 283.159 205";
+    const RIGHT_ARM_CLOSE = "M246.5 154C251 172.5 232 186.5 204 186.5";
+    
+    //PATHS' ID
+    const LEFT_ARM_SELECTION = "#left_arm";
+    const RIGHT_ARM_SELECTION = "#right_arm";
     //hook states
     //const {toggleFlex, memorizedIsFlexed} = useFlexState();
     //interal variables
@@ -35,6 +45,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const toggle = () => {
         if(!isAnimated){
             initializeAnimation();
+            returnArms();
         }
         resetAnimationStateVariables();
         faceReveal();
@@ -90,6 +101,16 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
                 duration: duration,
                })
         }
+    }
+    //help solving the issue where arms are flexing but user unhover, part of the arm path is still revealed
+    const returnArms = () => {
+        animeSet(LEFT_ARM_SELECTION, {
+            d: LEFT_ARM_OUT
+        })
+        animeSet(RIGHT_ARM_SELECTION, {
+            d: RIGHT_ARM_OUT
+        })
+
     }
     const armReveal = () => {
         const targets = ['#arms path']
@@ -219,15 +240,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         
     }
     const armFlexing = (isFlexing:boolean) => {
-        //PATH DEFINITION CONSTANT
-        const LEFT_ARM_OUT = "M57.4939 154C10.8344 154 4.83454 192 21.3345 205";
-        const LEFT_ARM_CLOSE = "M57.6596 154C53.1596 172.5 72.1596 186.5 100.16 186.5";
-        const RIGHT_ARM_OUT = "M247 154C293.66 154 299.659 192 283.159 205";
-        const RIGHT_ARM_CLOSE = "M246.5 154C251 172.5 232 186.5 204 186.5";
-        
-        //PATHS' ID
-        const LEFT_ARM_SELECTION = "#left_arm";
-        const RIGHT_ARM_SELECTION = "#right_arm";
+
         //ANIMATION HOLDER
         let leftFlexAnimation;
         let leftLooseAnimation;
