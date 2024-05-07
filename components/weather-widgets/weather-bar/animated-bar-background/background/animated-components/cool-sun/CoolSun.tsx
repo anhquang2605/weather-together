@@ -3,11 +3,12 @@ import styles from './cool-sun.module.css';
 import anime, { AnimeInstance, AnimeTimelineInstance } from 'animejs';
 interface CoolSunProps {
     isAnimated: boolean;
+    extraClassName?: string;
 }
 interface AnimePropertyType {
     [key: string]: any
 }
-const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
+const CoolSun: React.FC<CoolSunProps> = ({isAnimated, extraClassName = ""}) => {
     //CONSTANTS'
     const REVEAL_DURATION = 200;
     const SUN_RADIATE_DURATION = 1500;
@@ -386,7 +387,7 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         initializeAnimation();
     })
     return (
-        <div className={styles['cool-sun']}>
+        <div className={`${styles['cool-sun']} ${extraClassName}`}>
             <svg width="45%" viewBox="0 0 304 304" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="cool_sun" clipPath="url(#clip0_12_4)">
                     <circle id="Ellipse 3" cx="152" cy="152" r="108" fill="yellow" fillOpacity="0.2"/>
