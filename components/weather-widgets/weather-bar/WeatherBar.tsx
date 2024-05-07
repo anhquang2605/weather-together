@@ -3,19 +3,17 @@ import style from './weather-bar.module.css';
 import DateInfo from './date-info/DateInfo';
 import WeatherStatus from './weather-status/WeatherStatus';
 import AnimatedBarBackground from './animated-bar-background/AnimatedBarBackground';
-import { CurrentConditions } from '../../../types/WeatherData';
 import { useWeatherContext } from '../../../pages/weatherContext';
 import LoadingBox from '../../skeletons/loading-box/LoadingBox';
 import { useWeatherBarContext } from './useWeatherBarContext';
 
 interface WeatherBarProps {
-
+    isExpanded: boolean;
 }
 
-const WeatherBar: React.FC<WeatherBarProps> = ({}) => {
-    const [isExpanded, setIsExpanded] =useState(false);
+const WeatherBar: React.FC<WeatherBarProps> = ({isExpanded}) => {
     const {todayWeather} = useWeatherContext();
-    const {setIsHovered} = useWeatherBarContext();
+    const {setIsHovered, setIsExpanded} = useWeatherBarContext();
     const ref = useRef<HTMLDivElement|null>(null);
     const handleMouseEnter = (event: MouseEvent) => {
         setIsHovered(true);
@@ -33,8 +31,11 @@ const WeatherBar: React.FC<WeatherBarProps> = ({}) => {
             ref.current?.removeEventListener('mouseleave',handleMouseLeave);
         }
     },[])
+    useEffect(()=>{
+        setIsExpanded(isExpanded);
+    },[isExpanded])
     return (
-        <div ref = {ref} className={style['weather-bar']}>
+        <div ref = {ref} title="View today's Weather" className={style['weather-bar'] + " " + (!isExpanded ? style['shrunk'] : "")}>
             {
                 todayWeather ?
                 <>

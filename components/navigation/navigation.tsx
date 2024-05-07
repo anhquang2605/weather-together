@@ -51,7 +51,9 @@ export default function Navigation() {
                 </div>
                 <div>
                     <WeatherBarContextProvider>
-                        <WeatherBar/>
+                        <WeatherBar isExpanded={
+                            navMenuStatus == ""
+                        }/>
                     </WeatherBarContextProvider>
                 </div>
                 {user && <UserCard user={user} variant={navMenuStatus !== "" ? "compact" : "expanded"}/>

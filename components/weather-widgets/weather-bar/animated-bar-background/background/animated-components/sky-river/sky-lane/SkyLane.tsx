@@ -26,10 +26,9 @@ const SkyLane: React.FC<SkyLaneProps> = ({
      * @returns x and y coordinates relatively to the box
      */
     const CLOUD_MIN_DISTANCE = 0.5;
-    const {isHovered} = useWeatherBarContext();
+    const {isAnimated} = useWeatherBarContext();
     const [objWidth, setObjWidth] = useState<number>(0);
     const [objHeight, setObjHeight] = useState<number>(0);
-    const [cloudWidth, setCloudWidth] = useState<number>(0);
     const [boxWidth, setBoxWidth] = useState<number>(0);
     const [boxHeight, setBoxHeight] = useState<number>(0);
     const [objLeft, setObjLeft] = useState<number>(0);
@@ -81,7 +80,7 @@ const SkyLane: React.FC<SkyLaneProps> = ({
         <div ref={ref} className={`${style['sky-lane']} ${style[widthSize]}`}>
             <MovingClouds containerWidth={boxWidth} initialLeft= {objLeft} initialTop={objTop} size={objHeight} setObjWidth={setObjWidth} distance={
                 cloudDistance
-            } speed = {cloudDistance /5} isMoving={isHovered} />
+            } speed = {cloudDistance /5} isMoving={isAnimated} />
         </div>
     );
 };

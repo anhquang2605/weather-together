@@ -6,4 +6,7 @@
     span:last-child{
         @apply ml-2;
     }
+    &.shrunk{
+        @apply bg-opacity-20;
+    }
 }

@@ -40,8 +40,6 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
     const sunRadiationAnimationRef = useRef<AnimeInstance | undefined>(); 
     const leftFlexingAnimationRef = useRef<AnimeInstance | undefined>();
     const rightFlexingAnimationRef = useRef<AnimeInstance | undefined>(); 
-    const leftReturnAnimationRef = useRef<AnimeInstance | undefined>();
-    const rightReturnAnimationRef = useRef<AnimeInstance | undefined>();
     const toggle = () => {
         if(!isAnimated){
             initializeAnimation();
@@ -56,10 +54,8 @@ const CoolSun: React.FC<CoolSunProps> = ({isAnimated}) => {
         
     }
     const toggleFlexEndedVariable = (newState: boolean) => {
-        console.log('here ', newState);
         isFlexEnded = newState;
         sunRadiate();
-        //inhale(newState);
     }
     const preInhale = (isReady:boolean) => {
         eyeBlink(!isReady);

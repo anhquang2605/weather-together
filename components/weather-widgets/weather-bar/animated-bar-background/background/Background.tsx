@@ -8,10 +8,11 @@ import CoolSun from './animated-components/cool-sun/CoolSun';
 
 interface backgroundProps {
     weatherType: string;
+    isDisabled?: boolean;
 }
 
 const background: React.FC<backgroundProps> = ({weatherType}) => {
-    const {isHovered} = useWeatherBarContext();
+    const {isAnimated} = useWeatherBarContext();
     const currentHour = new Date().getHours();
     const isNight = currentHour > 25;
     const MAX_CLOUD = 5;
@@ -19,7 +20,7 @@ const background: React.FC<backgroundProps> = ({weatherType}) => {
     const NO_OF_CLOUD_LANES = 3 // Math.round(Math.random() * (MAX_CLOUD - MIN_CLOUD) + MIN_CLOUD)
     return (
         <div className={`${style['background']} ${style[weatherType]} ${style[`${isNight ? "night" : "day"}`]}`}>
-                        {isNight ? <HappyMoon isAnimated={isHovered} /> : <CoolSun isAnimated={isHovered}/>}
+                        {isNight ? <HappyMoon isAnimated={isAnimated} /> : <CoolSun isAnimated={isAnimated}/>}
         <SkyRiver noOfLane={NO_OF_CLOUD_LANES} />
 
         </div>

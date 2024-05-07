@@ -2,6 +2,11 @@
     position: relative;
     @apply p-4 border rounded-lg border-slate-600 mb-2 overflow-hidden;
     &:hover{
+        transition: all ease 0.3s;
         cursor:pointer;
+        @apply  border-slate-200;
+    }
+    &.shrunk{
+        @apply p-1 mb-0;
     }
 }
