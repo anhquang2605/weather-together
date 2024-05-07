@@ -26,3 +26,18 @@
     background: rgb(67,1,148);
 background: linear-gradient(217deg, rgba(67,1,148,1) 0%, rgba(27,2,91,1) 100%);
 }
+.main-actor{
+    svg {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+    }
+}
+.main-actor-compact{
+    svg{
+        width: 100%;
+        top: 0;
+        transform: none;
+    }
+}

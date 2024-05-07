@@ -3,12 +3,12 @@
     width: 100%;
     height: 100%;
 }
-.cool-sun svg{
+/* .cool-sun svg{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 0;
-}
+} */
 #left_eye, #right_eye{
     &:path{
         stroke-dasharray: 100% 100%;
