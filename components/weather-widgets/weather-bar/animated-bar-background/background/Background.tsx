@@ -12,7 +12,7 @@ const background: React.FC<backgroundProps> = ({weatherType}) => {
     const {isAnimated, isExpanded} = useWeatherBarContext();
     const [coreSVGClassname, setCoreSVGClassname] = useState("");
     const currentHour = new Date().getHours();
-    const isNight = currentHour > 19;
+    const isNight = currentHour < 25;
     const NO_OF_CLOUD_LANES = 3 // Math.round(Math.random() * (MAX_CLOUD - MIN_CLOUD) + MIN_CLOUD)
     useEffect(()=>{
         if(isExpanded){
@@ -23,7 +23,7 @@ const background: React.FC<backgroundProps> = ({weatherType}) => {
     },[isExpanded])
     return (
         <div className={`${style['background']} ${style[weatherType]} ${style[`${isNight ? "night" : "day"}`]}`}>
-                        {isNight ? <HappyMoon isAnimated={isAnimated} /> : <CoolSun extraClassName={coreSVGClassname} isAnimated={isAnimated}/>}
+                        {isNight ? <HappyMoon extraClassname={coreSVGClassname} isAnimated={isAnimated} /> : <CoolSun extraClassName={coreSVGClassname} isAnimated={isAnimated}/>}
         <SkyRiver noOfLane={NO_OF_CLOUD_LANES} />
         </div>
     );

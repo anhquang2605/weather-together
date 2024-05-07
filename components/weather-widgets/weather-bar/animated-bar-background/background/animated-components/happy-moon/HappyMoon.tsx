@@ -3,9 +3,10 @@ import styles from './happy-moon.module.css';
 import anime, { AnimeInstance } from 'animejs';
 interface HappyMoonProps {
     isAnimated: boolean;
+    extraClassname?: string;
 }
 
-const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
+const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated, extraClassname = ""}:HappyMoonProps) => {
     const [speed, setSpeed] = useState(1);
     const armToggleAnimationRef = useRef<undefined | AnimeInstance >();
     const cheeksRaiseAnimationRef = useRef<undefined | AnimeInstance>();
@@ -112,7 +113,7 @@ const HappyMoon: React.FC<HappyMoonProps> = ({isAnimated}:HappyMoonProps) => {
             greeting();
     },[isAnimated])
     return (
-        <div className={styles['happy-moon']}>
+        <div className={`${styles['happy-moon']} ${extraClassname}`}>
             <svg width="45%"   viewBox="0 -25 450 450" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="moon" clipPath="url(#clip0_0_1)">
                 <g id="the-body">

@@ -38,6 +38,7 @@ background: linear-gradient(217deg, rgba(67,1,148,1) 0%, rgba(27,2,91,1) 100%);
     svg{
         width: 100%;
         top: 0;
+        right: 1.25%!important;
         transform: none;
     }
 }
