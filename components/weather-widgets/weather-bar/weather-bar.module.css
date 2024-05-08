@@ -1,6 +1,17 @@
 .weather-bar{
     position: relative;
     @apply p-4 border rounded-lg border-slate-600 mb-2 overflow-hidden;
+    &.compressed{
+        border-radius: 0;
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        z-index: -1;
+        @apply p-0 items-center justify-center flex;
+        &:hover{
+            border-color: var(--primary-color);
+        }
+        width: 60px;
+    }
     &:hover{
         transition: all ease 0.3s;
         cursor:pointer;
@@ -9,4 +20,5 @@
     &.shrunk{
         @apply p-1 mb-0;
     }
+
 }

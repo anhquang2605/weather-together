@@ -6,7 +6,14 @@
     span:last-child{
         @apply ml-2;
     }
-    &.shrunk{
+    &.shrunk, &.compressed{
         @apply bg-opacity-20;
+    }
+    &.compressed{
+        @apply flex flex-col justify-center items-center text-center text-sm rounded-full w-full h-full;
+        span{
+            @apply w-full text-center;
+        }
+
     }
 }

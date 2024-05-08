@@ -8,9 +8,9 @@ interface WeatherStatusProps {
 }
 
 const WeatherStatus: React.FC<WeatherStatusProps> = ({conditions, temp}) => {
-    const {isExpanded} = useWeatherBarContext();
+    const {isExpanded, variation} = useWeatherBarContext();
     return (
-        <div className={`${style['weather-status']} ${!isExpanded ? style['shrunk'] : ""}`}>
+        <div className={`${style['weather-status']} ${!isExpanded ? style['shrunk'] : ""} ${style[variation]}`}>
              <span>
                 {
                     Math.round(temp) + "°" 

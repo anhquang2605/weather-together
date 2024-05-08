@@ -1,6 +1,4 @@
-import Link from "next/link"
 import UserMenu from "./usermenu/usermenu"
-import {FaNewspaper} from "react-icons/fa"
 import {IoCloudyNight, IoMenu, IoArrowBack} from "react-icons/io5"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
@@ -8,7 +6,6 @@ import {useSession} from "next-auth/react"
 import { UserInSession } from "../../types/User"
 import {signOut} from "next-auth/react";
 import UserCard from "./user-card/UserCard"
-import Username from "../../pages/userprofile/edit/[username]"
 import BottomNavigation from "./bottom-navigation/BottomNavigation"
 import { closeWSConnection } from "../../utils/websocket-service"
 import WeatherBar from "../weather-widgets/weather-bar/WeatherBar"
@@ -22,7 +19,7 @@ export default function Navigation() {
         {label: "My Hub", pageTitle: "weather hub", linkhref: `userprofile/${user?.username}`},
         {label: "Home", pageTitle: "home", linkhref: ""},
         {label: "Buddies", pageTitle: "buddies", linkhref: "buddies"},
-        {label: "Settings", pageTitle: "settings", linkhref: "settings"}
+        {label: "Settings", pageTitle: "settings", linkhref: "settings"},
     ]
     const toggleNavMenu = () => {
         if(navMenuStatus === ""){
@@ -37,9 +34,6 @@ export default function Navigation() {
             await signOut();
         }
     }
-    useEffect(()=>{
-
-    },[])
     return(
         user &&
         <>
@@ -63,13 +57,10 @@ export default function Navigation() {
                         {<UserMenu handleSignOut={handleSignOut} user={user} withUser={withUser} />}
                         
                 </ul>
-
             </div>
             <div className={"nav-bar bottom-nav relative"}>
                 <BottomNavigation user={user} className={'bottom-nav'} navigationItems={user ? withUser : []}></BottomNavigation>
-            </div>
-            
+            </div> 
         </>
-        
     )
 }

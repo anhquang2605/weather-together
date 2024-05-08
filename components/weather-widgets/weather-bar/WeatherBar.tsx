@@ -9,11 +9,12 @@ import { useWeatherBarContext } from './useWeatherBarContext';
 
 interface WeatherBarProps {
     isExpanded: boolean;
+    variation?: "compressed" | ""; //compressed or ""
 }
 
-const WeatherBar: React.FC<WeatherBarProps> = ({isExpanded}) => {
+const WeatherBar: React.FC<WeatherBarProps> = ({isExpanded, variation = ""}) => {
     const {todayWeather} = useWeatherContext();
-    const {setIsHovered, setIsExpanded} = useWeatherBarContext();
+    const {setIsHovered, setIsExpanded, setVariation} = useWeatherBarContext();
     const ref = useRef<HTMLDivElement|null>(null);
     const handleMouseEnter = (event: MouseEvent) => {
         setIsHovered(true);
@@ -22,6 +23,7 @@ const WeatherBar: React.FC<WeatherBarProps> = ({isExpanded}) => {
         setIsHovered(false);
     }
     useEffect(()=>{
+        setVariation(variation);
         if(ref.current){
             ref.current.addEventListener('mouseenter',handleMouseEnter);
             ref.current.addEventListener('mouseleave',handleMouseLeave)
@@ -35,12 +37,14 @@ const WeatherBar: React.FC<WeatherBarProps> = ({isExpanded}) => {
         setIsExpanded(isExpanded);
     },[isExpanded])
     return (
-        <div ref = {ref} title="View today's Weather" className={style['weather-bar'] + " " + (!isExpanded ? style['shrunk'] : "")}>
+        <div ref = {ref} title="View today's Weather" className={style['weather-bar'] + " " + (!isExpanded ? style['shrunk'] : "") + " " + style[variation]}>
             {
                 todayWeather ?
                 <>
                     <AnimatedBarBackground weatherType={todayWeather?.conditions ?? ""}/>
-                     <DateInfo dateStr={todayWeather?.datetimeStr ?? ""}/>
+                        {variation == "" && 
+                                <DateInfo dateStr=    {todayWeather?.datetimeStr ?? ""}/>
+                        }
                     <WeatherStatus temp={todayWeather.temp ?? 0} conditions={todayWeather.conditions} />
                     
                 </>

@@ -1,7 +1,7 @@
 @use "sass:math";
 $border-r: 12px;
 $count: 70;
-$height: 60;
+$height: 65;
 $circle-diameter: $height * 3/4;
 $animation-duration: 200ms;
 $transition-props: all $animation-duration ease-in-out;

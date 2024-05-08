@@ -2,11 +2,12 @@ import React from 'react';
 import style from './bottom-navigation.module.scss';
 import {FaNewspaper} from "react-icons/fa"
 import { UserInSession } from '../../../types/User';
-import {FaHouseUser} from "react-icons/fa";
 import { IoPersonCircle  ,IoPeople, IoSettings } from 'react-icons/io5';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import MiniAvatar from '../../user/mini-avatar/MiniAvatar';
+import WeatherBar from '../../weather-widgets/weather-bar/WeatherBar';
+import { WeatherBarContextProvider } from '../../weather-widgets/weather-bar/useWeatherBarContext';
 interface NavItem {
     label: string,
     linkhref: string,
@@ -35,8 +36,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className, navi
 		return arr;
 	}
     const navItems = (items: NavItem[]) => {
-        return items.map(({label,linkhref, pageTitle}) => {
+        return items.map(({label,linkhref, pageTitle},index) => {
             return (
+                <>
                 <Link key={label} href={"/" + linkhref} className={`${style.navItem} ${(asPath === ("/" + linkhref)) && style.active}`}>
                     <div className={style.filler}>
         
@@ -54,13 +56,19 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className, navi
         
                     </div>
                 </Link>
+                {index == 1 &&
+                    <WeatherBarContextProvider>
+                        <WeatherBar variation='compressed' isExpanded = {false} />
+                    </WeatherBarContextProvider>
+                    
+                }
+                </>
             )
         })
     }
 	return( 
 	<>
-		{navItems(navigationItems)}
-       
+		{navItems(navigationItems)}       
 	</>
 	)
 };
