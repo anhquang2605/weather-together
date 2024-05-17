@@ -23,7 +23,7 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, c
     const sizeVariantionMultiplier = 3;
     const layerRef = React.createRef<HTMLDivElement>();
     const fillWithClouds = () => {
-        var noOfVariations = 10;
+        var noOfVariations = 5;
         if(last){
             noOfVariations = 5;
         }

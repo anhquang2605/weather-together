@@ -163,7 +163,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
                  <CityLandScape />
               </div>
 
-              <SkyScroller parentClassName={style['profile-page']} layersNumber={3} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+              <SkyScroller parentClassName={style['profile-page']} layersNumber={2} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
              
             </div>
         </>

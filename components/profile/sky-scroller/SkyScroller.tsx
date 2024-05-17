@@ -28,7 +28,7 @@ interface LayerStyle {
 const SkyScroller: React.FC<SkyScrollerProps> = ({
     layersNumber,
     followMouse = false,
-    boxSize=200,
+    boxSize=0.2,
     gapBetweenBoxes = 0,
     skyClassName='',
     cloudClassName='',
@@ -74,7 +74,7 @@ const startingOpacity = 0.3;
                     profileDimension={profileDimension}
                     key={i}
                     styles={layerStyle}
-                    boxSize={boxSize +  (i * 50)}
+                    boxSize={boxSize * (profileDimension.width) +  (i * 50)}
                     order={i}
                     scale={(scaleMultiplier * i) +  1}
                     last={i === layersNumber - 1}
