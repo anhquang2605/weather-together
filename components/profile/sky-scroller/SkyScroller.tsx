@@ -39,7 +39,7 @@ const SkyScroller: React.FC<SkyScrollerProps> = ({
     parentClassName,
 }) => {
 const BLUR = 0;
-const scaleMultiplier = 0.65;
+const scaleMultiplier = 0.3;
 const startingOpacity = 0.3;
     const generateStyle = (dimensionOrder: number, blur:number = 0) => {
             
