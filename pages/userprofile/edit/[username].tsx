@@ -1,10 +1,9 @@
 import Head from "next/head";
 import { getUserDataByUserName, getUsernamePaths} from "../../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { FormEvent, use, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from "../../../types/User";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../../../store/features/user/userSlice";
 import Summary from "../../../components/profile/summary/Summary";
 import Modal from "../../../components/modal/Modal";
 import EditInformationForm from "../../../components/profile/edit/edit-information-form/EditInformationForm";
@@ -14,11 +13,10 @@ import { useRouter } from "next/router";
 import EditBackgroundForm from "../../../components/profile/edit/edit-background-form/EditBackgroundForm";
 import EditBio from "../../../components/profile/edit/edit-bio/EditBio";
 import Bio from "../../../components/profile/bio/Bio";
-import { Information } from "../../../types/User";
 import { useSession } from "next-auth/react";
-import withAuth from "../../authentication/with-auth";
 import withAuthStatic from "../../authentication/with-auth-static";
-import {send, subscribe, unSubcribe} from "../../../utils/websocket-service";
+import {subscribe, unSubcribe} from "../../../utils/websocket-service";
+import style from './edit-profile.module.css';
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -120,6 +118,7 @@ function Edit({userJSON}:UserProfileProps){
   //WEB SOCKETS FOR MONGO DB
   useEffect(() => {
     if(user && user.username){
+      console.log(user);
       subscribe( "user-changestream",user.username, handleUserChangeStreamMessage);
     }
     return () => {
@@ -131,7 +130,7 @@ function Edit({userJSON}:UserProfileProps){
         <Head>
           <title>{theTitle}</title>
         </Head>
-        <div className={"flex flex-wrap grow flex-col p-4 glass"}>
+        <div className={`glass ${style['edit-profile']}`}>
             {/* Profile Banner */}
             {/* Profile pic and background */}
             <ProfileBanner isEditing={true} user={user} setEditingBackground={setEditingBackground} setEditingPicture={setEditingPicture}/>

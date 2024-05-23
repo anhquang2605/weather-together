@@ -53,6 +53,7 @@ export interface UserInClient{
     lastName: string,
     email: string;
     backgroundPicturePath: string;
+    bio: string;
 }
 export interface UserInSearch{
     username: string,

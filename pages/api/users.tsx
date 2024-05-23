@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     );
                     return;
                 }
-                const usersInClient:UserInClient[] = users.map((user) => pick(user, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'backgroundPicturePath', 'email']));
+                const usersInClient:UserInClient[] = users.map((user) => pick(user, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'backgroundPicturePath', 'email', 'bio']));
                 res.status(200).json({
                     success: true,
                     data: usersInClient
@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                const data = await userCollection.findOne({username: username});
 
                if(data){
-                     const user: UserInClient = pick(data, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'backgroundPicturePath' , 'email'])
+                     const user: UserInClient = pick(data, ['username', 'profilePicturePath', 'location', 'dateJoined', 'firstName', 'lastName', 'featuredWeather', 'backgroundPicturePath' , 'email', 'bio'])
                     res.status(200).json({
                         success: true,
                         data: user
