@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { getUserDataByUserName, getUsernamePaths} from "../../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { User } from "../../../types/User";
 import { useDispatch } from "react-redux";
 import Summary from "../../../components/profile/summary/Summary";
@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 import withAuthStatic from "../../authentication/with-auth-static";
 import {subscribe, unSubcribe} from "../../../utils/websocket-service";
 import style from './edit-profile.module.css';
+import SkyScroller from "../../../components/profile/sky-scroller/SkyScroller";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -46,6 +47,10 @@ function Edit({userJSON}:UserProfileProps){
   const [user, setUser] = useState<User>(JSON.parse(userJSON));
   const {update} = useSession();
   const theTitle = `Profile for ${user.username}`;
+  const [dimension, setDimension] = useState(
+    {width: 0, height: 0}
+  );
+  const dimensionRef = useRef(dimension)
   const route = useRouter();
   const [editingPicture, setEditingPicture] = useState<boolean>(false);
   const [editingInformation, setEditingInformation] = useState<boolean>(false);
@@ -125,6 +130,10 @@ function Edit({userJSON}:UserProfileProps){
       unSubcribe("user-changestream");
     }
   },[])
+  useEffect(() =>
+    {
+      dimensionRef.current = dimension;
+    },[dimension])
     return (
       <>
         <Head>
@@ -151,6 +160,8 @@ function Edit({userJSON}:UserProfileProps){
             </div>
            
         </div>
+        
+        <SkyScroller parentClassName={style['profile-page']} layersNumber={2} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
         {/* Modal sections */}
       <Modal status={editingPicture} onClose={()=>{handlePictureEditClose()}}>
             <EditPictureForm  editing={editingPicture} user={user}/>
