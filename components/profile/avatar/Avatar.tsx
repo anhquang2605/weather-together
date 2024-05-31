@@ -20,13 +20,7 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
 
     return (
         <div className={`justify-center items-center flex flex-col z-200 relative ${style['avatar']} `}>
-             {isEditing && setEditingPicture && 
-             <>
-                <IoPencil className="text-3xl text-slate-300 absolute top-2 right-2"/>
-                <button className="transition-all w-full h-full font-semibold absolute text-transparent top-0 left-0 hover:hover-editable-image" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
 
-             </>
-             }
             <MiniAvatar 
                 username={username} 
                 profilePicturePath={profilePicturePath || ""}
@@ -35,7 +29,13 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
                 variant={'featured'}
 
             />
-           
+            {isEditing && setEditingPicture && 
+             <>
+                <IoPencil className="text-3xl text-slate-300 z-100 absolute top-2 right-2"/>
+                <button className="transition-all w-full h-full font-semibold absolute text-transparent top-0 left-0 z-500 hover:hover-editable-image" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
+
+             </>
+             }
         </div>
     )
 }

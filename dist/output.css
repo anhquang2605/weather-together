@@ -644,6 +644,10 @@ video {
   z-index: 50;
 }
 
+.z-500 {
+  z-index: 500;
+}
+
 .order-first {
   order: -9999;
 }

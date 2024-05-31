@@ -56,10 +56,8 @@ function Edit({userJSON}:UserProfileProps){
   const [editingInformation, setEditingInformation] = useState<boolean>(false);
   const [editingBackground, setEditingBackground] = useState<boolean>(false);
   const [editingBio, setEditingBio] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
-  const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
-  
+  const containerRef = useRef<HTMLDivElement>(null);
+  let resizeTimeout: NodeJS.Timeout | null = null;
 /*   const updateUserBio = async (bio:string) => {
     if(user){
       dispatch(updateUser({
@@ -122,14 +120,49 @@ function Edit({userJSON}:UserProfileProps){
   }, [userJSON])
   //WEB SOCKETS FOR MONGO DB
   useEffect(() => {
+    //handleSettingDimensionWhenResize();
     if(user && user.username){
       console.log(user);
       subscribe( "user-changestream",user.username, handleUserChangeStreamMessage);
     }
+    const resizeObserver = new ResizeObserver(entries => {
+      if(resizeTimeout){
+        clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = setTimeout(() => {
+        for(let entry of entries){
+          //const {scrollHeight} = entry.target;
+          const {width, height} = entry.contentRect;
+          const profilePage = document.querySelector(`.${style['profile-page']}`);
+          if(profilePage){
+            const padding = profilePage.clientWidth - width;
+            const profileWidth = profilePage.clientWidth;
+/*             setDimension({
+              width,
+              height
+              //height: scrollHeight
+            }); */
+            setDimension({
+              width: profileWidth,
+              height: height + padding
+            })
+          }
+         
+          
+        }
+      },1000)
+      
+    })
+    if(containerRef.current){
+      resizeObserver.observe(containerRef.current);
+    }
     return () => {
       unSubcribe("user-changestream");
+      if(containerRef.current){ 
+        resizeObserver.unobserve(containerRef.current)
+      }
     }
-  },[])
+  }, []);
   useEffect(() =>
     {
       dimensionRef.current = dimension;

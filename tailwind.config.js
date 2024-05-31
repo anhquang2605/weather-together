@@ -8,6 +8,9 @@ module.exports = {
   ],
     theme: {
       extend: {
+        zIndex:{
+          '500': '500',
+        },
         boxShadow: {
           'inner-lg': 'inset 0 0 15px 1px',
           'inner-md': 'inset 0 0 10px 1px',
