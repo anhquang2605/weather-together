@@ -47,12 +47,25 @@ export function mergeAndSortUniqueArrays <T> (unsorted: Set<T>, sorted: T[], com
 
 }
 
+/**
+ * Compares two values and returns a number indicating their order.
+ * 
+ * @param a The first value to compare.
+ * @param b The second value to compare.
+ * @return A negative number if a is less than b, 0 if they are equal, 
+ *         or a positive number if a is greater than b.
+ */
 export function compareAny(a:any, b:any){
+    // If a is greater than b, return 1.
     if(a > b){
         return 1;
-    }else if(a === b){
+    }
+    // If a is equal to b, return 0.
+    else if(a === b){
         return 0;
-    }else{
+    }
+    // If a is less than b, return -1.
+    else{
         return -1;
     }
 }
