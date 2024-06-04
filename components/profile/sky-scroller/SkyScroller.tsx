@@ -28,7 +28,7 @@ interface LayerStyle {
 const SkyScroller: React.FC<SkyScrollerProps> = ({
     layersNumber,
     followMouse = false,
-    boxSize=0.2,
+    boxSize=0.15,
     gapBetweenBoxes = 0,
     skyClassName='',
     cloudClassName='',

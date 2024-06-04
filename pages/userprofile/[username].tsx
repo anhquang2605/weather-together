@@ -75,6 +75,20 @@ export default function UserProfile({userJSON}:UserProfileProps){
       })
     }
   }
+  const getDimensionOfContainer = () => {
+      const editProfilePage = document.querySelector(`.${style['edit-profile']}`);
+      if(editProfilePage){
+        return {
+          width: editProfilePage.clientWidth,
+          height: editProfilePage.clientHeight
+        }
+      }else{
+        return {
+          width: 0,
+          height: 0
+        }
+      }
+  }
   useEffect(() => {
     //handleSettingDimensionWhenResize();
     const resizeObserver = new ResizeObserver(entries => {
@@ -93,7 +107,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
               width,
               height
               //height: scrollHeight
-            }); */
+            });  */
             setDimension({
               width: profileWidth,
               height: height + padding
@@ -118,6 +132,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
   {
     dimensionRef.current = dimension;
   },[dimension])
+
     return (
         <>
             <Head>

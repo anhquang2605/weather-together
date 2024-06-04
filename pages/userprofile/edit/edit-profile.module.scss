@@ -1,0 +1,39 @@
+.edit-profile{
+    @apply p-8 w-full relative;
+}
+$weathers: (
+    (/* default */
+        name: cloudy,
+        mainColor: skyblue,
+        cloudColor: #FFFFFF,
+    ),
+    (
+        name: rainy,
+        mainColor: #4138bc,
+        cloudColor: #CCCCCC
+    ),
+    (
+        name: sunny,
+        mainColor: skyblue,
+        cloudColor: lightyellow,
+    )
+);
+@each $weather in $weathers {
+    $theBackground: map-get($weather, mainColor);
+    $theCloud: map-get($weather, cloudColor);
+    $theName: map-get($weather, name);
+    .#{$theName} {
+        background-color: $theBackground;
+    
+        .cloud svg *{
+                fill: $theCloud;
+                color: $theCloud; 
+                flex-shrink: 0;
+                
+        }
+        .cloud svg{
+                max-width: 100%!important;
+        }
+        
+    }
+};

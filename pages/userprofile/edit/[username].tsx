@@ -16,7 +16,7 @@ import Bio from "../../../components/profile/bio/Bio";
 import { useSession } from "next-auth/react";
 import withAuthStatic from "../../authentication/with-auth-static";
 import {subscribe, unSubcribe} from "../../../utils/websocket-service";
-import style from './edit-profile.module.css';
+import style from './edit-profile.module.scss';
 import SkyScroller from "../../../components/profile/sky-scroller/SkyScroller";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
@@ -86,6 +86,20 @@ function Edit({userJSON}:UserProfileProps){
     setUser(prevState => ({...prevState, ...payload.data}));
     update(updatedUser);
   }
+  const getDimensionOfContainer = () => {
+    const editProfilePage = document.querySelector(`.${style['edit-profile']}`);
+    if(editProfilePage){
+      return {
+        width: editProfilePage.clientWidth,
+        height: editProfilePage.clientHeight
+      }
+    }else{
+      return {
+        width: 0,
+        height: 0
+      }
+    }
+}
 /*   const handlePictureUpdated = (path:string) => {
     dispatch(updateUser({
       ...user,
@@ -118,6 +132,7 @@ function Edit({userJSON}:UserProfileProps){
   useEffect(() => {
     if(userJSON)  setUser(JSON.parse(userJSON));
   }, [userJSON])
+
   //WEB SOCKETS FOR MONGO DB
   useEffect(() => {
     //handleSettingDimensionWhenResize();
@@ -132,7 +147,7 @@ function Edit({userJSON}:UserProfileProps){
         for(let entry of entries){
           //const {scrollHeight} = entry.target;
           const {width, height} = entry.contentRect;
-          const profilePage = document.querySelector(`.${style['profile-page']}`);
+          const profilePage = document.querySelector(`.${style['edit-profile']}`);
           if(profilePage){
             const padding = profilePage.clientWidth - width;
             const profileWidth = profilePage.clientWidth;
@@ -166,13 +181,21 @@ function Edit({userJSON}:UserProfileProps){
     {
       dimensionRef.current = dimension;
     },[dimension])
+    useEffect(()=>{
+      const theDimension = getDimensionOfContainer();
+    
+      setDimension(theDimension);
+    },[])
     return (
       <>
         <Head>
           <title>{theTitle}</title>
         </Head>
-        <div className={`glass ${style['edit-profile']}`}>
-            {/* Profile Banner */}
+        <div className={`${style['edit-profile']}`}>
+          <SkyScroller parentClassName={style['edit-profile']} layersNumber={2} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+          <div className="glass-lighter w-full h-full absolute top-0 left-0 z-20"></div>
+        <div className="w-full h-full absolute top-0 left-0 p-8 z-30">
+                      {/* Profile Banner */}
             {/* Profile pic and background */}
             <ProfileBanner isEditing={true} user={user} setEditingBackground={setEditingBackground} setEditingPicture={setEditingPicture}/>
 
@@ -190,7 +213,10 @@ function Edit({userJSON}:UserProfileProps){
                 
               </div>
             </div>
-            <SkyScroller parentClassName={style['edit-profile']} layersNumber={2} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+        </div>
+
+
+
         </div>
         
 
