@@ -22,8 +22,8 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         entries.forEach((entry) => {
             if(entry.isIntersecting){
                 const id = entry.target.id as string;
-                console.log(id);
                 const handler = introAnimationHandlersMap[id];
+                console.log(handler);
                 handler();
             }
         });
@@ -36,9 +36,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
 
         });
         secctionIds.forEach((id) => {
-            console.log(id);
             const element = document.getElementById(id);
-            console.log(element);
             if(element){
                 observer.observe(element);
             }

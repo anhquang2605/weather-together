@@ -122,7 +122,6 @@ function Edit({userJSON}:UserProfileProps){
   useEffect(() => {
     //handleSettingDimensionWhenResize();
     if(user && user.username){
-      console.log(user);
       subscribe( "user-changestream",user.username, handleUserChangeStreamMessage);
     }
     const resizeObserver = new ResizeObserver(entries => {
@@ -191,10 +190,10 @@ function Edit({userJSON}:UserProfileProps){
                 
               </div>
             </div>
-           
+            <SkyScroller parentClassName={style['edit-profile']} layersNumber={2} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
         </div>
         
-        <SkyScroller parentClassName={style['profile-page']} layersNumber={2} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+
         {/* Modal sections */}
       <Modal status={editingPicture} onClose={()=>{handlePictureEditClose()}}>
             <EditPictureForm  editing={editingPicture} user={user}/>
