@@ -47,7 +47,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 
 const sections = [
-  'about me',
+  'about_me',
   'bio',
   'activity'
 ]
@@ -146,7 +146,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
                 
                  <ParalaxScroller
                   introAnimationHandlersMap={{
-                    'about me': () => {
+                    'about_me': () => {
                       console.log('abou');
                     },
                     bio: () => {

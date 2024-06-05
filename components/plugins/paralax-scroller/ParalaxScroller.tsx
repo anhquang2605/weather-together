@@ -37,6 +37,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         });
         secctionIds.forEach((id) => {
             const element = document.getElementById(id);
+            console.log(element);
             if(element){
                 observer.observe(element);
             }
