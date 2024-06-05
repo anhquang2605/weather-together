@@ -20,6 +20,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     const { children } = props;
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach((entry) => {
+            console.log(entry);
             if(entry.isIntersecting){
                 const id = entry.target.id as string;
                 const handler = introAnimationHandlersMap[id];
