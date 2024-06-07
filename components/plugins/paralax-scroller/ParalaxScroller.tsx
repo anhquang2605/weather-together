@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './paralax-scroller.module.scss';
 type AnimatorFunction = () => void;
 interface AnimatorFunctionMap {
-    [key: string]: AnimatorFunction;
+    [key: string]: AnimatorFunction;//id of each sectionmapped to animation function
 }
 
 interface ParalaxScrollerProps {
@@ -13,6 +13,8 @@ interface ParalaxScrollerProps {
     introAnimationHandlersMap: AnimatorFunctionMap;
     sectionIndex?: number;
     scrollClassName: string;
+    getScrollDistance?: (sectionIndex: number) => number;
+    getScrollPosition?: () => number;
 }
 
 const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
