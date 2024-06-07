@@ -27,7 +27,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
                 const id = entry.target.id as string;
                 const handler = introAnimationHandlersMap[id];
                 console.log(handler);
-                handler();
+                //handler();
             }
         });
     }
