@@ -22,25 +22,20 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     const { children } = props;
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach((entry) => {
-            console.log(entry);
             if(entry.isIntersecting){
                 const id = entry.target.id as string;
                 const handler = introAnimationHandlersMap[id];
-                console.log(handler);
-                //handler();
+                handler();
             }
         });
     }
     useEffect(()=> {
         const observer = new IntersectionObserver(handleInterSection, {
             root: document.querySelector(`.${scrollClassName}`) ,
-            rootMargin: '0px',
-            threshold: 0.5,
 
         });
         secctionIds.forEach((id) => {
             const element = document.getElementById(id);
-            console.log(element);
             if(element){
                 observer.observe(element);
             }
