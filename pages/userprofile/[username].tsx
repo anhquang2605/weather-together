@@ -167,7 +167,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
                           <ParalaxSection
                             key={index}
                             id={section}
-                            className="h-[3000px]"
+                            className=""
                           > 
                             {section[0].toUpperCase() + section.slice(1)}
                           </ParalaxSection>
