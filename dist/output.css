@@ -820,10 +820,6 @@ video {
   height: 100%;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .max-h-60 {
   max-height: 15rem;
 }
@@ -842,10 +838,6 @@ video {
 
 .min-h-\[200px\] {
   min-height: 200px;
-}
-
-.min-h-screen {
-  min-height: 100vh;
 }
 
 .w-0 {
