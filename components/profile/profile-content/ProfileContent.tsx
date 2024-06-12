@@ -3,6 +3,7 @@ import style from './profile-content.module.css';
 import ParalaxSection from '../../plugins/paralax-scroller/paralax-section/ParalaxSection';
 import ParalaxScroller from '../../plugins/paralax-scroller/ParalaxScroller';
 import { User } from '../../../types/User';
+import SectionHeader from '../section-header/SectionHeader';
 
 interface ProfileContentProps {
     scrollContainerClassname?: string;
@@ -18,7 +19,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [currentSection, setCurrentSection] = useState(0);
     return (
         <div className={style['profile-content']}>
-            
+            <SectionHeader sections={sections} currentSectionIndex={currentSection} />
             <ParalaxScroller
                   introAnimationHandlersMap={{
                     'about_me': () => {
