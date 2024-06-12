@@ -3,17 +3,11 @@ import { getUserDataByUserName, getUsernamePaths} from "../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect, useRef, useState } from 'react';
 import { User } from "../../types/User";
-import Summary from "../../components/profile/summary/Summary";
 import ProfileBanner from "../../components/profile/profile-banner/ProfileBanner";
-import Bio from "../../components/profile/bio/Bio";
-import { useSession } from "next-auth/react";
 import style from './user-profile.module.scss'
 import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
-import { debounce } from "lodash";
-import { profile } from "console";
 import CityLandScape from "../../components/profile/city-landscape/CityLandscape";
-import ParalaxScroller from "../../components/plugins/paralax-scroller/ParalaxScroller";
-import ParalaxSection from "../../components/plugins/paralax-scroller/paralax-section/ParalaxSection";
+import ProfileContent from "../../components/profile/profile-content/ProfileContent";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -46,11 +40,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   }
 
-const sections = [
-  'about_me',
-  'bio',
-  'activity'
-]
+
 export default function UserProfile({userJSON}:UserProfileProps){
   const user:User = JSON.parse(userJSON);
   const theTitle = `Profile for ${user.username}`;
@@ -143,38 +133,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
                 <div className={style['profile-banner-wrapper']}>
                   <ProfileBanner user={user} isEditing={false} />
                 </div>
-                
-                 <ParalaxScroller
-                  introAnimationHandlersMap={{
-                    'about_me': () => {
-                      console.log('abou');
-                    },
-                    bio: () => {
-                      console.log('bio');
-                    },
-                    activity: () => {
-                      console.log('activity');
-                    }
-                  }}
-                  secctionIds={sections}
-                  snapToSections={true}
-                  scrollSpeed={0.5}
-                  scrollClassName={style['profile-page']}
-                 >
-                    {
-                      sections.map((section, index) => {
-                        return (
-                          <ParalaxSection
-                            key={index}
-                            id={section}
-                            className=""
-                          > 
-                            {section[0].toUpperCase() + section.slice(1)}
-                          </ParalaxSection>
-                        )
-                      })
-                    }
-                 </ParalaxScroller>
+                <ProfileContent user={user} scrollContainerClassname={style['profile-page']} />
                  <CityLandScape />
               </div>
 
