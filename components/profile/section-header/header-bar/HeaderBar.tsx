@@ -7,7 +7,7 @@ interface HeaderBarProps {
 }
 const BarCicle = () => {
     return (
-        <div className={style['bar-cicle']}>
+        <div className={style['bar-circle']}>
         </div>
     )
 }
@@ -33,7 +33,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, numberOfSections}) =
     
     return (
         <div className={style['header-bar']}>
-            
+            {generateBarBackbone(numberOfSections)}
         </div>
     );
 };

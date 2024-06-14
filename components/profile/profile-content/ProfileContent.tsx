@@ -16,22 +16,23 @@ const sections = [
   ]
 
 const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname = ""}) => {
+    //STATES
     const [currentSection, setCurrentSection] = useState(0);
+    //HELPERS
+    const getSectionIndex = (section: string) => {
+        return sections.indexOf(section);
+    }
+    //LOGIC
+    const handleInterSection = (id: string) => {
+        const sectionIndex = getSectionIndex(id);
+        setCurrentSection(sectionIndex);
+    }
+    //EFFECTS
     return (
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} currentSectionIndex={currentSection} />
             <ParalaxScroller
-                  introAnimationHandlersMap={{
-                    'about_me': () => {
-                      console.log('abou');
-                    },
-                    bio: () => {
-                      console.log('bio');
-                    },
-                    activity: () => {
-                      console.log('activity');
-                    }
-                  }}
+                  intersectionHandler={handleInterSection}
                   secctionIds={sections}
                   snapToSections={true}
                   scrollSpeed={0.5}

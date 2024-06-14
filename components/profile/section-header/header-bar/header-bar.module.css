@@ -1,3 +1,9 @@
 .header-bar{
-    
+    @apply w-full flex justify-center items-center;
+}
+.bar-circle{
+    @apply w-6 h-6 bg-slate-500/30 rounded-full shadow-sm shadow-slate-100;
+}
+.circle-edge{
+    @apply w-16 h-1 bg-slate-500/30 border-e-2;
 }

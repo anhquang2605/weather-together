@@ -10,7 +10,7 @@ interface ParalaxScrollerProps {
     secctionIds: string[];
     scrollSpeed?: number;
     snapToSections?: boolean;
-    introAnimationHandlersMap: AnimatorFunctionMap;
+    intersectionHandler: (id: string) => void;
     sectionIndex?: number;
     scrollClassName: string;
     getScrollDistance?: (sectionIndex: number) => number;
@@ -18,14 +18,13 @@ interface ParalaxScrollerProps {
 }
 
 const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
-    const { sectionIndex, secctionIds, scrollSpeed, snapToSections, introAnimationHandlersMap,scrollClassName } = props;
+    const { sectionIndex, secctionIds, scrollSpeed, snapToSections, intersectionHandler,scrollClassName } = props;
     const { children } = props;
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach((entry) => {
             if(entry.isIntersecting){
                 const id = entry.target.id as string;
-                const handler = introAnimationHandlersMap[id];
-                handler();
+                intersectionHandler(id);
             }
         });
     }
