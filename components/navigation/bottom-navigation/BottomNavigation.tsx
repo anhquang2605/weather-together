@@ -58,6 +58,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className, navi
                 </Link>
                 {index == 1 &&
                     <WeatherBarContextProvider>
+                        {/* Looking into here next time, the happy moon when shrunked revealed the entire background */}
                         <WeatherBar variation='compressed' isExpanded = {false} />
                     </WeatherBarContextProvider>
                     
