@@ -15,9 +15,6 @@ import WeatherBar from "../components/weather-widgets/weather-bar/WeatherBar"
 export default function Tester() {
     //const posts = generateRandomPosts(10);
     const [posts, setPosts] = useState([]);
-    const [len, setLen] = useState(0);
-    const [totalLen, setTotalLen] = useState(0);
-    const [wordLen, setWordLen] = useState(0);
     const profilePicturePaths = {
         'anhquang2605': faker.image.avatar(),
         'chuquang2605': faker.image.avatar(),
