@@ -1718,12 +1718,17 @@ video {
 
 .nav-bar.side-nav{
   box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
-  display: none;
-  padding: 2rem;
+  width: 0;
+  padding: 0;
+  overflow: hidden;
   @media (min-width: 1024px){
     display: flex;
 
     flex-direction: column;
+
+    padding: 2rem;
+
+    width: auto;
   }
 }
 
