@@ -213,3 +213,6 @@ _Putting two state setter in same function scope will make the state update simu
     to call this function, first need to resolve the promise from the async function by wrapping () around the func call with await used, the call the resolved promise as a function (await func("sth"))()
     47. For state changes without trigger component rerendering, use callback, closures. make change to internal variable of component
     48. In intersection observer, removing the rootmargin and threshold if nothing is working
+    49. Using clip-path mask svg, if there are two same svg, hiding the first svg with display none will cause the clip-path mask to disappear for both svg.
+    ====> Work around: hide the element by setting width 0, padding 0, and overflow hidden.
+    
