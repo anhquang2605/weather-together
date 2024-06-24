@@ -9,13 +9,12 @@ import { fetchFromGetAPI } from "../libs/api-interactions"
 import { getPostByUsernamesString } from "../libs/posts"
 import style from './tester.module.css'
 import AnimatedBanner from "../components/profile/animated-banner/AnimatedBanner"
+import { WeatherBarContextProvider } from "../components/weather-widgets/weather-bar/useWeatherBarContext"
+import WeatherBar from "../components/weather-widgets/weather-bar/WeatherBar"
 /* this page is for testing purposes only */
 export default function Tester() {
     //const posts = generateRandomPosts(10);
     const [posts, setPosts] = useState([]);
-    const [len, setLen] = useState(0);
-    const [totalLen, setTotalLen] = useState(0);
-    const [wordLen, setWordLen] = useState(0);
     const profilePicturePaths = {
         'anhquang2605': faker.image.avatar(),
         'chuquang2605': faker.image.avatar(),
@@ -78,12 +77,13 @@ export default function Tester() {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
+            <WeatherBarContextProvider>
+                        <WeatherBar isExpanded={true}/>
+                    </WeatherBarContextProvider>
+        <div>
 
-            {
-                 posts.map((post, index) => (
-                    <Post key={index} post={post} preview={true} username="dante" />
-                )) 
-            }
+        </div>
+
 
 
 {/*                 <svg id={style['in-place']}  width="1000" height="200" viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">

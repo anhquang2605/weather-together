@@ -12,7 +12,7 @@ const background: React.FC<backgroundProps> = ({weatherType}) => {
     const {isAnimated, isExpanded, variation} = useWeatherBarContext();
     const [coreSVGClassname, setCoreSVGClassname] = useState("");
     const currentHour = new Date().getHours();
-    const isNight = currentHour > 10;
+    const isNight = currentHour >= 19;
     const NO_OF_CLOUD_LANES = 3 // Math.round(Math.random() * (MAX_CLOUD - MIN_CLOUD) + MIN_CLOUD)
     useEffect(()=>{
         if(isExpanded){

@@ -5,6 +5,7 @@
         @apply rounded-full overflow-hidden flex flex-col justify-center items-center p-0;
         height: 60px;
     }
+    position: relative;
 }
 .rain{
     background: rgb(150,5,171);

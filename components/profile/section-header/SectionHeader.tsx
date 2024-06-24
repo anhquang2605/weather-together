@@ -4,11 +4,11 @@ import HeaderBar from './header-bar/HeaderBar';
 import HeaderTitlesGroup from './header-titles-group/HeaderTitlesGroup';
 
 interface SectionHeaderProps {
-    currentSectionIndex: number;
+    currentSectionIndex?: number;
     sections: string[];
 }
 
-const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex, sections}) => {
+const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections}) => {
     return (
         <div className={style['section-header']}>
             <HeaderBar currentIndex={currentSectionIndex} numberOfSections={sections.length}/>
