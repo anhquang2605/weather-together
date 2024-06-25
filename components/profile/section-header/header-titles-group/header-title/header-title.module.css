@@ -1,3 +1,7 @@
 .header-title{
+    @apply block w-max  text-slate-100;
     
 }
+.current-title{
+    @apply text-indigo-600 text-lg font-semibold;
+    }

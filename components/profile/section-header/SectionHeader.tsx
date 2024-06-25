@@ -11,8 +11,7 @@ interface SectionHeaderProps {
 const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections}) => {
     return (
         <div className={style['section-header']}>
-            <HeaderBar currentIndex={currentSectionIndex} numberOfSections={sections.length}/>
-            <HeaderTitlesGroup titles={sections}/>
+            <HeaderBar currentIndex={currentSectionIndex} titles={sections}/>
         </div>
     );
 };

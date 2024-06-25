@@ -5,14 +5,26 @@ interface HeaderTitlesGroupProps {
     titles: string[];
     currentIndex?: number;
 }
+interface HeaderTitleProps {
+    title: string;
+}
 //HELPERS
 const transformTitle = (title: string) => {
-    return title.charAt(0).toUpperCase() + title.slice(1);
+    return (title.charAt(0).toUpperCase() + title.slice(1)).replace('_', ' ');
+}
+const HeaderTitle: React.FC<HeaderTitleProps> = ({title}:HeaderTitleProps) => {
+    return (
+        <span className={style['header-title']}>
+            {transformTitle(title)}
+        </span>
+    )
 }
 const HeaderTitlesGroup: React.FC<HeaderTitlesGroupProps> = ({titles, currentIndex = 0}) => {
     return (
         <div className={style['header-titles-group']}>
-            {transformTitle(titles[currentIndex])}
+            {titles.map((title, index) => (
+                <HeaderTitle key={index} title={title} />
+            ))}
         </div>
     );
 };

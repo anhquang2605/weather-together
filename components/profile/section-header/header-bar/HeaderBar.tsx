@@ -1,9 +1,10 @@
 import React from 'react';
 import style from './header-bar.module.css';
+import HeaderTitle from '../header-titles-group/header-title/HeaderTitle';
 
 interface HeaderBarProps {
     currentIndex: number;
-    numberOfSections: number;
+    titles: string[];
 }
 const BarCicle = () => {
     return (
@@ -17,14 +18,19 @@ const CircleEdge = () => {
         </div>
     )
 }
-const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, numberOfSections}) => {
+const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles}) => {
         const generateBarBackbone = (numberOfSections: number) => {
             let barBackbone = [];
             for (let i = 0; i < numberOfSections; i++) {
                 barBackbone.push(
                     <>
+                    
+                    <div key={i} className={style['bar-circle-group']}>
+
                         <BarCicle />
-                        {i !== numberOfSections - 1 && <CircleEdge />}
+                        <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
+                    </div>
+                    {i !== numberOfSections - 1 && <CircleEdge />}
                     </>
                 );
             }
@@ -33,7 +39,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, numberOfSections}) =
     
     return (
         <div className={style['header-bar']}>
-            {generateBarBackbone(numberOfSections)}
+            {generateBarBackbone(titles.length)}
         </div>
     );
 };
