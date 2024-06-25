@@ -8,7 +8,6 @@ interface MiniSunProps {
 const MiniSun: React.FC<MiniSunProps> = ({}) => {
     return (
         <div className={style['mini-sun']}>
-            MiniSun
         </div>
     );
 };

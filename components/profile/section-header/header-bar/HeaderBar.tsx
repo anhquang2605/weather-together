@@ -1,14 +1,19 @@
 import React from 'react';
 import style from './header-bar.module.css';
 import HeaderTitle from '../header-titles-group/header-title/HeaderTitle';
+import MiniSun from './mini-sun/MiniSun';
 
 interface HeaderBarProps {
     currentIndex: number;
     titles: string[];
 }
-const BarCicle = () => {
+interface BarCicleProps {
+    children?: React.ReactNode
+}
+const BarCicle: React.FC<BarCicleProps> = ({children}: BarCicleProps) => {
     return (
         <div className={style['bar-circle']}>
+            {children}
         </div>
     )
 }
@@ -27,7 +32,9 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles}) => {
                     
                     <div key={i} className={style['bar-circle-group']}>
 
-                        <BarCicle />
+                        <BarCicle>
+                            <MiniSun/>
+                        </BarCicle>
                         <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
                     </div>
                     {i !== numberOfSections - 1 && <CircleEdge />}
