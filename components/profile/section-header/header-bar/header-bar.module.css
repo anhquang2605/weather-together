@@ -8,7 +8,7 @@
     @apply w-5 h-5 rounded-full ;
 }
 .circle-edge{
-    @apply w-32 h-1  ;
+    @apply w-24 h-1  ;
 }
 .bar-circle-group{
     position: relative;

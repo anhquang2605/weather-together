@@ -8,7 +8,7 @@ interface BarLiquidProps {
 const BarLiquid: React.FC<BarLiquidProps> = ({}) => {
     return (
         <div className={style['bar-liquid']}>
-            BarLiquid
+            
         </div>
     );
 };
