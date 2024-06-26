@@ -2,10 +2,10 @@
     @apply w-full flex justify-center items-center;
 }
 .bar-circle, .circle-edge{
-    @apply bg-slate-100/70 ;
+    @apply bg-slate-200/70 ;
 }
 .bar-circle{
-    @apply w-5 h-5 rounded-full ;
+    @apply w-8 h-8 rounded-full ;
 }
 .circle-edge{
     @apply w-24 h-1  ;
@@ -16,6 +16,6 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        @apply top-6
+        @apply top-8
     }
 }

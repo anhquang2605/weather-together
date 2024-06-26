@@ -2,6 +2,7 @@ import React from 'react';
 import style from './header-bar.module.css';
 import HeaderTitle from '../header-titles-group/header-title/HeaderTitle';
 import MiniSun from './mini-sun/MiniSun';
+import HeaderIcon from './header-icon/HeaderIcon';
 
 interface HeaderBarProps {
     currentIndex: number;
@@ -30,15 +31,16 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles}) => {
                 barBackbone.push(
                     <>
                     
-                    <div key={i} className={style['bar-circle-group']}>
+                    <div key={titles[i]} className={style['bar-circle-group']}>
 
                         <BarCicle>
+                            <HeaderIcon title={titles[i]} />
                             <MiniSun/>
                         </BarCicle>
                         <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
                     </div>
                     {i !== numberOfSections - 1 && <CircleEdge />}
-                    </>
+                </>
                 );
             }
             return barBackbone
