@@ -91,7 +91,7 @@ body {
 /* NAV ITEMS */
 .nav-bar{
   background-color: var(--nav-primmary-color);
-  z-index: 50;
+  z-index: 20;
   @apply transition-all shrink-0;
 
 }
@@ -99,14 +99,16 @@ body {
   box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
   width: 0;
   padding: 0;
+  height: 0;
   overflow: hidden;
   @screen lg{
     display: flex;
     flex-direction: column;
     padding: 2rem;
     width: auto;
+    overflow: visible;
+    height: auto;
   }
-  
 }
 .nav-bar.bottom-nav{
   display: flex;
@@ -172,9 +174,13 @@ body {
 }
 
 .nav-menu-nonactive{
-  @apply items-center px-2.5 !important;
   .non-active, span{
     display: none;
+  }
+  @screen lg{
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
   .nav-item{
     &:first-child{
@@ -187,7 +193,6 @@ body {
     }
 
     @screen md{
-
       &:hover{
         @apply bg-white text-indigo-800;
         .tooltip{

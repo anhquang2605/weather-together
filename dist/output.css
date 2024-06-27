@@ -1709,7 +1709,7 @@ video {
 
 .nav-bar{
   background-color: var(--nav-primmary-color);
-  z-index: 50;
+  z-index: 20;
   flex-shrink: 0;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1720,6 +1720,7 @@ video {
   box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.3);
   width: 0;
   padding: 0;
+  height: 0;
   overflow: hidden;
   @media (min-width: 1024px){
     display: flex;
@@ -1729,6 +1730,10 @@ video {
     padding: 2rem;
 
     width: auto;
+
+    overflow: visible;
+
+    height: auto;
   }
 }
 
@@ -1848,12 +1853,16 @@ video {
   border-radius: 0.25rem;
 }
 
-.nav-menu-nonactive {
-  align-items: center !important;
-  padding-left: 0.625rem !important;
-  padding-right: 0.625rem !important;
+.nav-menu-nonactive{
   .non-active, span{
     display: none;
+  }
+  @media (min-width: 1024px){
+    align-items: center;
+
+    padding-left: 0.5rem;
+
+    padding-right: 0.5rem;
   }
   .nav-item{
     &:first-child{
