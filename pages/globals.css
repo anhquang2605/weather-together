@@ -177,11 +177,7 @@ body {
   .non-active, span{
     display: none;
   }
-  @screen lg{
-    align-items: center;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
+  
   .nav-item{
     &:first-child{
       display: flex;
@@ -221,6 +217,11 @@ body {
   }
   svg{
     position: relative;
+  }
+  @screen lg{
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 

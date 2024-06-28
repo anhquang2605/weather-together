@@ -1857,13 +1857,6 @@ video {
   .non-active, span{
     display: none;
   }
-  @media (min-width: 1024px){
-    align-items: center;
-
-    padding-left: 0.5rem;
-
-    padding-right: 0.5rem;
-  }
   .nav-item{
     &:first-child{
       display: flex;
@@ -1925,6 +1918,13 @@ video {
   }
   svg{
     position: relative;
+  }
+  @media (min-width: 1024px){
+    align-items: center;
+
+    padding-left: 0.5rem;
+
+    padding-right: 0.5rem;
   }
 }
 
