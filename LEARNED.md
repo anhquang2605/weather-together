@@ -215,4 +215,4 @@ _Putting two state setter in same function scope will make the state update simu
     48. In intersection observer, removing the rootmargin and threshold if nothing is working
     49. Using clip-path mask svg, if there are two same svg, hiding the first svg with display none will cause the clip-path mask to disappear for both svg.
     ====> Work around: hide the element by setting width 0, padding 0, and overflow hidden.
-    
+    50. In react fragment also need key if there are multiple fragment. To add key to fragment, please use React.Fragment component not <></>

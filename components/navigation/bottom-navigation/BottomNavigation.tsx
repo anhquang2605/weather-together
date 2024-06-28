@@ -19,7 +19,7 @@ interface BottomNavigationProps {
     user: UserInSession | null | undefined;
 }
 interface LabelToIconMap {[label:string] : JSX.Element};
-const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className, navigationItems = []}) => {
+const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className = "", navigationItems = []}) => {
     const count = 70;
     const {asPath} = useRouter();
     const labelToIcon:LabelToIconMap = {
@@ -38,39 +38,38 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className, navi
     const navItems = (items: NavItem[]) => {
         return items.map(({label,linkhref, pageTitle},index) => {
             return (
-                <>
-                <Link key={label} href={"/" + linkhref} className={`${style.navItem} ${(asPath === ("/" + linkhref)) && style.active}`}>
-                    <div className={style.filler}>
-        
-                    </div>
-                    <div className={style.nice}>
+                <React.Fragment key={label} >
+                    <Link key={linkhref+"link"} href={"/" + linkhref} className={`${style.navItem} ${(asPath === ("/" + linkhref)) && style.active}`}>
+                        <div key={linkhref + "filler1"} className={style.filler}>
+            
+                        </div>
+                        <div key={linkhref + "item"} className={style.nice}>
+                            
+                            {JSX()}
+                            
+                            <div className={style.circle + " " + (label === "My Hub" && style.noCircle) }>{labelToIcon[label]}</div>
+                            <span className={style.navTitle}>
+                                <span className={style.navTitleText}>{label}</span>
+                            </span>
+                        </div>
+                        <div key={linkhref +'filler2'} className={style.filler}>
+            
+                        </div>
+                    </Link>
+                    {index == 1 &&
+                        <WeatherBarContextProvider>
+                            <WeatherBar key={label + "weather"} variation='compressed' isExpanded = {false} />
+                        </WeatherBarContextProvider>
                         
-                        {JSX()}
-                        
-                        <div className={style.circle + " " + (label === "My Hub" && style.noCircle) }>{labelToIcon[label]}</div>
-                        <span className={style.navTitle}>
-                            <span className={style.navTitleText}>{label}</span>
-                        </span>
-                    </div>
-                    <div className={style.filler}>
-        
-                    </div>
-                </Link>
-                {index == 1 &&
-                    <WeatherBarContextProvider>
-                        {/* Looking into here next time, the happy moon when shrunked revealed the entire background */}
-                        <WeatherBar variation='compressed' isExpanded = {false} />
-                    </WeatherBarContextProvider>
-                    
-                }
-                </>
+                    }
+            </React.Fragment>    
             )
         })
     }
 	return( 
-	<>
-		{navItems(navigationItems)}       
-	</>
+       <div key={'bottom-nav'} className={`${style.bottomNav} ${className}`}>
+           {navItems(navigationItems)}
+       </div> 
 	)
 };
 
