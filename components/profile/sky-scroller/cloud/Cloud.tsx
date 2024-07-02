@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import styles from './cloud.module.css'
 interface CloudProps {
     cloudClassName: string;
     variation: number; // 1, 2, 3, 4, 5
@@ -26,7 +26,7 @@ const Cloud: React.FC<CloudProps> = ({cloudClassName, variation, style,  boxSize
             alignItems: 'center',
             justifyContent: 'center',
         }}
-            className={cloudClassName}
+            className={cloudClassName + ' ' + styles.cloud}
         >
                 <SvgCloudComponent/>
         </div>

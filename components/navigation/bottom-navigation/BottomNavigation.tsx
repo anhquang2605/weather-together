@@ -67,9 +67,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({user,className = "",
         })
     }
 	return( 
-       <div key={'bottom-nav'} className={`${style.bottomNav} ${className}`}>
+       <React.Fragment key={'bottom-nav'}>
            {navItems(navigationItems)}
-       </div> 
+       </React.Fragment> 
 	)
 };
 

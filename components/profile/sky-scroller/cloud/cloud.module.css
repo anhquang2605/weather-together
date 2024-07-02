@@ -1,0 +1,6 @@
+.cloud{
+    transform: scale(0.5);
+    @screen md{
+        transform: scale(1);
+    }
+}

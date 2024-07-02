@@ -60,6 +60,14 @@ const startingOpacity = 0.3;
         }
     const generateLayers = (layersNumber: number) => {
         const layers:ReactNode[] = [];
+        const window = global.window;
+        let screensizeMultiplier = 1;
+        //if window width is less than window height
+        if(window){
+            if(window.innerWidth < 600){
+                screensizeMultiplier = 0.6;    
+            }
+        }
         for(let i = 0; i < layersNumber; i++){
             let layerStyle;
             if(i === layersNumber - 1){
@@ -76,7 +84,7 @@ const startingOpacity = 0.3;
                     styles={layerStyle}
                     boxSize={boxSize * (profileDimension.width) +  (i * 50)}
                     order={i}
-                    scale={(scaleMultiplier * i) +  1}
+                    scale={(scaleMultiplier * i) +  1 * screensizeMultiplier}
                     last={i === layersNumber - 1}
                 />
             )
