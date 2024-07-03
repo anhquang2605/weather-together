@@ -35,11 +35,10 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, c
         var dimHeight = (profileDimension.height* 1.2);
         var dimWidth = profileDimension.width;
         const clouds:React.ReactElement[] = [];
-        while(curHeight <= dimHeight && curWidth <= dimWidth){
+        while(curHeight <= dimHeight){
             const sizeOfBox = boxSize * ( (Math.random() * (sizeVariantionMultiplier))  + 0.5) ; // from 0.5 to max
            
-            curWidth += sizeOfBox;
-            curEleOnRow += 1;
+            
             if (curWidth > profileDimension.width){
                 curWidth = sizeOfBox;
 
@@ -48,11 +47,14 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, c
                 curMaxHeight = 0;
                 curEleOnRow = 1;
 
+            }else{
+                curWidth += sizeOfBox;
+                curEleOnRow += 1;
             }
             curMaxHeight = Math.max(curMaxHeight, sizeOfBox);
 /*             const left = (Math.random() * (sizeOfBox - width) )
             const top = (Math.random() * (sizeOfBox - height) ) */
-            const allowedWidth = sizeOfBox / 2 ;
+            const allowedWidth = sizeOfBox / 2;
             const allowedHeight = sizeOfBox / 2 ;
             const left = (Math.random() * allowedWidth) - (allowedWidth / 2) ;
             const top = (Math.random() * allowedHeight) - (allowedHeight / 2)  ;
