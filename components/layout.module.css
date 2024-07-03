@@ -4,7 +4,8 @@
     background-image: url('./../public/sebastien-gabriel--IMlv9Jlb24-unsplash.jpg');
     background-size: cover;
     
-    @screen lg{
+    @screen md{
         flex-direction: row;
+        padding-bottom: 0;
     }
 }
