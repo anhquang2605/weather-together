@@ -4,6 +4,7 @@ import { BsPerson, BsCardText } from "react-icons/bs";
 import { MdOutlineLocalActivity } from 'react-icons/md';
 interface HeaderIconProps {
     title: string;
+    isCurrent: boolean;
 }
 interface HeaderIconTitleMap {
     [key: string]: JSX.Element
@@ -13,9 +14,9 @@ const TITLE_MAP: HeaderIconTitleMap = {
     'bio': <BsCardText/>,
     'activity': <MdOutlineLocalActivity/>
 }
-const HeaderIcon: React.FC<HeaderIconProps> = ({title}) => {
+const HeaderIcon: React.FC<HeaderIconProps> = ({title, isCurrent}) => {
     return (
-        <div className={style['header-icon']}>
+        <div className={style['header-icon'] + (isCurrent ? ' ' + style['current'] : '')}>
             {TITLE_MAP[title]}
         </div>
     );

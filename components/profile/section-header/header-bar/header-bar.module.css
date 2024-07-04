@@ -3,6 +3,7 @@
 }
 .bar-circle, .circle-edge{
     @apply bg-slate-200/70 ;
+    background-blend-mode: multiply;
 }
 .bar-circle{
     @apply w-8 h-8 rounded-full ;

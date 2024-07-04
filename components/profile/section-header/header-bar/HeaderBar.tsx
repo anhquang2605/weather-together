@@ -34,8 +34,8 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles}) => {
                     <div key={titles[i]} className={style['bar-circle-group']}>
 
                         <BarCicle>
-                            <HeaderIcon title={titles[i]} />
-                            <MiniSun/>
+                            <HeaderIcon isCurrent={currentIndex === i} title={titles[i]} />
+                            <MiniSun isCurrent={currentIndex === i}/>
                         </BarCicle>
                         <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
                     </div>

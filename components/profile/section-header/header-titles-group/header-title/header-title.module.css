@@ -1,7 +1,8 @@
 .header-title{
-    @apply block w-max  text-slate-100;
+    @apply block w-max  text-slate-200;
     
 }
 .current-title{
-    @apply text-indigo-600 font-bold p-1 bg-slate-100/50 z-10 rounded-lg;
+    @apply text-indigo-600 font-bold px-2 py-1 bg-slate-200/70 z-10 rounded-lg;
+    background-blend-mode: multiply;
     }
