@@ -65,7 +65,7 @@ const startingOpacity = 0.3;
         //if window width is less than window height
         if(window){
             if(window.innerWidth < 600){
-                screensizeMultiplier = 0.5;    
+                screensizeMultiplier = 0.4;    
             }
         }
         for(let i = 0; i < layersNumber; i++){

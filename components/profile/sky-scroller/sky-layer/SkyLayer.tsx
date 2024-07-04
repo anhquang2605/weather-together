@@ -54,9 +54,9 @@ const SkyLayer: React.FC<SkyLayerProps> = ({styles, boxSize, profileDimension, c
             curMaxHeight = Math.max(curMaxHeight, sizeOfBox);
 /*             const left = (Math.random() * (sizeOfBox - width) )
             const top = (Math.random() * (sizeOfBox - height) ) */
-            const allowedWidth = sizeOfBox / 2;
+            const allowedWidth = sizeOfBox;
             const allowedHeight = sizeOfBox / 2 ;
-            const left = (Math.random() * allowedWidth) - (allowedWidth / 2) ;
+            const left = (Math.random() * allowedWidth)
             const top = (Math.random() * allowedHeight) - (allowedHeight / 2)  ;
             const variation = Math.floor((Math.random() * noOfVariations + 1));
 
