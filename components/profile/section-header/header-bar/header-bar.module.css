@@ -16,6 +16,6 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        @apply top-8
+        @apply top-7
     }
 }

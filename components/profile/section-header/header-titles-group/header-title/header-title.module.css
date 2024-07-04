@@ -3,5 +3,5 @@
     
 }
 .current-title{
-    @apply text-indigo-600 text-lg font-semibold;
+    @apply text-indigo-600 font-bold p-1 bg-slate-100/50 z-10 rounded-lg;
     }
