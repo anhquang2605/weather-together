@@ -7,18 +7,30 @@ interface SectionHeaderProps {
     currentSectionIndex?: number;
     sections: string[];
     isSticky?: boolean;//stick when scrolled out of view
+    parentClassName?: string;
 }
-const observerHandler = (entries: IntersectionObserverEntry[]) => {
-    
+//temporary solution
+//Remove the target then add it to the remaining estate element, then add the sticky class so that it would become abosolutely positioned this way the section header would be sticky but relative to the remmaing estate element not to the window (because of the fixed position)
+//Issues: 1.Cannot add class to the target during the observer handler because the target will change which trigger re-rendering which will cause the useEffect to run again resulting in looping 
+const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, parentClassName=''}) => {
+    const observerHandler = (entries: IntersectionObserverEntry[]) => {
+        const target = entries[0].target;
+        const parent = document.querySelector(parentClassName)
+        const remainingEstate = document.querySelector(`.remaing-estate`);
         if(entries[0].isIntersecting){
-            entries[0].target.classList.add(style['sticky']);
+            
+            //remove the target from the parent element
+            target.classList.remove(style['sticky']);
+            remainingEstate?.removeChild(target);    
+            parent?.appendChild(target);
         }else{
+            target.classList.add(style['sticky']);
+            parent?.removeChild(target);
+            remainingEstate?.appendChild(target);
             entries[0].target.classList.remove(style['sticky']);
         }
         
 }
-
-const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky}) => {
     useEffect(()=>{
         const observerConfig = {
             root: null,

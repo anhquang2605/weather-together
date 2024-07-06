@@ -30,7 +30,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     //EFFECTS
     return (
         <div className={style['profile-content']}>
-            <SectionHeader sections={sections} currentSectionIndex={currentSection} />
+            <SectionHeader sections={sections} currentSectionIndex={currentSection} parentClassName={style['profile-content']} />
             <ParalaxScroller
                   intersectionHandler={handleInterSection}
                   secctionIds={sections}

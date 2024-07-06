@@ -3,5 +3,5 @@
 
 }
 .sticky{
-    @apply fixed top-0 mt-8 left-1/2 -translate-x-1/2;
+    @apply absolute top-0 mt-8 left-1/2 -translate-x-1/2;
 }
