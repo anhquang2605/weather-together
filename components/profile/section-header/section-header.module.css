@@ -1,5 +1,8 @@
 .section-header{
     @apply flex flex-col justify-center items-center mb-16 mt-8;
+    & *{
+        transition: var(--short-transition);
+    }
 
 }
 .sticky{

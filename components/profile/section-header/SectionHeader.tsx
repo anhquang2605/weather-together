@@ -47,7 +47,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
     return (
         <>
             {isSticky && <span className={style['sticky-filler']}></span>}
-            <div className={style['section-header'] }>
+            <div key={style['section-header']} className={style['section-header'] }>
                 <HeaderBar currentIndex={currentSectionIndex} titles={sections}/>
             </div>
         </>
