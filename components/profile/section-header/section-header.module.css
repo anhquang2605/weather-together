@@ -1,7 +1,10 @@
 .section-header{
-    @apply flex flex-col justify-center items-center mb-16;
+    @apply flex flex-col justify-center items-center mb-16 mt-8;
 
 }
 .sticky{
-    @apply absolute top-0 mt-8 left-1/2 -translate-x-1/2;
+    @apply fixed top-0 mt-8 left-1/2 -translate-x-1/2;
+}
+.sticky-filler{
+    @apply h-0 w-0 p-0 m-0;
 }
