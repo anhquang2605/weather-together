@@ -15,11 +15,14 @@ interface SectionHeaderProps {
 const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky}) => {
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
         const sectionHeader = document.querySelector(`.${style['section-header']}`);
+        const window = global.window;
+        if (!window) return;
         if (!sectionHeader) return;
+        const windowWidth = window.innerWidth;
         if(entries[0].isIntersecting){
             //remove the target from the parent element
            sectionHeader.classList.remove(style['sticky']);
-            
+           
         }else{
             sectionHeader.classList.add(style['sticky']);
             
