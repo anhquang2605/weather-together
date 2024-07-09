@@ -29,7 +29,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles}) => {
             let barBackbone = [];
             for (let i = 0; i < numberOfSections; i++) {
                 barBackbone.push(
-                    <>
+                    <React.Fragment key={i}>
                     
                     <div key={titles[i]} className={style['bar-circle-group']}>
 
@@ -40,7 +40,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles}) => {
                         <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
                     </div>
                     {i !== numberOfSections - 1 && <CircleEdge />}
-                </>
+                    </React.Fragment>
                 );
             }
             return barBackbone

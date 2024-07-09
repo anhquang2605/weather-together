@@ -1,5 +1,5 @@
 .header-bar{
-    @apply w-full flex justify-center items-center;
+    @apply w-full flex justify-center items-center cursor-pointer;
 }
 .bar-circle, .circle-edge{
     @apply bg-slate-200/70 ;
@@ -17,6 +17,6 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        @apply top-7
+        @apply top-7;
     }
 }
