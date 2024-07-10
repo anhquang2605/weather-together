@@ -48,6 +48,12 @@ const leftPositionCalculator = (sectionHeader: HTMLElement): number | undefined 
     // Calculate the left position of the first child element
     return headOfTheGang.getBoundingClientRect().left;
 }
+const getLeftUsingWidth = (sectionHeader: HTMLElement): number | undefined => {
+    
+}
+const resizeLeftPositionCalculator = (sectionHeader: HTMLElement): number | undefined => {
+    
+}
 const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
     for(const entry of entries){
         const clientRectWidth = entry.contentRect.width;
