@@ -1,5 +1,5 @@
 .header-bar{
-    @apply w-full flex justify-center items-center cursor-pointer;
+    @apply w-full flex justify-center items-center;
 }
 .bar-circle, .circle-edge{
     @apply bg-slate-200/70 ;
@@ -13,6 +13,7 @@
 }
 .bar-circle-group{
     position: relative;
+    cursor: pointer;
     & span{
         position: absolute;
         left: 50%;

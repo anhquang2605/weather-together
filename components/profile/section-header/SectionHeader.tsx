@@ -16,10 +16,17 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
         const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
         const window = global.window;
-        if (!window) return;
+
+        //if (!window) return;
+
         if (!sectionHeader) return;
+        const headerBar = sectionHeader.childNodes[0] as HTMLElement;
+   
+        if (!headerBar) return;
+        const currentLeft = headerBar.getBoundingClientRect().left;
+        console.log(headerBar, currentLeft);
         //getting the inteded accestor for the target
-        let parentNo = level;
+        /* let parentNo = level;
         //parent of the target
         let parent = sectionHeader.parentElement;
         while (parentNo > 1 && parent) {
@@ -29,15 +36,14 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
         if (!parent) return;
         const parentWidth = parent.getBoundingClientRect().width;
         const windowWidth = window.innerWidth;
-        console.log(parentWidth, windowWidth);
-        const widthDifference = (windowWidth - parentWidth) / 2;
+        const widthDifference = (windowWidth - parentWidth) / 2; */
         if(entries[0].isIntersecting){
             //remove the target from the parent element
            sectionHeader.classList.remove(style['sticky']);
-           sectionHeader.style.marginLeft = 0 + 'px';
+           sectionHeader.style.left = 0 + 'px';
         }else{
             sectionHeader.classList.add(style['sticky']);
-            sectionHeader.style.marginLeft = widthDifference + 'px';
+            sectionHeader.style.left = currentLeft + 'px';
         }
         
         
