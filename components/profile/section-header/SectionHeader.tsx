@@ -15,29 +15,8 @@ interface SectionHeaderProps {
 const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, level = 1}) => {
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
         const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
-        const window = global.window;
-
-        //if (!window) return;
-
         if (!sectionHeader) return;
-        const headerBar = sectionHeader.childNodes[0] as HTMLElement;
-   
-        if (!headerBar) return;
-        //getting the inteded accestor for the target
-         //let parentNo = level;
-        //parent of the target
-       /*  let parent = sectionHeader.parentElement;
-        while (parentNo > 1 && parent) {
-            parent = parent.parentElement;
-            parentNo--;
-        } 
-        if (!parent) return;
-        const parentWidth = parent.getBoundingClientRect().width;
-        const childrenWidth =sectionHeader.getBoundingClientRect().width;
-        console.log(parentWidth, childrenWidth);
-        const widthDifference = (parentWidth - childrenWidth) / 2;  */
-        const headOfTheGang = headerBar.childNodes[0] as HTMLElement;
-        const currentLeft = headOfTheGang.getBoundingClientRect().left;
+        const currentLeft = leftPositionCalculator(sectionHeader);
         if(entries[0].isIntersecting){
             //remove the target from the parent element
            sectionHeader.classList.remove(style['sticky']);
@@ -47,10 +26,38 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
             sectionHeader.classList.add(style['sticky']);
             sectionHeader.style.transform = 'translateX(0px)';
             sectionHeader.style.left = (currentLeft) + 'px';
-            
         }
-        
-        
+}
+/**
+ * Calculates the left position of the target element relative to its parent element.
+ * This function is used to determine the correct position of the sticky section header.
+ * 
+ * @param {HTMLElement} sectionHeader - The target element.
+ * @returns {number} The left position of the target element.
+ */
+const leftPositionCalculator = (sectionHeader: HTMLElement): number | undefined => {
+    // Get the first child element of the section header
+    const headerBar = sectionHeader.childNodes[0] as HTMLElement;
+
+    // If the header bar element is not found, return undefined
+    if (!headerBar) return;
+
+    // Get the first child element of the header bar
+    const headOfTheGang = headerBar.childNodes[0] as HTMLElement;
+
+    // Calculate the left position of the first child element
+    return headOfTheGang.getBoundingClientRect().left;
+}
+const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
+    for(const entry of entries){
+        const clientRectWidth = entry.contentRect.width;
+        if(clientRectWidth > 0){
+            const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
+            if (!sectionHeader) return;
+            const currentLeft = leftPositionCalculator(sectionHeader);
+            sectionHeader.style.left = (currentLeft) + 'px';
+        }
+    }
 }
     useEffect(()=>{
         if(isSticky){
@@ -60,15 +67,20 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
                 threshold: 0.5,
             };
             const target = document.querySelector(`.${style['sticky-filler']}`);
+
             if(target){
-                const observer = new IntersectionObserver(observerHandler,observerConfig);
-                observer.observe(target);
+                const intersectObserver = new IntersectionObserver(observerHandler,observerConfig);
+                const resizeObserver =  new ResizeObserver(resizeOberserverHandler);
+                intersectObserver.observe(target);
+                resizeObserver.observe(target);
                 return () => {
-                    observer.unobserve(target);
+                    resizeObserver.unobserve(target);
+                    intersectObserver.unobserve(target);
                 }
             }
-    
+            
         }
+
     },[])
     return (
         <>

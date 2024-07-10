@@ -9,5 +9,5 @@
     @apply fixed top-0 mt-8 left-1/2 -translate-x-1/2 z-50;
 }
 .sticky-filler{
-    @apply h-0 w-0 p-0 m-0;
+    @apply h-0 w-full p-0 m-0;
 }
