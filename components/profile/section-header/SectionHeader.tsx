@@ -23,27 +23,31 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
         const headerBar = sectionHeader.childNodes[0] as HTMLElement;
    
         if (!headerBar) return;
-        const currentLeft = headerBar.getBoundingClientRect().left;
-        console.log(headerBar, currentLeft);
         //getting the inteded accestor for the target
-        /* let parentNo = level;
+         //let parentNo = level;
         //parent of the target
-        let parent = sectionHeader.parentElement;
+       /*  let parent = sectionHeader.parentElement;
         while (parentNo > 1 && parent) {
             parent = parent.parentElement;
             parentNo--;
-        }
+        } 
         if (!parent) return;
         const parentWidth = parent.getBoundingClientRect().width;
-        const windowWidth = window.innerWidth;
-        const widthDifference = (windowWidth - parentWidth) / 2; */
+        const childrenWidth =sectionHeader.getBoundingClientRect().width;
+        console.log(parentWidth, childrenWidth);
+        const widthDifference = (parentWidth - childrenWidth) / 2;  */
+        const headOfTheGang = headerBar.childNodes[0] as HTMLElement;
+        const currentLeft = headOfTheGang.getBoundingClientRect().left;
         if(entries[0].isIntersecting){
             //remove the target from the parent element
            sectionHeader.classList.remove(style['sticky']);
            sectionHeader.style.left = 0 + 'px';
+           sectionHeader.style.transform = '-translateX(50%)';
         }else{
             sectionHeader.classList.add(style['sticky']);
-            sectionHeader.style.left = currentLeft + 'px';
+            sectionHeader.style.transform = 'translateX(0px)';
+            sectionHeader.style.left = (currentLeft) + 'px';
+            
         }
         
         
