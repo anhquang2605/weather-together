@@ -16,14 +16,18 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
         const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
         if (!sectionHeader) return;
-        const currentLeft = getLeftUsingParent(sectionHeader, level);
+        const result = getLeftUsingParent(sectionHeader, level);
+        const currentLeft = result ? result[0] : 0;
+        const parentWidth = result ? result[1] : 0;
         if(entries[0].isIntersecting){
             //remove the target from the parent element
            sectionHeader.classList.remove(style['sticky']);
            sectionHeader.style.left = 0 + 'px';
+           sectionHeader.style.width = 'auto';
         }else{
             sectionHeader.classList.add(style['sticky']);
             sectionHeader.style.left = (currentLeft) + 'px';
+            sectionHeader.style.width = parentWidth + 'px';
         }
 }
 /**
@@ -46,19 +50,37 @@ const leftPositionCalculator = (sectionHeader: HTMLElement): number | undefined 
     // Calculate the left position of the first child element
     return headOfTheGang.getBoundingClientRect().left;
 }
-const getLeftUsingParent = (sectionHeader: HTMLElement, level: number): number | undefined => {
+/**
+ * Calculates the left position of the target element relative to its parent element.
+ * The function returns an array with two elements:
+ * - The first element is the difference in width between the window and the parent element.
+ * - The second element is the width of the parent element.
+ *
+ * @param {HTMLElement} sectionHeader - The target element.
+ * @param {number} level - The level of the parent element to calculate the left position for.
+ * @returns {number[] | undefined} An array with two elements representing the left position and width of the parent element.
+ */
+const getLeftUsingParent = (sectionHeader: HTMLElement, level: number): number[] | undefined => {
+    // Start with the parent element of the section header
     let parent = sectionHeader.parentElement;
+
+    // Traverse up the DOM tree until the desired level is reached or no parent element is found
     while(level > 1 && parent){
         parent = parent?.parentElement;
         level--; 
     }
-    let widthDiff = 0;
-    if(parent) widthDiff = window.innerWidth - parent.getBoundingClientRect().width;
-    return widthDiff;
+
+    // If no parent element is found, return undefined
+    if(!parent) return;
+
+    // Calculate the difference in width between the window and the parent element
+    let parentWidth = parent.getBoundingClientRect().width;
+    let widthDiff = window.innerWidth - parentWidth;
+
+    // Return an array with the difference in width and the width of the parent element
+    return [widthDiff,parentWidth];
 }
-/* const resizeLeftPositionCalculator = (sectionHeader: HTMLElement): number | undefined => {
-    
-} */
+
 const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
     for(const entry of entries){
         const clientRectWidth = entry.contentRect.width;

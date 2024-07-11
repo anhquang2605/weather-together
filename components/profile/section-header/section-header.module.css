@@ -6,7 +6,7 @@
 
 }
 .sticky{
-    @apply fixed top-0 mt-8 z-50;
+    @apply fixed top-0 mt-8 z-50 flex-1;
 }
 .sticky-filler{
     @apply h-0 w-full p-0 m-0;
