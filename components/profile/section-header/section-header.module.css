@@ -1,12 +1,12 @@
 .section-header{
-    @apply flex flex-col justify-center items-center mb-16 mt-8;
+    @apply w-full flex flex-col justify-center items-center mb-16 mt-8;
     & *{
         transition: var(--short-transition);
     }
 
 }
 .sticky{
-    @apply fixed top-0 mt-8 left-1/2 -translate-x-1/2 z-50;
+    @apply fixed top-0 mt-8 z-50;
 }
 .sticky-filler{
     @apply h-0 w-full p-0 m-0;

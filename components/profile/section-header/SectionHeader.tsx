@@ -16,15 +16,13 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
         const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
         if (!sectionHeader) return;
-        const currentLeft = leftPositionCalculator(sectionHeader);
+        const currentLeft = getLeftUsingParent(sectionHeader, level);
         if(entries[0].isIntersecting){
             //remove the target from the parent element
            sectionHeader.classList.remove(style['sticky']);
            sectionHeader.style.left = 0 + 'px';
-           sectionHeader.style.transform = '-translateX(50%)';
         }else{
             sectionHeader.classList.add(style['sticky']);
-            sectionHeader.style.transform = 'translateX(0px)';
             sectionHeader.style.left = (currentLeft) + 'px';
         }
 }
@@ -48,19 +46,26 @@ const leftPositionCalculator = (sectionHeader: HTMLElement): number | undefined 
     // Calculate the left position of the first child element
     return headOfTheGang.getBoundingClientRect().left;
 }
-const getLeftUsingWidth = (sectionHeader: HTMLElement): number | undefined => {
-    
+const getLeftUsingParent = (sectionHeader: HTMLElement, level: number): number | undefined => {
+    let parent = sectionHeader.parentElement;
+    while(level > 1 && parent){
+        parent = parent?.parentElement;
+        level--; 
+    }
+    let widthDiff = 0;
+    if(parent) widthDiff = window.innerWidth - parent.getBoundingClientRect().width;
+    return widthDiff;
 }
-const resizeLeftPositionCalculator = (sectionHeader: HTMLElement): number | undefined => {
+/* const resizeLeftPositionCalculator = (sectionHeader: HTMLElement): number | undefined => {
     
-}
+} */
 const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
     for(const entry of entries){
         const clientRectWidth = entry.contentRect.width;
         if(clientRectWidth > 0){
             const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
             if (!sectionHeader) return;
-            const currentLeft = leftPositionCalculator(sectionHeader);
+            const currentLeft = getLeftUsingParent(sectionHeader, level);//level comes from props
             sectionHeader.style.left = (currentLeft) + 'px';
         }
     }
