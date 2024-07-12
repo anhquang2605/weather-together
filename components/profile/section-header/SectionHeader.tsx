@@ -33,6 +33,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
             //replacement created to prevent disallocation of the seciont header that cause resize observer to run again
             const replacement = sectionHeader.cloneNode(true) as HTMLElement;
             replacement.classList.add('replacement');
+            replacement.style.opacity = '0';
             //const sectionClientRect = sectionHeader.getBoundingClientRect();
             /* const sectionWidth = sectionClientRect.width;
             const sectionHeight = sectionClientRect.height;
@@ -116,7 +117,7 @@ const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
         if(isSticky){
             const observerConfig = {
                 root: null,
-                rootMargin: '50px',
+                rootMargin: '0px',
                 threshold: 0.5,
             };
             const target = document.querySelector(`.${style['sticky-filler']}`);
