@@ -31,6 +31,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     useEffect(()=> {
         const observer = new IntersectionObserver(handleInterSection, {
             root: document.querySelector(`.${scrollClassName}`) ,
+            threshold: 0.5,
 
         });
         secctionIds.forEach((id) => {

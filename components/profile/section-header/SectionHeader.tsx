@@ -17,7 +17,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
         const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
         if (!sectionHeader) return;
         const result = getLeftUsingParent(sectionHeader, level);
-        const currentLeft = result ? result[0] : 0;
+        const currentLeft = result ? result[0] - 5.5 : 0; //off by 6px for some reason, need further investigation
         const parentWidth = result ? result[1] : 0;
        
         if(entries[0].isIntersecting){
@@ -95,8 +95,8 @@ const getLeftUsingParent = (sectionHeader: HTMLElement, level: number): number[]
     if(!parent) return;
 
     // Calculate the difference in width between the window and the parent element
-    let parentWidth = parent.getBoundingClientRect().width;
-    let widthDiff = window.innerWidth - parentWidth;
+    let parentWidth =   parent.offsetWidth;
+    let widthDiff = document.body.getBoundingClientRect().width - parentWidth;
 
     // Return an array with the difference in width and the width of the parent element
     return [widthDiff,parentWidth];
@@ -118,7 +118,7 @@ const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
             const observerConfig = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.5,
+                threshold: 0,
             };
             const target = document.querySelector(`.${style['sticky-filler']}`);
 
