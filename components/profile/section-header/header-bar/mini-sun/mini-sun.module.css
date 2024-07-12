@@ -6,8 +6,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform-origin: center center;
-    transform: translate(-50%, -50%) scale(0);
+    transform-origin: 25% 25%;
+    transform: scale(0) translate(-50%, -50%);
     &.current{
         transform: scale(1) translate(-50%, -50%);
     }
