@@ -19,16 +19,36 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, s
         const result = getLeftUsingParent(sectionHeader, level);
         const currentLeft = result ? result[0] : 0;
         const parentWidth = result ? result[1] : 0;
+       
         if(entries[0].isIntersecting){
+            //remove the replacement
+            const replacement = document.querySelector('.replacement');
+            if(replacement) replacement.remove();
             //remove the target from the parent element
            sectionHeader.classList.remove(style['sticky']);
+
            sectionHeader.style.left = 0 + 'px';
            sectionHeader.style.width = 'auto';
         }else{
-            sectionHeader.classList.add(style['sticky']);
+            //replacement created to prevent disallocation of the seciont header that cause resize observer to run again
+            const replacement = sectionHeader.cloneNode(true) as HTMLElement;
+            replacement.classList.add('replacement');
+            //const sectionClientRect = sectionHeader.getBoundingClientRect();
+            /* const sectionWidth = sectionClientRect.width;
+            const sectionHeight = sectionClientRect.height;
+            
+            replacement.style.width = sectionWidth + 'px';
+            replacement.style.height = sectionHeight + 'px';
+ */            sectionHeader.classList.add(style['sticky']);
+            sectionHeader.after(replacement);
             sectionHeader.style.left = (currentLeft) + 'px';
             sectionHeader.style.width = parentWidth + 'px';
         }
+}
+const replacementDivGenerator = () => {
+    const replacement = document.createElement('div');
+    replacement.classList.add('replacement');
+    return replacement
 }
 /**
  * Calculates the left position of the target element relative to its parent element.
