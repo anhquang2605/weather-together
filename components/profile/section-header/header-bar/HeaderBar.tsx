@@ -3,12 +3,16 @@ import style from './header-bar.module.css';
 import HeaderTitle from '../header-titles-group/header-title/HeaderTitle';
 import MiniSun from './mini-sun/MiniSun';
 import HeaderIcon from './header-icon/HeaderIcon';
+import BarLiquid from './bar-liquid/BarLiquid';
 
 interface HeaderBarProps {
     currentIndex: number;
     titles: string[];
 }
 interface BarCicleProps {
+    children?: React.ReactNode
+}
+interface CircleEdgeProps {
     children?: React.ReactNode
 }
 const BarCicle: React.FC<BarCicleProps> = ({children}: BarCicleProps) => {
@@ -18,9 +22,10 @@ const BarCicle: React.FC<BarCicleProps> = ({children}: BarCicleProps) => {
         </div>
     )
 }
-const CircleEdge = () => {
+const CircleEdge: React.FC<BarCicleProps> = ({children}: BarCicleProps) => {
     return (
         <div className={style['circle-edge']}>
+            {children}
         </div>
     )
 }
@@ -39,7 +44,13 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles}) => {
                         </BarCicle>
                         <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
                     </div>
-                    {i !== numberOfSections - 1 && <CircleEdge />}
+                    {i !== numberOfSections - 1 && 
+                        <CircleEdge>
+                            <BarLiquid/>
+                        </CircleEdge> 
+                        
+                        
+                    }
                     </React.Fragment>
                 );
             }

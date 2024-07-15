@@ -1,3 +1,11 @@
 .bar-liquid{
-    
+    background: var(--btn-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 2px;
+    width: 108%;
+    z-index: 120;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
 }
