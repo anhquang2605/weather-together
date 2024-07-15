@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './profile-content.module.css';
 import ParalaxSection from '../../plugins/paralax-scroller/paralax-section/ParalaxSection';
 import ParalaxScroller from '../../plugins/paralax-scroller/ParalaxScroller';
@@ -18,9 +18,13 @@ const sections = [
 const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname = ""}) => {
     //STATES
     const [currentSection, setCurrentSection] = useState(0);
+    const [scrollDistance, setScrollDistance] = useState(0);
     //HELPERS
     const getSectionIndex = (section: string) => {
         return sections.indexOf(section);
+    }
+    const getScrollContainerScrollTop = () => {
+        return document.querySelector(`.${scrollContainerClassname}`)?.scrollTop || 0
     }
     //LOGIC
     const handleInterSection = (id: string) => {
@@ -28,6 +32,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         setCurrentSection(sectionIndex);
     }
     //EFFECTS
+    useEffect(() => {
+        setScrollDistance(getScrollContainerScrollTop())
+    },[currentSection])
+    useEffect(() => {
+      console.log(scrollDistance);
+    },[scrollDistance])
     return (
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection}  level={4} />
@@ -58,3 +68,4 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
 };
 
 export default ProfileContent;
+
