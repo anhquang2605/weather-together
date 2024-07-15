@@ -3,14 +3,7 @@
     position: absolute;
     top: 50%;
     height: 3px;
-    width: 108%;
     z-index: 120;
     transform: translateY(-50%);
     border-radius: 5px;
-}
-.left{
-    left: -4px;
-}
-.right{
-    right: -4px;
 }

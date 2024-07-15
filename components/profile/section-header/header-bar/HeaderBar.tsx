@@ -8,6 +8,7 @@ import BarLiquid from './bar-liquid/BarLiquid';
 interface HeaderBarProps {
     currentIndex: number;
     titles: string[];
+    scrollProgress?: number
 }
 interface BarCicleProps {
     children?: React.ReactNode
