@@ -9,6 +9,7 @@ import { debounce } from 'lodash';
 interface ProfileContentProps {
     scrollContainerClassname?: string;
     user: User;
+
 }
 const sections = [
     'about_me',
@@ -33,9 +34,14 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
     }
-    const onScrollHandler = (event: React.UIEvent) => {
-      const scrolledDistance = event.currentTarget.scrollTop;
-      setScrolledDistance(scrolledDistance);
+    const onScrollHandler = (event: Event
+    ) => {
+      if(!event || !event.target) return;
+      const target = event.target as HTMLElement;
+      const currentScrollTop = target.scrollTop;
+      setScrolledDistance(currentScrollTop);
+/*       const scrolledDistance = event.target.;
+      setScrolledDistance(scrolledDistance); */
     }
     const resizeObservedHandler = (entries: ResizeObserverEntry[]) => {
       const positions = getScrollPositions(sections);
@@ -55,17 +61,22 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     useEffect(()=>{
       //set up resize observer for the profile content
       const target = document.querySelector(`.${style['profile-content']}`);
-      if(target){
+      const scrollContainer = document.querySelector(`.${scrollContainerClassname}`);
+      if(target && scrollContainer){
         const resizeObserver = new ResizeObserver(debounce( resizeObservedHandler,DEBOUNCE_TIME));
         resizeObserver.observe(target);
+        scrollContainer.addEventListener('scroll', onScrollHandler);
         return () => {
           resizeObserver.unobserve(target);
+          scrollContainer.removeEventListener('scroll', onScrollHandler);
         }
       }
+     
     },[])
+
     return (
         <div className={style['profile-content']}>
-            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection}  level={4} />
+            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} progress={scrolledDistance/scrollPositions[currentSection]}  level={4} />
             <ParalaxScroller
                   intersectionHandler={handleInterSection}
                   secctionIds={sections}

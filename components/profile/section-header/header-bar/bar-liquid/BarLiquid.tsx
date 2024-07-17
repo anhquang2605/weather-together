@@ -17,8 +17,10 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', conta
         return container.getBoundingClientRect().width;
     }
     const updateBarLiquid = () => {
-        const width = (containerWidth + OFFSET_TO_SIDE * 2) * progress;
-        setProgressWidth(width);
+        const width = (containerWidth + OFFSET_TO_SIDE * 2) * progress ;
+        const barLiquid: HTMLElement | null = document.querySelector('.' + style['bar-liquid']);
+        if (!barLiquid) return;
+        barLiquid.style.width = width + 'px';
     }
     const styleObject = {
         [side] : OFFSET_TO_SIDE
