@@ -23,7 +23,7 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', conta
         barLiquid.style.width = width + 'px';
     }
     const styleObject = {
-        [side] : OFFSET_TO_SIDE
+        [side] : - OFFSET_TO_SIDE + 'px'
     }
     useEffect(()=>{
         setContainerWidth(getContainerWidth())
