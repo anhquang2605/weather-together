@@ -28,10 +28,9 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', conta
     }
     useEffect(()=>{
         setContainerWidth(getContainerWidth())
+        
     },[])
-    useEffect(() => {
-        updateBarLiquid();
-    },[progress])
+
     return (
         <div style={styleObject} className={style['bar-liquid'] + ' ' + style[side] + (isCurrent ? ' ' + style['current'] : '')}>
             

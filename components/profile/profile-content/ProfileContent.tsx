@@ -39,8 +39,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const handleInterSection = (id: string) => {
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
-        setScrolledFromCurrentSection(0);
-        setDestinationScrollPosition(scrollPositions[sectionIndex] - scrollDistanceRef.current);
 
     }
     const onScrollHandler = (event: Event
@@ -92,6 +90,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
 
       setScrolledFromCurrentSection(scrolledDistance - currentIndexPosition);
     },[scrolledDistance])
+    useEffect(()=>{
+      setDestinationScrollPosition(scrollPositions[currentSection] - scrolledDistance);
+      setScrolledFromCurrentSection(0);
+    },[currentSection])
     return (
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} />

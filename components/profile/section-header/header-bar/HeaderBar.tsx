@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './header-bar.module.css';
 import HeaderTitle from '../header-titles-group/header-title/HeaderTitle';
 import MiniSun from './mini-sun/MiniSun';
@@ -58,7 +58,9 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgre
             }
             return barBackbone
         }
-    
+    useEffect(()=>{
+        console.log(nextIndex);
+    },[nextIndex])
     return (
         <div className={style['header-bar']}>
             {generateBarBackbone(titles.length)}
