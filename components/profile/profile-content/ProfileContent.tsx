@@ -26,6 +26,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [scrolledFromCurrentSection, setScrolledFromCurrentSection] = useState(0);
     const [destinationScrollPosition, setDestinationScrollPosition] = useState(0);
     const [currentIndexPosition, setCurrentIndexPositioning] = useState(0);
+    const [nextSectionIndex, setNextSectionIndex] = useState(1);
     //REFS
     const scrollDistanceRef = useRef(0);
     //HELPERS
@@ -87,13 +88,23 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(scrollDistanceRef.current !== scrolledDistance){
         scrollDistanceRef.current = scrolledDistance;
       }
-
       setScrolledFromCurrentSection(scrolledDistance - currentIndexPosition);
     },[scrolledDistance])
     useEffect(()=>{
-      setDestinationScrollPosition(scrollPositions[currentSection] - scrolledDistance);
+      setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrolledDistance);
       setScrolledFromCurrentSection(0);
+      setCurrentIndexPositioning(scrollPositions[currentSection]);
     },[currentSection])
+    useEffect(()=>{
+      if(scrolledFromCurrentSection === 0){
+        if(isScrollingUp){
+          setNextSectionIndex(currentSection - 1);
+        } else {
+          setNextSectionIndex(currentSection + 1);
+        }
+      }
+      console.log(scrolledFromCurrentSection);
+    },[scrolledFromCurrentSection])
     return (
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} />
