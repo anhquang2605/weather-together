@@ -23,6 +23,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [scrolledDistance, setScrolledDistance] = useState(0);
     const [scrollPositions, setScrollPositions] = useState<number[]>([]);
     const [isScrollingUp, setIsScrollingUp] = useState(false);
+    const [scrolledFromCurrentSection, setScrolledFromCurrentSection] = useState(0);
+    const [destinationScrollPosition, setDestinationScrollPosition] = useState(0);
+    const [currentIndexPosition, setCurrentIndexPositioning] = useState(0);
     //REFS
     const scrollDistanceRef = useRef(0);
     //HELPERS
@@ -36,7 +39,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const handleInterSection = (id: string) => {
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
-        setScrolledDistance(0);
+        setScrolledFromCurrentSection(0);
+        setDestinationScrollPosition(scrollPositions[sectionIndex] - scrollDistanceRef.current);
+
     }
     const onScrollHandler = (event: Event
     ) => {
@@ -52,6 +57,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const resizeObservedHandler = (entries: ResizeObserverEntry[]) => {
       const positions = getScrollPositions(sections);
       setScrollPositions(positions);
+      setCurrentIndexPositioning(scrollPositions[currentSection]);
     }
     const getScrollPositions = (ids: string[]) => {
       const positions:number[] = []
@@ -77,17 +83,18 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
           scrollContainer.removeEventListener('scroll', onScrollHandler);
         }
       }
-     
+      
     },[])
     useEffect(()=>{
       if(scrollDistanceRef.current !== scrolledDistance){
         scrollDistanceRef.current = scrolledDistance;
-        console.log(scrolledDistance);
       }
+
+      setScrolledFromCurrentSection(scrolledDistance - currentIndexPosition);
     },[scrolledDistance])
     return (
         <div className={style['profile-content']}>
-            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledDistance/scrollPositions[currentSection]}  level={4} />
+            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} />
             <ParalaxScroller
                   intersectionHandler={handleInterSection}
                   secctionIds={sections}
