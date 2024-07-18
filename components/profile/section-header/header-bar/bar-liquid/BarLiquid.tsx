@@ -5,9 +5,10 @@ interface BarLiquidProps {
     progress?: number // 0 - 1
     side?: 'left' | 'right';
     containerClassName?: string;//for width calculation
+    isCurrent?: boolean
 }
 const OFFSET_TO_SIDE = 4; //px
-const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', containerClassName}) => {
+const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', containerClassName, isCurrent = false}) => {
     const [containerWidth, setContainerWidth] = useState(0);
     const [progressWidth, setProgressWidth] = useState(0);
     const getContainerWidth = () => {
@@ -32,7 +33,7 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', conta
         updateBarLiquid();
     },[progress])
     return (
-        <div style={styleObject} className={style['bar-liquid'] + ' ' + style[side]}>
+        <div style={styleObject} className={style['bar-liquid'] + ' ' + style[side] + (isCurrent ? ' ' + style['current'] : '')}>
             
         </div>
     );

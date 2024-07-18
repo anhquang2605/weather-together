@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './profile-content.module.css';
 import ParalaxSection from '../../plugins/paralax-scroller/paralax-section/ParalaxSection';
 import ParalaxScroller from '../../plugins/paralax-scroller/ParalaxScroller';
@@ -22,6 +22,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [currentSection, setCurrentSection] = useState(0);
     const [scrolledDistance, setScrolledDistance] = useState(0);
     const [scrollPositions, setScrollPositions] = useState<number[]>([]);
+    const [isScrollingUp, setIsScrollingUp] = useState(false);
+    //REFS
+    const scrollDistanceRef = useRef(0);
     //HELPERS
     const getSectionIndex = (section: string) => {
         return sections.indexOf(section);
@@ -33,13 +36,16 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const handleInterSection = (id: string) => {
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
+        setScrolledDistance(0);
     }
     const onScrollHandler = (event: Event
     ) => {
       if(!event || !event.target) return;
       const target = event.target as HTMLElement;
       const currentScrollTop = target.scrollTop;
+      const oldScrollDistance = scrollDistanceRef.current || 0;
       setScrolledDistance(currentScrollTop);
+      setIsScrollingUp(currentScrollTop < oldScrollDistance);
 /*       const scrolledDistance = event.target.;
       setScrolledDistance(scrolledDistance); */
     }
@@ -73,10 +79,15 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       }
      
     },[])
-
+    useEffect(()=>{
+      if(scrollDistanceRef.current !== scrolledDistance){
+        scrollDistanceRef.current = scrolledDistance;
+        console.log(scrolledDistance);
+      }
+    },[scrolledDistance])
     return (
         <div className={style['profile-content']}>
-            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} progress={scrolledDistance/scrollPositions[currentSection]}  level={4} />
+            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledDistance/scrollPositions[currentSection]}  level={4} />
             <ParalaxScroller
                   intersectionHandler={handleInterSection}
                   secctionIds={sections}

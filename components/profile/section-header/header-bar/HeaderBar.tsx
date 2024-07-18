@@ -9,6 +9,7 @@ interface HeaderBarProps {
     currentIndex: number;
     titles: string[];
     scrollProgress?: number
+    nextIndex?: number
 }
 interface BarCicleProps {
     children?: React.ReactNode
@@ -30,7 +31,7 @@ const CircleEdge: React.FC<BarCicleProps> = ({children}: BarCicleProps) => {
         </div>
     )
 }
-const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgress}) => {
+const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgress, nextIndex = 1}) => {
         const generateBarBackbone = (numberOfSections: number) => {
             let barBackbone = [];
             for (let i = 0; i < numberOfSections; i++) {
@@ -47,7 +48,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgre
                     </div>
                     {i !== numberOfSections - 1 && 
                         <CircleEdge>
-                            <BarLiquid containerClassName={style['circle-edge']} progress={scrollProgress}/>
+                            <BarLiquid isCurrent={nextIndex === i} containerClassName={style['circle-edge']} progress={scrollProgress}/>
                         </CircleEdge> 
                         
                         

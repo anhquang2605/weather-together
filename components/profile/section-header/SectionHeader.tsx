@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './section-header.module.css';
 import HeaderBar from './header-bar/HeaderBar';
 import HeaderTitlesGroup from './header-titles-group/HeaderTitlesGroup';
@@ -6,6 +6,7 @@ import HeaderTitlesGroup from './header-titles-group/HeaderTitlesGroup';
 interface SectionHeaderProps {
     currentSectionIndex?: number;
     sections: string[];
+    isScrollingUp?: boolean;//help determine which edge the header is on
     progress: number;
     isSticky?: boolean;//stick when scrolled out of view
     level?: number;//how deep the header is in the hierarchy away from its ancestor used for width calculation by default it is 1 the direct parent 
@@ -13,8 +14,10 @@ interface SectionHeaderProps {
 //temporary solution
 //Remove the target then add it to the remaining estate element, then add the sticky class so that it would become abosolutely positioned this way the section header would be sticky but relative to the remmaing estate element not to the window (because of the fixed position)
 //Issues: 1.Cannot add class to the target during the observer handler because the target will change which trigger re-rendering which will cause the useEffect to run again resulting in looping 
-const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, level = 1, progress}) => {
+const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, level = 1, progress, isScrollingUp}) => {
+    const [nextSectionIndex, setNextSectionIndex] = useState(currentSectionIndex);
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
+
         const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
         if (!sectionHeader) return;
         const result = getLeftUsingParent(sectionHeader, level);
@@ -137,11 +140,20 @@ const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
         }
 
     },[])
+    useEffect(()=>{
+        if(progress === 0){
+            if(isScrollingUp){
+                setNextSectionIndex(currentSectionIndex - 1);
+            } else {
+                setNextSectionIndex(currentSectionIndex + 1);
+            }
+        }
+    },[progress])
     return (
         <>
             {isSticky && <span className={style['sticky-filler']}></span>}
             <div key={style['section-header']} className={style['section-header'] }>
-                <HeaderBar scrollProgress={progress} currentIndex={currentSectionIndex} titles={sections}/>
+                <HeaderBar nextIndex={nextSectionIndex} scrollProgress={progress} currentIndex={currentSectionIndex} titles={sections}/>
             </div>
         </>
         
