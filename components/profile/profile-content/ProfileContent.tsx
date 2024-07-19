@@ -29,6 +29,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [nextSectionIndex, setNextSectionIndex] = useState(1);
     //REFS
     const scrollDistanceRef = useRef(0);
+    const currentSectionRef = useRef(0);
     //HELPERS
     const getSectionIndex = (section: string) => {
         return sections.indexOf(section);
@@ -46,17 +47,22 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     ) => {
       if(!event || !event.target) return;
       const target = event.target as HTMLElement;
-      const currentScrollTop = target.scrollTop;
+      const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
+      if(!profileContent) return;
+      const currentScrollTop = target.scrollTop + (profileContent.offsetTop);
       const oldScrollDistance = scrollDistanceRef.current || 0;
       setScrolledDistance(currentScrollTop);
       setIsScrollingUp(currentScrollTop < oldScrollDistance);
 /*       const scrolledDistance = event.target.;
       setScrolledDistance(scrolledDistance); */
     }
-    const resizeObservedHandler = (entries: ResizeObserverEntry[]) => {
+    const positionsGetAndSet = () => {
       const positions = getScrollPositions(sections);
       setScrollPositions(positions);
-      setCurrentIndexPositioning(scrollPositions[currentSection]);
+      setCurrentIndexPositioning(positions[currentSectionRef.current]);
+    }
+    const resizeObservedHandler = (entries: ResizeObserverEntry[]) => {
+      positionsGetAndSet();
     }
     const getScrollPositions = (ids: string[]) => {
       const positions:number[] = []
@@ -90,12 +96,15 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       
     },[scrolledDistance])
     useEffect(()=>{
+        currentSectionRef.current = currentSection;
+    },[currentSection])
+    //when current section changes
+    useEffect(()=>{
       if(scrollPositions.length <= 0) return;
-      if(currentSection === sections.length - 1 || currentSection === 0) return;
-      setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrolledDistance);
-      setScrolledFromCurrentSection(0);
       setCurrentIndexPositioning(scrollPositions[currentSection]);
+      setScrolledFromCurrentSection(0);
     },[currentSection, scrollPositions])
+    //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
     useEffect(()=>{
       if(scrolledFromCurrentSection === 0){
         if(isScrollingUp){
@@ -105,6 +114,13 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         }
       }
     },[scrolledFromCurrentSection])
+    useEffect(()=>{
+      if(currentSection === sections.length - 1 || currentSection === 0) return;
+      setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrolledDistance);
+    },[nextSectionIndex])
+    useEffect(()=>{
+      console.log(destinationScrollPosition);
+    },[destinationScrollPosition])
     return (
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} />
