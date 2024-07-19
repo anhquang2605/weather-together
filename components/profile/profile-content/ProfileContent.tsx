@@ -85,16 +85,17 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       
     },[])
     useEffect(()=>{
-      if(scrollDistanceRef.current !== scrolledDistance){
         scrollDistanceRef.current = scrolledDistance;
-      }
       setScrolledFromCurrentSection(scrolledDistance - currentIndexPosition);
+      
     },[scrolledDistance])
     useEffect(()=>{
+      if(scrollPositions.length <= 0) return;
+      if(currentSection === sections.length - 1 || currentSection === 0) return;
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrolledDistance);
       setScrolledFromCurrentSection(0);
       setCurrentIndexPositioning(scrollPositions[currentSection]);
-    },[currentSection])
+    },[currentSection, scrollPositions])
     useEffect(()=>{
       if(scrolledFromCurrentSection === 0){
         if(isScrollingUp){
@@ -103,7 +104,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
           setNextSectionIndex(currentSection + 1);
         }
       }
-      console.log(scrolledFromCurrentSection);
     },[scrolledFromCurrentSection])
     return (
         <div className={style['profile-content']}>

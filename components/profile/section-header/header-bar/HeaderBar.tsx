@@ -48,7 +48,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgre
                     </div>
                     {i !== numberOfSections - 1 && 
                         <CircleEdge>
-                            <BarLiquid isCurrent={nextIndex === i} containerClassName={style['circle-edge']} progress={scrollProgress}/>
+                            <BarLiquid isCurrent={currentIndex === i} containerClassName={style['circle-edge']} progress={scrollProgress}/>
                         </CircleEdge> 
                         
                         
@@ -58,9 +58,6 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgre
             }
             return barBackbone
         }
-    useEffect(()=>{
-        console.log(nextIndex);
-    },[nextIndex])
     return (
         <div className={style['header-bar']}>
             {generateBarBackbone(titles.length)}

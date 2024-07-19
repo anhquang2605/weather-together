@@ -140,15 +140,6 @@ const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
         }
 
     },[])
-    useEffect(()=>{
-        if(progress === 0){
-            if(isScrollingUp){
-                setNextSectionIndex(currentSectionIndex - 1);
-            } else {
-                setNextSectionIndex(currentSectionIndex + 1);
-            }
-        }
-    },[progress])
     return (
         <>
             {isSticky && <span className={style['sticky-filler']}></span>}

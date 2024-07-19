@@ -3,12 +3,12 @@ import style from './bar-liquid.module.css';
 
 interface BarLiquidProps {
     progress?: number // 0 - 1
-    side?: 'left' | 'right';
     containerClassName?: string;//for width calculation
     isCurrent?: boolean
 }
 const OFFSET_TO_SIDE = 4; //px
-const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', containerClassName, isCurrent = false}) => {
+const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, isCurrent = false}) => {
+    const [side, setSide] = useState('left');
     const [containerWidth, setContainerWidth] = useState(0);
     const [progressWidth, setProgressWidth] = useState(0);
     const getContainerWidth = () => {
@@ -18,7 +18,7 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', conta
         return container.getBoundingClientRect().width;
     }
     const updateBarLiquid = () => {
-        const width = (containerWidth + OFFSET_TO_SIDE * 2) * progress ;
+        const width = (side === 'left' ? 1 : -1) *(containerWidth + OFFSET_TO_SIDE * 2) * progress ;
         const barLiquid: HTMLElement | null = document.querySelector('.' + style['bar-liquid']);
         if (!barLiquid) return;
         barLiquid.style.width = width + 'px';
@@ -30,9 +30,12 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, side = 'left', conta
         setContainerWidth(getContainerWidth())
         
     },[])
-
+    useEffect(()=>{
+        if(!containerWidth) return; 
+        updateBarLiquid();
+    },[containerWidth, progress])
     return (
-        <div style={styleObject} className={style['bar-liquid'] + ' ' + style[side] + (isCurrent ? ' ' + style['current'] : '')}>
+        <div style={styleObject} className={style['bar-liquid'] +  ' ' + (isCurrent ? style['current'] : '')}>
             
         </div>
     );
