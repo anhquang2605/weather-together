@@ -106,6 +106,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[currentSection, scrollPositions])
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
     useEffect(()=>{
+      console.log(scrolledFromCurrentSection);
       if(scrolledFromCurrentSection === 0){
         if(isScrollingUp){
           setNextSectionIndex(currentSection - 1);
@@ -116,7 +117,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[scrolledFromCurrentSection])
     useEffect(()=>{
       if(!scrollPositions) return;
-      setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrolledDistance);
+      setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
     },[nextSectionIndex, scrollPositions])
     return (
         <div className={style['profile-content']}>
