@@ -33,10 +33,16 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
     },[])
 
     useEffect(()=>{
-        console.log(progress);
-        if(!containerWidth || !isCurrent) return; 
+        if(!containerWidth || !isCurrent || !progress) return; 
         updateBarLiquid();
     },[containerWidth, progress])
+    useEffect(()=>{
+        if(!isCurrent){
+            setSide( prev => {
+                return prev === 'left' ? 'right' : 'left'
+            })
+        }
+    },[isCurrent])
     return (
         <div style={styleObject} id={'bar-liquid-' + id + ''} className={style['bar-liquid'] +  ' ' + (isCurrent ? style['current'] : '')}>
             

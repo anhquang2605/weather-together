@@ -15,7 +15,7 @@ interface ParalaxSectionProps {
 
 const ParalaxSection: React.FC<ParalaxSectionProps> = ({children, id, className}) => {
     return (
-        <div id={id} className={style['paralax-section'] + " h-[100vh] " + className}>
+        <div id={id} className={style['paralax-section'] + " h-[3000px] " + className}>
             {children}
         </div>
     );

@@ -50,7 +50,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const target = event.target as HTMLElement;
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       if(!profileContent) return;
-      const currentScrollTop = target.scrollTop; //+ (profileContent.offsetTop);
+      const currentScrollTop = target.scrollTop + (profileContent.offsetTop);
       const oldScrollDistance = scrollDistanceRef.current || 0;
       setScrolledDistance(currentScrollTop);
       setIsScrollingUp(currentScrollTop < oldScrollDistance);

@@ -32,6 +32,7 @@ const CircleEdge: React.FC<BarCicleProps> = ({children}: BarCicleProps) => {
     )
 }
 const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgress, nextIndex = 1}) => {
+        
         const generateBarBackbone = (numberOfSections: number) => {
             let barBackbone = [];
             for (let i = 0; i < numberOfSections; i++) {

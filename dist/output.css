@@ -852,6 +852,10 @@ video {
   height: 100%;
 }
 
+.h-\[3000px\] {
+  height: 3000px;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
