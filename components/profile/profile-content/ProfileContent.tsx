@@ -27,6 +27,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [destinationScrollPosition, setDestinationScrollPosition] = useState(0);
     const [currentIndexPosition, setCurrentIndexPositioning] = useState(0);
     const [nextSectionIndex, setNextSectionIndex] = useState(1);
+    const [positionSnapshot, setPositionSnapshot] = useState(0);
     //REFS
     const scrollDistanceRef = useRef(0);
     const currentSectionRef = useRef(0);
@@ -49,7 +50,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const target = event.target as HTMLElement;
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       if(!profileContent) return;
-      const currentScrollTop = target.scrollTop + (profileContent.offsetTop);
+      const currentScrollTop = target.scrollTop; //+ (profileContent.offsetTop);
       const oldScrollDistance = scrollDistanceRef.current || 0;
       setScrolledDistance(currentScrollTop);
       setIsScrollingUp(currentScrollTop < oldScrollDistance);
@@ -93,7 +94,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     useEffect(()=>{
         scrollDistanceRef.current = scrolledDistance;
       setScrolledFromCurrentSection(scrolledDistance - currentIndexPosition);
-      
     },[scrolledDistance])
     useEffect(()=>{
         currentSectionRef.current = currentSection;
@@ -101,12 +101,13 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     //when current section changes
     useEffect(()=>{
       if(!scrollPositions) return;
+    
       setCurrentIndexPositioning(scrollPositions[currentSection]);
       setScrolledFromCurrentSection(0);
     },[currentSection, scrollPositions])
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
     useEffect(()=>{
-      console.log(scrolledFromCurrentSection);
+      //console.log(scrolledFromCurrentSection);
       if(scrolledFromCurrentSection === 0){
         if(isScrollingUp){
           setNextSectionIndex(currentSection - 1);
