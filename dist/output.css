@@ -836,12 +836,12 @@ video {
   height: 2rem;
 }
 
-.h-\[100vh\] {
-  height: 100vh;
-}
-
 .h-\[1px\] {
   height: 1px;
+}
+
+.h-\[3000px\] {
+  height: 3000px;
 }
 
 .h-auto {
@@ -850,10 +850,6 @@ video {
 
 .h-full {
   height: 100%;
-}
-
-.h-\[3000px\] {
-  height: 3000px;
 }
 
 .max-h-60 {
