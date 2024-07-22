@@ -28,6 +28,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [currentIndexPosition, setCurrentIndexPositioning] = useState(0);
     const [nextSectionIndex, setNextSectionIndex] = useState(1);
     const [positionSnapshot, setPositionSnapshot] = useState(0);
+    const [isInProgress, setIsInProgress] = useState(false);//when the liquid bar is determined
     //REFS
     const scrollDistanceRef = useRef(0);
     const currentSectionRef = useRef(0);
@@ -97,6 +98,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[scrolledDistance])
     useEffect(()=>{
         currentSectionRef.current = currentSection;
+        setIsInProgress(false);
     },[currentSection])
     //when current section changes
     useEffect(()=>{
@@ -108,12 +110,13 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
     useEffect(()=>{
       //console.log(scrolledFromCurrentSection);
-      if(scrolledFromCurrentSection === 0){
+      if(scrolledFromCurrentSection === 0 && !isInProgress){
         if(isScrollingUp){
           setNextSectionIndex(currentSection - 1);
         } else {
           setNextSectionIndex(currentSection + 1);
         }
+        setIsInProgress(true);
       }
     },[scrolledFromCurrentSection])
     useEffect(()=>{
