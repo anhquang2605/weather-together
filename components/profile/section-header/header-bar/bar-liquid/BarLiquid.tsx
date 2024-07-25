@@ -39,7 +39,6 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
         updateBarLiquid();
     },[containerWidth, progress])
     useEffect(()=>{
-        console.log(id, currentIndex, nextIndex, isCurrent);
         if(isCurrent
         ){
             if(nextIndex < currentIndex){

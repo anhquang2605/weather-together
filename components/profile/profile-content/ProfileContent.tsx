@@ -155,7 +155,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                             className=""
                           > 
                             {section[0].toUpperCase() + section.slice(1)}
-                            An elf is a mythical creature often depicted as a small, magical being with pointed ears and a mischievous nature. They are commonly associated with folklore and fantasy literature, where they are portrayed as graceful and ethereal beings. Elves are often described as having a deep connection with nature and possessing extraordinary abilities, such as exceptional agility and keen senses. In various mythologies, elves are known to be skilled craftsmen and guardians of the forests. They are often depicted as wise and long-lived, with a strong affinity for magic.
+                            An elf is a mythical creature often depicted as a small, magical being with pointed ears and a mischievous nature. They are commonly associated with folklore and fantasy literature, where they are portrayed as graceful and ethereal beings. Elves are often described as having a deep connection with nature and possessing extraordinary abilities, such as exceptional agility and keen senses. In various mythologies, elves are known to be skilled craftsmen and guardians of the forests.
                           </ParalaxSection>
                         )
                       })
