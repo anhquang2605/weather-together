@@ -44,7 +44,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const handleInterSection = (id: string) => {
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
-
     }
     const onScrollHandler = (event: Event
     ) => {
@@ -125,6 +124,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!scrollPositions) return;
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
     },[nextSectionIndex, scrollPositions])
+    //Food for thought:
+    //One the way back up, reverse the direction of the liquid bar, and the intersection somehow.
     return (
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} nextIndex={nextSectionIndex} />
