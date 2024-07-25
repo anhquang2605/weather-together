@@ -14,7 +14,8 @@ interface ProfileContentProps {
 const sections = [
     'about_me',
     'bio',
-    'activity'
+    'activity',
+    'end'
   ]
 const DEBOUNCE_TIME = 1000;
 const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname = ""}) => {
@@ -136,6 +137,16 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                  >
                     {
                       sections.map((section, index) => {
+                        if (section === 'end')
+                        {
+                          return (<ParalaxSection
+                            key={index}
+                            id={section}
+                            className=""
+                          > 
+                            {section[0].toUpperCase() + section.slice(1)}
+                          </ParalaxSection>)
+                        }
                         return (
                           <ParalaxSection
                             key={index}
