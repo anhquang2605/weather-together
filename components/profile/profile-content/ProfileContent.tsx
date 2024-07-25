@@ -111,6 +111,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     useEffect(()=>{
       //console.log(scrolledFromCurrentSection);
       if(scrolledFromCurrentSection === 0 && !isInProgress){
+        console.log(isScrollingUp, currentSection);
         if(isScrollingUp){
           setNextSectionIndex(currentSection - 1);
         } else {
@@ -125,7 +126,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[nextSectionIndex, scrollPositions])
     return (
         <div className={style['profile-content']}>
-            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} />
+            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} nextIndex={nextSectionIndex} />
             <ParalaxScroller
                   intersectionHandler={handleInterSection}
                   secctionIds={sections}

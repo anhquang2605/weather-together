@@ -9,13 +9,14 @@ interface SectionHeaderProps {
     isScrollingUp?: boolean;//help determine which edge the header is on
     progress: number;
     isSticky?: boolean;//stick when scrolled out of view
-    level?: number;//how deep the header is in the hierarchy away from its ancestor used for width calculation by default it is 1 the direct parent 
-}
+    level?: number;//how deep the header is in the hierarchy away from its ancestor used for width calculation by default it is 1 the direct parent
+    nextIndex?: number
+}   
 //temporary solution
 //Remove the target then add it to the remaining estate element, then add the sticky class so that it would become abosolutely positioned this way the section header would be sticky but relative to the remmaing estate element not to the window (because of the fixed position)
 //Issues: 1.Cannot add class to the target during the observer handler because the target will change which trigger re-rendering which will cause the useEffect to run again resulting in looping 
-const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, level = 1, progress, isScrollingUp}) => {
-    const [nextSectionIndex, setNextSectionIndex] = useState(currentSectionIndex);
+const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, level = 1, progress, isScrollingUp, nextIndex = 1}) => {
+    
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
 
         const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
@@ -144,7 +145,7 @@ const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
         <>
             {isSticky && <span className={style['sticky-filler']}></span>}
             <div key={style['section-header']} className={style['section-header'] }>
-                <HeaderBar nextIndex={nextSectionIndex} scrollProgress={progress} currentIndex={currentSectionIndex} titles={sections}/>
+                <HeaderBar nextIndex={nextIndex} scrollProgress={progress} currentIndex={currentSectionIndex} titles={sections}/>
             </div>
         </>
         

@@ -39,6 +39,7 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
         updateBarLiquid();
     },[containerWidth, progress])
     useEffect(()=>{
+        console.log(id, currentIndex, nextIndex, isCurrent);
         if(isCurrent
         ){
             if(nextIndex < currentIndex){
@@ -50,7 +51,7 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
                 return prev === 'left' ? 'right' : 'left'
             }) */
         }
-    },[isCurrent])
+    },[isCurrent, nextIndex, currentIndex])
     return (
         <div style={styleObject} id={'bar-liquid-' + id + ''} className={style['bar-liquid'] +  ' ' + (isCurrent ? style['current'] : '')}>
             
