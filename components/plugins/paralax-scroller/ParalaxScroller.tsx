@@ -43,12 +43,12 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         observerRef.current = createObserver(configuration, isUp);
     }
     const createObserver = (configuration: IntersectionObserverInit, isUp: boolean) => {
-        const observer = new IntersectionObserver(handleInterSection,configuration);
+        const observer = isUp ? new IntersectionObserver(handleInterSectionUp,configuration) : new IntersectionObserver(handleInterSection,configuration);
         secctionIds.forEach((id) => {
             let joinedId = id;
-            if (isUp) {
+            /* if (isUp) {
                 joinedId = id + '-head';//hidden element for revesed way
-            }
+            } */
             const element = document.getElementById(joinedId);
             if(element){
                 observer.observe(element);
@@ -56,12 +56,23 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         });
         return observer;
     }
+    const handleInterSectionUp = (entries: IntersectionObserverEntry[]) => {
+        for (let entry of entries) {
+            const entryRootBounds = entry.rootBounds || {top: 0, bottom: 0};
+            if( entry.boundingClientRect.top <= entryRootBounds.top){
+                const id = entry.target.id as string;
+                intersectionHandler(id);
+            }
+        }
+    }
     useEffect(() => {
-        
+        const configuration: IntersectionObserverInit = {
+            rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
+            threshold: 0
+        }
         updateObserver(
-            {
-                threshold: 0
-            },isUp
+            configuration
+            ,isUp
         );
         return () => {
             observerRef.current?.disconnect();
