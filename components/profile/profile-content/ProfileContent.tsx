@@ -30,9 +30,11 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [nextSectionIndex, setNextSectionIndex] = useState(1);
     const [positionSnapshot, setPositionSnapshot] = useState(0);
     const [isInProgress, setIsInProgress] = useState(false);//when the liquid bar is determined
+   /*  const [threshold, setThreshold] = useState(1);//for intersection switching 0 when scroll down, 1 when scroll up */
     //REFS
     const scrollDistanceRef = useRef(0);
     const currentSectionRef = useRef(0);
+  
     //HELPERS
     const getSectionIndex = (section: string) => {
         return sections.indexOf(section);
@@ -111,9 +113,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     useEffect(()=>{
       //console.log(scrolledFromCurrentSection);
       if(scrolledFromCurrentSection === 0 && !isInProgress){
-        console.log(isScrollingUp, currentSection);
         if(isScrollingUp){
-          setNextSectionIndex(currentSection - 1);
+          setNextSectionIndex(currentSection - 1);  
         } else {
           setNextSectionIndex(currentSection + 1);
         }
@@ -130,6 +131,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} nextIndex={nextSectionIndex} />
             <ParalaxScroller
+                  isUp ={isScrollingUp}
                   intersectionHandler={handleInterSection}
                   secctionIds={sections}
                   snapToSections={true}
@@ -153,6 +155,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                             key={index}
                             id={section}
                             className=""
+                            withHeadFiller={true}
                           > 
                             {section[0].toUpperCase() + section.slice(1)}
                             An elf is a mythical creature often depicted as a small, magical being with pointed ears and a mischievous nature. They are commonly associated with folklore and fantasy literature, where they are portrayed as graceful and ethereal beings. Elves are often described as having a deep connection with nature and possessing extraordinary abilities, such as exceptional agility and keen senses. In various mythologies, elves are known to be skilled craftsmen and guardians of the forests.

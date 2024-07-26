@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import style from './paralax-scroller.module.scss';
 type AnimatorFunction = () => void;
 interface AnimatorFunctionMap {
@@ -15,10 +15,13 @@ interface ParalaxScrollerProps {
     scrollClassName: string;
     getScrollDistance?: (sectionIndex: number) => number;
     getScrollPosition?: () => number;
+    threshold?: number;//for intersection reverse
+    withCounterpart?: boolean;
+    isUp?: boolean;//going up or down
 }
 
 const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
-    const { sectionIndex, secctionIds, scrollSpeed, snapToSections, intersectionHandler,scrollClassName } = props;
+    const { sectionIndex, secctionIds, scrollSpeed, snapToSections, intersectionHandler,scrollClassName,  withCounterpart, isUp = false } = props;
     const { children } = props;
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach((entry) => {
@@ -28,27 +31,43 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
             }
         });
     }
-    useEffect(()=> {
-        const observer = new IntersectionObserver(handleInterSection, {
+    const observerRef = useRef<IntersectionObserver>();
+    const updateObserver = (config: IntersectionObserverInit, isUp: boolean) => {
+        if(observerRef.current){
+            observerRef.current.disconnect();
+        }
+        const configuration: IntersectionObserverInit = {
             root: document.querySelector(`.${scrollClassName}`) ,
-            threshold: 0,
-
-        });
+            ...config
+        }
+        observerRef.current = createObserver(configuration, isUp);
+    }
+    const createObserver = (configuration: IntersectionObserverInit, isUp: boolean) => {
+        const observer = new IntersectionObserver(handleInterSection,configuration);
         secctionIds.forEach((id) => {
-            const element = document.getElementById(id);
+            let joinedId = id;
+            if (isUp) {
+                joinedId = id + '-head';//hidden element for revesed way
+            }
+            const element = document.getElementById(joinedId);
             if(element){
                 observer.observe(element);
             }
         });
+        return observer;
+    }
+    useEffect(() => {
+        
+        updateObserver(
+            {
+                threshold: 0
+            },isUp
+        );
         return () => {
-            secctionIds.forEach((id) => {
-                const element = document.getElementById(id);
-                if(element){
-                    observer.unobserve(element);
-                }
-            });
+            observerRef.current?.disconnect();
         }
-    },[])
+    },[isUp])
+    
     return (
         <div className={style['paralax-scroller']}>
             {

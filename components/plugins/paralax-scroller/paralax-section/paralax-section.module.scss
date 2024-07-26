@@ -1,6 +1,12 @@
 .paralax-section{
-    
+    position: relative;
 }
 .end{
     height: 0px!important;
+}
+.head{
+    width: 100%;
+    height: 1px!important;
+    position:absolute;
+    top: 0;
 }
