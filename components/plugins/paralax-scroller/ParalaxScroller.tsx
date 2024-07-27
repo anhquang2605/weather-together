@@ -26,10 +26,18 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach((entry) => {
             if(entry.isIntersecting){
-                const id = entry.target.id as string;
+                let id = entry.target.id as string;
                 intersectionHandler(id);
             }
         });
+    }
+    const handleInterSectionUp = (entries: IntersectionObserverEntry[]) => {
+        for (let entry of entries) {
+            if( entry.isIntersecting){
+                const id = (entry.target.id as string).replace('-head', '');
+                intersectionHandler(id);
+            }
+        }
     }
     const observerRef = useRef<IntersectionObserver>();
     const updateObserver = (config: IntersectionObserverInit, isUp: boolean) => {
@@ -44,11 +52,12 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     }
     const createObserver = (configuration: IntersectionObserverInit, isUp: boolean) => {
         const observer = isUp ? new IntersectionObserver(handleInterSectionUp,configuration) : new IntersectionObserver(handleInterSection,configuration);
+        //const observer = new IntersectionObserver(handleInterSection,configuration);
         secctionIds.forEach((id) => {
             let joinedId = id;
-            /* if (isUp) {
+            if (isUp) {
                 joinedId = id + '-head';//hidden element for revesed way
-            } */
+            } 
             const element = document.getElementById(joinedId);
             if(element){
                 observer.observe(element);
@@ -56,18 +65,10 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         });
         return observer;
     }
-    const handleInterSectionUp = (entries: IntersectionObserverEntry[]) => {
-        for (let entry of entries) {
-            const entryRootBounds = entry.rootBounds || {top: 0, bottom: 0};
-            if( entry.boundingClientRect.top <= entryRootBounds.top){
-                const id = entry.target.id as string;
-                intersectionHandler(id);
-            }
-        }
-    }
+
     useEffect(() => {
         const configuration: IntersectionObserverInit = {
-            rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
+            //rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
             threshold: 0
         }
         updateObserver(

@@ -44,6 +44,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     }
     //LOGIC
     const handleInterSection = (id: string) => {
+        console.log(id);
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
     }
@@ -146,6 +147,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                             key={index}
                             id={section}
                             className=""
+                            withHeadFiller={true}
                           > 
                             {section[0].toUpperCase() + section.slice(1)}
                           </ParalaxSection>)
