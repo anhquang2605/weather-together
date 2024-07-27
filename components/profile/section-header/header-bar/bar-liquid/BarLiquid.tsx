@@ -4,16 +4,16 @@ import style from './bar-liquid.module.css';
 interface BarLiquidProps {
     progress?: number // 0 - 1
     containerClassName?: string;//for width calculation
-    isCurrent?: boolean
     id: number;
     nextIndex: number
     currentIndex: number
 }
 const OFFSET_TO_SIDE = 4; //px
-const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, isCurrent = false, id, nextIndex, currentIndex}) => {
+const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, id, nextIndex, currentIndex}) => {
     const [side, setSide] = useState('left');
     const [containerWidth, setContainerWidth] = useState(0);
     const [progressWidth, setProgressWidth] = useState(0);
+    const [isCurrent, setIsCurrent] = useState(false);
     const getContainerWidth = () => {
         if (!containerClassName) return 0;
         const container = document.querySelector('.' + containerClassName);
@@ -33,7 +33,13 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
         setContainerWidth(getContainerWidth())
         
     },[])
-
+    useEffect(()=>{
+        if(currentIndex < nextIndex){
+            setIsCurrent(id === currentIndex);
+        }else{
+            setIsCurrent(id === nextIndex);
+        }
+    },[currentIndex, nextIndex])
     useEffect(()=>{
         if(!containerWidth || !isCurrent || !progress) return; 
         updateBarLiquid();
