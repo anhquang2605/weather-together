@@ -100,12 +100,17 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[scrolledDistance])
     //when current section changes
     useEffect(()=>{
-      if(!scrollPositions) return;
-      currentSectionRef.current = currentSection;
-      setIsInProgress(false);
-      setCurrentIndexPositioning(scrollPositions[currentSection]);
-      setScrolledFromCurrentSection(0);
-    },[currentSection, scrollPositions])
+      if(!scrollPositions ) return;
+      if(scrolledFromCurrentSection < 0){
+        setIsInProgress(false);
+      } else {
+        currentSectionRef.current = currentSection;
+        setIsInProgress(false);
+        setCurrentIndexPositioning(scrollPositions[currentSection]);
+        setScrolledFromCurrentSection(0);
+      }
+      
+    },[currentSection, scrollPositions, scrolledFromCurrentSection])
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
     useEffect(()=>{
       if(scrolledFromCurrentSection < 0 && !isInProgress){
@@ -117,6 +122,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         setIsInProgress(true);
       }
     },[scrolledFromCurrentSection])
+    useEffect(()=>{
+
+    }, [isInProgress])
     useEffect(()=>{
       if(!scrollPositions) return;
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
