@@ -44,7 +44,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     }
     //LOGIC
     const handleInterSection = (id: string) => {
-        console.log(id);
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
     }
@@ -97,16 +96,13 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[])
     useEffect(()=>{
         scrollDistanceRef.current = scrolledDistance;
-      setScrolledFromCurrentSection(scrolledDistance - currentIndexPosition);
+      setScrolledFromCurrentSection(Math.abs(scrolledDistance - currentIndexPosition));
     },[scrolledDistance])
-    useEffect(()=>{
-        currentSectionRef.current = currentSection;
-        setIsInProgress(false);
-    },[currentSection])
     //when current section changes
     useEffect(()=>{
       if(!scrollPositions) return;
-    
+      currentSectionRef.current = currentSection;
+      setIsInProgress(false);
       setCurrentIndexPositioning(scrollPositions[currentSection]);
       setScrolledFromCurrentSection(0);
     },[currentSection, scrollPositions])
@@ -123,7 +119,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[scrolledFromCurrentSection])
     useEffect(()=>{
       if(!scrollPositions) return;
-      setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
+      setDestinationScrollPosition(Math.abs(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]));
     },[nextSectionIndex, scrollPositions])
     //Food for thought:
     //One the way back up, reverse the direction of the liquid bar, and the intersection somehow.
