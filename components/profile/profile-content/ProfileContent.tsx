@@ -26,9 +26,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [isScrollingUp, setIsScrollingUp] = useState(false);
     const [scrolledFromCurrentSection, setScrolledFromCurrentSection] = useState(0);
     const [destinationScrollPosition, setDestinationScrollPosition] = useState(0);
-    const [currentIndexPosition, setCurrentIndexPositioning] = useState(0);
+    const [currentIndexPosition, setCurrentIndexPosition] = useState(0);
     const [nextSectionIndex, setNextSectionIndex] = useState(1);
-    const [positionSnapshot, setPositionSnapshot] = useState(0);
+    const [snappedPosition, setSnappedPosition] = useState(0);
+    const [isSignFlipped, setIsSignFlipped] = useState(false);
     const [isInProgress, setIsInProgress] = useState(false);//when the liquid bar is determined
    /*  const [threshold, setThreshold] = useState(1);//for intersection switching 0 when scroll down, 1 when scroll up */
     //REFS
@@ -61,9 +62,11 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       setScrolledDistance(scrolledDistance); */
     }
     const positionsGetAndSet = () => {
+      const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       const positions = getScrollPositions(sections);
+      positions[0] = positions[0] + (profileContent?.offsetTop || 0);
       setScrollPositions(positions);
-      setCurrentIndexPositioning(positions[currentSectionRef.current]);
+      setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
     const resizeObservedHandler = (entries: ResizeObserverEntry[]) => {
       positionsGetAndSet();
@@ -95,33 +98,39 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       
     },[])
     useEffect(()=>{
-        scrollDistanceRef.current = scrolledDistance;
-      setScrolledFromCurrentSection(scrolledDistance - currentIndexPosition);
+      scrollDistanceRef.current = scrolledDistance;
+      let distance = scrolledDistance - currentIndexPosition;
+/*       if(distance < 0 && !isSignFlipped){
+        setIsSignFlipped(true);
+        setIsInProgress(false);
+      } else if(distance > 0 && isSignFlipped){
+        setIsSignFlipped(false);
+        setIsInProgress(false);
+      } */
+     //console.log(distance);
+      setScrolledFromCurrentSection(distance);
     },[scrolledDistance])
     //when current section changes
     useEffect(()=>{
       if(!scrollPositions ) return;
-      if(scrolledFromCurrentSection < 0){
-        setIsInProgress(false);
-      } else {
-        currentSectionRef.current = currentSection;
-        setIsInProgress(false);
-        setCurrentIndexPositioning(scrollPositions[currentSection]);
-        setScrolledFromCurrentSection(0);
-      }
-      
-    },[currentSection, scrollPositions, scrolledFromCurrentSection])
+      currentSectionRef.current = currentSection;
+      setIsInProgress(false);
+      //setSnappedPosition(scrolledDistance);
+      //setCurrentIndexPositioning(scrolledDistance)
+      setCurrentIndexPosition(scrollPositions[currentSection]);
+      setScrolledFromCurrentSection(0);
+    },[currentSection, scrollPositions])
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
     useEffect(()=>{
-      if(scrolledFromCurrentSection < 0 && !isInProgress){
-        setNextSectionIndex(currentSection - 1);
+      if(!isInProgress){
         setIsInProgress(true);
+        if(!isScrollingUp || currentSection === 0){
+          setNextSectionIndex(currentSection + 1);
+        } else if(isScrollingUp || currentSection === sections.length - 1){
+          setNextSectionIndex(currentSection - 1);
+        }
       }
-      else if(scrolledFromCurrentSection === 0 && !isInProgress){
-        setNextSectionIndex(currentSection + 1);
-        setIsInProgress(true);
-      }
-    },[scrolledFromCurrentSection])
+    },[currentIndexPosition, isScrollingUp])
     useEffect(()=>{
 
     }, [isInProgress])
