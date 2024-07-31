@@ -100,13 +100,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     useEffect(()=>{
       scrollDistanceRef.current = scrolledDistance;
       let distance = scrolledDistance - currentIndexPosition;
-/*       if(distance < 0 && !isSignFlipped){
-        setIsSignFlipped(true);
-        setIsInProgress(false);
-      } else if(distance > 0 && isSignFlipped){
-        setIsSignFlipped(false);
-        setIsInProgress(false);
-      } */
+
+        if(distance < 0){
+          setIsSignFlipped(true);
+        } else if(distance > 0){
+          setIsSignFlipped(false);
+        }
      //console.log(distance);
       setScrolledFromCurrentSection(distance);
     },[scrolledDistance])
@@ -132,8 +131,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       }
     },[currentIndexPosition, isScrollingUp])
     useEffect(()=>{
-
-    }, [isInProgress])
+      console.log(isSignFlipped);
+    },[isSignFlipped])
     useEffect(()=>{
       if(!scrollPositions) return;
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
