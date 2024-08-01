@@ -8,8 +8,9 @@ import BarLiquid from './bar-liquid/BarLiquid';
 interface HeaderBarProps {
     currentIndex: number;
     titles: string[];
-    scrollProgress?: number
-    nextIndex?: number
+    scrollProgress?: number;
+    nextIndex?: number;
+    setCurrentSection: (sectionIndex: number) => void
 }
 interface BarCicleProps {
     children?: React.ReactNode
@@ -31,15 +32,19 @@ const CircleEdge: React.FC<BarCicleProps> = ({children}: BarCicleProps) => {
         </div>
     )
 }
-const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgress, nextIndex = 1}) => {
-        
+const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgress, nextIndex = 1, setCurrentSection}) => {
+        const handleCurrentSectionClick = (sectionIndex: number) => {
+            setCurrentSection(sectionIndex);
+        }
         const generateBarBackbone = (numberOfSections: number) => {
             let barBackbone = [];
             for (let i = 0; i < numberOfSections; i++) {
                 barBackbone.push(
                     <React.Fragment key={i}>
                     
-                    <div key={titles[i]} className={style['bar-circle-group']}>
+                    <div onClick={()=>{
+                        handleCurrentSectionClick(i);
+                    }} key={titles[i]} className={style['bar-circle-group']}>
 
                         <BarCicle>
                             <HeaderIcon isCurrent={currentIndex === i} title={titles[i]} />

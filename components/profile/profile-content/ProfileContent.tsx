@@ -81,6 +81,11 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       }
       return positions;
     }
+    const scrollToCurrentSection = (index: number) => {
+      const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
+      if(!scrollContainer) return;
+      scrollContainer.scrollTo({top: scrollPositions[index], behavior: 'smooth'});
+    }
     //EFFECTS
     useEffect(()=>{
       //set up resize observer for the profile content
@@ -133,7 +138,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     //One the way back up, reverse the direction of the liquid bar, and the intersection somehow.
     return (
         <div className={style['profile-content']}>
-            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} nextIndex={nextSectionIndex} />
+            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} nextIndex={nextSectionIndex} setCurrentSection={scrollToCurrentSection} />
             <ParalaxScroller
                   isUp ={isScrollingUp}
                   intersectionHandler={handleInterSection}

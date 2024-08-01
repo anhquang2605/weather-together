@@ -10,12 +10,13 @@ interface SectionHeaderProps {
     progress: number;
     isSticky?: boolean;//stick when scrolled out of view
     level?: number;//how deep the header is in the hierarchy away from its ancestor used for width calculation by default it is 1 the direct parent
-    nextIndex?: number
+    nextIndex?: number;
+    setCurrentSection: (sectionIndex: number) => void
 }   
 //temporary solution
 //Remove the target then add it to the remaining estate element, then add the sticky class so that it would become abosolutely positioned this way the section header would be sticky but relative to the remmaing estate element not to the window (because of the fixed position)
 //Issues: 1.Cannot add class to the target during the observer handler because the target will change which trigger re-rendering which will cause the useEffect to run again resulting in looping 
-const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, level = 1, progress, isScrollingUp, nextIndex = 1}) => {
+const SectionHeader: React.FC<SectionHeaderProps> = ({currentSectionIndex = 0, sections, isSticky, level = 1, progress, isScrollingUp, setCurrentSection, nextIndex = 1}) => {
     
     const observerHandler = (entries: IntersectionObserverEntry[]) => {
 
@@ -145,7 +146,7 @@ const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
         <>
             {isSticky && <span className={style['sticky-filler']}></span>}
             <div key={style['section-header']} className={style['section-header'] }>
-                <HeaderBar nextIndex={nextIndex} scrollProgress={progress} currentIndex={currentSectionIndex} titles={sections}/>
+                <HeaderBar setCurrentSection={setCurrentSection} nextIndex={nextIndex} scrollProgress={progress} currentIndex={currentSectionIndex} titles={sections}/>
             </div>
         </>
         
