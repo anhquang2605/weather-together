@@ -18,10 +18,11 @@ interface ParalaxScrollerProps {
     threshold?: number;//for intersection reverse
     withCounterpart?: boolean;
     isUp?: boolean;//going up or down
+    isInProgress?: boolean;
 }
 
 const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
-    const { sectionIndex, secctionIds, scrollSpeed, snapToSections, intersectionHandler,scrollClassName,  withCounterpart, isUp = false } = props;
+    const { sectionIndex, secctionIds, scrollSpeed, snapToSections, intersectionHandler,scrollClassName,  withCounterpart, isUp = false,isInProgress = false } = props;
     const { children } = props;
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
         entries.forEach((entry) => {
@@ -66,7 +67,8 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         return observer;
     }
 
-    useEffect(() => {
+    useEffect(() => { 
+        if (isInProgress) return;
         const configuration: IntersectionObserverInit = {
             //rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
             threshold: 0
