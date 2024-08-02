@@ -129,7 +129,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
           setNextSectionIndex(currentSection - 1);
         }
       }
-    },[scrolledDistance,isScrollingUp])
+    },[scrolledDistance])
     useEffect(()=>{
       if(!scrollPositions) return;
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
