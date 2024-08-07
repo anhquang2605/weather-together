@@ -189,3 +189,5 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
 
 export default ProfileContent;
 
+/* Food for thought */
+/* Need new approach for scrolling up, should encompass when scrolling from current section from higher index bar to lower bar */
