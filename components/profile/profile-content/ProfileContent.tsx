@@ -110,10 +110,11 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!scrollPositions ) return;
       currentSectionRef.current = currentSection;
       setIsInProgress(false);
+      setIsDirectionFlipped(false);
       //setIsDirectionFlipped(false);
       //setSnappedPosition(scrolledDistance);
-      //setCurrentIndexPositioning(scrolledDistance)
-      setCurrentIndexPosition(scrollPositions[currentSection]);
+      setCurrentIndexPosition(scrolledDistance)
+      //setCurrentIndexPosition(scrollPositions[currentSection]);
     },[currentSection, scrollPositions])
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
         //when current section changes
@@ -139,9 +140,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         }
       }
     },[isInProgress])
-    useEffect(()=>{
-      console.log(isDirectionFlipped);
-    },[isDirectionFlipped])
     useEffect(()=>{
       if(!scrollPositions) return;
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
