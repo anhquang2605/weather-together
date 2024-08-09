@@ -126,6 +126,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
           if(distance < 0 && !isDirectionFlipped){
             setIsDirectionFlipped(true);
             setIsInProgress(false);
+          } else if(distance > 0 && isDirectionFlipped){
+            setIsDirectionFlipped(false);
+            setIsInProgress(false);
           }
         },[scrolledDistance])
     useEffect(()=>{
