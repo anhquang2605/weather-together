@@ -133,14 +133,13 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         },[scrolledDistance])
     useEffect(()=>{
       if(!isInProgress){
-
-        setIsInProgress(true);
         setScrolledFromCurrentSection(0);
         if(!isScrollingUp || currentSection === 0){
           setNextSectionIndex(currentSection + 1);
         } else if(isScrollingUp || currentSection === sections.length - 1){
           setNextSectionIndex(currentSection - 1);
         }
+        setIsInProgress(true);
       }
     },[isInProgress])
     useEffect(()=>{

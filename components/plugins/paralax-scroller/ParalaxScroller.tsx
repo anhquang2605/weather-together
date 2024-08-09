@@ -42,6 +42,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     }
     const observerRef = useRef<IntersectionObserver>();
     const updateObserver = (config: IntersectionObserverInit, isUp: boolean) => {
+
         if(observerRef.current){
             observerRef.current.disconnect();
         }
@@ -67,7 +68,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         return observer;
     }
 
-    useEffect(() => { 
+    useEffect(() => {
         if(!isInProgress){
             const configuration: IntersectionObserverInit = {
                 //rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
@@ -77,12 +78,13 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
                 configuration
                 ,isUp
             );
-            return () => {
-                observerRef.current?.disconnect();
-            }
         }
-    },[isUp])
-    
+    },[isInProgress])
+    useEffect(() => {
+        return () => {
+            observerRef.current?.disconnect();
+        }
+    },[])
     return (
         <div className={style['paralax-scroller']}>
             {
