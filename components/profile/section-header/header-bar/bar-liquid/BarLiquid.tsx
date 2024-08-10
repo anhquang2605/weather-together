@@ -49,6 +49,7 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
     useEffect(()=>{
         if(isCurrent
         ){
+            
             if(nextIndex < currentIndex){
                 setSide('right');
             } else {
