@@ -166,6 +166,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                         {
                           return (<ParalaxSection
                             key={index}
+                            index={index}
                             id={section}
                             className=""
                             withHeadFiller={true}
@@ -176,6 +177,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                         return (
                           <ParalaxSection
                             key={index}
+                            index={index}
                             id={section}
                             className=""
                             withHeadFiller={true}
