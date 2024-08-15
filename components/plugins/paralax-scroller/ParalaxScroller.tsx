@@ -22,20 +22,26 @@ interface ParalaxScrollerProps {
 }
 
 const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
-    const [lastIntersectionId, setLastIntersectionId] = useState<string>('');
+    const lastIntersectionIdRef = useRef<string>('');
+    const isUpRef = useRef<boolean>(false);
     const { sectionIndex, secctionIds, scrollSpeed, snapToSections, intersectionHandler,scrollClassName,  withCounterpart, isUp = false,isInProgress = false } = props;
     const { children } = props;
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-        console.log('down handler');
+        
         entries.forEach((entry) => {
             if(entry.isIntersecting){
                 const id = entry.target.id as string;
+            
+                if(isUpRef.current && !haveIntersected(id)){
+                    return;
+                }
 /*                 if(!haveIntersected(id)){
                     setLastIntersectionId(id);
                 }else{
                     return; //I thought that the result would be stored and re triggered
                 } */
-                intersectionHandler(id);
+                
+                addCurrentSection(id);
             }
         });
     }
@@ -48,12 +54,16 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
                 }else{
                     return;
                 } */
-                intersectionHandler(id);
+                addCurrentSection(id);
             }
         }
     }
     const haveIntersected = (id:string) => {
-        return lastIntersectionId === id
+        return lastIntersectionIdRef.current === id
+    }
+    const addCurrentSection = (id: string) => {
+        lastIntersectionIdRef.current = id
+        intersectionHandler(id);
     }
     const observerRef = useRef<IntersectionObserver>();
     const updateObserver = (config: IntersectionObserverInit, isUp: boolean) => {
@@ -86,6 +96,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     }
 
     useEffect(() => {
+        isUpRef.current = isUp;
         if(!isInProgress){
             const configuration: IntersectionObserverInit = {
                 //rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
@@ -96,7 +107,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
                 ,isUp
             );
         }
-    },[isInProgress])
+    },[isInProgress, isUp])
     useEffect(() => {
         return () => {
             observerRef.current?.disconnect();
