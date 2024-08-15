@@ -115,7 +115,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       //setSnappedPosition(scrolledDistance);
       //setCurrentIndexPosition(scrolledDistance)
       setCurrentIndexPosition(scrollPositions[currentSection]);
-    },[currentSection, scrollPositions])
+    },[currentSection])
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
         //when current section changes
         useEffect(()=>{

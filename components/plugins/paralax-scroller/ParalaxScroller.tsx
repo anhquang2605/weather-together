@@ -26,6 +26,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     const { sectionIndex, secctionIds, scrollSpeed, snapToSections, intersectionHandler,scrollClassName,  withCounterpart, isUp = false,isInProgress = false } = props;
     const { children } = props;
     const handleInterSection = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+        console.log('down handler');
         entries.forEach((entry) => {
             if(entry.isIntersecting){
                 const id = entry.target.id as string;
@@ -58,7 +59,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
     const updateObserver = (config: IntersectionObserverInit, isUp: boolean) => {
 
         if(observerRef.current){
-            console.log(observerRef.current);
+            //console.log(observerRef.current);
             observerRef.current.disconnect();
         }
         const configuration: IntersectionObserverInit = {
@@ -86,6 +87,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
 
     useEffect(() => {
         if(!isInProgress){
+            console.log("observer created for up?",isUp);
             const configuration: IntersectionObserverInit = {
                 //rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
                 threshold: isUp ? 1:0
@@ -95,7 +97,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
                 ,isUp
             );
         }
-    },[isInProgress, isUp])
+    },[isInProgress])
     useEffect(() => {
         return () => {
             observerRef.current?.disconnect();
@@ -111,3 +113,5 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
 };
 
 export default ParalaxScroller;
+
+// current problem: when down scrolling is in active, scrolling up will cause the previous section to be intersected this happen when scrolling down until the previous section is obmitted.
