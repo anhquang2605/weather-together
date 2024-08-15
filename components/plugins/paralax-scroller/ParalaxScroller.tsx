@@ -87,7 +87,6 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
 
     useEffect(() => {
         if(!isInProgress){
-            console.log("observer created for up?",isUp);
             const configuration: IntersectionObserverInit = {
                 //rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
                 threshold: isUp ? 1:0
