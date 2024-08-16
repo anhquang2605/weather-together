@@ -20,12 +20,15 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
         if (!container) return 0;
         return container.getBoundingClientRect().width;
     }
-    const updateBarLiquid = () => {
-
-        const width = (containerWidth + OFFSET_TO_SIDE * 2) * progress ;
+    const setBarLiquidWidth = (width: number) => {
         const barLiquid: HTMLElement | null = document.querySelector('#bar-liquid' + '-' + id);
         if (!barLiquid) return;
         barLiquid.style.width = width + 'px';
+    }
+    const updateBarLiquid = (progress: number) => {
+        
+        const width = (containerWidth + OFFSET_TO_SIDE * 2) * progress ;
+        setBarLiquidWidth(width);
     }
     const styleObject = {
         [side] : - OFFSET_TO_SIDE + 'px'
@@ -44,8 +47,8 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
     },[currentIndex, nextIndex])
     useEffect(()=>{
         if(!containerWidth || !isCurrent || !progress) return; 
-        updateBarLiquid();
-    },[containerWidth, progress])
+        updateBarLiquid(Math.abs(progress));
+    },[progress])
     useEffect(()=>{
         if(isCurrent
         ){
@@ -58,6 +61,8 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
             /* setSide( prev => {
                 return prev === 'left' ? 'right' : 'left'
             }) */
+        } else {
+            setBarLiquidWidth(0);
         }
     },[isCurrent, nextIndex, currentIndex])
     return (
