@@ -24,7 +24,7 @@ const ParalaxSection: React.FC<ParalaxSectionProps> = ({children, id, className 
             const sectionTop = sectionRect.top;
             const head = document.getElementById(id + '-head');
             if (head) {
-                head.style.top = "-" + sectionTop + 'px';
+                head.style.top = '-' + (5) + 'px';
             }
         }
     }
