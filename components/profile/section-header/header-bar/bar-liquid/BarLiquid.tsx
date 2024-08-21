@@ -52,7 +52,6 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
     useEffect(()=>{
         if(isCurrent
         ){
-            
             if(nextIndex < currentIndex){
                 setSide('right');
             } else {
@@ -62,11 +61,17 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
                 return prev === 'left' ? 'right' : 'left'
             }) */
         } else {
+            if(side === 'left'){
+                setSide('right');
+            } else {
+                setSide('left');
+            }
+
             setBarLiquidWidth(0);
         }
     },[isCurrent, nextIndex, currentIndex])
     return (
-        <div style={styleObject} id={'bar-liquid-' + id + ''} className={style['bar-liquid'] +  ' ' + (isCurrent ? style['current'] : '')}>
+        <div style={styleObject} id={'bar-liquid-' + id + ''} className={style['bar-liquid'] +  ' ' + (isCurrent ? style['current'] : style['hidden'])}>
             
         </div>
     );

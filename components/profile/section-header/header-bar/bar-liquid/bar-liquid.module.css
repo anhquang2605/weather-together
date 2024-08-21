@@ -1,4 +1,8 @@
+
+
 .bar-liquid{
+    --expo: cubic-bezier(1, 0, 0, 1);
+    --bounc: cubic-bezier(0.79, 0.33, 0.14, 0.53);
     background: var(--btn-color);
     position: absolute;
     top: 50%;
@@ -6,9 +10,11 @@
     z-index: 120;
     transform: translateY(-50%);
     border-radius: 5px;
-    display: none;
-    transition: none;
+    filter:blur(0.5px);
+    transition-timing-function: var(--expo);
+    transition-duration: 0.3s;
 }
 .current{
-    display: block;
+    filter: none;
+    transition: none;
 }
