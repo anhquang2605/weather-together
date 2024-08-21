@@ -17,26 +17,17 @@ interface ParalaxSectionProps {
 }
 
 const ParalaxSection: React.FC<ParalaxSectionProps> = ({children, id, className , withHeadFiller, index}) => {
-    const resizeOberserverHandler = () => {
+    const setFirstHiddenHeaderPosition = () => {
         const section = document.getElementById(id);
         if (section) {
-            const sectionRect = section.getBoundingClientRect();
-            const sectionTop = sectionRect.top;
             const head = document.getElementById(id + '-head');
             if (head) {
-                head.style.top = '-' + (5) + 'px';
+                head.style.top = '0' + 'px';
             }
         }
     }
     useEffect(()=>{
-        if(index === 0){
-            const resizeObserver = new ResizeObserver(resizeOberserverHandler);
-            const section = document.getElementById(id);
-            resizeObserver.observe(section as Element);
-            return () => {
-                resizeObserver.disconnect();
-            }
-        }
+        if(index === 0){setFirstHiddenHeaderPosition();}
     },[])
     return (
         <div id={id} className={style['paralax-section'] + " h-[3000px] " + className + ( id === 'end' ? " " + style['end'] : "") }>
