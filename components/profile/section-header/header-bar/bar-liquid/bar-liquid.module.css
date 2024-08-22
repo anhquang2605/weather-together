@@ -12,7 +12,8 @@
     border-radius: 5px;
     filter:blur(0.5px);
     transition-timing-function: var(--expo);
-    transition-duration: 0.3s;
+    transition-duration: 0.2s;
+    transition-delay: 0.2s;
 }
 .current{
     filter: none;
