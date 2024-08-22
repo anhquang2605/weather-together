@@ -100,7 +100,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         if(!isInProgress){
             const configuration: IntersectionObserverInit = {
                 //rootMargin: `0px 0px ${isUp ? '-100%' : '0px'} 0px`,
-                threshold: isUp ? 1:0
+                threshold: 0
             }
             updateObserver(
                 configuration
