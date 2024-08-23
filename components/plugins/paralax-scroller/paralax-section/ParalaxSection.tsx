@@ -17,7 +17,7 @@ interface ParalaxSectionProps {
 }
 
 const ParalaxSection: React.FC<ParalaxSectionProps> = ({children, id, className , withHeadFiller, index}) => {
-    const setFirstHiddenHeaderPosition = () => {
+/*     const setFirstHiddenHeaderPosition = () => {
         const section = document.getElementById(id);
         if (section) {
             const head = document.getElementById(id + '-head');
@@ -28,7 +28,7 @@ const ParalaxSection: React.FC<ParalaxSectionProps> = ({children, id, className 
     }
     useEffect(()=>{
         if(index === 0){setFirstHiddenHeaderPosition();}
-    },[])
+    },[]) */
     return (
         <div id={id} className={style['paralax-section'] + " " +className + ( id === 'end' ? " " + style['end'] : "") }>
             {withHeadFiller && index !== 0 && <div className={style['head']} id={id + '-head'}/>}
