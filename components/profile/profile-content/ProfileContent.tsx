@@ -22,6 +22,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     //STATES
     const [currentSection, setCurrentSection] = useState(0);
     const [scrolledDistance, setScrolledDistance] = useState(0);
+    const [scrollTop, setScrollTop] = useState(0);
     const [scrollPositions, setScrollPositions] = useState<number[]>([]);
     const [isScrollingUp, setIsScrollingUp] = useState(false);
     const [scrolledFromCurrentSection, setScrolledFromCurrentSection] = useState(0);
@@ -45,6 +46,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     }
     //LOGIC
     const handleInterSection = (id: string) => {
+      console.log(id);
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
     }
@@ -54,8 +56,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const target = event.target as HTMLElement;
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       if(!profileContent) return;
-      const currentScrollTop = target.scrollTop + (profileContent.offsetTop) ;
+      let targetScrollTop = target.scrollTop;
+      const currentScrollTop = targetScrollTop + (profileContent.offsetTop) ;
       const oldScrollDistance = scrollDistanceRef.current || 0;
+      setScrollTop(targetScrollTop);
       setScrolledDistance(currentScrollTop);
       setIsScrollingUp(currentScrollTop < oldScrollDistance);
 /*       const scrolledDistance = event.target.;
@@ -120,6 +124,11 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         //when current section changes
         useEffect(()=>{
           scrollDistanceRef.current = scrolledDistance;
+          if(scrollTop === 0) 
+          {  //to make sure the current section is always 0 when scrolled to top
+            handleInterSection(sections[0]);
+            return;
+          }
           let distance = scrolledDistance - currentIndexPosition;
          //console.log(distance);
           setScrolledFromCurrentSection(distance);
