@@ -32,6 +32,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [snappedPosition, setSnappedPosition] = useState(0);
     const [isDirectionFlipped, setIsDirectionFlipped] = useState(false);
     const [isInProgress, setIsInProgress] = useState(false);//when the liquid bar is determined
+    const [progress, setProgress] = useState(0);
    /*  const [threshold, setThreshold] = useState(1);//for intersection switching 0 when scroll down, 1 when scroll up */
     //REFS
     const scrollDistanceRef = useRef(0);
@@ -46,7 +47,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     }
     //LOGIC
     const handleInterSection = (id: string) => {
-      console.log(id);
         const sectionIndex = getSectionIndex(id);
         setCurrentSection(sectionIndex);
     }
@@ -110,16 +110,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       
     },[])
 
-    useEffect(()=>{
-      if(!scrollPositions ) return;
-      currentSectionRef.current = currentSection;
-      setIsInProgress(false);
-      setIsDirectionFlipped(false);
-      //setIsDirectionFlipped(false);
-      //setSnappedPosition(scrolledDistance);
-      //setCurrentIndexPosition(scrolledDistance)
-      setCurrentIndexPosition(scrollPositions[currentSection]);
-    },[currentSection])
+
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
         //when current section changes
         useEffect(()=>{
@@ -130,7 +121,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
             return;
           }
           let distance = scrolledDistance - currentIndexPosition;
-         //console.log(distance);
           setScrolledFromCurrentSection(distance);
           if(distance < 0 && !isDirectionFlipped){
             setIsDirectionFlipped(true);
@@ -140,13 +130,24 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
             setIsInProgress(false);
           }
         },[scrolledDistance])
+      useEffect(()=>{
+        if(!scrollPositions ) return;
+        currentSectionRef.current = currentSection;
+        setIsInProgress(false);
+        setIsDirectionFlipped(false);
+        //setIsDirectionFlipped(false);
+        //setSnappedPosition(scrolledDistance);
+        //setCurrentIndexPosition(scrolledDistance)
+        setCurrentIndexPosition(scrollPositions[currentSectionRef.current]);
+      },[currentSection])
     useEffect(()=>{
       if(!isInProgress){
         setScrolledFromCurrentSection(0);
-        if(!isScrollingUp || currentSection === 0){
-          setNextSectionIndex(currentSection + 1);
-        } else if(isScrollingUp || currentSection === sections.length - 1){
-          setNextSectionIndex(currentSection - 1);
+        const currentRef = currentSectionRef.current;
+        if(!isScrollingUp || currentRef === 0){
+          setNextSectionIndex(currentRef + 1);
+        } else if(isScrollingUp || currentRef === sections.length - 1){
+          setNextSectionIndex(currentRef - 1);
         }
         setIsInProgress(true);
       }
@@ -155,11 +156,14 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!scrollPositions) return;
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
     },[nextSectionIndex, scrollPositions])
+    useEffect(()=>{
+      setProgress(scrolledFromCurrentSection / destinationScrollPosition);
+    },[scrolledFromCurrentSection, destinationScrollPosition])
     //Food for thought:
     //One the way back up, reverse the direction of the liquid bar, and the intersection somehow.
     return (
         <div className={style['profile-content']}>
-            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={scrolledFromCurrentSection / destinationScrollPosition}  level={4} nextIndex={nextSectionIndex} setCurrentSection={scrollToCurrentSection} />
+            <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={progress}  level={4} nextIndex={nextSectionIndex} setCurrentSection={scrollToCurrentSection} />
             <ParalaxScroller
                   isUp ={isScrollingUp}
                   intersectionHandler={handleInterSection}

@@ -8,7 +8,7 @@ import BarLiquid from './bar-liquid/BarLiquid';
 interface HeaderBarProps {
     currentIndex: number;
     titles: string[];
-    scrollProgress?: number;
+    scrollProgress: number;
     nextIndex?: number;
     setCurrentSection: (sectionIndex: number) => void
 }

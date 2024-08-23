@@ -49,6 +49,7 @@ const ParalaxScroller: React.FC<ParalaxScrollerProps> = (props) => {
         for (let entry of entries) {
             if( entry.isIntersecting){
                 const id = (entry.target.id as string).replace('-head', '');
+                if (haveIntersected(id)) return; 
 /*                 if(!haveIntersected(id)){
                     setLastIntersectionId(id);
                 }else{
