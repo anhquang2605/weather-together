@@ -31,7 +31,7 @@ const ParalaxSection: React.FC<ParalaxSectionProps> = ({children, id, className 
     },[])
     return (
         <div id={id} className={style['paralax-section'] + " " +className + ( id === 'end' ? " " + style['end'] : "") }>
-            {withHeadFiller && <div className={style['head']} id={id + '-head'}/>}
+            {withHeadFiller && index !== 0 && <div className={style['head']} id={id + '-head'}/>}
             {children}
         </div>
     );
