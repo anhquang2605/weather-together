@@ -2002,6 +2002,11 @@ video {
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
 }
 
+.is-editting {
+  min-height: 100px;
+  width: 100%;
+}
+
 /* FORMS */
 
 .form-row {

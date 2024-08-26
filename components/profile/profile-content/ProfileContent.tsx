@@ -191,7 +191,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                             className=""
                             withHeadFiller={true}
                           > 
-                            {section[0].toUpperCase() + section.slice(1)}
+                            {""}
                           </ParalaxSection>)
                         }
                         return (
@@ -202,7 +202,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
                             className=""
                             withHeadFiller={true}
                           > 
-                            {section[0].toUpperCase() + section.slice(1)}
                             {
                               section_components_map[section]
                             }

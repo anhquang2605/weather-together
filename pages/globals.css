@@ -248,6 +248,9 @@ body {
 .edit-title{
   @apply border-b border-slate-400 mb-8;
 }
+.is-editting{
+  @apply  w-full min-h-[100px]
+}
 /* FORMS */
 .form-row{
   @apply flex flex-col;

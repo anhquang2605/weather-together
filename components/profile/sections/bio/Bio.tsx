@@ -9,8 +9,8 @@ interface BioProps {
 export default function Bio({ userBio, isEditing, setEditingBio }: BioProps) {
     const [bio, setBio] = useState<string>(userBio);
     return (
-        <div className={`${styles.bio} ${styles['profile-row']} flex flex-col w-full relative`}>
-            <div className={`${styles['profile-section-title']} ${isEditing ? styles['edit-title'] : ''}`}>
+        <div className={`${styles.bio} profile-row flex flex-col w-full relative`}>
+            <div className={` profile-section-title ${isEditing ? 'edit-title' : '' } `}>
                 <h3>Bio</h3>
                 {isEditing && setEditingBio && 
                 <button onClick={()=>{setEditingBio(true)}} className="ml-auto" title="Edit">
@@ -19,7 +19,7 @@ export default function Bio({ userBio, isEditing, setEditingBio }: BioProps) {
                 }
             </div>
 
-            <p className={`${isEditing ? styles['isEditing'] : ''} ${styles['bio-content']} `}>{bio}</p>
+            <p className={`${isEditing ? 'is-editing' : ''} ${styles['bio-content']} `}>{bio}</p>
           
         </div>
     )
