@@ -243,9 +243,11 @@ body {
   }
 }
 .profile-section-title{
-  @apply text-xl border-b border-slate-400 mb-8;
+  @apply text-xl;
 }
-
+.edit-title{
+  @apply border-b border-slate-400 mb-8;
+}
 /* FORMS */
 .form-row{
   @apply flex flex-col;

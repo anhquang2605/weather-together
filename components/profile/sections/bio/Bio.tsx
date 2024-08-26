@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { IoPencil } from 'react-icons/io5';
+import styles from './bio.module.css';
 interface BioProps {
     userBio: string;
     isEditing: boolean;
@@ -8,10 +9,9 @@ interface BioProps {
 export default function Bio({ userBio, isEditing, setEditingBio }: BioProps) {
     const [bio, setBio] = useState<string>(userBio);
     return (
-        <div className="bio flex flex-col w-full relative">
-
-            <div className="profile-section-title flex">
-                <h3 className="">About me</h3>
+        <div className={`${styles.bio} ${styles['profile-row']} flex flex-col w-full relative`}>
+            <div className={`${styles['profile-section-title']} ${isEditing ? styles['edit-title'] : ''}`}>
+                <h3>Bio</h3>
                 {isEditing && setEditingBio && 
                 <button onClick={()=>{setEditingBio(true)}} className="ml-auto" title="Edit">
                     <IoPencil className="text-2xl text-slate-300" />
@@ -19,7 +19,7 @@ export default function Bio({ userBio, isEditing, setEditingBio }: BioProps) {
                 }
             </div>
 
-            <p className="text-slate-300 w-full text-sm bio-content min-h-[100px] ">{bio}</p>
+            <p className={`${isEditing ? styles['isEditing'] : ''} ${styles['bio-content']} `}>{bio}</p>
           
         </div>
     )

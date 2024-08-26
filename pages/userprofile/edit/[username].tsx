@@ -12,7 +12,7 @@ import EditPictureForm from "../../../components/profile/edit/edit-picture-form/
 import { useRouter } from "next/router";
 import EditBackgroundForm from "../../../components/profile/edit/edit-background-form/EditBackgroundForm";
 import EditBio from "../../../components/profile/edit/edit-bio/EditBio";
-import Bio from "../../../components/profile/bio/Bio";
+import Bio from "../../../components/profile/sections/bio/Bio";
 import { useSession } from "next-auth/react";
 import withAuthStatic from "../../authentication/with-auth-static";
 import {subscribe, unSubcribe} from "../../../utils/websocket-service";

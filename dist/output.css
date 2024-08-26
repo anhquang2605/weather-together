@@ -856,10 +856,6 @@ video {
   max-height: 20rem;
 }
 
-.min-h-\[100px\] {
-  min-height: 100px;
-}
-
 .min-h-\[150px\] {
   min-height: 150px;
 }
@@ -1995,12 +1991,15 @@ video {
 }
 
 .profile-section-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.edit-title {
   margin-bottom: 2rem;
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
-  font-size: 1.25rem;
-  line-height: 1.75rem;
 }
 
 /* FORMS */
