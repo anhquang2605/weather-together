@@ -46,8 +46,8 @@ const BarLiquid: React.FC<BarLiquidProps> = ({progress = 0, containerClassName, 
         }
     },[currentIndex, nextIndex])
     useEffect(()=>{
-        if(!containerWidth || !isCurrent || !progress) return; 
-        console.log(progress, id)
+        console.log(progress, currentIndex);
+        if(!containerWidth || !isCurrent) return; 
         updateBarLiquid(Math.abs(progress));
     },[progress])
     useEffect(()=>{
