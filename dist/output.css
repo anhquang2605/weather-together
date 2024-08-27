@@ -2002,9 +2002,27 @@ video {
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
 }
 
-.is-editting {
+.is-editting-profile-title {
   min-height: 100px;
   width: 100%;
+}
+
+.profile-section-content {
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
+  background-color: rgb(226 232 240 / 0.2);
+  --tw-backdrop-blur: blur(4px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  color: var(--primary-color);
+}
+
+.profile-section-content.big-boy {
+  border-radius: 1.5rem;
+  padding: 8rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 /* FORMS */
