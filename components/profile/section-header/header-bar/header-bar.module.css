@@ -19,6 +19,9 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        @apply top-7;
+    }
+    &:hover span{
+        @apply mt-1;
+        background-color: var(--btn-hover-color);
     }
 }
