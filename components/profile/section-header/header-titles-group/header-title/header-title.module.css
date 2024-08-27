@@ -1,8 +1,8 @@
 .header-title{
-    @apply block w-max  text-slate-200;
-    
+    @apply block w-max rounded-lg py-1 px-1 z-10 text-sm font-bold;
+    background-color: var(--btn-color);
 }
 .current-title{
-    @apply text-indigo-600 font-bold px-2 py-1 bg-slate-200/70 z-10 rounded-lg;
+    @apply opacity-0;
     background-blend-mode: multiply;
     }

@@ -50,7 +50,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({currentIndex, titles, scrollProgre
                             <HeaderIcon isCurrent={currentIndex === i} title={titles[i]} />
                             <MiniSun isCurrent={currentIndex === i}/>
                         </BarCicle>
-                        <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
+                         <HeaderTitle isCurrentIndex={currentIndex === i} title={titles[i]} />
                     </div>
                     {i !== numberOfSections - 1 && 
                         <CircleEdge>

@@ -2,7 +2,7 @@
     @apply w-full flex justify-center items-center;
 }
 .bar-circle, .circle-edge{
-    @apply bg-slate-200/70 ;
+    @apply bg-slate-200;
     background-blend-mode: multiply;
 }
 .bar-circle{
@@ -14,6 +14,7 @@
 .bar-circle-group{
     position: relative;
     cursor: pointer;
+    z-index: 30;
     & span{
         position: absolute;
         left: 50%;
