@@ -243,10 +243,13 @@ body {
   }
 }
 .profile-section-title{
-  @apply text-xl;
+  @apply text-xl uppercase px-8 py-2 mb-2 rounded-lg w-min;
+  background-color: var(--primary-color);
+  
 }
 .edit-title{
-  @apply border-b border-slate-400 mb-8;
+  @apply border-b border-slate-400 mb-8 ;
+  text-transform: capitalize;
 }
 .is-editting-profile-title{
   @apply  w-full min-h-[100px]
@@ -256,7 +259,7 @@ body {
   color: var(--primary-color);
 }
 .profile-section-content.big-boy{
-    @apply p-32 text-2xl  rounded-3xl 
+    @apply p-48 text-2xl rounded-3xl 
 }
 
 /* FORMS */

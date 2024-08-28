@@ -1991,8 +1991,18 @@ video {
 }
 
 .profile-section-title {
+  margin-bottom: 0.5rem;
+  width: -moz-min-content;
+  width: min-content;
+  border-radius: 0.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   font-size: 1.25rem;
   line-height: 1.75rem;
+  text-transform: uppercase;
+  background-color: var(--primary-color);
 }
 
 .edit-title {
@@ -2000,6 +2010,7 @@ video {
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
+  text-transform: capitalize;
 }
 
 .is-editting-profile-title {
@@ -2020,7 +2031,7 @@ video {
 
 .profile-section-content.big-boy {
   border-radius: 1.5rem;
-  padding: 8rem;
+  padding: 12rem;
   font-size: 1.5rem;
   line-height: 2rem;
 }
