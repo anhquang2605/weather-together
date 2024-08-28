@@ -1991,9 +1991,9 @@ video {
 }
 
 .profile-section-title {
-  margin-bottom: 0.5rem;
-  width: -moz-min-content;
-  width: min-content;
+  margin-bottom: 1rem;
+  width: -moz-max-content;
+  width: max-content;
   border-radius: 0.5rem;
   padding-left: 2rem;
   padding-right: 2rem;
