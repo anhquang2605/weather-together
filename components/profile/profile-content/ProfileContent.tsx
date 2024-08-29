@@ -17,6 +17,7 @@ interface ProfileContentProps {
 const sections = [
     'about_me',
     'bio',
+    'gallery',
     'activities',
     'end'
   ]
@@ -24,8 +25,9 @@ const sections = [
 const DEBOUNCE_TIME = 1000;
 const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname = "", user}) => {
     const section_components_map: {[key: string]: any} = {
-      'about_me': <AboutMe />,
+      'about_me': <AboutMe user={user} />,
       'bio': <Bio isEditing={false} userBio={user.bio || ""} />,
+      'gallery': "gallery",
       'activities': <Activities />,
     }
     //STATES

@@ -2024,10 +2024,11 @@ video {
 }
 
 .profile-section-content {
+  border-radius: 1.5rem;
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
-  background-color: rgb(226 232 240 / 0.2);
+  background-color: rgb(241 245 249 / 0.3);
   padding: 4rem;
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -2039,14 +2040,11 @@ video {
 
 .profile-section-content.big-boy {
   width: 100%;
-  border-radius: 1.5rem;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  padding-left: 8rem;
-  padding-right: 8rem;
-  @media (min-width: 1024px){
-    width: 75%;
-  }
+  padding: 8rem;
+  padding-left: 16rem;
+  padding-right: 16rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .profile-section-left{

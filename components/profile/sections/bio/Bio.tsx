@@ -9,7 +9,7 @@ interface BioProps {
 export default function Bio({ userBio, isEditing, setEditingBio }: BioProps) {
     const [bio, setBio] = useState<string>(userBio);
     return (
-        <div className={`${styles.bio} profile-row flex flex-col w-full relative profile-section-right`}>
+        <div className={`${styles.bio} profile-row flex flex-col w-full relative`}>
             <div className={` profile-section-title ${isEditing ? 'edit-title' : '' } `}>
                 <h3>Bio</h3>
                 {isEditing && setEditingBio && 

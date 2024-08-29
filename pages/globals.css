@@ -258,14 +258,11 @@ body {
   @apply flex flex-col;
 }
 .profile-section-content{
-  @apply border border-slate-200 bg-slate-200/20 backdrop-blur-sm text-lg p-16;
+  @apply border border-slate-200 bg-slate-100/30 backdrop-blur-sm rounded-3xl text-lg p-16;
   color: var(--primary-color);
 }
 .profile-section-content.big-boy{
-    @apply py-16 px-32 rounded-3xl w-full;
-    @screen lg{
-      width: 75%;
-    }
+    @apply p-32 px-64 text-2xl w-full;
   }
 .profile-section-left{
   display:flex;

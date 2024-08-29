@@ -14,14 +14,14 @@ export default function Summary( {user,isEditing,setEditingSummary}: SummaryProp
     return (
         <>
           { user && <div className="w-full flex flex-col">
-          <div className="profile-section-title flex">
+            {isEditing && setEditingSummary &&
+            <div className="profile-section-title flex">  
                 <h3 className="">Contact</h3>
-                {isEditing && setEditingSummary && 
                 <button className="ml-auto" title="Edit" onClick={()=>{setEditingSummary(true)}}>
                     <IoPencil className="text-2xl text-slate-300" />
                 </button>
-                }
             </div>
+            }
             <div className="profile-row">
                 <h4>First name</h4>
                 <p>{user.firstName}</p>
