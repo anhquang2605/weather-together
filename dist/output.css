@@ -2018,11 +2018,19 @@ video {
   width: 100%;
 }
 
+.profile-section {
+  display: flex;
+  flex-direction: column;
+}
+
 .profile-section-content {
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
   background-color: rgb(226 232 240 / 0.2);
+  padding: 4rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
   --tw-backdrop-blur: blur(4px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
           backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
@@ -2030,10 +2038,22 @@ video {
 }
 
 .profile-section-content.big-boy {
+  width: 100%;
   border-radius: 1.5rem;
-  padding: 12rem;
-  font-size: 1.5rem;
-  line-height: 2rem;
+  padding: 4rem;
+  @media (min-width: 1024px){
+    width: 75%;
+  }
+}
+
+.profile-section-left{
+  display:flex;
+  align-items: flex-start;
+}
+
+.profile-section-right{
+  display: flex;
+  align-items: flex-end;
 }
 
 /* FORMS */

@@ -254,12 +254,27 @@ body {
 .is-editting-profile-title{
   @apply  w-full min-h-[100px]
 }
+.profile-section{
+  @apply flex flex-col;
+}
 .profile-section-content{
-  @apply border border-slate-200 bg-slate-200/20 backdrop-blur-sm;
+  @apply border border-slate-200 bg-slate-200/20 backdrop-blur-sm text-lg p-16;
   color: var(--primary-color);
 }
 .profile-section-content.big-boy{
-    @apply p-48 text-2xl rounded-3xl 
+    @apply p-16 rounded-3xl w-full;
+    @screen lg{
+      width: 75%;
+    }
+  }
+.profile-section-left{
+  display:flex;
+
+  align-items: flex-start;
+}
+.profile-section-right{
+  display: flex;
+  align-items: flex-end;
 }
 
 /* FORMS */
