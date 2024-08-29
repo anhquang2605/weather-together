@@ -2040,7 +2040,10 @@ video {
 .profile-section-content.big-boy {
   width: 100%;
   border-radius: 1.5rem;
-  padding: 4rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  padding-left: 8rem;
+  padding-right: 8rem;
   @media (min-width: 1024px){
     width: 75%;
   }

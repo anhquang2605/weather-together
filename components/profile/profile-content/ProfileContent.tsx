@@ -15,8 +15,8 @@ interface ProfileContentProps {
 
 }
 const sections = [
-    'bio',
     'about_me',
+    'bio',
     'activities',
     'end'
   ]

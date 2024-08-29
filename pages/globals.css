@@ -262,7 +262,7 @@ body {
   color: var(--primary-color);
 }
 .profile-section-content.big-boy{
-    @apply p-16 rounded-3xl w-full;
+    @apply py-16 px-32 rounded-3xl w-full;
     @screen lg{
       width: 75%;
     }

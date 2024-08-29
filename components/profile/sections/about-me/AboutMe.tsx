@@ -7,7 +7,7 @@ interface AboutMeProps {
 
 const AboutMe: React.FC<AboutMeProps> = ({}) => {
     return (
-        <div className={`${style['about-me']} profile-section profile-section-right`}>
+        <div className={`${style['about-me']} profile-section profile-section-left`}>
             <div className={`profile-section-title`}>
                 <h3>About Me</h3>
             </div>
