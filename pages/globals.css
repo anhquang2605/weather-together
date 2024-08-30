@@ -262,7 +262,14 @@ body {
   color: var(--primary-color);
 }
 .profile-section-content.big-boy{
-    @apply p-32 px-64 text-2xl w-full;
+    @apply p-8 text-sm;
+    @screen md {
+      width: full;
+      font-size: 1.5rem;
+      padding: 8rem;
+      padding-left: 16rem;
+      padding-right: 16rem;
+    }
   }
 .profile-section-left{
   display:flex;

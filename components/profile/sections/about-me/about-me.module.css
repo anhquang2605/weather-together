@@ -1,3 +1,9 @@
 .about-me{
     
 }
+.about-me-content{
+    @apply flex flex-col gap-8;
+    @screen lg{
+        @apply flex-row;
+    }
+}

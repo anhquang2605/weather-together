@@ -2039,12 +2039,20 @@ video {
 }
 
 .profile-section-content.big-boy {
-  width: 100%;
-  padding: 8rem;
-  padding-left: 16rem;
-  padding-right: 16rem;
-  font-size: 1.5rem;
-  line-height: 2rem;
+  padding: 2rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  @media (min-width: 768px) {
+    width: full;
+
+    font-size: 1.5rem;
+
+    padding: 8rem;
+
+    padding-left: 16rem;
+
+    padding-right: 16rem;
+  }
 }
 
 .profile-section-left{
