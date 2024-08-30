@@ -8,6 +8,7 @@ import { debounce } from 'lodash';
 import Bio from '../sections/bio/Bio';
 import AboutMe from '../sections/about-me/AboutMe';
 import Activities from '../sections/activities/Activities';
+import Gallery from '../sections/gallery/Gallery';
 
 interface ProfileContentProps {
     scrollContainerClassname?: string;
@@ -16,7 +17,6 @@ interface ProfileContentProps {
 }
 const sections = [
     'about_me',
-    'bio',
     'gallery',
     'activities',
     'end'
@@ -26,7 +26,7 @@ const DEBOUNCE_TIME = 1000;
 const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname = "", user}) => {
     const section_components_map: {[key: string]: any} = {
       'about_me': <AboutMe user={user} />,
-      'gallery': "gallery",
+      'gallery': <Gallery />,
       'activities': <Activities />,
     }
     //STATES

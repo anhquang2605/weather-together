@@ -1,5 +1,5 @@
 .section-header{
-    @apply w-full flex flex-col justify-center items-center mb-16 mt-8;
+    @apply w-full flex flex-col justify-center items-center mb-8 mt-8;
     & *{
         transition: var(--short-transition);
     }

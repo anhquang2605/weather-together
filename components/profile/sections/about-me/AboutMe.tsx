@@ -15,7 +15,7 @@ const AboutMe: React.FC<AboutMeProps> = ({user}) => {
                 <h3>About Me</h3>
             </div>
             <div className={style['about-me-content']}>
-                <div className={`profile-section-content`}>
+                <div className={`profile-section-content h-min`}>
                     <Summary    user={user} isEditing={false} />
 
                 </div>

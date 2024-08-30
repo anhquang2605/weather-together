@@ -258,15 +258,16 @@ body {
   @apply flex flex-col;
 }
 .profile-section-content{
-  @apply border border-slate-200 bg-slate-100/30 backdrop-blur-sm rounded-3xl text-lg p-16;
+  @apply border border-slate-200 bg-slate-100/20 backdrop-blur-sm rounded-3xl text-lg p-16;
   color: var(--primary-color);
 }
 .profile-section-content.big-boy{
-    @apply p-8 text-sm;
+    @apply p-8 text-base h-min;
     @screen md {
       width: full;
       font-size: 1.5rem;
-      padding: 8rem;
+      line-height: 2rem;
+      padding: 4rem;
       padding-left: 16rem;
       padding-right: 16rem;
     }

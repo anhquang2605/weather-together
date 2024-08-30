@@ -848,6 +848,11 @@ video {
   height: 100%;
 }
 
+.h-min {
+  height: -moz-min-content;
+  height: min-content;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
@@ -2028,7 +2033,7 @@ video {
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
-  background-color: rgb(241 245 249 / 0.3);
+  background-color: rgb(241 245 249 / 0.2);
   padding: 4rem;
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -2039,15 +2044,19 @@ video {
 }
 
 .profile-section-content.big-boy {
+  height: -moz-min-content;
+  height: min-content;
   padding: 2rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
   @media (min-width: 768px) {
     width: full;
 
     font-size: 1.5rem;
 
-    padding: 8rem;
+    line-height: 2rem;
+
+    padding: 4rem;
 
     padding-left: 16rem;
 
