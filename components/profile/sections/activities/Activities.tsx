@@ -11,7 +11,9 @@ const Activities: React.FC<ActivitiesProps> = ({}) => {
             <div className={`profile-section-title`}>
                 <h3>Activities</h3>
             </div>
-            
+            <div className={`profile-section-content`}>
+                <p>Coming Soon</p>
+            </div>
         </div>
     );
 };
