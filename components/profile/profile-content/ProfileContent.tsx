@@ -26,7 +26,7 @@ const DEBOUNCE_TIME = 1000;
 const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname = "", user}) => {
     const section_components_map: {[key: string]: any} = {
       'about_me': <AboutMe user={user} />,
-      'gallery': <Gallery />,
+      'gallery': <Gallery username={user.username}/>,
       'activities': <Activities />,
     }
     //STATES
