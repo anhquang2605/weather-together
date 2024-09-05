@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const picturesCollection: Collection<WithId<Picture>> = db.collection('pictures');
         switch (method) {
             case 'GET':
-                const {targetId, username, many} = req.query;
+                const {targetId, username, many, amount} = req.query;
                 try {
                     let result = null;
                     if(targetId){
@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         if(result.length > 0){
                             res.status(200).json({
                                 success: true,
-                                data: many === 'true' ? result : result[0],
+                                data: many === 'true' || amount ? result : result[0],
                             });
                         }else{
                             res.status(404).json({
@@ -28,11 +28,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             });
                         }
                     } else if(username){
-                        result = await picturesCollection.find({username: username}).toArray();
+                        if(amount){
+                            result = await picturesCollection.find({username: username}).limit(Number(amount) + 1).toArray();
+                        } else {
+                            result = await picturesCollection.find({username: username}).toArray();
+                        }
                         if(result.length > 0){
+                            let data = result;
+                            let more = false;
+                            if(amount){
+                                data = result.slice(0, Number(amount));
+                                more = result.length > Number(amount);
+                            }
                             res.status(200).json({
                                 success: true,
-                                data: many === 'true' ? result : result[0],
+                                data: data,
+                                more: more,
                             });
                         }else{
                             res.status(404).json({
