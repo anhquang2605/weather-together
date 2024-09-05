@@ -1751,6 +1751,7 @@ video {
   padding: 0;
   height: 0;
   overflow: hidden;
+  z-index: 1;
   @media (min-width: 1024px){
     display: flex;
 

@@ -101,6 +101,7 @@ body {
   padding: 0;
   height: 0;
   overflow: hidden;
+  z-index: 1;
   @screen lg{
     display: flex;
     flex-direction: column;

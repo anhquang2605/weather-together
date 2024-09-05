@@ -24,7 +24,6 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
     const {setContent, setShow, setCurrentPictureIndex, setPictures} = usePictureModal();
     const handleClick = (picture: Picture) => {
         setContent(picture);
-        
         setShow(true);
         if(pictures){
             setPictures(pictures);

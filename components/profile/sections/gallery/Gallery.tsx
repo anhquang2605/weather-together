@@ -4,6 +4,7 @@ import { Picture } from '../../../../types/Picture';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { PictureModalProvider } from '../../../embedded-view-components/picture-component/PictureModalContext';
 import PictureComponent from '../../../embedded-view-components/picture-component/PictureComponent';
+import PictureModal from '../../../embedded-view-components/picture-component/picture-modal/PictureModal';
 
 interface GalleryProps {
     username: string;
@@ -58,6 +59,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 {pictures && pictures.length > 0 && generatePictures()}
             </div>
         </div>
+        <PictureModal/>
     </PictureModalProvider>
     );
 };
