@@ -27,6 +27,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 error: 'Not Found',
                             });
                         }
+                    } else if(username){
+                        result = await picturesCollection.find({username: username}).toArray();
+                        if(result.length > 0){
+                            res.status(200).json({
+                                success: true,
+                                data: many === 'true' ? result : result[0],
+                            });
+                        }else{
+                            res.status(404).json({
+                                success: false,
+                                error: 'Not Found',
+                            });
+                        }
                     }
                 } catch (error) {
                     res.status(500).json({
