@@ -51,11 +51,13 @@ export default function RootLayout({
 
 
       <div className={style["layout"]}>
+            
             { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}
+            { (!asPath.includes("login") && !asPath.includes("register")) && user &&<NotificationCenter/>}
             <div className="remaining-estate overflow-y-hidden flex w-full h-full">
               {children}
             </div>
-            { (!asPath.includes("login") && !asPath.includes("register")) && user &&<NotificationCenter/>}
+            
           {loading && <Loading/>}
       </div>
     </>

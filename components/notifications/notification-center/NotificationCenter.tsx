@@ -309,6 +309,7 @@ export default function NotificationCenter(){
     return(
         <NotificationContext.Provider value={{loadingNotification: loadingNotification, limit: ORIGINAL_LIMIT, fetching:fetching[mode], unreads: unreadNotificationsCount}}>
             <div
+                id = "notification-component"
                 className={style['notification-center'] + " mt-4 mr-4  " + (reveal ? style['reveal'] : "") + (unreadNotificationsCount > 0 ? " " + style['new'] : "")}
             
             >
