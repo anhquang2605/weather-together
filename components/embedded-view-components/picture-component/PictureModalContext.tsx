@@ -61,17 +61,18 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
         setCurrentPictureIndex(0);
     }
     //help solve the problem where the notification bell is infront of the picture modal, the parent of this modal has a z-index of 10 while the notification bell has a z-index of 40. 
-    const changeNotificationZIndex = (zIndex: number) => {
+    const changeNotificationZIndex = (show: boolean) => {
         const notificationComponent = document.getElementById('notification-component');
-        const pictureModalComponent = document.getElementById('picture-modal');
-        let modalZIndex = 0;
-        if(pictureModalComponent){
-            modalZIndex = parseInt(window.getComputedStyle(pictureModalComponent).zIndex);
-        }
-        let notificationZIndex = 0;
-
+        let notiZIndex = 0;
         if(notificationComponent){
-            notificationZIndex = parseInt(window.getComputedStyle(notificationComponent).zIndex);
+            notiZIndex = parseInt(window.getComputedStyle(notificationComponent).zIndex);
+        }    
+        if(notificationComponent){
+            if(show) {
+                notificationComponent.style.zIndex = (notiZIndex - 2).toString();
+            } else {
+                notificationComponent.style.zIndex = (notiZIndex + 2).toString();
+            }
         }
     }
     useEffect(()=>{
@@ -88,6 +89,7 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
         if(!show){
             resetStates();
         }
+        changeNotificationZIndex(show);
     },[show])
     return (
         <PictureModalContext.Provider value={{setCurrentPictureIndex, setPictures, profilePicturePaths, setProfilePicturePaths,content, setContent, show, setShow, showNext, showPrevious, isSlider}}>
