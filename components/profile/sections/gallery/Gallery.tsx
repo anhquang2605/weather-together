@@ -48,7 +48,14 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
     useEffect(() => {
         fetchPictures();
     },[])
-
+    //TODO: IMAGE arrangement
+    /*
+        align like google search:
+        - each row will have fixed height
+        - each row also have equal width
+        - fill picture on row as much as possible but maintain the aspect ratio and keep the row width maximum
+        - for the last row, leave some space at the end
+    */
     return (
     <PictureModalProvider>
         <div className={`${style['gallery']} profile-section`}>
