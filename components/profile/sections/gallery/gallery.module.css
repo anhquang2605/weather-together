@@ -1,3 +1,9 @@
 .gallery{
     
 }
+.gallery-pictures{
+    display: flex;
+    flex-wrap: wrap;
+    @apply gap-4;
+    
+}

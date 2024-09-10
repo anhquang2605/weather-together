@@ -55,6 +55,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         - each row also have equal width
         - fill picture on row as much as possible but maintain the aspect ratio and keep the row width maximum
         - for the last row, leave some space at the end
+        - 
     */
     return (
     <PictureModalProvider>
@@ -62,7 +63,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             <div className={`profile-section-title`}>
                 <h3>Gallery</h3>
             </div>
-            <div className={`profile-section-content`}>
+            <div className={`profile-section-content ${style['gallery-pictures']}`}>
                 {pictures && pictures.length > 0 && generatePictures()}
             </div>
         </div>
