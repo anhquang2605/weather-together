@@ -56,7 +56,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         - each row also have equal width
         - fill picture on row as much as possible but maintain the aspect ratio and keep the row width maximum
         - for the last row, leave some space at the end
-        - 
+        - there must be a threshold for the last item in the row so that break to new row will happen
     */
     return (
     <PictureModalProvider>
