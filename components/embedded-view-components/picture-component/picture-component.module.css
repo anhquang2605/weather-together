@@ -29,5 +29,7 @@
             object-fit: cover;
             object-position: center;
     }
-    
+}
+.noSpecialStyle{
+    @apply w-auto overflow-auto shadow-none m-0;
 }

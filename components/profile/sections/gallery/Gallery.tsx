@@ -40,7 +40,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                     alt=''
                     loading={false}
                     pictures={pictures}
-                    variant=''
+                    variant='noSpecialStyle'
                 />
             )
         }

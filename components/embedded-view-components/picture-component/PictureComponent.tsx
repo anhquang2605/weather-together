@@ -8,7 +8,7 @@ interface PictureComponentProps {
     loading: boolean;
     alt: string;
     pictures?: Picture[];
-    variant?: string;
+    variant?: string; //freeStyle, noSpecialStyle
     children?: React.ReactNode;
 }
 
