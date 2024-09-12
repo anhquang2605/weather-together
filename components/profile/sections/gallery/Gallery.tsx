@@ -34,14 +34,16 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         let backbones: JSX.Element[] = [];
         for(let i = 0; i < pictures.length; i++){
             backbones.push(
-                <PictureComponent
-                    key={i}
-                    picture={pictures[i]}
-                    alt=''
-                    loading={false}
-                    pictures={pictures}
-                    variant='noSpecialStyle'
-                />
+                <div className={style['gallery-picture']} key={i}>
+                    <PictureComponent
+                        key={i}
+                        picture={pictures[i]}
+                        alt=''
+                        loading={false}
+                        pictures={pictures}
+                        variant='noSpecialStyle'
+                    />
+                </div>
             )
         }
         return backbones;

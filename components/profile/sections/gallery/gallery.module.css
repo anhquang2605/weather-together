@@ -7,3 +7,7 @@
     @apply gap-4;
     
 }
+.gallery-picture{
+    max-height: 200px;
+    width: 120px;
+}
