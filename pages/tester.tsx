@@ -11,8 +11,20 @@ import style from './tester.module.css'
 import AnimatedBanner from "../components/profile/animated-banner/AnimatedBanner"
 import { WeatherBarContextProvider } from "../components/weather-widgets/weather-bar/useWeatherBarContext"
 import WeatherBar from "../components/weather-widgets/weather-bar/WeatherBar"
+import { getUserDataByUserName } from "../libs/users"
+import { User } from "../types/User"
+import Gallery from "../components/profile/sections/gallery/Gallery"
 /* this page is for testing purposes only */
-export default function Tester() {
+/* export const getStaticProps = async () => {
+    const user = await getUserDataByUserName('anhquang2605');
+    return {
+        props: {
+            userJSON: JSON.stringify(user),
+        },
+    };
+} */
+export default function Tester(userJSON:any) {
+    //const user:User = JSON.parse(userJSON);
     //const posts = generateRandomPosts(10);
     const [posts, setPosts] = useState([]);
     const profilePicturePaths = {
@@ -77,9 +89,10 @@ export default function Tester() {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
-            <WeatherBarContextProvider>
-                        <WeatherBar isExpanded={true}/>
-                    </WeatherBarContextProvider>
+
+            <Gallery username={'anhquang2605'} >
+
+            </Gallery>
         <div>
 
         </div>
