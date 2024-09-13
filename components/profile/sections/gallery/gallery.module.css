@@ -9,5 +9,8 @@
 }
 .gallery-picture{
     max-height: 200px;
-    width: 120px;
+    & > * {
+        height: 100%;
+        width: auto;
+   }
 }
