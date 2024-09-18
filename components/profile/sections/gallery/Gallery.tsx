@@ -67,9 +67,10 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 + No, we need to strech each image (including new one) to fit this one in the row. check if any of them break the threshold
                     + Yes, then we break the row and create a new one
                     + No, then we add image to the row
+                    + this logic can be handled using flex of css instead of javascript, we just need to scale image and check if it break the threshold
         _ Using the resize observer, same function that check the threshold
         _ Is there a css way to strech image width?
-            + flex-grow: how much the item can grow in the flex container, flex-basis (initial width of the flex item), flex-shrink
+            + flex-grow: how much the item can grow in the flex container, flex-basis (initial width of the flex item), flex-shrink, dont use this, since our images width is dynamic adjusted using javascript
     */
     return (
     <PictureModalProvider>
