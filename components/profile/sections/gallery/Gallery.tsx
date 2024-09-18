@@ -70,7 +70,12 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                     + this logic can be handled using flex of css instead of javascript, we just need to scale image and check if it break the threshold
         _ Using the resize observer, same function that check the threshold
         _ Is there a css way to strech image width?
-            + flex-grow: how much the item can grow in the flex container, flex-basis (initial width of the flex item), flex-shrink, dont use this, since our images width is dynamic adjusted using javascript
+            + Flex-grow - how much the item can grow in the flex container, flex-basis (initial width of the flex item), dont use this, since our images width is dynamic adjusted using javascript ** NOT VIABLE **
+            + Aspect-ratio: might be equivalent to fixed width and height when either of these dimension are fixed. ** NOT VIABLE **
+            + Just use javascript: costly. last resource. But can be improved:
+                + how about having a wrapper that would center the image within the container? might obstruct important part of the image, new algorithm is needed (we might need to create an component to handle just that, the component would also provide how much width and height was obstructed)
+                + providing fixed aspect ratio with the above the approach so that user can expect the image to have the same aspect ratio. (No, this is fixed dimension approach)
+                + this approach does not require costly operation, each component independently stretches the image to certain 
     */
     return (
     <PictureModalProvider>
