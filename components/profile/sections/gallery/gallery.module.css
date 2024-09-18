@@ -8,9 +8,7 @@
     
 }
 .gallery-picture{
-    max-height: 200px;
-    & > * {
-        height: 100%;
-        width: auto;
-   }
+    img{
+        object-fit: contain;
+    }
 }
