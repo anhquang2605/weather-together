@@ -2,13 +2,16 @@
     
 }
 .gallery-pictures{
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
-    @apply gap-4;
-    
+    @apply gap-4; */
+    float: left;
 }
 .gallery-picture{
+    height: 200px;
+    width: auto;
+    overflow: hidden;
     img{
-        object-fit: contain;
+        object-fit: fill;
     }
 }
