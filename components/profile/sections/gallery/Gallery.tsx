@@ -55,11 +55,21 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
     /*
         align like google search:
         - each row will have fixed height
-        - each row also have equal width
+        - each row also have equal width (preferably full of the container's width)
         - fill picture on row as much as possible but maintain the aspect ratio and keep the row width maximum
         - for the last row, leave some space at the end
-        - there must be a threshold for the last item in the row so that break to new row will happen
-        -
+        - there must be a threshold for the last item in the row so that break to new row will happen, accepted percentage is 5% or below
+        - Since we only streching width, compare new width with original width to determine the threshold.
+        - we check each image to make sure that we can fix them on to the row:
+            + If there is still space on the row, image remain the aspect ratio
+            + check the remain space with the upcoming width,
+                + Yes, then add image to the row
+                + No, we need to strech each image (including new one) to fit this one in the row. check if any of them break the threshold
+                    + Yes, then we break the row and create a new one
+                    + No, then we add image to the row
+        _ Using the resize observer, same function that check the threshold
+        _ Is there a css way to strech image width?
+            + flex-grow: how much the item can grow in the flex container, flex-basis (initial width of the flex item), flex-shrink
     */
     return (
     <PictureModalProvider>
