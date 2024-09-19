@@ -31,10 +31,10 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             }
         })
     }
-    const generatePictures = () => {
+    const generatePictures = (pics: Picture[]) => {
         let backbones: JSX.Element[] = [];
-        for(let i = 0; i < pictures.length; i++){
-            const thePicture = pictures[i];
+        for(let i = 0; i < pics.length; i++){
+            const thePicture = pics[i];
             if (!thePicture) continue;
             const pWidth = thePicture.width ?? 0;
             const pHeight = thePicture.height ?? 0;
@@ -42,10 +42,10 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 <div className={style['gallery-picture']} data-aspectRatio={pWidth / pHeight} key={i}>
                     <PictureComponent
                         key={i}
-                        picture={pictures[i]}
+                        picture={thePicture}
                         alt=''
                         loading={false}
-                        pictures={pictures}
+                        pictures={pics}
                         variant='noSpecialStyle'
                     />
                 </div>
@@ -53,7 +53,16 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         }
         return backbones;
     }
-    
+    const resizeObserverHandler = () => {
+        const pics = [...pictures];
+        const resizedPics = picturesResizer(pics);
+        generatePictures(resizedPics);
+    }
+    const picturesResizer = (pics: Picture[]) => {
+        const results: Picture[] = [];
+        
+        return results;
+    }
         //TODO: IMAGE arrangement
     /*
         align like google search:
@@ -84,6 +93,16 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
     */
     useEffect(() => {
         fetchPictures();
+        const observer = new ResizeObserver(resizeObserverHandler);
+        const target = document.querySelector(`.${style['gallery-pictures']}`);
+        if(target){
+            observer.observe(target);
+        }
+        return () => {
+            if(target){
+                observer.unobserve(target);
+            }
+        }
     },[])
     return (
     <PictureModalProvider>
@@ -92,7 +111,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 <h3>Gallery</h3>
             </div>
             <div className={`profile-section-content ${style['gallery-pictures']}`}>
-                {pictures && pictures.length > 0 && generatePictures()}
+                {pictures && pictures.length > 0 && generatePictures(pictures)}
             </div>
         </div>
         <PictureModal/>
