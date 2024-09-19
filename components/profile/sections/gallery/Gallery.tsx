@@ -10,6 +10,7 @@ interface GalleryProps {
     username: string;
 }
 const MAX_PICTURES = 10;
+const MAX_ASPECT_RATIO_OVER = 0.05; // 5% width is allowed to strech compare to original width
 const Gallery: React.FC<GalleryProps> = ({username}) => {
     const [pictures, setPictures] = useState<Picture[]>([]);
     const [morePictures, setMorePictures] = useState<boolean>(false);
@@ -33,8 +34,12 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
     const generatePictures = () => {
         let backbones: JSX.Element[] = [];
         for(let i = 0; i < pictures.length; i++){
+            const thePicture = pictures[i];
+            if (!thePicture) continue;
+            const pWidth = thePicture.width ?? 0;
+            const pHeight = thePicture.height ?? 0;
             backbones.push(
-                <div className={style['gallery-picture']} key={i}>
+                <div className={style['gallery-picture']} data-aspectRatio={pWidth / pHeight} key={i}>
                     <PictureComponent
                         key={i}
                         picture={pictures[i]}
@@ -48,10 +53,8 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         }
         return backbones;
     }
-    useEffect(() => {
-        fetchPictures();
-    },[])
-    //TODO: IMAGE arrangement
+    
+        //TODO: IMAGE arrangement
     /*
         align like google search:
         - each row will have fixed height
@@ -79,6 +82,9 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 + this approach does not require costly operation, each component independently stretches the image to certain.
 
     */
+    useEffect(() => {
+        fetchPictures();
+    },[])
     return (
     <PictureModalProvider>
         <div className={`${style['gallery']} profile-section`}>

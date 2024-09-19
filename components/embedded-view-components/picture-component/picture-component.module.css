@@ -24,12 +24,9 @@
         @apply w-full my-auto;
     }
     &.freeStyle img{
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+
     }
 }
 .noSpecialStyle{
-    @apply w-auto overflow-auto shadow-none m-0;
-}
+    @apply w-auto overflow-auto shadow-none m-0 rounded-none;
+}   
