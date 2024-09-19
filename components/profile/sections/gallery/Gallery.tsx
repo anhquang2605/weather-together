@@ -53,7 +53,12 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         }
         return backbones;
     }
-    const resizeObserverHandler = () => {
+    const resizeObserverHandler = (entries: ResizeObserverEntry[]) => {
+        const len = entries.length;
+        const entry = entries[0];
+        if(!entry) return;
+        const {width} = entry.contentRect;
+        const changeInWidth = width;
         const pics = [...pictures];
         const resizedPics = picturesResizer(pics);
         generatePictures(resizedPics);
