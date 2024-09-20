@@ -7,17 +7,19 @@
     --small-height: 164px;
 }   
 .gallery-pictures{
-    /* display: flex;
+    display: flex;
     flex-wrap: wrap;
-    @apply gap-4; */
-    float: left;
+    justify-content: space-between;
 }
 .gallery-picture{
     height: var(--small-height);
     width: auto;
     overflow: hidden;
+    @apply rounded-lg;
     img{
         object-fit: fill;
+        width: 100%!important;
+        height: 100%!important;
     }
     @screen md{
         height: var(--medium-height);

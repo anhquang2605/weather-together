@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './gallery.module.css';
 import { Picture } from '../../../../types/Picture';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
@@ -9,7 +9,7 @@ import PictureModal from '../../../embedded-view-components/picture-component/pi
 interface GalleryProps {
     username: string;
 }
-const MAX_PICTURES = 10;
+const MAX_PICTURES = 3;
 const MAX_ASPECT_RATIO_OVER = 0.05; // 5% width is allowed to strech compare to original width
 const Gallery: React.FC<GalleryProps> = ({username}) => {
     const [pictures, setPictures] = useState<Picture[]>([]);
@@ -31,15 +31,18 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             }
         })
     }
-    const generatePictures = (pics: Picture[]) => {
+    const generatePictures = (pics: Picture[],totalWidth: number = 0) => {
         let backbones: JSX.Element[] = [];
+        
         for(let i = 0; i < pics.length; i++){
             const thePicture = pics[i];
             if (!thePicture) continue;
             const pWidth = thePicture.width ?? 0;
             const pHeight = thePicture.height ?? 0;
+            const aspectRatio = pWidth / pHeight;
+
             backbones.push(
-                <div className={style['gallery-picture']} data-aspectRatio={pWidth / pHeight} key={i}>
+                <div className={style['gallery-picture']}  key={i}>
                     <PictureComponent
                         key={i}
                         picture={thePicture}
@@ -58,15 +61,8 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         const entry = entries[0];
         if(!entry) return;
         const {width} = entry.contentRect;
-        const changeInWidth = width;
         const pics = [...pictures];
-        const resizedPics = picturesResizer(pics);
-        generatePictures(resizedPics);
-    }
-    const picturesResizer = (pics: Picture[]) => {
-        const results: Picture[] = [];
-        
-        return results;
+        generatePictures(pics, width);
     }
         //TODO: IMAGE arrangement
     /*
@@ -117,7 +113,9 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             </div>
             <div className={`profile-section-content ${style['gallery-pictures']}`}>
                 {pictures && pictures.length > 0 && generatePictures(pictures)}
+                {morePictures && <span className={style['gallery-view-more']} onClick={fetchPictures}>View More</span>}
             </div>
+
         </div>
         <PictureModal/>
     </PictureModalProvider>
