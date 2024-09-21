@@ -9,10 +9,11 @@ import PictureModal from '../../../embedded-view-components/picture-component/pi
 interface GalleryProps {
     username: string;
 }
-const MAX_PICTURES = 3;
+const MAX_PICTURES = 10;
 const MAX_ASPECT_RATIO_OVER = 0.05; // 5% width is allowed to strech compare to original width
 const Gallery: React.FC<GalleryProps> = ({username}) => {
     const [pictures, setPictures] = useState<Picture[]>([]);
+    const [picturesComponents, setPicturesComponents] = useState<JSX.Element[]>([]);
     const [morePictures, setMorePictures] = useState<boolean>(false);
     const fetchPictures = () => {
         //fetch pictures using username, sorted by created date, also need count of pictures, limit to 10, when need view more, will make user go to pop up gallery, pop up gallery is already implemented, check post for reference
@@ -31,7 +32,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             }
         })
     }
-    const generatePictures = (pics: Picture[],totalWidth: number = 0) => {
+    const generatePictures = (pics: Picture[],totalWidth: number = 0, rowHeight: number) => {
         let backbones: JSX.Element[] = [];
         
         for(let i = 0; i < pics.length; i++){
@@ -40,9 +41,9 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             const pWidth = thePicture.width ?? 0;
             const pHeight = thePicture.height ?? 0;
             const aspectRatio = pWidth / pHeight;
-
+            const newWidth = aspectRatio * rowHeight;
             backbones.push(
-                <div className={style['gallery-picture']}  key={i}>
+                <div className={style['gallery-picture']} style= {{width: newWidth}}  key={i}>
                     <PictureComponent
                         key={i}
                         picture={thePicture}
@@ -57,12 +58,18 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         return backbones;
     }
     const resizeObserverHandler = (entries: ResizeObserverEntry[]) => {
-        const len = entries.length;
         const entry = entries[0];
         if(!entry) return;
         const {width} = entry.contentRect;
+        //get min-height of the entry
+        const target = entry.target as HTMLDivElement;
+        if(!target) return;
+        //we use min-height to determine the height of the row, this is depend on the css variables in gallery.module.css
+        const computedStyle = getComputedStyle(target);
+        const rowHeight = parseFloat(computedStyle.getPropertyValue('min-height').replace('px', ''));
         const pics = [...pictures];
-        generatePictures(pics, width);
+        const newPicturesComponents = generatePictures(pics, width, rowHeight);
+        setPicturesComponents(newPicturesComponents);
     }
     const getPerfectHeightForRow = (width: number, pics: Picture[]) => {
         //get perfect height for this row given the current pictures that would be populated on this row
@@ -117,7 +124,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 <h3>Gallery</h3>
             </div>
             <div className={`profile-section-content ${style['gallery-pictures']}`}>
-                {pictures && pictures.length > 0 && generatePictures(pictures)}
+                {picturesComponents}
                 {morePictures && <span className={style['gallery-view-more']} onClick={fetchPictures}>View More</span>}
             </div>
 

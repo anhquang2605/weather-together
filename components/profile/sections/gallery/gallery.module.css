@@ -10,11 +10,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    min-height: var(--small-height);
 }
 .gallery-picture{
     height: var(--small-height);
     width: auto;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     @apply rounded-lg;
     img{
         object-fit: fill;
