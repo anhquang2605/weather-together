@@ -106,17 +106,21 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
     */
     useEffect(() => {
         fetchPictures();
-        const observer = new ResizeObserver(resizeObserverHandler);
-        const target = document.querySelector(`.${style['gallery-pictures']}`);
-        if(target){
-            observer.observe(target);
-        }
-        return () => {
+    },[])
+    useEffect(()=>{
+        if(pictures.length > 0){
+            const observer = new ResizeObserver(resizeObserverHandler);
+            const target = document.querySelector(`.${style['gallery-pictures']}`);
             if(target){
-                observer.unobserve(target);
+                observer.observe(target);
+            }
+            return () => {
+                if(target){
+                    observer.unobserve(target);
+                }
             }
         }
-    },[])
+    },[pictures])
     return (
     <PictureModalProvider>
         <div className={`${style['gallery']} profile-section`}>
