@@ -128,8 +128,17 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 <h3>Gallery</h3>
             </div>
             <div className={`profile-section-content ${style['gallery-pictures']}`}>
-                {picturesComponents}
-                {morePictures && <span className={style['gallery-view-more']} onClick={fetchPictures}>View More</span>}
+                {
+                    pictures.length <= 0 ?
+                    <div className={style['gallery-no-pictures']}>
+                        <p>No pictures yet</p>
+                    </div>
+                    :
+                    <>
+                        {picturesComponents}
+                        {morePictures && <span className={style['gallery-view-more']} onClick={fetchPictures}>View More</span>}
+                    </>   
+                }
             </div>
 
         </div>
