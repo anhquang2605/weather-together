@@ -64,6 +64,10 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         const pics = [...pictures];
         generatePictures(pics, width);
     }
+    const getPerfectHeightForRow = (width: number, pics: Picture[]) => {
+        //get perfect height for this row given the current pictures that would be populated on this row
+        let height = 0;
+    }
         //TODO: IMAGE arrangement
     /*
         align like google search:
@@ -90,6 +94,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 + how about having a wrapper that would center the image within the container? might obstruct important part of the image, new algorithm is needed (we might need to create an component to handle just that, the component would also provide how much width and height was obstructed)
                 + providing fixed aspect ratio with the above the approach so that user can expect the image to have the same aspect ratio. (this is fixed dimension approach, so it is not possible)
                 + this approach does not require costly operation, each component independently stretches the image to certain.
+                + we strech the container while centering the picture component.
 
     */
     useEffect(() => {
