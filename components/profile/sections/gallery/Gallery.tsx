@@ -44,7 +44,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             const newWidth = aspectRatio * rowHeight;
             const widthPercentage = (newWidth / totalWidth) * 100;
             backbones.push(
-                <div className={style['gallery-picture']} style= {{/* width:widthPercentage + '%' */}}  key={i}>
+                <div className={style['gallery-picture']} style= {{width:widthPercentage + '%'}}  key={i}>
                     <PictureComponent
                         key={i}
                         picture={thePicture}

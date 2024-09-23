@@ -3,8 +3,8 @@
 
 .gallery{
     --large-height: 200px;
-    --medium-height: 184px;
-    --small-height: 164px;
+    --medium-height: 232px;
+    --small-height: 264px;
 }   
 .gallery-pictures{
     display: flex;
