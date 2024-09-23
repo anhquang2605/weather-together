@@ -9,7 +9,8 @@
 .gallery-pictures{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
     min-height: var(--small-height);
 }
 .gallery-picture{
