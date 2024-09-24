@@ -68,8 +68,11 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         //we use min-height to determine the height of the row, this is depend on the css variables in gallery.module.css
         const computedStyle = getComputedStyle(target);
         const rowHeight = parseFloat(computedStyle.getPropertyValue('min-height').replace('px', ''));
+        const padding = parseFloat(computedStyle.getPropertyValue('padding').replace('px', ''));
+        /* const gap = parseFloat(computedStyle.getPropertyValue('gap').replace('px', '')); */
+        const remaingWidth = width - (padding * 2);
         const pics = [...pictures];
-        const newPicturesComponents = generatePictures(pics, width, rowHeight);
+        const newPicturesComponents = generatePictures(pics, remaingWidth, rowHeight);
         setPicturesComponents(newPicturesComponents);
     }
     const getPerfectHeightForRow = (width: number, pics: Picture[]) => {
