@@ -103,6 +103,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 + providing fixed aspect ratio with the above the approach so that user can expect the image to have the same aspect ratio. (this is fixed dimension approach, so it is not possible)
                 + this approach does not require costly operation, each component independently stretches the image to certain.
                 + we strech the container while centering the picture component.
+                + collect gap as well as the padding properties of the container to determine the remaining space.
 
     */
     useEffect(() => {
