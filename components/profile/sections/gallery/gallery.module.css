@@ -9,7 +9,6 @@
 .gallery-pictures{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     gap: 2rem;
     min-height: var(--small-height);
 }
@@ -20,6 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.3);
     @apply rounded-lg;
     img{
         object-fit: fill;

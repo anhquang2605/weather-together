@@ -28,5 +28,5 @@
     }
 }
 .noSpecialStyle{
-    @apply w-auto overflow-auto shadow-none m-0 rounded-none;
+    @apply w-auto overflow-auto h-full shadow-none m-0 rounded-none;
 }   
