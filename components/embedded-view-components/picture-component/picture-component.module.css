@@ -29,4 +29,10 @@
 }
 .noSpecialStyle{
     @apply w-auto overflow-auto h-full shadow-none m-0 rounded-none;
-}   
+}
+.is-background{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+}

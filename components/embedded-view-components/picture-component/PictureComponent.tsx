@@ -10,6 +10,7 @@ interface PictureComponentProps {
     pictures?: Picture[];
     variant?: string; //freeStyle, noSpecialStyle
     children?: React.ReactNode;
+    isBackground?: boolean;
 }
 
 const PictureComponent: React.FC<PictureComponentProps> = ({
@@ -18,7 +19,8 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
     alt,
     pictures,
     variant = "freeStyle",
-    children
+    children,
+    isBackground
 }) => {
 
     const {setContent, setShow, setCurrentPictureIndex, setPictures} = usePictureModal();
@@ -31,13 +33,14 @@ const PictureComponent: React.FC<PictureComponentProps> = ({
         }
     }
     return (
-        <div className={`${style["picture-component"]} ${style[variant]} `} 
-            onClick={()=>{
+        <div className={`${style["picture-component"]} ${style[variant]} ${isBackground ? style["is-background"] : ""} `} 
+            style={{backgroundImage: isBackground ? `url(${picture.picturePath})` : 'none'}} onClick={()=>{
                 handleClick(picture);
             }}
         >
             {children}
-            {picture && <Image width={picture.width} height={picture.height}  src={picture.picturePath} alt={alt} />}
+            {picture && !isBackground && <Image width={picture.width} height={picture.height}  src={picture.picturePath} alt={alt} />}
+            
         </div>
     )    
     ;

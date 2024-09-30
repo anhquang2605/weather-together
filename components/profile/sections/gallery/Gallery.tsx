@@ -46,6 +46,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             backbones.push(
                 <div className={style['gallery-picture']} style= {{width:widthPercentage + '%'}}  key={i}>
                     <PictureComponent
+                        isBackground = {true}
                         key={i}
                         picture={thePicture}
                         alt=''
@@ -107,7 +108,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 + this approach does not require costly operation, each component independently stretches the image to certain.
                 + we strech the container while centering the picture component.
                 + collect gap as well as the padding properties of the container to determine the remaining space.
-                + picture is set to be background image, so that it can strech and centalized.
+                + picture is set to be background image, so that it can strech and centalized. This work nicely, still need to figure out how to set width for each picture so that it fill up the space.
 
     */
     useEffect(() => {
