@@ -109,6 +109,8 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 + we strech the container while centering the picture component.
                 + collect gap as well as the padding properties of the container to determine the remaining space.
                 + picture is set to be background image, so that it can strech and centalized. This work nicely, still need to figure out how to set width for each picture so that it fill up the space.
+                + how do we determine the width of each image and fill the row?
+                    + working on fill algorithm
 
     */
     useEffect(() => {
