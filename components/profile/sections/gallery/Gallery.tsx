@@ -32,9 +32,26 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             }
         })
     }
-    const generatePictures = (pics: Picture[],totalWidth: number = 0, rowHeight: number) => {
+    const resizeObserverHandler = (entries: ResizeObserverEntry[]) => {
+        const entry = entries[0];
+        if(!entry) return;
+        const {width} = entry.contentRect;
+        //get min-height of the entry
+        const target = entry.target as HTMLDivElement;
+        if(!target) return;
+        //we use min-height to determine the height of the row, this is depend on the css variables in gallery.module.css
+        const computedStyle = getComputedStyle(target);
+        const rowHeight = parseFloat(computedStyle.getPropertyValue('min-height').replace('px', ''));
+        const padding = parseFloat(computedStyle.getPropertyValue('padding').replace('px', ''));
+        const gap = parseFloat(computedStyle.getPropertyValue('gap').replace('px', ''));
+        const remaingWidth = width - (padding * 2);
+        const pics = [...pictures];
+        const newPicturesComponents = generatePictures(pics, remaingWidth, rowHeight, gap);
+        setPicturesComponents(newPicturesComponents);
+    }
+    const generatePictures = (pics: Picture[],totalWidth: number = 0, rowHeight: number, gap: number) => {
         let backbones: JSX.Element[] = [];
-        
+        let widthPerrow = 0;
         for(let i = 0; i < pics.length; i++){
             const thePicture = pics[i];
             if (!thePicture) continue;
@@ -42,9 +59,10 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             const pHeight = thePicture.height ?? 0;
             const aspectRatio = pWidth / pHeight;
             const newWidth = aspectRatio * rowHeight;
+            widthPerrow += newWidth;
             const widthPercentage = (newWidth / totalWidth) * 100;
             backbones.push(
-                <div className={style['gallery-picture']} style= {{width:widthPercentage + '%'}}  key={i}>
+                <div className={style['gallery-picture']}     key={i}>
                     <PictureComponent
                         isBackground = {true}
                         key={i}
@@ -58,23 +76,6 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             )
         }
         return backbones;
-    }
-    const resizeObserverHandler = (entries: ResizeObserverEntry[]) => {
-        const entry = entries[0];
-        if(!entry) return;
-        const {width} = entry.contentRect;
-        //get min-height of the entry
-        const target = entry.target as HTMLDivElement;
-        if(!target) return;
-        //we use min-height to determine the height of the row, this is depend on the css variables in gallery.module.css
-        const computedStyle = getComputedStyle(target);
-        const rowHeight = parseFloat(computedStyle.getPropertyValue('min-height').replace('px', ''));
-        const padding = parseFloat(computedStyle.getPropertyValue('padding').replace('px', ''));
-        /* const gap = parseFloat(computedStyle.getPropertyValue('gap').replace('px', '')); */
-        const remaingWidth = width - (padding * 2);
-        const pics = [...pictures];
-        const newPicturesComponents = generatePictures(pics, remaingWidth, rowHeight);
-        setPicturesComponents(newPicturesComponents);
     }
     const getPerfectHeightForRow = (width: number, pics: Picture[]) => {
         //get perfect height for this row given the current pictures that would be populated on this row

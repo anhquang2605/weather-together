@@ -5,21 +5,37 @@
     --large-height: 200px;
     --medium-height: 232px;
     --small-height: 264px;
+    --large-width: 10%;
+    --medium-width: 33%;
+    --large-width: 50%;
+    --small-gap: 1rem;
+    --medium-gap: 2rem;
+    --large-gap: 2rem;
 }   
 .gallery-pictures{
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: var(--small-gap);
     min-height: var(--small-height);
+    width: 100%;
+    @screen md{
+        min-height: var(--medium-height);
+        gap: var(--medium-gap);
+    }
+    @screen lg{
+        min-height: var(--large-height);
+        gap: var(--large-gap);
+    }
 }
 .gallery-picture{
-    height: var(--small-height);
-    width: auto;
+/*     height: var(--small-height); */
+    width: calc(var(--small-width) - calc(  var(--small-gap)));
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.3);
+    aspect-ratio: 1/1;
     @apply rounded-lg;
     img{
         object-fit: fill;
@@ -27,9 +43,9 @@
         height: 100%!important;
     }
     @screen md{
-        height: var(--medium-height);
+        width: calc(var(--medium-width) - var(--medium-gap));
     }
     @screen lg{
-        height: var(--large-height);
+        width: calc(var(--large-width) - var(--large-gap));
     }
 }
