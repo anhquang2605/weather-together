@@ -151,7 +151,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                     :
                     <>
                         {picturesComponents}
-                        {morePictures && <span className={style['gallery-view-more']} onClick={fetchPictures}>View More</span>}
+                        {morePictures && <span className={`action-btn ${style['gallery-view-more']} `} onClick={fetchPictures}>View More</span>}
                     </>   
                 }
                 </div>

@@ -21,7 +21,7 @@
             }
         }
     &.freeStyle{
-        @apply w-full my-auto;
+        @apply w-full h-full my-auto;
     }
     &.freeStyle img{
 

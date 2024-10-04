@@ -71,3 +71,7 @@
         width: calc(var(--large-width) - (var(--large-gap) * (var(--large-gap-no)) / (var(--large-gap-no) + 1))  );
     }
 }
+
+.gallery-view-more{
+    cursor: pointer;
+}
