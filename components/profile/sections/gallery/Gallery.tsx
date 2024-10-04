@@ -141,10 +141,8 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
             <div className={`profile-section-title`}>
                 <h3>Gallery</h3>
             </div>
-            <div className={`profile-section-content ${style['gallery-pictures']}`}>
-                <div className={style['picture-width-reference']}>
-
-                </div>
+            <div className={`profile-section-content `}>
+                <div className={`${style['gallery-pictures']}`}>
                 {
                     pictures.length <= 0 ?
                     <div className={style['gallery-no-pictures']}>
@@ -156,6 +154,8 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                         {morePictures && <span className={style['gallery-view-more']} onClick={fetchPictures}>View More</span>}
                     </>   
                 }
+                </div>
+                
             </div>
 
         </div>
