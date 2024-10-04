@@ -13,16 +13,6 @@
     --small-gap: 2rem;
     --medium-gap: 2rem;
     --large-gap: 2rem;
-
-    /* Normalize percentages for gap-no calculations */
-    --small-gap-no: calc(1 / (var(--small-width) / 100));
-    --medium-gap-no: calc(1 / (var(--medium-width) / 100));
-    --large-gap-no: calc(1 / (var(--large-width) / 100));
-
-    /* Calculate true gaps */
-    --true-small-gap: calc(var(--small-gap) * (var(--small-gap-no) - 1) / var(--small-gap-no));
-    --true-medium-gap: calc(var(--medium-gap) * (var(--medium-gap-no) - 1) / var(--medium-gap-no));
-    --true-large-gap: calc(var(--large-gap) * (var(--large-gap-no) - 1) / var(--large-gap-no));
 }   
 .gallery-pictures{
     display: flex;
@@ -39,9 +29,24 @@
         gap: var(--large-gap);
     }
 }
+.picture-width-reference{
+    width: var(--small-width);
+    opacity: 0;
+    height: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    @screen md{
+        width: var(--medium-width);
+    }
+    @screen lg{
+        width: var(--large-width);
+    }
+}
 .gallery-picture{
 /*     height: var(--small-height); */
-    width: calc(var(--small-width) -  var(--small-gap));
+    width: auto;
     overflow: hidden;
     display: flex;
     justify-content: center;

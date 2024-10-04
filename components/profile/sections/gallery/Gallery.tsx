@@ -52,6 +52,10 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
     const generatePictures = (pics: Picture[],totalWidth: number = 0, rowHeight: number, gap: number) => {
         let backbones: JSX.Element[] = [];
         let widthPerrow = 0;
+        let pictureReference = document.querySelector(`.${style['picture-width-reference']}`) as HTMLDivElement;
+        if(!pictureReference) return backbones;
+        let referenceWidth = pictureReference.style.width;
+        console.log(referenceWidth);
         for(let i = 0; i < pics.length; i++){
             const thePicture = pics[i];
             if (!thePicture) continue;
@@ -138,6 +142,9 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                 <h3>Gallery</h3>
             </div>
             <div className={`profile-section-content ${style['gallery-pictures']}`}>
+                <div className={style['picture-width-reference']}>
+
+                </div>
                 {
                     pictures.length <= 0 ?
                     <div className={style['gallery-no-pictures']}>
