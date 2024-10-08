@@ -25,7 +25,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
         const params = {
             username: username,
             amount: MAX_PICTURES,
-            page: pageNo
+            pageNo: pageNo
         }
         const endpoint = 'pictures';
         const result = fetchFromGetAPI(endpoint, params);
