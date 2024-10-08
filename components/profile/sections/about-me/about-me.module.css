@@ -2,7 +2,7 @@
     
 }
 .about-me-content{
-    @apply flex flex-col gap-8;
+    @apply flex flex-col gap-8 w-full;
     @screen lg{
         @apply flex-row;
     }

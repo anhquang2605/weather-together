@@ -12,7 +12,7 @@ interface UserCardProps {
 const UserCard: React.FC<UserCardProps> = ({user, variant = 'expanded'}) => {
     return (
         <div className={`${style['user-card']} ${style[variant]} `}>
-            <Link title={"Go to my profile"} href={`userprofile/${user.username}`} className={`${style['user-card__card-link']}`}>
+            <Link title={"Go to my profile"} href={`/userprofile/${user.username}`} className={`${style['user-card__card-link']}`}>
                 <MiniAvatar className={style['user-card__profile-picture']} size={variant === "expanded" ?"large" : "compacted-nav"} username={user.username} profilePicturePath={user.profilePicturePath ?? ""} />
               
                 {

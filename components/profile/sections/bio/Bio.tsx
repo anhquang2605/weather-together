@@ -19,7 +19,7 @@ export default function Bio({ userBio, isEditing, setEditingBio }: BioProps) {
                 
             </div>
             }
-            <p className={`${isEditing ? 'is-editing-profile-title' : ''} ${styles['bio-content']} profile-section-content big-boy`}>{bio}</p>
+            <p className={`${isEditing ? 'is-editing-profile-title' : ''} ${styles['bio-content']} profile-section-content big-boy`}>{bio === "" ? "Nothing about me for now" : bio}</p>
           
         </div>
     )

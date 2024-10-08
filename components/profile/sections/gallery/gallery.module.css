@@ -22,14 +22,11 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--small-gap);
-    min-height: var(--small-height);
     width: 100%;
     @screen md{
-        min-height: var(--medium-height);
         gap: var(--medium-gap);
     }
     @screen lg{
-        min-height: var(--large-height);
         gap: var(--large-gap);
     }
 }

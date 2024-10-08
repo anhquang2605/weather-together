@@ -217,3 +217,6 @@ _Putting two state setter in same function scope will make the state update simu
     ====> Work around: hide the element by setting width 0, padding 0, and overflow hidden.
     50. In react fragment also need key if there are multiple fragment. To add key to fragment, please use React.Fragment component not <></>
     51. For width and height automatic scaling, given the one dimension a number, then the other with auto property will scale accordingly to the numbered dimension
+    52. For Next.js, if the path repeated, make sure the path is absolute by adding / infront of such path. without the /, the path will be added to the end of the current path in the browser
+        <Link title={"Go to my profile"} href={`userprofile/${user.username}`} className={`${style['user-card__card-link']}`}></Link>
+        The above example would result in path as: localhost:whatever_current_path/userprofile/username
