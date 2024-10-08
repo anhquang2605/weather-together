@@ -21,7 +21,7 @@ const UserSearchCard: React.FC<UserSearchCardProps> = ({user, variant="extra-lar
     const account_user = session?.user;
     const [cardUser, setCardUser] = useState<UserInSearch>(user);
     const navigateToProfile = (username:string) => {
-        router.push(`/profile/${username}`);
+        router.push(`/userprofile/${username}`);
     }
     const buddyStatusRenderer = (status:string) => {
         switch(status){
