@@ -5,29 +5,38 @@ import { fetchFromGetAPI } from '../../../../libs/api-interactions';
 import { PictureModalProvider } from '../../../embedded-view-components/picture-component/PictureModalContext';
 import PictureComponent from '../../../embedded-view-components/picture-component/PictureComponent';
 import PictureModal from '../../../embedded-view-components/picture-component/picture-modal/PictureModal';
+import LoadingIcon from '../../../plugins/loading-icon/LoadingIcon';
 
 interface GalleryProps {
     username: string;
 }
-const MAX_PICTURES = 10;
+const MAX_PICTURES = 12;
 const MAX_ASPECT_RATIO_OVER = 0.05; // 5% width is allowed to strech compare to original width
 const Gallery: React.FC<GalleryProps> = ({username}) => {
     const [pictures, setPictures] = useState<Picture[]>([]);
+    const [pageNo, setPageNo] = useState<number>(1);
     const [picturesComponents, setPicturesComponents] = useState<JSX.Element[]>([]);
     const [morePictures, setMorePictures] = useState<boolean>(false);
-    const fetchPictures = () => {
+    const [fetchPictureStatus, setFetchPictureStatus] = useState<string>('idle');
+    const fetchPictures = (pageNo: number) => {
+        setFetchPictureStatus('loading');
         //fetch pictures using username, sorted by created date, also need count of pictures, limit to 10, when need view more, will make user go to pop up gallery, pop up gallery is already implemented, check post for reference
+        console.log(pageNo);
         const params = {
             username: username,
             amount: MAX_PICTURES,
+            page: pageNo
         }
         const endpoint = 'pictures';
         const result = fetchFromGetAPI(endpoint, params);
         result.then(res => {
             if(res.success){
-                setPictures(res.data);
+                setFetchPictureStatus('success');
+                setPictures( prev => [...prev, ...res.data]);
                 setMorePictures(res.more);
+                setPageNo(prev => prev + 1);
             } else {
+                setFetchPictureStatus('error');
                 setPictures([]);
             }
         })
@@ -51,20 +60,9 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
     }
     const generatePictures = (pics: Picture[],totalWidth: number = 0, rowHeight: number, gap: number) => {
         let backbones: JSX.Element[] = [];
-        let widthPerrow = 0;
-        let pictureReference = document.querySelector(`.${style['picture-width-reference']}`) as HTMLDivElement;
-        if(!pictureReference) return backbones;
-        let referenceWidth = pictureReference.style.width;
-        console.log(referenceWidth);
         for(let i = 0; i < pics.length; i++){
             const thePicture = pics[i];
             if (!thePicture) continue;
-            const pWidth = thePicture.width ?? 0;
-            const pHeight = thePicture.height ?? 0;
-            const aspectRatio = pWidth / pHeight;
-            const newWidth = aspectRatio * rowHeight;
-            widthPerrow += newWidth;
-            const widthPercentage = (newWidth / totalWidth) * 100;
             backbones.push(
                 <div className={style['gallery-picture']}     key={i}>
                     <PictureComponent
@@ -119,7 +117,7 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
 
     */
     useEffect(() => {
-        fetchPictures();
+        fetchPictures(pageNo);
     },[])
     useEffect(()=>{
         if(pictures.length > 0){
@@ -151,7 +149,21 @@ const Gallery: React.FC<GalleryProps> = ({username}) => {
                     :
                     <>
                         {picturesComponents}
-                        {morePictures && <span className={`action-btn ${style['gallery-view-more']} `} onClick={fetchPictures}>View More</span>}
+                        {morePictures &&
+                        <div className={`${style['view-more-container']} ${
+                            fetchPictureStatus === 'loading' ? style['loading'] : ''
+                        }`}>
+                             <span className={`action-btn ${style['gallery-view-more']} `} onClick={()=>{fetchPictures(pageNo)}}>
+                                {fetchPictureStatus === 'loading' ? 
+                                <div className={`${style['loading-btn-content']}`}>
+                                    <LoadingIcon/>
+                                    Getting more...
+                                    
+                                </div>: 
+                                'View More'}
+                                </span>
+                        </div>
+                        }
                     </>   
                 }
                 </div>

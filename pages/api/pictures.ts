@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const picturesCollection: Collection<WithId<Picture>> = db.collection('pictures');
         switch (method) {
             case 'GET':
-                const {targetId, username, many, amount} = req.query;
+                const {targetId, username, many, amount, pageNo} = req.query;
                 try {
                     let result = null;
                     if(targetId){
@@ -29,7 +29,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         }
                     } else if(username){
                         if(amount){
-                            result = await picturesCollection.find({username: username}).limit(Number(amount) + 1).toArray();
+                            const trueAmount = Number(amount);
+                            const truePageNo = Number(pageNo);
+                            result = await picturesCollection.find({username: username}).skip((truePageNo ? truePageNo - 1 : 0) * trueAmount).limit(trueAmount + 1).toArray();
                         } else {
                             result = await picturesCollection.find({username: username}).toArray();
                         }

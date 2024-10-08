@@ -8,7 +8,7 @@
     
     --small-width: 49.99%;
     --medium-width: 32.99%;
-    --large-width: 19.8%;
+    --large-width: 24.99%;
 
     --small-gap: 2rem;
     --medium-gap: 2rem;
@@ -74,4 +74,24 @@
 
 .gallery-view-more{
     cursor: pointer;
+    @apply px-16;
+}
+.view-more-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loading{
+    pointer-events: none!important;
+    & > span{
+        @apply bg-indigo-400;
+    }
+}
+.loading-btn-content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
