@@ -87,7 +87,7 @@ const leftPositionCalculator = (sectionHeader: HTMLElement): number | undefined 
  * @param {number} level - The level of the parent element to calculate the left position for.
  * @returns {number[] | undefined} An array with two elements representing the left position and width of the parent element.
  */
-const getLeftUsingParent = (sectionHeader: HTMLElement, level: number): number[] | undefined => {
+const getLeftUsingParent = (sectionHeader: HTMLElement, level: number): number[] => {
     // Start with the parent element of the section header
     let parent = sectionHeader.parentElement;
 
@@ -98,7 +98,7 @@ const getLeftUsingParent = (sectionHeader: HTMLElement, level: number): number[]
     }
 
     // If no parent element is found, return undefined
-    if(!parent) return;
+    if(!parent) return [0,0];
 
     // Calculate the difference in width between the window and the parent element
     let parentWidth =   parent.offsetWidth;
@@ -114,8 +114,9 @@ const resizeOberserverHandler = (entries: ResizeObserverEntry[]) => {
         if(clientRectWidth > 0){
             const sectionHeader: HTMLElement | null = document.querySelector(`.${style['section-header']}`);
             if (!sectionHeader) return;
-            const currentLeft = getLeftUsingParent(sectionHeader, level);//level comes from props
-            sectionHeader.style.left = (currentLeft) + 'px';
+            const currentLeft:number[]= getLeftUsingParent(sectionHeader, level);//level comes from props
+            sectionHeader.style.left = (currentLeft[0]) + 'px';
+            sectionHeader.style.width = (currentLeft[1]) + 'px';
         }
     }
 }

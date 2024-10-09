@@ -9,5 +9,5 @@
     @apply fixed top-0 mt-8 z-20 flex-1;
 }
 .sticky-filler{
-    @apply h-0 w-full p-0 m-0;
+    @apply h-0 w-full p-0 m-0 block;
 }
