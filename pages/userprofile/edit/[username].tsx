@@ -188,7 +188,9 @@ function Edit({userJSON}:UserProfileProps){
     },[])
     return (
       <>  
-      {/* Need to fix the issue with scalling the height to match with the remaining estate */}
+      {/* Need to fix the issue with scalling the height to match with the remaining estate 
+        The problem is that children's height is way bigger than the parent supposed to be, and the parent's position is absolute
+      */}
         <Head>
           <title>{theTitle}</title>
         </Head>
