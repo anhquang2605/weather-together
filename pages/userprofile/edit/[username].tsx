@@ -187,7 +187,8 @@ function Edit({userJSON}:UserProfileProps){
       setDimension(theDimension);
     },[])
     return (
-      <>
+      <>  
+      {/* Need to fix the issue with scalling the height to match with the remaining estate */}
         <Head>
           <title>{theTitle}</title>
         </Head>
