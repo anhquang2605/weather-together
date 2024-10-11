@@ -192,7 +192,7 @@ function Edit({userJSON}:UserProfileProps){
           <title>{theTitle}</title>
         </Head>
         <div className={`${style['edit-profile']}`}>
-          <SkyScroller parentClassName={style['edit-profile']} layersNumber={2} cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+          <SkyScroller parentClassName={style['edit-profile']} layersNumber={2} cloudClassName={style[user.featuredWeather?.name || '']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
           <div className="glass-lighter w-full h-full absolute top-0 left-0 z-20"></div>
         <div className="w-full h-full absolute top-0 left-0 p-8 z-30">
                       {/* Profile Banner */}
@@ -200,10 +200,7 @@ function Edit({userJSON}:UserProfileProps){
             <ProfileBanner isEditing={true} user={user} setEditingBackground={setEditingBackground} setEditingPicture={setEditingPicture}/>
 
             <div className="flex flex-wrap lg:flex-nowrap">
-              <div className="flex flex-col w-full xl:w-1/2 p-4">
-                <Bio key={user.bio} userBio={user.bio ?? ""} setEditingBio={setEditingBio} isEditing={true} />
-              </div>
-
+             
 
 
 
@@ -212,6 +209,10 @@ function Edit({userJSON}:UserProfileProps){
                 <Summary isEditing={true} setEditingSummary={setEditingInformation} user={user}/>
                 
               </div>
+              <div className="flex flex-col w-full xl:w-1/2 p-4">
+                <Bio key={user.bio} userBio={user.bio ?? ""} setEditingBio={setEditingBio} isEditing={true} />
+              </div>
+
             </div>
         </div>
 

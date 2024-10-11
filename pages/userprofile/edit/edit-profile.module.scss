@@ -1,5 +1,5 @@
 .edit-profile{
-    @apply p-8 w-full relative;
+    @apply p-8 w-full h-full relative overflow-auto;
 }
 $weathers: (
     (/* default */

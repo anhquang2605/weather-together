@@ -1998,8 +1998,10 @@ video {
 
 .profile-section-title {
   margin-bottom: 1rem;
+  display: flex;
   width: -moz-max-content;
   width: max-content;
+  gap: 0.5rem;
   border-radius: 0.5rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -2016,7 +2018,7 @@ video {
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 .is-editting-profile-title {

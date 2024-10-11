@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { weatherNameToIconAliasMap, weatherToColorClassMap } from "../../../constants/weathers";
 interface FavWeatherProps {
     favWeathers: Weather[] //To change later
+    isEditable?: boolean
 }
 
 
