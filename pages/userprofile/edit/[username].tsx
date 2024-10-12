@@ -212,7 +212,7 @@ function Edit({userJSON}:UserProfileProps){
                 <Summary isEditing={true} setEditingSummary={setEditingInformation} user={user}/>
                 
               </div>
-              <div className="flex flex-col w-full xl:w-1/2 p-4">
+              <div className="flex flex-col p-4">
                 <Bio key={user.bio} userBio={user.bio ?? ""} setEditingBio={setEditingBio} isEditing={true} />
               </div>
 

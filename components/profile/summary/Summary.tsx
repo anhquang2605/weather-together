@@ -22,6 +22,9 @@ export default function Summary( {user,isEditing,setEditingSummary}: SummaryProp
                 </button>
             </div>
             }
+            <div className={
+                `${isEditing ? 'profile-section-content' : ''}`
+            }>
             <div className="profile-row">
                 <h4>First name</h4>
                 <p>{user.firstName}</p>
@@ -43,7 +46,9 @@ export default function Summary( {user,isEditing,setEditingSummary}: SummaryProp
                     <h4>Username</h4>
                     <p>{user.username}</p>
                 </div>
-            )}</div> }
+            )}</div>
+            </div>
+             }
         </>
     )    
 }
