@@ -208,7 +208,7 @@ function Edit({userJSON}:UserProfileProps){
 
 
               {/* Basic info */}
-              <div className="w-full xl:w-1/2 p-4">
+              <div className="w-full p-4">
                 <Summary isEditing={true} setEditingSummary={setEditingInformation} user={user}/>
                 
               </div>
