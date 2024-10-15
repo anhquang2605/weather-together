@@ -15,7 +15,7 @@ export default function Summary( {user,isEditing,setEditingSummary}: SummaryProp
         <>
           { user && <div className="w-full flex flex-col">
             {isEditing && setEditingSummary &&
-            <div className="profile-section-title flex">  
+            <div className="profile-section-title edit-title flex">  
                 <h3 className="">Contact</h3>
                 <button className="ml-auto" title="Edit" onClick={()=>{setEditingSummary(true)}}>
                     <IoPencil className="text-2xl text-slate-300" />

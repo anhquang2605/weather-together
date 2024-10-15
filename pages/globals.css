@@ -249,7 +249,7 @@ body {
   
 }
 .edit-title{
-  @apply border-b border-slate-400 mb-8 uppercase ;
+  @apply border-b border-slate-400 mb-4 uppercase ;
 }
 .is-editting-profile-title{
   @apply  w-full min-h-[100px]

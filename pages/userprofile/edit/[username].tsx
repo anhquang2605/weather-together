@@ -202,17 +202,17 @@ function Edit({userJSON}:UserProfileProps){
             {/* Profile pic and background */}
             <ProfileBanner isEditing={true} user={user} setEditingBackground={setEditingBackground} setEditingPicture={setEditingPicture}/>
 
-            <div className="flex flex-wrap lg:flex-nowrap">
+            <div className="flex flex-wrap lg:flex-nowrap mt-8">
              
 
 
 
               {/* Basic info */}
-              <div className="w-full p-4">
+              <div className="w-full mr-8">
                 <Summary isEditing={true} setEditingSummary={setEditingInformation} user={user}/>
                 
               </div>
-              <div className="flex flex-col p-4">
+              <div className="flex flex-col">
                 <Bio key={user.bio} userBio={user.bio ?? ""} setEditingBio={setEditingBio} isEditing={true} />
               </div>
 

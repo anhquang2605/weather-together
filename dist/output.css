@@ -764,6 +764,10 @@ video {
   margin-right: 1rem;
 }
 
+.mr-8 {
+  margin-right: 2rem;
+}
+
 .mr-auto {
   margin-right: auto;
 }
@@ -2014,7 +2018,7 @@ video {
 }
 
 .edit-title {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
@@ -2333,10 +2337,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 }
 
 @media (min-width: 1280px) {
-  .xl\:w-1\/2 {
-    width: 50%;
-  }
-
   .xl\:w-1\/4 {
     width: 25%;
   }
