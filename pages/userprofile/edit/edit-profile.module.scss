@@ -1,5 +1,5 @@
 .edit-profile{
-    @apply p-8 w-full h-full relative overflow-auto;
+    @apply w-full h-full relative overflow-auto;
 }
 $weathers: (
     (/* default */
@@ -37,3 +37,9 @@ $weathers: (
         
     }
 };
+
+.edit-profile-wrapper{
+    display: flex;
+    height: max-content;
+    position:relative;
+}

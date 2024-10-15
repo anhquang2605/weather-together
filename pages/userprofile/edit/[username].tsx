@@ -195,9 +195,9 @@ function Edit({userJSON}:UserProfileProps){
           <title>{theTitle}</title>
         </Head>
         <div className={`${style['edit-profile']}`}>
-          <SkyScroller parentClassName={style['edit-profile']} layersNumber={2} cloudClassName={style[user.featuredWeather?.name || '']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
-          <div className="glass-lighter w-full h-full absolute top-0 left-0 z-20"></div>
-        <div className="w-full h-full z-30">
+          <div className={`${style['edit-profile-wrapper']}`}>
+          <SkyScroller parentClassName={style['edit-profile-wrapper']} layersNumber={2} cloudClassName={style[user.featuredWeather?.name || '']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+        <div className="w-full p-8 z-30">
                       {/* Profile Banner */}
             {/* Profile pic and background */}
             <ProfileBanner isEditing={true} user={user} setEditingBackground={setEditingBackground} setEditingPicture={setEditingPicture}/>
@@ -205,7 +205,7 @@ function Edit({userJSON}:UserProfileProps){
             <div className="flex flex-wrap lg:flex-nowrap mt-8">
              
 
-
+            {/* The problem is that parent is to have fixed height, inner children also will have this same height, we need to set the height of inner children so it would extend the parent height */}
 
               {/* Basic info */}
               <div className="w-full mr-8">
@@ -220,7 +220,7 @@ function Edit({userJSON}:UserProfileProps){
         </div>
 
 
-
+        </div>
         </div>
         
 
