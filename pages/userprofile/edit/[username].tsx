@@ -87,7 +87,7 @@ function Edit({userJSON}:UserProfileProps){
     update(updatedUser);
   }
   const getDimensionOfContainer = () => {
-    const editProfilePage = document.querySelector(`.${style['edit-profile']}`);
+    const editProfilePage = document.querySelector(`.${style['edit-profile-wrapper']}`);
     if(editProfilePage){
       return {
         width: editProfilePage.clientWidth,
@@ -147,7 +147,7 @@ function Edit({userJSON}:UserProfileProps){
         for(let entry of entries){
           //const {scrollHeight} = entry.target;
           const {width, height} = entry.contentRect;
-          const profilePage = document.querySelector(`.${style['edit-profile']}`);
+          const profilePage = document.querySelector(`.${style['edit-profile-wrapper']}`);
           if(profilePage){
             const padding = profilePage.clientWidth - width;
             const profileWidth = profilePage.clientWidth;
@@ -196,7 +196,7 @@ function Edit({userJSON}:UserProfileProps){
         </Head>
         <div className={`${style['edit-profile']}`}>
           <div className={`${style['edit-profile-wrapper']}`}>
-          <SkyScroller parentClassName={style['edit-profile-wrapper']} layersNumber={2} cloudClassName={style[user.featuredWeather?.name || '']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+          <SkyScroller parentClassName={style['edit-profile']} layersNumber={3} cloudClassName={style[user.featuredWeather?.name || '']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
         <div className="w-full p-8 z-30">
                       {/* Profile Banner */}
             {/* Profile pic and background */}

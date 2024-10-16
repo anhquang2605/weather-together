@@ -13,6 +13,7 @@ interface SkyScrollerProps {
         height: number;
     }
     parentClassName: string;
+    isDirect?: boolean;
 }
 interface LayerStyle {
     width: string;
@@ -37,6 +38,7 @@ const SkyScroller: React.FC<SkyScrollerProps> = ({
         height: 0,
     },
     parentClassName,
+    isDirect = false
 }) => {
 const BLUR = 0;
 const scaleMultiplier = 0.3;
