@@ -27,15 +27,11 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
                 size={'two-x-large'}
                 featuredWeather={featuredWeather?.name}
                 variant={'featured'}
+                isEditing={isEditing}
+                setEditingPicture={setEditingPicture}
 
             />
-            {isEditing && setEditingPicture && 
-             <>
-                <IoPencil className="text-3xl text-slate-300 z-100 absolute top-2 right-2"/>
-                <button className="transition-all w-full h-full font-semibold absolute text-transparent top-0 left-0 z-500 hover:hover-editable-image" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
 
-             </>
-             }
         </div>
     )
 }

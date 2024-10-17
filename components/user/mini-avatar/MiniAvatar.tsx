@@ -2,6 +2,7 @@ import Image from 'next/image'
 import style from './mini-avatar.module.scss';
 import DefaultProfilePicture from '../../profile/default-profile-picture/DefaultProfilePicture';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
+import { TbCameraPlus } from "react-icons/tb";
 interface MiniAvatarProps {
     profilePicturePath: string;
     size?: string; //large, medium, small
@@ -11,8 +12,10 @@ interface MiniAvatarProps {
     variant?: 'basic' | 'featured';
     hoverClassName?: string;
     hovered?: boolean;
+    isEditing?: boolean;
+    setEditingPicture?: (value: boolean) => void
 }
-export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather, variant, hoverClassName, hovered}: MiniAvatarProps) {
+export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather, variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
     const dimesion = () => {
         switch(size) {
             case 'two-x-large':
@@ -47,7 +50,24 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
     }
     return (
         <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '')}>
-            {
+            <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
+                <div className={style['inner']}>
+                    {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture size={size} username={username}/>}
+                </div>
+            </div>
+
+            {isEditing && setEditingPicture && 
+             <>
+                
+                <button className="absolute top-0 left-0 transition-all w-full h-full text-transparent rounded-full p-4 font-semibold z-500 hover:hover-editable-image" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
+                <div className="w-full h-full rounded-full flex justify-center items-center absolute top-0 left-0">
+                    <TbCameraPlus className="text-3xl text-slate-300"></TbCameraPlus>
+                </div>
+             </>
+             
+             }
+
+{
                 variant === 'featured' && featuredWeather !== '' &&
                 <div className={style['featured-weather']}>
                     <WeatherIcon
@@ -55,12 +75,6 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
                         size={ shortDimension()}
                     />
                 </div>
-            }
-            <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
-                <div className={style['inner']}>
-                    {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture size={size} username={username}/>}
-                </div>
-            </div>
-        </div>
+            }        </div>
     )
 }
