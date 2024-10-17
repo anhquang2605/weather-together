@@ -196,7 +196,7 @@ function Edit({userJSON}:UserProfileProps){
         </Head>
         <div className={`${style['edit-profile']}`}>
           <div className={`${style['edit-profile-wrapper']}`}>
-          <SkyScroller parentClassName={style['edit-profile-wrapper']} layersNumber={2}cloudClassName={style[user.featuredWeather?.name || '']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
+          <SkyScroller parentClassName={style['edit-profile-wrapper']} layersNumber={2}cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
         <div className="w-full p-8 z-30">
                       {/* Profile Banner */}
             {/* Profile pic and background */}
