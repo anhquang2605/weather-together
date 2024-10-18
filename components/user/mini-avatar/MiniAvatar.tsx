@@ -3,6 +3,8 @@ import style from './mini-avatar.module.scss';
 import DefaultProfilePicture from '../../profile/default-profile-picture/DefaultProfilePicture';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import { TbCameraPlus } from "react-icons/tb";
+import { useState } from 'react';
+import { updateToPutAPI } from '../../../libs/api-interactions';
 interface MiniAvatarProps {
     profilePicturePath: string;
     size?: string; //large, medium, small
@@ -15,7 +17,29 @@ interface MiniAvatarProps {
     isEditing?: boolean;
     setEditingPicture?: (value: boolean) => void
 }
-export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather, variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
+export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather = "", variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
+    const [weather, setweather] = useState<string>(featuredWeather);
+    const [updateFeaturedWeatherStatus, setUpdateFeaturedWeatherStatus] = useState<string>('idle');
+    const setFeatureWeather = (theWeather: string) => {
+        setUpdateFeaturedWeatherStatus('loading');
+        const oldWeather = weather;
+        const body = {
+            username: username,
+            weather: theWeather
+        }
+        const result = updateToPutAPI('users', body)
+        result.then((res) => {
+            if(res.success){
+                setweather(theWeather);
+                setUpdateFeaturedWeatherStatus('success');
+            }else{
+                setweather(oldWeather);
+                setUpdateFeaturedWeatherStatus('error');
+            }
+        })
+        
+
+    }
     const dimesion = () => {
         switch(size) {
             case 'two-x-large':
@@ -68,10 +92,10 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
              }
 
 {
-                variant === 'featured' && featuredWeather !== '' &&
+                variant === 'featured' && weather !== '' &&
                 <div className={style['featured-weather']}>
                     <WeatherIcon
-                        weatherName={featuredWeather || ''}
+                        weatherName={weather || ''}
                         size={ shortDimension()}
                     />
                 </div>

@@ -96,7 +96,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             } else {
                 res.status(200).json({success: false, message: 'Bad request'});
             }
-        } else {
+        } 
+         else if (method === 'PUT') {
+            const payload = req.body;
+            if(payload.username && payload.featuredWeahther){
+                const {username, featuredWeahther} = payload;
+                const userCollection = db.collection('users');
+                const result = await userCollection.updateOne({username: username}, {$set: {featuredWeather: 
+                    {name: featuredWeahther}}});
+                if(result){
+                    res.status(200).json({success: true, message: 'User updated'});
+                }
+            } else {
+                res.status(200).json({success: false, message: 'Bad request'});
+            }
+         }
+        else {
             res.status(200).json({success: false, message: 'Bad request'});
         }
     }else{
