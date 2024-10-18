@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
-
+import {WEATHERS} from '../../../constants/weathers';
 interface FavWeatherWheelProps {
     weatherName: string;
     isEditable?: boolean;
@@ -34,6 +34,19 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                         weatherName={weatherName || ''}
                         size={ shortDimension(size)}
                     />
+            </div>
+            <div className={style['weather-options']}>
+                {WEATHERS.map((weather) => (
+                    <div
+                        className={style['weather-option']}
+                        key={weather.name}
+                    >
+                        <WeatherIcon
+                            weatherName={weather.name}
+                            size={shortDimension(size)}
+                        />
+                    </div>
+                ))}
             </div>
         </div>
     );
