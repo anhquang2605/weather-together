@@ -1,3 +1,7 @@
 .fav-weather-wheel{
     
 }
+
+.featured-weather{
+    @apply absolute bottom-0 right-0 z-10 rounded-full;
+}

@@ -5,6 +5,7 @@ import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon
 import { TbCameraPlus } from "react-icons/tb";
 import { useState } from 'react';
 import { updateToPutAPI } from '../../../libs/api-interactions';
+import FavWeatherWheel from '../../profile/fav-weather-wheel/FavWeatherWheel';
 interface MiniAvatarProps {
     profilePicturePath: string;
     size?: string; //large, medium, small
@@ -56,22 +57,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
                 return 40;
         }
     }
-    const shortDimension = () => {
-        switch(size){
-            case 'two-x-large':
-                return 'xl';
-            case 'extra-large':
-                return 'lg';
-            case 'large':
-                return 'md';
-            case 'medium':
-                return 'sm';
-            case 'small':
-                return 'sm';
-            default:
-                return 'md';
-        }
-    }
+
     return (
         <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '')}>
             <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
@@ -93,12 +79,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
 
 {
                 variant === 'featured' && weather !== '' &&
-                <div className={style['featured-weather']}>
-                    <WeatherIcon
-                        weatherName={weather || ''}
-                        size={ shortDimension()}
-                    />
-                </div>
+                <FavWeatherWheel weatherName={weather} isEditable={isEditing} size={size}/>
             }        </div>
     )
 }
