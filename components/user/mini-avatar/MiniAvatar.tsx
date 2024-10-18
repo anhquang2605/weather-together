@@ -70,8 +70,8 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
              <>
                 
                 <button className="absolute top-0 left-0 transition-all w-full h-full text-transparent rounded-full p-4 font-semibold z-500 hover:hover-editable-image" onClick={()=>setEditingPicture(true)}>Update profile picture</button>
-                <div className="w-full h-full rounded-full flex justify-center items-center absolute top-0 left-0">
-                    <TbCameraPlus className="text-3xl text-slate-300"></TbCameraPlus>
+                <div className="w-full h-full rounded-full flex justify-center items-center absolute top-0 left-0 z-30">
+                    <TbCameraPlus className="text-5xl text-slate-300 p-2 rounded-full bg-slate-500 bg-opacity-60"></TbCameraPlus>
                 </div>
              </>
              
