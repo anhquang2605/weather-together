@@ -51,6 +51,7 @@ const BuddyCard: React.FC<BuddyCardProps> = ({buddy}) => {
                     variant="featured"
                     hoverClassName={style['hover']}
                     hovered={hovered}
+                    isEditing={false}
                 />
             </div>
             <div className={style['buddy-info']}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import {WEATHERS} from '../../../constants/weathers';
@@ -11,6 +11,7 @@ interface FavWeatherWheelProps {
  * This component is used to display the favorites weathers options when they want to edit their favorite weathers
  */
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
+    const [isExpanded, setIsExpanded] = useState(false);
     const shortDimension = (size:string) => {
         switch(size){
             case 'two-x-large':
@@ -29,13 +30,16 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     }
     return (
         <div className={style['fav-weather-wheel']}>
-            <div className={style['featured-weather']}>
+            {
+                !isExpanded ? (
+                    <div className={style['featured-weather']}>
                     <WeatherIcon
                         weatherName={weatherName || ''}
                         size={ shortDimension(size)}
                     />
-            </div>
-            <div className={style['weather-options']}>
+                    </div>
+                ) : (
+                    <div className={style['weather-options']}>
                 {WEATHERS.map((weather) => (
                     <div
                         className={style['weather-option']}
@@ -48,6 +52,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                     </div>
                 ))}
             </div>
+                )
+            }
+            
+            
         </div>
     );
 };
