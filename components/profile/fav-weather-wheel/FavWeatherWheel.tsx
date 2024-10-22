@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import {WEATHERS} from '../../../constants/weathers';
@@ -12,6 +12,10 @@ interface FavWeatherWheelProps {
  */
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const handleToggle = () => {
+        setIsExpanded(prev => !prev);
+    }
+
     const shortDimension = (size:string) => {
         switch(size){
             case 'two-x-large':
@@ -28,8 +32,12 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                 return 'md';
         }
     }
+    useEffect(()=>{
+        
+    },[])
+
     return (
-        <div className={style['fav-weather-wheel']}>
+        <div className={style['fav-weather-wheel']} onClick={handleToggle}>
             {
                 !isExpanded ? (
                     <div className={style['featured-weather']}>
