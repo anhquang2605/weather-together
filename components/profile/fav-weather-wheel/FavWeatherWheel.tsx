@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import {WEATHERS} from '../../../constants/weathers';
@@ -12,6 +12,7 @@ interface FavWeatherWheelProps {
  */
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const optionsRef = useRef(null); //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
     }
@@ -32,10 +33,59 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                 return 'md';
         }
     }
+    const object = document.getElementById('object');
+    const radius = 80; // Radius of the circle
+    let currentAngle = 0; // Starting angle in degrees
+    const speed = 2; // Degrees to move per frame
+
+    const totalDegrees = 720; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    function getOptionsElement() {
+        const optionsElements = document.getElementsByClassName('weather-option');
+        return optionsElements;
+    }
+    function moveObject() {
+        if(!optionsRef.current){
+            return;
+        }
+
+        const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
+        if (currentAngle >= totalDegrees) {
+            return; // Stop the animation when the target degrees are reached
+        }
+        for (let i = 0; i < optionsElements.length; i++) {
+            const object = optionsElements[i];
+            const x = radius * Math.cos(currentAngle * (Math.PI / 180));
+            const y = radius * Math.sin(currentAngle * (Math.PI / 180));
+            object.style.left = `${x + 90}px`; // Offset to center the object
+            object.style.top = `${y + 90}px`;
+
+        // Increase the angle for the next frame
+            currentAngle += speed;
+        }
+        // Calculate the position based on the current angle
+        
+
+        // Continue the animation
+        requestAnimationFrame(moveObject);
+    }
     useEffect(()=>{
         
     },[])
-
+    /**
+     * How to move element along a circular path?
+     * 1. Use Anime.js path animation
+     *    - https://animejs.com/documentation
+     *    - Need to create semi circular path using inkScape
+     *    - Depdency: animejs
+     * 2. Use CSS animation?
+     *    - 
+     * 3. Use JS animation?
+     *    - Take advantage of the requestiontAnimationFrame for smooth animation
+     *    - Use sine and cosine function to calculate x and y position of object perframe according to the angle
+     *    - angle is used to control speed
+     *    - radius can be changed
+     */
+        
     return (
         <div className={style['fav-weather-wheel']} onClick={handleToggle}>
             {
