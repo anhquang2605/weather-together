@@ -52,6 +52,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
+        //Animation must be applied for each object, we should path animatin
         for (let i = 0; i < optionsElements.length; i++) {
             const object = optionsElements[i];
             const x = radius * Math.cos(currentAngle * (Math.PI / 180));
