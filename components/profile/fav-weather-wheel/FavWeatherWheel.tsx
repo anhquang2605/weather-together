@@ -12,7 +12,10 @@ interface FavWeatherWheelProps {
  */
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //refer to options object
+    const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
+    const requestRef = useRef<number>(0);
+    const timeRef = useRef<number>(0);
+    //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
     }
@@ -36,19 +39,30 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     
     const radius = 80; // Radius of the circle
     let currentAngle = 0; // Starting angle in degrees
-    const speed = 2; // Degrees to move per frame
+    const speed = 1; // Degrees to move per frame
 
     const totalDegrees = 180; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName('weather-option');
         return optionsElements as HTMLCollectionOf<HTMLElement>;
     }
-    function moveObject() {
+    function moveObject(timestamp: number) {
         if(!optionsRef.current){
             return;
         }
 
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
+        let startTime = timeRef.current;
+        // Initialize startTime if it's null
+        if (startTime === null) {
+            startTime = timestamp;
+        }
+
+        // Calculate the elapsed time
+        const elapsedTime = timestamp - startTime;
+
+        // Calculate the current angle based on the elapsed time
+        let currentAngle = Math.min(elapsedTime * speed, totalDegrees);
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
@@ -62,19 +76,24 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         // Calculate the position based on the current angle
         // Increase the angle for the next frame
-        currentAngle += speed;
-        console.log(currentAngle);
         // Continue the animation
-        requestAnimationFrame(moveObject);
+        requestRef.current = requestAnimationFrame(moveObject);
     }
     useEffect(()=>{
         if(optionsRef){
             optionsRef.current = getOptionsElement();
         }
+        if(timeRef){
+            timeRef.current = 0;
+        }
     },[])
     useEffect(() => {
         if(isExpanded){
-            moveObject();
+            requestRef.current = requestAnimationFrame(moveObject);
+            return () => {
+                cancelAnimationFrame(requestRef.current);
+            }
+            
         }
     },[isExpanded])
     /**
