@@ -14,7 +14,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const [isExpanded, setIsExpanded] = useState(false);
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
     const requestRef = useRef<number>(0);
-    const timeRef = useRef<number>(0);
+    const timeRef = useRef<number | null>(null);
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -41,20 +41,19 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     let currentAngle = 0; // Starting angle in degrees
     const speed = 1; // Degrees to move per frame
 
-    const totalDegrees = 180; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 30; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
-        const optionsElements = document.getElementsByClassName('weather-option');
+        const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
     }
     function moveObject(timestamp: number) {
         if(!optionsRef.current){
             return;
         }
-
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
         let startTime = timeRef.current;
         // Initialize startTime if it's null
-        if (startTime === null) {
+        if (startTime === 0 || startTime === null) {
             startTime = timestamp;
         }
 
