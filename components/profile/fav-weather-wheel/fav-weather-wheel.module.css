@@ -1,10 +1,15 @@
 .fav-weather-wheel{
-    @apply absolute bottom-0 right-0 z-50 rounded-full;
+    @apply absolute bottom-0 right-0 z-50 rounded-full w-full h-full;
 }
 
 .featured-weather{
   
 }
 .weather-options{
-    
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.weather-option{
+    position: absolute;
 }

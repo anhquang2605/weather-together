@@ -12,7 +12,7 @@ interface FavWeatherWheelProps {
  */
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const optionsRef = useRef(null); //refer to options object
+    const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
     }
@@ -33,15 +33,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                 return 'md';
         }
     }
-    const object = document.getElementById('object');
+    
     const radius = 80; // Radius of the circle
     let currentAngle = 0; // Starting angle in degrees
     const speed = 2; // Degrees to move per frame
 
-    const totalDegrees = 720; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 180; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName('weather-option');
-        return optionsElements;
+        return optionsElements as HTMLCollectionOf<HTMLElement>;
     }
     function moveObject() {
         if(!optionsRef.current){
@@ -59,19 +59,24 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             const y = radius * Math.sin(currentAngle * (Math.PI / 180));
             object.style.left = `${x + 90}px`; // Offset to center the object
             object.style.top = `${y + 90}px`;
-
-        // Increase the angle for the next frame
-            currentAngle += speed;
         }
         // Calculate the position based on the current angle
-        
-
+        // Increase the angle for the next frame
+        currentAngle += speed;
+        console.log(currentAngle);
         // Continue the animation
         requestAnimationFrame(moveObject);
     }
     useEffect(()=>{
-        
+        if(optionsRef){
+            optionsRef.current = getOptionsElement();
+        }
     },[])
+    useEffect(() => {
+        if(isExpanded){
+            moveObject();
+        }
+    },[isExpanded])
     /**
      * How to move element along a circular path?
      * 1. Use Anime.js path animation
