@@ -15,7 +15,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const [isExpanded, setIsExpanded] = useState(false);
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
     const requestRef = useRef<number>(0);
-    const timeRef = useRef<number | null>(null);
+    const timeRef = useRef<number>(0);
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -38,11 +38,11 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     }
     
-    const radius = 80; // Radius of the circle
+    const radius = 60; // Radius of the circle
     let currentAngle = 0; // Starting angle in degrees
-    const speed = 0.5; // Degrees to move per frame
+    const speed = 1; // Degrees to move per frame
 
-    const totalDegrees = 30; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 270; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
@@ -53,17 +53,12 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
         let startTime = timeRef.current;
-        // Initialize startTime if it's null
-        if (startTime === 0 || startTime === null) {
-            startTime = timestamp;
-            timeRef.current = timestamp;
-        }
         console.log(`startTime: ${startTime} timestamp: ${timestamp}`);
         // Calculate the elapsed time
         const elapsedTime = timestamp - startTime;
-        console.log('elapsedTime: ' + elapsedTime);
         // Calculate the current angle based on the elapsed time
         let currentAngle = Math.min(elapsedTime * speed, totalDegrees);
+        console.log(`currentAngle: ${currentAngle}`);
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
@@ -90,7 +85,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     },[])
     useEffect(() => {
         if(isExpanded){
-            timeRef.current = Date.now();
+            timeRef.current = performance.now();
             requestRef.current = requestAnimationFrame(moveObject);
             return () => {
                 cancelAnimationFrame(requestRef.current);
