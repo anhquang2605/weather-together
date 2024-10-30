@@ -13,4 +13,6 @@
 .weather-option{
     position: absolute;
     transition: all ease 0.2s;
+    right: 0;
+    bottom: 0;
 }
