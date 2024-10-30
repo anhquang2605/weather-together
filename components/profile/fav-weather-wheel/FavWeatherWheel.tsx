@@ -43,7 +43,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     let currentAngle = 0; // Starting angle in degrees
     const speed = 1; // Degrees to move per frame
 
-    const totalDegrees = 270; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 360; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
@@ -56,11 +56,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
         let startTime = timeRef.current;
-        console.log(`startTime: ${startTime} timestamp: ${timestamp}`);
+        if (timeRef.current === 0) {
+            timeRef.current = timestamp;
+            startTime = timestamp;
+        }
         // Calculate the elapsed time
         const elapsedTime = timestamp - startTime;
         // Calculate the current angle based on the elapsed time
         let currentAngle = Math.min(elapsedTime * speed, totalDegrees);
+        console.log(currentAngle);
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
@@ -97,13 +101,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     },[])
     useEffect(() => {
         if(isExpanded){
-            timeRef.current = performance.now();
+            timeRef.current = 0;
             requestRef.current = requestAnimationFrame(moveObject);
-            containerCenterRef.current = getContainerCenter(style['fav-weather-wheel']);
+            containerCenterRef.current = [0,0];//getContainerCenter(style['fav-weather-wheel']);
             return () => {
                 cancelAnimationFrame(requestRef.current);
             }
             
+        }else {
+            cancelAnimationFrame(requestRef.current);
         }
     },[isExpanded])
     /**
