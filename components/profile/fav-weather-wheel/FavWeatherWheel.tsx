@@ -16,6 +16,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
     const requestRef = useRef<number>(0);
     const timeRef = useRef<number>(0);
+    const containerCenterRef = useRef<Number[]>([0,0]);
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -75,6 +76,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Continue the animation
         requestRef.current = requestAnimationFrame(moveObject);
     }
+    const getContainerCenter = (containerClassname: string) => {
+        const container = document.getElementsByClassName(containerClassname)[0];
+        if(container){
+            //get width and height of the container
+            const {width, height} = container.getBoundingClientRect();
+            return [width/2, height/2];
+        } 
+        return [0,0];
+    }
     useEffect(()=>{
         if(optionsRef){
             optionsRef.current = getOptionsElement();
@@ -87,6 +97,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(isExpanded){
             timeRef.current = performance.now();
             requestRef.current = requestAnimationFrame(moveObject);
+
             return () => {
                 cancelAnimationFrame(requestRef.current);
             }
