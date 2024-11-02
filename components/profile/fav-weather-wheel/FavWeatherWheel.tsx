@@ -39,7 +39,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     }
     
-    const radius = 90; // Radius of the circle
+    const radius = 100; // Radius of the circle
     let currentAngle = 0; // Starting angle in degrees
     const speed = 1; // Degrees to move per frame
 
@@ -75,7 +75,9 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             const y = rY + radius * Math.sin(currentAngle * (Math.PI / 180));
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
-
+            if (i === optionsElements.length - 1) {
+                console.log(x, y);
+            }
         }
         // Calculate the position based on the current angle
         // Increase the angle for the next frame
@@ -103,7 +105,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(isExpanded){
             timeRef.current = 0;
             requestRef.current = requestAnimationFrame(moveObject);
-            containerCenterRef.current = [0,0];//getContainerCenter(style['fav-weather-wheel']);
+            containerCenterRef.current = getContainerCenter(style['fav-weather-wheel']);
             return () => {
                 cancelAnimationFrame(requestRef.current);
             }
