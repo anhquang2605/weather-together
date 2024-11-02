@@ -102,6 +102,12 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const {left, top} = featuredWeather.getBoundingClientRect();
         return [left, top];
     }
+    const getAngle = (x: number, y: number) => {
+        const dx = x - containerCenterRef.current[0];
+        const dy = y - containerCenterRef.current[1];
+        const rad = Math.atan2(dy, dx);
+        return rad * (180 / Math.PI);
+    }
     useEffect(()=>{
         currentRotatePosition.current = getCurrentRotatePosition();
         if(optionsRef){
@@ -113,6 +119,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     },[])
     useEffect(() => {
         if(isExpanded){
+            const angle = getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]);
+            
             timeRef.current = 0;
 
             requestRef.current = requestAnimationFrame(moveObject);
