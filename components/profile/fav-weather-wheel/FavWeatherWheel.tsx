@@ -93,7 +93,17 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         } 
         return [0,0];
     }
+    const getCurrentRotatePosition = () => {
+        const featuredWeather = document.getElementsByClassName(style['featured-weather'])[0];
+        if(!featuredWeather){
+            return [0,0];
+        }
+        const {left, top} = featuredWeather.getBoundingClientRect();
+        return [left, top];
+    }
     useEffect(()=>{
+        const rotatePosition = getCurrentRotatePosition();
+        console.log(rotatePosition);
         if(optionsRef){
             optionsRef.current = getOptionsElement();
         }
@@ -104,6 +114,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     useEffect(() => {
         if(isExpanded){
             timeRef.current = 0;
+
             requestRef.current = requestAnimationFrame(moveObject);
             containerCenterRef.current = getContainerCenter(style['fav-weather-wheel']);
             return () => {
