@@ -17,6 +17,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const requestRef = useRef<number>(0);
     const timeRef = useRef<number>(0);
     const containerCenterRef = useRef<number[]>([0,0]);
+    const currentRotatePosition = useRef<number[]>([0,0]);
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -102,8 +103,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         return [left, top];
     }
     useEffect(()=>{
-        const rotatePosition = getCurrentRotatePosition();
-        console.log(rotatePosition);
+        currentRotatePosition.current = getCurrentRotatePosition();
         if(optionsRef){
             optionsRef.current = getOptionsElement();
         }
