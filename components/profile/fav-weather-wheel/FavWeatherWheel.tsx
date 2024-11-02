@@ -117,10 +117,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             timeRef.current = 0;
         }
     },[])
+    //What next?
+    /* 
+    With the angle, and current position of the object, we can calculate the final angle by adding the angle to the current angle.
+    We need to also figure out how to move the target from current position to the final position
+    */
     useEffect(() => {
         if(isExpanded){
             const angle = getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]);
-            
+
             timeRef.current = 0;
 
             requestRef.current = requestAnimationFrame(moveObject);
