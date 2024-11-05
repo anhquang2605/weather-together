@@ -18,6 +18,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const timeRef = useRef<number>(0);
     const containerCenterRef = useRef<number[]>([0,0]);
     const currentRotatePosition = useRef<number[]>([0,0]);
+    const currentAngleRef = useRef<number>(0);
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -44,7 +45,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     let currentAngle = 0; // Starting angle in degrees
     const speed = 1; // Degrees to move per frame
 
-    const totalDegrees = 360; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 270; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
@@ -64,8 +65,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the elapsed time
         const elapsedTime = timestamp - startTime;
         // Calculate the current angle based on the elapsed time
-        let currentAngle = Math.min(elapsedTime * speed, totalDegrees);
-        console.log(currentAngle);
+        let currentAngle = Math.min((elapsedTime * speed) + currentAngleRef.current , totalDegrees);
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
@@ -125,9 +125,9 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     useEffect(() => {
         if(isExpanded){
             const angle = getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]);
-
+            currentAngleRef.current = angle;
             timeRef.current = 0;
-
+            console.log(angle);
             requestRef.current = requestAnimationFrame(moveObject);
             containerCenterRef.current = getContainerCenter(style['fav-weather-wheel']);
             return () => {
