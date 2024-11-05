@@ -43,16 +43,16 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     
     const radius = 90; // Radius of the circle
     let currentAngle = 0; // Starting angle in degrees
-    const speed = 1; // Degrees to move per frame
+    const speed = 0.5; // Degrees to move per frame
 
-    const totalDegrees = 270; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 360; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
     }
     function moveObject(timestamp: number) {
-        const rX = containerCenterRef.current[0];
-        const rY = containerCenterRef.current[1];
+        const rX = 0//containerCenterRef.current[0];
+        const rY = 0//containerCenterRef.current[1];
         if(!optionsRef.current){
             return;
         }
