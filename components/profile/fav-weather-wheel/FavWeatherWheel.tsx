@@ -41,7 +41,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     }
     
-    const radius = 100; // Radius of the circle
+    const radius = 90; // Radius of the circle
     let currentAngle = 0; // Starting angle in degrees
     const speed = 1; // Degrees to move per frame
 
@@ -65,19 +65,20 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the elapsed time
         const elapsedTime = timestamp - startTime;
         // Calculate the current angle based on the elapsed time
-        let currentAngle = Math.min((elapsedTime * speed) + currentAngleRef.current , totalDegrees);
+        let currentAngle = Math.round(Math.min(elapsedTime * speed  , totalDegrees));
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
+        console.log(rX, rY);
         //Animation must be applied for each object, we should path animatin
         for (let i = 0; i < optionsElements.length; i++) {
             const object = optionsElements[i];
-            const x = rX + radius * Math.cos(currentAngle * (Math.PI / 180));
-            const y = rY + radius * Math.sin(currentAngle * (Math.PI / 180));
+            const x = rX + (radius * Math.cos(currentAngle * (Math.PI / 180)));
+            const y = rY + (radius * Math.sin(currentAngle * (Math.PI / 180)));
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
-            if (i === optionsElements.length - 1) {
-                console.log(x, y);
+            if(i === 0){
+                console.log(`x: ${x}, y: ${y}`);
             }
         }
         // Calculate the position based on the current angle
