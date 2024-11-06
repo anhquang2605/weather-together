@@ -45,7 +45,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     
     const speed = 0.5; // Degrees to move per frame
 
-    const totalDegrees = 90; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 270; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
@@ -69,7 +69,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const elapsedTime = timestamp - startTime;
         // Calculate the current angle based on the elapsed time
         let currentAngle = Math.round(Math.min(elapsedTime * speed + currentAngleRef.current , totalDegrees));
-        console.log(currentAngle);
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
@@ -127,9 +126,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     },[])
     //What next?
-    /* 
-    With the angle, and current position of the object, we can calculate the final angle by adding the angle to the current angle.
-    We need to also figure out how to move the target from current position to the final position
+    /* Calculate the stagger for each element using the number of element and their dimension
+    - each element will fill up the angle, the last element will be at the end of the angle, while the start element will be at the start of the angle
     */
     useEffect(() => {
         if(isExpanded){
