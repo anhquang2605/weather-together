@@ -3,6 +3,7 @@ import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import {WEATHERS} from '../../../constants/weathers';
 import { time } from 'console';
+import { current } from '@reduxjs/toolkit';
 interface FavWeatherWheelProps {
     weatherName: string;
     isEditable?: boolean;
@@ -42,20 +43,19 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     }
     
-    const radius = 70; // Radius of the circle
-    let currentAngle = 0; // Starting angle in degrees
     const speed = 0.5; // Degrees to move per frame
 
-    const totalDegrees = 270; // Total degrees of rotation (e.g., 720° = 2 full rotations)
+    const totalDegrees = 90; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
     }
     function moveObject(timestamp: number) {
+        const radius = containerCenterRef.current[0];
         const rX = containerCenterRef.current[0];
         const rY = containerCenterRef.current[1];
-        const optionW = optionSizeRef.current[0];
-        const optionH = optionSizeRef.current[1];
+        const optionW = optionSizeRef.current[0] / 2;
+        const optionH = optionSizeRef.current[1] / 2;
         if(!optionsRef.current){
             return;
         }
@@ -69,6 +69,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const elapsedTime = timestamp - startTime;
         // Calculate the current angle based on the elapsed time
         let currentAngle = Math.round(Math.min(elapsedTime * speed + currentAngleRef.current , totalDegrees));
+        console.log(currentAngle);
         if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         }
