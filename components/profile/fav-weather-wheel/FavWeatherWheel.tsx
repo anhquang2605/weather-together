@@ -4,6 +4,7 @@ import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon
 import {WEATHERS} from '../../../constants/weathers';
 import { time } from 'console';
 import { current } from '@reduxjs/toolkit';
+import { add } from 'lodash';
 interface FavWeatherWheelProps {
     weatherName: string;
     isEditable?: boolean;
@@ -73,6 +74,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
         let currentAngle = Math.round(addedAngle + currentAngleRef.current);
+        console.log(addedAngle, optionAngleRef.current);
         const optionsDistributed = Math.floor(addedAngle / optionAngleRef.current) 
       /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
@@ -114,20 +116,32 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const {left, top} = featuredWeather.getBoundingClientRect();
         return [left, top];
     }
-    const getAngle = (x: number, y: number) => {
+    /**
+     * Calculates the angle of a point relative to the center of the container
+     * @param x the x coordinate of the point
+     * @param y the y coordinate of the point
+     * @returns the angle in degrees
+     */
+    const getAngle = (x: number, y: number): number => {
         const dx = x - containerCenterRef.current[0];
         const dy = y - containerCenterRef.current[1];
         const rad = Math.atan2(dy, dx);
         return rad * (180 / Math.PI);
     }
-    const getAngleOption = (length: number) => {
-        const a = containerCenterRef.current[0]; //sides of isosceles triangle
-        const b = optionSizeRef.current[0]; //base of isosceles triangle
+    /**
+     * Calculates the angle of a triangle given the length of the sides of the
+     * isosceles triangle and the base of the triangle.
+     * @param a the length of the sides of the isosceles triangle
+     * @param b the length of the base of the triangle
+     * @returns the angle of the triangle in degrees
+     */
+    const getAngleOption = (a: number, b: number): number => {
         const angle = Math.acos(
             (2 * Math.pow(a, 2) - Math.pow(b, 2)) / (2 * Math.pow(a, 2))
         )
         return angle * (180 / Math.PI);
     }
+
     const getOptionSize = () => {
         const optionsElements = document.getElementsByClassName(style['weather-option'])[0];
         if(optionsElements){
@@ -154,13 +168,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     */
     useEffect(() => {
         if(isExpanded){
-            const angle = getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]);
+            const angle = Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
+            const optionSize = getOptionSize();
+            const centerSize = getContainerCenter(style['fav-weather-wheel']);
             currentAngleRef.current = angle;
             timeRef.current = 0;
-            optionSizeRef.current = getOptionSize();
-            optionAngleRef.current = getAngleOption(optionSizeRef.current[0]);
+            optionSizeRef.current = optionSize;
+            optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
             requestRef.current = requestAnimationFrame(moveObject);
-            containerCenterRef.current = getContainerCenter(style['fav-weather-wheel']);
+            containerCenterRef.current = centerSize;
             return () => {
                 cancelAnimationFrame(requestRef.current);
             }
