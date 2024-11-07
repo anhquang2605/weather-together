@@ -13,6 +13,5 @@
 }
 .weather-option{
     position: absolute;
-    transition: all ease 0.2s;
-    transition: none;
+    transition: left 0.2s ease-in-out, top 0.2s ease-in-out;
 }

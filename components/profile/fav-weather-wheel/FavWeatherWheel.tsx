@@ -69,14 +69,20 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the elapsed time
         const elapsedTime = timestamp - startTime;
         const addedAngle = elapsedTime * speed;
+        const len = optionsElements.length;
         // Calculate the current angle based on the elapsed time
-        let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees));
+/*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
+        let currentAngle = Math.round(addedAngle + currentAngleRef.current);
         const optionsDistributed = Math.floor(addedAngle / optionAngleRef.current) 
-        if (currentAngle >= totalDegrees) {
+      /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
-        }
+        } */
+       console.log(optionsDistributed);
+       if(optionsDistributed >= len){
+           return;
+       }
         //Animation must be applied for each object, we should path animatin
-        for (let i = 0; i < optionsElements.length; i++) {
+        for (let i = 0; i < len; i++) {
             if(i <= optionsDistributed){
                 continue;
             }
@@ -190,22 +196,28 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                     </div>
                 ) : (
                     <div className={style['weather-options']}>
-                {WEATHERS.map((weather) => (
-                    <div
-                        className={style['weather-option']}
-                        key={weather.name}
-                    >
-                        <WeatherIcon
-                            weatherName={weather.name}
-                            size={shortDimension(size)}
-                        />
+                        {
+                            WEATHERS.map((weather) => {
+                                if (weather.name === weatherName) {
+                                    return null;
+                                } else {
+                                    return (
+                                        <div
+                                            className={style['weather-option']}
+                                            key={weather.name}
+                                        >
+                                            <WeatherIcon
+                                                weatherName={weather.name}
+                                                size={shortDimension('extra-large')}
+                                            />
+                                        </div>
+                                    );
+                                }
+                            })
+                        }
                     </div>
-                ))}
-            </div>
                 )
-            }
-            
-            
+        }
         </div>
     );
 };
