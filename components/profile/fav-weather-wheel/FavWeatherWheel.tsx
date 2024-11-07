@@ -69,7 +69,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the elapsed time
         const elapsedTime = timestamp - startTime;
         const addedAngle = elapsedTime * speed;
-        console.log(optionAngleRef.current);
         // Calculate the current angle based on the elapsed time
         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees));
         const optionsDistributed = Math.floor(addedAngle / optionAngleRef.current) 
@@ -116,7 +115,11 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         return rad * (180 / Math.PI);
     }
     const getAngleOption = (length: number) => {
-        const angle = Math.atan(length);
+        const a = containerCenterRef.current[0]; //sides of isosceles triangle
+        const b = optionSizeRef.current[0]; //base of isosceles triangle
+        const angle = Math.acos(
+            (2 * Math.pow(a, 2) - Math.pow(b, 2)) / (2 * Math.pow(a, 2))
+        )
         return angle * (180 / Math.PI);
     }
     const getOptionSize = () => {
