@@ -6,7 +6,9 @@
   @apply absolute bottom-0 right-0;
 }
 .expanded-featured{
-    @apply bg-slate-200 p-2 rounded-full -bottom-2 -right-2;
+    @apply p-1 rounded-full bg-slate-200 -bottom-1 -right-1;
+    outline: 2px solid var(--primary-color);
+
 }
 .weather-options{
     position: relative;
@@ -18,12 +20,16 @@
 .weather-option{
     position: absolute;
     @apply p-1 rounded-full bg-slate-200;
+    &:hover{
+        @apply scale-125 cursor-pointer z-500 bg-slate-300;
+        transition: all 0.2s ease-in-out;
+    }
 }
 .expanded-options{
     visibility: visible;
 }
 .choose-weather-title{
-    background: var(--btn-color);
-    @apply px-2 py-1 text-xs rounded-lg absolute block left-1/2 -translate-x-1/2 -top-5;
+    background: var(--primary-color);
+    @apply px-2 py-1 text-xs rounded-lg absolute block left-1/2 -translate-x-1/2 -top-6;
     width: max-content;
 }
