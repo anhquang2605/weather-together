@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import {WEATHERS} from '../../../constants/weathers';
-import { time } from 'console';
+import { dir, time } from 'console';
 import { current } from '@reduxjs/toolkit';
 import { add } from 'lodash';
 interface FavWeatherWheelProps {
@@ -23,6 +23,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const currentAngleRef = useRef<number>(0);
     const optionSizeRef = useRef<number[]>([0,0]);//option width and height
     const optionAngleRef = useRef<number>(0);//angle for each option to make sure that they are not overlapping on the circular path
+    const endingAngleRef = useRef<number>(0);
+    const directionRef = useRef<number>(1); //-1 or 1
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -79,6 +81,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             return; // Stop the animation when the target degrees are reached
         } */
        if(optionsDistributed > len){
+           endingAngleRef.current = currentAngle;
            return;
        }
         //Animation must be applied for each object, we should path animatin
@@ -165,14 +168,16 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         2. Record the cummulative angle, when get to a certain angle, stop the animation on a certain element
     */
     useEffect(() => {
+        //set up for the animation
+        const angle = 5 + Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
+        const optionSize = getOptionSize();
+        const centerSize = getContainerCenter(style['fav-weather-wheel']);
+        currentAngleRef.current = angle;
+        timeRef.current = 0;
+        optionSizeRef.current = optionSize;
+        optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
         if(isExpanded){
-            const angle = 5 + Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
-            const optionSize = getOptionSize();
-            const centerSize = getContainerCenter(style['fav-weather-wheel']);
-            currentAngleRef.current = angle;
-            timeRef.current = 0;
-            optionSizeRef.current = optionSize;
-            optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
+            directionRef.current = 1;
             requestRef.current = requestAnimationFrame(moveObject);
             containerCenterRef.current = centerSize;
             return () => {
@@ -180,6 +185,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             }
             
         }else {
+            directionRef.current = -1;
             
         }
     },[isExpanded])
