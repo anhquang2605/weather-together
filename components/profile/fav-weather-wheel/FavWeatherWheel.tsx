@@ -68,29 +68,28 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             startTime = timestamp;
         }
         // Calculate the elapsed time
-        const elapsedTime = timestamp - startTime;
+        const elapsedTime = Math.round(timestamp - startTime);
         const addedAngle = elapsedTime * speed;
         const len = optionsElements.length;
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
         let currentAngle = Math.round(addedAngle + currentAngleRef.current);
-        console.log(addedAngle, optionAngleRef.current);
-        const optionsDistributed = Math.floor(addedAngle / optionAngleRef.current) 
+        const optionsDistributed = Math.round(addedAngle / optionAngleRef.current) 
       /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
        console.log(optionsDistributed);
-       if(optionsDistributed >= len){
+       if(optionsDistributed > len){
            return;
        }
         //Animation must be applied for each object, we should path animatin
         for (let i = 0; i < len; i++) {
-            if(i <= optionsDistributed){
+            if(i < optionsDistributed - 1){
                 continue;
             }
             const object = optionsElements[i];
-            const x = (rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
-            const y = (rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
+            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
+            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
         }
