@@ -5,13 +5,25 @@
 .featured-weather{
   @apply absolute bottom-0 right-0;
 }
+.expanded-featured{
+    @apply bg-slate-200 p-2 rounded-full -bottom-2 -right-2;
+}
 .weather-options{
     position: relative;
     width: 100%;
     height: 100%;
     overflow: visible;
+    visibility: hidden;
 }
 .weather-option{
     position: absolute;
-    transition: left 0.2s ease-in-out, top 0.2s ease-in-out;
+    @apply p-1 rounded-full bg-slate-200;
+}
+.expanded-options{
+    visibility: visible;
+}
+.choose-weather-title{
+    background: var(--btn-color);
+    @apply px-2 py-1 text-xs rounded-lg absolute block left-1/2 -translate-x-1/2 -top-5;
+    width: max-content;
 }

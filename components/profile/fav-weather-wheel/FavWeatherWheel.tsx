@@ -74,11 +74,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
         let currentAngle = Math.round(addedAngle + currentAngleRef.current);
-        const optionsDistributed = Math.round(addedAngle / optionAngleRef.current) 
+        const optionsDistributed = Math.ceil(addedAngle / optionAngleRef.current) 
       /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
-       console.log(optionsDistributed);
        if(optionsDistributed > len){
            return;
        }
@@ -167,7 +166,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     */
     useEffect(() => {
         if(isExpanded){
-            const angle = Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
+            const angle = 5 + Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
             const optionSize = getOptionSize();
             const centerSize = getContainerCenter(style['fav-weather-wheel']);
             currentAngleRef.current = angle;
@@ -181,7 +180,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             }
             
         }else {
-            cancelAnimationFrame(requestRef.current);
+            
         }
     },[isExpanded])
     /**
@@ -201,16 +200,22 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         
     return (
         <div className={style['fav-weather-wheel']} onClick={handleToggle}>
-            {
-                !isExpanded ? (
-                    <div className={style['featured-weather']}>
+                    <div className={`${style['featured-weather']} ${
+                        isExpanded ? style['expanded-featured'] : ''
+                    }`}>
+                    {
+                        isExpanded &&
+                        <span className={style['choose-weather-title']}>
+                            Fav weather?
+                        </span>
+                    }
                     <WeatherIcon
                         weatherName={weatherName || ''}
                         size={ shortDimension(size)}
                     />
                     </div>
-                ) : (
-                    <div className={style['weather-options']}>
+
+                    <div className={`${style['weather-options']} ${isExpanded ? style['expanded-options'] : ''} `}>
                         {
                             WEATHERS.map((weather) => {
                                 if (weather.name === weatherName) {
@@ -223,7 +228,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                                         >
                                             <WeatherIcon
                                                 weatherName={weather.name}
-                                                size={shortDimension('extra-large')}
+                                                size={shortDimension('large')}
                                             />
                                         </div>
                                     );
@@ -231,8 +236,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                             })
                         }
                     </div>
-                )
-        }
         </div>
     );
 };
