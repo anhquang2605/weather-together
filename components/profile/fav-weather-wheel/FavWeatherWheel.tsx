@@ -97,6 +97,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
            endingAngleRef.current = 0;
            return;
        }
+       let start = 0;
+       let endSignal = len;
+       if(directionRef.current === -1){
+           start = len;
+           endSignal = 0;
+       }
+       /* while(true){
+         
+       } */
         //Animation must be applied for each object, we should path animatin
         for (let i = 0; i < len; i++) {
             if(i < optionsDistributed - 1){
