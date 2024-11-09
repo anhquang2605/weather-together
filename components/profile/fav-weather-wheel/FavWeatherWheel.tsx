@@ -76,6 +76,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
         let currentAngle = Math.round(addedAngle + currentAngleRef.current);
+        if(directionRef.current === -1){
+             currentAngle = endingAngleRef.current - addedAngle;    
+        }
+        
         const optionsDistributed = Math.ceil(addedAngle / optionAngleRef.current) 
       /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
@@ -168,25 +172,26 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         2. Record the cummulative angle, when get to a certain angle, stop the animation on a certain element
     */
     useEffect(() => {
-        //set up for the animation
-        const angle = 5 + Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
+       
+        if(isExpanded){
+             //set up for the animation
+        const angle = Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
         currentAngleRef.current = angle;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
         optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
-        if(isExpanded){
             directionRef.current = 1;
             requestRef.current = requestAnimationFrame(moveObject);
             containerCenterRef.current = centerSize;
-            return () => {
-                cancelAnimationFrame(requestRef.current);
-            }
             
         }else {
             directionRef.current = -1;
-            
+            requestRef.current = requestAnimationFrame(moveObject);   
+        }
+        return () => {
+            cancelAnimationFrame(requestRef.current);
         }
     },[isExpanded])
     /**
