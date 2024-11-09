@@ -15,7 +15,6 @@
     width: 100%;
     height: 100%;
     overflow: visible;
-    /* visibility: hidden; */
 }
 .weather-option{
     position: absolute;
@@ -25,9 +24,7 @@
         transition: all 0.2s ease-in-out;
     }
 }
-.expanded-options{
-    /* visibility: visible; */
-}
+
 .choose-weather-title{
     background: var(--primary-color);
     @apply px-2 py-1 text-xs rounded-lg absolute block left-1/2 -translate-x-1/2 -top-6;

@@ -25,6 +25,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const optionAngleRef = useRef<number>(0);//angle for each option to make sure that they are not overlapping on the circular path
     const endingAngleRef = useRef<number>(0);
     const directionRef = useRef<number>(1); //-1 or 1
+    const weatherOptionRef = useRef<HTMLElement|null>(null);//options collection
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -76,16 +77,24 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
         let currentAngle = Math.round(addedAngle + currentAngleRef.current);
+        let determineAngleForDistribution = addedAngle;
+        let optionsDistributed = 0; 
         if(directionRef.current === -1){
-             currentAngle = endingAngleRef.current - addedAngle;    
+            currentAngle = endingAngleRef.current - addedAngle;    
+            optionsDistributed = Math.round(currentAngle / optionAngleRef.current);
+        }else{
+            optionsDistributed = Math.round(addedAngle / optionAngleRef.current);
         }
-        
-        const optionsDistributed = Math.ceil(addedAngle / optionAngleRef.current) 
-      /*   if (currentAngle >= totalDegrees) {
+        /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
-       if(optionsDistributed > len){
+
+       if(optionsDistributed > len && directionRef.current === 1){
            endingAngleRef.current = currentAngle;
+           return;
+       } else if (optionsDistributed <= 1 && directionRef.current === -1) {
+           weatherOptionRef.current!.style.visibility = 'hidden';
+           endingAngleRef.current = 0;
            return;
        }
         //Animation must be applied for each object, we should path animatin
@@ -172,19 +181,22 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         2. Record the cummulative angle, when get to a certain angle, stop the animation on a certain element
     */
     useEffect(() => {
-       
-        if(isExpanded){
-             //set up for the animation
+        //set up for the animation
         const angle = Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
+        const weatherOptionsElement = weatherOptionRef.current = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
         currentAngleRef.current = angle;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
         optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
+        containerCenterRef.current = centerSize;
+        weatherOptionRef.current = weatherOptionsElement;        
+        
+        if(isExpanded){
+            weatherOptionsElement.style.visibility = 'visible';
             directionRef.current = 1;
             requestRef.current = requestAnimationFrame(moveObject);
-            containerCenterRef.current = centerSize;
             
         }else {
             directionRef.current = -1;
