@@ -3,11 +3,13 @@
 }
 
 .featured-weather{
-  @apply absolute bottom-0 right-0;
+  @apply absolute bottom-0 right-0 ;
+  z-index: 100;
 }
 .expanded-featured{
     @apply p-1 rounded-full bg-slate-200 -bottom-1 -right-1;
     outline: 2px solid var(--primary-color);
+
 
 }
 .weather-options{

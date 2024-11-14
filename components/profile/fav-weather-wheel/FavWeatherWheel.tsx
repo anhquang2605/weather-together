@@ -102,10 +102,26 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
            start = len;
            endSignal = 0;
        }
-       /* while(true){
-         
-       } */
-        //Animation must be applied for each object, we should path animatin
+        while(start !== endSignal){
+            if(directionRef.current === 1 && start < optionsDistributed - 1){
+                continue;   
+            } else if (directionRef.current === -1 && start > optionsDistributed) {
+                continue;
+            }
+
+            const object = optionsElements[start];
+            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
+            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
+            object.style.left = `${x}px`; // Offset to center the object
+            object.style.top = `${y}px`;
+            
+            if(directionRef.current === -1){
+                start -=1;    
+            }else{
+                start +=1;
+            }
+       } 
+       /*  //Animation must be applied for each object, we should path animatin
         for (let i = 0; i < len; i++) {
             if(i < optionsDistributed - 1){
                 continue;
@@ -115,7 +131,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
-        }
+        } */
         // Calculate the position based on the current angle
         // Increase the angle for the next frame
         // Continue the animation
@@ -190,11 +206,11 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     */
     useEffect(() => {
         //set up for the animation
-        const angle = 5 + Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
+        const angle = Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
         const weatherOptionsElement = weatherOptionRef.current = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
-        currentAngleRef.current = angle;
+        currentAngleRef.current = angle + 10;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
         optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
