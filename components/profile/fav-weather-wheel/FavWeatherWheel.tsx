@@ -87,7 +87,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
-
+        console.log(optionsDistributed);
        if(optionsDistributed > len && directionRef.current === 1){
            endingAngleRef.current = currentAngle;
            return;
@@ -97,9 +97,9 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
            return;
        }
        let start = 0;
-       let endSignal = len;
+       let endSignal = len - 1;
        if(directionRef.current === -1){
-           start = len;
+           start = len - 1;
            endSignal = 0;
        }
         while(start !== endSignal){
