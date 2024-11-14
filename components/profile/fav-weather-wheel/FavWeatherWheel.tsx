@@ -104,8 +104,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
        }
         while(start !== endSignal){
             if(directionRef.current === 1 && start < optionsDistributed - 1){
+                start += 1;
                 continue;   
-            } else if (directionRef.current === -1 && start > optionsDistributed) {
+            } else if (directionRef.current === -1 && start > optionsDistributed - 1) {
+                start -= 1;
                 continue;
             }
 
