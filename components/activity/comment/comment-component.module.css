@@ -10,7 +10,7 @@
     @apply mr-4;
 }
 .content-group{
-    @apply flex flex-col grow;
+    @apply max-h-fit;
 }
 .content-group__content{
     @apply bg-slate-200/90 border border-slate-400  backdrop-blur  py-3 px-8 my-1 rounded-xl;
