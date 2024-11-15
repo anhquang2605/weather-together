@@ -87,47 +87,43 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
-        console.log(optionsDistributed);
+        
        if(optionsDistributed > len && directionRef.current === 1){
            endingAngleRef.current = currentAngle;
            return;
-       } else if (optionsDistributed <= 1 && directionRef.current === -1) {
+       } else if (optionsDistributed <= 0 && directionRef.current === -1) {
            weatherOptionRef.current!.style.visibility = 'hidden';
            endingAngleRef.current = 0;
            return;
        }
-       let start = 0;
-       let endSignal = len - 1;
-       if(directionRef.current === -1){
-           start = len - 1;
-           endSignal = 0;
-       }
-        while(start !== endSignal){
-            if(directionRef.current === 1 && start < optionsDistributed - 1){
-                start += 1;
-                continue;   
-            } else if (directionRef.current === -1 && start < optionsDistributed - 1) {
-                start -= 1;
-                continue;
-            }
+       if(directionRef.current === 1){
+            let start = 0;
+            let endSignal = len - 1;
+        /* if(directionRef.current === -1){
+            start = len - 1;
+            endSignal = 0;
+        } */
+            while(start !== endSignal){
+                if(start < optionsDistributed - 1){
+                    start += 1;
+                    continue;   
+                }
 
-            /* if( start < optionsDistributed - 1){
-                start += 1;
-                continue;
-            } */    
+                /* if( start < optionsDistributed - 1){
+                    start += 1;
+                    continue;
+                } */    
 
-            const object = optionsElements[start];
-            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
-            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
-            object.style.left = `${x}px`; // Offset to center the object
-            object.style.top = `${y}px`;
-            
-            if(directionRef.current === -1){
-                start -=1;    
-            }else{
-                start +=1;
+                const object = optionsElements[start];
+                const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
+                const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
+                object.style.left = `${x}px`; // Offset to center the object
+                object.style.top = `${y}px`;
+                
+                start += 1;
             }
-       } 
+        }
+        
        /*  //Animation must be applied for each object, we should path animatin
         for (let i = 0; i < len; i++) {
             if(i < optionsDistributed - 1){
