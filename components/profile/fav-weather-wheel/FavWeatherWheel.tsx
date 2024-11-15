@@ -106,10 +106,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             if(directionRef.current === 1 && start < optionsDistributed - 1){
                 start += 1;
                 continue;   
-            } else if (directionRef.current === -1 && start > optionsDistributed - 1) {
+            } else if (directionRef.current === -1 && start < optionsDistributed - 1) {
                 start -= 1;
                 continue;
             }
+
+            /* if( start < optionsDistributed - 1){
+                start += 1;
+                continue;
+            } */    
 
             const object = optionsElements[start];
             const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
