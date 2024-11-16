@@ -15,16 +15,14 @@ interface FavWeatherWheelProps {
  */
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const SPEED = 0.5; // Degrees to move per frame
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
     const requestRef = useRef<number>(0);
     const timeRef = useRef<number>(0);
     const containerCenterRef = useRef<number[]>([0,0]);
-    const currentRotatePosition = useRef<number[]>([0,0]);
     const currentAngleRef = useRef<number>(0);
     const optionSizeRef = useRef<number[]>([0,0]);//option width and height
     const optionAngleRef = useRef<number>(0);//angle for each option to make sure that they are not overlapping on the circular path
-    const endingAngleRef = useRef<number>(0);
-    const directionRef = useRef<number>(1); //-1 or 1
     const weatherOptionRef = useRef<HTMLElement|null>(null);//options collection
     //refer to options object
     const handleToggle = () => {
@@ -47,10 +45,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                 return 'md';
         }
     }
-    
-    const speed = 0.5; // Degrees to move per frame
 
-    const totalDegrees = 270; // Total degrees of rotation (e.g., 720° = 2 full rotations)
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
@@ -71,59 +66,60 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             startTime = timestamp;
         }
         // Calculate the elapsed time
-        const elapsedTime = Math.round(timestamp - startTime);
-        const addedAngle = elapsedTime * speed;
+        const elapsedTime = timestamp - startTime;
+        const addedAngle = elapsedTime * SPEED;
         const len = optionsElements.length;
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
-        let currentAngle = Math.round(addedAngle + currentAngleRef.current);
-        let optionsDistributed  = Math.round(addedAngle / optionAngleRef.current);
-    
+        let currentAngle = addedAngle + currentAngleRef.current;
         /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
-       if(optionsDistributed > len ){
-           endingAngleRef.current = currentAngle;
+       
+        if(currentAngle > len * optionAngleRef.current){
            return;
-       } 
-            let start = 0;
-            let endSignal = len;
+       }
+     /* 
+            let start = 1;
+            let endSignal = len + 1 ; */
         /* if(directionRef.current === -1){
             start = len - 1;
             endSignal = 0;
         } */
-        while(start !== endSignal){
-            if(start < optionsDistributed - 1){
+/*         while(start !== endSignal){
+            const currentOptionAngle = start * optionAngleRef.current;
+            console.log(currentOptionAngle);
+            if( currentOptionAngle < currentAngle){
                 start += 1;
                 continue;   
             }
 
-            /* if( start < optionsDistributed - 1){
-                start += 1;
-                continue;
-            } */    
+            // if( start < optionsDistributed - 1){
+             //   start += 1;
+              //  continue;
+            //}     
 
-            const object = optionsElements[start];
+            const object = optionsElements[start - 1];
             const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
             const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
             
             start += 1;
-        }
+        } */
     
         
-       /*  //Animation must be applied for each object, we should path animatin
-        for (let i = 0; i < len; i++) {
-            if(i < optionsDistributed - 1){
+         //Animation must be applied for each object, we should path animatin
+        for (let i = 1; i <= len ; i++) {
+            if(i * optionAngleRef.current < currentAngle){
                 continue;
             }
-            const object = optionsElements[i];
+            const object = optionsElements[i - 1];
             const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
             const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
-        } */
+        } 
         // Calculate the position based on the current angle
         // Increase the angle for the next frame
         // Continue the animation
@@ -146,10 +142,11 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         // Calculate the elapsed time
         const elapsedTime = Math.round(timestamp - startTime);
-        const addedAngle = elapsedTime * speed;
+        const addedAngle = elapsedTime * SPEED;
         const len = optionsElements.length;
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
+        
         let currentAngle = Math.round(addedAngle + currentAngleRef.current);
 
     }
@@ -210,10 +207,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const angle = Math.ceil(getAngle(rotatePos[0], rotatePos[1]));
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
-        currentAngleRef.current = angle + 10;
+        currentAngleRef.current = angle + 18;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
-        optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
+        optionAngleRef.current = Math.ceil(getAngleOption(centerSize[0], optionSize[0]));
         containerCenterRef.current = centerSize;
     }
     useEffect(()=>{
