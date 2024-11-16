@@ -82,7 +82,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
-        console.log(optionsDistributed, len);
        if(optionsDistributed > len ){
            endingAngleRef.current = currentAngle;
            return;
@@ -207,7 +206,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     }
     const initiatingAnimation = () => {
         //set up for the animation
-        const angle = Math.ceil(getAngle(currentRotatePosition.current[0], currentRotatePosition.current[1]));
+        const rotatePos = getCurrentRotatePosition();
+        const angle = Math.ceil(getAngle(rotatePos[0], rotatePos[1]));
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
         currentAngleRef.current = angle + 10;
@@ -217,7 +217,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         containerCenterRef.current = centerSize;
     }
     useEffect(()=>{
-        currentRotatePosition.current = getCurrentRotatePosition();
+
         if(optionsRef){
             optionsRef.current = getOptionsElement();
         }
@@ -233,11 +233,12 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         2. Record the cummulative angle, when get to a certain angle, stop the animation on a certain element
     */
     useEffect(() => {   
-        initiatingAnimation();
+       
         //get reference to the options
         const weatherOptionsElement = weatherOptionRef.current = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
         weatherOptionRef.current = weatherOptionsElement;        
         if(isExpanded){
+            initiatingAnimation();
             weatherOptionsElement.style.visibility = 'visible';
             requestRef.current = requestAnimationFrame(moveObject);
             
