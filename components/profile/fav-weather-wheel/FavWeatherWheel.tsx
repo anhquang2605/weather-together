@@ -76,7 +76,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             return; // Stop the animation when the target degrees are reached
         } */
        
-        if(currentAngle > len * optionAngleRef.current){
+        if(addedAngle > len * optionAngleRef.current ){
            return;
        }
      /* 
@@ -111,7 +111,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         
          //Animation must be applied for each object, we should path animatin       
          for (let i = 1; i <= len ; i++) {
-            console.log(i * optionAngleRef.current, addedAngle);
+
             if(i * optionAngleRef.current < addedAngle){
                 continue;
             }
@@ -208,7 +208,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const angle = Math.ceil(getAngle(rotatePos[0], rotatePos[1]));
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
-        currentAngleRef.current = angle + 18;
+        currentAngleRef.current = angle + 27;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
         optionAngleRef.current = Math.ceil(getAngleOption(centerSize[0], optionSize[0]));
