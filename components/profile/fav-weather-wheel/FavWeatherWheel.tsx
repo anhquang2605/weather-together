@@ -5,6 +5,7 @@ import {WEATHERS} from '../../../constants/weathers';
 import { dir, time } from 'console';
 import { current } from '@reduxjs/toolkit';
 import { add } from 'lodash';
+import { request } from 'http';
 interface FavWeatherWheelProps {
     weatherName: string;
     isEditable?: boolean;
@@ -16,6 +17,7 @@ interface FavWeatherWheelProps {
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const SPEED = 0.5; // Degrees to move per frame
+    const OFFSET_ANGLE = 27;
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
     const requestRef = useRef<number>(0);
     const timeRef = useRef<number>(0);
@@ -24,6 +26,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const optionSizeRef = useRef<number[]>([0,0]);//option width and height
     const optionAngleRef = useRef<number>(0);//angle for each option to make sure that they are not overlapping on the circular path
     const weatherOptionRef = useRef<HTMLElement|null>(null);//options collection
+    const optionsAngleStoreRef = useRef<number[]>([]);
+    const currentReversingOptionIndexRef = useRef<number>(0);
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -109,10 +113,14 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         } */
     
         
-         //Animation must be applied for each object, we should path animatin       
+         //Animation must be applied for each object, we should path animatin 
+
          for (let i = 1; i <= len ; i++) {
 
             if(i * optionAngleRef.current < addedAngle){
+                if(!optionsAngleStoreRef.current[i - 1]){
+                    optionsAngleStoreRef.current[i - 1] = currentAngle;
+                }
                 continue;
             }
             const object = optionsElements[i - 1];
@@ -127,15 +135,21 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         requestRef.current = requestAnimationFrame(moveObject);
     }
     function reverseMoveObject(timestamp: number) {
+        if(!optionsRef.current){
+            return;
+        }
+        const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
+        let len = optionsElements.length;
+        if(currentReversingOptionIndexRef.current > len){
+            return;
+        }
         const radius = containerCenterRef.current[0];
         const rX = containerCenterRef.current[0];
         const rY = containerCenterRef.current[1];
         const optionW = optionSizeRef.current[0] / 2;
         const optionH = optionSizeRef.current[1] / 2;
-        if(!optionsRef.current){
-            return;
-        }
-        const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
+
+       
         let startTime = timeRef.current;
         if (timeRef.current === 0) {
             timeRef.current = timestamp;
@@ -144,11 +158,28 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         // Calculate the elapsed time
         const elapsedTime = Math.round(timestamp - startTime);
         const addedAngle = elapsedTime * SPEED;
-        const len = optionsElements.length;
+        const currentOption = currentReversingOptionIndexRef.current;
+        const currentOptionAngle = optionsAngleStoreRef.current[currentOption];
+        
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
         
-        let currentAngle = Math.round(addedAngle + currentAngleRef.current);
+        let currentAngle = Math.round(currentOptionAngle - addedAngle);
+        
+        if(currentAngle <= currentAngleRef.current - OFFSET_ANGLE){
+            currentReversingOptionIndexRef.current += 1;
+        } else {
+            const object = optionsElements[currentOption];
+            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
+            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
+            object.style.left = `${x}px`; // Offset to center the object
+            object.style.top = `${y}px`;
+        }
+        
+        // Calculate the position based on the current angle
+        // Increase the angle for the next frame
+        // Continue the animation
+        requestRef.current = requestAnimationFrame(reverseMoveObject);
 
     }
     const getContainerCenter = (containerClassname: string) => {
@@ -208,7 +239,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const angle = Math.ceil(getAngle(rotatePos[0], rotatePos[1]));
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
-        currentAngleRef.current = angle + 27;
+        currentAngleRef.current = angle + OFFSET_ANGLE;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
         optionAngleRef.current = Math.ceil(getAngleOption(centerSize[0], optionSize[0]));
@@ -240,8 +271,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             weatherOptionsElement.style.visibility = 'visible';
             requestRef.current = requestAnimationFrame(moveObject);
             
-        }else {
-            weatherOptionsElement.style.visibility = 'hidden';
+        }else if(!isExpanded && currentAngleRef.current) {
+            currentReversingOptionIndexRef.current = 0;
+            timeRef.current = 0;
+            requestRef.current = requestAnimationFrame(reverseMoveObject);    
         }
         return () => {
             cancelAnimationFrame(requestRef.current);
