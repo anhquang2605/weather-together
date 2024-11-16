@@ -109,9 +109,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         } */
     
         
-         //Animation must be applied for each object, we should path animatin
-        for (let i = 1; i <= len ; i++) {
-            if(i * optionAngleRef.current < currentAngle){
+         //Animation must be applied for each object, we should path animatin       
+         for (let i = 1; i <= len ; i++) {
+            console.log(i * optionAngleRef.current, addedAngle);
+            if(i * optionAngleRef.current < addedAngle){
                 continue;
             }
             const object = optionsElements[i - 1];
