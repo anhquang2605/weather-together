@@ -170,6 +170,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         let currentAngle = Math.round(currentOptionAngle - addedAngle);
         
         if(currentAngle <= (currentAngleRef.current - OFFSET_ANGLE)){
+            timeRef.current = 0;
             currentReversingOptionIndexRef.current += 1;
         } else {
             const object = optionsElements[currentOption];
