@@ -141,6 +141,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
         let len = optionsElements.length;
         if(currentReversingOptionIndexRef.current > len){
+            const options = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
+            options.style.visibility  = 'hidden';
             return;
         }
         const radius = containerCenterRef.current[0];
