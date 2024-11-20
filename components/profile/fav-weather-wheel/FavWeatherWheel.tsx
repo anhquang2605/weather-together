@@ -79,7 +79,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         /*   if (currentAngle >= totalDegrees) {
             return; // Stop the animation when the target degrees are reached
         } */
-       
+        
         if(addedAngle > len * optionAngleRef.current ){
            return;
        }
@@ -94,9 +94,9 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             const currentOptionAngle = start * optionAngleRef.current;
             console.log(currentOptionAngle);
             if( currentOptionAngle < currentAngle){
-                start += 1;
-                continue;   
-            }
+                    start += 1;
+                    continue;   
+                }
 
             // if( start < optionsDistributed - 1){
              //   start += 1;
@@ -104,12 +104,12 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             //}     
 
             const object = optionsElements[start - 1];
-            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
-            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
-            object.style.left = `${x}px`; // Offset to center the object
-            object.style.top = `${y}px`;
-            
-            start += 1;
+                const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
+                const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
+                object.style.left = `${x}px`; // Offset to center the object
+                object.style.top = `${y}px`;
+                
+                start += 1;
         } */
     
         
@@ -261,7 +261,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         1. Calculate the angle per element, we must distribute element along the cicular path making sure that each element wont overlap each other
         2. Record the cummulative angle, when get to a certain angle, stop the animation on a certain element
     */
-    useEffect(() => {   
+    useEffect(() => {
        
         //get reference to the options
         const weatherOptionsElement = weatherOptionRef.current = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
