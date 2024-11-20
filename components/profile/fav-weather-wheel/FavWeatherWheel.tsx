@@ -141,6 +141,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
         let len = optionsElements.length;
         if(currentReversingOptionIndexRef.current > len){
+            console.log("end");
             const options = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
             options.style.visibility  = 'hidden';
             return;
@@ -168,7 +169,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         
         let currentAngle = Math.round(currentOptionAngle - addedAngle);
         
-        if(currentAngle <= currentAngleRef.current - OFFSET_ANGLE){
+        if(currentAngle <= (currentAngleRef.current - OFFSET_ANGLE)){
             currentReversingOptionIndexRef.current += 1;
         } else {
             const object = optionsElements[currentOption];
