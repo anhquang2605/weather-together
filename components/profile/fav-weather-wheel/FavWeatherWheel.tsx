@@ -81,6 +81,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         } */
         
         if(addedAngle > len * optionAngleRef.current ){
+            optionsAngleStoreRef.current[optionsAngleStoreRef.current.length - 1] = addedAngle;
            return;
        }
      /* 
@@ -140,7 +141,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
         let len = optionsElements.length;
-        if(currentReversingOptionIndexRef.current > len){
+        if(currentReversingOptionIndexRef.current >= len){
             console.log("end");
             const options = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
             options.style.visibility  = 'hidden';
@@ -160,13 +161,13 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         // Calculate the elapsed time
         const elapsedTime = Math.round(timestamp - startTime);
-        const addedAngle = elapsedTime * SPEED;
+        const addedAngle = elapsedTime * SPEED *  1.25;
         const currentOption = currentReversingOptionIndexRef.current;
         const currentOptionAngle = optionsAngleStoreRef.current[currentOption];
         
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
-        
+        console.log(optionsAngleStoreRef.current);
         let currentAngle = Math.round(currentOptionAngle - addedAngle);
         
         if(currentAngle <= (currentAngleRef.current - OFFSET_ANGLE)){
