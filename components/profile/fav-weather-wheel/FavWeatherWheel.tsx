@@ -81,7 +81,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         } */
         
         if(addedAngle > len * optionAngleRef.current ){
-            optionsAngleStoreRef.current[optionsAngleStoreRef.current.length - 1] = addedAngle;
+            optionsAngleStoreRef.current[len - 1] = addedAngle;
            return;
        }
      /* 
@@ -167,7 +167,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
-        console.log(optionsAngleStoreRef.current);
         let currentAngle = Math.round(currentOptionAngle - addedAngle);
         
         if(currentAngle <= (currentAngleRef.current - OFFSET_ANGLE)){
