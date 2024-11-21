@@ -161,7 +161,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         // Calculate the elapsed time
         const elapsedTime = Math.round(timestamp - startTime);
-        const addedAngle = elapsedTime * SPEED *  1.25;
+        const addedAngle = elapsedTime * SPEED * 1.75 ;
         const currentOption = currentReversingOptionIndexRef.current;
         const currentOptionAngle = optionsAngleStoreRef.current[currentOption];
         
@@ -169,7 +169,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
         let currentAngle = Math.round(currentOptionAngle - addedAngle);
         
-        if(currentAngle <= (currentAngleRef.current - OFFSET_ANGLE)){
+        if(currentAngle <= (currentAngleRef.current - 15)){
             timeRef.current = 0;
             currentReversingOptionIndexRef.current += 1;
         } else {
