@@ -2,19 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import {WEATHERS} from '../../../constants/weathers';
-import { dir, time } from 'console';
-import { current } from '@reduxjs/toolkit';
-import { add } from 'lodash';
-import { request } from 'http';
+
 interface FavWeatherWheelProps {
     weatherName: string;
     isEditable?: boolean;
     size: string;
+    setFeaturedWeather: (value: string) => void
 }
 /**
  * This component is used to display the favorites weathers options when they want to edit their favorite weathers
  */
-const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable}) => {
+const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable, setFeaturedWeather}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const SPEED = 0.5; // Degrees to move per frame
     const OFFSET_ANGLE = 27;
@@ -49,7 +47,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                 return 'md';
         }
     }
-
+    //ANIMATION LOGICS
     function getOptionsElement() {
         const optionsElements = document.getElementsByClassName(style['weather-option']);
         return optionsElements as HTMLCollectionOf<HTMLElement>;
@@ -260,7 +258,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     },[])
     //What next?
     /* 
-    
+
     */
     useEffect(() => {
        
@@ -309,6 +307,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                                         <div
                                             className={style['weather-option']}
                                             key={weather.name}
+                                            onClick={() => setFeaturedWeather(weather.name)}
                                         >
                                             <WeatherIcon
                                                 weatherName={weather.name}

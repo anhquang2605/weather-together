@@ -19,7 +19,7 @@ interface MiniAvatarProps {
     setEditingPicture?: (value: boolean) => void
 }
 export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather = "", variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
-    const [weather, setweather] = useState<string>(featuredWeather);
+    const [weather, setWeather] = useState<string>(featuredWeather);
     const [updateFeaturedWeatherStatus, setUpdateFeaturedWeatherStatus] = useState<string>('idle');
     const setFeatureWeather = (theWeather: string) => {
         setUpdateFeaturedWeatherStatus('loading');
@@ -31,10 +31,10 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
         const result = updateToPutAPI('users', body)
         result.then((res) => {
             if(res.success){
-                setweather(theWeather);
+                setWeather(theWeather);
                 setUpdateFeaturedWeatherStatus('success');
             }else{
-                setweather(oldWeather);
+                setWeather(oldWeather);
                 setUpdateFeaturedWeatherStatus('error');
             }
         })
@@ -79,7 +79,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
 
 {
                 variant === 'featured' && weather !== '' &&
-                <FavWeatherWheel weatherName={weather} isEditable={isEditing} size={size}/>
+                <FavWeatherWheel weatherName={weather} isEditable={isEditing} size={size} setFeaturedWeather={setFeatureWeather}/>
             }        </div>
     )
 }
