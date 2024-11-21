@@ -259,11 +259,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     },[])
     //What next?
-    /* Calculate the stagger for each element using the number of element and their dimension
-    - each element will fill up the angle, the last element will be at the end of the angle, while the start element will be at the start of the angle
-    _ Approaches:
-        1. Calculate the angle per element, we must distribute element along the cicular path making sure that each element wont overlap each other
-        2. Record the cummulative angle, when get to a certain angle, stop the animation on a certain element
+    /* 
+    
     */
     useEffect(() => {
        
@@ -284,20 +281,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             cancelAnimationFrame(requestRef.current);
         }
     },[isExpanded])
-    /**
-     * How to move element along a circular path?
-     * 1. Use Anime.js path animation
-     *    - https://animejs.com/documentation
-     *    - Need to create semi circular path using inkScape
-     *    - Depdency: animejs
-     * 2. Use CSS animation?
-     *    - 
-     * 3. Use JS animation?
-     *    - Take advantage of the requestiontAnimationFrame for smooth animation
-     *    - Use sine and cosine function to calculate x and y position of object perframe according to the angle
-     *    - angle is used to control speed
-     *    - radius can be changed
-     */
         
     return (
         <div className={style['fav-weather-wheel']} onClick={handleToggle}>
