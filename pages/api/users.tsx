@@ -99,11 +99,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } 
          else if (method === 'PUT') {
             const payload = req.body;
-            if(payload.username && payload.featuredWeahther){
-                const {username, featuredWeahther} = payload;
+            if(payload.username && payload.featuredWeather){
+                const {username, featuredWeather} = payload;
                 const userCollection = db.collection('users');
                 const result = await userCollection.updateOne({username: username}, {$set: {featuredWeather: 
-                    {name: featuredWeahther}}});
+                    {name: featuredWeather}}});
                 if(result){
                     res.status(200).json({success: true, message: 'User updated'});
                 }

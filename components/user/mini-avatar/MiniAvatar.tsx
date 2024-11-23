@@ -6,6 +6,7 @@ import { TbCameraPlus } from "react-icons/tb";
 import { useState } from 'react';
 import { updateToPutAPI } from '../../../libs/api-interactions';
 import FavWeatherWheel from '../../profile/fav-weather-wheel/FavWeatherWheel';
+import { cp } from 'fs';
 interface MiniAvatarProps {
     profilePicturePath: string;
     size?: string; //large, medium, small
@@ -26,10 +27,11 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
         const oldWeather = weather;
         const body = {
             username: username,
-            weather: theWeather
+            featuredWeather: theWeather
         }
         const result = updateToPutAPI('users', body)
         result.then((res) => {
+            console.log(res);
             if(res.success){
                 setWeather(theWeather);
                 setUpdateFeaturedWeatherStatus('success');
