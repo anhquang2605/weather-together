@@ -252,7 +252,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         containerCenterRef.current = centerSize;
     }
     useEffect(()=>{
-
         if(optionsRef){
             optionsRef.current = getOptionsElement();
         }
@@ -288,8 +287,10 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         <div  className={style['fav-weather-wheel']} onClick={handleToggle}>
                     <div title={
                         isExpanded ? '' : 'Click to change your favorite weather'
-                    } className={`${style['featured-weather']}
-                        
+                    } className={`${style['featured-weather']} 
+                    ${
+                            isEditable ? style['editable-featured'] : ''
+                    } 
                     ${
                         isExpanded ? style['expanded-featured'] : ''
                     }`}>

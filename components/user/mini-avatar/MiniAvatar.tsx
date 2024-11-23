@@ -79,7 +79,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
 
 {
                 variant === 'featured' && weather !== '' &&
-                <FavWeatherWheel weatherName={weather} isEditable={isEditing} size={size} setFeaturedWeather={setFeatureWeather}/>
+                <FavWeatherWheel weatherName={weather} isEditable={true} size={size} setFeaturedWeather={setFeatureWeather}/>
             }        </div>
     )
 }
