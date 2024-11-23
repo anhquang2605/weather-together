@@ -29,7 +29,7 @@ const WeatherIcon: React.FC<WeatherIconProps> = ({weatherName, size}) => {
         }
     }
     return (
-        <div title={weatherName} className={style['weather-icon']}>
+        <div className={style['weather-icon']}>
                 <IconSVG width={dimension()} height={dimension()}/>
         </div>
     );

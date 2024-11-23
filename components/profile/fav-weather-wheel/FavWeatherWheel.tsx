@@ -15,7 +15,7 @@ interface FavWeatherWheelProps {
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable, setFeaturedWeather}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const SPEED = 0.5; // Degrees to move per frame
-    const OFFSET_ANGLE = 27;
+    const OFFSET_ANGLE = 10;
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
     const requestRef = useRef<number>(0);
     const timeRef = useRef<number>(0);
@@ -285,8 +285,12 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     },[isExpanded])
         
     return (
-        <div className={style['fav-weather-wheel']} onClick={handleToggle}>
-                    <div className={`${style['featured-weather']} ${
+        <div  className={style['fav-weather-wheel']} onClick={handleToggle}>
+                    <div title={
+                        isExpanded ? '' : 'Click to change your favorite weather'
+                    } className={`${style['featured-weather']}
+                        
+                    ${
                         isExpanded ? style['expanded-featured'] : ''
                     }`}>
                     {

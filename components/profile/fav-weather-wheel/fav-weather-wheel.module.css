@@ -7,6 +7,7 @@
   z-index: 100;
   transition: var(--short-transition);
   transition-delay: 0.55s;
+  cursor: pointer;
 }
 
 .expanded-featured{
