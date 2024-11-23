@@ -194,12 +194,16 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         return [0,0];
     }
     const getCurrentRotatePosition = () => {
+        const favWeatherWheel = document.getElementsByClassName(style['fav-weather-wheel'])[0];
         const featuredWeather = document.getElementsByClassName(style['featured-weather'])[0];
-        if(!featuredWeather){
+        if(!featuredWeather || !favWeatherWheel){
             return [0,0];
         }
         const {left, top} = featuredWeather.getBoundingClientRect();
-        return [left, top];
+        const {left: left1, top: top1} = favWeatherWheel.getBoundingClientRect();
+        const leftR = left - left1;
+        const topR = top - top1;
+        return [leftR, topR];
     }
     /**
      * Calculates the angle of a point relative to the center of the container
