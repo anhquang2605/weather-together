@@ -18,6 +18,7 @@ import withAuthStatic from "../../authentication/with-auth-static";
 import {subscribe, unSubcribe} from "../../../utils/websocket-service";
 import style from './edit-profile.module.scss';
 import SkyScroller from "../../../components/profile/sky-scroller/SkyScroller";
+import { UserEditProfileContextProvider } from "./useUserEditProfileContext";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -194,6 +195,7 @@ function Edit({userJSON}:UserProfileProps){
         <Head>
           <title>{theTitle}</title>
         </Head>
+        <UserEditProfileContextProvider>
         <div className={`${style['edit-profile']}`}>
           <div className={`${style['edit-profile-wrapper']}`}>
           <SkyScroller parentClassName={style['edit-profile-wrapper']} layersNumber={2}cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || '']} profileDimension={dimension} />
@@ -222,7 +224,7 @@ function Edit({userJSON}:UserProfileProps){
 
         </div>
         </div>
-        
+        </UserEditProfileContextProvider>
 
         {/* Modal sections */}
       <Modal status={editingPicture} onClose={()=>{handlePictureEditClose()}}>
