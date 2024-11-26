@@ -5,6 +5,7 @@ import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon
 import { TbCameraPlus } from "react-icons/tb";
 import { useState } from 'react';
 import { updateToPutAPI } from '../../../libs/api-interactions';
+import { useUserEditProfileContext } from '../../../pages/userprofile/edit/useUserEditProfileContext';
 import FavWeatherWheel from '../../profile/fav-weather-wheel/FavWeatherWheel';
 import { cp } from 'fs';
 interface MiniAvatarProps {
@@ -21,6 +22,7 @@ interface MiniAvatarProps {
 }
 export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather = "", variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
     const [weather, setWeather] = useState<string>(featuredWeather);
+    const {setFeaturedWeather} = useUserEditProfileContext();
     const [updateFeaturedWeatherStatus, setUpdateFeaturedWeatherStatus] = useState<string>('idle');
     const setFeatureWeather = (theWeather: string) => {
         setUpdateFeaturedWeatherStatus('loading');
@@ -31,12 +33,13 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
         }
         const result = updateToPutAPI('users', body)
         result.then((res) => {
-            console.log(res);
             if(res.success){
                 setWeather(theWeather);
+                setFeaturedWeather(theWeather);
                 setUpdateFeaturedWeatherStatus('success');
             }else{
                 setWeather(oldWeather);
+                setFeaturedWeather(oldWeather);
                 setUpdateFeaturedWeatherStatus('error');
             }
         })
