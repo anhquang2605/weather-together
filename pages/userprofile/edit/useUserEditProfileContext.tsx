@@ -5,6 +5,11 @@ type UserEditProfileContextType = {
     setFeaturedWeather: React.Dispatch<React.SetStateAction<string>>
 }
 
+type UserEditProfileContextValue = {
+    featuredWeather: string;
+    setFeaturedWeather: React.Dispatch<React.SetStateAction<string>>
+}
+
 const UserEditProfileContext = createContext<UserEditProfileContextType | null>(null);
 
 export const useUserEditProfileContext = () => {
@@ -15,12 +20,7 @@ export const useUserEditProfileContext = () => {
     return context
 }
 
-export function UserEditProfileContextProvider({children}: {children: React.ReactNode}) {
-    const [featuredWeather, setFeaturedWeather] = useState<string>('');
-    const value = {
-        featuredWeather,
-        setFeaturedWeather
-    }
+export function UserEditProfileContextProvider({children, value}: {children: React.ReactNode, value: UserEditProfileContextValue}) {
     return (
         <UserEditProfileContext.Provider value={value}>
             {children}
