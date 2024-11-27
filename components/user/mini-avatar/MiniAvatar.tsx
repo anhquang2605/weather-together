@@ -5,7 +5,7 @@ import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon
 import { TbCameraPlus } from "react-icons/tb";
 import { useState } from 'react';
 import { updateToPutAPI } from '../../../libs/api-interactions';
-import { useUserEditProfileContext } from '../../../pages/userprofile/edit/useUserEditProfileContext';
+import { useUserEditProfileContext, UserEditProfileContext } from '../../../pages/userprofile/edit/useUserEditProfileContext';
 import FavWeatherWheel from '../../profile/fav-weather-wheel/FavWeatherWheel';
 import { cp } from 'fs';
 interface MiniAvatarProps {
@@ -22,30 +22,37 @@ interface MiniAvatarProps {
 }
 export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather = "", variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
     const [weather, setWeather] = useState<string>(featuredWeather);
-    const {setFeaturedWeather} = useUserEditProfileContext();
     const [updateFeaturedWeatherStatus, setUpdateFeaturedWeatherStatus] = useState<string>('idle');
-    const setFeatureWeather = (theWeather: string) => {
-        setUpdateFeaturedWeatherStatus('loading');
-        const oldWeather = weather;
-        const body = {
-            username: username,
-            featuredWeather: theWeather
-        }
-        const result = updateToPutAPI('users', body)
-        result.then((res) => {
-            if(res.success){
-                setWeather(theWeather);
-                setFeaturedWeather(theWeather);
-                setUpdateFeaturedWeatherStatus('success');
-            }else{
-                setWeather(oldWeather);
-                setFeaturedWeather(oldWeather);
-                setUpdateFeaturedWeatherStatus('error');
+/*     let contentWithContext = ( //when editing profile using the context provider
+        <></>
+    );
+    if(UserEditProfileContext && isEditing){ */
+        const {setFeaturedWeather} = useUserEditProfileContext();
+        const setFeatureWeather = (theWeather: string) => {
+            setUpdateFeaturedWeatherStatus('loading');
+            const oldWeather = weather;
+            const body = {
+                username: username,
+                featuredWeather: theWeather
             }
-        })
-        
-
-    }
+            const result = updateToPutAPI('users', body)
+            result.then((res) => {
+                if(res.success){
+                    setWeather(theWeather);
+                    setFeaturedWeather(theWeather);
+                    setUpdateFeaturedWeatherStatus('success');
+                }else{
+                    setWeather(oldWeather);
+                    setFeaturedWeather(oldWeather);
+                    setUpdateFeaturedWeatherStatus('error');
+                }
+            })
+        }
+/*         contentWithContext = (
+            <FavWeatherWheel weatherName={weather} isEditable={true} size={size} setFeaturedWeather={setFeatureWeather }/>
+        ); */
+/*     } */
+    
     const dimesion = () => {
         switch(size) {
             case 'two-x-large':
@@ -63,6 +70,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
         }
     }
 
+    
     return (
         <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '')}>
             <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
@@ -82,9 +90,9 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
              
              }
 
-{
-                variant === 'featured' && weather !== '' &&
-                <FavWeatherWheel weatherName={weather} isEditable={true} size={size} setFeaturedWeather={setFeatureWeather}/>
+            {
+                variant === 'featured' && weather !== '' && 
+                <FavWeatherWheel weatherName={weather} isEditable={true} size={size} setFeaturedWeather={setFeatureWeather }/>
             }        </div>
     )
 }

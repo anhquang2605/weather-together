@@ -46,7 +46,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 function Edit({userJSON}:UserProfileProps){
   const [user, setUser] = useState<User>(JSON.parse(userJSON));
-  const [featuredWeather, setFeaturedWeather] = useState<string>(user.featuredWeather?.name || '');
+
   const {update} = useSession();
   const theTitle = `Profile for ${user.username}`;
   const [dimension, setDimension] = useState(
@@ -196,12 +196,9 @@ function Edit({userJSON}:UserProfileProps){
         <Head>
           <title>{theTitle}</title>
         </Head>
-        <UserEditProfileContextProvider value={
-          {featuredWeather, setFeaturedWeather}
-        }>
         <div className={`${style['edit-profile']}`}>
           <div className={`${style['edit-profile-wrapper']}`}>
-          <SkyScroller parentClassName={style['edit-profile-wrapper']} layersNumber={2}cloudClassName={style['cloud']} skyClassName={style[featuredWeather]} profileDimension={dimension} />
+          <SkyScroller parentClassName={style['edit-profile-wrapper']} layersNumber={2}cloudClassName={style['cloud']} skyClassName={style[user.featuredWeather?.name || "cloudy"]} profileDimension={dimension} />
         <div className="w-full p-8 z-30">
                       {/* Profile Banner */}
             {/* Profile pic and background */}
@@ -227,8 +224,6 @@ function Edit({userJSON}:UserProfileProps){
 
         </div>
         </div>
-        </UserEditProfileContextProvider>
-
         {/* Modal sections */}
       <Modal status={editingPicture} onClose={()=>{handlePictureEditClose()}}>
             <EditPictureForm  editing={editingPicture} user={user}/>

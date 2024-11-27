@@ -8,6 +8,7 @@ import style from './user-profile.module.scss'
 import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
 import CityLandScape from "../../components/profile/city-landscape/CityLandscape";
 import ProfileContent from "../../components/profile/profile-content/ProfileContent";
+import { UserEditProfileContextProvider } from "./edit/useUserEditProfileContext";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -46,6 +47,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
   const theTitle = `Profile for ${user.username}`;
   const containerRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const [featuredWeather, setFeaturedWeather] = useState<string>(user.featuredWeather?.name || '');
   const [dimension, setDimension] = useState(
     {width: 0, height: 0}
   );
@@ -128,6 +130,9 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <Head>
                 <title>{theTitle}</title>
             </Head>
+            <UserEditProfileContextProvider value={
+          {featuredWeather, setFeaturedWeather}
+        }>
             <div ref={profileRef} className={`${style['profile-page']}  ${style[user.featuredWeather?.name || '']}`}>
               <div ref={containerRef}  className={style["top-layer"]}>
                 <div className={style['profile-banner-wrapper']}>
@@ -140,6 +145,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
               <SkyScroller parentClassName={style['profile-page']} layersNumber={2} cloudClassName={style[ 'cloud']} skyClassName={style[user.featuredWeather?.name || 'cloudy']} profileDimension={dimension} />
              
             </div>
+            </UserEditProfileContextProvider>
         </>
     )
 }

@@ -10,7 +10,7 @@ type UserEditProfileContextValue = {
     setFeaturedWeather: React.Dispatch<React.SetStateAction<string>>
 }
 
-const UserEditProfileContext = createContext<UserEditProfileContextType | null>(null);
+export const UserEditProfileContext = createContext<UserEditProfileContextType | null>(null);
 
 export const useUserEditProfileContext = () => {
     const context = useContext(UserEditProfileContext);
