@@ -133,7 +133,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <UserEditProfileContextProvider value={
           {featuredWeather, setFeaturedWeather}
         }>
-            <div ref={profileRef} className={`${style['profile-page']}  ${style[user.featuredWeather?.name || '']}`}>
+            <div ref={profileRef} className={`${style['profile-page']}  ${style[featuredWeather]}`}>
               <div ref={containerRef}  className={style["top-layer"]}>
                 <div className={style['profile-banner-wrapper']}>
                   <ProfileBanner user={user} isEditing={false} />
@@ -142,7 +142,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
                  <CityLandScape />
               </div>
 
-              <SkyScroller parentClassName={style['profile-page']} layersNumber={2} cloudClassName={style[ 'cloud']} skyClassName={style[user.featuredWeather?.name || 'cloudy']} profileDimension={dimension} />
+              <SkyScroller parentClassName={style['profile-page']} layersNumber={2} cloudClassName={style[ 'cloud']} skyClassName={style[featuredWeather]} profileDimension={dimension} />
              
             </div>
             </UserEditProfileContextProvider>

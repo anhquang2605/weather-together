@@ -23,11 +23,12 @@ interface MiniAvatarProps {
 export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather = "", variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
     const [weather, setWeather] = useState<string>(featuredWeather);
     const [updateFeaturedWeatherStatus, setUpdateFeaturedWeatherStatus] = useState<string>('idle');
-/*     let contentWithContext = ( //when editing profile using the context provider
+    const editProfileContext = useUserEditProfileContext();
+    let contentWithContext = ( //when editing profile using the context provider
         <></>
     );
-    if(UserEditProfileContext && isEditing){ */
-        const {setFeaturedWeather} = useUserEditProfileContext();
+    if(editProfileContext !== null){
+        const {setFeaturedWeather} = editProfileContext;
         const setFeatureWeather = (theWeather: string) => {
             setUpdateFeaturedWeatherStatus('loading');
             const oldWeather = weather;
@@ -48,10 +49,10 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
                 }
             })
         }
-/*         contentWithContext = (
+        contentWithContext = (
             <FavWeatherWheel weatherName={weather} isEditable={true} size={size} setFeaturedWeather={setFeatureWeather }/>
-        ); */
-/*     } */
+        );
+     }
     
     const dimesion = () => {
         switch(size) {
@@ -92,7 +93,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
 
             {
                 variant === 'featured' && weather !== '' && 
-                <FavWeatherWheel weatherName={weather} isEditable={true} size={size} setFeaturedWeather={setFeatureWeather }/>
+                    contentWithContext
             }        </div>
     )
 }

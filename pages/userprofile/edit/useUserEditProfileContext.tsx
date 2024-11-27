@@ -14,9 +14,9 @@ export const UserEditProfileContext = createContext<UserEditProfileContextType |
 
 export const useUserEditProfileContext = () => {
     const context = useContext(UserEditProfileContext);
-    if (context === null) {
+   /*  if (context === null) {
         throw new Error('useUserEditProfileContext must be used within a UserEditProfileProvider');
-    }    
+    }     */
     return context
 }
 
