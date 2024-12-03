@@ -36,7 +36,14 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
                 username: username,
                 featuredWeather: theWeather
             }
-            const result = updateToPutAPI('users', body)
+            const result = new Promise<{success: boolean}>((resolve, reject) => {
+                //simulate api call that resolves with response without setTimeout
+                const res = {
+                    success: true
+                }
+                resolve(res);
+            })
+            //const result = updateToPutAPI('users', body)
             result.then((res) => {
                 if(res.success){
                     setWeather(theWeather);
