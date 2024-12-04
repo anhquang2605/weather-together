@@ -301,7 +301,11 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             cancelAnimationFrame(requestRef.current);
         }
     },[isExpanded])
-        
+    /*
+    Swapping fave weather choice to indicate the change
+    _ The featured will have the circle expand then shrink back for a brief moment with color change of the border to match with the new weather, in the mean time the chosen weather will be the og one, same affect but more subtle.
+    _ each weather class will now also have a color associated with it, this can be edit using a file of colors to match with the weather name for now, preferably online with the weather api or database but this can be expensive to implement
+    */
     return (
         <div  className={style['fav-weather-wheel']} onClick={handleToggle}>
                     <div title={
