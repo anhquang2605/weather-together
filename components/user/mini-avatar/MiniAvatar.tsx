@@ -25,7 +25,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
     const [updateFeaturedWeatherStatus, setUpdateFeaturedWeatherStatus] = useState<string>('idle');
     const editProfileContext = useUserEditProfileContext();
     let contentWithContext = ( //when editing profile using the context provider
-        <></>
+        <FavWeatherWheel weatherName={weather} isEditable={false} size={size} setFeaturedWeather={() => {} }/>
     );
     if(editProfileContext !== null){
         const {setFeaturedWeather} = editProfileContext;
