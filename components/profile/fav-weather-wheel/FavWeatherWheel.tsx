@@ -251,6 +251,19 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         optionAngleRef.current = Math.ceil(getAngleOption(centerSize[0], optionSize[0]));
         containerCenterRef.current = centerSize;
     }
+    const toggleZeroDelayClass = (on: boolean) => {
+        const featWeather = document.getElementsByClassName(style['featured-weather'])[0];
+        const delayTime = 500; //ms
+        if(featWeather && !on){
+            const timeout = setTimeout(() => {
+                featWeather.classList.add(style['zero-delay']);
+            }, delayTime);
+            return timeout;
+        } else if(featWeather && on){
+            featWeather.classList.remove(style['zero-delay']);
+            return null;
+        }
+    }
     useEffect(()=>{
         if(optionsRef){
             optionsRef.current = getOptionsElement();
@@ -267,18 +280,24 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
        
         //get reference to the options
         const weatherOptionsElement = weatherOptionRef.current = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
-        weatherOptionRef.current = weatherOptionsElement;        
-        if(isExpanded){
+        weatherOptionRef.current = weatherOptionsElement;
+        let timeout = null;        
+        if(isExpanded){            
+            timeout = toggleZeroDelayClass(true);
             initiatingAnimation();
             weatherOptionsElement.style.visibility = 'visible';
             requestRef.current = requestAnimationFrame(moveObject);
             
         }else if(!isExpanded && currentAngleRef.current) {
+            timeout = toggleZeroDelayClass(false);
             currentReversingOptionIndexRef.current = 0;
             timeRef.current = 0;
             requestRef.current = requestAnimationFrame(reverseMoveObject);    
         }
         return () => {
+            if(timeout){
+                clearTimeout(timeout);
+            }
             cancelAnimationFrame(requestRef.current);
         }
     },[isExpanded])

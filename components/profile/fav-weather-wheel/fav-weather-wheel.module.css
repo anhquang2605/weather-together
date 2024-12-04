@@ -6,11 +6,13 @@
   @apply absolute bottom-0 right-0 ;
   z-index: 100;
   transition: var(--short-transition);
-  transition-delay: 0.55s;
+  transition-delay: 0.5s;
+}
+.zero-delay{
+    transition-delay: 0s !important;
 }
 .editable-featured{
     cursor: pointer;
-    transition-delay: 0s !important;
     &:hover:not(.expanded-featured){
         @apply bg-slate-50 rounded-full;
     }
