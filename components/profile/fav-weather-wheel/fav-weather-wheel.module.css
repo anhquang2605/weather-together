@@ -45,3 +45,6 @@
     @apply px-2 py-1 text-xs rounded-lg absolute block left-1/2 -translate-x-1/2 -top-6;
     width: max-content;
 }
+.chosen-weather-option{
+    display: none;
+}

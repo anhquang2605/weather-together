@@ -26,6 +26,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const weatherOptionRef = useRef<HTMLElement|null>(null);//options collection
     const optionsAngleStoreRef = useRef<number[]>([]);
     const currentReversingOptionIndexRef = useRef<number>(0);
+    const chosenWeatherIndexRef = useRef<number>(9999);
     //refer to options object
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -115,7 +116,9 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
          //Animation must be applied for each object, we should path animatin 
 
          for (let i = 1; i <= len ; i++) {
-
+            if(i === chosenWeatherIndexRef.current + 1){
+                continue;
+            }
             if(i * optionAngleRef.current < addedAngle){
                 if(!optionsAngleStoreRef.current[i - 1]){
                     optionsAngleStoreRef.current[i - 1] = currentAngle;
@@ -137,6 +140,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(!optionsRef.current){
             return;
         }
+    
         const optionsElements: HTMLCollectionOf<HTMLElement> = optionsRef.current;
         let len = optionsElements.length;
         if(currentReversingOptionIndexRef.current >= len){
@@ -330,12 +334,14 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
 
                     <div className={`${style['weather-options']} ${isExpanded ? style['expanded-options'] : ''} `}>
                         {
-                            WEATHERS.map((weather) => {
-
+                            WEATHERS.map((weather, index) => {
+                                if(weather.name === weatherName){
+                                    return null;
+                                } 
                                 return (
                                     <div
-                                        className={`${style['weather-option']} ${style['not-chosen']}
-                                        `}
+                                        className={`${style['weather-option']} `}
+                                        
                                         key={weather.name}
                                         onClick={() => setFeaturedWeather(weather.name)}
                                     >
