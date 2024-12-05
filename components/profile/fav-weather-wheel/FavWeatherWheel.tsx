@@ -331,22 +331,21 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                     <div className={`${style['weather-options']} ${isExpanded ? style['expanded-options'] : ''} `}>
                         {
                             WEATHERS.map((weather) => {
-                                if (weather.name === weatherName) {
-                                    return null;
-                                } else {
-                                    return (
-                                        <div
-                                            className={style['weather-option']}
-                                            key={weather.name}
-                                            onClick={() => setFeaturedWeather(weather.name)}
-                                        >
-                                            <WeatherIcon
-                                                weatherName={weather.name}
-                                                size={shortDimension('large')}
-                                            />
-                                        </div>
-                                    );
-                                }
+
+                                return (
+                                    <div
+                                        className={`${style['weather-option']} ${style['not-chosen']}
+                                        `}
+                                        key={weather.name}
+                                        onClick={() => setFeaturedWeather(weather.name)}
+                                    >
+                                        <WeatherIcon
+                                            weatherName={weather.name}
+                                            size={shortDimension('large')}
+                                        />
+                                    </div>
+                                );
+                                
                             })
                         }
                     </div>
