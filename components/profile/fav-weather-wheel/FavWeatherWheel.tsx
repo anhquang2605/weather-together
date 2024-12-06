@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import {WEATHERS} from '../../../constants/weathers';
@@ -14,6 +14,7 @@ interface FavWeatherWheelProps {
  */
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable, setFeaturedWeather}) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [chosen, setChosen] = useState<string>("");
     const SPEED = 0.5; // Degrees to move per frame
     const OFFSET_ANGLE = 10;
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
@@ -162,7 +163,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         // Calculate the elapsed time
         const elapsedTime = Math.round(timestamp - startTime);
-        const addedAngle = elapsedTime * SPEED * 1.75 ;
+        const addedAngle = elapsedTime * SPEED * 1.85 ;
         const currentOption = currentReversingOptionIndexRef.current;
         const currentOptionAngle = optionsAngleStoreRef.current[currentOption];
         
@@ -267,6 +268,13 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             return null;
         }
     }
+    const delayUpdateChosenWeather = (weather: string) => {
+        const delayTime = 550; //ms
+        const timeout = setTimeout(() => {
+            setFeaturedWeather(weather);
+        }, delayTime);
+        return timeout;
+    }
     useEffect(()=>{
         if(optionsRef){
             optionsRef.current = getOptionsElement();
@@ -304,6 +312,17 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             cancelAnimationFrame(requestRef.current);
         }
     },[isExpanded])
+    useEffect(() => {
+        let timeout = null;
+        if(chosen !== ""){
+            timeout = delayUpdateChosenWeather(chosen);    
+        }
+        return () => {
+            if(timeout){
+                clearTimeout(timeout);
+            }
+        }
+    },[chosen])
     /*
     Swapping fave weather choice to indicate the change
     _ The featured will have the circle expand then shrink back for a brief moment with color change of the border to match with the new weather, in the mean time the chosen weather will be the og one, same affect but more subtle.
@@ -343,7 +362,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                                         className={`${style['weather-option']} `}
                                         
                                         key={weather.name}
-                                        onClick={() => setFeaturedWeather(weather.name)}
+                                        onClick={() => setChosen(weather.name)}
                                     >
                                         <WeatherIcon
                                             weatherName={weather.name}
