@@ -32,7 +32,7 @@
 }
 .weather-option{
     position: absolute;
-    @apply p-1 rounded-full bg-slate-100;
+    @apply p-1 rounded-full bg-slate-100 top-3/4 left-3/4;
     &:hover{
         @apply scale-125 cursor-pointer z-500 bg-slate-200;
         transition: all 0.2s ease-in-out;
