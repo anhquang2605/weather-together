@@ -6,7 +6,7 @@
   @apply absolute bottom-0 right-0 ;
   z-index: 100;
   transition: var(--short-transition);
-  transition-delay: 0.5s;
+  transition-delay: 0.45s;
 }
 .zero-delay{
     transition-delay: 0s !important;
