@@ -1,7 +1,8 @@
 import React, { use, useEffect, useRef, useState } from 'react';
 import style from './fav-weather-wheel.module.css';
 import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
-import {WEATHERS} from '../../../constants/weathers';
+import {WEATHERS, weatherToColor} from '../../../constants/weathers';
+import { remove } from 'lodash';
 
 interface FavWeatherWheelProps {
     weatherName: string;
@@ -146,6 +147,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         let len = optionsElements.length;
         if(currentReversingOptionIndexRef.current >= len){
             const options = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
+            addPulseClass();
             options.style.visibility  = 'hidden';
             return;
         }
@@ -245,6 +247,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     }
     const initiatingAnimation = () => {
         //set up for the animation
+        removePulseClass();
         const rotatePos = getCurrentRotatePosition();
         const angle = Math.ceil(getAngle(rotatePos[0], rotatePos[1]));
         const optionSize = getOptionSize();
@@ -266,6 +269,18 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         } else if(featWeather && on){
             featWeather.classList.remove(style['zero-delay']);
             return null;
+        }
+    }
+    const addPulseClass = () => {
+        const featWeather = document.getElementsByClassName(style['featured-weather'])[0];
+        if(featWeather){
+            featWeather.classList.add(style['pulse']);
+        }
+    }
+    const removePulseClass = () => {
+        const featWeather = document.getElementsByClassName(style['featured-weather'])[0];
+        if(featWeather){
+            featWeather.classList.remove(style['pulse']);
         }
     }
     const delayUpdateChosenWeather = (weather: string) => {
@@ -332,7 +347,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         <div  className={style['fav-weather-wheel']} onClick={handleToggle}>
                     <div title={
                         isExpanded ? '' : 'Click to change your favorite weather'
-                    } className={`${style['featured-weather']} 
+                    } className={`${style['pulse']} ${style['featured-weather']} 
                     ${
                             isEditable ? style['editable-featured'] : ''
                     } 
@@ -351,7 +366,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                     />
                     </div>
 
-                    <div className={`${style['weather-options']} ${isExpanded ? style['expanded-options'] : ''} `}>
+                    <div className={` ${style['weather-options']} ${isExpanded ? style['expanded-options'] : ''} `}>
                         {
                             WEATHERS.map((weather, index) => {
                                 if(weather.name === weatherName){
@@ -359,8 +374,12 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                                 } 
                                 return (
                                     <div
-                                        className={`${style['weather-option']} `}
-                                        
+                                        className={`${style['weather-option']} ${
+                                            chosen === weather.name && style['active-option']
+                                        }`}
+                                        style={{
+                                            outlineColor: weatherToColor[weather.name]
+                                        }}
                                         key={weather.name}
                                         onClick={() => setChosen(weather.name)}
                                     >
