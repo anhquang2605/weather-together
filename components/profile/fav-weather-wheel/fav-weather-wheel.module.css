@@ -55,7 +55,10 @@
     animation-delay: 0.5s;
 }
 .no-interaction{
-    pointer-events: none;
+    
+}
+.no-interaction .weather-option{
+    pointer-events: none!important;
 }
 @keyframes pulse{
     0%{
