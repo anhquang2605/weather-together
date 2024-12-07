@@ -148,6 +148,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(currentReversingOptionIndexRef.current >= len){
             const options = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
             addPulseClass();
+            options.classList.add(style['no-interaction']);
             options.style.visibility  = 'hidden';
             return;
         }
@@ -165,7 +166,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
         // Calculate the elapsed time
         const elapsedTime = Math.round(timestamp - startTime);
-        const addedAngle = elapsedTime * SPEED * 1.85 ;
+        const addedAngle = elapsedTime * SPEED * 1.75 ;
         const currentOption = currentReversingOptionIndexRef.current;
         const currentOptionAngle = optionsAngleStoreRef.current[currentOption];
         
@@ -284,11 +285,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     }
     const delayUpdateChosenWeather = (weather: string) => {
-        const delayTime = 450; //ms
+        const delayTime = 550; //ms
         const timeout = setTimeout(() => {
             setFeaturedWeather(weather);
         }, delayTime);
         return timeout;
+    }
+    const handleOptionClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        const target = event.target as HTMLDivElement;
+        target.classList.add(style['active-option']);
     }
     useEffect(()=>{
         if(optionsRef){
@@ -374,14 +379,14 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                                 } 
                                 return (
                                     <div
-                                        className={`${style['weather-option']} ${
-                                            chosen === weather.name && style['active-option']
-                                        }`}
+                                        className={`${style['weather-option']} `}
                                         style={{
                                             outlineColor: weatherToColor[weather.name]
                                         }}
                                         key={weather.name}
-                                        onClick={() => setChosen(weather.name)}
+                                        onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => 
+                                            {handleOptionClick(event);
+                                            setChosen(weather.name)}}
                                     >
                                         <WeatherIcon
                                             weatherName={weather.name}

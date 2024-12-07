@@ -52,9 +52,11 @@
 
 .pulse{
     animation: 0.5s pulse;
-    animation-delay: 0.45s;
+    animation-delay: 0.5s;
 }
-
+.no-interaction{
+    pointer-events: none;
+}
 @keyframes pulse{
     0%{
         transform: scale(1.6);
@@ -77,5 +79,5 @@
 }
 
 .active-option{
-    outline-width: 2px;
+    outline-width: 5px;
 }
