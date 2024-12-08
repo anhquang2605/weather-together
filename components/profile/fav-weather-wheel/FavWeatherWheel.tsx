@@ -148,7 +148,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(currentReversingOptionIndexRef.current >= len){
             const options = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
             addPulseClass();
-            options.classList.add(style['no-interaction']);
+            
             options.style.visibility  = 'hidden';
             return;
         }
@@ -321,6 +321,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             
         }else if(!isExpanded && currentAngleRef.current) {
             timeout = toggleZeroDelayClass(false);
+            weatherOptionsElement.classList.add(style['no-interaction']);
             currentReversingOptionIndexRef.current = 0;
             timeRef.current = 0;
             requestRef.current = requestAnimationFrame(reverseMoveObject);    
