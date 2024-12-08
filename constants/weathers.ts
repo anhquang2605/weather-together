@@ -42,10 +42,10 @@ export const weatherNameToIconAliasMap:weathersMap = {
 }
 
 export const weatherToColor: weathersMap = {
-    "sunny": "#fb923c",
-    "cloudy": "#38bdf8",
-    "rainy": "#818cf8",
-    "snowy": "#60a5fa",
-    "thunder": "#facc15",
-    "windy": "#a3e635",
+    "sunny": "#ea580c",
+    "cloudy": "#0284c7",
+    "rainy": "#9333ea",
+    "snowy": "#2563eb",
+    "thunder": "#eab308",
+    "windy": "#84cc16",
 }

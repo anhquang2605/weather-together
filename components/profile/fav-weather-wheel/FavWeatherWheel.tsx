@@ -293,6 +293,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     }
     const handleOptionClick = (event: React.MouseEvent<HTMLDivElement>) => {
         const target = event.target as HTMLDivElement;
+        console.log(target);
         target.classList.add(style['active-option']);
     }
     useEffect(()=>{
@@ -389,10 +390,13 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                                             {handleOptionClick(event);
                                             setChosen(weather.name)}}
                                     >
+                                        
                                         <WeatherIcon
                                             weatherName={weather.name}
                                             size={shortDimension('large')}
                                         />
+                                        <div className={`${style['bg-overlay']}`} style={{backgroundColor: weatherToColor[weather.name]}}>
+                                        </div>
                                     </div>
                                 );
                                 
