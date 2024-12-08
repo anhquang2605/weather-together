@@ -6,14 +6,32 @@ $weathers: (
     ),
     (
         name: rainy,
-        mainColor: #a6a0ff,
-        cloudColor: #CCCCCC
+        mainColor: #6d28d9,
+        cloudColor: #94a3b8
     ),
     (
         name: sunny,
-        mainColor: skyblue,
-        cloudColor: lightyellow,
+        mainColor: #fed7aa,
+        cloudColor:#fda4af,
+    ),
+    (
+        name: snowy,
+        mainColor: #2563eb,
+        cloudColor: #38bdf8
     )
+    ,
+    (
+        name: windy,
+        mainColor: #d9f99d,
+        cloudColor: #4ade80
+    )
+    ,
+    (
+        name: thunder,
+        mainColor: #f5d0fe,
+        cloudColor: #facc15
+    )
+
 );
 .profile-page{
     @apply flex flex-col w-full overflow-y-auto p-8 relative overflow-x-hidden h-full;
