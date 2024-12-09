@@ -258,7 +258,7 @@ body {
   @apply flex flex-col;
 }
 .profile-section-content{
-  @apply border border-slate-200 bg-slate-100/30 backdrop-blur-sm rounded-3xl text-lg p-16;
+  @apply border border-slate-200 bg-slate-100/60 backdrop-blur-sm rounded-3xl text-lg p-16;
   color: var(--primary-color);
 }
 .profile-section-content.big-boy{
