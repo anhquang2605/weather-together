@@ -37,7 +37,7 @@ $weathers: (
     @apply flex flex-col w-full overflow-y-auto p-8 relative overflow-x-hidden h-full;
 }
 .top-layer{
-    @apply z-30;
+    @apply z-10;
 }
 .profile-banner-wrapper{
     
