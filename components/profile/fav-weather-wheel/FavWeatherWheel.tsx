@@ -16,6 +16,7 @@ interface FavWeatherWheelProps {
 const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isEditable, setFeaturedWeather}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [chosen, setChosen] = useState<string>("");
+    const [favIconSize, setFavIconSize] = useState<string>('large');
     const SPEED = 0.5; // Degrees to move per frame
     const OFFSET_ANGLE = 10;
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
@@ -304,6 +305,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             timeRef.current = 0;
         }
     },[])
+    useEffect(()=>{
+        if(size === 'large'){
+            setFavIconSize('small');
+        } else if(size === 'two-x-large'){
+            setFavIconSize('large');
+        } else {
+            setFavIconSize('medium');
+        }
+    },[size])
     //What next?
     /* 
 
@@ -393,7 +403,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                                         
                                         <WeatherIcon
                                             weatherName={weather.name}
-                                            size={shortDimension('large')}
+                                            size={shortDimension(favIconSize)}
                                         />
                                         <div className={`${style['bg-overlay']}`} style={{backgroundColor: weatherToColor[weather.name]}}>
                                         </div>

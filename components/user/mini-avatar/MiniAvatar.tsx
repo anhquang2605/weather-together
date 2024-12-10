@@ -66,11 +66,11 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
             case 'two-x-large':
                 return 150;
             case 'extra-large':
-                return 100;
+                return 120;
             case 'large':
-                return 50;
+                return 100;
             case 'medium':
-                return 36;
+                return 70;
             case 'small':
                 return 32;
             default:
