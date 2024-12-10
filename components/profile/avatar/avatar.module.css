@@ -1,7 +1,7 @@
 .avatar{
     --large-dim: 200px;
-    --small-dim: 80px;
-    --med-dim: 140px;
+    --small-dim: 120px;
+    --med-dim: 160px;
     @apply rounded-lg overflow-hidden;
     @screen sm{
         width: var(--small-dim);

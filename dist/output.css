@@ -1332,6 +1332,10 @@ video {
   padding-top: 2rem;
 }
 
+.pb-\[40\%\] {
+  padding-bottom: 40%;
+}
+
 .text-center {
   text-align: center;
 }
@@ -2299,6 +2303,15 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
   .md\:flex-col {
     flex-direction: column;
+  }
+
+  .md\:object-cover {
+    -o-object-fit: cover;
+       object-fit: cover;
+  }
+
+  .md\:pb-\[20\%\] {
+    padding-bottom: 20%;
   }
 
   .md\:text-2xl {

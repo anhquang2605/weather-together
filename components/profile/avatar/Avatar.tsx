@@ -27,8 +27,6 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
             const width = entry.contentRect.width;
             if(width <= EXTRA_LARGE_BREAKPOINT){
                 setSize('extra-large');
-            } else if(width <= LARGE_BREAKPOINT){
-                setSize('large');
             } else {
                 setSize('two-x-large');
             }

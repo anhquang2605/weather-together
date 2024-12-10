@@ -307,7 +307,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     },[])
     useEffect(()=>{
         if(size === 'large'){
-            setFavIconSize('small');
+            setFavIconSize('medium');
         } else if(size === 'two-x-large'){
             setFavIconSize('large');
         } else {
