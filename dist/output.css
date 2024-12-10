@@ -1312,6 +1312,10 @@ video {
   padding-bottom: 20%;
 }
 
+.pb-\[40\%\] {
+  padding-bottom: 40%;
+}
+
 .pr-4 {
   padding-right: 1rem;
 }
@@ -1330,10 +1334,6 @@ video {
 
 .pt-8 {
   padding-top: 2rem;
-}
-
-.pb-\[40\%\] {
-  padding-bottom: 40%;
 }
 
 .text-center {
@@ -2303,11 +2303,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
   .md\:flex-col {
     flex-direction: column;
-  }
-
-  .md\:object-cover {
-    -o-object-fit: cover;
-       object-fit: cover;
   }
 
   .md\:pb-\[20\%\] {

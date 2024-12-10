@@ -2,14 +2,16 @@
     --large-dim: 200px;
     --small-dim: 120px;
     --med-dim: 160px;
-    @apply rounded-lg overflow-hidden;
+    @apply rounded-lg overflow-hidden p-4;
     @screen sm{
         width: var(--small-dim);
         height: var(--small-dim);
+        
     }
     @screen md{
         width: var(--med-dim);
         height: var(--med-dim);
+        padding: 2rem;
     }
     @screen lg{
         width: var(--large-dim);
