@@ -34,7 +34,7 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
 
             </div>
             <div className={style['profile-identity'] + " flex flex-row items-center justify-center" + (!isEditing && " w-full") }>
-                <Avatar username={user.username} featuredWeather={user.featuredWeather}  profilePicturePath={user.profilePicturePath} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
+                <Avatar isPadded={true} username={user.username} featuredWeather={user.featuredWeather}  profilePicturePath={user.profilePicturePath} setEditingPicture={setEditingPicture} isEditing={isEditing}/>
                 <div className="flex flex-row ml-4 grow pr-4">
                     <div className="flex flex-col justify-center">
                         <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>

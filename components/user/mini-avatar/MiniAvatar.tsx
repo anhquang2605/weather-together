@@ -81,8 +81,8 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
 
     
     return (
-        <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '') + " " + (isPadded ? style['padded'] : '')}>
-            <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
+        <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '') + " "  + (isPadded ? style['padded'] : '') }>
+            <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className + " "  + (isPadded ? style['padded-inner'] : '')  }>
                 <div className={style['inner']}>
                     {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture size={size} username={username}/>}
                 </div>

@@ -11,11 +11,12 @@ interface AvatarProps{
     isEditing: boolean;
     username: string | null | undefined;
     featuredWeather?: Weather;
+    isPadded?: boolean
 }
 const EXTRA_LARGE_BREAKPOINT = 1200;
 const LARGE_BREAKPOINT = 768;
 /*need to use with tailwind for styling */
-export default function Avatar({profilePicturePath, setEditingPicture, isEditing, username, featuredWeather}: AvatarProps){
+export default function Avatar({profilePicturePath, setEditingPicture, isEditing, username, featuredWeather, isPadded}: AvatarProps){
 /*     const largeSize = '200px';
     const mediumSize = '100px';
     const smallSize = 50; */
@@ -51,7 +52,7 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
                 variant={'featured'}
                 isEditing={isEditing}
                 setEditingPicture={setEditingPicture}
-                isPadded={isEditing}
+                isPadded={isPadded}
             />
 
         </div>
