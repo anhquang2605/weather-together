@@ -39,7 +39,9 @@
         @apply w-full h-full;
     }
 }
-
+.padded{
+    @apply w-full h-full;
+}
 .two-x-large{
   @apply w-40 h-40;
 }

@@ -51,7 +51,7 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
                 variant={'featured'}
                 isEditing={isEditing}
                 setEditingPicture={setEditingPicture}
-
+                isPadded={isEditing}
             />
 
         </div>

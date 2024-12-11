@@ -15,12 +15,13 @@ interface MiniAvatarProps {
     className?: string;
     featuredWeather?: string;
     variant?: 'basic' | 'featured';
+    isPadded?: boolean;
     hoverClassName?: string;
     hovered?: boolean;
     isEditing?: boolean;
     setEditingPicture?: (value: boolean) => void
 }
-export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather = "", variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false}: MiniAvatarProps) {
+export default function MiniAvatar({profilePicturePath, size = 'medium', username, className = '', featuredWeather = "", variant, hoverClassName, hovered, setEditingPicture=()=>{}, isEditing = false, isPadded = false}: MiniAvatarProps) {
     const [weather, setWeather] = useState<string>(featuredWeather);
     const [updateFeaturedWeatherStatus, setUpdateFeaturedWeatherStatus] = useState<string>('idle');
     const editProfileContext = useUserEditProfileContext();
@@ -80,7 +81,7 @@ export default function MiniAvatar({profilePicturePath, size = 'medium', usernam
 
     
     return (
-        <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '')}>
+        <div className={ (variant === 'featured' ? (style["outer-circle"]  + " " + style[featuredWeather || ""]) : '') + " " + (hoverClassName? hoverClassName : "" ) + " " + (hovered ? style['hovered'] : '') + " " + (isPadded ? style['padded'] : '')}>
             <div className={style['mini-avatar'] + " " + style['test'] + " " + style[size] + " " + className }>
                 <div className={style['inner']}>
                     {profilePicturePath && profilePicturePath.length ? <Image alt="Mini avatar" width={dimesion()} height={dimesion()}  src={profilePicturePath}/> : <DefaultProfilePicture size={size} username={username}/>}
