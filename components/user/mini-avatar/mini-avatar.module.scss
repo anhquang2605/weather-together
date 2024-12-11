@@ -57,10 +57,10 @@
 
 }
 .padded{
-  @apply w-full h-full border-none p-4;
+  @apply w-full h-full;
 }
 .padded-inner{
-  @apply w-full h-full p-8;
+  @apply w-full h-full;
 }
 .compacted-nav{
     transition: all 0.3s ease-in-out;
