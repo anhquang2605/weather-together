@@ -42,7 +42,7 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
         }
     },[])
     return (
-        <div className={`justify-center items-center flex flex-col z-200 relative ${style['avatar']} `}>
+        <div className={`justify-center items-center flex flex-col z-200 relative ${style['avatar']} ${isPadded? style['avatar-padded'] : ""}`}>
 
             <MiniAvatar 
                 username={username} 

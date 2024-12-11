@@ -18,3 +18,9 @@
     }
 
 }
+.avatar-padded{
+    @apply p-4;
+    @screen lg{
+        @apply p-8;
+    }
+}
