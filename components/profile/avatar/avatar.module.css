@@ -1,13 +1,10 @@
 .avatar{
     --large-dim: 200px;
-    --small-dim: 120px;
+    --small-dim: 200px;
     --med-dim: 160px;
     @apply rounded-lg overflow-hidden;
-    @screen sm{
-        width: var(--small-dim);
-        height: var(--small-dim);
-        
-    }
+    width: var(--small-dim);
+    height: var(--small-dim);
     @screen md{
         width: var(--med-dim);
         height: var(--med-dim);
@@ -19,7 +16,7 @@
 
 }
 .avatar-padded{
-    @apply p-4;
+    @apply p-6;
     @screen lg{
         @apply p-8;
     }

@@ -29,7 +29,7 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
     },[])
     return (
         <div className={style["profile-banner-wrapper"] + ' relative'}>
-            <div className={`${style['profile-banner']} flex flex-col flex-shrink w-full px-4 pt-4 pb-[40%] md:pb-[20%]  rounded relative `}>
+            <div className={`${style['profile-banner']} flex flex-col flex-shrink w-full px-4 pt-4 pb-[60%] md:pb-[30%]  rounded relative `}>
                 <BannerBackground setEditingBackground={setEditingBackground} bannerPicturePath={user.backgroundPicturePath ?? ""} isEditing={isEditing}/>
 
             </div>

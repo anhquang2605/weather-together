@@ -1336,6 +1336,14 @@ video {
   padding-top: 2rem;
 }
 
+.pb-\[50\%\] {
+  padding-bottom: 50%;
+}
+
+.pb-\[60\%\] {
+  padding-bottom: 60%;
+}
+
 .text-center {
   text-align: center;
 }
@@ -2307,6 +2315,10 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
   .md\:pb-\[20\%\] {
     padding-bottom: 20%;
+  }
+
+  .md\:pb-\[30\%\] {
+    padding-bottom: 30%;
   }
 
   .md\:text-2xl {

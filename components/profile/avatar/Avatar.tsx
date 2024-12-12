@@ -26,9 +26,11 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
     const resizeHandler = (entries: ResizeObserverEntry[]) => {
         for(const entry of entries){
             const width = entry.contentRect.width;
-            if(width <= EXTRA_LARGE_BREAKPOINT){
+            if(width <= LARGE_BREAKPOINT){
+                setSize('two-x-large');
+            } else if (width <= EXTRA_LARGE_BREAKPOINT){
                 setSize('extra-large');
-            } else {
+            } else  {
                 setSize('two-x-large');
             }
         }

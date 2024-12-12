@@ -1,5 +1,8 @@
 .profile-identity{
-    @apply absolute bottom-0 left-0;
+    @apply absolute flex flex-col bottom-0 left-0 mb-8;
+    @screen md{
+        @apply flex-row;
+    }
 }
 .profile-banner{
     
