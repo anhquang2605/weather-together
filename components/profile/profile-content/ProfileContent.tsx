@@ -9,6 +9,7 @@ import Bio from '../sections/bio/Bio';
 import AboutMe from '../sections/about-me/AboutMe';
 import Activities from '../sections/activities/Activities';
 import Gallery from '../sections/gallery/Gallery';
+import { profile } from 'console';
 
 interface ProfileContentProps {
     scrollContainerClassname?: string;
@@ -63,11 +64,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const onScrollHandler = (event: Event
     ) => {
       if(!event || !event.target) return;
+      console.log(scrollPositions);
       const target = event.target as HTMLElement;
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       if(!profileContent) return;
       let targetScrollTop = target.scrollTop;
-      const currentScrollTop = targetScrollTop + (profileContent.offsetTop) ;
+      const currentScrollTop = targetScrollTop + (profileContent.offsetTop) - 200 ;
       const oldScrollDistance = scrollDistanceRef.current || 0;
       setScrollTop(targetScrollTop);
       setScrolledDistance(currentScrollTop);
