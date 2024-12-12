@@ -251,7 +251,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         //set up for the animation
         removePulseClass();
         const rotatePos = getCurrentRotatePosition();
-        const angle = Math.ceil(getAngle(rotatePos[0], rotatePos[1]));
+        const angle = /* Math.ceil(getAngle(rotatePos[0], rotatePos[1])); */ 45;
         const optionSize = getOptionSize();
         const centerSize = getContainerCenter(style['fav-weather-wheel']);
         currentAngleRef.current = angle + OFFSET_ANGLE;
