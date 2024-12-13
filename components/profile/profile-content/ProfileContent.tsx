@@ -64,12 +64,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const onScrollHandler = (event: Event
     ) => {
       if(!event || !event.target) return;
-      console.log(scrollPositions);
       const target = event.target as HTMLElement;
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       if(!profileContent) return;
+      const profileTopoffset = profileContent.offsetTop;
       let targetScrollTop = target.scrollTop;
-      const currentScrollTop = targetScrollTop + (profileContent.offsetTop) - 200 ;
+      const currentScrollTop = targetScrollTop + profileTopoffset
       const oldScrollDistance = scrollDistanceRef.current || 0;
       setScrollTop(targetScrollTop);
       setScrolledDistance(currentScrollTop);
@@ -83,7 +83,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!profileContent || !scrollContainer) return;
       const positions = getScrollPositions(sections);
       const containerStyle = window.getComputedStyle(scrollContainer);
-      positions[0] = positions[0] + (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0);
+/*       positions[0] =  (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0); */
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
@@ -91,15 +91,24 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       positionsGetAndSet();
     }
     const getScrollPositions = (ids: string[]) => {
-      const positions:number[] = []
+      const positions:number[] = [];
+      const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
+      const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
+      if(!profileContent || !scrollContainer) return positions;
       for(let id of ids){
         const section = document.getElementById(id);
+        const sectionTop = section?.offsetTop || 0;
+        const finalTop = sectionTop + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0) + (profileContent.offsetTop || 0);
         if(section){
-          positions.push(section.offsetTop);
+          positions.push(finalTop);
         }
       }
+      
+
+      //scroll position adjustment, add padding top and off set of the banner since these positions are relative only to the profile content
       return positions;
     }
+    
     const scrollToCurrentSection = (index: number) => {
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
       if(!scrollContainer) return;

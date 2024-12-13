@@ -1312,8 +1312,8 @@ video {
   padding-bottom: 20%;
 }
 
-.pb-\[40\%\] {
-  padding-bottom: 40%;
+.pb-\[60\%\] {
+  padding-bottom: 60%;
 }
 
 .pr-4 {
@@ -1334,14 +1334,6 @@ video {
 
 .pt-8 {
   padding-top: 2rem;
-}
-
-.pb-\[50\%\] {
-  padding-bottom: 50%;
-}
-
-.pb-\[60\%\] {
-  padding-bottom: 60%;
 }
 
 .text-center {
@@ -2311,10 +2303,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"] {
 
   .md\:flex-col {
     flex-direction: column;
-  }
-
-  .md\:pb-\[20\%\] {
-    padding-bottom: 20%;
   }
 
   .md\:pb-\[30\%\] {
