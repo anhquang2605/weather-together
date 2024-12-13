@@ -69,8 +69,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!profileContent) return;
       const profileTopoffset = profileContent.offsetTop;
       let targetScrollTop = target.scrollTop;
-      const currentScrollTop = targetScrollTop + profileTopoffset
+      const currentScrollTop = targetScrollTop /* + profileTopoffset */;
       const oldScrollDistance = scrollDistanceRef.current || 0;
+      console.log(currentScrollTop);
       setScrollTop(targetScrollTop);
       setScrolledDistance(currentScrollTop);
       setIsScrollingUp(currentScrollTop < oldScrollDistance);
@@ -83,7 +84,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!profileContent || !scrollContainer) return;
       const positions = getScrollPositions(sections);
       const containerStyle = window.getComputedStyle(scrollContainer);
-/*       positions[0] =  (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0); */
+      //positions[0] =  (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0);
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
@@ -98,7 +99,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       for(let id of ids){
         const section = document.getElementById(id);
         const sectionTop = section?.offsetTop || 0;
-        const finalTop = sectionTop + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0) + (profileContent.offsetTop || 0);
+        const finalTop = sectionTop /* + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0) + (profileContent.offsetTop || 0) */;
         if(section){
           positions.push(finalTop);
         }
