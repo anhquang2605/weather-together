@@ -95,14 +95,20 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const positions:number[] = [];
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
+      let i = 0;
       if(!profileContent || !scrollContainer) return positions;
       for(let id of ids){
         const section = document.getElementById(id);
         const sectionTop = section?.offsetTop || 0;
-        const finalTop = sectionTop /* + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0) + (profileContent.offsetTop || 0) */;
+        let finalTop = sectionTop;
+        if(i !== 0){
+          finalTop = finalTop + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0);
+        }
+        //const finalTop = sectionTop /* + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0) + (profileContent.offsetTop || 0) */;
         if(section){
           positions.push(finalTop);
         }
+        i++;
       }
       
 
@@ -179,6 +185,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
     },[nextSectionIndex, scrollPositions])
     useEffect(()=>{
+      console.log(destinationScrollPosition);
       setProgress(scrolledFromCurrentSection / destinationScrollPosition);
     },[scrolledFromCurrentSection, destinationScrollPosition])
     //Food for thought:
