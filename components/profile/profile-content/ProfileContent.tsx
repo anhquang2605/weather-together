@@ -113,6 +113,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       
 
       //scroll position adjustment, add padding top and off set of the banner since these positions are relative only to the profile content
+      console.log(positions);
       return positions;
     }
     
