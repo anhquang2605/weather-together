@@ -101,9 +101,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         const section = document.getElementById(id);
         const sectionTop = section?.offsetTop || 0;
         let finalTop = sectionTop;
-        if(i !== 0){
+/*         if(i !== 0){
           finalTop = finalTop + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0);
-        }
+        } */
         //const finalTop = sectionTop /* + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0) + (profileContent.offsetTop || 0) */;
         if(section){
           positions.push(finalTop);
