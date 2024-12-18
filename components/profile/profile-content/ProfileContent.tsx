@@ -85,6 +85,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const positions = getScrollPositions(sections);
       const containerStyle = window.getComputedStyle(scrollContainer);
       positions[0] =  (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0);
+      console.log(positions);
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
