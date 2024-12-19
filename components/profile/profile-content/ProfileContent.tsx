@@ -81,14 +81,13 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     }
     const positionsGetAndSet = () => {
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
-      const paralaxScroller = document.getElementById(REFERENCE_ID);
+      //const paralaxScroller = document.getElementById(REFERENCE_ID);
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
-      if(!profileContent || !scrollContainer || !paralaxScroller) return;
+      if(!profileContent || !scrollContainer ) return;
       const positions = getScrollPositions(sections);
       const containerStyle = window.getComputedStyle(scrollContainer);
-      const paralaxScrollerTop = paralaxScroller.offsetTop;
-      positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
-      console.log(paralaxScrollerTop);
+      //const paralaxScrollerTop = paralaxScroller.offsetTop;
+      //positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
@@ -98,13 +97,15 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const getScrollPositions = (ids: string[]) => {
       const positions:number[] = [];
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
+      const paralaxScroller = document.getElementById(REFERENCE_ID);
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
       let i = 0;
-      if(!profileContent || !scrollContainer) return positions;
+      if(!profileContent || !scrollContainer || !paralaxScroller) return positions;
+      const paralaxScrollerTop = paralaxScroller.offsetTop;
       for(let id of ids){
         const section = document.getElementById(id);
         const sectionTop = section?.offsetTop || 0;
-        let finalTop = sectionTop;
+        let finalTop = sectionTop + paralaxScrollerTop;
 /*         if(i !== 0){
           finalTop = finalTop + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0);
         } */
