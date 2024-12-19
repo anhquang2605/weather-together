@@ -84,8 +84,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!profileContent || !scrollContainer) return;
       const positions = getScrollPositions(sections);
       const containerStyle = window.getComputedStyle(scrollContainer);
-      positions[0] =  (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0);
-      console.log(positions);
+      console.log(positions[0]);
+      //positions[0] =  (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0);
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
@@ -114,7 +114,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       
 
       //scroll position adjustment, add padding top and off set of the banner since these positions are relative only to the profile content
-      console.log(positions);
       return positions;
     }
     
