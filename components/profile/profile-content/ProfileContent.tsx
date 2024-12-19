@@ -24,6 +24,7 @@ const sections = [
   ]
 
 const DEBOUNCE_TIME = 1000;
+const REFERENCE_ID = 'profile-paralax';
 const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname = "", user}) => {
     const section_components_map: {[key: string]: any} = {
       'about_me': <AboutMe user={user} />,
@@ -80,12 +81,14 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     }
     const positionsGetAndSet = () => {
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
+      const paralaxScroller = document.getElementById(REFERENCE_ID);
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
-      if(!profileContent || !scrollContainer) return;
+      if(!profileContent || !scrollContainer || !paralaxScroller) return;
       const positions = getScrollPositions(sections);
       const containerStyle = window.getComputedStyle(scrollContainer);
-      console.log(positions[0]);
-      //positions[0] =  (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0);
+      const paralaxScrollerTop = paralaxScroller.offsetTop;
+      positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
+      console.log(paralaxScrollerTop);
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
@@ -195,6 +198,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         <div className={style['profile-content']}>
             <SectionHeader sections={sections} isSticky={true} currentSectionIndex={currentSection} isScrollingUp={isScrollingUp} progress={progress}  level={4} nextIndex={nextSectionIndex} setCurrentSection={scrollToCurrentSection} />
             <ParalaxScroller
+                  id = {REFERENCE_ID}
                   isUp ={isScrollingUp}
                   intersectionHandler={handleInterSection}
                   secctionIds={sections}
