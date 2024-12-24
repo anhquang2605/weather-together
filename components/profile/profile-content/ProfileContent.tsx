@@ -88,7 +88,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
       if(!profileContent || !scrollContainer ) return;
       const positions = getScrollPositions(sections);
-      console.log(positions);
       const containerStyle = window.getComputedStyle(scrollContainer);
       //const paralaxScrollerTop = paralaxScroller.offsetTop;
       //positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
@@ -103,6 +102,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       const paralaxScroller = document.getElementById(REFERENCE_ID);
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
+      const windowHeight = window.innerHeight;
       let i = 0;
       if(!profileContent || !scrollContainer || !paralaxScroller) return positions;
       const paralaxScrollerTop = paralaxScroller.offsetTop;
@@ -110,6 +110,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         const section = document.getElementById(id);
         const sectionTop = section?.offsetTop || 0;
         let finalTop = sectionTop + paralaxScrollerTop;
+        if(i !== 0){
+          finalTop = finalTop - windowHeight; 
+        }
 /*         if(i !== 0){
           finalTop = finalTop + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0);
         } */
@@ -158,7 +161,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
             return;
           }
           let distance = scrolledDistance - currentIndexPosition;
-          console.log(scrolledDistance,currentIndexPosition);
           setScrolledFromCurrentSection(distance);
           if(distance < 0 && !isDirectionFlipped){
             setIsDirectionFlipped(true);
