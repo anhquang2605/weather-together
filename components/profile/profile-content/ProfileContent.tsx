@@ -10,6 +10,7 @@ import AboutMe from '../sections/about-me/AboutMe';
 import Activities from '../sections/activities/Activities';
 import Gallery from '../sections/gallery/Gallery';
 import { profile } from 'console';
+import { current } from '@reduxjs/toolkit';
 
 interface ProfileContentProps {
     scrollContainerClassname?: string;
@@ -66,13 +67,15 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     ) => {
       if(!event || !event.target) return;
       const target = event.target as HTMLElement;
+      const paralaxScroller = document.getElementById(REFERENCE_ID);
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
-      if(!profileContent) return;
-      const profileTopoffset = profileContent.offsetTop;
+      if(!profileContent || !paralaxScroller) return;
+      const paralaxScrollerTop = paralaxScroller.offsetTop;
+      //const profileTopoffset = profileContent.offsetTop;
       let targetScrollTop = target.scrollTop;
-      const currentScrollTop = targetScrollTop + profileTopoffset;
+      let currentScrollTop = targetScrollTop + paralaxScrollerTop;
       const oldScrollDistance = scrollDistanceRef.current || 0;
-      console.log(currentScrollTop);
+
       setScrollTop(targetScrollTop);
       setScrolledDistance(currentScrollTop);
       setIsScrollingUp(currentScrollTop < oldScrollDistance);
@@ -85,6 +88,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
       if(!profileContent || !scrollContainer ) return;
       const positions = getScrollPositions(sections);
+      console.log(positions);
       const containerStyle = window.getComputedStyle(scrollContainer);
       //const paralaxScrollerTop = paralaxScroller.offsetTop;
       //positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
@@ -154,6 +158,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
             return;
           }
           let distance = scrolledDistance - currentIndexPosition;
+          console.log(scrolledDistance,currentIndexPosition);
           setScrolledFromCurrentSection(distance);
           if(distance < 0 && !isDirectionFlipped){
             setIsDirectionFlipped(true);
@@ -190,7 +195,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
     },[nextSectionIndex, scrollPositions])
     useEffect(()=>{
-      console.log(destinationScrollPosition);
+      console.log(scrolledFromCurrentSection);
       setProgress(scrolledFromCurrentSection / destinationScrollPosition);
     },[scrolledFromCurrentSection, destinationScrollPosition])
     //Food for thought:
