@@ -105,7 +105,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const profileContent: HTMLElement | null = document.querySelector(`.${style['profile-content']}`);
       const paralaxScroller = document.getElementById(REFERENCE_ID);
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
-      const windowHeight = window.innerHeight;
+      //const windowHeight = window.innerHeight;
       let i = 0;
       if(!profileContent || !scrollContainer || !paralaxScroller) return positions;
       const paralaxScrollerTop = paralaxScroller.offsetTop;
@@ -139,12 +139,15 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
 
     const scrollDistanceCalculator = (currentIndex: number, nextIndex: number, isScrollingUp: boolean, scrollPositions: number[]) => {
       if(scrollPositions.length <= 0) return 0;
+      const paralaxScroller = document.getElementById(REFERENCE_ID);
+      if(!paralaxScroller) return 0;
+      let paralaxScrollerTop = paralaxScroller.offsetTop;
       let nextPosition = scrollPositions[nextIndex];
       let currentPosition = scrollPositions[currentIndex];
       let distance = nextPosition - currentPosition;
-      console.log(nextPosition, currentPosition, distance);
+      let trueDifferenceBeforeDestination = window.innerHeight - paralaxScrollerTop;
       if(!isScrollingUp){
-        distance = distance - window.innerHeight;
+        distance = distance - trueDifferenceBeforeDestination;
       }
       return distance;
     }
