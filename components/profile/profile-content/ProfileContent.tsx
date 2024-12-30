@@ -4,15 +4,11 @@ import ParalaxSection from '../../plugins/paralax-scroller/paralax-section/Paral
 import ParalaxScroller from '../../plugins/paralax-scroller/ParalaxScroller';
 import { User } from '../../../types/User';
 import SectionHeader from '../section-header/SectionHeader';
-import { debounce, get } from 'lodash';
-import Bio from '../sections/bio/Bio';
+import { debounce } from 'lodash';
 import AboutMe from '../sections/about-me/AboutMe';
 import Activities from '../sections/activities/Activities';
 import Gallery from '../sections/gallery/Gallery';
-import { profile } from 'console';
-import { current } from '@reduxjs/toolkit';
-import next from 'next';
-import { ne } from '@faker-js/faker';
+
 
 interface ProfileContentProps {
     scrollContainerClassname?: string;
@@ -44,7 +40,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     const [destinationScrollPosition, setDestinationScrollPosition] = useState(0);
     const [currentIndexPosition, setCurrentIndexPosition] = useState(0);
     const [nextSectionIndex, setNextSectionIndex] = useState(1);
-    const [snappedPosition, setSnappedPosition] = useState(0);
     const [isDirectionFlipped, setIsDirectionFlipped] = useState(false);
     const [isInProgress, setIsInProgress] = useState(false);//when the liquid bar is determined
     const [progress, setProgress] = useState(0);
@@ -90,7 +85,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
       if(!profileContent || !scrollContainer ) return;
       const positions = getScrollPositions(sections);
-      const containerStyle = window.getComputedStyle(scrollContainer);
+      //const containerStyle = window.getComputedStyle(scrollContainer);
       //const paralaxScrollerTop = paralaxScroller.offsetTop;
       //positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
       setScrollPositions(positions);
@@ -178,7 +173,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
             return;
           }
           let distance = scrolledDistance - currentIndexPosition;
-          console.log(scrolledDistance, currentIndexPosition);
           setScrolledFromCurrentSection(distance);
           if(distance < 0 && !isDirectionFlipped){
             setIsDirectionFlipped(true);
