@@ -4,10 +4,11 @@ import ParalaxSection from '../../plugins/paralax-scroller/paralax-section/Paral
 import ParalaxScroller from '../../plugins/paralax-scroller/ParalaxScroller';
 import { User } from '../../../types/User';
 import SectionHeader from '../section-header/SectionHeader';
-import { debounce } from 'lodash';
+import { debounce, get } from 'lodash';
 import AboutMe from '../sections/about-me/AboutMe';
 import Activities from '../sections/activities/Activities';
 import Gallery from '../sections/gallery/Gallery';
+import e from 'express';
 
 
 interface ProfileContentProps {
@@ -119,8 +120,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         }
         i++;
       }
-      
-
+      //if the end section is listed as the last section, add the height of the entire document so we can scroll to the bottom of the page instead. incase the container is not full height.
+      if (sections[sections.length - 1] === 'end') {
+        const entireDocumentHeight = getEntireDocumentHeight();
+        positions[positions.length - 1] = entireDocumentHeight;
+      }
+      console.log(positions);
       //scroll position adjustment, add padding top and off set of the banner since these positions are relative only to the profile content
       return positions;
     }
@@ -140,10 +145,20 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       let currentPosition = scrollPositions[currentIndex];
       let distance = nextPosition - currentPosition;
       let trueDifferenceBeforeDestination = window.innerHeight - paralaxScrollerTop;
-      if(!isScrollingUp){
+      if(!isScrollingUp || (nextIndex !== (scrollPositions.length - 1))){
         distance = distance - trueDifferenceBeforeDestination;
       }
       return distance;
+    }
+
+    const getEntireDocumentHeight = () => {
+      const body = document.body,
+          html = document.documentElement;
+
+      const height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+      return height;
     }
     //EFFECTS
     useEffect(()=>{
