@@ -110,9 +110,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         const section = document.getElementById(id);
         const sectionTop = section?.offsetTop || 0;
         let finalTop = sectionTop + paralaxScrollerTop;
-        if(i !== 0){
+ /*        if(i !== 0){
           finalTop = finalTop - windowHeight; 
-        }
+        } */
 /*         if(i !== 0){
           finalTop = finalTop + (parseInt(window.getComputedStyle(scrollContainer).paddingTop.replace('px', '')) || 0);
         } */
