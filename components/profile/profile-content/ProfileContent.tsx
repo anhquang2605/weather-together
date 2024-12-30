@@ -90,7 +90,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       const scrollContainer: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
       if(!profileContent || !scrollContainer ) return;
       const positions = getScrollPositions(sections);
-      positions[0] = 0;
       const containerStyle = window.getComputedStyle(scrollContainer);
       //const paralaxScrollerTop = paralaxScroller.offsetTop;
       //positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
