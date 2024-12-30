@@ -196,7 +196,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         //setIsDirectionFlipped(false);
         //setSnappedPosition(scrolledDistance);
         //setCurrentIndexPosition(scrolledDistance)
-        setCurrentIndexPosition(scrollPositions[currentSectionRef.current]);
+        setCurrentIndexPosition(scrolledDistance);
       },[currentSection])
     useEffect(()=>{
       if(!isInProgress){
