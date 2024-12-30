@@ -4,13 +4,15 @@ import ParalaxSection from '../../plugins/paralax-scroller/paralax-section/Paral
 import ParalaxScroller from '../../plugins/paralax-scroller/ParalaxScroller';
 import { User } from '../../../types/User';
 import SectionHeader from '../section-header/SectionHeader';
-import { debounce } from 'lodash';
+import { debounce, get } from 'lodash';
 import Bio from '../sections/bio/Bio';
 import AboutMe from '../sections/about-me/AboutMe';
 import Activities from '../sections/activities/Activities';
 import Gallery from '../sections/gallery/Gallery';
 import { profile } from 'console';
 import { current } from '@reduxjs/toolkit';
+import next from 'next';
+import { ne } from '@faker-js/faker';
 
 interface ProfileContentProps {
     scrollContainerClassname?: string;
@@ -133,6 +135,17 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       if(!scrollContainer) return;
       scrollContainer.scrollTo({top: scrollPositions[index], behavior: 'smooth'});
     }
+
+    const scrollDistanceCalculator = (currentIndex: number, nextIndex: number, isScrollingUp: boolean, scrollPositions: number[]) => {
+      if(scrollPositions.length <= 0) return 0;
+      let nextPosition = scrollPositions[nextIndex];
+      let currentPosition = scrollPositions[currentIndex];
+      let distance = nextPosition - currentPosition;
+      if(!isScrollingUp){
+        distance = distance - window.innerHeight;
+      }
+      return distance;
+    }
     //EFFECTS
     useEffect(()=>{
       //set up resize observer for the profile content
@@ -194,10 +207,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     },[isInProgress])
     useEffect(()=>{
       if(!scrollPositions) return;
-      setDestinationScrollPosition(scrollPositions[nextSectionIndex] - scrollPositions[currentSection]);
+      const distanceBetween = scrollDistanceCalculator(currentSection, nextSectionIndex, isScrollingUp, scrollPositions);
+      setDestinationScrollPosition(distanceBetween);
     },[nextSectionIndex, scrollPositions])
     useEffect(()=>{
-      console.log(scrolledFromCurrentSection);
       setProgress(scrolledFromCurrentSection / destinationScrollPosition);
     },[scrolledFromCurrentSection, destinationScrollPosition])
     //Food for thought:
