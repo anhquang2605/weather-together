@@ -12,6 +12,7 @@ interface ProfileContentProps {
     scrollContainerClassname?: string;
     user: User;
 }
+//make sure to list the final section as 'end'
 const sections = [
     'about_me',
     'gallery',
