@@ -85,9 +85,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       //const containerStyle = window.getComputedStyle(scrollContainer);
       //const paralaxScrollerTop = paralaxScroller.offsetTop;
       //positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
-      if(sections[length - 1] === 'end'){
-        positions[positions.length - 1] = getProfilePageScrollHeight();
-      }
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
@@ -121,8 +118,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       }
       //if the end section is listed as the last section, add the height of the entire document so we can scroll to the bottom of the page instead. incase the container is not full height.
       if (sections[sections.length - 1] === 'end') {
-        const entireDocumentHeight = getEntireDocumentHeight();
-        positions[positions.length - 1] = entireDocumentHeight;
+        const scrollContainerScrollHeight = getProfilePageScrollHeight();
+        positions[positions.length - 1] = scrollContainerScrollHeight;
       }
       //scroll position adjustment, add padding top and off set of the banner since these positions are relative only to the profile content
       return positions;
