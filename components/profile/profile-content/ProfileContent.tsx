@@ -8,13 +8,9 @@ import { debounce, get } from 'lodash';
 import AboutMe from '../sections/about-me/AboutMe';
 import Activities from '../sections/activities/Activities';
 import Gallery from '../sections/gallery/Gallery';
-import e from 'express';
-
-
 interface ProfileContentProps {
     scrollContainerClassname?: string;
     user: User;
-
 }
 const sections = [
     'about_me',
@@ -73,7 +69,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       let targetScrollTop = target.scrollTop;
       let currentScrollTop = targetScrollTop + paralaxScrollerTop;
       const oldScrollDistance = scrollDistanceRef.current || 0;
-
       setScrollTop(targetScrollTop);
       setScrolledDistance(currentScrollTop);
       setIsScrollingUp(currentScrollTop < oldScrollDistance);
@@ -89,6 +84,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       //const containerStyle = window.getComputedStyle(scrollContainer);
       //const paralaxScrollerTop = paralaxScroller.offsetTop;
       //positions[0] =  /* (profileContent?.offsetTop || 0) + (parseInt(containerStyle.paddingTop.replace('px', '')) || 0) + */ paralaxScrollerTop;
+      if(sections[length - 1] === 'end'){
+        positions[positions.length - 1] = getProfilePageScrollHeight();
+      }
       setScrollPositions(positions);
       setCurrentIndexPosition(positions[currentSectionRef.current]);
     }
@@ -125,7 +123,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
         const entireDocumentHeight = getEntireDocumentHeight();
         positions[positions.length - 1] = entireDocumentHeight;
       }
-      console.log(positions);
       //scroll position adjustment, add padding top and off set of the banner since these positions are relative only to the profile content
       return positions;
     }
@@ -152,13 +149,15 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
     }
 
     const getEntireDocumentHeight = () => {
-      const body = document.body,
-          html = document.documentElement;
-
+      const body = document.body,html = document.documentElement;
       const height = Math.max( body.scrollHeight, body.offsetHeight, 
                        html.clientHeight, html.scrollHeight, html.offsetHeight );
-
       return height;
+    }
+    const getProfilePageScrollHeight = () => {
+      const profilePage: HTMLElement | null = document.querySelector(`.${scrollContainerClassname}`);
+      if(!profilePage) return 0;
+      return profilePage.scrollHeight;
     }
     //EFFECTS
     useEffect(()=>{
@@ -174,10 +173,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
           scrollContainer.removeEventListener('scroll', onScrollHandler);
         }
       }
-      
     },[])
-
-
     //when next section index changes, determine direction to know which edge to fill, especially for node in the middle
         //when current section changes
         useEffect(()=>{
@@ -225,7 +221,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({scrollContainerClassname
       setDestinationScrollPosition(distanceBetween);
     },[nextSectionIndex, scrollPositions])
     useEffect(()=>{
-      
       setProgress(scrolledFromCurrentSection / destinationScrollPosition);
     },[scrolledFromCurrentSection, destinationScrollPosition])
     //Food for thought:
