@@ -286,7 +286,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     }
     const delayUpdateChosenWeather = (weather: string) => {
-        const delayTime = 550; //ms
+        const delayTime = 450; //ms
         const timeout = setTimeout(() => {
             setFeaturedWeather(weather);
         }, delayTime);
@@ -294,7 +294,6 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     }
     const handleOptionClick = (event: React.MouseEvent<HTMLDivElement>) => {
         const target = event.target as HTMLDivElement;
-        console.log(target);
         target.classList.add(style['active-option']);
     }
     useEffect(()=>{
@@ -356,7 +355,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         <div  className={style['fav-weather-wheel']} onClick={handleToggle}>
                     <div title={
                         isExpanded ? '' : 'Click to change your favorite weather'
-                    } className={`${style['pulse']} ${style['featured-weather']} 
+                    } className={`${style['featured-weather']} ${style['zero-delay']}
                     ${
                             isEditable ? style['editable-featured'] : ''
                     } 

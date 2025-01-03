@@ -52,7 +52,7 @@
 
 .pulse{
     animation: 0.5s pulse;
-    animation-delay: 0.5s;
+    /* animation-delay: 0.2s; */
 }
 .no-interaction{
     

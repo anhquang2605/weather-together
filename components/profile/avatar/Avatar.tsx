@@ -1,6 +1,3 @@
-import {IoPencil} from "react-icons/io5";
-import Image from "next/image";
-import DefaultProfilePicture from "../default-profile-picture/DefaultProfilePicture";
 import style from "./avatar.module.css";
 import MiniAvatar from "../../user/mini-avatar/MiniAvatar";
 import { Weather } from "../../../types/Weather";
