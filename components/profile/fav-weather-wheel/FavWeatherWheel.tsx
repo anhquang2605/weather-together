@@ -260,10 +260,13 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         optionAngleRef.current = Math.ceil(getAngleOption(centerSize[0], optionSize[0]));
         containerCenterRef.current = centerSize;
     }
-    const toggleZeroDelayClass = (on: boolean) => {
+    const toggleZeroDelayClass = (on: boolean, instant?: boolean) => {
         const featWeather = document.getElementsByClassName(style['featured-weather'])[0];
-        const delayTime = 450; //ms
-        if(featWeather && !on){
+        let delayTime = 450; //ms
+        if(instant || (featWeather && !on)){
+            if(instant){
+                delayTime = 0;
+            }
             const timeout = setTimeout(() => {
                 featWeather.classList.add(style['zero-delay']);
             }, delayTime);
@@ -304,6 +307,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(timeRef){
             timeRef.current = 0;
         }
+        toggleZeroDelayClass(false, true);
     },[])
 
     //What next?
