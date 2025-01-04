@@ -267,6 +267,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             const timeout = setTimeout(() => {
                 featWeather.classList.add(style['zero-delay']);
             }, delayTime);
+        ;
             return timeout;
         } else if(featWeather && on){
             featWeather.classList.remove(style['zero-delay']);
@@ -355,7 +356,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         <div  className={style['fav-weather-wheel']} onClick={handleToggle}>
                     <div title={
                         isExpanded ? '' : 'Click to change your favorite weather'
-                    } className={`${style['featured-weather']} ${style['zero-delay']}
+                    } className={`${style['featured-weather']}
                     ${
                             isEditable ? style['editable-featured'] : ''
                     } 
