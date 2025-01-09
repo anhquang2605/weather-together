@@ -18,7 +18,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
     const [chosen, setChosen] = useState<string>("");
     const [favIconSize, setFavIconSize] = useState<string>('large');
     const SPEED = 0.5; // Degrees to move per frame
-    const OFFSET_ANGLE = 10;
+    const OFFSET_ANGLE = 20;
     const optionsRef = useRef<HTMLCollectionOf<HTMLElement> | null>(null); //
     const requestRef = useRef<number>(0);
     const timeRef = useRef<number>(0);
@@ -122,15 +122,15 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             if(i === chosenWeatherIndexRef.current + 1){
                 continue;
             }
-            if(Math.round(i * optionAngleRef.current) < addedAngle){
+            if(i * optionAngleRef.current < addedAngle){
                 if(!optionsAngleStoreRef.current[i - 1]){
                     optionsAngleStoreRef.current[i - 1] = currentAngle;
                 }
                 continue;
             }
             const object = optionsElements[i - 1];
-            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180))) - optionW);
-            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180))) - optionH);
+            const x = rX + (radius * Math.cos(currentAngle * (Math.PI / 180))) - optionW;
+            const y = rY + (radius * Math.sin(currentAngle * (Math.PI / 180))) - optionH;
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
         } 
@@ -166,22 +166,22 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             startTime = timestamp;
         }
         // Calculate the elapsed time
-        const elapsedTime = Math.round(timestamp - startTime);
+        const elapsedTime = timestamp - startTime;
         const addedAngle = elapsedTime * SPEED * 1.75 ;
         const currentOption = currentReversingOptionIndexRef.current;
         const currentOptionAngle = optionsAngleStoreRef.current[currentOption];
         
         // Calculate the current angle based on the elapsed time
 /*         let currentAngle = Math.round(Math.min(addedAngle + currentAngleRef.current , totalDegrees)); */
-        let currentAngle = Math.round(currentOptionAngle - addedAngle);
+        let currentAngle =currentOptionAngle - addedAngle;
         
-        if(currentAngle <= (currentAngleRef.current - 15)){
+        if(currentAngle <= (currentAngleRef.current - OFFSET_ANGLE)){
             timeRef.current = 0;
             currentReversingOptionIndexRef.current += 1;
         } else {
             const object = optionsElements[currentOption];
-            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180)))) - optionW;
-            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180)))) - optionH;
+            const x = rX + (radius * Math.cos(currentAngle * (Math.PI / 180))) - optionW;
+            const y = rY + (radius * Math.sin(currentAngle * (Math.PI / 180))) - optionH;
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
         }
@@ -197,7 +197,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(container){
             //get width and height of the container
             const {width, height} = container.getBoundingClientRect();
-            return [Math.round(width/2), Math.round(height/2)];
+            return [width/2, height/2];
         } 
         return [0,0];
     }
@@ -236,14 +236,14 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const angle = Math.acos(
             (2 * Math.pow(a, 2) - Math.pow(b, 2)) / (2 * Math.pow(a, 2))
         )
-        return Math.round(angle * (180 / Math.PI));
+        return angle * (180 / Math.PI);
     }
 
     const getOptionSize = () => {
         const optionsElements = document.getElementsByClassName(style['weather-option'])[0];
         if(optionsElements){
             const {width, height} = optionsElements.getBoundingClientRect();
-            return [Math.round(width), Math.round(height)];
+            return [width, height];
         }
         return [0,0];
     }
@@ -257,7 +257,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         currentAngleRef.current = angle + OFFSET_ANGLE;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
-        optionAngleRef.current = Math.round(getAngleOption(centerSize[0], optionSize[0]));
+        optionAngleRef.current = getAngleOption(centerSize[0], optionSize[0]);
         containerCenterRef.current = centerSize;
     }
     const toggleZeroDelayClass = (on: boolean, instant?: boolean) => {
