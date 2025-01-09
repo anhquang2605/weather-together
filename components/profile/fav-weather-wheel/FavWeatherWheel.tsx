@@ -129,8 +129,8 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                 continue;
             }
             const object = optionsElements[i - 1];
-            const x = rX + (radius * Math.cos(currentAngle * (Math.PI / 180))) - optionW;
-            const y = rY + (radius * Math.sin(currentAngle * (Math.PI / 180))) - optionH;
+            const x = Math.round(rX + (radius * Math.cos(currentAngle * (Math.PI / 180))) - optionW);
+            const y = Math.round(rY + (radius * Math.sin(currentAngle * (Math.PI / 180))) - optionH);
             object.style.left = `${x}px`; // Offset to center the object
             object.style.top = `${y}px`;
         } 
