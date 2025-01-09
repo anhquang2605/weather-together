@@ -197,7 +197,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         if(container){
             //get width and height of the container
             const {width, height} = container.getBoundingClientRect();
-            return [width/2, height/2];
+            return [Math.round(width/2), Math.round(height/2)];
         } 
         return [0,0];
     }
@@ -236,14 +236,14 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         const angle = Math.acos(
             (2 * Math.pow(a, 2) - Math.pow(b, 2)) / (2 * Math.pow(a, 2))
         )
-        return angle * (180 / Math.PI);
+        return Math.round(angle * (180 / Math.PI));
     }
 
     const getOptionSize = () => {
         const optionsElements = document.getElementsByClassName(style['weather-option'])[0];
         if(optionsElements){
             const {width, height} = optionsElements.getBoundingClientRect();
-            return [width, height];
+            return [Math.round(width), Math.round(height)];
         }
         return [0,0];
     }
