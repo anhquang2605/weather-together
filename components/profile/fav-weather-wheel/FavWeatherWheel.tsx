@@ -122,7 +122,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
             if(i === chosenWeatherIndexRef.current + 1){
                 continue;
             }
-            if(i * optionAngleRef.current < addedAngle){
+            if(Math.round(i * optionAngleRef.current) < addedAngle){
                 if(!optionsAngleStoreRef.current[i - 1]){
                     optionsAngleStoreRef.current[i - 1] = currentAngle;
                 }
@@ -257,7 +257,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         currentAngleRef.current = angle + OFFSET_ANGLE;
         timeRef.current = 0;
         optionSizeRef.current = optionSize;
-        optionAngleRef.current = Math.ceil(getAngleOption(centerSize[0], optionSize[0]));
+        optionAngleRef.current = Math.round(getAngleOption(centerSize[0], optionSize[0]));
         containerCenterRef.current = centerSize;
     }
     const toggleZeroDelayClass = (on: boolean, instant?: boolean) => {
