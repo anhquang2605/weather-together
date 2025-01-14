@@ -8,11 +8,12 @@ interface WeatherVibeComponentProps {
 }
 export default function WeatherVibeComponent(props: WeatherVibeComponentProps) {
     const { weatherVibe } = props;
+    let { caption, icon, temperature, location } = weatherVibe;
     return(
-        <div className={style['weather-vibe'] + " " + style[convertConditionToIconName(weatherVibe.icon)]}>
+        <div className={style['weather-vibe'] + " " + style[convertConditionToIconName(icon)]}>
             <div className={style['weather-vibe__caption']}>
-                {(weatherVibe.caption ? weatherVibe.caption : `Vibing ${weatherVibe.icon.replace('-',' ')}`) + ` in ${weatherVibe.location}`}
-                <FontAwesomeIcon icon={convertConditionToIconName(weatherVibe.icon)} className={"icon ml-1 animate-bounce "+ style[convertConditionToIconName(weatherVibe.icon)]}/>
+                {(caption ? caption : `Vibing ${icon.replace('-',' ')}`) + (location && location !== ""  && ` in ${location}`)}
+                <FontAwesomeIcon icon={convertConditionToIconName(icon)} className={"icon ml-1 animate-bounce "+ style[convertConditionToIconName(icon)]}/>
             </div>
         </div>
     )
