@@ -8,9 +8,10 @@ import { ReactComponentElement } from 'react';
 interface WeatherIconProps {
     weatherName: string;
     size?: string; //lg, md, sm
+    isSpecial?: boolean
 }
 
-const WeatherIcon: React.FC<WeatherIconProps> = ({weatherName, size}) => {
+const WeatherIcon: React.FC<WeatherIconProps> = ({weatherName, size, isSpecial}) => {
     const IconSVG = require(`./../../../../assets/svg/userProfile/weather_icon/${weatherName}.svg`).default;
     const dimension = () => {
         switch(size){
@@ -29,7 +30,7 @@ const WeatherIcon: React.FC<WeatherIconProps> = ({weatherName, size}) => {
         }
     }
     return (
-        <div className={style['weather-icon']}>
+        <div className={style['weather-icon'] + " " + (isSpecial ? style['special'] : '')}>
                 <IconSVG width={dimension()} height={dimension()}/>
         </div>
     );

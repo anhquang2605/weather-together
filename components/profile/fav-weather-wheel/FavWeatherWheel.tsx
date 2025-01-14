@@ -376,6 +376,9 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
                     <WeatherIcon
                         weatherName={weatherName || ''}
                         size={ shortDimension(size)}
+                        isSpecial = {
+                            !isEditable
+                        }
                     />
                     </div>
 
