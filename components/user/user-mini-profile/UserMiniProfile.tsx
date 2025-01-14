@@ -24,6 +24,7 @@ const UserMiniProfile: React.FC<UserMiniProfileProps> = ({user, subInfo, theme =
             username={user.username} 
             profilePicturePath={user.profilePicturePath}
             size={sizeOfAvatar}
+            variant="mini-profile"
             />
             <div className={`${style['user-info']} ${style[theme]} $`}>
                 <div className={style['full-name']}>
