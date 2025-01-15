@@ -22,11 +22,15 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
     const {data: session} = useSession();
     const user = session?.user;
     //const user = useSelector((state:any) => state.user);
+    const locationOnError = async (err: any) => {
+        console.log(err);
+    }
     const handleShareWeather = async () => {
         if(weather){
             setWeather(null);
             setCurrentWeather(null);
         }else{
+            console.log(navigator.geolocation);
             await navigator.geolocation.getCurrentPosition(async (position) => {
                 const coords = position.coords;
                 let cities = await getCitiesFromLongLat(
@@ -34,6 +38,7 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
                     coords.longitude + "",
                     "2"
                 )
+                console.log(cities);
                  //need to be the user location, will pop up with the warning saying that the user will consent the app to have the location of the user
                 if(!cities || cities.length === 0){
                     //try again with larger radius
@@ -53,7 +58,7 @@ export default function ShareWeatherButton({ setCurrentWeather, currentWeather}:
                     setWeather(condition);
                     setCurrentWeather(condition);
                 }
-            });
+            }, locationOnError);
         }
     }
     useEffect(()=>{
