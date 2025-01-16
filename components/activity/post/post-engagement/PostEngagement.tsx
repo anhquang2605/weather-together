@@ -4,11 +4,10 @@ import {MdOutlineAddComment} from 'react-icons/md';
 import Modal from '../../../modal/Modal';
 import PostForm from '../post-form/PostForm';
 import { PostFormProvider } from './usePostFormContext';
-import ViewSlider from '../../../plugins/view-slider/ViewSlider';
 import BuddyTagForm from '../post-form/friend-tag-form/BuddyTagForm';
 import { ViewSliderProvider } from '../../../plugins/view-slider/useViewSliderContext';
 import { PostFormContextProvider } from '../post-form/postFormContext';
-import ThemePlacer from './engagement-background/theme-placer/ThemePlacer';
+import EngagementBackground from './engagement-background/EngagementBackground';
 interface PostEngagementProps {
     username: string;
 }
@@ -24,7 +23,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
               <h3 className="text-center text-3xl">
                 Weather outside or in, what's on your mind?
               </h3>
-              <ThemePlacer themeOption='default'/>
+              <EngagementBackground />
               <button onClick={()=> {
                     setRevealForm(!revealForm)
               }} className={style['engagement-btn']}>
