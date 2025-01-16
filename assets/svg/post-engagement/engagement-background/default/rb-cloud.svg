@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="44.037922mm"
+   height="33.525497mm"
+   viewBox="0 0 44.037922 33.525497"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="swatch4">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4" />
+    </linearGradient>
+    <color-profile
+       name="Agfa-:-Swop-Standard"
+       xlink:href="../../WINDOWS/system32/spool/drivers/color/RSWOP.icm"
+       id="color-profile2" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3">
+      <g
+         id="g4">
+        <rect
+           width="43.461224"
+           height="27.228718"
+           fill="#ffffff"
+           id="rect3"
+           x="66.410416"
+           y="65.881248"
+           style="stroke-width:0.523629" />
+      </g>
+    </clipPath>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-85.103839,-140.96804)">
+    <g
+       id="rb-cloud">
+      <g
+         id="rainbow">
+        <path
+           style="fill:none;fill-opacity:1;stroke:#e0c838;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+           d="m 88.153344,161.97109 c 0,0 -2.693179,-10.53536 6.295819,-16.13333 9.394527,-5.85052 17.575057,2.26234 17.575057,2.26234"
+           id="path4" />
+        <path
+           style="fill:none;fill-opacity:1;stroke:#33ce5c;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+           d="m 90.607208,163.14158 c 0,0 -4.626599,-9.59854 4.445682,-15.56072 8.55609,-5.62295 16.21339,2.32849 16.21339,2.32849"
+           id="path4-0" />
+        <path
+           style="fill:none;fill-opacity:1;stroke:#8968da;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+           d="m 91.712314,161.67125 c 0,0 -3.045228,-9.09089 5.434553,-13.33915 7.009223,-3.51153 12.702963,2.57369 12.702963,2.57369"
+           id="path4-0-6" />
+        <path
+           style="fill:none;fill-opacity:1;stroke:#e06838;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+           d="m 86.414216,163.12895 c 0,0 -2.917453,-13.17556 7.312083,-19.00169 11.547211,-6.57661 19.977071,3.36745 19.977071,3.36745"
+           id="path4-7" />
+      </g>
+      <path
+         d="m 102.44657,75.403967 c 0.0918,-0.488127 0.13971,-0.991753 0.13971,-1.506795 0,-4.427065 -3.542982,-8.015925 -7.913558,-8.015925 -2.674122,0 -5.038517,1.343559 -6.470905,3.400668 -1.375312,-1.169484 -3.149053,-1.873823 -5.08512,-1.873823 -4.328633,0 -7.845483,3.520254 -7.91256,7.888636 h -9.95e-4 c -4.856127,0 -8.792729,3.987541 -8.792729,8.906618 0,4.919025 3.936602,8.906618 8.792729,8.906618 h 25.875818 c 4.85603,0 8.79267,-3.987593 8.79267,-8.906618 0,-4.447811 -3.21848,-8.133898 -7.42506,-8.799379 z"
+         fill="#ffffff"
+         id="rainbow-cloud"
+         style="stroke-width:0.523629"
+         clip-path="url(#clipPath3)"
+         transform="translate(19.270133,81.383572)" />
+      <g
+         id="rb-face">
+        <g
+           id="rb-eyes">
+          <path
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+             d="m 101.80283,161.72157 3.46114,1.49671 -3.28591,1.89712"
+             id="rb-left-eye" />
+          <path
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+             d="m 112.80012,161.72157 -3.46114,1.49671 3.28591,1.89712"
+             id="rb-right-eye" />
+        </g>
+        <path
+           style="fill:#363636;fill-opacity:1;stroke:none;stroke-width:1.33284;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+           id="rb-mouth"
+           d="m 108.93516,164.70505 a 1.5457003,2.172152 0 0 1 -1.53801,2.17212 1.5457003,2.172152 0 0 1 -1.55332,-2.15049" />
+      </g>
+    </g>
+  </g>
+</svg>
