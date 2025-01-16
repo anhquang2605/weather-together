@@ -8,6 +8,7 @@ import ViewSlider from '../../../plugins/view-slider/ViewSlider';
 import BuddyTagForm from '../post-form/friend-tag-form/BuddyTagForm';
 import { ViewSliderProvider } from '../../../plugins/view-slider/useViewSliderContext';
 import { PostFormContextProvider } from '../post-form/postFormContext';
+import ThemePlacer from './engagement-background/theme-placer/ThemePlacer';
 interface PostEngagementProps {
     username: string;
 }
@@ -19,10 +20,11 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
     }
     return (
         <>
-        <div className={style['post-engagement'] + " glass-component p-8 w-full feed-page-main-components mx-auto rounded-3xl"}>
+        <div className={style['post-engagement'] + "p-8 w-full feed-page-main-components mx-auto rounded-3xl"}>
               <h3 className="text-center text-3xl">
                 Weather outside or in, what's on your mind?
               </h3>
+              <ThemePlacer themeOption='default'/>
               <button onClick={()=> {
                     setRevealForm(!revealForm)
               }} className={style['engagement-btn']}>
