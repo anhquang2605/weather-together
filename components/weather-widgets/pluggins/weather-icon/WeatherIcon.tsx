@@ -1,9 +1,5 @@
-import  dynamic from 'next/dynamic';
 import style from './weather-icon.module.css';
-import { weatherToColorClassMap,weatherNameToIconAliasMap } from '../../../../constants/weathers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core';
-import { ReactComponentElement } from 'react';
+
 
 interface WeatherIconProps {
     weatherName: string;
