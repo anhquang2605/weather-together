@@ -9,7 +9,6 @@ interface EngagementBackgroundProps {
 const EngagementBackground: React.FC<EngagementBackgroundProps> = ({}) => {
     return (
         <div className={style['engagement-background']}>
-            EngagementBackground
             <ThemePlacer themeOption={'default'} />
         </div>
     );

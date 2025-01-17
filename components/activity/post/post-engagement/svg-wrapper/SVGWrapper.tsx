@@ -1,17 +1,20 @@
 import React from 'react';
-import style from './.module.css';
+import style from './svg-wrapper.module.css';
 
 interface SVGWrapperProps {
     fileName: string;
+    className?: string;
 }
 
 const SVGWrapper: React.FC<SVGWrapperProps> = (props) => {
     const {
-        fileName
+        fileName,
+        className = ''
     } = props;
-    const SvgComponent = require(`./../../../../assets/svg/post-engagement/${fileName}.svg`).default;
+    //assets/svg/post-engagement/engagement-background/default/${fileName}.svg
+    const SvgComponent = require(`./../../../../../assets/svg/post-engagement/engagement-background/default/${fileName}.svg`).default;
     return (
-        <div className={style['svg-wrapper']}>
+        <div className={`${style['svg-wrapper']} ${className}`}>
             <SvgComponent />
         </div>
     );

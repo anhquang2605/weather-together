@@ -19,14 +19,14 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
     }
     return (
         <>
-        <div className={style['post-engagement'] + "p-8 w-full relative overflow-hidden feed-page-main-components mx-auto rounded-3xl"}>
-              <h3 className="text-center text-3xl">
+        <div className={style['post-engagement'] + " p-8 w-full relative overflow-hidden feed-page-main-components mx-auto rounded-3xl"}>
+            <EngagementBackground />
+              <h3 className="text-center text-3xl glass">
                 Weather outside or in, what's on your mind?
               </h3>
-              <EngagementBackground />
               <button onClick={()=> {
                     setRevealForm(!revealForm)
-              }} className={style['engagement-btn']}>
+              }} className={style['engagement-btn'] + " glass"}>
                     <MdOutlineAddComment className="w-8 h-8 mr-2"/> Air your thoughts
               </button> 
 

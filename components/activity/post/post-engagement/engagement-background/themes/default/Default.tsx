@@ -14,8 +14,9 @@ const SVGFILES = [
 ]
 const SVGWrapperGenerator = (fileNames: string[]) => {
     const backbones = [];
+    const SHARED_CLASS = style['svg-cloud'];
     for (const fileName of fileNames) {
-        const theSVG = <SVGWrapper fileName={fileName} />
+        const theSVG = <SVGWrapper className={SHARED_CLASS} key={fileName} fileName={fileName} />
         backbones.push(theSVG);
     }
 
