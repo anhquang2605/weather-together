@@ -11,13 +11,13 @@ interface LinearAnimationContextType{
     setIsRepeating: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type LinearAnimationStage ={
+/* type LinearAnimationStage ={
     duration: number;
     delay: number;
     playAnimation: () => void;
     callback: () => void;
     
-}
+} */
 const LinearAnimationContext = React.createContext<LinearAnimationContextType | null>( null)
 
 const LinearAnimationProvider = ({children}:any) => {
@@ -25,16 +25,6 @@ const LinearAnimationProvider = ({children}:any) => {
     const [delay, setDelay] = useState(0);
     const [repeatCount, setRepeatCount] = useState(0);
     const [isRepeating, setIsRepeating] = useState(false);
-    const [stages, setStages] = useState<LinearAnimationStage[]>([]);
-    const addStage = (stage: LinearAnimationStage) => {
-        setStages([...stages, stage]);
-    }
-    const playStages = () => {
-        stages.forEach((stage) => {
-            stage.playAnimation();
-            stage.callback();
-        })
-    }
     
     const value = {
         duration,
