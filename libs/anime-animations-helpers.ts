@@ -19,3 +19,15 @@ export const pathRevealAnimation = (target: string, easing: string, duration: nu
     return anim
 }
 
+export const followPathAnimation = (target: string, easing: string, duration: number, path: string  ) => {
+    const anim = anime({
+        targets: target,
+        d: path,
+        easing: easing,
+        duration: duration
+    })
+    return anim
+}
+
+
+
