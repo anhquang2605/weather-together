@@ -1,5 +1,5 @@
 import anime from 'animejs';
-export const pathShrinkAnimation = (target: string, easing: string, duration: number) => {
+export const pathRevealAnimation = (target: string, easing: string, duration: number) => {
     const anim = anime({
         targets: target,
         strokeDashoffset: [anime.setDashoffset, 0],
@@ -9,7 +9,7 @@ export const pathShrinkAnimation = (target: string, easing: string, duration: nu
     return anim
 }
 
-export const pathRevealAnimation = (target: string, easing: string, duration: number) => {
+export const pathShrinkAnimation = (target: string, easing: string, duration: number) => {
     const anim = anime({
         targets: target,
         strokeDashoffset: [0, anime.setDashoffset],
