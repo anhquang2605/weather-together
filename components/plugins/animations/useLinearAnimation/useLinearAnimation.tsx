@@ -25,15 +25,6 @@ const LinearAnimationProvider = ({children}:any) => {
     const [delay, setDelay] = useState(0);
     const [repeatCount, setRepeatCount] = useState(0);
     const [isRepeating, setIsRepeating] = useState(false);
-    const pathShrinkAnimation = (target: string, easing: string) => {
-        const anim = anime({
-            targets: target,
-            strokeDashoffset: [anime.setDashoffset, 0],
-            easing: easing,
-            duration: duration
-        })
-        return anim
-    }
     const value = {
         duration,
         delay,
