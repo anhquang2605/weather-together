@@ -14,6 +14,7 @@ import WeatherBar from "../components/weather-widgets/weather-bar/WeatherBar"
 import { getUserDataByUserName } from "../libs/users"
 import { User } from "../types/User"
 import Gallery from "../components/profile/sections/gallery/Gallery"
+import RainCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/rain-cloud/RainCloud"
 /* this page is for testing purposes only */
 /* export const getStaticProps = async () => {
     const user = await getUserDataByUserName('anhquang2605');
@@ -89,10 +90,7 @@ export default function Tester(userJSON:any) {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
-
-            <Gallery username={'anhquang2605'} >
-
-            </Gallery>
+            <RainCloud />
         <div>
 
         </div>
