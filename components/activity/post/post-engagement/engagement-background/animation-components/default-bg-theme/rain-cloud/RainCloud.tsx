@@ -7,7 +7,7 @@ import anime from 'animejs';
 
 const RainCloud: React.FC<SVGCloudPropType> = (props) => {
     const {
-        duration = 3000,
+        duration = 2000,
         delay = 0,
         easing = 'linear'
     } = props
@@ -20,6 +20,7 @@ const RainCloud: React.FC<SVGCloudPropType> = (props) => {
             strokeDashoffset: [anime.setDashoffset, 0],
             easing: easing,
             duration: duration,
+            loop: true
         })
         
     }
@@ -34,66 +35,27 @@ const RainCloud: React.FC<SVGCloudPropType> = (props) => {
         <div className={styles['rain-cloud']}>
 
 
-<svg
-   width="43.46125mm"
-   height="40.681549mm"
-   viewBox="0 0 43.46125 40.681549"
-   version="1.1"
-   id="svg1"
-  >
-  <defs
-     id="defs1" />
-  <g
-     id="layer1"
-     transform="translate(-51.051702,-25.084261)">
-    <g
-       id="rain-boy">
-      <g
-         id="rain-drops">
-        <path
-           style="fill:#9f9f9f;fill-opacity:1;stroke:#6597d9;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 86.643252,45.891172 c 0,19.213179 0,19.213179 0,19.213179"
-           id="drop4" />
-        <path
-           style="fill:#9f9f9f;fill-opacity:1;stroke:#6597d9;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 77.225788,45.891172 c 0,19.213179 0,19.213179 0,19.213179"
-           id="drop3" />
-        <path
-           style="fill:#9f9f9f;fill-opacity:1;stroke:#6597d9;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 67.808324,45.891172 c 0,19.213179 0,19.213179 0,19.213179"
-           id="drop2" />
-        <path
-           style="fill:#9f9f9f;fill-opacity:1;stroke:#6597d9;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 58.39086,45.891172 c 0,19.213179 0,19.213179 0,19.213179"
-           id="drop1" />
-      </g>
-      <path
-         d="m 87.087871,34.607008 c 0.09183,-0.48812 0.139722,-0.991756 0.139722,-1.506791 0,-4.427077 -3.542994,-8.015956 -7.913558,-8.015956 -2.674122,0 -5.03852,1.343556 -6.470913,3.400688 -1.375317,-1.169496 -3.14906,-1.87383 -5.085127,-1.87383 -4.328627,0 -7.845486,3.520264 -7.912562,7.888662 h -9.96e-4 c -4.856131,0 -8.792735,3.987544 -8.792735,8.90664 0,4.919037 3.936604,8.90664 8.792735,8.90664 h 25.875835 c 4.85603,0 8.792682,-3.987603 8.792682,-8.90664 0,-4.447818 -3.218486,-8.133929 -7.425063,-8.799413 z"
-         fill="#ffffff"
-         id="rain-cloud"
-         style="fill:#333333;stroke-width:0.523629" />
-      <g
-         id="rain-face">
-        <g
-           id="rain-eyes"
-           transform="translate(0.75476493,0.75476493)">
-          <path
-             style="fill:#ffffff;fill-opacity:1;stroke:#9f9f9f;stroke-width:0.79375;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-             d="M 63.400254,41.323379 H 70.38183"
-             id="rain-left-eye" />
-          <path
-             style="fill:#ffffff;fill-opacity:1;stroke:#9f9f9f;stroke-width:0.79375;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-             d="m 73.881382,41.257586 h 6.981576"
-             id="rain-right-eye" />
-        </g>
-        <path
-           style="fill:#9f9f9f;fill-opacity:1;stroke:#9f9f9f;stroke-width:0.0690531;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           id="rain-mouth"
-           d="m 71.845864,44.343372 a 0.91727519,0.89628321 0 0 1 0.949272,-0.849453 0.91727519,0.89628321 0 0 1 0.883857,0.914363 0.91727519,0.89628321 0 0 1 -0.922062,0.877602 0.91727519,0.89628321 0 0 1 -0.912244,-0.887346" />
-      </g>
+<svg width="43.461mm" height="40.682mm" version="1.1" viewBox="0 0 43.461 40.682" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(-51.052 -25.084)">
+  <g id="rain-boy">
+   <g id="rain-drops" fill="#9f9f9f" stroke="#6597d9" stroke-dasharray="10.58320045,5.29160023" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3229">
+    <path d="m86.643 45.891v19.213"/>
+    <path d="m77.226 45.891v19.213"/>
+    <path d="m67.808 45.891v19.213"/>
+    <path d="m58.391 45.891v19.213"/>
+   </g>
+   <path id="rain-cloud" d="m87.088 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#333" stroke-width=".52363"/>
+   <g id="rain-face" stroke="#9f9f9f" stroke-linecap="round" stroke-linejoin="round">
+    <g id="rain-eyes" transform="translate(.75476 .75476)" fill="#fff" stroke-width=".79375">
+     <path id="rain-left-eye" d="m63.4 41.323h6.9816"/>
+     <path id="rain-right-eye" d="m73.881 41.258h6.9816"/>
     </g>
+    <path id="rain-mouth" d="m71.846 44.343a0.91728 0.89628 0 0 1 0.94927-0.84945 0.91728 0.89628 0 0 1 0.88386 0.91436 0.91728 0.89628 0 0 1-0.92206 0.8776 0.91728 0.89628 0 0 1-0.91224-0.88735" fill="#9f9f9f" stroke-width=".069053"/>
+   </g>
   </g>
+ </g>
 </svg>
+
 
         </div>
     );
