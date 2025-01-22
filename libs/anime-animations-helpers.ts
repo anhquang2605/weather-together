@@ -4,7 +4,8 @@ export const pathRevealAnimation = (target: string, easing: string, duration: nu
         targets: target,
         strokeDashoffset: [anime.setDashoffset, 0],
         easing: easing,
-        duration: duration
+        duration: duration,
+        
     })
     return anim
 }

@@ -7,41 +7,15 @@
    viewBox="0 0 43.46125 40.681549"
    version="1.1"
    id="svg1"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
-   sodipodi:docname="rain-cloud.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#505050"
-     bordercolor="#eeeeee"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#505050"
-     inkscape:document-units="mm"
-     inkscape:zoom="0.99150695"
-     inkscape:cx="-121.53218"
-     inkscape:cy="30.761257"
-     inkscape:window-width="1920"
-     inkscape:window-height="1001"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
   <defs
      id="defs1" />
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-51.051702,-25.084261)">
     <g
-       id="rain-boy"
-       inkscape:label="rain-cloudy">
+       id="rain-boy">
       <g
          id="rain-drops">
         <path
@@ -83,15 +57,6 @@
         <path
            style="fill:#9f9f9f;fill-opacity:1;stroke:#9f9f9f;stroke-width:0.0690531;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
            id="rain-mouth"
-           sodipodi:type="arc"
-           sodipodi:cx="72.761917"
-           sodipodi:cy="44.389614"
-           sodipodi:rx="0.91727519"
-           sodipodi:ry="0.89628321"
-           sodipodi:start="3.193209"
-           sodipodi:end="3.1316354"
-           sodipodi:open="true"
-           sodipodi:arc-type="arc"
            d="m 71.845864,44.343372 a 0.91727519,0.89628321 0 0 1 0.949272,-0.849453 0.91727519,0.89628321 0 0 1 0.883857,0.914363 0.91727519,0.89628321 0 0 1 -0.922062,0.877602 0.91727519,0.89628321 0 0 1 -0.912244,-0.887346" />
       </g>
     </g>
