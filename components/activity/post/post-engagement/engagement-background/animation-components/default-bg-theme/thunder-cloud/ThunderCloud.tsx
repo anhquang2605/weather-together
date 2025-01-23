@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './thunder-cloud.module.css';
+import { SVGCloudPropType } from '../svg-cloud-types';
 
-interface ThunderCloudProps {
+interface ThunderCloudProps extends SVGCloudPropType {};
 
-}
+const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
+    const {
+        duration = 2000,
+        delay = 0,
+        easing = 'linear'
+    } = props
+    const startAnimation = () => {
 
-const ThunderCloud: React.FC<ThunderCloudProps> = ({}) => {
+    }
+    useEffect(() => {
+        startAnimation();
+    },[])
     return (
 <div className={style['thunder-cloud']}>
 <svg width="43.461mm" height="48.202mm" version="1.1" viewBox="0 0 43.461 48.202" xmlns="http://www.w3.org/2000/svg">
