@@ -7,7 +7,7 @@ import anime from 'animejs';
 
 const RainCloud: React.FC<SVGCloudPropType> = (props) => {
     const {
-        duration = 1000,
+        duration = 2000,
         delay = 0,
         easing = 'linear'
     } = props
@@ -17,10 +17,12 @@ const RainCloud: React.FC<SVGCloudPropType> = (props) => {
   /*       const anim = pathRevealAnimation(targets, easing, duration); */
         const anim2 = anime({
             targets: targets,
-            strokeDasharray: [2, 5],
+            strokeDasharray: [2,4],
             easing: easing,
             duration: duration,
-            delay: anime.stagger(300, {from: 'center'})
+            delay: anime.stagger(300, {from: 'center'}),
+            loop: true,
+
         })
         
     }
