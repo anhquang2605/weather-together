@@ -13,7 +13,7 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
         easing = 'linear'
     } = props;
     const CLOUD_FLASH_DURATION_PERCENT = 0.7;
-    const THUNDER_STRIKE_DURATION_PERCENT = 0.3;
+    const THUNDER_STRIKE_DURATION_PERCENT = 0.2;
     const startAnimation = () => {
         const timeline = anime.timeline();
         //Thunder strike stage
