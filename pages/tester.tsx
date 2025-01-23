@@ -1,20 +1,9 @@
-import { use, useEffect, useState } from "react"
-import Post from './../components/activity/post/Post'
-import PostForm from "../components/activity/post/post-form/PostForm"
-import Modal from "../components/modal/Modal"
-import { generateRandomPosts } from "../libs/fake-data-generators"
+import { useEffect, useState } from "react"
 import { MockContext } from "./MockContext"
 import { faker } from "@faker-js/faker"
-import { fetchFromGetAPI } from "../libs/api-interactions"
 import { getPostByUsernamesString } from "../libs/posts"
-import style from './tester.module.css'
-import AnimatedBanner from "../components/profile/animated-banner/AnimatedBanner"
-import { WeatherBarContextProvider } from "../components/weather-widgets/weather-bar/useWeatherBarContext"
-import WeatherBar from "../components/weather-widgets/weather-bar/WeatherBar"
-import { getUserDataByUserName } from "../libs/users"
-import { User } from "../types/User"
-import Gallery from "../components/profile/sections/gallery/Gallery"
-import RainCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/rain-cloud/RainCloud"
+
+import ThunderCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/thunder-cloud/ThunderCloud"
 /* this page is for testing purposes only */
 /* export const getStaticProps = async () => {
     const user = await getUserDataByUserName('anhquang2605');
@@ -90,7 +79,7 @@ export default function Tester(userJSON:any) {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
-            <RainCloud easing="easeOutQuad"/>
+            <ThunderCloud easing="easeOutQuad"/>
         <div>
 
         </div>
