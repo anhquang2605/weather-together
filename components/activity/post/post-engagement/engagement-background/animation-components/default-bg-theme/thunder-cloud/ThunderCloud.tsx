@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import style from './thunder-cloud.module.css';
 import { SVGCloudPropType } from '../svg-cloud-types';
+import { pathRevealAnimation } from '../../../../../../../../libs/anime-animations-helpers';
+import anime from 'animejs';
 
 interface ThunderCloudProps extends SVGCloudPropType {};
 
@@ -9,9 +11,15 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
         duration = 2000,
         delay = 0,
         easing = 'linear'
-    } = props
+    } = props;
+    const CLOUD_FLASH_DURATION_PERCENT = 0.7;
+    const THUNDER_STRIKE_DURATION_PERCENT = 0.3;
     const startAnimation = () => {
-
+        const timeline = anime.timeline();
+        //Thunder strike stage
+        const anim: any = pathRevealAnimation('#thunder-strike path', easing, duration*THUNDER_STRIKE_DURATION_PERCENT, false);
+        anim.delay = CLOUD_FLASH_DURATION_PERCENT*duration;
+        timeline.add(anim);
     }
     useEffect(() => {
         startAnimation();
