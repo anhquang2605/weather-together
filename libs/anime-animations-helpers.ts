@@ -43,5 +43,20 @@ export const followPathAnimation = (target: string, easing: string, duration: nu
     return anim
 }
 
-
+export const propertiesStagesAnimation = (targets: string, easing: string, duration: number, properties: {[animationProperty: string]: any[]}, animationCreated: boolean = true) => {
+    //properties is a list of objects, each object represent a property to animate whose values is an array of values to animate
+    const animObj = {
+        targets: targets,
+        ...properties,
+        easing: easing,
+        duration: duration,
+        loop: true
+    }
+    if(animationCreated){
+        const anim = anime(animObj)
+        return anim
+    }else{
+        return animObj
+    }
+}
 

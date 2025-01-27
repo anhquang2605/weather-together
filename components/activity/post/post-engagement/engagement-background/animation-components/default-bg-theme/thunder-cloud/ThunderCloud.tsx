@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import style from './thunder-cloud.module.css';
 import { SVGCloudPropType } from '../svg-cloud-types';
-import { pathRevealAnimation } from '../../../../../../../../libs/anime-animations-helpers';
+import { pathRevealAnimation, propertiesStagesAnimation } from '../../../../../../../../libs/anime-animations-helpers';
 import anime from 'animejs';
 
 interface ThunderCloudProps extends SVGCloudPropType {};
@@ -16,10 +16,13 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
     const THUNDER_STRIKE_DURATION_PERCENT = 0.2;
     const startAnimation = () => {
         const timeline = anime.timeline();
+        //Cloud expand stage
+        const cloudExpandAnim: any = propertiesStagesAnimation("#" +style['thunder-cloud'], easing, duration * CLOUD_EXPAND_DURATION_PERCENT, {scale: [0.7, 1]}, false);
+        timeline.add(cloudExpandAnim);
         //Thunder strike stage
-        const anim: any = pathRevealAnimation('#thunder-strike path', easing, duration * THUNDER_STRIKE_DURATION_PERCENT, false);
-        anim.delay = duration * CLOUD_EXPAND_DURATION_PERCENT;
-        timeline.add(anim);
+        const thunderStrikeAnim: any = pathRevealAnimation('#thunder-strike path', easing, duration * THUNDER_STRIKE_DURATION_PERCENT, false);
+        thunderStrikeAnim.delay = duration * CLOUD_EXPAND_DURATION_PERCENT;
+        timeline.add(thunderStrikeAnim);
     }
     useEffect(() => {
         startAnimation();
@@ -37,7 +40,7 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
             <path d="m73.762 52.823-5.8494 6.7929 10.661 3.3021-6.4155 3.6795 1.6039 2.0756" filter="url(#filter5)" stroke-width="1.5875" />
             <path d="m73.967 52.645-5.8494 6.7929 10.661 3.3021-6.4155 3.6795 1.6039 2.0756" stroke-width="1.323"/>
         </g>
-        <path d="m87.088 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#222" stroke-width=".52363"/>
+        <path d="m87.088 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#222" stroke-width=".52363" id={style["thunder-cloud"]}/>
         <g stroke="#aaa4a4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3229">
             <g transform="translate(2.2844)" fill="#202020" >
                 <path d="m63.306 42.978 5.0003 2.3586"/>
