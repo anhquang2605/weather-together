@@ -3,6 +3,7 @@ import style from './thunder-cloud.module.css';
 import { SVGCloudPropType } from '../svg-cloud-types';
 import { pathRevealAnimation, propertiesStagesAnimation } from '../../../../../../../../libs/anime-animations-helpers';
 import anime from 'animejs';
+import { time } from 'console';
 
 interface ThunderCloudProps extends SVGCloudPropType {};
 
@@ -16,7 +17,7 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
     const CLOUD_SMALL_SCALE = 0.5;
     const CLOUD_BIG_SCALE = 1;
     const FLASH_COLOR = '#f7ff00'
-    const CLOUD_COLOR = '#fff';
+    const CLOUD_COLOR = '#222';
     const CLOUD_EXPAND_DURATION_PERCENT = 0.7;
     const THUNDER_STRIKE_DURATION_PERCENT = 0.2;
     const startAnimation = () => {
@@ -28,12 +29,14 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
         const thunderStrikeAnim: any = pathRevealAnimation('#thunder-strike path', easing, duration * THUNDER_STRIKE_DURATION_PERCENT, false);
         thunderStrikeAnim.delay = duration * CLOUD_EXPAND_DURATION_PERCENT;
         //thunder cloud shrink and blink
-        const thunderCloudShrinkandBlinkAnim = propertiesStagesAnimation("#" +style['thunder-cloud'], 'elastic', duration * THUNDER_STRIKE_DURATION_PERCENT, 
+        const thunderCloudShrinkandBlinkAnim: any = propertiesStagesAnimation("#" +style['thunder-cloud'], 'easeOutElastic', duration * THUNDER_STRIKE_DURATION_PERCENT, 
             {
-                scale: [1, 0.5],
-                fill: [FLASH_COLOR, CLOUD_COLOR]
+                scale: [1,0.8],
+                fill: [CLOUD_COLOR, FLASH_COLOR, CLOUD_COLOR]
             }
             , false);
+        thunderCloudShrinkandBlinkAnim.delay = duration * CLOUD_EXPAND_DURATION_PERCENT;
+        timeline.add(thunderCloudShrinkandBlinkAnim);
         timeline.add(thunderStrikeAnim);
     }
     useEffect(() => {
