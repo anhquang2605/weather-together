@@ -12,13 +12,13 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
         delay = 0,
         easing = 'linear'
     } = props;
-    const CLOUD_FLASH_DURATION_PERCENT = 0.7;
+    const CLOUD_EXPAND_DURATION_PERCENT = 0.7;
     const THUNDER_STRIKE_DURATION_PERCENT = 0.2;
     const startAnimation = () => {
         const timeline = anime.timeline();
         //Thunder strike stage
-        const anim: any = pathRevealAnimation('#thunder-strike path', easing, duration*THUNDER_STRIKE_DURATION_PERCENT, false);
-        anim.delay = CLOUD_FLASH_DURATION_PERCENT*duration;
+        const anim: any = pathRevealAnimation('#thunder-strike path', easing, duration * THUNDER_STRIKE_DURATION_PERCENT, false);
+        anim.delay = duration * CLOUD_EXPAND_DURATION_PERCENT;
         timeline.add(anim);
     }
     useEffect(() => {
