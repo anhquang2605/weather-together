@@ -2,8 +2,7 @@ import { useEffect, useState } from "react"
 import { MockContext } from "./MockContext"
 import { faker } from "@faker-js/faker"
 import { getPostByUsernamesString } from "../libs/posts"
-
-import ThunderCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/thunder-cloud/ThunderCloud"
+import RainBowCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/rb-cloud/RainBowCloud"
 /* this page is for testing purposes only */
 /* export const getStaticProps = async () => {
     const user = await getUserDataByUserName('anhquang2605');
@@ -79,7 +78,7 @@ export default function Tester(userJSON:any) {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
-            <ThunderCloud easing="easeOutQuad"/>
+            <RainBowCloud/>
         <div>
 
         </div>
