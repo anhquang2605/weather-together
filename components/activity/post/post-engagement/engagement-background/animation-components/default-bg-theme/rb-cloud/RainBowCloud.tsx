@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import style from './rainbow-cloud.module.css';
 import { SVGCloudPropType } from '../svg-cloud-types';
-import { pathRevealAnimation } from '../../../../../../../../libs/anime-animations-helpers';
+import { pathRevealAnimation, propertiesStagesAnimation } from '../../../../../../../../libs/anime-animations-helpers';
 import anime from 'animejs';
 
 interface RainBowCloudProps extends SVGCloudPropType{
@@ -18,9 +18,22 @@ const RainBowCloud: React.FC<RainBowCloudProps> = (props) => {
     const startAnimation = () => {
         const timeline = anime.timeline();
         //setting up variables
+        //rainbow line animation
         const anim:any = pathRevealAnimation('#rainbow path', easing, duration, false);
         anim.delay = anime.stagger(200);
+        //rainbow cloud animation
+        const anim2: any = propertiesStagesAnimation('#rainbow-cloud', 'linear', duration * 0.4, {
+            fill: [
+                '#fff',
+                '#e06838',
+                '#e0c838',
+                '#33ce5c',
+                '#8968da',
+                '#fff'
+            ]
+        }, false);
         timeline.add(anim);
+        timeline.add(anim2);
 
     }
     useEffect(()=> {
