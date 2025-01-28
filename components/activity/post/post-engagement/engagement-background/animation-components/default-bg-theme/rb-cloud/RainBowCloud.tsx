@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './rainbow-cloud.module.css';
+import { SVGCloudPropType } from '../svg-cloud-types';
+import { pathRevealAnimation } from '../../../../../../../../libs/anime-animations-helpers';
+import anime from 'animejs';
 
-interface RainBowCloudProps {
+interface RainBowCloudProps extends SVGCloudPropType{
 
 }
 
-const RainBowCloud: React.FC<RainBowCloudProps> = ({}) => {
+
+const RainBowCloud: React.FC<RainBowCloudProps> = (props) => {
+    const {
+        duration = 2000,
+        delay = 0,
+        easing = 'easeInSine'
+    } = props
+    const startAnimation = () => {
+        const timeline = anime.timeline();
+        //setting up variables
+        const anim:any = pathRevealAnimation('#rainbow path', easing, duration, false);
+        anim.delay = anime.stagger(200);
+        timeline.add(anim);
+
+    }
+    useEffect(()=> {
+        startAnimation();
+    },[])
     return (
     <div className={style['rainbow-cloud']}>
         <svg width="44.038mm" height="33.525mm" version="1.1" viewBox="0 0 44.038 33.525" xmlns="http://www.w3.org/2000/svg">
