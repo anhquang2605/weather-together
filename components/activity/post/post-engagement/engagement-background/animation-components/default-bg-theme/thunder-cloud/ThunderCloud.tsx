@@ -29,15 +29,15 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
         const thunderStrikeAnim: any = pathRevealAnimation('#thunder-strike path', easing, duration * THUNDER_STRIKE_DURATION_PERCENT, false);
         thunderStrikeAnim.delay = duration * CLOUD_EXPAND_DURATION_PERCENT;
         //thunder cloud shrink and blink
-        const thunderCloudShrinkandBlinkAnim: any = propertiesStagesAnimation("#" +style['thunder-cloud'], 'easeOutElastic', duration * THUNDER_STRIKE_DURATION_PERCENT, 
+        const thunderCloudShrinkandBlinkAnim: any = propertiesStagesAnimation("#" +style['thunder-cloud'], 'easeOutElastic(2, 0.4)', duration * THUNDER_STRIKE_DURATION_PERCENT, 
             {
                 scale: [1,0.8],
-                fill: [CLOUD_COLOR, FLASH_COLOR, CLOUD_COLOR]
+                fill: [FLASH_COLOR, CLOUD_COLOR]
             }
             , false);
         thunderCloudShrinkandBlinkAnim.delay = duration * CLOUD_EXPAND_DURATION_PERCENT;
         timeline.add(thunderCloudShrinkandBlinkAnim);
-        timeline.add(thunderStrikeAnim);
+        timeline.add(thunderStrikeAnim, '-=' + duration * THUNDER_STRIKE_DURATION_PERCENT);
     }
     useEffect(() => {
         startAnimation();
