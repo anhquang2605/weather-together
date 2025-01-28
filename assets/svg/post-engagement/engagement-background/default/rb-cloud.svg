@@ -1,93 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="44.037922mm"
-   height="33.525497mm"
-   viewBox="0 0 44.037922 33.525497"
-   version="1.1"
-   id="svg1"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1">
-    <linearGradient
-       id="swatch4">
-      <stop
-         style="stop-color:#000000;stop-opacity:1;"
-         offset="0"
-         id="stop4" />
-    </linearGradient>
-    <color-profile
-       name="Agfa-:-Swop-Standard"
-       xlink:href="../../WINDOWS/system32/spool/drivers/color/RSWOP.icm"
-       id="color-profile2" />
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath3">
-      <g
-         id="g4">
-        <rect
-           width="43.461224"
-           height="27.228718"
-           fill="#ffffff"
-           id="rect3"
-           x="66.410416"
-           y="65.881248"
-           style="stroke-width:0.523629" />
-      </g>
-    </clipPath>
-  </defs>
-  <g
-     id="layer1"
-     transform="translate(-85.103839,-140.96804)">
-    <g
-       id="rb-cloud">
-      <g
-         id="rainbow">
-        <path
-           style="fill:none;fill-opacity:1;stroke:#e0c838;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 88.153344,161.97109 c 0,0 -2.693179,-10.53536 6.295819,-16.13333 9.394527,-5.85052 17.575057,2.26234 17.575057,2.26234"
-           id="path4" />
-        <path
-           style="fill:none;fill-opacity:1;stroke:#33ce5c;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 90.607208,163.14158 c 0,0 -4.626599,-9.59854 4.445682,-15.56072 8.55609,-5.62295 16.21339,2.32849 16.21339,2.32849"
-           id="path4-0" />
-        <path
-           style="fill:none;fill-opacity:1;stroke:#8968da;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 91.712314,161.67125 c 0,0 -3.045228,-9.09089 5.434553,-13.33915 7.009223,-3.51153 12.702963,2.57369 12.702963,2.57369"
-           id="path4-0-6" />
-        <path
-           style="fill:none;fill-opacity:1;stroke:#e06838;stroke-width:1.85208;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 86.414216,163.12895 c 0,0 -2.917453,-13.17556 7.312083,-19.00169 11.547211,-6.57661 19.977071,3.36745 19.977071,3.36745"
-           id="path4-7" />
-      </g>
-      <path
-         d="m 102.44657,75.403967 c 0.0918,-0.488127 0.13971,-0.991753 0.13971,-1.506795 0,-4.427065 -3.542982,-8.015925 -7.913558,-8.015925 -2.674122,0 -5.038517,1.343559 -6.470905,3.400668 -1.375312,-1.169484 -3.149053,-1.873823 -5.08512,-1.873823 -4.328633,0 -7.845483,3.520254 -7.91256,7.888636 h -9.95e-4 c -4.856127,0 -8.792729,3.987541 -8.792729,8.906618 0,4.919025 3.936602,8.906618 8.792729,8.906618 h 25.875818 c 4.85603,0 8.79267,-3.987593 8.79267,-8.906618 0,-4.447811 -3.21848,-8.133898 -7.42506,-8.799379 z"
-         fill="#ffffff"
-         id="rainbow-cloud"
-         style="stroke-width:0.523629"
-         clip-path="url(#clipPath3)"
-         transform="translate(19.270133,81.383572)" />
-      <g
-         id="rb-face">
-        <g
-           id="rb-eyes">
-          <path
-             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 101.80283,161.72157 3.46114,1.49671 -3.28591,1.89712"
-             id="rb-left-eye" />
-          <path
-             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 112.80012,161.72157 -3.46114,1.49671 3.28591,1.89712"
-             id="rb-right-eye" />
-        </g>
-        <path
-           style="fill:#363636;fill-opacity:1;stroke:none;stroke-width:1.33284;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-           id="rb-mouth"
-           d="m 108.93516,164.70505 a 1.5457003,2.172152 0 0 1 -1.53801,2.17212 1.5457003,2.172152 0 0 1 -1.55332,-2.15049" />
-      </g>
+<svg width="44.038mm" height="33.525mm" version="1.1" viewBox="0 0 44.038 33.525" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <clipPath id="clipPath3">
+   <rect x="66.41" y="65.881" width="43.461" height="27.229" fill="#fff" stroke-width=".52363"/>
+  </clipPath>
+ </defs>
+ <g transform="translate(-85.104 -140.97)">
+  <g id="rb-cloud">
+   <g id="rainbow" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8521">
+    <path d="m88.153 161.97s-2.6932-10.535 6.2958-16.133c9.3945-5.8505 17.575 2.2623 17.575 2.2623" stroke="#e0c838"/>
+    <path d="m90.607 163.14s-4.6266-9.5985 4.4457-15.561c8.5561-5.623 16.213 2.3285 16.213 2.3285" stroke="#33ce5c"/>
+    <path d="m91.712 161.67s-3.0452-9.0909 5.4346-13.339c7.0092-3.5115 12.703 2.5737 12.703 2.5737" stroke="#8968da"/>
+    <path d="m86.414 163.13s-2.9175-13.176 7.3121-19.002c11.547-6.5766 19.977 3.3674 19.977 3.3674" stroke="#e06838"/>
+   </g>
+   <path id="rainbow-cloud" transform="translate(19.27 81.384)" d="m102.45 75.404c0.0918-0.48813 0.13971-0.99175 0.13971-1.5068 0-4.4271-3.543-8.0159-7.9136-8.0159-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8886h-9.95e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" clip-path="url(#clipPath3)" fill="#fff" stroke-width=".52363"/>
+   <g id="rb-face">
+    <g id="rb-eyes" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".79375">
+     <path id="rb-left-eye" d="m101.8 161.72 3.4611 1.4967-3.2859 1.8971"/>
+     <path id="rb-right-eye" d="m112.8 161.72-3.4611 1.4967 3.2859 1.8971"/>
     </g>
+    <path id="rb-mouth" d="m108.94 164.71a1.5457 2.1722 0 0 1-1.538 2.1721 1.5457 2.1722 0 0 1-1.5533-2.1505" fill="#363636"/>
+   </g>
   </g>
+ </g>
 </svg>
