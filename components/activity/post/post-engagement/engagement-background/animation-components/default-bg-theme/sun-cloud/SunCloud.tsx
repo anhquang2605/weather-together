@@ -11,7 +11,7 @@ const SunCloud: React.FC<SunCloudProps> = ({}) => {
             <svg width="47.47mm" height="34.219mm" version="1.1" viewBox="0 0 47.47 34.219" xmlns="http://www.w3.org/2000/svg">
                 <g transform="translate(-52.743 -18.094)">
                     <g id="sun-cloud">
-                        <g id="the-sun" transform="translate(-12.359 12.171)" fill="#ffc221">
+                        <g id={style["the-sun"]} transform="translate(-12.359 12.171)" fill="#ffc221">
                             <circle id="bg-sun" cx="99.252" cy="17.548" r="6.5098"/>
                             <g id="sun-beam" stroke="#ffc221" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3229">
                                 <path d="m86.593 17.548h4.1512"/>
