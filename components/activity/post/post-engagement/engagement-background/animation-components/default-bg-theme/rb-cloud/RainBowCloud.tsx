@@ -32,8 +32,9 @@ const RainBowCloud: React.FC<RainBowCloudProps> = (props) => {
                 '#fff'
             ]
         }, false);
+        const anim2OffSet = "-= " + duration * 0.35;
         timeline.add(anim);
-        timeline.add(anim2);
+        timeline.add(anim2, anim2OffSet);
 
     }
     useEffect(()=> {
