@@ -1,134 +1,28 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="44.629753mm"
-   height="30.366053mm"
-   viewBox="0 0 44.629753 30.366053"
-   version="1.1"
-   id="svg1"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
-   sodipodi:docname="snow-cloud.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#505050"
-     bordercolor="#eeeeee"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#505050"
-     inkscape:document-units="mm"
-     inkscape:zoom="1.4022026"
-     inkscape:cx="-45.285896"
-     inkscape:cy="-50.278042"
-     inkscape:window-width="1920"
-     inkscape:window-height="1001"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs1" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-51.051702,-25.084261)">
-    <g
-       id="g4">
-      <path
-         d="m 87.087871,34.607008 c 0.09183,-0.48812 0.139722,-0.991756 0.139722,-1.506791 0,-4.427077 -3.542994,-8.015956 -7.913558,-8.015956 -2.674122,0 -5.03852,1.343556 -6.470913,3.400688 -1.375317,-1.169496 -3.14906,-1.87383 -5.085127,-1.87383 -4.328627,0 -7.845486,3.520264 -7.912562,7.888662 h -9.96e-4 c -4.856131,0 -8.792735,3.987544 -8.792735,8.90664 0,4.919037 3.936604,8.90664 8.792735,8.90664 h 25.875835 c 4.85603,0 8.792682,-3.987603 8.792682,-8.90664 0,-4.447818 -3.218486,-8.133929 -7.425063,-8.799413 z"
-         fill="#ffffff"
-         id="path1"
-         style="stroke-width:0.523629" />
-      <g
-         id="cold-face">
-        <path
-           style="fill:none;stroke:#202020;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 62.085018,43.386527 c 0,0 0.447159,-1.220769 2.758628,-1.220769 2.311469,0 1.812089,1.322558 3.894534,1.388244 2.048439,0.06461 2.793371,-0.925101 2.793371,-0.925101"
-           id="path2"
-           sodipodi:nodetypes="cssc" />
-        <path
-           style="fill:none;stroke:#202020;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-           d="m 74.818883,43.386527 c 0,0 0.447159,-1.220769 2.758628,-1.220769 2.311469,0 1.812089,1.322558 3.894534,1.388244 2.048439,0.06461 2.793371,-0.925101 2.793371,-0.925101"
-           id="path2-1"
-           sodipodi:nodetypes="cssc" />
-        <ellipse
-           style="fill:#202020;fill-opacity:1;stroke:none;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-           id="path3"
-           cx="73.200203"
-           cy="46.148319"
-           rx="1.1507894"
-           ry="1.0173645" />
-      </g>
-      <g
-         id="snow-flakes">
-        <g
-           id="snow-flake1"
-           transform="translate(16.912385,21.032368)">
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 41.665715,25.217296 v 8.53919"
-             id="path4" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 37.39612,29.486891 h 8.53919"
-             id="path4-5" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 38.658581,26.370701 6.00904,6.067058"
-             id="path4-5-9" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 44.508181,26.372359 -6.00904,6.067058"
-             id="path4-5-9-0" />
-        </g>
-        <g
-           id="snow-flake1-1"
-           transform="translate(29.474596,3.6004696)">
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 41.665715,25.217296 v 8.53919"
-             id="path4-6" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 37.39612,29.486891 h 8.53919"
-             id="path4-5-4" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 38.658581,26.370701 6.00904,6.067058"
-             id="path4-5-9-2" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 44.508181,26.372359 -6.00904,6.067058"
-             id="path4-5-9-0-5" />
-        </g>
-        <g
-           id="snow-flake1-6"
-           transform="translate(49.084686,8.3632184)">
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 41.665715,25.217296 v 8.53919"
-             id="path4-2" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 37.39612,29.486891 h 8.53919"
-             id="path4-5-5" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 38.658581,26.370701 6.00904,6.067058"
-             id="path4-5-9-7" />
-          <path
-             style="fill:#202020;fill-opacity:1;stroke:#00adce;stroke-width:1.32292;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-             d="m 44.508181,26.372359 -6.00904,6.067058"
-             id="path4-5-9-0-9" />
-        </g>
-      </g>
-    </g>
+<svg width="44.63mm" height="30.366mm" version="1.1" viewBox="0 0 44.63 30.366" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(-51.052 -25.084)">
+  <path id="cold-cloud" d="m87.088 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#fff" stroke-width=".52363"/>
+  <g id="cold-face">
+   <path d="m62.085 43.387s0.44716-1.2208 2.7586-1.2208 1.8121 1.3226 3.8945 1.3882c2.0484 0.06461 2.7934-0.9251 2.7934-0.9251" fill="none" stroke="#202020" stroke-linecap="round" stroke-width="1.3229"/>
+   <path d="m74.819 43.387s0.44716-1.2208 2.7586-1.2208 1.8121 1.3226 3.8945 1.3882c2.0484 0.06461 2.7934-0.9251 2.7934-0.9251" fill="none" stroke="#202020" stroke-linecap="round" stroke-width="1.3229"/>
+   <ellipse cx="73.2" cy="46.148" rx="1.1508" ry="1.0174" fill="#202020"/>
   </g>
+  <g id="snow-flakes" fill="#202020" stroke="#00adce" stroke-linecap="round" stroke-width="1.3229">
+   <path d="m58.578 46.25v8.5392"/>
+   <path d="m54.309 50.519h8.5392"/>
+   <path d="m55.571 47.403 6.009 6.0671"/>
+   <path d="m61.421 47.405-6.009 6.0671"/>
+   <path d="m90.75 33.581v8.5392"/>
+   <path d="m86.481 37.85h8.5392"/>
+   <path d="m87.743 34.734 6.009 6.0671"/>
+   <path d="m93.593 34.736-6.009 6.0671"/>
+   <g transform="translate(1.2292e-6)">
+    <path d="m71.14 28.818v8.5392"/>
+    <path d="m66.871 33.087h8.5392"/>
+    <path d="m68.133 29.971 6.009 6.0671"/>
+    <path d="m73.983 29.973-6.009 6.0671"/>
+   </g>
+  </g>
+ </g>
 </svg>

@@ -3,6 +3,7 @@ import { MockContext } from "./MockContext"
 import { faker } from "@faker-js/faker"
 import { getPostByUsernamesString } from "../libs/posts"
 import SunCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/sun-cloud/SunCloud"
+import SnowCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/snow-cloud/SnowCloud"
 /* this page is for testing purposes only */
 /* export const getStaticProps = async () => {
     const user = await getUserDataByUserName('anhquang2605');
@@ -78,7 +79,7 @@ export default function Tester(userJSON:any) {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
-            <SunCloud/>
+            <SnowCloud />
         <div>
 
         </div>

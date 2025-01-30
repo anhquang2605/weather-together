@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import style from './sun-cloud.module.css';
 import { SVGCloudPropType } from '../svg-cloud-types';
-import anime, { path } from 'animejs';
+import anime, { AnimeTimelineInstance, path } from 'animejs';
 import { pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../../../../../libs/anime-animations-helpers';
+import { start } from 'repl';
+import { set } from 'lodash';
 
 interface SunCloudProps extends SVGCloudPropType {
 
@@ -10,9 +12,11 @@ interface SunCloudProps extends SVGCloudPropType {
 
 const SunCloud: React.FC<SunCloudProps> = (props) => {
     const { duration = 2000, delay = 0 } = props
+    const [theTimeline, setTheTimeline] = React.useState<AnimeTimelineInstance|null>(null);
     const startAnimation = () => {
         const timeline = anime.timeline({
-            direction: 'normal'
+            direction: 'normal',
+            delay: delay
         });
         //sun animation
         const sunAnim: any = propertiesStagesAnimation('#' + style['bg-sun'], 'spring', duration, {
@@ -28,9 +32,24 @@ const SunCloud: React.FC<SunCloudProps> = (props) => {
             scale: [0, 1],           
         }, false)
         timeline.add(sparkAnim, '-= ' + duration * 0.4);
+        console.log('timeline', timeline);
+        return timeline;
+    }
+    const reverseAnimation = () => { 
+        if(theTimeline){
+
+            //theTimeline.reverse();
+            theTimeline.play();
+        }
     }
     useEffect(()=>{
-        startAnimation();
+        if(!theTimeline){
+            setTheTimeline(startAnimation());
+        }
+        setTimeout(() => {
+            console.log('reverse');
+            reverseAnimation();
+        }, 4000)
     },[])
     return (
         <div className={style['sun-cloud']}>
