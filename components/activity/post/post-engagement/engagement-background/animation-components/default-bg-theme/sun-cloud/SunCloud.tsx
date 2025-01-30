@@ -31,7 +31,7 @@ const SunCloud: React.FC<SunCloudProps> = ({}) => {
                             </g>
                             <path d="m72.427 45.577s0.91058 0.44726 1.7317 0.03188c0.82108-0.41538 0.71562-1.1087 0.71562-1.1087" fill="none" stroke-width=".79375"/>
                         </g>
-                        <path id="glasses-spark" transform="matrix(.71086 .20352 -.20352 .71086 77.918 24.22)" d="m12.831 21.605-2.116-1.529-2.4126 0.96295 1.529-2.116-0.96295-2.4126 2.116 1.529 2.4126-0.96295-1.529 2.116z" fill="#e9f600" stroke="#f2ff12" stroke-linecap="round" stroke-linejoin="round" stroke-width=".79375"/>
+                        <path id={style["glasses-spark"]}transform="matrix(.71086 .20352 -.20352 .71086 77.918 24.22)" d="m12.831 21.605-2.116-1.529-2.4126 0.96295 1.529-2.116-0.96295-2.4126 2.116 1.529 2.4126-0.96295-1.529 2.116z" fill="#e9f600" stroke="#f2ff12" stroke-linecap="round" stroke-linejoin="round" stroke-width=".79375"/>
                     </g>
                 </g>
             </svg>
