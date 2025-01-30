@@ -19,16 +19,15 @@ const SunCloud: React.FC<SunCloudProps> = (props) => {
             translateY: [20, 0],
             scale: [0, 1],
         }, false)
-        const sunBeam: any = pathShrinkAnimation('#' + style['sun-beam'] + ' path', 'linear', duration, false)
-        sunBeam.direction = 'alternate';
+        const sunBeam: any = pathRevealAnimation('#' + style['sun-beam'] + ' path', 'spring', duration, false)
         timeline.add(sunAnim);
-        timeline.add(sunBeam);
+        timeline.add(sunBeam, '-= ' + duration * 0.5);
         //spark animation
         const sparkAnim: any = propertiesStagesAnimation('#' + style['glasses-spark'], 'spring', duration, {
             rotate: [0, 360],
             scale: [0, 1],           
         }, false)
-        timeline.add(sparkAnim);
+        timeline.add(sparkAnim, '-= ' + duration * 0.4);
     }
     useEffect(()=>{
         startAnimation();
@@ -43,9 +42,9 @@ const SunCloud: React.FC<SunCloudProps> = (props) => {
                         <path d="m86.593 17.548h4.1512"/>
                         <path d="m92.922 28.511c2.0756-3.595 2.0756-3.595 2.0756-3.595"/>
                         <path d="m105.58 28.511c-2.0756-3.595-2.0756-3.595-2.0756-3.595"/>
-                        <path d="m92.922 6.5853c2.0756 3.5951 2.0756 3.5951 2.0756 3.5951"/>
-                        <path d="m105.58 6.5853-2.0756 3.5951"/>
-                        <path d="m111.91 17.548h-4.1512"/>
+                        <path d="m95.104 10.115-2.2881-3.4637"/>
+                        <path d="m103.55 10.208 1.9776-3.6499"/>
+                        <path d="m107.76 17.551 4.1512-6e-3"/>
                     </g>
                     </g>
                     <path id={style["the-sun-cloud"]} d="m88.779 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#fff" stroke-width=".52363"/>
