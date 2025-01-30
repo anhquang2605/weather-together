@@ -1,3 +1,12 @@
-.sun-cloud, #the-sun, #glasses-spark{
+.sun-cloud, #the-sun{
     transform-origin: 75% 75%;
+}
+#glasses-spark{
+    transform-origin: 173% 117%;
+}
+#bg-sun{
+    transform-origin:200% 50%;
+}
+#sun-beam{
+    
 }

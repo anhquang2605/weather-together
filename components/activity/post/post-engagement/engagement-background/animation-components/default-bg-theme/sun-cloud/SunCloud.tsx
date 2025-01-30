@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import style from './sun-cloud.module.css';
 import { SVGCloudPropType } from '../svg-cloud-types';
-import anime from 'animejs';
+import anime, { path } from 'animejs';
+import { pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../../../../../libs/anime-animations-helpers';
 
 interface SunCloudProps extends SVGCloudPropType {
 
@@ -10,8 +11,24 @@ interface SunCloudProps extends SVGCloudPropType {
 const SunCloud: React.FC<SunCloudProps> = (props) => {
     const { duration = 2000, delay = 0 } = props
     const startAnimation = () => {
-        const timeline = anime.timeline();
-        
+        const timeline = anime.timeline({
+            direction: 'normal'
+        });
+        //sun animation
+        const sunAnim: any = propertiesStagesAnimation('#' + style['bg-sun'], 'spring', duration, {
+            translateY: [20, 0],
+            scale: [0, 1],
+        }, false)
+        const sunBeam: any = pathShrinkAnimation('#' + style['sun-beam'] + ' path', 'linear', duration, false)
+        sunBeam.direction = 'alternate';
+        timeline.add(sunAnim);
+        timeline.add(sunBeam);
+        //spark animation
+        const sparkAnim: any = propertiesStagesAnimation('#' + style['glasses-spark'], 'spring', duration, {
+            rotate: [0, 360],
+            scale: [0, 1],           
+        }, false)
+        timeline.add(sparkAnim);
     }
     useEffect(()=>{
         startAnimation();
@@ -38,7 +55,7 @@ const SunCloud: React.FC<SunCloudProps> = (props) => {
                         <path d="m71.282 41.829h3.6358" stroke-width=".79375"/>
                         <path d="m72.427 45.577s0.91058 0.44726 1.7317 0.03188c0.82108-0.41538 0.71562-1.1087 0.71562-1.1087" fill="none" stroke-width=".79375"/>
                     </g>
-                <path id={style['"glasses-spark"']} d="m82.642 42.189-1.193-1.5176-1.911 0.19351 1.5176-1.193-0.19351-1.911 1.193 1.5176 1.911-0.19351-1.5176 1.193z" fill="#f2ff12" stroke="#f2ff12" stroke-linecap="round" stroke-linejoin="round" stroke-width=".58692"/>
+                <path id={style['glasses-spark']} d="m82.642 42.189-1.193-1.5176-1.911 0.19351 1.5176-1.193-0.19351-1.911 1.193 1.5176 1.911-0.19351-1.5176 1.193z" fill="#f2ff12" stroke="#f2ff12" stroke-linecap="round" stroke-linejoin="round" stroke-width=".58692"/>
                 </g>
             </svg>
         </div>
