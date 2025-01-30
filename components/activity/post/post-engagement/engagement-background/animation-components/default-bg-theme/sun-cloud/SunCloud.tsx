@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './sun-cloud.module.css';
+import { SVGCloudPropType } from '../svg-cloud-types';
+import anime from 'animejs';
 
-interface SunCloudProps {
+interface SunCloudProps extends SVGCloudPropType {
 
 }
 
-const SunCloud: React.FC<SunCloudProps> = ({}) => {
+const SunCloud: React.FC<SunCloudProps> = (props) => {
+    const { duration = 2000, delay = 0 } = props
+    const startAnimation = () => {
+        const timeline = anime.timeline();
+        
+    }
+    useEffect(()=>{
+        startAnimation();
+    },[])
     return (
         <div className={style['sun-cloud']}>
             <svg width="47.47mm" height="34.219mm" version="1.1" viewBox="0 0 47.47 34.219" xmlns="http://www.w3.org/2000/svg">
@@ -21,7 +31,7 @@ const SunCloud: React.FC<SunCloudProps> = ({}) => {
                         <path d="m111.91 17.548h-4.1512"/>
                     </g>
                     </g>
-                    <path id={style["sun-glasses"]} d="m88.779 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#fff" stroke-width=".52363"/>
+                    <path id={style["the-sun-cloud"]} d="m88.779 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#fff" stroke-width=".52363"/>
                     <g id={style['sun-face']} stroke="#000" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="64.244" y="40.445" width="7.1572" height="2.7029" stroke-width="1.0529"/>
                         <rect x="74.302" y="40.445" width="7.1572" height="2.7029" stroke-width="1.0529"/>
