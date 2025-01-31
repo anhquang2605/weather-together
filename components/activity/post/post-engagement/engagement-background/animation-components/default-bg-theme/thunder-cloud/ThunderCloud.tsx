@@ -11,7 +11,8 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
     const {
         duration = 2000,
         delay = 0,
-        easing = 'linear'
+        easing = 'linear',
+        targetClassName = '',
     } = props;
     //settings
     const CLOUD_SMALL_SCALE = 0.5;
@@ -27,7 +28,9 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
         const cloudExpandDuration = duration * CLOUD_EXPAND_DURATION_PERCENT;
         const thunderStrikeDuration = duration * THUNDER_STRIKE_DURATION_PERCENT;
         const THUNDER_CLOUD_AND_FACE_SELECTOR = `#${style['thunder-cloud']} , #${style['thunder-cloud-face']}`
-        const timeline = anime.timeline();
+        const timeline = anime.timeline({
+            delay: delay
+        });
         //Cloud expand stage
         const cloudExpandAnim: any = propertiesStagesAnimation(THUNDER_CLOUD_AND_FACE_SELECTOR, easing, duration * CLOUD_EXPAND_DURATION_PERCENT, {scale: [0.5, 1]}, false);
         timeline.add(cloudExpandAnim);
@@ -55,7 +58,7 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
         startAnimation();
     },[])
     return (
-<div className={style['thunder-cloud']}>
+<div className={style['thunder-cloud'] + " " + targetClassName}>
 <svg width="43.461mm" height="48.202mm" version="1.1" viewBox="0 0 43.461 48.202" xmlns="http://www.w3.org/2000/svg">
     <defs>
         <filter id="filter5" x="-.48879" y="-.29104" width="2.0324" height="1.5821" color-interpolation-filters="sRGB">

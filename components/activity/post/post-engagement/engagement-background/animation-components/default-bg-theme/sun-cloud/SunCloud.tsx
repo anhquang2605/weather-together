@@ -11,7 +11,7 @@ interface SunCloudProps extends SVGCloudPropType {
 }
 
 const SunCloud: React.FC<SunCloudProps> = (props) => {
-    const { duration = 2000, delay = 0 } = props
+    const { duration = 2000, delay = 0, targetClassName = ''} = props
     const [theTimeline, setTheTimeline] = React.useState<AnimeTimelineInstance|null>(null);
     const startAnimation = () => {
         const timeline = anime.timeline({
@@ -52,7 +52,7 @@ const SunCloud: React.FC<SunCloudProps> = (props) => {
         }, 4000)
     },[])
     return (
-        <div className={style['sun-cloud']}>
+        <div className={style['sun-cloud'] + ' ' + targetClassName}>
             <svg width="47.47mm" height="34.219mm" version="1.1" viewBox="0 0 47.47 34.219" xmlns="http://www.w3.org/2000/svg">
                 <g id={style["sun-cloud"]} transform="translate(-52.743,-18.094)">
                     <g id="the-sun" transform="translate(-12.359,12.171)" fill="#ffc221">

@@ -13,10 +13,13 @@ const RainBowCloud: React.FC<RainBowCloudProps> = (props) => {
     const {
         duration = 2000,
         delay = 0,
-        easing = 'easeInOutExpo'
+        easing = 'easeInOutExpo',
+        targetClassName = '',
     } = props
     const startAnimation = () => {
-        const timeline = anime.timeline();
+        const timeline = anime.timeline({
+            delay: delay
+        });
         //setting up variables
         //rainbow line animation
         const anim:any = pathRevealAnimation('#rainbow path', easing, duration, false);
@@ -41,7 +44,7 @@ const RainBowCloud: React.FC<RainBowCloudProps> = (props) => {
         startAnimation();
     },[])
     return (
-    <div className={style['rainbow-cloud']}>
+    <div className={style['rainbow-cloud'] + " " + targetClassName}>
         <svg width="44.038mm" height="33.525mm" version="1.1" viewBox="0 0 44.038 33.525" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <clipPath id="clipPath3">

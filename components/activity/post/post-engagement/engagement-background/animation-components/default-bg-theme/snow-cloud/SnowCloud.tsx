@@ -10,7 +10,7 @@ interface SnowCloudProps extends SVGCloudPropType {
 }
 
 const SnowCloud: React.FC<SnowCloudProps> = (props) => {
-    const {duration = 2000, delay = 0, easing = 'linear'} = props
+    const {duration = 2000, delay = 0, easing = 'linear', targetClassName = ''} = props
     const startAnimation = () => {
         const timeline = anime.timeline({ delay: delay});
         //snow flake animation
@@ -48,7 +48,7 @@ const SnowCloud: React.FC<SnowCloudProps> = (props) => {
         startAnimation();       
     },[])
     return (
-        <div className={style['snow-cloud']}>
+        <div className={style['snow-cloud'] + ' ' + targetClassName}>
             <svg width="44.63mm" height="30.366mm" version="1.1" viewBox="0 0 44.63 30.366" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(-51.052 -25.084)">
                 <g id={style['cold-cloud-body']}>

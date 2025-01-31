@@ -9,13 +9,17 @@ const RainCloud: React.FC<SVGCloudPropType> = (props) => {
     const {
         duration = 2000,
         delay = 0,
-        easing = 'linear'
+        easing = 'linear',
+        targetClassName = '',
     } = props
 
     const targets =  '#rain-drops path';
     const startAnimation = () => {
   /*       const anim = pathRevealAnimation(targets, easing, duration); */
-        const anim2 = anime({
+        const timeLine = anime.timeline({
+            delay: delay
+        })
+        const anim2 = {
             targets: targets,
             strokeDasharray: [[0],[4]],
             easing: easing,
@@ -23,7 +27,8 @@ const RainCloud: React.FC<SVGCloudPropType> = (props) => {
             delay: anime.stagger(500, {from: 'center'}),
             
 
-        })
+        }
+        timeLine.add(anim2);
         
     }
     useEffect(()=> {
@@ -37,7 +42,7 @@ const RainCloud: React.FC<SVGCloudPropType> = (props) => {
         <div className={styles['rain-cloud']}>
 
 
-<svg width="43.461mm" height="40.682mm" version="1.1" viewBox="0 0 43.461 40.682" xmlns="http://www.w3.org/2000/svg">
+<svg className={targetClassName} width="43.461mm" height="40.682mm" version="1.1" viewBox="0 0 43.461 40.682" xmlns="http://www.w3.org/2000/svg">
  <g transform="translate(-51.052 -25.084)">
   <g id="rain-boy">
    <g id="rain-drops" fill="#9f9f9f" stroke="#6597d9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3229">
