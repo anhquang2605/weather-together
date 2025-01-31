@@ -4,6 +4,8 @@
     background: skyblue;
     position: absolute;
     overflow: hidden;
+    box-shadow: inset 0px 0px 6px 3px rgba(0, 0, 0, 0.15);
+    @apply rounded-3xl;
 }
 .svg-cloud{
     position: absolute;
@@ -18,9 +20,11 @@
 @keyframes move {
     0%{
         transform: translateX(-50px);
+        opacity: 0;
     }
     100%{
         transform: translateX(0px);
+        opacity: 1;
     }
 }
 .cloud-1{

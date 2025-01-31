@@ -1,5 +1,6 @@
 .post-engagement{
-   
+   border: 1px solid lightgray;
+   box-shadow: inset 0px 0px 3px 3px rgba(0, 0, 0,1);
 }
 .engagement-btn{
     @apply text-xl rounded-md px-16 py-4 flex flex-row items-center justify-center mx-auto border capitalize mt-8;
