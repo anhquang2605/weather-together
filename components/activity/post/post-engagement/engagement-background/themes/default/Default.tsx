@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './default.module.css';
 import SVGWrapper from '../../../svg-wrapper/SVGWrapper';
 import SnowCloud from '../../animation-components/default-bg-theme/snow-cloud/SnowCloud';
@@ -36,6 +36,19 @@ const SVG_CLOUD_GENERATOR = (CloudComponents: JSX.Element[]) => {
     }
     return backbones;
 }
+const randomizedOrders = (maxRange: number) => {
+    const numbers = [];
+    for (let i = maxRange; i > 0; i--) {
+        const j = Math.floor(Math.random() * i);
+        numbers[j] = i;
+        numbers[i - 1] = j;
+    }
+    return numbers;
+}
+useEffect(() => {
+    const orders = randomizedOrders(CloudComponents.length);
+    console.log(orders);
+})
 
 const CLOUD_DELAY = 2000;
 const Default: React.FC<DefaultProps> = ({}) => {
