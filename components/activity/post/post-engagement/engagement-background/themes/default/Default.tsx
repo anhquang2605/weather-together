@@ -36,7 +36,7 @@ const SVG_CLOUD_GENERATOR = (CloudComponents: JSX.Element[]) => {
     }
     return backbones;
 }
-const randomizedOrders = (maxRange: number) => {
+/* const randomizedOrders = (maxRange: number) => {
     const numbers = [];
     for (let i = maxRange - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i+1));
@@ -44,7 +44,7 @@ const randomizedOrders = (maxRange: number) => {
         numbers[i] = j;
     }
     return numbers;
-}
+} */
 //Determine the position to add to an array, this way each position will be unique, and the order will be randomized
 function generateAndShuffleRange(start: number, end: number) {
     let arr: number[] = [];
@@ -61,9 +61,7 @@ function generateAndShuffleRange(start: number, end: number) {
 const CLOUD_DELAY = 2000;
 const Default: React.FC<DefaultProps> = ({}) => {
     useEffect(() => {
-        //const orders = randomizedOrders(CloudComponents.length);
-        const orders = generateAndShuffleRange(0, CloudComponents.length - 1);
-        console.log(orders);
+
     },[])
     
     return (

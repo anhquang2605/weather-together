@@ -220,3 +220,17 @@ _Putting two state setter in same function scope will make the state update simu
     52. For Next.js, if the path repeated, make sure the path is absolute by adding / infront of such path. without the /, the path will be added to the end of the current path in the browser
         <Link title={"Go to my profile"} href={`userprofile/${user.username}`} className={`${style['user-card__card-link']}`}></Link>
         The above example would result in path as: localhost:whatever_current_path/userprofile/username
+    53. Function to generate numbers within range in random order
+    //Determine the position to add to an array, this way each position will be unique, and the order will be randomized
+      function generateAndShuffleRange(start: number, end: number) {
+        let arr: number[] = [];
+        for (let i = start; i <= end; i++) {
+            // Generate a random index to insert the current number
+            //get j between 0 and arr.length and 1, this is math floor so gotta add 1 to the max range to include end. as the array grow, the max range will increase as well.
+            const j = Math.floor(Math.random() * (arr.length + 1));
+            // Insert the number at the random position
+            //start position j, remove 0 element, add i to this position
+            arr.splice(j, 0, i);
+        }
+        return arr;
+      }
