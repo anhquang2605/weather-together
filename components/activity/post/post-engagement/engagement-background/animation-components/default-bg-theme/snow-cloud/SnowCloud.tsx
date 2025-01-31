@@ -3,6 +3,7 @@ import style from './snow-cloud.module.css';
 import { SVGCloudPropType } from '../svg-cloud-types';
 import anime from 'animejs';
 import { propertiesStagesAnimation } from '../../../../../../../../libs/anime-animations-helpers';
+import { tr } from 'date-fns/locale';
 
 interface SnowCloudProps extends SVGCloudPropType {
 
@@ -11,7 +12,7 @@ interface SnowCloudProps extends SVGCloudPropType {
 const SnowCloud: React.FC<SnowCloudProps> = (props) => {
     const {duration = 2000, delay = 0, easing = 'linear'} = props
     const startAnimation = () => {
-        const timeline = anime.timeline({ delay: delay, loop: true});
+        const timeline = anime.timeline({ delay: delay});
         //snow flake animation
         const SNOW_FLAKE_STAGGER_DELAY = 500;
         const snowFlakeAnim:any = propertiesStagesAnimation('.' + style['snow-flake'], 'easeInCubic', duration, 
@@ -22,11 +23,25 @@ const SnowCloud: React.FC<SnowCloudProps> = (props) => {
         false);
         snowFlakeAnim.delay = anime.stagger(SNOW_FLAKE_STAGGER_DELAY);
         //cloud-body animation
-
+        //shaking because of the cold
+        const CLOUD_BODY_SHAKE_DURATION = duration/4;
+        const cloudBodyAnim:any = propertiesStagesAnimation('#' + style['cold-cloud-body'], 'linear', CLOUD_BODY_SHAKE_DURATION,
+            {        
+                translateY: [1, 0, 1, 0, 1, 0 ,1, 0, 0 ,1],
+            }
+        , false);
         //cloud animation
-        
+        const CLOUD_COLOR_CHANGE_DURATION = CLOUD_BODY_SHAKE_DURATION
+        const cloudAnim:any = propertiesStagesAnimation('#' + style['cold-cloud'], 'linear', CLOUD_COLOR_CHANGE_DURATION , {
+            fill: [
+                '#fff',
+                '#B1F4E7'
+            ]
+        },false)
         //adding animation
         timeline.add(snowFlakeAnim);
+        timeline.add (cloudBodyAnim);
+        timeline.add(cloudAnim, '-= ' + CLOUD_BODY_SHAKE_DURATION);
 
     }   
     useEffect(() => {
