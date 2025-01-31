@@ -21,24 +21,40 @@ interface DefaultProps {
 
     return backbones;
 } */
+const CloudComponents = [
+    <SnowCloud />,
+    <SunCloud />,
+    <RainBowCloud />,
+    <ThunderCloud />,
+    <RainCloud />
+]
+const SVG_CLOUD_GENERATOR = (CloudComponents: JSX.Element[]) => {
+    const backbones = [];
+    for (let i = 0; i < CloudComponents.length; i++) {
+        const theSVG = CloudComponents[i];
+        backbones.push(<div className={style['svg-cloud'] + " " + style['svg-cloud-' + i]} key={i}>{theSVG}</div>);
+    }
+    return backbones;
+}
+
 const CLOUD_DELAY = 2000;
 const Default: React.FC<DefaultProps> = ({}) => {
     return (
         <div className={style['default']}>
             <div className={style['svg-cloud']}>
-                <SnowCloud delay={CLOUD_DELAY} />
+                <SnowCloud />
             </div>
            <div className={style['svg-cloud']}>
-                <SunCloud delay={CLOUD_DELAY}/>
+                <SunCloud />
             </div>
             <div className={style['svg-cloud']}>
-                <RainBowCloud delay={CLOUD_DELAY}/>
+                <RainBowCloud />
             </div>
             <div className={style['svg-cloud']}>
-                <ThunderCloud delay={CLOUD_DELAY} />
+                <ThunderCloud />
             </div>
             <div className={style['svg-cloud']}>
-                <RainCloud delay={CLOUD_DELAY}/>
+                <RainCloud />
             </div>
         </div>
     );

@@ -9,7 +9,30 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 5%;
-    height: 5%;
+    width: 15%;
     display: flex;
+    svg{
+        width: 100%;
+        height: 100%;
+    }
+}
+.cloud-1{
+    top: 0;
+    left: 0;
+}
+.cloud-2{
+    top: 0;
+    right: 0;
+}
+.cloud-3{
+    bottom: 0;
+    left: 0;
+}
+.cloud-4{
+    bottom: 0;
+    right: 0;
+}
+.cloud-5{
+    top: 0;
+    left: 0;
 }
