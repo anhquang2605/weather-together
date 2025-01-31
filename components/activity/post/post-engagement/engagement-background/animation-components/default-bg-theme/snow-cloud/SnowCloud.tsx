@@ -13,12 +13,14 @@ const SnowCloud: React.FC<SnowCloudProps> = (props) => {
     const startAnimation = () => {
         const timeline = anime.timeline({ delay: delay, loop: true});
         //snow flake animation
-        const snowFlakeAnim:any = propertiesStagesAnimation('.' + style['snow-flake'], easing, duration, 
+        const SNOW_FLAKE_STAGGER_DELAY = 500;
+        const snowFlakeAnim:any = propertiesStagesAnimation('.' + style['snow-flake'], 'easeInCubic', duration, 
             {
-                translateY: [-5, 0],
-                scale: [0, 1]
+                translateY: [-3, 0],
+                scale: [0, 1],
             }, 
         false);
+        snowFlakeAnim.delay = anime.stagger(SNOW_FLAKE_STAGGER_DELAY);
         //cloud-body animation
 
         //cloud animation
