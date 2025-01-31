@@ -7,32 +7,39 @@
 }
 .svg-cloud{
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 15%;
+    width: 13%;
     display: flex;
     svg{
         width: 100%;
         height: 100%;
     }
+    animation: move 3s ease-in-out;
+}
+@keyframes move {
+    0%{
+        transform: translateX(-50px);
+    }
+    100%{
+        transform: translateX(0px);
+    }
 }
 .cloud-1{
-    top: 0;
-    left: 0;
+    top: 2%;
+    left: 2%;
 }
 .cloud-2{
-    top: 0;
-    right: 0;
+    bottom: 5%;
+    left: 17%;
 }
 .cloud-3{
-    bottom: 0;
-    left: 0;
+    top: 2%;
+    left: 45%;
 }
 .cloud-4{
-    bottom: 0;
-    right: 0;
+    top: 2%;
+    right: 2%;
 }
 .cloud-5{
-    top: 0;
-    left: 0;
+    bottom: 5%;
+    right: 17%;
 }

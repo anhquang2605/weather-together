@@ -30,9 +30,10 @@ const CloudComponents = [
 ]
 const SVG_CLOUD_GENERATOR = (CloudComponents: JSX.Element[]) => {
     const backbones = [];
+    const orders = generateAndShuffleRange(0, CloudComponents.length-1);
     for (let i = 0; i < CloudComponents.length; i++) {
         const theSVG = CloudComponents[i];
-        backbones.push(<div className={style['svg-cloud'] + " " + style['svg-cloud-' + i]} key={i}>{theSVG}</div>);
+        backbones.push(<div className={style['svg-cloud'] + " " + style['cloud-' + (orders[i] + 1)]} key={i}>{theSVG}</div>);
     }
     return backbones;
 }
@@ -66,21 +67,7 @@ const Default: React.FC<DefaultProps> = ({}) => {
     
     return (
         <div className={style['default']}>
-            <div className={style['svg-cloud']}>
-                <SnowCloud />
-            </div>
-           <div className={style['svg-cloud']}>
-                <SunCloud />
-            </div>
-            <div className={style['svg-cloud']}>
-                <RainBowCloud />
-            </div>
-            <div className={style['svg-cloud']}>
-                <ThunderCloud />
-            </div>
-            <div className={style['svg-cloud']}>
-                <RainCloud />
-            </div>
+            {SVG_CLOUD_GENERATOR(CloudComponents)}
         </div>
     );
 };
