@@ -1,11 +1,18 @@
 .default{
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, #87CEEB, #1E90FF);
+   
     position: absolute;
     overflow: hidden;
     box-shadow: inset 0px 0px 6px 3px rgba(0, 0, 0, 0.15);
     @apply rounded-3xl;
+}
+.default-background{
+    background: linear-gradient(90deg, #87CEEB, #1E90FF);
+    position: absolute;
+    top: 0;
+    width: 125%;
+    height: 100%;
     animation: gradient-move 3s ease-in-out;
 }
 .svg-cloud{
@@ -30,7 +37,12 @@
     }
 }
 @keyframes gradient-move{
-    
+    0%{
+        left: -15%;
+    }
+    100%{
+        left: 0;
+    }
 }
 .cloud-1{
     top: 2%;

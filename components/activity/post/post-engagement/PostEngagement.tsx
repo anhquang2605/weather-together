@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import style from './post-engagement.module.css';
 import {MdOutlineAddComment} from 'react-icons/md';
+import { FaShare } from "react-icons/fa6";
 import Modal from '../../../modal/Modal';
 import PostForm from '../post-form/PostForm';
 import { PostFormProvider } from './usePostFormContext';
@@ -27,7 +28,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
               <button onClick={()=> {
                     setRevealForm(!revealForm)
               }} className={style['engagement-btn']}>
-                    <MdOutlineAddComment className="w-8 h-8 mr-2"/> Air your thoughts
+                    <FaShare className="w-8 h-8 mr-2"/> Air your thoughts
               </button> 
 
         </div>

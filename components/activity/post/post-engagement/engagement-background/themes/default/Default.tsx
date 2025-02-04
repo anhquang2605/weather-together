@@ -67,6 +67,9 @@ const Default: React.FC<DefaultProps> = ({}) => {
     
     return (
         <div className={style['default']}>
+            <div className={style['default-background']}>
+
+            </div>
             {SVG_CLOUD_GENERATOR(CloudComponents)}
         </div>
     );
