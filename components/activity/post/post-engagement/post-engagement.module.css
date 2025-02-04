@@ -6,5 +6,6 @@
     @apply text-xl rounded-md px-16 py-4 flex flex-row items-center justify-center mx-auto border capitalize mt-8 relative;
 }
 .engagement-title{
-    @apply text-3xl  text-center rounded-md p-0 w-auto block mx-auto;
+    @apply text-3xl  text-center rounded-md py-2 px-4 w-auto block mx-auto relative bg-slate-600/10;
+    width: max-content;
 }
