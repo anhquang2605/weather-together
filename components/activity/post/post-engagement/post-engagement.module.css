@@ -4,6 +4,16 @@
 }
 .engagement-btn{
     @apply text-xl rounded-md px-16 py-4 flex flex-row items-center justify-center mx-auto border capitalize mt-8 relative;
+    background: linear-gradient(
+        to right,
+        #FFD1DC,  /* Pastel Pink */
+        #FFCCB6,  /* Pastel Peach */
+        #FFF6A4,  /* Pastel Yellow */
+        #B2F2BB,  /* Pastel Mint Green */
+        #A2DDF0,  /* Pastel Sky Blue */
+        #D4A5E8,  /* Pastel Lavender */
+        #CABBE9   /* Pastel Purple */
+      );
 }
 .engagement-title{
     @apply text-3xl  text-center rounded-md py-2 px-4 w-auto block mx-auto relative bg-slate-600/10;
