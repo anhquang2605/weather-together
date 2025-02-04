@@ -1,7 +1,7 @@
 .default{
     width: 100%;
     height: 100%;
-    background: skyblue;
+    background: lightskyblue;
     position: absolute;
     overflow: hidden;
     box-shadow: inset 0px 0px 6px 3px rgba(0, 0, 0, 0.15);
