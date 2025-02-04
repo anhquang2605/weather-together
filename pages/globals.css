@@ -63,6 +63,9 @@ body {
 .glass-lighter{
   @apply bg-slate-800/30 backdrop-blur-sm;
 }
+.glass-lightest{
+  @apply bg-slate-800/10 backdrop-blur-sm;
+}
 .glass-component{
   @apply bg-slate-800/70 backdrop-blur-lg shadow-inner-lg shadow-slate-100/10 border-[2px] border-slate-100/40;
 }
