@@ -28,6 +28,9 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
               <button onClick={()=> {
                     setRevealForm(!revealForm)
               }} className={style['engagement-btn']}>
+                <div className={style['engagement-btn-background']}>
+
+                </div>
                     <FaShare className="w-8 h-8 mr-2"/> Air your thoughts
               </button> 
 

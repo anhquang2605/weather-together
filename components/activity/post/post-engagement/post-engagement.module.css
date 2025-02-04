@@ -3,16 +3,24 @@
    box-shadow: inset 0px 0px 3px 3px rgba(0, 0, 0,1);
 }
 .engagement-btn{
-    @apply text-xl rounded-md px-16 py-4 flex flex-row items-center justify-center mx-auto border capitalize mt-8 relative;
+    @apply text-xl rounded-md px-16 py-4 flex flex-row items-center justify-center mx-auto border capitalize mt-8 relative overflow-hidden;
+
+}
+.engagement-btn-background{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     background: linear-gradient(
-        to right,
-        #FFD1DC,  /* Pastel Pink */
-        #FFCCB6,  /* Pastel Peach */
-        #FFF6A4,  /* Pastel Yellow */
-        #B2F2BB,  /* Pastel Mint Green */
-        #A2DDF0,  /* Pastel Sky Blue */
-        #D4A5E8,  /* Pastel Lavender */
-        #CABBE9   /* Pastel Purple */
+        75deg,
+        #FF007F,  /* Bright Pink */
+        #FF4500,  /* Bright Orange */
+        #FFD700,  /* Bright Yellow */
+        #32CD32,  /* Bright Green */
+        #00BFFF,  /* Bright Sky Blue */
+        #8A2BE2,  /* Bright Blue-Violet */
+        #FF00FF   /* Bright Magenta */
       );
 }
 .engagement-title{
