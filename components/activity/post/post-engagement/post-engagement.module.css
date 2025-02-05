@@ -32,27 +32,10 @@
 }
 @keyframes distort {
     0% {
-      clip-path: polygon(
-        0% 20%,
-        100% 0%,
-        80% 100%,
-        20% 80%
-      );
+      clip-path: circle(0% at 50% 50%);
     }
-    50% {
-      clip-path: polygon(
-        0% 40%,
-        100% 20%,
-        60% 80%,
-        40% 60%
-      );
-    }
-    100% {
-      clip-path: polygon(
-        0% 30%,
-        100% 10%,
-        70% 90%,
-        30% 70%
-      );
+  
+    100% {  
+      clip-path: circle(100% at 50% 50%);
     }
   }
