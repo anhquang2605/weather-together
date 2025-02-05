@@ -23,12 +23,7 @@
         #FF77FF   /* Vivid Pastel Magenta */
     );
     filter: blur(20px) contrast(150%);
-  clip-path: polygon(
-    0% 20%,
-    100% 0%,
-    80% 100%,
-    20% 80%
-  );
+  clip-path: circle(0% at 50% 50%);
   animation: distort 10s infinite alternate ease-in-out;
 }
 .engagement-title{
