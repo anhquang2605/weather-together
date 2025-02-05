@@ -14,14 +14,14 @@
     left: 0;
     background: linear-gradient(
         75deg,
-        #FF007F,  /* Bright Pink */
-        #FF4500,  /* Bright Orange */
-        #FFD700,  /* Bright Yellow */
-        #32CD32,  /* Bright Green */
-        #00BFFF,  /* Bright Sky Blue */
-        #8A2BE2,  /* Bright Blue-Violet */
-        #FF00FF   /* Bright Magenta */
-      );
+        #FF6B9F,  /* Vivid Pastel Pink */
+        #FF7F50,  /* Vivid Pastel Orange */
+        #FFDD57,  /* Vivid Pastel Yellow */
+        #6BFF6B,  /* Vivid Pastel Green */
+        #6ED4FF,  /* Vivid Pastel Sky Blue */
+        #A578FF,  /* Vivid Pastel Blue-Violet */
+        #FF77FF   /* Vivid Pastel Magenta */
+    );
 }
 .engagement-title{
     @apply text-3xl  text-center rounded-md py-2 px-4 w-auto block mx-auto relative bg-slate-600/10;
