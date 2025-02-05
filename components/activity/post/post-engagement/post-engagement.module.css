@@ -31,10 +31,10 @@
 }
 @keyframes distort {
     0% {
-      clip-path: circle(0% at 50% 50%) circle(0% at 20% 80%);
+      clip-path: circle(0% at 50% 50%);
     }
   
     100% {  
-      clip-path: circle(100% at 50% 50%) circle(100% at 20% 80%);
+      clip-path: circle(100% at 50% 50%);
     }
   }
