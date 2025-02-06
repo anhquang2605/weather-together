@@ -7,10 +7,10 @@
 
 }
 .engagement-btn-background{
-    width: 600%;
-    height: 100%;
+    width: 500%;
+    height: 105%;
     position: absolute;
-    top: 0;
+    top: -2.5%;
     background: linear-gradient(
         75deg,
         #FF77FF,   /* Vivid Pastel Magenta */
@@ -29,19 +29,33 @@
         #A578FF,  /* Vivid Pastel Blue-Violet */
         #FF77FF   /* Vivid Pastel Magenta */
     );
-    animation: move 5s linear infinite;
+    clip-path: circle(0% at 50% 50%);
+
+    filter: blur(7px);
+
   }
+.engagement-btn-background:hover{
+  
+    animation: move 5s linear infinite, reveal 5s linear infinite;
+ 
+}
 .engagement-title{
     @apply text-3xl  text-center rounded-md py-2 px-4 w-auto block mx-auto relative bg-slate-600/10;
     width: max-content;
 }
 @keyframes move{
     0%{
-        left: -300%;
+        left: -250%;
     }
     100%{
         left: 0%;
     }
 }
-
-
+@keyframes reveal{
+    0%{
+      clip-path: circle(0% at 50% 50%);
+    }
+    100%{
+      clip-path: circle(150% at 50% 50%);
+    }
+}

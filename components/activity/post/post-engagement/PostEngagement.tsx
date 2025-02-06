@@ -29,10 +29,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
                     setRevealForm(!revealForm)
               }} className={style['engagement-btn']}>
                     <div className={style['engagement-btn-background']}></div>
-                    <div className={style['circle'] + " " + style['circle1']}></div>
-                    <div className={style['circle'] + " " + style['circle2']}></div>
-                    <div className={style['circle'] + " " + style['circle3']}></div>
-                    <span className="flex relative"><FaShare className="w-8 h-8 mr-2"/> Air your thoughts</span>           
+                    <span className="flex relative"><FaShare className="w-8 h-8 mr-2 font-semibold"/> Air your thoughts</span>           
               </button> 
 
         </div>
