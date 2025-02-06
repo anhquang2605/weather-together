@@ -7,11 +7,11 @@
 
 }
 .engagement-btn-background{
-    width: 100%;
+    width: 200%;
     height: 100%;
     position: absolute;
     top: 0;
-    left: 0;
+    left: -50%;
     background: linear-gradient(
         75deg,
         #FF6B9F,  /* Vivid Pastel Pink */
@@ -22,11 +22,19 @@
         #A578FF,  /* Vivid Pastel Blue-Violet */
         #FF77FF   /* Vivid Pastel Magenta */
     );
+    animation: move 3s linear infinite;
 }
-
 .engagement-title{
     @apply text-3xl  text-center rounded-md py-2 px-4 w-auto block mx-auto relative bg-slate-600/10;
     width: max-content;
+}
+@keyframes move{
+    0%{
+        left: -100%;
+    }
+    100%{
+        left: 0;
+    }
 }
 
 
