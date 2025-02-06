@@ -55,17 +55,26 @@
     animation: move 5s linear infinite;
  
 }
+.engagement-btn-text{
+    @apply text-sm;
+    @screen md{
+        @apply text-lg;
+    }
+}
 .engagement-title{
-    @apply text-4xl  text-center rounded-md py-1 px-2 w-auto block mx-auto relative mb-4;
+    @apply text-xl  text-center rounded-md py-1 px-2 w-auto block mx-auto relative mb-4;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
     width: max-content;
+    @screen md{
+        @apply text-3xl;
+    }
 }
 @keyframes move{
     0%{
-        left: -250%;
+        left: -251%;
     }
     100%{
-        left: 0%;
+        left: -1%;
     }
 }
 /* eclipse(50% 100%) */
