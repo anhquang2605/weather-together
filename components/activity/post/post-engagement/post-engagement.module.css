@@ -65,20 +65,20 @@
         left: 0%;
     }
 }
-/* ellipse(50% 150%) */
-@keyframes unreveal{
-    0%{
-      clip-path: ellipse(150% 250% at 0% 50%);
-    }
-    100%{
-      clip-path: ellipse(0% 0% at 0% 50%);
-    }
-}
+/* eclipse(50% 100%) */
 @keyframes reveal{
     0%{
-      clip-path: ellipse(0% 0% at 0% 50%);
+      clip-path: circle(0% at 0% 50%);
     }
     100%{
-      clip-path: ellipse(150% 250% at 0% 50%);
+      clip-path: circle(145% at 0% 50%);
+    }
+}
+@keyframes unreveal{
+    0%{
+      clip-path: circle(145% at 0% 50%);
+    }
+    100%{
+      clip-path: circle(0% at 0% 50%);
     }
 }
