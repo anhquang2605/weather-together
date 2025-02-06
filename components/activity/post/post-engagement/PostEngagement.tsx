@@ -32,7 +32,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
                     <div className={style['engagement-btn-background']}></div>
                 </div>
                     
-                    <span className="flex relative"><FaShare className="w-8 h-8 mr-2 font-semibold"/> Air your thoughts</span>           
+                    <span className="flex relative"><FaShare className="w-7 h-7 mr-2 font-semibold"/> Air your thoughts</span>           
               </button> 
 
         </div>
