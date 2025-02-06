@@ -7,13 +7,20 @@
 
 }
 .engagement-btn-background{
-    width: 200%;
+    width: 600%;
     height: 100%;
     position: absolute;
     top: 0;
-    left: -50%;
     background: linear-gradient(
         75deg,
+        #FF77FF,   /* Vivid Pastel Magenta */
+        #FF6B9F,  /* Vivid Pastel Pink */
+        #FF7F50,  /* Vivid Pastel Orange */
+        #FFDD57,  /* Vivid Pastel Yellow */
+        #6BFF6B,  /* Vivid Pastel Green */
+        #6ED4FF,  /* Vivid Pastel Sky Blue */
+        #A578FF,  /* Vivid Pastel Blue-Violet */
+        #FF77FF,   /* Vivid Pastel Magenta */
         #FF6B9F,  /* Vivid Pastel Pink */
         #FF7F50,  /* Vivid Pastel Orange */
         #FFDD57,  /* Vivid Pastel Yellow */
@@ -23,17 +30,17 @@
         #FF77FF   /* Vivid Pastel Magenta */
     );
     animation: move 3s linear infinite;
-}
+  }
 .engagement-title{
     @apply text-3xl  text-center rounded-md py-2 px-4 w-auto block mx-auto relative bg-slate-600/10;
     width: max-content;
 }
 @keyframes move{
     0%{
-        left: -100%;
+        left: -300%;
     }
     100%{
-        left: 0;
+        left: 0%;
     }
 }
 
