@@ -14,11 +14,12 @@
     top: 0;
     left: 0;
     clip-path: circle(0% at 0% 50%);
-    animation: unreveal 0.5s forwards;
-    animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    animation: unreveal 0.4s forwards;
+    animation-timing-function: cubic-bezier(0,.24,1,-0.03);
 }
 .engagement-btn:hover .engagement-btn-bg-container{
-  animation: reveal 0.5s ease-in-out forwards;
+  animation: reveal 0.4s ease-in-out forwards;
+  animation-timing-function: cubic-bezier(0,.24,1,-0.03);
 }
 .engagement-btn-background{
     width: 500%;
@@ -64,19 +65,20 @@
         left: 0%;
     }
 }
-@keyframes reveal{
-    0%{
-      clip-path: circle(0% at 0% 50%);
-    }
-    100%{
-      clip-path: circle(100% at 0% 50%);
-    }
-}
+/* ellipse(50% 150%) */
 @keyframes unreveal{
     0%{
-      clip-path: circle(100% at 0% 50%);
+      clip-path: ellipse(150% 250% at 0% 50%);
     }
     100%{
-      clip-path: circle(0% at 0% 50%);
+      clip-path: ellipse(0% 0% at 0% 50%);
+    }
+}
+@keyframes reveal{
+    0%{
+      clip-path: ellipse(0% 0% at 0% 50%);
+    }
+    100%{
+      clip-path: ellipse(150% 250% at 0% 50%);
     }
 }
