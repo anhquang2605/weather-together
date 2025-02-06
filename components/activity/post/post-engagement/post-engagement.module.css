@@ -6,6 +6,19 @@
     @apply text-xl rounded-md px-16 py-4 flex flex-row items-center justify-center mx-auto border capitalize mt-8 relative overflow-hidden;
 
 }
+
+.engagement-btn-bg-container{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: circle(0% at 0% 50%);
+    animation: unreveal 0.5s ease-in-out forwards;
+}
+.engagement-btn:hover .engagement-btn-bg-container{
+  animation: reveal 0.5s ease-in-out forwards;
+}
 .engagement-btn-background{
     width: 500%;
     height: 105%;
@@ -29,14 +42,13 @@
         #A578FF,  /* Vivid Pastel Blue-Violet */
         #FF77FF   /* Vivid Pastel Magenta */
     );
-    clip-path: circle(0% at 50% 50%);
 
     filter: blur(7px);
 
   }
-.engagement-btn-background:hover{
+.engagement-btn-background{
   
-    animation: move 5s linear infinite, reveal 5s linear infinite;
+    animation: move 5s linear infinite;
  
 }
 .engagement-title{
@@ -53,9 +65,17 @@
 }
 @keyframes reveal{
     0%{
-      clip-path: circle(0% at 50% 50%);
+      clip-path: circle(0% at 0% 50%);
     }
     100%{
-      clip-path: circle(150% at 50% 50%);
+      clip-path: circle(150% at 0% 50%);
+    }
+}
+@keyframes unreveal{
+    0%{
+      clip-path: circle(150% at 0% 50%);
+    }
+    100%{
+      clip-path: circle(0% at 0% 50%);
     }
 }
