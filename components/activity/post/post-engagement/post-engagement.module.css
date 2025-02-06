@@ -22,7 +22,22 @@
         #A578FF,  /* Vivid Pastel Blue-Violet */
         #FF77FF   /* Vivid Pastel Magenta */
     );
-  clip-path: circle(0% at 50% 50%) circle(0% at 20% 80%);
+ 
+}
+.circle{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.circle1{
+  animation: distort1 10s infinite alternate ease-in-out;
+}
+.circle2{
+  animation: distort2 10s infinite alternate ease-in-out;
+}
+.circle3{
   animation: distort 10s infinite alternate ease-in-out;
 }
 .engagement-title{
@@ -38,3 +53,24 @@
       clip-path: circle(100% at 50% 50%);
     }
   }
+  @keyframes distort1 {
+    0% {
+      clip-path: circle(0% at 20% 10%);
+    }
+  
+    100% {  
+      clip-path: circle(100% at 20% 10%);
+    }
+  }
+
+  @keyframes distort2 {
+    0% {
+      clip-path: circle(0% at 70% 60%);
+    }
+  
+    100% {  
+      clip-path: circle(100% at 70% 60%);
+    }
+  }
+
+
