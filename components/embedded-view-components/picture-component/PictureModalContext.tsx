@@ -69,9 +69,9 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
         }    
         if(notificationComponent){
             if(show) {
-                notificationComponent.style.zIndex = (notiZIndex - 2).toString();
+                notificationComponent.style.zIndex = (notiZIndex - 21).toString();
             } else {
-                notificationComponent.style.zIndex = (notiZIndex + 2).toString();
+                notificationComponent.style.zIndex = (notiZIndex + 21).toString();
             }
         }
     }
