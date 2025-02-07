@@ -75,6 +75,20 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
             }
         }
     }
+    const changeNavBarZIndex = (show: boolean) => {
+        const navBar = document.getElementById('nav-menu');
+        let navBarZIndex = 0;
+        if(navBar){
+            navBarZIndex = parseInt(window.getComputedStyle(navBar).zIndex);
+        }    
+        if(navBar){
+            if(navBarZIndex >= 20){
+                navBar.style.zIndex = (navBarZIndex - 19).toString();
+            } else if(navBarZIndex <= 1){
+                navBar.style.zIndex = (navBarZIndex + 19).toString();
+            }
+        }
+    }
     useEffect(()=>{
         setContent(pictures[currentPictureIndex]);
     },[currentPictureIndex])
@@ -90,6 +104,7 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
             resetStates();
         }
         changeNotificationZIndex(show);
+        changeNavBarZIndex(show);
     },[show])
     return (
         <PictureModalContext.Provider value={{setCurrentPictureIndex, setPictures, profilePicturePaths, setProfilePicturePaths,content, setContent, show, setShow, showNext, showPrevious, isSlider}}>

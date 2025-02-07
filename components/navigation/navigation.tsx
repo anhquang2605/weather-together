@@ -37,7 +37,7 @@ export default function Navigation() {
     return(
         user &&
         <>
-            <div className={"nav-bar z-20 side-nav order-first relative " + navMenuStatus}>
+            <div id="nav-menu" className={"nav-bar z-20 side-nav order-first relative " + navMenuStatus}>
                 <div className="flex flex-row items-center pb-4 nav-header">
                     <button className="hidden md:block ml-auto" onClick={()=>{toggleNavMenu()}}>
                         {navMenuStatus === "" ? <IoArrowBack className="w-8 h-8 ml-4"></IoArrowBack> : <IoMenu className="w-8 h-8 ml-4"/> }
