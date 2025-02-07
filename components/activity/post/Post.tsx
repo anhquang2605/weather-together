@@ -334,7 +334,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
-        {loading ? <LoadingBox extraClassname="feed-page-main-components" variant="" long={true} withChildren={false}/> :
+        {loading ? <LoadingBox isFluid={true} extraClassname="feed-page-main-components" variant="" long={true} withChildren={false}/> :
         <>
             <div key={post._id} id={"post_"+ (preview ? "" : "modal_")  + post._id} className={style['post'] + " glass-component " + (preview? "feed-page-main-components" :  "")}>
                 <ContentManagement  
