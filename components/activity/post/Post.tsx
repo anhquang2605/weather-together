@@ -1,4 +1,4 @@
-import { Post } from "../../../types/Post";
+import { PostType } from "../../../types/Post";
 import PostTitle from "./post-title/PostTitle";
 import style from "./post.module.css"
 import { use, useContext, useEffect, useRef, useState } from "react";
@@ -32,7 +32,7 @@ import { getRandomString } from "../../../libs/general";
 import ApiStatusPop from "../../api-status-pop/apistatuspop";
 import ConfirmationBox from "../../confirmation-box/ConfirmationBox";
 interface PostProps{
-    postProp: Post;
+    postProp: PostType;
     username?: string;
     preview?: boolean;
     previewCommentId?: string;
@@ -53,7 +53,7 @@ interface CommentFetchParams{
     lastCursor: string;
     _id?: string;
 }
-const INITIAL_POST_STATE: Post = {
+const INITIAL_POST_STATE: PostType = {
    _id: '',
     username: '',
     content: '',
@@ -66,7 +66,7 @@ const INITIAL_POST_STATE: Post = {
 const RANDOM_STRING_LENGTH = 20;
 export default function Post({postProp,username, preview, previewCommentId, onFinishedLoading}: PostProps){
     const {setShow, setTitle, setCurPostId, setExtraCloseFunction} = usePostModalContext();
-    const [post, setPost] = useState<Post>({...INITIAL_POST_STATE}); //TODO: fetch post from server
+    const [post, setPost] = useState<PostType>({...INITIAL_POST_STATE}); //TODO: fetch post from server
     const  { profilePicturePaths } = useContext(MockContext);
     const  [ usernameToName, setUsernameToName ] = useState<UsernameToNameMap>({});
     const [fetchingStatus, setFetchingStatus] = useState('idle'); //['idle', 'loading', 'error', 'success']

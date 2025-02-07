@@ -16,7 +16,7 @@ const PostModal: React.FC<PostModalProps> = (props) => {
     return (
         <div className={style['post-modal'] + " " + (!show && style['hidden-modal'])}>
 
-            <div className={style['post-modal__content'] + " glass" }>
+            <div className={style['post-modal__content'] + " glass overflow-hidden" }>
                 {title.length > 0 && <h3 className={style['post-modal__title']}>
                     {title}
                 </h3>}
