@@ -49,7 +49,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
   const theTitle = `Profile for ${user.username}`;
   const containerRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
- const [cardUser, setCardUser] = useState<UserInSearch>();
+ const [profileUser, setProfileUser] = useState<UserInSearch | User>(user);
   const [featuredWeather, setFeaturedWeather] = useState<string>(user.featuredWeather?.name || '');
   const [dimension, setDimension] = useState(
     {width: 0, height: 0}
@@ -88,8 +88,8 @@ export default function UserProfile({userJSON}:UserProfileProps){
           e.preventDefault();
           e.stopPropagation();
           setProfileUser({...profileUser, friendStatus: 'pending'});
-          const sender = account_user?.username;
-          const receiver = user.username;
+          const sender = user?.username;
+          const receiver = profileUser.username;
           const options = {
               method: 'POST',
               headers: {
@@ -100,7 +100,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
           try {
               await fetch('/api/friend-requests', options);
           } catch (error) {
-             setCardUser({...cardUser, friendStatus: 'stranger'});
+             setProfileUser({...profileUser, friendStatus: 'stranger'});
           }
           
   
