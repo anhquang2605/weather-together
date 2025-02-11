@@ -49,6 +49,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
   const theTitle = `Profile for ${user.username}`;
   const containerRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const [profileUser, setProfileUser] = useState<User>(user);
   const [featuredWeather, setFeaturedWeather] = useState<string>(user.featuredWeather?.name || '');
   const [dimension, setDimension] = useState(
     {width: 0, height: 0}
