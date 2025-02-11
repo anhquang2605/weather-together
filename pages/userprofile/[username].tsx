@@ -83,6 +83,27 @@ export default function UserProfile({userJSON}:UserProfileProps){
         }
       }
   }
+      const handleAddBuddy = async (e:React.MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setCardUser({...cardUser, friendStatus: 'pending'});
+          const sender = account_user?.username;
+          const receiver = user.username;
+          const options = {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({sender, receiver})
+          }
+          try {
+              await fetch('/api/friend-requests', options);
+          } catch (error) {
+             setCardUser({...cardUser, friendStatus: 'stranger'});
+          }
+          
+  
+      }
   const buddyStatusRenderer = (status:string) => {
     switch(status){
         case 'accepted':
