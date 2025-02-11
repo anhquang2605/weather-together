@@ -4,11 +4,12 @@ import { LiaUserFriendsSolid } from 'react-icons/lia';
 import { RiPassPendingLine } from 'react-icons/ri';
 
 interface AddBuddyBtnProps {
-    handleAddBuddy: (e:React.MouseEvent) => void
+    handleAddBuddy: (e:React.MouseEvent) => void;
+    status: string
 }
 
 const AddBuddyBtn: React.FC<AddBuddyBtnProps> = (props) => {
-    const {handleAddBuddy} = props;
+    const {handleAddBuddy, status} = props;
   const buddyStatusRenderer = (status:string) => {
     switch(status){
         case 'accepted':
@@ -29,7 +30,7 @@ const AddBuddyBtn: React.FC<AddBuddyBtnProps> = (props) => {
 }
     return (
         <div className={style['add-buddy-btn']}>
-            AddBuddyBtn
+            {buddyStatusRenderer(status)}
         </div>
     );
 };
