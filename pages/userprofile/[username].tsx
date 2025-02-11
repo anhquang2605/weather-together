@@ -2,7 +2,7 @@ import Head from "next/head";
 import { getUserDataByUserName, getUsernamePaths} from "../../libs/users";
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect, useRef, useState } from 'react';
-import { User } from "../../types/User";
+import { User, UserInSearch } from "../../types/User";
 import ProfileBanner from "../../components/profile/profile-banner/ProfileBanner";
 import style from './user-profile.module.scss'
 import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
@@ -49,7 +49,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
   const theTitle = `Profile for ${user.username}`;
   const containerRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
-  const [profileUser, setProfileUser] = useState<User>(user);
+ const [cardUser, setCardUser] = useState<UserInSearch>();
   const [featuredWeather, setFeaturedWeather] = useState<string>(user.featuredWeather?.name || '');
   const [dimension, setDimension] = useState(
     {width: 0, height: 0}
@@ -87,7 +87,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
       const handleAddBuddy = async (e:React.MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
-          setCardUser({...cardUser, friendStatus: 'pending'});
+          setProfileUser({...profileUser, friendStatus: 'pending'});
           const sender = account_user?.username;
           const receiver = user.username;
           const options = {
