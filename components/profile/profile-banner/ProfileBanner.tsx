@@ -9,13 +9,16 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import style from './profile-banner.module.css';
+import AddBuddyBtn from "../add-buddy-btn/AddBuddyBtn";
 interface ProfileBannerProps{
     user: User;
     isEditing: boolean;
     setEditingPicture?: (value: boolean) => void;
     setEditingBackground?: (value: boolean) => void;
+    handleAddBuddy?: (e:React.MouseEvent) => void;
+    buddyStatus?: string;
 }
-export default function ProfileBanner( {user, isEditing, setEditingPicture, setEditingBackground}: ProfileBannerProps){
+export default function ProfileBanner( {user, isEditing, setEditingPicture, setEditingBackground, handleAddBuddy = () => {}, buddyStatus = ""}: ProfileBannerProps){
     const {asPath} = useRouter();
     const {data:session} = useSession();
     const userFromSession = session?.user;
@@ -40,7 +43,9 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
                         <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>
                     </div>
                     
-                    {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}    
+                    {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}  
+                    {!ownedProfile && <AddBuddyBtn handleAddBuddy={(e) => {}} status={buddyStatus} />
+                    }  
                 </div>
             </div>
         </div>
