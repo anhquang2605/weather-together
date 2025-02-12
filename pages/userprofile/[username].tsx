@@ -84,8 +84,8 @@ export default function UserProfile({userJSON}:UserProfileProps){
         checkStatus: 'true'
     };
     const result = fetchFromGetAPI(path, params);
-    console.log(result);
     result.then(res => {
+      console.log(res);
         if(res.success){
             setBuddyStatus(res.data.status);
         }else{
@@ -188,7 +188,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <div ref={profileRef} className={`${style['profile-page']}  ${style[featuredWeather]}`}>
               <div ref={containerRef}  className={style["top-layer"]}>
                 <div className={style['profile-banner-wrapper']}>
-                  <ProfileBanner user={user} isEditing={false} />
+                  <ProfileBanner user={user} isEditing={false} handleAddBuddy={handleAddBuddy} buddyStatus={buddyStatus}/>
                 </div>
                 <ProfileContent user={user} scrollContainerClassname={style['profile-page']} />
                  <CityLandScape />
