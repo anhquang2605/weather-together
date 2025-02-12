@@ -11,6 +11,7 @@ import ProfileContent from "../../components/profile/profile-content/ProfileCont
 import { UserEditProfileContextProvider } from "./edit/useUserEditProfileContext";
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import { RiPassPendingLine } from "react-icons/ri";
+import { useSession } from "next-auth/react";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -46,10 +47,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export default function UserProfile({userJSON}:UserProfileProps){
   const user:User = JSON.parse(userJSON);
+  const {data:session} = useSession();
+  const thisUser = session?.user;
   const theTitle = `Profile for ${user.username}`;
   const containerRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
  const [profileUser, setProfileUser] = useState<UserInSearch | User>(user);
+ const [buddyStatus, setBuddyStatus] = useState<string>("");
   const [featuredWeather, setFeaturedWeather] = useState<string>(user.featuredWeather?.name || '');
   const [dimension, setDimension] = useState(
     {width: 0, height: 0}
@@ -70,6 +74,9 @@ export default function UserProfile({userJSON}:UserProfileProps){
       })
     }
   }
+  const getInitialFriendStatus = () => {
+    
+  }
   const getDimensionOfContainer = () => {
       const editProfilePage = document.querySelector(`.${style['edit-profile']}`);
       if(editProfilePage){
@@ -88,7 +95,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
           e.preventDefault();
           e.stopPropagation();
           setProfileUser({...profileUser, friendStatus: 'pending'});
-          const sender = user?.username;
+          const sender = thisUser?.username;
           const receiver = profileUser.username;
           const options = {
               method: 'POST',
@@ -106,6 +113,10 @@ export default function UserProfile({userJSON}:UserProfileProps){
   
       }
   useEffect(() => {
+    //check friend status if user is not profile user
+    if(thisUser?.username !== profileUser.username){
+      
+    }
     //handleSettingDimensionWhenResize();
     const resizeObserver = new ResizeObserver(entries => {
       if(resizeTimeout){
