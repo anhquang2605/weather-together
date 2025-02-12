@@ -11,7 +11,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const friend_requests: Collection<FriendRequest> = db.collection('friend_requests');
         switch (method) {
             case 'GET'://get user associated with friend request
-                const {username, lastCursor, limit, active, searchTerm} = req.query;
+                const {username, lastCursor, limit, active, searchTerm, checkStatus, targetUsername} = req.query;
+                if(checkStatus){
+                  const friendRequest = await friend_requests.findOne({username, targetUsername});
+                  if(friendRequest){
+                    res.status(200).json({success: true, data: friendRequest});
+                  } else {
+                    res.status(200).json({success: false, message: "No friend request found"});
+                  }
+                  return;
+                } 
                 const fieldToMatch = active === 'true' ? 'username' : 'targetUsername';
 
                /*  const fieldToLookup = active === 'true' ? 'targetUsername' : 'username';

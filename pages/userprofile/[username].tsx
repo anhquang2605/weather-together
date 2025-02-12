@@ -109,9 +109,8 @@ export default function UserProfile({userJSON}:UserProfileProps){
           } catch (error) {
              setProfileUser({...profileUser, friendStatus: 'stranger'});
           }
-          
-  
       }
+      
   useEffect(() => {
     //check friend status if user is not profile user
     if(thisUser?.username !== profileUser.username){
