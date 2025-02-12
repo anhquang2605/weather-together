@@ -77,13 +77,14 @@ export default function UserProfile({userJSON}:UserProfileProps){
     }
   }
   const getInitialFriendStatus = () => {
-    const path = '/api/friend-requests';
+    const path = 'friend-requests';
     const params = {
         username: thisUser?.username ?? '',
         targetUsername: profileUser.username,
         checkStatus: 'true'
     };
     const result = fetchFromGetAPI(path, params);
+    console.log(result);
     result.then(res => {
         if(res.success){
             setBuddyStatus(res.data.status);
