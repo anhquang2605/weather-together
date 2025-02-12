@@ -12,6 +12,8 @@ import { UserEditProfileContextProvider } from "./edit/useUserEditProfileContext
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import { RiPassPendingLine } from "react-icons/ri";
 import { useSession } from "next-auth/react";
+import { fetchFromGetAPI } from "../../libs/api-interactions";
+import { get } from "lodash";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {
@@ -75,6 +77,21 @@ export default function UserProfile({userJSON}:UserProfileProps){
     }
   }
   const getInitialFriendStatus = () => {
+    const path = '/api/friend-requests';
+    const params = {
+        username: thisUser?.username ?? '',
+        targetUsername: profileUser.username,
+        checkStatus: 'true'
+    };
+    const result = fetchFromGetAPI(path, params);
+    result.then(res => {
+        if(res.success){
+            setBuddyStatus(res.data.status);
+        }else{
+            setBuddyStatus('stranger');
+        }
+    })
+    
     
   }
   const getDimensionOfContainer = () => {
@@ -110,11 +127,11 @@ export default function UserProfile({userJSON}:UserProfileProps){
              setProfileUser({...profileUser, friendStatus: 'stranger'});
           }
       }
-      
+
   useEffect(() => {
     //check friend status if user is not profile user
     if(thisUser?.username !== profileUser.username){
-      
+      getInitialFriendStatus();
     }
     //handleSettingDimensionWhenResize();
     const resizeObserver = new ResizeObserver(entries => {

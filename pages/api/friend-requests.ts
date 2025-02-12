@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         switch (method) {
             case 'GET'://get user associated with friend request
                 const {username, lastCursor, limit, active, searchTerm, checkStatus, targetUsername} = req.query;
-                if(checkStatus){
+                if(checkStatus === 'true'){
                   const friendRequest = await friend_requests.findOne({username, targetUsername});
                   if(friendRequest){
                     res.status(200).json({success: true, data: friendRequest});
