@@ -133,9 +133,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
 
   useEffect(() => {
     //check friend status if user is not profile user
-    if(thisUser?.username !== profileUser.username){
-      getInitialFriendStatus();
-    }
+    
     //handleSettingDimensionWhenResize();
     const resizeObserver = new ResizeObserver(entries => {
       if(resizeTimeout){
@@ -174,6 +172,11 @@ export default function UserProfile({userJSON}:UserProfileProps){
       }
     }
   }, []);
+  useEffect(() => {
+    if(thisUser && thisUser?.username !== profileUser.username){
+      getInitialFriendStatus();
+    }
+  },[thisUser])
   useEffect(() =>
   {
     dimensionRef.current = dimension;

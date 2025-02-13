@@ -42,11 +42,11 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
                 <div className="flex flex-row ml-4 grow pr-4">
                     <div className="flex flex-col justify-center">
                         <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>
+                        {!ownedProfile && !gettingBuddyStatus && <AddBuddyBtn handleAddBuddy={(e) => {}} status={buddyStatus} />
+                    } 
                     </div>
                     
-                    {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}  
-                    {!ownedProfile && !gettingBuddyStatus && <AddBuddyBtn handleAddBuddy={(e) => {}} status={buddyStatus} />
-                    }  
+                    {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}   
                 </div>
             </div>
         </div>
