@@ -13,15 +13,15 @@ const AddBuddyBtn: React.FC<AddBuddyBtnProps> = (props) => {
   const buddyStatusRenderer = (status:string) => {
     switch(status){
         case 'accepted':
-            return  <div className={`${style['buddy-badge']}`}>
+            return  <>
                         <LiaUserFriendsSolid className={`${style['friend-icon']} icon mr-2 border border-indigo-700 rounded-full`}/> 
                         <span className={`${style['friend-title']}`}>Buddy</span>
-                    </div>
+                    </>
         case 'pending':
-            return  <div className={`${style['buddy-badge']}`}>
+            return  <>
                         <RiPassPendingLine className={`${style['friend-icon']} icon mr-2`}/>
-                        <span className={`${style['friend-title']}`}>Pending...</span>
-                    </div>
+                        <span className={`${style['friend-title']}`}>Friend request pending...</span>
+                    </>
         default:
             return <button title="" onClick={(e) => handleAddBuddy(e)} className={`${style.addFriendButton} action-btn`}>
                         Add buddy
