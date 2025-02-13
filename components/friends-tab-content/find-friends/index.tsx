@@ -205,7 +205,6 @@ export default function FindFriends({}:FindFriendsProps) {
     }
     const handleApplyFilter = async (filter: UserFilter) => {
         setApiStatus("loading");
-        console.log(filter);
         const response = await handleFetch(filter);
 
         if(response.status === 200){
@@ -251,7 +250,6 @@ export default function FindFriends({}:FindFriendsProps) {
         const response = await handleFetch(filter, lastCursor);
         if(response.status === 200){
             const data = await response.json();
-            console.log(data);
             handleSetResults(data.data, data.hasMore, true);
             setApiStatus("success");
         }else{
@@ -263,7 +261,6 @@ export default function FindFriends({}:FindFriendsProps) {
     const handleResponseFromSearchEndpoints = async (response: Response, callback?:()=>void) => {
             const data = await response.json();
             handleSetResults(data.data, data.hasMore);
-            console.log(data);
             setApiStatus("success");
     }
     const suggestionRenderer = (suggestion: UserInSearch, index: number) => {
@@ -292,7 +289,6 @@ export default function FindFriends({}:FindFriendsProps) {
     },[searchQuery])
     useEffect(()=>{
         if(searchResults.length > 0){
-            console.log(searchResults);
             setLastTimeStramp(searchResults[searchResults.length - 1].dateJoined);
         }
     },[searchResults])
