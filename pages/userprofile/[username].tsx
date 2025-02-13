@@ -56,6 +56,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
   const profileRef = useRef<HTMLDivElement>(null);
  const [profileUser, setProfileUser] = useState<UserInSearch | User>(user);
  const [buddyStatus, setBuddyStatus] = useState<string>("");
+ const [gettingBuddyStatus, setGettingBuddyStatus] = useState<boolean>(false);
   const [featuredWeather, setFeaturedWeather] = useState<string>(user.featuredWeather?.name || '');
   const [dimension, setDimension] = useState(
     {width: 0, height: 0}
@@ -77,6 +78,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
     }
   }
   const getInitialFriendStatus = () => {
+    setGettingBuddyStatus(true);
     const path = 'friend-requests';
     const params = {
         username: thisUser?.username ?? '',
@@ -85,12 +87,12 @@ export default function UserProfile({userJSON}:UserProfileProps){
     };
     const result = fetchFromGetAPI(path, params);
     result.then(res => {
-      console.log(res);
         if(res.success){
             setBuddyStatus(res.data.status);
         }else{
             setBuddyStatus('stranger');
         }
+        setGettingBuddyStatus(false);
     })
     
     
@@ -188,7 +190,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
             <div ref={profileRef} className={`${style['profile-page']}  ${style[featuredWeather]}`}>
               <div ref={containerRef}  className={style["top-layer"]}>
                 <div className={style['profile-banner-wrapper']}>
-                  <ProfileBanner user={user} isEditing={false} handleAddBuddy={handleAddBuddy} buddyStatus={buddyStatus}/>
+                  <ProfileBanner user={user} isEditing={false} handleAddBuddy={handleAddBuddy} buddyStatus={buddyStatus} gettingBuddyStatus={gettingBuddyStatus}/>
                 </div>
                 <ProfileContent user={user} scrollContainerClassname={style['profile-page']} />
                  <CityLandScape />

@@ -17,8 +17,9 @@ interface ProfileBannerProps{
     setEditingBackground?: (value: boolean) => void;
     handleAddBuddy?: (e:React.MouseEvent) => void;
     buddyStatus?: string;
+    gettingBuddyStatus?: boolean;
 }
-export default function ProfileBanner( {user, isEditing, setEditingPicture, setEditingBackground, handleAddBuddy = () => {}, buddyStatus = ""}: ProfileBannerProps){
+export default function ProfileBanner( {user, isEditing, setEditingPicture, setEditingBackground, handleAddBuddy = () => {}, buddyStatus = "", gettingBuddyStatus = false}: ProfileBannerProps){
     const {asPath} = useRouter();
     const {data:session} = useSession();
     const userFromSession = session?.user;
@@ -44,7 +45,7 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
                     </div>
                     
                     {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}  
-                    {!ownedProfile && <AddBuddyBtn handleAddBuddy={(e) => {}} status={buddyStatus} />
+                    {!ownedProfile && !gettingBuddyStatus && <AddBuddyBtn handleAddBuddy={(e) => {}} status={buddyStatus} />
                     }  
                 </div>
             </div>
