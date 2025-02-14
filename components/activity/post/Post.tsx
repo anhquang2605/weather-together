@@ -52,7 +52,7 @@ interface CommentFetchParams{
     level?: string;
     lastCursor: string;
     _id?: string;
-    isPreview?: string; //but boolean like 'true' or 'false'
+    isGettingCounts?: string; //but boolean like 'true' or 'false', when convert the params, boolean value must be string to avoid json parse error
 }
 const INITIAL_POST_STATE: PostType = {
    _id: '',
@@ -197,10 +197,10 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             lastCursor: typeof cursorRef.current === "object"? cursorRef.current.toISOString() : cursorRef.current
         }
         if(preview){
-            
+
             params.limit = commentPreviewLimit.toString();
             params.level = '0';
-            params.isPreview = 'true';
+            params.isGettingCounts = 'true';
             if(previewCommentId && previewCommentId.length > 0){
                 params._id = previewCommentId;
                 delete params.targetId;

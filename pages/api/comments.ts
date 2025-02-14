@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const commentsCollection:Collection<Comment>= db.collection('comments');
         switch(method){
             case 'GET':{
-                const {username,postId, level, targetId, limit, lastCursor, _id, isPreview } = req.query;
+                const {username,postId, level, targetId, limit, lastCursor, _id,isGettingCounts} = req.query;
                 try {
                     let result:Comment[] =[];
                     let children:CommentChildrenSummary = {};
@@ -89,6 +89,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                     } 
                     else if(postId){
+                      if(isGettingCounts){
+                        const count = await commentsCollection.countDocuments({postId: postId.toString()});
+                        res.status(200).json({
+                          success: true,
+                          data: {count},
+                        });
+                        return;
+                      }
                       result = await commentsCollection.find({postId:postId.toString()}).toArray();
                     } else {
                       res.status(400).json({
