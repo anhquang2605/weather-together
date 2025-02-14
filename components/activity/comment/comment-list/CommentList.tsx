@@ -24,7 +24,6 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = 
         () => {
-            console.log(children);
             if(waterFall){
                 let comment = comments[curLevel || 0];
                 return(
