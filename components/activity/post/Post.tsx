@@ -197,8 +197,10 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             lastCursor: typeof cursorRef.current === "object"? cursorRef.current.toISOString() : cursorRef.current
         }
         if(preview){
+            
             params.limit = commentPreviewLimit.toString();
             params.level = '0';
+            params.isPreview = 'true';
             if(previewCommentId && previewCommentId.length > 0){
                 params._id = previewCommentId;
                 delete params.targetId;

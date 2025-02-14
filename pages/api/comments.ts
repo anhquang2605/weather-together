@@ -4,6 +4,7 @@ import { connectDB } from '../../libs/mongodb';
 import { Comment } from '../../types/Comment';
 import { CommentChildrenSummary } from '../../types/CommentChildrenSummary';
 import { deleteFromDeleteAPI, insertToPostAPI } from '../../libs/api-interactions';
+import { is } from 'date-fns/locale';
 interface IMatch{
   targetId?: string;
   level?: number;
@@ -74,8 +75,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         match.level = 0;
                       }
                       if(limit){
-                        const limitNo = parseInt(limit.toString());
-                        result = await commentsCollection.find(match).sort({createdDate: -1}).limit(limitNo).toArray();
+                        if(isPreview && level !== '0'){
+                          result = await commentsCollection.find(match).sort({createdDate: -1}).toArray();
+                        } else {
+                          const limitNo = parseInt(limit.toString());
+                          result = await commentsCollection.find(match).sort({createdDate: -1}).limit(limitNo).toArray();
+                        }
+                       
                       }else{
                         result = await commentsCollection.find(match).sort({createdDate: -1}).toArray();
                       }
