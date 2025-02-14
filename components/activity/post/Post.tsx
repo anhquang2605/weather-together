@@ -74,6 +74,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     const [reactionsGroups, setReactionsGroups] = useState([]);
     const [reactedUsernames, setReactedUsernames] = useState<string[]>([]); //TODO: fetch reacted usernames from server
     const [reveal, setReveal] = useState(false); //for delete api status pop
+    const [commentsCount, setCommentsCount] = useState(0);
     const [isCommenting, setIsCommenting] = useState(false);
     const [isFetchingComments, setIsFetchingComments] = useState(false);
     const [isFetchingMoreComments, setIsFetchingMoreComments] = useState(false); 
@@ -177,6 +178,21 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             setReactedUsernames(response.usernames);
         }
         setIsFetchingReactions(false);
+    }
+    const getTotalCommentsCount = (postId: string) => {
+        const params = {
+            postId,
+            isGettingCounts: 'true'
+        }
+        const result = fetchFromGetAPI('comments', params);
+        result.then(res => {
+            if(res && res.data){
+                setCommentsCount(res.data.count);
+            } else {
+                setCommentsCount(0);
+                console.log('error fetching comments count');
+            }
+        })
     }
     const handleScrollToForm = (form: React.MutableRefObject<HTMLDivElement | null>) => {
         if(form.current && preview){
@@ -304,6 +320,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
     },[postProp])
     useEffect(() => {
         if(post && post._id !== ''){
+            getTotalCommentsCount(post._id?.toString() || '');
             handleFetchReactionsGroups(post._id?.toString() || '');
             handleFetctCommentsForPost('', post._id?.toString() || '');
             setUniqueString(getRandomString(RANDOM_STRING_LENGTH));
