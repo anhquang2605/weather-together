@@ -52,6 +52,7 @@ interface CommentFetchParams{
     level?: string;
     lastCursor: string;
     _id?: string;
+    isPreview?: string; //but boolean like 'true' or 'false'
 }
 const INITIAL_POST_STATE: PostType = {
    _id: '',
