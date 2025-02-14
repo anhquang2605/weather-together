@@ -75,13 +75,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         match.level = 0;
                       }
                       if(limit){
-                        if(isPreview && level !== '0'){
-                          result = await commentsCollection.find(match).sort({createdDate: -1}).toArray();
-                        } else {
                           const limitNo = parseInt(limit.toString());
                           result = await commentsCollection.find(match).sort({createdDate: -1}).limit(limitNo).toArray();
-                        }
-                       
                       }else{
                         result = await commentsCollection.find(match).sort({createdDate: -1}).toArray();
                       }
