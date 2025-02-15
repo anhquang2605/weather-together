@@ -10,12 +10,18 @@ const LoadingIcon: React.FC<LoadingIconProps> = ({}) => {
     const startAnimation = () => {
        const anim = anime({
            targets: '.' + style['loading-icon__circle'],
-           scale: [1, 1.45, 1],
-           backgroundColor: ['#fff ','#B1F4E7', '#fff'],
+           scale: [1, 1.5],
            duration: 3000,
            loop: true,
-                      delay: anime.stagger(200)
+                      delay: anime.stagger(250)
        });
+       const anim2 = anime({
+           targets: '.' + style['loading-icon__circle'],
+           backgroundColor: ['#fff ','#4F39F6'],
+           duration: 3000,
+           loop: true,
+                      delay: anime.stagger(250)
+       })
        
     }
     useEffect(()=>{
