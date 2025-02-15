@@ -8,16 +8,17 @@ interface LoadingIconProps {
 
 const LoadingIcon: React.FC<LoadingIconProps> = ({}) => {
     const startAnimation = () => {
-       const anim = anime({
+/*        const anim = anime({
            targets: '.' + style['loading-icon__circle'],
            scale: [1, 1.5],
            duration: 3000,
+           direction: 'reverse',
            loop: true,
                       delay: anime.stagger(250)
-       });
+       }); */
        const anim2 = anime({
            targets: '.' + style['loading-icon__circle'],
-           backgroundColor: ['#fff ','#615FFF'],
+           backgroundColor: '#615FFF',
            duration: 3000,
            loop: true,
                       delay: anime.stagger(250)
