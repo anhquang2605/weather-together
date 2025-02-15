@@ -1,3 +1,6 @@
 .loading-icon{
     @apply animate-spin text-white;
 }
+.loading-icon__circle{
+    @apply w-2 h-2 rounded-full;
+}
