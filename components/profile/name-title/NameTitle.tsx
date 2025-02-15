@@ -5,7 +5,7 @@ interface NameTitleProps {
 }
 export default function NameTitle({lastName, firstName}:NameTitleProps) {
     return (
-        <div className="name-title text-center">
+        <div className="name-title">
             <span className="lg:text-3xl md:text-2xl text-xl">{firstName} {lastName}</span>
         </div>
     )
