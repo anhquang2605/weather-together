@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './loading-icon.module.css';
-import {AiOutlineLoading3Quarters} from 'react-icons/ai'
+import anime from 'animejs';
 interface LoadingIconProps {
 
 }
 
 const LoadingIcon: React.FC<LoadingIconProps> = ({}) => {
+    const startAnimation = () => {
+
+    
+    }
+    useEffect(()=>{
+
+    }, [])
     return (
         <div className={style['loading-icon']}>
-            <AiOutlineLoading3Quarters className="icon"/>
+            
         </div>
     );
 };
