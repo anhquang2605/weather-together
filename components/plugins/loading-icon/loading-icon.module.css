@@ -4,5 +4,5 @@
     gap: 2px;
 }
 .loading-icon__circle{
-    @apply w-2 h-2 rounded-full bg-slate-100;
+    @apply w-2 h-2 rounded-full bg-white;
 }
