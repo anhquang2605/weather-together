@@ -17,7 +17,7 @@ const LoadingIcon: React.FC<LoadingIconProps> = ({}) => {
        });
        const anim2 = anime({
            targets: '.' + style['loading-icon__circle'],
-           backgroundColor: ['#fff ','#4F39F6'],
+           backgroundColor: ['#fff ','#615FFF'],
            duration: 3000,
            loop: true,
                       delay: anime.stagger(250)
