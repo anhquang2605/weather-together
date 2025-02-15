@@ -3,5 +3,5 @@
     @apply mt-4;
 }
 .buddy-badge{
-    @apply  flex flex-row items-center justify-center bg-slate-100/90 border border-slate-300  text-indigo-900 p-1 rounded-full font-bold;
+    @apply  flex flex-row items-center justify-center bg-slate-600/40 backdrop-blur-md border border-slate-300/50  p-1 rounded-full
 }

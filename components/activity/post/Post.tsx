@@ -31,6 +31,8 @@ import { PostFormContextProvider } from "./post-form/postFormContext";
 import { getRandomString } from "../../../libs/general";
 import ApiStatusPop from "../../api-status-pop/apistatuspop";
 import ConfirmationBox from "../../confirmation-box/ConfirmationBox";
+import { Comme } from "next/font/google";
+import CommentNumber from "../comment/comment-number/CommentNumber";
 interface PostProps{
     postProp: PostType;
     username?: string;
@@ -351,7 +353,6 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
             setReveal(false);
         }
     },[deletePostStatus])
-    
     return(
         <PostContext.Provider value={{post:post, commentorToAvatar, usernameToName}}>
         {loading ? <LoadingBox isFluid={true} extraClassname="feed-page-main-components" variant="" long={true} withChildren={false}/> :
@@ -387,6 +388,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                                 usernames={reactedUsernames}
                                 targetId={post._id?.toString() || ''}
                                 />
+                            {commentsCount > 0 && <CommentNumber count={commentsCount}/>}
                         </ContentSummary>
                     </div>
                   
