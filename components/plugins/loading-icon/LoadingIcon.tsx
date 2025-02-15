@@ -15,7 +15,12 @@ const LoadingIcon: React.FC<LoadingIconProps> = ({}) => {
     }, [])
     return (
         <div className={style['loading-icon']}>
-            
+            <div className={style['loading-icon__circle']}>
+            </div>
+            <div className={style['loading-icon__circle']}>
+            </div>
+            <div className={style['loading-icon__circle']}>
+            </div>
         </div>
     );
 };
