@@ -131,6 +131,9 @@ export default function UserProfile({userJSON}:UserProfileProps){
                 console.log(response.statusText);
               } 
               const data = await response.json();
+              if(data.success){
+                  setBuddyStatus('pending');
+              }
               setGettingBuddyStatus(false);
           } catch (error) {
              setProfileUser({...profileUser, friendStatus: 'stranger'});
