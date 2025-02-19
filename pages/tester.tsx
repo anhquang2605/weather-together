@@ -82,7 +82,7 @@ export default function Tester(userJSON:any) {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
-            <LoadingIcon />
+            <Loading/>
         <div>
 
         </div>
