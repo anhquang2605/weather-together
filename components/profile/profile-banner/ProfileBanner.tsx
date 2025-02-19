@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import style from './profile-banner.module.css';
 import AddBuddyBtn from "../add-buddy-btn/AddBuddyBtn";
+import LoadingIcon from "../../plugins/loading-icon/LoadingIcon";
 interface ProfileBannerProps{
     user: User;
     isEditing: boolean;
@@ -42,8 +43,13 @@ export default function ProfileBanner( {user, isEditing, setEditingPicture, setE
                 <div className="flex flex-row ml-4 grow pr-4">
                     <div className="flex flex-col justify-center">
                         <NameTitle firstName={user.firstName} lastName={user.lastName}></NameTitle>
-                        {!ownedProfile && !gettingBuddyStatus && <AddBuddyBtn handleAddBuddy={handleAddBuddy} status={buddyStatus} />
-                    } 
+                        {
+                            !ownedProfile && !gettingBuddyStatus && <AddBuddyBtn handleAddBuddy={handleAddBuddy} status={buddyStatus} />
+                        }
+                        {
+                            gettingBuddyStatus && <LoadingIcon />
+                        }
+                    
                     </div>
                     
                     {(!editingProfile && ownedProfile) &&  <Link className="action-btn ml-4 flex flex-row items-center" href={`/userprofile/edit/${user.username}`}><IoPencil className="mr-2"></IoPencil>Edit profile</Link>}   

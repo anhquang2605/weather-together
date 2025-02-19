@@ -1,5 +1,5 @@
 .loading-icon{
-    @apply  text-white flex flex-row justify-center items-center;
+    @apply  text-white flex flex-row justify-center items-center p-4;
     width: max-content;
     gap: 3px;
 }
