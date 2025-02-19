@@ -114,6 +114,7 @@ export default function UserProfile({userJSON}:UserProfileProps){
       const handleAddBuddy = async (e:React.MouseEvent) => {
           e.preventDefault();
           e.stopPropagation();
+          setGettingBuddyStatus(true);
           setProfileUser({...profileUser, friendStatus: 'pending'});
           const sender = thisUser?.username;
           const receiver = profileUser.username;
@@ -128,6 +129,8 @@ export default function UserProfile({userJSON}:UserProfileProps){
               await fetch('/api/friend-requests', options);
           } catch (error) {
              setProfileUser({...profileUser, friendStatus: 'stranger'});
+          } finally {
+              setGettingBuddyStatus(false);
           }
       }
 

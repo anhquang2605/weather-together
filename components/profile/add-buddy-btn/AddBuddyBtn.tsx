@@ -5,7 +5,8 @@ import { RiPassPendingLine } from 'react-icons/ri';
 
 interface AddBuddyBtnProps {
     handleAddBuddy: (e:React.MouseEvent) => void;
-    status: string
+    status: string;
+    gettingBuddyStatus?: boolean
 }
 
 const AddBuddyBtn: React.FC<AddBuddyBtnProps> = (props) => {
