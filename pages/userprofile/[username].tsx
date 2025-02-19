@@ -126,14 +126,16 @@ export default function UserProfile({userJSON}:UserProfileProps){
               body: JSON.stringify({sender, receiver})
           }
           try {
-              await fetch('/api/friend-requests', options);
+              const response =await fetch('/api/friend-requests', options);
+              if(response.status !== 200){
+                console.log(response.statusText);
+              } 
+              const data = await response.json();
+              setGettingBuddyStatus(false);
           } catch (error) {
              setProfileUser({...profileUser, friendStatus: 'stranger'});
-          } finally {
-              setGettingBuddyStatus(false);
+          } 
           }
-      }
-
   useEffect(() => {
     //check friend status if user is not profile user
     
