@@ -1,8 +1,8 @@
 .loading-icon{
     @apply  text-white flex flex-row justify-center items-center;
     width: max-content;
-    gap: 2px;
+    gap: 3px;
 }
 .loading-icon__circle{
-    @apply w-1.5 h-1.5 rounded-full bg-white;
+    @apply w-2 h-2 rounded-full bg-white;
 }
