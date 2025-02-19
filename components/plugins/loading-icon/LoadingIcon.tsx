@@ -5,24 +5,26 @@ import { propertiesStagesAnimation } from '../../../libs/anime-animations-helper
 interface LoadingIconProps {
 
 }
-
+const STAGGER_DELAY = 250;
 const LoadingIcon: React.FC<LoadingIconProps> = ({}) => {
     const startAnimation = () => {
        const anim = anime({
            targets: '.' + style['loading-icon__circle'],
-           scale: [1, 1.5, 1],
+           scale: [0.8, 1.5, 0.8],
            duration: 3000,
            direction: '',
+           easing: 'linear',
            loop: true,
-                      delay: anime.stagger(250)
+                      delay: anime.stagger(STAGGER_DELAY)
        });
-/*        const anim2 = anime({
+       const anim2 = anime({
            targets: '.' + style['loading-icon__circle'],
-           backgroundColor: '#615FFF',
+           backgroundColor: ['#ffffff','#615FFF', '#ffffff'],
            duration: 3000,
+           easing: 'linear',
            loop: true,
-                      delay: anime.stagger(250)
-       }) */
+                      delay: anime.stagger(STAGGER_DELAY)
+       })
        
     }
     useEffect(()=>{
