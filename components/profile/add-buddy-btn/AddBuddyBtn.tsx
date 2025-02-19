@@ -23,6 +23,8 @@ const AddBuddyBtn: React.FC<AddBuddyBtnProps> = (props) => {
                         <RiPassPendingLine className={`${style['friend-icon']} icon mr-2`}/>
                         <span className={`${style['friend-title']}`}>Friend request pending...</span>
                     </div>
+        case '':
+            return '';
         default:
             return <button title="" onClick={(e) => handleAddBuddy(e)} className={`${style.addFriendButton} action-btn`}>
                         Add buddy
