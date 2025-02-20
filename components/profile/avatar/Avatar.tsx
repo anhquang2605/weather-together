@@ -2,6 +2,7 @@ import style from "./avatar.module.css";
 import MiniAvatar from "../../user/mini-avatar/MiniAvatar";
 import { Weather } from "../../../types/Weather";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 interface AvatarProps{
     profilePicturePath?: string;
     setEditingPicture?: (value: boolean) => void;
@@ -18,6 +19,8 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
     const mediumSize = '100px';
     const smallSize = 50; */
     const [size, setSize] = useState<string>('two-x-large');
+    const {data: session} = useSession();
+    const user = session?.user;
     /* xl:w-[${largeSize}] xl:h-[${largeSize}] md:w-[${mediumSize}] md:h-[${mediumSize}] sm:w-[${smallSize}] sm:h-[${smallSize}] */
     const getWindowSize = () => window.innerWidth;
     const resizeHandler = (entries: ResizeObserverEntry[]) => {
@@ -52,6 +55,8 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
                 isEditing={isEditing}
                 setEditingPicture={setEditingPicture}
                 isPadded={isPadded}
+                fistName={user?.firstName}
+                lastName={user?.lastName}
             />
 
         </div>
