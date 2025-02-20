@@ -1,0 +1,4 @@
+interface userContextType{
+    username: string,
+    
+}
