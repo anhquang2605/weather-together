@@ -3,7 +3,9 @@ import style from './default-profile-picture.module.css';
 import {useEffect, useState} from 'react';
 interface DefaultProfilePictureProps {
     username: string | null | undefined,
-    size?: string
+    size?: string,
+    firstName?: string,
+    lastName?: string
 }
 
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
