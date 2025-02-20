@@ -10,6 +10,7 @@ interface AvatarProps{
     username: string | null | undefined;
     featuredWeather?: Weather;
     isPadded?: boolean
+
 }
 const EXTRA_LARGE_BREAKPOINT = 1200;
 const LARGE_BREAKPOINT = 768;
@@ -20,7 +21,6 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
     const smallSize = 50; */
     const [size, setSize] = useState<string>('two-x-large');
     const {data: session} = useSession();
-    const user = session?.user;
     /* xl:w-[${largeSize}] xl:h-[${largeSize}] md:w-[${mediumSize}] md:h-[${mediumSize}] sm:w-[${smallSize}] sm:h-[${smallSize}] */
     const getWindowSize = () => window.innerWidth;
     const resizeHandler = (entries: ResizeObserverEntry[]) => {
@@ -55,8 +55,6 @@ export default function Avatar({profilePicturePath, setEditingPicture, isEditing
                 isEditing={isEditing}
                 setEditingPicture={setEditingPicture}
                 isPadded={isPadded}
-                fistName={user?.firstName}
-                lastName={user?.lastName}
             />
 
         </div>

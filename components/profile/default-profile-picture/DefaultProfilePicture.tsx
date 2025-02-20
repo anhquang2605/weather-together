@@ -4,12 +4,15 @@ import {useEffect, useState} from 'react';
 interface DefaultProfilePictureProps {
     username: string | null | undefined,
     size?: string,
-    firstName?: string,
-    lastName?: string
 }
 
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
+    const getNameofUser = (username: string) => {
+        if(username!==null || username!==undefined || username!==''){
+            
+        }
+    }
     const randomizedColor = () => {
         const colors = [
             "#FFA5B4",  // Slightly saturated Pink (Pastel Red)
