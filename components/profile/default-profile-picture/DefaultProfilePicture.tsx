@@ -8,11 +8,7 @@ interface DefaultProfilePictureProps {
 
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
-    const getNameofUser = (username: string) => {
-        if(username!==null || username!==undefined || username!==''){
-            
-        }
-    }
+
     const randomizedColor = () => {
         const colors = [
             "#FFA5B4",  // Slightly saturated Pink (Pastel Red)
