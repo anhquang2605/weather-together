@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './default-profile-picture.module.css';
 import {useEffect, useState} from 'react';
+import { fetchFromGetAPI } from '../../../libs/api-interactions';
 interface DefaultProfilePictureProps {
     username: string | null | undefined,
     size?: string,
@@ -9,7 +10,19 @@ interface DefaultProfilePictureProps {
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
     const getNameOfUser = (username: string) => {
-        
+        const options = {
+            username: username,
+            getName: 'true'
+        }
+        const path = 'users';
+        const result = fetchFromGetAPI(path, options);
+        result.then(res => {
+            if(res.success){
+                return res.data.name;
+            }else{
+                return username;
+            }
+        })
     }
     const randomizedColor = () => {
         const colors = [
