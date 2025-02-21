@@ -2,6 +2,7 @@ import React from 'react';
 import style from './default-profile-picture.module.css';
 import {useEffect, useState} from 'react';
 import { fetchFromGetAPI } from '../../../libs/api-interactions';
+import { get } from 'lodash';
 interface DefaultProfilePictureProps {
     username: string | null | undefined,
     size?: string,
@@ -9,7 +10,9 @@ interface DefaultProfilePictureProps {
 
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
+    const [name, setName] = useState<string>('');
     const getNameOfUser = (username: string) => {
+        
         const options = {
             username: username,
             getName: 'true'
@@ -18,9 +21,7 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         const result = fetchFromGetAPI(path, options);
         result.then(res => {
             if(res.success){
-                return res.data.name;
-            }else{
-                return username;
+                setName(res.data.name);
             }
         })
     }
@@ -39,9 +40,14 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
     useEffect(() => {
         setColor(randomizedColor());
     },[])
+    useEffect(()=>{
+        if(username){
+            getNameOfUser(username);
+        }
+    },[username])
     return (
         <div className={style['default-profile-picture'] + " " + style['text-'+size]} >
-            {username?.substring(0, 2).toUpperCase()}
+            {(name && name  !== '') ? name.substring(0, 2).toUpperCase() : username?.substring(0, 1).toUpperCase()}
         </div>
     );
 };
