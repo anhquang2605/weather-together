@@ -40,7 +40,6 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         return colors[Math.floor(Math.random() * colors.length)];
     }
     const generateAbreviation = (name: string) => {
-        console.log(name);
         const names = name.split(' ');
         for (let i = 0; i < names.length; i++) {
             names[i] = names[i][0].toUpperCase();
