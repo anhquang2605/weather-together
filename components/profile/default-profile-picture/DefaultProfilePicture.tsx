@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import style from './default-profile-picture.module.css';
 import {useEffect, useState} from 'react';
 import { fetchFromGetAPI } from '../../../libs/api-interactions';
@@ -10,7 +10,8 @@ interface DefaultProfilePictureProps {
 
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
-    const [name, setName] = useState<string>('');
+    const [name, setName] = useState<string>('Anonymous');
+    const abreviationRef = useRef<string>('');
     const getNameOfUser = (username: string) => {
         
         const options = {
@@ -20,7 +21,8 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         const path = 'users';
         const result = fetchFromGetAPI(path, options);
         result.then(res => {
-            if(res.success){
+
+            if(res.success && res.data.name){
                 setName(res.data.name);
             }
         })
@@ -37,6 +39,14 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         ];
         return colors[Math.floor(Math.random() * colors.length)];
     }
+    const generateAbreviation = (name: string) => {
+        console.log(name);
+        const names = name.split(' ');
+        for (let i = 0; i < names.length; i++) {
+            names[i] = names[i][0].toUpperCase();
+        }
+        return names.join('');
+    }
     useEffect(() => {
         setColor(randomizedColor());
     },[])
@@ -45,9 +55,13 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
             getNameOfUser(username);
         }
     },[username])
+
     return (
         <div className={style['default-profile-picture'] + " " + style['text-'+size]} >
-            {(name && name  !== '') ? name.substring(0, 2).toUpperCase() : username?.substring(0, 1).toUpperCase()}
+            { name !== '' ? 
+               generateAbreviation(name) :
+               username?.substring(0, 2).toUpperCase()
+            }
         </div>
     );
 };
