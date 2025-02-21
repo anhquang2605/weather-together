@@ -10,8 +10,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const {method}= req;
     if(db){
         if(method === 'GET'){
-            const {username, fetchFriends, city, filter, sort} = req.query;
+            const {username, fetchFriends, city, filter, sort, getName} = req.query;
             const userCollection = db.collection('users');
+            if(getName === 'true' && username){
+                const data = await userCollection.findOne({username: username});
+                if(data){
+                   const firstName = data.firstName;
+                   const lastName = data.lastName;
+                   const name = firstName + ' ' + lastName;
+                    res.status(200).json({
+                        success: true,
+                        data: name
+                    });
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: 'User not found'
+                    });
+                }
+            }
             if(city){//fetching users by city
                 const users = await userCollection.find({location: {city: city}}).toArray();
                 if(!users){
