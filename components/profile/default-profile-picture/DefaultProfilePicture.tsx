@@ -11,9 +11,10 @@ interface DefaultProfilePictureProps {
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
     const [name, setName] = useState<string>('');
+    const [getingName, setGettingName] = useState<boolean>(false);
     const abreviationRef = useRef<string>('');
     const getNameOfUser = (username: string) => {
-        
+        setGettingName(true);
         const options = {
             username: username,
             getName: 'true'
@@ -21,7 +22,7 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         const path = 'users';
         const result = fetchFromGetAPI(path, options);
         result.then(res => {
-            console.log(res);
+            setGettingName(false);
             if(res.success && res.data){
                 setName(res.data);
             }
@@ -60,8 +61,9 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
             abreviationRef.current = generateAbreviation(name);
         }
     },[name])
+
     return (
-        <div className={style['default-profile-picture'] + " " + style['text-'+size]} >
+        <div className={style['default-profile-picture'] + " " + style['text-'+size] + (getingName ? ' ' + style['loading'] : '')} >
             { abreviationRef.current && abreviationRef.current !== '' ? abreviationRef.current :
                username?.substring(0, 2).toUpperCase()
             }
