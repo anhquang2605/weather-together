@@ -21,9 +21,9 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         const path = 'users';
         const result = fetchFromGetAPI(path, options);
         result.then(res => {
-
-            if(res.success && res.data.name){
-                setName(res.data.name);
+            console.log(res);
+            if(res.success && res.data){
+                setName(res.data);
             }
         })
     }
