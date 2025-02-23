@@ -55,16 +55,11 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
             getNameOfUser(username);
         }
     },[username])
-    useEffect(()=>{
-        if(name){
-            console.log(name);
-            abreviationRef.current = generateAbreviation(name);
-        }
-    },[name])
+
 
     return (
         <div className={style['default-profile-picture'] + " " + style['text-'+size] + (getingName ? ' ' + style['loading'] : '')} >
-            { abreviationRef.current && abreviationRef.current !== '' ? abreviationRef.current :
+            { name && name.length > 0 ? generateAbreviation(name) :
                username?.substring(0, 2).toUpperCase()
             }
         </div>
