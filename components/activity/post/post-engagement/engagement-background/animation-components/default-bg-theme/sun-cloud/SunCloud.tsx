@@ -32,7 +32,6 @@ const SunCloud: React.FC<SunCloudProps> = (props) => {
             scale: [0, 1],           
         }, false)
         timeline.add(sparkAnim, '-= ' + duration * 0.4);
-        console.log('timeline', timeline);
         return timeline;
     }
     const reverseAnimation = () => { 
