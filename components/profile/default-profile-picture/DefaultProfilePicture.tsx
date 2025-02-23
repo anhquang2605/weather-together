@@ -51,7 +51,7 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         setColor(randomizedColor());
     },[])
     useEffect(()=>{
-        if(username){
+        if(username && username.length > 0){
             getNameOfUser(username);
         }
     },[username])

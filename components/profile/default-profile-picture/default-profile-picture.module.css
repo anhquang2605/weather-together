@@ -25,3 +25,7 @@
 .text-two-x-large{
     @apply text-2xl;
 }
+
+.loading{
+    @apply animate-pulse bg-slate-500 text-slate-500 !important;
+}
