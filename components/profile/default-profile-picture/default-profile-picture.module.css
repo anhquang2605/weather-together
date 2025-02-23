@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    @apply font-semibold text-slate-100 !important;
+    @apply font-semibold text-slate-200 !important;
     background-color: var(--primary-color);
     color: white!important;
 }
