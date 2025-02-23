@@ -10,8 +10,15 @@ interface DefaultProfilePictureProps {
 
 const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, size}) => {
     const [color, setColor] = useState<string>('');
-    const [name, setName] = useState<string>('Anonymous');
+    const [name, setName] = useState<string>('');
     const abreviationRef = useRef<string>('');
+/*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * @function
+     * @param {string} username
+     * Given a username, fetches the users name from the server and sets it to the state variable name
+     */
+/******  0d4e3a1d-e891-41a8-b559-2e1d8a454ab9  *******/
     const getNameOfUser = (username: string) => {
         
         const options = {
@@ -51,17 +58,19 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
     },[])
     useEffect(()=>{
         if(username){
+            console.log(username);
             getNameOfUser(username);
         }
     },[username])
     useEffect(()=>{
         if(name){
+            console.log(name);
             abreviationRef.current = generateAbreviation(name);
         }
     },[name])
     return (
         <div className={style['default-profile-picture'] + " " + style['text-'+size]} >
-            { abreviationRef.current ??
+            { abreviationRef.current && abreviationRef.current !== '' ? abreviationRef.current :
                username?.substring(0, 2).toUpperCase()
             }
         </div>
