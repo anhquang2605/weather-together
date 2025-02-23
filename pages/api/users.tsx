@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if(method === 'GET'){
             const {username, fetchFriends, city, filter, sort, getName} = req.query;
             const userCollection = db.collection('users');
-            if(getName === 'true' && username){
+            if(getName === 'true' && typeof username === 'string'){
                 const data = await userCollection.findOne({username: username});
                 if(data){
                    const firstName = data.firstName;

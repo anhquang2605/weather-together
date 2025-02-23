@@ -12,13 +12,6 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
     const [color, setColor] = useState<string>('');
     const [name, setName] = useState<string>('');
     const abreviationRef = useRef<string>('');
-/*************  ✨ Codeium Command ⭐  *************/
-    /**
-     * @function
-     * @param {string} username
-     * Given a username, fetches the users name from the server and sets it to the state variable name
-     */
-/******  0d4e3a1d-e891-41a8-b559-2e1d8a454ab9  *******/
     const getNameOfUser = (username: string) => {
         
         const options = {
@@ -58,7 +51,6 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
     },[])
     useEffect(()=>{
         if(username){
-            console.log(username);
             getNameOfUser(username);
         }
     },[username])
