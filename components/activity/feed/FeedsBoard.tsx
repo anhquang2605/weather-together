@@ -75,7 +75,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
           }
     },[]);
     useEffect(()=>{
-        let timeout: NodeJS.Timeout;
         if(endOfList && hasMore){
             fetchMore(username, lastCursor);
         }
