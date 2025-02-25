@@ -1,13 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect} from 'react';
 import style from './feeds-board.module.css';
-import { Feed, FeedGroup } from '../../../types/Feed';
+import { FeedGroup } from '../../../types/Feed';
 import { fetchFromGetAPI } from '../../../libs/api-interactions';
-import { FeedContextProvider, FeedsContext, useFeedContext } from './FeedsContext';
-import { unique } from 'next/dist/build/utils';
+import { useFeedContext } from './FeedsContext';
 import FeedList from './feed-list/FeedList';
-import { add, debounce, set } from 'lodash';
-import { time } from 'console';
-type FetchFunctionType = (path: string, params: any) => Promise<any>;
+import { debounce } from 'lodash';
+
 interface FeedsBoardProps {
     username: string;
     buddiesUsernames: string[];
@@ -26,9 +24,8 @@ export default function FeedsBoard (props: FeedsBoardProps) {
         username,
         buddiesUsernames
     } = props;
-    const feedListRef = useRef<HTMLDivElement>(null);
-    const FEEDS_PER_PAGE = 10;
-    const {addFeeds, setHasMore, setFetchingStatus, feedGroups, hasMore, setLastCursor, lastCursor, allContentLoaded, setUsername} = useFeedContext();
+
+    const {addFeeds, setHasMore, setFetchingStatus, hasMore, setLastCursor, lastCursor,  setUsername} = useFeedContext();
     const [endOfList, setEndOfList] = useState<boolean>(false);
     const [listRendered, setListRendered] = useState<boolean>(false);
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
