@@ -46,7 +46,6 @@ const SunCloud: React.FC<SunCloudProps> = (props) => {
             setTheTimeline(startAnimation());
         }
         setTimeout(() => {
-            console.log('reverse');
             reverseAnimation();
         }, 4000)
     },[])
