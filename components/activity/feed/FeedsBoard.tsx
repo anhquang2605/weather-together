@@ -10,11 +10,6 @@ interface FeedsBoardProps {
     username: string;
     buddiesUsernames: string[];
 }
-interface returnedFetchData {
-    feedGroups: FeedGroup[];
-    hasMore: boolean;
-    success: boolean;
-}
 
 /* 
     Only job is to fetch the feeds, then pass the feeds to the context provider, also consolidate the feeds from the context provider, if the feed has the same targetId and username then it will be consolidated into one feed. we take the latest feed and add the username to the feed's username array.
