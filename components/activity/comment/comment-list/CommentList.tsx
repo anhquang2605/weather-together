@@ -26,6 +26,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
         () => {
             if(waterFall){
                 let comment = comments[curLevel || 0];
+                console.log(commentorToAvatarMap, comment.username);
                 return(
                     [<CommentComponent
                         key={comment._id?.toString() || ''}
