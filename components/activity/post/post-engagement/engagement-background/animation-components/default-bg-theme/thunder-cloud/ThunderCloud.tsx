@@ -61,17 +61,17 @@ const ThunderCloud: React.FC<ThunderCloudProps> = (props) => {
 <div className={style['thunder-cloud'] + " " + targetClassName}>
 <svg width="43.461mm" height="48.202mm" version="1.1" viewBox="0 0 43.461 48.202" xmlns="http://www.w3.org/2000/svg">
     <defs>
-        <filter id="filter5" x="-.48879" y="-.29104" width="2.0324" height="1.5821" color-interpolation-filters="sRGB">
+        <filter id="filter5" x="-.48879" y="-.29104" width="2.0324" height="1.5821" colorInterpolationFilters="sRGB">
         <feGaussianBlur stdDeviation="1.5913299"/>
         </filter>
     </defs>
     <g transform="translate(-51.052 -25.084)">
-        <g id="thunder-strike" fill="none" stroke="#ffea69" stroke-linecap="round">
-            <path d="m73.762 52.823-5.8494 6.7929 10.661 3.3021-6.4155 3.6795 1.6039 2.0756" filter="url(#filter5)" stroke-width="1.5875" />
-            <path d="m73.967 52.645-5.8494 6.7929 10.661 3.3021-6.4155 3.6795 1.6039 2.0756" stroke-width="1.323"/>
+        <g id="thunder-strike" fill="none" stroke="#ffea69" strokeLinecap="round">
+            <path d="m73.762 52.823-5.8494 6.7929 10.661 3.3021-6.4155 3.6795 1.6039 2.0756" filter="url(#filter5)" strokeWidth="1.5875" />
+            <path d="m73.967 52.645-5.8494 6.7929 10.661 3.3021-6.4155 3.6795 1.6039 2.0756" strokeWidth="1.323"/>
         </g>
-        <path d="m87.088 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#222" stroke-width=".52363" id={style["thunder-cloud"]}/>
-        <g stroke="#aaa4a4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3229" id={style["thunder-cloud-face"]}>
+        <path d="m87.088 34.607c0.09183-0.48812 0.13972-0.99176 0.13972-1.5068 0-4.4271-3.543-8.016-7.9136-8.016-2.6741 0-5.0385 1.3436-6.4709 3.4007-1.3753-1.1695-3.1491-1.8738-5.0851-1.8738-4.3286 0-7.8455 3.5203-7.9126 7.8887h-9.96e-4c-4.8561 0-8.7927 3.9875-8.7927 8.9066 0 4.919 3.9366 8.9066 8.7927 8.9066h25.876c4.856 0 8.7927-3.9876 8.7927-8.9066 0-4.4478-3.2185-8.1339-7.4251-8.7994z" fill="#222" strokeWidth=".52363" id={style["thunder-cloud"]}/>
+        <g stroke="#aaa4a4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.3229" id={style["thunder-cloud-face"]}>
             <g transform="translate(2.2844)" fill="#202020" >
                 <path d="m63.306 42.978 5.0003 2.3586"/>
                 <path d="m77.69 42.978-5.0003 2.3586"/>
