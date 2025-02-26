@@ -127,6 +127,7 @@ export default function CommentComponent(
         insertToPostAPI(path, usernames)
                 .then(response => {
                     if(response.success){
+                        console.log("subcomment" , response.data);
                         setCommentorToAvatar(response.data);
                     }
                 })
