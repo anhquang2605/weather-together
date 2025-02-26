@@ -229,27 +229,23 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
         }
         const response = await fetchFromGetAPI(path, params);
         if(response && response.data){
+            handleFetchProfilePathsToCommentors(response.data.commentors);
+            handleFetchUsernameToName([...response.data.commentors, post.username]);
             if(preview){
                 const resultComments = response.data.result;
                 setWaterFall(true);
                 setComments(resultComments);
                 setCommentChildrenSummary(response.data.children);
-                handleFetchProfilePathsToCommentors(response.data.commentors);
-                handleFetchUsernameToName([...response.data.commentors, post.username]);
                 setIsFetchingComments(false);
                 return;
             }
             if(more){
                 setComments(prev => [...prev, ...response.data.result]);
                 setCommentChildrenSummary(prev => ({...prev, ...response.data.children}));
-                handleFetchProfilePathsToCommentors(response.data.commentors, more);
-                handleFetchUsernameToName([...response.data.commentors], more);
                 setLastCursor(response.data.lastCursor);
             }else{
                 setComments(response.data.result);
-                handleFetchProfilePathsToCommentors(response.data.commentors);
                 setCommentChildrenSummary(response.data.children);
-                handleFetchUsernameToName([...response.data.commentors, post.username]);
                 setLastCursor(response.data.lastCursor);
             }
           
