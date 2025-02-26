@@ -412,6 +412,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                  setEndOfList={setEndOfList}
                  fetchingMoreCommentStatus={fetchingStatus}
                  usernamesToNames={usernameToName}
+                 isPreviewed={preview}
                  postID={"post_"+ (preview ? "" : "modal_") + post._id?.toString()!}
                  children={commentChildrenSummary} commentor={author} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 {preview && <CommentForm
