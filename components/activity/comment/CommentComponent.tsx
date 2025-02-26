@@ -30,6 +30,7 @@ interface CommentComponentProps{
     waterFallComments?: Comment[];//case of waterfall
     curLevel?: number;
     childrenSummaryWaterFall?: CommentChildrenSummary;
+    isPreviewed?: boolean
 }
 interface UsernameToNameMap{
     [username: string]: string;
@@ -46,7 +47,8 @@ export default function CommentComponent(
         waterFall,
         waterFallComments,
         curLevel, 
-        childrenSummaryWaterFall
+        childrenSummaryWaterFall,
+        isPreviewed
     }: CommentComponentProps
 ){
     const {username, createdDate, content, postId, pictureAttached, level, _id,  } = comment;
@@ -118,14 +120,12 @@ export default function CommentComponent(
         if(response.success){
             setChildComments(response.data.result);
             setCommentChildrenSummary(response.data.children);
-            console.log("here");
             handleFetchProfilePathsToCommentors(response.data.commentors);
             handleFetchMoreUsernameToName(response.data.commentors);
         }
     }
     const handleFetchProfilePathsToCommentors = (usernames: string[]) => {
         const path = `users`;
-        console.log("here");
         insertToPostAPI(path, usernames)
                 .then(response => {
                     if(response.success){
@@ -161,6 +161,9 @@ export default function CommentComponent(
             handleGetPicture();
         }
         handleFetchReactionsGroups(_id?.toString() || '');
+        if(isPreviewed){
+            handleFetchChildrenComments(_id?.toString() || '');
+        }
     }, []);
     return(
         <div className={`${style['comment-component']} ${level > 0 ? style['child-comment'] : ''}`}>

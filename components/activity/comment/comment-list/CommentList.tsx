@@ -18,15 +18,15 @@ interface CommentListProps {
     postID?: string;
     setEndOfList?: React.Dispatch<React.SetStateAction<boolean>>;
     fetchingMoreCommentStatus?: string;
+    isPreviewed?: boolean;
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList, fetchingMoreCommentStatus}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList, fetchingMoreCommentStatus, isPreviewed}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = 
         () => {
             if(waterFall){
                 let comment = comments[curLevel || 0];
-                console.log(commentorToAvatarMap, comment.username);
                 return(
                     [<CommentComponent
                         key={comment._id?.toString() || ''}
@@ -40,6 +40,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
                         waterFallComments={comments}
                         waterFall={waterFall}
                         curLevel={curLevel || 0}
+                        isPreviewed={isPreviewed}
                         childrenSummaryWaterFall={children}
                     />]
                 )
@@ -55,7 +56,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
                             usernamesToNames={usernamesToNames || {}}
                             childrenNo={children[comment._id?.toString() || '']}
                             lastChild={index === comments.length - 1}
-                            
+                            isPreviewed={isPreviewed}
                         />
                     )
                 })
