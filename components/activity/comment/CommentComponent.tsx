@@ -118,12 +118,14 @@ export default function CommentComponent(
         if(response.success){
             setChildComments(response.data.result);
             setCommentChildrenSummary(response.data.children);
+            console.log("here");
             handleFetchProfilePathsToCommentors(response.data.commentors);
             handleFetchMoreUsernameToName(response.data.commentors);
         }
     }
     const handleFetchProfilePathsToCommentors = (usernames: string[]) => {
         const path = `users`;
+        console.log("here");
         insertToPostAPI(path, usernames)
                 .then(response => {
                     if(response.success){
