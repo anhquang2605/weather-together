@@ -10,6 +10,18 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({}) => {
     const startAnimation = () => {
         const timeline = anime.timeline({});
     }
+    const sunnyAnimation = () => {
+        
+    }
+    const rainyAnimation = () => {
+        
+    }
+    const cloudyAnimation = () => {
+        
+    }
+    const windyAnimation = () => {
+        
+    }
     useEffect(()=> {
 
     },[])
