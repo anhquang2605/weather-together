@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      units="mm"
-     inkscape:zoom="7.9925288"
-     inkscape:cx="158.83584"
-     inkscape:cy="145.1981"
+     inkscape:zoom="1.9981322"
+     inkscape:cx="93.337168"
+     inkscape:cy="85.329689"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
@@ -40,7 +40,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:1.32291667;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        d="M 56.475136,42.372906 28.005843,42.174283 c -2.20687,-0.0154 -3.993588,-3.065349 -3.906253,-5.693862 0.181408,-5.459853 3.313663,-7.539838 4.634536,-8.540788 1.76141,-1.334786 5.866878,-2.093045 8.209749,-1.522776 2.977386,0.724714 5.247854,2.583938 6.951806,4.766953 2.168622,2.778326 1.588983,4.435914 1.588983,4.435914 0.977616,-2.778735 3.908284,-4.465354 6.885597,-4.502124 3.053774,-0.03771 4.923754,1.699213 6.289728,4.237292 1.17942,2.214664 1.070321,6.885561 -2.184853,7.018014 z"
        id="path943"
        sodipodi:nodetypes="cssssssscc" />
