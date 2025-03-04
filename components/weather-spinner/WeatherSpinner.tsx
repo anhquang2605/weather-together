@@ -13,9 +13,6 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({}) => {
     const sunnyAnimation = () => {
         
     }
-    const rainyAnimation = () => {
-        
-    }
     const cloudyAnimation = () => {
         
     }
