@@ -78,9 +78,9 @@
      id="ellipse842"
      r="12.111" />
   <circle
-     cx="25.921642"
+     cx="25.866751"
      cy="25.848417"
-     style="fill:#fff57e;stroke:#ffc60b;stroke-width:1.3229;stroke-linecap:round;paint-order:stroke fill markers;fill-opacity:1;stroke-opacity:1"
+     style="fill:#fff57e;fill-opacity:1;stroke:#ffc60b;stroke-width:1.3229;stroke-linecap:round;stroke-opacity:1;paint-order:stroke fill markers"
      id="fill-sun"
      r="12.111" />
 </svg>
