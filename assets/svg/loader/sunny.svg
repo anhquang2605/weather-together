@@ -35,45 +35,52 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg846" />
   <g
-     fill="none"
-     stroke="#000000"
-     stroke-linecap="round"
-     stroke-width="1.3229"
-     id="g844"
-     transform="translate(-16.93305,-1.12328)">
-    <g
-       transform="translate(1.6188,-0.41997)"
-       id="g840">
-      <path
-         d="m 58.309,27.41 h 8.0773"
-         id="path824" />
-      <path
-         d="m 53.292,39.521 5.7115,5.7115"
-         id="path826" />
-      <path
-         d="m 41.181,44.538 v 8.0773"
-         id="path828" />
-      <path
-         d="m 29.07,39.521 -5.7115,5.7115"
-         id="path830" />
-      <path
-         d="M 24.053,27.41 H 15.9757"
-         id="path832" />
-      <path
-         d="M 29.07,15.299 23.3585,9.5875"
-         id="path834" />
-      <path
-         d="M 41.181,10.282 V 2.2047"
-         id="path836" />
-      <path
-         d="M 53.292,15.299 59.0035,9.5875"
-         id="path838" />
-    </g>
-    <circle
-       cx="42.799999"
-       cy="26.99"
-       style="paint-order:stroke fill markers"
-       id="ellipse842"
-       r="12.111" />
+     transform="translate(-15.31425,-1.54325)"
+     id="g840"
+     style="fill:none;stroke:#ffc60b;stroke-width:1.3229;stroke-linecap:round;stroke-opacity:1">
+    <path
+       d="m 58.309,27.41 h 8.0773"
+       id="path824"
+       style="stroke:#ffc60b;stroke-opacity:1" />
+    <path
+       d="m 53.292,39.521 5.7115,5.7115"
+       id="path826"
+       style="stroke:#ffc60b;stroke-opacity:1" />
+    <path
+       d="m 41.181,44.538 v 8.0773"
+       id="path828"
+       style="stroke:#ffc60b;stroke-opacity:1" />
+    <path
+       d="m 29.07,39.521 -5.7115,5.7115"
+       id="path830"
+       style="stroke:#ffc60b;stroke-opacity:1" />
+    <path
+       d="M 24.053,27.41 H 15.9757"
+       id="path832"
+       style="stroke:#ffc60b;stroke-opacity:1" />
+    <path
+       d="M 29.07,15.299 23.3585,9.5875"
+       id="path834"
+       style="stroke:#ffc60b;stroke-opacity:1" />
+    <path
+       d="M 41.181,10.282 V 2.2047"
+       id="path836"
+       style="stroke:#ffc60b;stroke-opacity:1" />
+    <path
+       d="M 53.292,15.299 59.0035,9.5875"
+       id="path838"
+       style="stroke:#ffc60b;stroke-opacity:1" />
   </g>
+  <circle
+     cx="25.866949"
+     cy="25.86672"
+     style="fill:none;stroke:#000000;stroke-width:1.3229;stroke-linecap:round;paint-order:stroke fill markers"
+     id="ellipse842"
+     r="12.111" />
+  <circle
+     cx="25.921642"
+     cy="25.848417"
+     style="fill:#fff57e;stroke:#ffc60b;stroke-width:1.3229;stroke-linecap:round;paint-order:stroke fill markers;fill-opacity:1;stroke-opacity:1"
+     id="fill-sun"
+     r="12.111" />
 </svg>
