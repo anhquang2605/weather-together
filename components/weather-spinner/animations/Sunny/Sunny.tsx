@@ -20,8 +20,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                     <path d="m41.181 10.282v-8.0773"/>
                     <path d="m53.292 15.299 5.7115-5.7115"/>
                 </g>
-                    <circle cx="25.867" cy="25.867" r="12.111" fill="none" stroke="#000" style="paint-order:stroke fill markers"/>
-                    <circle id="fill-sun" cx="25.867" cy="25.848" r="12.111" fill="#fff57e" stroke="#ffc60b" style="paint-order:stroke fill markers"/>
+                    <circle cx="25.867" cy="25.867" r="12.111" fill="none" stroke="#000" />
+                    <circle id="fill-sun" cx="25.867" cy="25.848" r="12.111" fill="#fff57e" stroke="#ffc60b" />
                 </g>
             </svg>
         </div>
