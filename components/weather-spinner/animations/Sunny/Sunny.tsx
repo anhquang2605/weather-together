@@ -10,7 +10,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         <div className={style['sunny']}>
             <svg width="51.734mm" height="51.734mm" version="1.1" viewBox="0 0 51.734 51.734" xmlns="http://www.w3.org/2000/svg">
                 <g stroke-linecap="round" stroke-width="1.3229">
-                <g transform="translate(-15.314 -1.5432)" fill="none" stroke="#ffc60b">
+                <g transform="translate(-15.314 -1.5432)" id="sunny-sun_path"  fill="none" stroke="#ffc60b">
                     <path d="m58.309 27.41h8.0773"/>
                     <path d="m53.292 39.521 5.7115 5.7115"/>
                     <path d="m41.181 44.538v8.0773"/>
@@ -20,8 +20,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                     <path d="m41.181 10.282v-8.0773"/>
                     <path d="m53.292 15.299 5.7115-5.7115"/>
                 </g>
-                    <circle cx="25.867" cy="25.867" r="12.111" fill="none" stroke="#000" />
-                    <circle id="fill-sun" cx="25.867" cy="25.848" r="12.111" fill="#fff57e" stroke="#ffc60b" />
+                    <circle id="sunny-sun_stroke" cx="25.867" cy="25.867" r="12.111" fill="none" stroke="#000" />
+                    <circle id="sunny-filled_sun" cx="25.867" cy="25.848" r="12.111" fill="#fff57e" stroke="#ffc60b" />
                 </g>
             </svg>
         </div>
