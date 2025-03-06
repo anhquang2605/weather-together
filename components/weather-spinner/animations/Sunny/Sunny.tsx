@@ -9,10 +9,10 @@ interface SunnyProps {
 const Sunny: React.FC<SunnyProps> = ({}) => {
     const sunnyAnimation = () => {
         const timeline = anime.timeline({
-            loop: true
+            //loop: true
         });
-        const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path' , 'linear', 5000, {
-            rotate: anime.stagger([360, -360]),
+        const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:nth-child(n + 1)' , 'linear', 1000, {
+            rotate: anime.stagger([360, 45]),
         }, false);
         //sunPathFoldingAnime.delay = anime.stagger(100);
         timeline.add(sunPathFoldingAnime);
