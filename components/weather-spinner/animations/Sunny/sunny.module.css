@@ -1,8 +1,12 @@
 .sunny{
     
 }
-#sunny-sun_path{
+#sunny-sun_path path{
+    transform-origin: 79% 53%;
 
+}
+#sunny-sun_path path:nth-child(1){
+    transform-origin: 79% 53%;
 }
 #sunny-sun_stroke{
 
