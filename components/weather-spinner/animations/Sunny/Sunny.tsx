@@ -12,7 +12,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
             loop: true
         });
         const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path' , 'linear', 5000, {
-            rotate: ['0deg', '360deg'],
+            rotate: anime.stagger([0, 360], {from: 'center'}),
         }, false);
         sunPathFoldingAnime.delay = anime.stagger(100);
         timeline.add(sunPathFoldingAnime);
