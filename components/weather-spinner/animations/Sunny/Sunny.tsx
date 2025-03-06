@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './sunny.module.css';
-
+import anime, { AnimeAnimParams } from 'animejs';
+import { propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface SunnyProps {
 
 }
 
 const Sunny: React.FC<SunnyProps> = ({}) => {
+    const sunnyAnimation = () => {
+        const timeline = anime.timeline({});
+        const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + 'path', 'spring', 1000, {
+            rotate: [360],
+        })
+        sunPathFoldingAnime.delay = anime.stagger(1000, {from: 'center'});
+        timeline.add(sunPathFoldingAnime);
+    }
+    useEffect(()=>{
+        sunnyAnimation();
+    })
     return (
         <div className={style['sunny']}>
             <svg width="51.734mm" height="51.734mm" version="1.1" viewBox="0 0 51.734 51.734" xmlns="http://www.w3.org/2000/svg">
