@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import style from './sunny.module.css';
 import anime, { AnimeAnimParams } from 'animejs';
 import { propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { time } from 'console';
 interface SunnyProps {
 
 }
@@ -16,9 +17,10 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         }, false);
         const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:nth-child(n + 1)' , 'linear', 1000, {
             rotate: anime.stagger([0, -45]),
-        })
+        }, false)
         //sunPathFoldingAnime.delay = anime.stagger(100);
         timeline.add(sunPathFoldingAnime);
+        timeline.add(sunPathUnfoldingAnime);
         
     }
     useEffect(()=>{
