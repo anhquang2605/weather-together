@@ -12,10 +12,10 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const timeline = anime.timeline({
             //loop: true
         });
-        const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:nth-child(n + 1)' , 'linear', 1000, {
+        const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
             rotate: anime.stagger([360, 45]),
         }, false);
-        const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:nth-child(n + 1)' , 'linear', 1000, {
+        const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
             rotate: anime.stagger([0, -45]),
         }, false)
         //sunPathFoldingAnime.delay = anime.stagger(100);
