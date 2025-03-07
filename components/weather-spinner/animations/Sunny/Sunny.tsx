@@ -13,12 +13,11 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
             //loop: true
         });
         const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
-            rotate: anime.stagger([360, 45]),
+            rotate: anime.stagger([315, 45 ]),
         }, false);
         const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
-            rotate: anime.stagger([0, -45]),
-        }, false)
-        //sunPathFoldingAnime.delay = anime.stagger(100);
+            rotate: anime.stagger([315, 45 ]),
+        }, false);
         timeline.add(sunPathFoldingAnime);
         timeline.add(sunPathUnfoldingAnime);
         
