@@ -1,6 +1,9 @@
 .sunny{
     
 }
+#sunny-sun_path{
+    transform-origin: center;
+}
 #sunny-sun_path path{
     transform-origin: 79.5% 53%;
 
