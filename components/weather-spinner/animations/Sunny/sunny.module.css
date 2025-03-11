@@ -1,11 +1,12 @@
 .sunny{
-    
+    position: relative;
 }
 #sunny-sun_path{
-    transform-origin: 77% 53%;
+    transform-origin: center;
+    transform-box: fill-box;
 }
 #sunny-sun_path path{
-    transform-origin: 79.5% 53%;
+    /* transform-origin: 79.5% 53%; */
 
 }
 #sunny-sun_stroke{
