@@ -22,7 +22,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
             rotate: 0,
         }, false);
         timeline.add(sunPathFoldingAnime);
-        timeline.add(sunPathUnfoldingAnime);
+        //timeline.add(sunPathUnfoldingAnime);
         timeline.add(sunPathSpinningAnime);
         
     }
