@@ -6,7 +6,7 @@
     transform-box: fill-box; 
 }
 #sunny-sun_path path{
-    transform-origin: 79.5% 53%;
+    transform-origin: center;
 
 }
 #sunny-sun_stroke{
