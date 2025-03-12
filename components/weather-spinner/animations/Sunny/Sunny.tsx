@@ -38,8 +38,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
            stroke: '#fff'
         },false)
         //timeline.add(testAnimation);
-        const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'linear', 1000, {
-            translateX: ['-100%']
+        const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'spring', 200, {
+            translateX: ['-20']
         }, false);
 
         timeline.add(sunPathSpinningAnime);
