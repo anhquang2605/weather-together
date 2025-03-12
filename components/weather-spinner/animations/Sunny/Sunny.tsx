@@ -3,6 +3,7 @@ import style from './sunny.module.css';
 import anime, { AnimeAnimParams } from 'animejs';
 import { propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 import { time } from 'console';
+import background from '../../../weather-widgets/weather-bar/animated-bar-background/background/Background';
 interface SunnyProps {
 
 }
@@ -11,7 +12,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
     const sunnyAnimation = () => {
         const timeline = anime.timeline({
             //loop: true,
-/*             begin: () => {
+          /*   begin: () => {
                 const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
                 const numberOfPaths = paths ? paths.length : 0;
                 if (numberOfPaths) {
@@ -33,10 +34,19 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
             rotate: 0,
         }, false);
-        ;
-        timeline.add(sunPathUnfoldingAnime);
-        //timeline.add(sunPathSpinningAnime);
-        //timeline.add(sunPathFoldingAnime);
+        const testAnimation: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
+           stroke: '#fff'
+        },false)
+        //timeline.add(testAnimation);
+        const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'linear', 1000, {
+            translateX: ['-100%']
+        }, false);
+
+        timeline.add(sunPathSpinningAnime);
+        timeline.add(sunPathFoldingAnime);
+        timeline.add(sunPathMovingInAnime);
+        //timeline.add(sunPathUnfoldingAnime);
+        
     }
     useEffect(()=>{
         sunnyAnimation();
