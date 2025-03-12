@@ -12,14 +12,12 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const timeline = anime.timeline({
             //loop: true,
             begin: () => {
-                const sunPath = document.querySelector('#' + style['sunny-sun_path'] + ' path') as SVGGElement;
-                const paths = sunPath?.querySelectorAll('path');
+                const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
                 const numberOfPaths = paths ? paths.length : 0;
-                console.log(paths);
                 if (numberOfPaths) {
                     const angle = 360 / numberOfPaths;
-                    for (let i = numberOfPaths - 1; i > 0; i++) {
-                        const thePath = paths[i] as SVGPathElement;
+                    for (let i = numberOfPaths - 1; i > 0; i--) {
+                        const thePath = paths[i] as SVGElement;
                         thePath.style.transform = `rotate(${i * angle }deg)`;
                     }
                 }
@@ -34,7 +32,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
             rotate: 0,
         }, false);
-        timeline.add(sunPathUnfoldingAnime);
+        //timeline.add(sunPathUnfoldingAnime);
         timeline.add(sunPathSpinningAnime);
         //timeline.add(sunPathFoldingAnime);
     }
