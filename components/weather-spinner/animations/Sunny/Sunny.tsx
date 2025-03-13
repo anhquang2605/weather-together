@@ -32,17 +32,20 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunPathSpinningAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path']  , 'linear', 2000, {
             rotate: 360,
         },false)
-        const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
+        const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 500, {
             rotate: 0,
         }, false);
         const testAnimation: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
            stroke: '#fff'
         },false)
         //timeline.add(testAnimation);
-        const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'spring', 200, {
+        const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeInElastic', 1000, {
+            complete: () => {
+                
+            },
             translateX: ['-' + PATH_MOVE_IN_DISTANCE],
         }, false);
-        const sunPathMoveOutAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'spring', 200, {
+        const sunPathMoveOutAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeOutElastic', 1000, {
             translateX: [0],
         }, false)
         timeline1.add(sunPathSpinningAnime);
@@ -50,7 +53,6 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         timeline1.add(sunPathMovingInAnime);
         timeline1.add(sunPathMoveOutAnime);
         timeline1.add(sunPathUnfoldingAnime);
-        
     }
     useEffect(()=>{
         sunnyAnimation();
