@@ -4,6 +4,7 @@ import anime, { AnimeAnimParams } from 'animejs';
 import { propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 import { time } from 'console';
 import background from '../../../weather-widgets/weather-bar/animated-bar-background/background/Background';
+import { be } from 'date-fns/locale';
 interface SunnyProps {
 
 }
@@ -41,12 +42,22 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         //timeline.add(testAnimation);
         const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeInElastic', 1000, {
             complete: () => {
-                
+                const path = document.getElementById(style['sunny-sun_path']);
+                if (path) {
+                    path.style.opacity = '0';
+                }
+
             },
             translateX: ['-' + PATH_MOVE_IN_DISTANCE],
         }, false);
         const sunPathMoveOutAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeOutElastic', 1000, {
             translateX: [0],
+            begin: () => {
+                const path = document.getElementById(style['sunny-sun_path']);
+                if (path) {
+                    path.style.opacity = '1';
+                }
+            }
         }, false)
         timeline1.add(sunPathSpinningAnime);
         timeline1.add(sunPathFoldingAnime);
