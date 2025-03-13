@@ -11,7 +11,7 @@ interface SunnyProps {
 const Sunny: React.FC<SunnyProps> = ({}) => {
     const sunnyAnimation = () => {
         const PATH_MOVE_IN_DISTANCE = 20;
-        const timeline = anime.timeline({
+        const timeline1 = anime.timeline({
             //loop: true,
           /*   begin: () => {
                 const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
@@ -45,11 +45,11 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunPathMoveOutAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'spring', 200, {
             translateX: [0],
         }, false)
-        timeline.add(sunPathSpinningAnime);
-        timeline.add(sunPathFoldingAnime);
-        timeline.add(sunPathMovingInAnime);
-        timeline.add(sunPathMoveOutAnime);
-        timeline.add(sunPathUnfoldingAnime);
+        timeline1.add(sunPathSpinningAnime);
+        timeline1.add(sunPathFoldingAnime);
+        timeline1.add(sunPathMovingInAnime);
+        timeline1.add(sunPathMoveOutAnime);
+        timeline1.add(sunPathUnfoldingAnime);
         
     }
     useEffect(()=>{
