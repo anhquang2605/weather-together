@@ -59,10 +59,14 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                 }
             }
         }, false)
+        const sunStrokeExpandingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_stroke'] , 'easeOutElastic', 1000, {
+            scale: [0, 1]
+        },false)
         const sunFillExpandingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-filled_sun'] , 'easeOutElastic', 1000, {
             scale: [0, 1]
-        })
-        
+        }, false)
+        timeline1.add(sunStrokeExpandingAnime);
+        timeline1.add(sunFillExpandingAnime);
         timeline1.add(sunPathSpinningAnime);
         timeline1.add(sunPathFoldingAnime);
         timeline1.add(sunPathMovingInAnime);
@@ -86,8 +90,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                     <path d="m30 12.872v-8.0773"/>
                     <path d="m42.111 17.889 5.7115-5.7115"/>
                     </g>
-                    <circle id={style["sunny-sun_stroke"]} cx="30" cy="30" r="12.111" fill="none" stroke="#000" />
-                    <circle id={style["sunny-filled_sun"]} cx="30" cy="29.981" r="12.111" fill="#fff57e" stroke="#ffc60b" />
+                    <circle id={style["sunny-sun_stroke"]} cx="30" cy="30" r="12.111" fill="none" stroke="#ffc60b" />
+                    <circle id={style["sunny-filled_sun"]} cx="30" cy="29.981" r="12.111" fill="#fff57e"  />
                 </g>
             </svg>
         </div>
