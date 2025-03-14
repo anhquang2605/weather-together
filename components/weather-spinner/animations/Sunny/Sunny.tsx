@@ -49,6 +49,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
 
             },
             translateX: ['-' + PATH_MOVE_IN_DISTANCE],
+            scaleX: 0.5,
+            scaleY: 1.6,
         }, false);
         const sunPathMoveOutAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeOutElastic', 1000, {
             translateX: [0],
@@ -71,15 +73,16 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunFillShrinkingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-filled_sun'] , 'easeInElastic', 1000, {
             scale : [1, 0]
         }, false)
-        timeline1.add(sunStrokeExpandingAnime);
-        timeline1.add(sunFillExpandingAnime);
+       
         timeline1.add(sunPathSpinningAnime);
         timeline1.add(sunPathFoldingAnime);
         timeline1.add(sunPathMovingInAnime);
         timeline1.add(sunStrokeShrinkingAnime);
         timeline1.add(sunFillShrinkingAnime);
-        /* timeline1.add(sunPathMoveOutAnime);
-        timeline1.add(sunPathUnfoldingAnime); */
+        timeline1.add(sunStrokeExpandingAnime);
+        timeline1.add(sunFillExpandingAnime);
+        timeline1.add(sunPathMoveOutAnime);
+        timeline1.add(sunPathUnfoldingAnime); 
     }
     useEffect(()=>{
         sunnyAnimation();
