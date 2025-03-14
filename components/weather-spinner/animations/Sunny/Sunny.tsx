@@ -59,6 +59,10 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                 }
             }
         }, false)
+        const sunFillExpandingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-filled_sun'] , 'easeOutElastic', 1000, {
+            scale: [0, 1]
+        })
+        
         timeline1.add(sunPathSpinningAnime);
         timeline1.add(sunPathFoldingAnime);
         timeline1.add(sunPathMovingInAnime);
