@@ -41,7 +41,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         },false)
         //timeline.add(testAnimation);
         const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeInElastic', 1000, {
-            complete: () => {
+            changeComplete: () => {
                 const path = document.getElementById(style['sunny-sun_path']);
                 if (path) {
                     path.style.opacity = '0';
