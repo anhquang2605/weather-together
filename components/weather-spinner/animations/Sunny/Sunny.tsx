@@ -36,9 +36,6 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 500, {
             rotate: 0,
         }, false);
-        const testAnimation: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 1000, {
-           stroke: '#fff'
-        },false)
         //timeline.add(testAnimation);
         const sunPathMovingInAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeInElastic', 1000, {
             changeComplete: () => {
