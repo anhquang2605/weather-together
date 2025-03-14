@@ -54,6 +54,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         }, false);
         const sunPathMoveOutAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] , 'easeOutElastic', 1000, {
             translateX: [0],
+            scaleX: 1,
+            scaleY: 1,
             begin: () => {
                 const path = document.getElementById(style['sunny-sun_path']);
                 if (path) {
