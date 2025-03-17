@@ -10,6 +10,7 @@ interface SunnyProps {
 }
 
 const Sunny: React.FC<SunnyProps> = ({}) => {
+    //CONSTANTS
     const SUN_SPIN_DURATION = 2000;
     const SUN_SIZE_CHANGE_DURATION = 1000;
     const SUN_TRANSLATION_DURATION = 1000;
@@ -25,7 +26,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                 const numberOfPaths = paths ? paths.length : 0;
                 if (numberOfPaths) {
                     const angle = 360 / numberOfPaths;
-                    for (let i = numberOfPaths - 1; i > 0; i--) {
+                    
+                    for (let i = 1; i < numberOfPaths; i++) {
                         const thePath = paths[i] as SVGElement;
                         console.log(i * angle);
                         thePath.style.transform = `rotate(${i * angle }deg)`;
