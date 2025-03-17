@@ -64,7 +64,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
             scale: [0, 1]
         },false)
         const sunFillExpandingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-filled_sun'] , 'easeOutElastic', 1000, {
-            scale: [0, 1]
+            scale: [0, 1],
+            offset: '-=500'
         }, false)
         const sunStrokeShrinkingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_stroke'] , 'easeInElastic', 1000, {
             scale: [1, 0]
