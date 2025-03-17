@@ -65,7 +65,6 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         },false)
         const sunFillExpandingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-filled_sun'] , 'easeOutElastic', 1000, {
             scale: [0, 1],
-            offset: '-=500'
         }, false)
         const sunStrokeShrinkingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_stroke'] , 'easeInElastic', 1000, {
             scale: [1, 0]
@@ -78,9 +77,9 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         timeline1.add(sunPathFoldingAnime);
         timeline1.add(sunPathMovingInAnime);
         timeline1.add(sunStrokeShrinkingAnime);
-        timeline1.add(sunFillShrinkingAnime);
+        timeline1.add(sunFillShrinkingAnime, '-=700');
         timeline1.add(sunStrokeExpandingAnime);
-        timeline1.add(sunFillExpandingAnime);
+        timeline1.add(sunFillExpandingAnime, '-=700');
         timeline1.add(sunPathMoveOutAnime);
         timeline1.add(sunPathUnfoldingAnime); 
     }
