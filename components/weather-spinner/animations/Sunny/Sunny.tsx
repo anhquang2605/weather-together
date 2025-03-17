@@ -14,7 +14,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const PATH_MOVE_IN_DISTANCE = 20;
         const timeline1 = anime.timeline({
             //loop: true,
-          /*   begin: () => {
+            begin: () => {
                 const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
                 const numberOfPaths = paths ? paths.length : 0;
                 if (numberOfPaths) {
@@ -25,7 +25,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                         thePath.style.transform = `rotate(${i * angle }deg)`;
                     }
                 }
-            } */
+            }
         });
         const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', 500, {
             rotate: anime.stagger([315, 45 ]),
