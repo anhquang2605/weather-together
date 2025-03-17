@@ -10,6 +10,9 @@ interface SunnyProps {
 }
 
 const Sunny: React.FC<SunnyProps> = ({}) => {
+    const SUN_SPIN_DURATION = 2000;
+    const SUN_SIZE_CHANGE_DURATION = 1000;
+    const SUN_TRANSLATION_DURATION = 1000;
     const sunnyAnimation = () => {
         const PATH_MOVE_IN_DISTANCE = 20;
         const timeline1 = anime.timeline({
@@ -78,6 +81,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         timeline1.add(sunPathMovingInAnime);
         timeline1.add(sunStrokeShrinkingAnime);
         timeline1.add(sunFillShrinkingAnime, '-=700');
+        //restarting point here
         timeline1.add(sunStrokeExpandingAnime);
         timeline1.add(sunFillExpandingAnime, '-=700');
         timeline1.add(sunPathMoveOutAnime);
