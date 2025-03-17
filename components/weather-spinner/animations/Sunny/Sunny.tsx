@@ -14,6 +14,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
     const SUN_SIZE_CHANGE_DURATION = 1000;
     const SUN_TRANSLATION_DURATION = 1000;
     const SUN_PATH_FOLDING_DURATION = 500;
+    const SUN_SIZE_DURATION_OFFSET_MULTIPLIER = 0.7;
+    const SUN_SIZE_DURATION_OFFSET = SUN_SIZE_CHANGE_DURATION * SUN_SIZE_DURATION_OFFSET_MULTIPLIER; 
     const sunnyAnimation = () => {
         const PATH_MOVE_IN_DISTANCE = 20;
         const timeline1 = anime.timeline({
@@ -81,10 +83,10 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         timeline1.add(sunPathFoldingAnime);
         timeline1.add(sunPathMovingInAnime);
         timeline1.add(sunStrokeShrinkingAnime);
-        timeline1.add(sunFillShrinkingAnime, `-=${SUN_SIZE_CHANGE_DURATION * 0.7}`);
+        timeline1.add(sunFillShrinkingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
         //restarting point here
         timeline1.add(sunStrokeExpandingAnime);
-        timeline1.add(sunFillExpandingAnime, `-=${SUN_SIZE_CHANGE_DURATION * 0.7}`);
+        timeline1.add(sunFillExpandingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
         timeline1.add(sunPathMoveOutAnime);
         timeline1.add(sunPathUnfoldingAnime); 
     }
