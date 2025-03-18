@@ -17,8 +17,9 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
     const SUN_PATH_FOLDING_DURATION = 500;
     const SUN_SIZE_DURATION_OFFSET_MULTIPLIER = 0.7;
     const SUN_SIZE_DURATION_OFFSET = SUN_SIZE_CHANGE_DURATION * SUN_SIZE_DURATION_OFFSET_MULTIPLIER; 
+    const PATH_MOVE_IN_DISTANCE = 20;
     const sunnyAnimation = () => {
-        const PATH_MOVE_IN_DISTANCE = 20;
+
         const timeline1 = anime.timeline({
             //loop: true,
             changeBegin: () => {
@@ -97,6 +98,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunPath = document.getElementById(style['sunny-sun_path']);
         if (sunPath) {  
             sunPath.style.opacity = '0';
+            sunPath.style.transform = 'translateX(-' + PATH_MOVE_IN_DISTANCE + 'px)';
         }
         //sun path folded
         const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
