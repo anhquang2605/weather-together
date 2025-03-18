@@ -84,6 +84,21 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
 
     }
     const setUp = () => {
+        //sun fill and stroke shrunk
+        const sunFill = document.getElementById(style['sunny-filled_sun']);
+        const sunStroke = document.getElementById(style['sunny-sun_stroke']);
+        if (sunFill) {
+            sunFill.style.transform = 'scale(0)';
+        }
+        if (sunStroke) {
+            sunStroke.style.transform = 'scale(0)';
+        }
+        //sunpath hidden
+        const sunPath = document.getElementById(style['sunny-sun_path']);
+        if (sunPath) {  
+            sunPath.style.opacity = '0';
+        }
+        //sun path folded
         const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
         const numberOfPaths = paths ? paths.length : 0;
         if (numberOfPaths) {
