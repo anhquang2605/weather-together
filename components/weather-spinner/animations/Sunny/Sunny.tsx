@@ -20,6 +20,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
     const sunnyAnimation = () => {
         const PATH_MOVE_IN_DISTANCE = 20;
         const timeline1 = anime.timeline({
+            delay: 1000,
             //loop: true,
             begin: () => {
                 const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
@@ -88,8 +89,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         //restarting point here
         timeline1.add(sunStrokeExpandingAnime);
         timeline1.add(sunFillExpandingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
-        timeline1.add(sunPathMoveOutAnime);
-        timeline1.add(sunPathUnfoldingAnime); 
+        timeline1.add(sunPathMoveOutAnime); 
+        //timeline1.add(sunPathUnfoldingAnime,"+2000"); 
     }
     useEffect(()=>{
         sunnyAnimation();
