@@ -26,8 +26,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
                 const numberOfPaths = paths ? paths.length : 0;
                 if (numberOfPaths) {
                     const angle = 360 / numberOfPaths;
-                    
-                    for (let i = 1; i < numberOfPaths; i++) {
+                    for (let i = numberOfPaths - 1; i > 0; i--) {
                         const thePath = paths[i] as SVGElement;
                         
                         thePath.style.transform = `rotate(${i * angle }deg)`;
