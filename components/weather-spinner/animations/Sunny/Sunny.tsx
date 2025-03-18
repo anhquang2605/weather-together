@@ -21,18 +21,8 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const PATH_MOVE_IN_DISTANCE = 20;
         const timeline1 = anime.timeline({
             //loop: true,
-            begin: () => {
-                const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
-        const numberOfPaths = paths ? paths.length : 0;
-        if (numberOfPaths) {
-            const angle = 360 / numberOfPaths;
-            for (let i = numberOfPaths - 1; i > 0; i--) {
-                const pathNo = numberOfPaths - i;
-                const thePath = paths[pathNo] as SVGElement;
+            changeBegin: () => {
                 
-                thePath.style.transform = `rotate(${i * angle }deg)`;
-                                }
-        }
             }
         });
         const sunPathFoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', SUN_PATH_FOLDING_DURATION, {
@@ -80,20 +70,31 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         const sunFillShrinkingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-filled_sun'] , 'easeInElastic', SUN_SIZE_CHANGE_DURATION, {
             scale : [1, 0]
         }, false)
-       
+        timeline1.add(sunStrokeExpandingAnime);
+        timeline1.add(sunFillExpandingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
+        timeline1.add(sunPathMoveOutAnime); 
+        timeline1.add(sunPathUnfoldingAnime); 
         timeline1.add(sunPathSpinningAnime);
         timeline1.add(sunPathFoldingAnime);
         timeline1.add(sunPathMovingInAnime);
         timeline1.add(sunStrokeShrinkingAnime);
         timeline1.add(sunFillShrinkingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
         //restarting point here
-        timeline1.add(sunStrokeExpandingAnime);
-        timeline1.add(sunFillExpandingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
-        timeline1.add(sunPathMoveOutAnime); 
-        timeline1.add(sunPathUnfoldingAnime); 
+
+
     }
     const setUp = () => {
-       
+        const paths = document.querySelectorAll('#' + style['sunny-sun_path'] + ' path') as NodeListOf<SVGElement>;
+        const numberOfPaths = paths ? paths.length : 0;
+        if (numberOfPaths) {
+            const angle = 360 / numberOfPaths;
+            for (let i = numberOfPaths - 1; i > 0; i--) {
+                const pathNo = numberOfPaths - i;
+                const thePath = paths[pathNo] as SVGElement;
+                
+                thePath.style.transform = `rotate(${i * angle }deg)`;
+                                }
+        }
     }
     useEffect(()=>{
         setUp();
