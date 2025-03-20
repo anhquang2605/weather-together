@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './windy.module.css';
-
+import anime from 'animejs';
+import { set } from 'lodash';
 interface WindyProps {
 
 }
 
 const Windy: React.FC<WindyProps> = ({}) => {
+    const startAnimation = () => {
+        
+    }
+    const setUp = () => {
+        
+    }
+    useEffect(() => {
+        setUp();
+        startAnimation();
+    },[])
     return (
         <div className={style['windy']}>
             <svg width="35mm" height="30mm" version="1.1" viewBox="0 0 35 30" xmlns="http://www.w3.org/2000/svg">
