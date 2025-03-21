@@ -2,11 +2,14 @@
     
 }
 .windy_path{
+    path{
 
+    }
 }
 .leaves{
 
 }
 #wind_stroke_ring{
-    
+    transform-origin: center;
+    transform-box: fill-box;
 }
