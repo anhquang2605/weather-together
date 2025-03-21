@@ -30,7 +30,7 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
             rotate: anime.stagger([315, 45 ]),
         }, false);
         const sunPathSpinningAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path']  , 'linear', SUN_SPIN_DURATION, {
-            rotate: 360,
+            rotate: -360,
         },false)
         const sunPathUnfoldingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-sun_path'] + ' path:not(:first-child)' , 'linear', SUN_PATH_FOLDING_DURATION, {
             rotate: 0,
