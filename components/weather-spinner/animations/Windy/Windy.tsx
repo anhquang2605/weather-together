@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import style from './windy.module.css';
 import anime from 'animejs';
 import { set } from 'lodash';
+import { pathRevealAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
 
 }
 
 const Windy: React.FC<WindyProps> = ({}) => {
     const startAnimation = () => {
-        
+        const timeline = anime.timeline({});
+        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']}`, 'linear', 5000, false);
+        timeline.add(windPathExpandingAnimation);
     }
     const setUp = () => {
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
