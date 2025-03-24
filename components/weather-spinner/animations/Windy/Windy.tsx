@@ -17,7 +17,8 @@ const Windy: React.FC<WindyProps> = ({}) => {
                 leaf.style.transform = 'scale(0)';
             });
         }
-        const ringStroke: HTMLElement | null = document.getElementById(`#${style['wind_stroke_ring']}`);
+        const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
+        console.log(ringStroke)
         if (ringStroke) {
           ringStroke.style.transform = 'scale(0)';
         }
