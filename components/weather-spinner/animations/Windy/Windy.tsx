@@ -10,7 +10,7 @@ interface WindyProps {
 const Windy: React.FC<WindyProps> = ({}) => {
     const startAnimation = () => {
         const timeline = anime.timeline({});
-        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']}`, 'linear', 5000, false);
+        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'linear', 5000, false);
         timeline.add(windPathExpandingAnimation);
     }
     const setUp = () => {
