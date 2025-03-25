@@ -28,7 +28,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const daPath = anime.path(`#${style['wind_path_1']}`);
         if (leaves) {
             leaves.forEach((leaf, index) => {
-                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index}`, 'easeInExpo', 2000,
+                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', 2000,
    /*                  {
                     
                        translateX: paths[index]('x'),

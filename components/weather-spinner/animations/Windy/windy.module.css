@@ -7,12 +7,11 @@
     }
 }
 .leaves{
-    transform-origin: -50%;
-
+    transform-box: view-box;
 }
 #wind_stroke_ring{
     transform-origin: center;
-    transform-box: fill-box;
+    transform-box: view-box;
 }
 #wind_path_1{
 
