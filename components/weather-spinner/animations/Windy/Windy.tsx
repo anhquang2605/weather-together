@@ -39,7 +39,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                    {
                        translateX: daPath('x'),
                        translateY: daPath('y'),
-                       rotate: daPath('angle'),
+                       //rotate: daPath('angle'),
                    }
                     ,false));
             });
