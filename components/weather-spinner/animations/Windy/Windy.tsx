@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './windy.module.css';
 import anime from 'animejs';
 import { set } from 'lodash';
-import { pathRevealAnimation } from '../../../../libs/anime-animations-helpers';
+import { pathRevealAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
 
 }
@@ -12,6 +12,29 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const timeline = anime.timeline({});
         const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', 2000, false);
         timeline.add(windPathExpandingAnimation);
+        //leaves animation
+        const leavesAnimations: any = [];
+        const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
+        const pathNames = [];
+        for (let i = 0; i < leaves.length; i++) {
+            pathNames.push(`#${style[`wind_path_${leaves[i].id}`]}`);
+        }
+        const paths = [];
+        for (let i = 0; i < pathNames.length; i++) {
+            anime.path(pathNames[i]);
+        }
+        if (leaves) {
+            leaves.forEach((leaf) => {
+                leavesAnimations.push(propertiesStagesAnimation(`#leave-${leaf.id}`, 'easeInExpo', 2000,
+                    {
+                        d: 
+                    }
+                    ,false));
+            });
+            for (let i = 0; i < leavesAnimations.length; i++) {
+                timeline.add(leavesAnimations[i], 0);
+            }
+        }
     }
     const setUp = () => {
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
