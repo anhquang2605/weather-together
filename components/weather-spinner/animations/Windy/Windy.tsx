@@ -10,7 +10,7 @@ interface WindyProps {
 const Windy: React.FC<WindyProps> = ({}) => {
     const startAnimation = () => {
         const timeline = anime.timeline({});
-        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'linear', 5000, false);
+        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', 2000, false);
         timeline.add(windPathExpandingAnimation);
     }
     const setUp = () => {
@@ -21,7 +21,6 @@ const Windy: React.FC<WindyProps> = ({}) => {
             });
         }
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
-        console.log(ringStroke)
         if (ringStroke) {
           ringStroke.style.transform = 'scale(0)';
         }
