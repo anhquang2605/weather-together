@@ -19,15 +19,17 @@ const Windy: React.FC<WindyProps> = ({}) => {
         for (let i = 0; i < leaves.length; i++) {
             pathNames.push(`#${style[`wind_path_${leaves[i].id}`]}`);
         }
-        const paths = [];
+        const paths: any = [];
         for (let i = 0; i < pathNames.length; i++) {
             anime.path(pathNames[i]);
         }
         if (leaves) {
-            leaves.forEach((leaf) => {
+            leaves.forEach((leaf, index) => {
                 leavesAnimations.push(propertiesStagesAnimation(`#leave-${leaf.id}`, 'easeInExpo', 2000,
                     {
-                        d: 
+                       translateX: paths[index]('x'),
+                       translateY: paths[index]('y'),
+                       rotate: paths[index]('angle'),
                     }
                     ,false));
             });
