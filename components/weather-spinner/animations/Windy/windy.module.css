@@ -7,6 +7,7 @@
     }
 }
 .leaves{
+    transform-origin: -50%;
 
 }
 #wind_stroke_ring{

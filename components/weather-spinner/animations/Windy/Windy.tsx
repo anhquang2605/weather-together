@@ -9,28 +9,38 @@ interface WindyProps {
 
 const Windy: React.FC<WindyProps> = ({}) => {
     const startAnimation = () => {
-        const timeline = anime.timeline({});
+        const timeline = anime.timeline({
+            loop: true
+        });
         const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', 2000, false);
-        timeline.add(windPathExpandingAnimation);
+        //timeline.add(windPathExpandingAnimation);
         //leaves animation
         const leavesAnimations: any = [];
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
         const pathNames = [];
         for (let i = 0; i < leaves.length; i++) {
-            pathNames.push(`#${style[`wind_path_${leaves[i].id}`]}`);
+            pathNames.push(`#${style[`wind_path_${i + 1}`]}`);
         }
         const paths: any = [];
         for (let i = 0; i < pathNames.length; i++) {
-            anime.path(pathNames[i]);
+            paths.push(anime.path(pathNames[i]));
         }
+        const daPath = anime.path(`#${style['wind_path_1']}`);
         if (leaves) {
             leaves.forEach((leaf, index) => {
-                leavesAnimations.push(propertiesStagesAnimation(`#leave-${leaf.id}`, 'easeInExpo', 2000,
-                    {
+                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index}`, 'easeInExpo', 2000,
+   /*                  {
+                    
                        translateX: paths[index]('x'),
                        translateY: paths[index]('y'),
                        rotate: paths[index]('angle'),
-                    }
+                       scale: [0, 1]
+                    } */
+                   {
+                       translateX: daPath('x'),
+                       translateY: daPath('y'),
+                       rotate: daPath('angle'),
+                   }
                     ,false));
             });
             for (let i = 0; i < leavesAnimations.length; i++) {
@@ -42,7 +52,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
         if (leaves) {
             leaves.forEach((leaf) => {
-                leaf.style.transform = 'scale(0)';
+                //leaf.style.transform = 'scale(0)';
             });
         }
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
