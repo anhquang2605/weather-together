@@ -45,12 +45,13 @@ const Windy: React.FC<WindyProps> = ({}) => {
                            scale: [0, 1]
                         } */
                        {
-                           translateX:  daPath('x'),
-                           translateY:  daPath('y'),
+                           translateX:  daPath('x') ,
+                           translateY:  daPath('y') ,
                            //rotate: daPath('angle'),
                        }
                         ,false));
                 });
+                console.log(daPath('x'));
                 for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], 0);
                 }
