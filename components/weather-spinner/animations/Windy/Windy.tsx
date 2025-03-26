@@ -87,7 +87,10 @@ const Windy: React.FC<WindyProps> = ({}) => {
             <ellipse id={style["wind_stroke_ring"]} cx="27.616" cy="27.5" rx="25.773" ry="24.333" fill="none" stroke="#01c3d5" stroke-linecap="round" stroke-linejoin="round" stroke-width=".66146"/>
             </svg>
             <div className={style['leaves']} id="leave_1">
-                
+                <svg width="8.6599mm" height="2.9988mm" version="1.1" viewBox="0 0 8.6599 2.9988" xmlns="http://www.w3.org/2000/svg">
+                    <path d="m7.469 2.39s-2.0235 0.4425-3.2624 0.35679c-2.8001-0.19373-4.206-1.5038-4.206-1.5038 0.93917-0.5288 2.7596-1.4486 4.2009-1.2046 1.3529 0.22907 2.2728 0.92506 3.2673 2.3516z" fill="#9afd3a" stroke-width=".71311"/>
+                    <path d="m0 1.24s1.2487 0.0471 3.5771 0.22226c2.3735 0.17845 4.4535 1.499 4.7932 1.5277 0.40712 0.0344 0.36031-0.41205 0.01285-0.54589-0.94995-0.36584-3.0397-1.1254-4.7302-1.1647-2.5391-0.059-3.653-0.0395-3.653-0.0395z" fill="#9a563a" stroke-width="1.7602"/>
+                </svg>
             </div>
             <div className={style['leaves']} id="leave_2">
                 
