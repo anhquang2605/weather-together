@@ -25,27 +25,37 @@ const Windy: React.FC<WindyProps> = ({}) => {
         for (let i = 0; i < pathNames.length; i++) {
             paths.push(anime.path(pathNames[i]));
         }
-        const daPath = anime.path(`#${style['wind_path_1']}`);
+        const daPath = anime.path(`#${style['wind_path_2']}`);
         if (leaves) {
-            leaves.forEach((leaf, index) => {
+            const svg = document.querySelector(`.${style['windy']}`);
+            
+            if (svg) {
+                const svgDimensions = svg.getBoundingClientRect();
+                const svgWidth = svgDimensions.width;
+                const svgHeight = svgDimensions.height; 
+                const svgCenterX = svgWidth / 2;
+                const svgCenterY = svgHeight / 2;   
+                leaves.forEach((leaf, index) => {
                 leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', 2000,
-   /*                  {
-                    
-                       translateX: paths[index]('x'),
-                       translateY: paths[index]('y'),
-                       rotate: paths[index]('angle'),
-                       scale: [0, 1]
-                    } */
-                   {
-                       translateX: daPath('x'),
-                       translateY: daPath('y'),
-                       //rotate: daPath('angle'),
-                   }
-                    ,false));
-            });
-            for (let i = 0; i < leavesAnimations.length; i++) {
-                timeline.add(leavesAnimations[i], 0);
+       /*                  {
+                        
+                           translateX: paths[index]('x'),
+                           translateY: paths[index]('y'),
+                           rotate: paths[index]('angle'),
+                           scale: [0, 1]
+                        } */
+                       {
+                           translateX:  daPath('x'),
+                           translateY:  daPath('y'),
+                           //rotate: daPath('angle'),
+                       }
+                        ,false));
+                });
+                for (let i = 0; i < leavesAnimations.length; i++) {
+                    timeline.add(leavesAnimations[i], 0);
+                }
             }
+            
         }
     }
     const setUp = () => {
