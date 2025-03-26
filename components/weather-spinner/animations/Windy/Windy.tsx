@@ -50,7 +50,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         //wind ring scale expansion animation
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
         if (ringStroke) {
-          const ringStrokeAnimation = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeInExpo', 3000, {scale: [0, 1]}, false);
+          const ringStrokeAnimation = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'spring', 3000, {scale: [0, 1]}, false);
           timeline.add(ringStrokeAnimation, 0);
         }
         
