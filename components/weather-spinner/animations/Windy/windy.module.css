@@ -1,5 +1,5 @@
 .windy{
-    
+    position: relative;
 }
 .windy_path{
     path{
@@ -7,7 +7,7 @@
     }
 }
 .leaves{
-    transform-box: view-box;
+    position: absolute;
 }
 #wind_stroke_ring{
     transform-box: view-box;
