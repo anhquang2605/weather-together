@@ -13,6 +13,8 @@
 }
 #wind_stroke_ring{
     transform-box: view-box;
+    transform-origin: center;
+    transition-duration: 0.3s;
 }
 #wind_path_1{
 

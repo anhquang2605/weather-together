@@ -8,11 +8,39 @@ interface WindyProps {
 }
 
 const Windy: React.FC<WindyProps> = ({}) => {
+    const setUp = () => {
+        const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
+        if (leaves) {
+            leaves.forEach((leaf) => {
+                //leaf.style.transform = 'scale(0)';
+            });
+        }
+        const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
+        if (ringStroke) {
+          ringStroke.style.transform = 'scale(0)';
+        }
+
+    }
     const startAnimation = () => {
         const timeline = anime.timeline({
         });
+        //wind ring scale expansion animation
+        const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
+        if (ringStroke) {
+            const ringStrokeAnimation = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeOutQuad', 1000, {
+                scale: [0, 1],
+                changeComplete: () => {
+                    const ring = document.getElementById(`${style["wind_stroke_ring"]}`);
+                    if (ring) {
+                        ring.style.opacity = '0';
+                    }        
+                },
+            }, false);
+            timeline.add(ringStrokeAnimation);
+        }
+        //wind path animation
         const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', 2000, false);
-        //timeline.add(windPathExpandingAnimation);
+        timeline.add(windPathExpandingAnimation);
         //leaves animation
         const leavesAnimations: any = [];
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
@@ -47,27 +75,10 @@ const Windy: React.FC<WindyProps> = ({}) => {
             }
             
         }
-        //wind ring scale expansion animation
-        const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
-        if (ringStroke) {
-          const ringStrokeAnimation = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'spring', 3000, {scale: [0, 1]}, false);
-          timeline.add(ringStrokeAnimation, 0);
-        }
+
         
     }
-    const setUp = () => {
-        const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
-        if (leaves) {
-            leaves.forEach((leaf) => {
-                //leaf.style.transform = 'scale(0)';
-            });
-        }
-        const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
-        if (ringStroke) {
-          ringStroke.style.transform = 'scale(0)';
-        }
 
-    }
     useEffect(() => {
         setUp();
         startAnimation();
