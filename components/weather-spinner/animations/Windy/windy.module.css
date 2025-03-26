@@ -8,6 +8,8 @@
 }
 .leaves{
     position: absolute;
+    top: 0;
+    left: 0;
 }
 #wind_stroke_ring{
     transform-box: view-box;

@@ -10,7 +10,6 @@ interface WindyProps {
 const Windy: React.FC<WindyProps> = ({}) => {
     const startAnimation = () => {
         const timeline = anime.timeline({
-            loop: true
         });
         const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', 2000, false);
         //timeline.add(windPathExpandingAnimation);
@@ -33,22 +32,14 @@ const Windy: React.FC<WindyProps> = ({}) => {
                 const svgDimensions = svg.getBoundingClientRect();
                 const svgWidth = svgDimensions.width;
                 const svgHeight = svgDimensions.height; 
-                const svgCenterX = svgWidth / 2;
-                const svgCenterY = svgHeight / 2;   
                 leaves.forEach((leaf, index) => {
-                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', 2000,
-       /*                  {
-                        
+                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', 3000,
+                        {                 
                            translateX: paths[index]('x'),
                            translateY: paths[index]('y'),
                            rotate: paths[index]('angle'),
-                           scale: [0, 1]
-                        } */
-                       {
-                           translateX:  daPath('x') ,
-                           translateY:  daPath('y') ,
-                           //rotate: daPath('angle'),
-                       }
+                           scale: [0, 1.2]
+                        } 
                         ,false));
                 });
                 console.log(daPath('x'));
