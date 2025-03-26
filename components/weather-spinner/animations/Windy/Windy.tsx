@@ -24,7 +24,6 @@ const Windy: React.FC<WindyProps> = ({}) => {
         for (let i = 0; i < pathNames.length; i++) {
             paths.push(anime.path(pathNames[i]));
         }
-        const daPath = anime.path(`#${style['wind_path_2']}`);
         if (leaves) {
             const svg = document.querySelector(`.${style['windy']}`);
             
@@ -42,13 +41,19 @@ const Windy: React.FC<WindyProps> = ({}) => {
                         } 
                         ,false));
                 });
-                console.log(daPath('x'));
                 for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], 0);
                 }
             }
             
         }
+        //wind ring scale expansion animation
+        const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
+        if (ringStroke) {
+          const ringStrokeAnimation = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeInExpo', 3000, {scale: [0, 1]}, false);
+          timeline.add(ringStrokeAnimation, 0);
+        }
+        
     }
     const setUp = () => {
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
