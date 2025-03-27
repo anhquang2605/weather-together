@@ -45,7 +45,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         //wind path animation expansion
         const windPathExpandingAnimation: any = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         timeline.add(windPathExpandingAnimation);
-        
+
         //wind path animation shrunken
         const windPathShrinkingAnimation: any = pathShrinkAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         timeline.add(windPathShrinkingAnimation);
@@ -66,8 +66,6 @@ const Windy: React.FC<WindyProps> = ({}) => {
             
             if (svg) {
                 const svgDimensions = svg.getBoundingClientRect();
-                const svgWidth = svgDimensions.width;
-                const svgHeight = svgDimensions.height; 
                 leaves.forEach((leaf, index) => {
                 leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                         {                 
