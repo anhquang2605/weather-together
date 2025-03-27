@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './windy.module.css';
 import anime from 'animejs';
 import { set } from 'lodash';
-import { pathRevealAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
 
 }
@@ -22,16 +22,16 @@ const Windy: React.FC<WindyProps> = ({}) => {
 
     }
     const startAnimation = () => {
-        const RING_STROKE_DURATION = 1000;
+        const RING_STROKE_DURATION = 750;
         const LEAVES_DURATION = 3000;
-        const LEAVES_DELAY = 1000;
+        const LEAVES_DELAY = 200;
         const WIND_PATH_DURATION = 2000;
         const timeline = anime.timeline({
         });
         //wind ring scale expansion animation
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
         if (ringStroke) {
-            const ringStrokeAnimation: any = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeOutQuad', RING_STROKE_DURATION, {
+            const ringStrokeAnimation: any = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeInQuad', RING_STROKE_DURATION, {
                 scale: [0, 1],
                 changeComplete: () => {
                     const ring = document.getElementById(`${style["wind_stroke_ring"]}`);
@@ -42,9 +42,14 @@ const Windy: React.FC<WindyProps> = ({}) => {
             }, false);
             timeline.add(ringStrokeAnimation);
         }
-        //wind path animation
-        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
+        //wind path animation expansion
+        const windPathExpandingAnimation: any = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         timeline.add(windPathExpandingAnimation);
+        
+        //wind path animation shrunken
+        const windPathShrinkingAnimation: any = pathShrinkAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
+        timeline.add(windPathShrinkingAnimation);
+
         //leaves animation
         const leavesAnimations: any = [];
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
@@ -80,7 +85,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                         ,false));
                 });
                 for (let i = 0; i < leavesAnimations.length; i++) {
-                    timeline.add(leavesAnimations[i], 0);
+                    timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
             }
             
