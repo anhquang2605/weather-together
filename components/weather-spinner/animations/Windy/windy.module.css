@@ -11,6 +11,12 @@
     top: 0;
     left: 0;
 }
+.leave_floating{
+    animation-name: leave_floating;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
 #wind_stroke_ring{
     transform-box: view-box;
     transform-origin: center;
@@ -24,4 +30,15 @@
 }
 #wind_path_3{
 
+}
+@keyframes leave_floating {
+    0%{
+        transform: translateY(10px);
+    }
+    50%{
+        transform: translateY(-10px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
 }
