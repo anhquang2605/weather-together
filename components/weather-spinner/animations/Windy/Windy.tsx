@@ -69,7 +69,13 @@ const Windy: React.FC<WindyProps> = ({}) => {
                            translateX: paths[index]('x'),
                            translateY: paths[index]('y'),
                            rotate: paths[index]('angle'),
-                           scale: [0, 1.2]
+                           scale: [0, 1.2],
+                           changeComplete: () => {
+                            const leaf = document.getElementById(`leave_${index + 1}`);
+                            if (leaf) {
+                                leaf.classList.add(style['leave_floating']);
+                            }
+                           }
                         } 
                         ,false));
                 });
