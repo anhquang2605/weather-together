@@ -22,12 +22,16 @@ const Windy: React.FC<WindyProps> = ({}) => {
 
     }
     const startAnimation = () => {
+        const RING_STROKE_DURATION = 1000;
+        const LEAVES_DURATION = 3000;
+        const LEAVES_DELAY = 1000;
+        const WIND_PATH_DURATION = 2000;
         const timeline = anime.timeline({
         });
         //wind ring scale expansion animation
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
         if (ringStroke) {
-            const ringStrokeAnimation = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeOutQuad', 1000, {
+            const ringStrokeAnimation: any = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeOutQuad', RING_STROKE_DURATION, {
                 scale: [0, 1],
                 changeComplete: () => {
                     const ring = document.getElementById(`${style["wind_stroke_ring"]}`);
@@ -39,7 +43,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
             timeline.add(ringStrokeAnimation);
         }
         //wind path animation
-        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', 2000, false);
+        const windPathExpandingAnimation = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         timeline.add(windPathExpandingAnimation);
         //leaves animation
         const leavesAnimations: any = [];
@@ -60,7 +64,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                 const svgWidth = svgDimensions.width;
                 const svgHeight = svgDimensions.height; 
                 leaves.forEach((leaf, index) => {
-                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', 3000,
+                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                         {                 
                            translateX: paths[index]('x'),
                            translateY: paths[index]('y'),
