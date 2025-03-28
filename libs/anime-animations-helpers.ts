@@ -19,6 +19,20 @@ export const pathRevealAnimation = (target: string, easing: string, duration: nu
     return animObj;
 }
 
+export const pathShrinkForwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
+    const animObj = {
+        targets: target,
+        strokeDasharray: [20,40],
+        easing: easing,
+        duration: duration,
+        //direction: 'reverse'
+    }
+    if(animationCreated){
+        const anim = anime(animObj)
+        return anim
+    }
+    return animObj;
+}
 export const pathShrinkAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
     const animObj = {
         targets: target,
