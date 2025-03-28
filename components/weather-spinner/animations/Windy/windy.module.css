@@ -11,12 +11,12 @@
     top: 0;
     left: 0;
 }
-/* .leave_floating{
+.leave_floating{
     animation-name: leave_floating;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
-} */
+}
 #wind_stroke_ring{
     transform-box: view-box;
     transform-origin: center;
