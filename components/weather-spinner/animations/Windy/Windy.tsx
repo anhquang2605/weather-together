@@ -73,7 +73,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                            rotate: paths[index]('angle'),
                            scale: [0, 1.2],
                            changeComplete: () => {
-                            const leaf = document.getElementById(`leave_${index + 1} svg`);
+                            const leaf = document.querySelector(`#leave_${index + 1} svg`);
                             if (leaf) {
                                 leaf.classList.add(style['leave_floating']);
                             }
