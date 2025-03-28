@@ -65,7 +65,6 @@ const Windy: React.FC<WindyProps> = ({}) => {
             const svg = document.querySelector(`.${style['windy']}`);
             
             if (svg) {
-                const svgDimensions = svg.getBoundingClientRect();
                 leaves.forEach((leaf, index) => {
                 leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                         {                 
