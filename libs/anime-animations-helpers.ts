@@ -35,6 +35,23 @@ export const pathShrinkForwardAnimation = (target: string, easing: string, durat
     }
     return animObj;
 }
+const individualPathLengthShrinkForwardAnimation = (target: string, easing: string, duration: number) => {
+    const targets = document.querySelectorAll(target) as NodeListOf<SVGPathElement>;
+    const animObjs = [];
+    for (let i = 0; i < targets.length; i++) {
+        const path = targets[i];
+        const pathLength = path.getTotalLength();
+        const animObj = {
+            targets: target,
+            strokeDashoffset: -pathLength,
+            easing: easing,
+            duration: duration,
+            //direction: 'reverse'
+        }
+        animObjs.push(animObj);
+    }
+    return animObjs
+}
 export const pathShrinkAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
     const animObj = {
         targets: target,
