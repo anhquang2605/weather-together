@@ -22,7 +22,7 @@ export const pathRevealAnimation = (target: string, easing: string, duration: nu
 export const pathShrinkForwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
     const animObj = {
         targets: target,
-        strokeDasharray: anime.setDashoffset,
+        strokeDasharray: [0,100,0],
         easing: easing,
         duration: duration,
         //direction: 'reverse'

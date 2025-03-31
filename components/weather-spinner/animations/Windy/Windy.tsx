@@ -49,7 +49,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         timeline.add(windPathSameDirectionShrunk);
         //wind path animation shrunken
         const windPathShrinkingAnimation: any = pathShrinkAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
-        timeline.add(windPathShrinkingAnimation);
+        //timeline.add(windPathShrinkingAnimation);
 
         //leaves animation
         const leavesAnimations: any = [];
