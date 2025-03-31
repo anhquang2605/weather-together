@@ -35,9 +35,9 @@ export const pathShrinkForwardAnimation = (target: string, easing: string, durat
     }
     return animObj;
 }
-const individualPathLengthShrinkForwardAnimation = (target: string, easing: string, duration: number) => {
+export const multiPathLengthShrinkForwardAnimation = (target: string, easing: string, duration: number) => {
     const targets = document.querySelectorAll(target) as NodeListOf<SVGPathElement>;
-    const animObjs = [];
+    const animObjs: any[] = [];
     for (let i = 0; i < targets.length; i++) {
         const path = targets[i];
         const pathLength = path.getTotalLength();

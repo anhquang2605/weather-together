@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './windy.module.css';
 import anime from 'animejs';
 import { set } from 'lodash';
-import { pathRevealAnimation, pathShrinkAnimation, pathShrinkForwardAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { multiPathLengthShrinkForwardAnimation, pathRevealAnimation, pathShrinkAnimation, pathShrinkForwardAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
 
 }
@@ -45,8 +45,10 @@ const Windy: React.FC<WindyProps> = ({}) => {
         //wind path animation expansion
         const windPathExpandingAnimation: any = pathRevealAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         timeline.add(windPathExpandingAnimation);
-        const windPathSameDirectionShrunk: any = pathShrinkForwardAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
-        timeline.add(windPathSameDirectionShrunk);
+        //
+        const windPathSameDirectionShrunkAnimations: any[] = multiPathLengthShrinkForwardAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION);
+        timeline.add(windPathSameDirectionShrunkAnimations);
+       
         //wind path animation shrunken
         const windPathShrinkingAnimation: any = pathShrinkAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         //timeline.add(windPathShrinkingAnimation);
