@@ -20,9 +20,11 @@ export const pathRevealAnimation = (target: string, easing: string, duration: nu
 }
 
 export const pathShrinkForwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
+    const path = document.querySelector(target) as SVGPathElement;
+    const pathLength = path.getTotalLength();
     const animObj = {
         targets: target,
-        strokeDasharray: [0,100,0],
+        strokeDashoffset: -pathLength,
         easing: easing,
         duration: duration,
         //direction: 'reverse'
