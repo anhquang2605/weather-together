@@ -35,6 +35,23 @@ export const pathShrinkForwardAnimation = (target: string, easing: string, durat
     }
     return animObj;
 }
+const multiPathExpandBackwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
+    const targets = document.querySelectorAll(target);
+    const objs: any[] = [];
+    const paths = Array.from(targets).map((target) => target as SVGGeometryElement)
+    const pathLengths: number[] = paths.map((path) => path.getTotalLength())
+    for (let i = 0; i < targets.length; i++) {
+        const animObj = {
+            targets: targets[i],
+            strokeDasharray: pathLengths[i],
+            easing: easing,
+            duration: duration,
+            //direction: 'reverse'
+        }
+        objs.push(animObj);
+    }
+    return objs;
+}
 export const multiPathShrinkForwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
     const targets = document.querySelectorAll(target);
     const objs: any[] = [];
