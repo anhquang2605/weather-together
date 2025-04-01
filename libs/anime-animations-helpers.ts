@@ -43,7 +43,7 @@ export const multiPathShrinkForwardAnimation = (target: string, easing: string, 
     for (let i = 0; i < targets.length; i++) {
         const animObj = {
             targets: targets[i],
-            strokeDasharray: -pathLengths[i],
+            strokeDashoffset: -pathLengths[i],
             easing: easing,
             duration: duration,
             //direction: 'reverse'
