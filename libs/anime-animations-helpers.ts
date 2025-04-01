@@ -1,4 +1,4 @@
-import anime from 'animejs';
+import anime, { path } from 'animejs';
 type AnimeObject = {
     targets: string,
 
@@ -20,11 +20,11 @@ export const pathRevealAnimation = (target: string, easing: string, duration: nu
 }
 
 export const pathShrinkForwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
-    const path = document.querySelector(target) as SVGPathElement;
-    const pathLength = path.getTotalLength();
+    const query: SVGGeometryElement | null = document.querySelector(target)
+    const pathLength = query?.getTotalLength() ?? 0;
     const animObj = {
         targets: target,
-        strokeDashoffset: -pathLength,
+        strokeDasharray: -pathLength,
         easing: easing,
         duration: duration,
         //direction: 'reverse'
@@ -35,22 +35,22 @@ export const pathShrinkForwardAnimation = (target: string, easing: string, durat
     }
     return animObj;
 }
-export const multiPathLengthShrinkForwardAnimation = (target: string, easing: string, duration: number) => {
-    const targets = document.querySelectorAll(target) as NodeListOf<SVGPathElement>;
-    const animObjs: any[] = [];
+const multiPathShrinkForwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
+    const targets = document.querySelectorAll(target);
+    const objs: any[] = [];
+    const paths = Array.from(targets).map((target) => target as SVGGeometryElement)
+    const pathLengths: number[] = paths.map((path) => path.getTotalLength())
     for (let i = 0; i < targets.length; i++) {
-        const path = targets[i];
-        const pathLength = path.getTotalLength();
         const animObj = {
-            targets: target,
-            strokeDashoffset: -pathLength,
+            targets: targets[i],
+            strokeDasharray: -pathLengths[i],
             easing: easing,
             duration: duration,
             //direction: 'reverse'
         }
-        animObjs.push(animObj);
+        objs.push(animObj);
     }
-    return animObjs
+    return objs;
 }
 export const pathShrinkAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
     const animObj = {
