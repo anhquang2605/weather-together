@@ -54,15 +54,15 @@ const Windy: React.FC<WindyProps> = ({}) => {
             }
         )
         //small wind path animation expansion
-        const smallWindPathExpandingAnimation: any = pathRevealAnimation(`#${style['small-wind-path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
-        timeline.add(smallWindPathExpandingAnimation);
+        const smallWindPathExpandingAnimation: any = pathRevealAnimation(`#${style['small-wind-path']} path`, 'easeInExpo', WIND_PATH_DURATION / 2, false);
+        timeline.add(smallWindPathExpandingAnimation, '-= ' + WIND_PATH_DURATION / 2);
 
-        const smallWindPathSameDirectionShrunkAnimations: any[] = multiPathShrinkForwardAnimation(`#${style['small-wind-path']} path`, 'linear', WIND_PATH_DURATION * 1.3);
+       /*  const smallWindPathSameDirectionShrunkAnimations: any[] = multiPathShrinkForwardAnimation(`#${style['small-wind-path']} path`, 'linear', WIND_PATH_DURATION * 1.3);
         smallWindPathSameDirectionShrunkAnimations.forEach(
             (anim:any, index: number) => {
-                timeline.add(anim, WIND_PATH_DURATION / 2);
+                timeline.add(anim, WIND_PATH_DURATION / 4);
             }
-        )
+        ) */
 
         //wind path animation shrunken
         const windPathShrinkingAnimation: any = pathShrinkAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);

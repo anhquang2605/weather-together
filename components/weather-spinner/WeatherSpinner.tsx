@@ -26,7 +26,7 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({}) => {
     },[])
     return (
         <div className={style['weather-spinner']}>
-            <Windy />
+            <Windy/>
         </div>
     );
 };
