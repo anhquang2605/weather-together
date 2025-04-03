@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './windy.module.css';
 import anime from 'animejs';
 import { set } from 'lodash';
-import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation, unFollowPathAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
 
 }
@@ -73,11 +73,13 @@ const Windy: React.FC<WindyProps> = ({}) => {
                 timeline.add(anim, '-= ' + (WIND_PATH_DURATION * index));
             }
         )
+
         const windPathShrinkingAnimation: any = pathShrinkAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         //timeline.add(windPathShrinkingAnimation);
 
         //leaves animation
         const leavesAnimations: any = [];
+        const leavesBackwardAnimations: any = [];
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
         const pathNames = [];
         for (let i = 0; i < leaves.length; i++) {
@@ -92,31 +94,55 @@ const Windy: React.FC<WindyProps> = ({}) => {
             
             if (svg) {
                 leaves.forEach((leaf, index) => {
-                leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
+                    leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                         {                 
                            translateX: paths[index]('x'),
                            translateY: paths[index]('y'),
                            rotate: paths[index]('angle'),
                            scale: [0, 1.2],
+                           changeBegin: () => {
+                            const leaf = document.querySelector(`#leave_${index + 1} svg`);
+                            if (leaf) {
+                                leaf.classList.remove(style['leave_floating']);
+                                leaf.classList.add(style['blur']);
+                            }
+                           },
                            changeComplete: () => {
                             const leaf = document.querySelector(`#leave_${index + 1} svg`);
                             if (leaf) {
                                 leaf.classList.add(style['leave_floating']);
+                                leaf.classList.remove(style['blur']);
                             }
                            }
                         } 
                         ,false));
-                });
+                leavesBackwardAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
+                    {
+                        translateX: paths[index]('x'),
+                        translateY: paths[index]('y'),
+                        rotate: paths[index]('angle'),
+                        scale: [1.2, 0],
+                        direction: 'reverse',
+                        changeBegin: () => {
+                            const leaf = document.querySelector(`#leave_${index + 1} svg`);
+                            if (leaf) {
+                                leaf.classList.remove(style['leave_floating']);
+                                leaf.classList.add(style['blur']);
+                            }
+                           },
+                    }
+                ), false);
+                
+
                 for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
-            }
+
+                })
             
+            }
         }
-
-        
     }
-
     useEffect(() => {
         setUp();
         startAnimation();
