@@ -45,3 +45,6 @@
 #small-wind-path{
     
 }
+.blur{
+    filter: blur(1px);
+}
