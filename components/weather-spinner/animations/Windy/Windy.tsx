@@ -121,7 +121,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                         translateX: paths[index]('x'),
                         translateY: paths[index]('y'),
                         rotate: paths[index]('angle'),
-                        scale: [1.2, 0],
+                        scale: [0,1.2],
                         direction: 'reverse',
                         changeBegin: () => {
                             const leaf = document.querySelector(`#leave_${index + 1} svg`);
@@ -137,7 +137,9 @@ const Windy: React.FC<WindyProps> = ({}) => {
                 for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
-
+                for (let i = 0; i < leavesBackwardAnimations.length; i++) {
+                    timeline.add(leavesBackwardAnimations[i], LEAVES_DELAY * i);
+                }
                 })
             
             }

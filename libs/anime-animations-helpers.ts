@@ -109,7 +109,6 @@ export const propertiesStagesAnimation = (targets: string, easing: string, durat
         ...properties,
         easing: easing,
         duration: duration,
-        loop: true
     }
     if(animationCreated){
         const anim = anime(animObj)
