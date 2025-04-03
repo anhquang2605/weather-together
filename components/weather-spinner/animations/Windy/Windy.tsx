@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './windy.module.css';
 import anime from 'animejs';
 import { set } from 'lodash';
-import { multiPathShrinkForwardAnimation, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
 
 }
@@ -67,6 +67,12 @@ const Windy: React.FC<WindyProps> = ({}) => {
         )
 
         //wind path animation shrunken
+        const windPathExpandingBackwardAnimations: any[] = multiPathExpandBackwardAnimation(`.${style['windy_path']} path`, 'linear', WIND_PATH_DURATION);
+        windPathExpandingBackwardAnimations.forEach(
+            (anim:any, index: number) => {
+                timeline.add(anim, '-= ' + WIND_PATH_DURATION);
+            }
+        )
         const windPathShrinkingAnimation: any = pathShrinkAnimation(`.${style['windy_path']} path`, 'easeInExpo', WIND_PATH_DURATION, false);
         //timeline.add(windPathShrinkingAnimation);
 

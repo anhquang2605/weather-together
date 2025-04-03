@@ -35,7 +35,7 @@ export const pathShrinkForwardAnimation = (target: string, easing: string, durat
     }
     return animObj;
 }
-const multiPathExpandBackwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
+export const multiPathExpandBackwardAnimation = (target: string, easing: string, duration: number, animationCreated: boolean = true) => {
     const targets = document.querySelectorAll(target);
     const objs: any[] = [];
     const paths = Array.from(targets).map((target) => target as SVGGeometryElement)
