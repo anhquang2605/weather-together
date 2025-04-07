@@ -93,6 +93,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
             const svg = document.querySelector(`.${style['windy']}`);
             
             if (svg) {
+                //leaves flying out 
                 leaves.forEach((leaf, index) => {
                     leavesAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                         {                 
@@ -116,6 +117,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                            }
                         } 
                         ,false));
+                //leaves flying back
                 leavesBackwardAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                     {
                         translateX: paths[index]('x'),
