@@ -117,7 +117,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                            }
                         } 
                         ,false));
-                //leaves flying back
+                //leavses flying back
                 leavesBackwardAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                     {
                         translateX: paths[index]('x'),
@@ -140,7 +140,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
                 for (let i = 0; i < leavesBackwardAnimations.length; i++) {
-                    timeline.add(leavesBackwardAnimations[i]);
+                    //timeline.add(leavesBackwardAnimations[i]);
                 }
                 })
             

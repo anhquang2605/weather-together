@@ -92,15 +92,19 @@ export const followPathAnimation = (target: string, easing: string, duration: nu
     })
     return anim
 }
-export const unFollowPathAnimation = (target: string, easing: string, duration: number, path: string  ) => {
-    const anim = anime({
+export const unFollowPathAnimation = (target: string, easing: string, duration: number, path: string, animationCreated: boolean  = false) => {
+    const animObj = {
         targets: target,
         d: path,
         easing: easing,
         duration: duration,
         direction: 'reverse'
-    })
-    return anim
+    }
+    if(animationCreated){
+        const anim = anime(animObj)
+        return anim
+    }
+    return animObj
 }
 export const propertiesStagesAnimation = (targets: string, easing: string, duration: number, properties: {[animationProperty: string]: any}, animationCreated: boolean = true) => {
     //properties is a list of objects, each object represent a property to animate whose values is an array of values to animate
