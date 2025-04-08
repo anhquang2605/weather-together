@@ -135,17 +135,16 @@ const Windy: React.FC<WindyProps> = ({}) => {
                     }
                 ), false);
                 
-
+                })
+                
                 for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
                 for (let i = 0; i < leavesBackwardAnimations.length; i++) {
                     timeline.add(leavesBackwardAnimations[i], 
-                     (LEAVES_DURATION + LEAVES_DELAY * i)
+                     (5000+ LEAVES_DELAY * i)
                     );
                 }
-                })
-            
             }
         }
     }
