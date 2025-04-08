@@ -129,7 +129,6 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             const leaf = document.querySelector(`#leave_${index + 1} svg`);
                             if (leaf) {
                                 leaf.classList.remove(style['leave_floating']);
-                                leaf.classList.add(style['blur']);
                             }
                            },
                     }
