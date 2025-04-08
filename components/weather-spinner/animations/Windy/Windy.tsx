@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import style from './windy.module.css';
-import anime from 'animejs';
+import anime, { AnimeInstance } from 'animejs';
 import { set } from 'lodash';
 import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation, unFollowPathAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
@@ -115,6 +115,14 @@ const Windy: React.FC<WindyProps> = ({}) => {
                                 leaf.classList.remove(style['blur']);
                             }
                            }
+                           ,
+                           update: (anim: AnimeInstance) => {
+                               const progress = anim.progress;
+                               if(progress >= 0.5){
+                                    anim.pause();
+                               }
+                           }
+                           
                         } 
                         ,false));
                 //leavses flying back
@@ -140,9 +148,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
                 for (let i = 0; i < leavesBackwardAnimations.length; i++) {
-                    timeline.add(leavesBackwardAnimations[i], 
-                     (5000+ LEAVES_DELAY * i)
-                    );
+                    timeline.add(leavesBackwardAnimations[i], LEAVES_DELAY * i + LEAVES_DURATION);
                 }
             }
         }
