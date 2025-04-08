@@ -141,7 +141,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                 }
                 for (let i = 0; i < leavesBackwardAnimations.length; i++) {
                     timeline.add(leavesBackwardAnimations[i], 
-                        '+= ' + (LEAVES_DURATION + LEAVES_DELAY * i)
+                     (LEAVES_DURATION + LEAVES_DELAY * i)
                     );
                 }
                 })
