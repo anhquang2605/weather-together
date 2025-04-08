@@ -117,17 +117,17 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }
                            }
                            ,
-                           update: (anim: AnimeInstance) => {
+                         /*   update: (anim: AnimeInstance) => {
                                const progress = anim.progress;
                                if(progress == 0.5){
                                     anim.pause();
                                     alternatedAnims.push(anim);
                                }
                            }
-                           
+                            */
                         } 
                         ,false));
-/*                 //leavses flying back
+                 //leavses flying back
                 leavesBackwardAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                     {
                         translateX: paths[index]('x'),
@@ -142,7 +142,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }
                            },
                     }
-                    , false)); */
+                    , false)); 
                         
                 })
                 
