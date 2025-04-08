@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import style from './windy.module.css';
 import anime, { AnimeInstance } from 'animejs';
 import { set } from 'lodash';
@@ -8,6 +8,7 @@ interface WindyProps {
 }
 
 const Windy: React.FC<WindyProps> = ({}) => {
+    const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const setUp = () => {
         const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
         if (leaves) {
@@ -91,7 +92,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         }
         if (leaves) {
             const svg = document.querySelector(`.${style['windy']}`);
-            
+            const alternatedAnims:any = [];
             if (svg) {
                 //leaves flying out 
                 leaves.forEach((leaf, index) => {
@@ -118,14 +119,15 @@ const Windy: React.FC<WindyProps> = ({}) => {
                            ,
                            update: (anim: AnimeInstance) => {
                                const progress = anim.progress;
-                               if(progress >= 0.5){
+                               if(progress == 0.5){
                                     anim.pause();
+                                    alternatedAnims.push(anim);
                                }
                            }
                            
                         } 
                         ,false));
-                //leavses flying back
+/*                 //leavses flying back
                 leavesBackwardAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                     {
                         translateX: paths[index]('x'),
@@ -140,22 +142,32 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }
                            },
                     }
-                    , false));
-                
+                    , false)); */
+                        
                 })
                 
                 for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
-                for (let i = 0; i < leavesBackwardAnimations.length; i++) {
+               /*  for (let i = 0; i < leavesBackwardAnimations.length; i++) {
                     timeline.add(leavesBackwardAnimations[i], LEAVES_DELAY * i + LEAVES_DURATION);
-                }
+                } */
+               timeout.current = setTimeout(() => {
+                 for(const anim of alternatedAnims){
+                    console.log('play');
+                     anim.play();
+                 }
+               }, LEAVES_DELAY + LEAVES_DURATION);
             }
         }
     }
     useEffect(() => {
         setUp();
         startAnimation();
+        return () => {
+            if(timeout.current){    
+                clearTimeout(timeout.current)};
+            }
     },[])
     return (
         <div className={style['windy']}>
