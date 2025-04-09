@@ -153,8 +153,9 @@ const Windy: React.FC<WindyProps> = ({}) => {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 } */
                  for (let i = 0; i < leavesBackwardAnimations.length; i++) {
-                    timeline.add(leavesBackwardAnimations[i], LEAVES_DELAY * i + LEAVES_DURATION);
-                } 
+                    timeline.add(leavesBackwardAnimations[i]);
+                }
+                
 /*                timeout.current = setTimeout(() => {
                  for(const anim of alternatedAnims){
                     console.log('play');
