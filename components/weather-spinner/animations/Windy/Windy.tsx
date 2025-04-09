@@ -29,6 +29,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const LEAVES_DELAY = 200;
         const WIND_PATH_DURATION = 2000;
         const timeline = anime.timeline({
+            direction: 'normal'
         });
         //wind ring scale expansion animation
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
