@@ -145,7 +145,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }
                            }, */
                     }
-                    , false)); 
+                    )); 
                         
                 })
                 
