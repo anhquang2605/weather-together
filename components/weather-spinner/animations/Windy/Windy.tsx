@@ -163,6 +163,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                  }
                }, LEAVES_DELAY + LEAVES_DURATION); */
                timeout.current = setTimeout(() => {
+                
                 leaves.forEach((leaf, index) => {
                     const anim = propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
                         {
@@ -171,7 +172,6 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             translateY: paths[index]('y'),
                             rotate: paths[index]('angle'),
                             scale: [0,1.2],
-                        
                             changeBegin: () => {
                                 const leaf = document.querySelector(`#leave_${index + 1} svg`);
                                 if (leaf) {
@@ -180,7 +180,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }, 
                         })
                 })
-              }, LEAVES_DELAY + LEAVES_DURATION);
+              }, LEAVES_DELAY *  + LEAVES_DURATION);
             }
         }
     }
