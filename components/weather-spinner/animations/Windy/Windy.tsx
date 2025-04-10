@@ -187,10 +187,10 @@ const Windy: React.FC<WindyProps> = ({}) => {
     useEffect(() => {
         setUp();
         startAnimation();
-       /*  return () => {
+       return () => {
             if(timeout.current){    
                 clearTimeout(timeout.current)};
-            } */
+            }
     },[])
     return (
         <div className={style['windy']}>
