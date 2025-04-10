@@ -58,7 +58,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         )
         //small wind path animation expansion
         const SMALL_WIND_PATH_DURATION = WIND_PATH_DURATION / 1.5;
-        const SMALL_WIND_PATH_OFFSET = WIND_PATH_DURATION / 2.5;
+        const SMALL_WIND_PATH_OFFSET = WIND_PATH_DURATION;
         const smallWindPathExpandingAnimation: any = pathRevealAnimation(`#${style['small-wind-path']} path`, 'easeInExpo', SMALL_WIND_PATH_DURATION, false);
         timeline.add(smallWindPathExpandingAnimation, '-= ' + SMALL_WIND_PATH_OFFSET);
 
@@ -149,12 +149,12 @@ const Windy: React.FC<WindyProps> = ({}) => {
                         
                 })
                 
-/*                 for (let i = 0; i < leavesAnimations.length; i++) {
+                for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
-                } */
-                 for (let i = 0; i < leavesBackwardAnimations.length; i++) {
-                    timeline.add(leavesBackwardAnimations[i]);
                 }
+/*                  for (let i = 0; i < leavesBackwardAnimations.length; i++) {
+                    timeline.add(leavesBackwardAnimations[i]);
+                } */
                 
 /*                timeout.current = setTimeout(() => {
                  for(const anim of alternatedAnims){
@@ -178,7 +178,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                                     leaf.classList.remove(style['leave_floating']);
                                 }
                             }, 
-                        })
+                        }, true)
                 })
               }, LEAVES_DELAY *  + LEAVES_DURATION);
             }
