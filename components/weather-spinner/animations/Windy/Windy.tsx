@@ -180,7 +180,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }, 
                         }, true)
                 })
-              }, LEAVES_DELAY *  + LEAVES_DURATION);
+              }, LEAVES_DELAY  + LEAVES_DURATION);
             }
         }
     }
