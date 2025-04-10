@@ -73,7 +73,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const windPathExpandingBackwardAnimations: any[] = multiPathExpandBackwardAnimation(`.${style['windy_path']} path`, 'linear', WIND_PATH_DURATION);
         windPathExpandingBackwardAnimations.forEach(
             (anim:any, index: number) => {
-                timeline.add(anim, /* '-= ' + (WIND_PATH_DURATION * index) */);
+                timeline.add(anim,  '-= ' + (WIND_PATH_DURATION * index) );
             }
         )
 
