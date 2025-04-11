@@ -1,9 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import style from './windy.module.css';
-import anime, { AnimeInstance } from 'animejs';
-import { set } from 'lodash';
-import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation, unFollowPathAnimation } from '../../../../libs/anime-animations-helpers';
-import { dir } from 'console';
+import anime from 'animejs';
+import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation,  propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
 
 }
