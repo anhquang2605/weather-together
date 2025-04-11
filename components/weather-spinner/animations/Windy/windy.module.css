@@ -10,6 +10,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    transform-origin: -5%;
 }
 .leave_floating{
     animation-name: leave_floating;
