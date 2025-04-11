@@ -178,7 +178,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }, 
                         }, true)
                 })
-              }, LEAVES_DELAY  + LEAVES_DURATION);
+              }, WIND_PATH_DURATION  + LEAVES_DURATION );
             }
         }
     }
