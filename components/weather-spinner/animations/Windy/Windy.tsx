@@ -28,6 +28,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const LEAVES_DURATION = 3000;
         const LEAVES_DELAY = 200;
         const WIND_PATH_DURATION = 2000;
+        const SHRUNK_BACK_TIMEOUT = WIND_PATH_DURATION  + LEAVES_DURATION + 500;
         const timeline = anime.timeline({
             direction: 'normal'
         });
@@ -73,7 +74,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const windPathExpandingBackwardAnimations: any[] = multiPathExpandBackwardAnimation(`.${style['windy_path']} path`, 'linear', WIND_PATH_DURATION);
         windPathExpandingBackwardAnimations.forEach(
             (anim:any, index: number) => {
-                timeline.add(anim,  '-= ' + (WIND_PATH_DURATION * index) );
+                timeline.add(anim,  SHRUNK_BACK_TIMEOUT );
             }
         )
 
@@ -160,7 +161,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                      anim.play();
                  }
                }, LEAVES_DELAY + LEAVES_DURATION); */
-               const LEAVE_TIMEOUT = WIND_PATH_DURATION  + LEAVES_DURATION;
+          
                timeout.current = setTimeout(() => {
                 
                 leaves.forEach((leaf, index) => {
@@ -179,7 +180,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }, 
                         }, true)
                 })
-              });
+              }, SHRUNK_BACK_TIMEOUT);
             }
         }
     }
