@@ -160,6 +160,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                      anim.play();
                  }
                }, LEAVES_DELAY + LEAVES_DURATION); */
+               const LEAVE_TIMEOUT = WIND_PATH_DURATION  + LEAVES_DURATION;
                timeout.current = setTimeout(() => {
                 
                 leaves.forEach((leaf, index) => {
@@ -178,7 +179,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }, 
                         }, true)
                 })
-              }, WIND_PATH_DURATION  + LEAVES_DURATION );
+              });
             }
         }
     }
