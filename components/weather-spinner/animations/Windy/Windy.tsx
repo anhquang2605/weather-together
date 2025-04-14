@@ -63,7 +63,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         )
 
         //wind path animation shrunken
-        const windPathExpandingBackwardAnimations: any[] = multiPathExpandBackwardAnimation(`.${style['windy_path']} path`, 'linear', WIND_PATH_DURATION);
+        const windPathExpandingBackwardAnimations: any[] = multiPathExpandBackwardAnimation(`.${style['windy_path']} path`, 'linear', WIND_PATH_DURATION / 2);
         windPathExpandingBackwardAnimations.forEach(
             (anim:any, index: number) => {
                 timeline.add(anim,  SHRUNK_BACK_TIMEOUT );

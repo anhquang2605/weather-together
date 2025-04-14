@@ -3,6 +3,7 @@ import style from './weather-spinner.module.css';
 import anime from 'animejs';
 import Sunny from './animations/sunny/Sunny';
 import Windy from './animations/windy/Windy';
+import Cloudy from './animations/cloudy/Cloudy';
 
 interface WeatherSpinnerProps {
 
@@ -26,7 +27,7 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({}) => {
     },[])
     return (
         <div className={style['weather-spinner']}>
-            <Windy/>
+            <Cloudy/>
         </div>
     );
 };
