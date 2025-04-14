@@ -178,7 +178,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
                             }, 
                         }, true)
                 })
-              }, SHRUNK_BACK_TIMEOUT);
+              }, SHRUNK_BACK_TIMEOUT); 
             }
         }
     }
