@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import styles from './cloudy.module.css';
 
 interface CloudyProps {
@@ -6,6 +6,15 @@ interface CloudyProps {
 }
 
 const Cloudy: React.FC<CloudyProps> = ({}) => {
+    const startAnimation = () => {
+        
+    }
+    const setUp = () => {
+        
+    }
+    useEffect(() => {
+        
+    },[])
     return (
         <div className={styles['cloudy']}>
             <svg width="50mm" height="40mm" version="1.1" viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
@@ -22,3 +31,5 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
 };
 
 export default Cloudy;
+
+
