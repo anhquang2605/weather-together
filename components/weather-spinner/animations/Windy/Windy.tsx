@@ -26,7 +26,7 @@ const Windy: React.FC<WindyProps> = ({}) => {
         const LEAVES_DURATION = 3000;
         const LEAVES_DELAY = 200;
         const WIND_PATH_DURATION = 2000;
-        const SHRUNK_BACK_TIMEOUT = WIND_PATH_DURATION  + LEAVES_DURATION + 500;
+        const SHRUNK_BACK_TIMEOUT = WIND_PATH_DURATION  + LEAVES_DURATION + 500 ;
         const timeline = anime.timeline({
             direction: 'normal'
         });
