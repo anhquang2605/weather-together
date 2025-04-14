@@ -9,12 +9,6 @@ interface WindyProps {
 const Windy: React.FC<WindyProps> = ({}) => {
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const setUp = () => {
-        const leaves: NodeListOf<HTMLElement> = document.querySelectorAll(`.${style['leaves']}`);
-        if (leaves) {
-            leaves.forEach((leaf) => {
-                //leaf.style.transform = 'scale(0)';
-            });
-        }
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
         if (ringStroke) {
           ringStroke.style.transform = 'scale(0)';
