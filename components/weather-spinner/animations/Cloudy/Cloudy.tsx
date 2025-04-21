@@ -1,6 +1,7 @@
 import React, { use, useEffect } from 'react';
 import styles from './cloudy.module.css';
 import anime from 'animejs';
+import { propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 
 interface CloudyProps {
 
@@ -9,8 +10,18 @@ interface CloudyProps {
 const Cloudy: React.FC<CloudyProps> = ({}) => {
     const startAnimation = () => {
         const timeline = anime.timeline({});
+        //cloud expand animation
+        const cloudExpandAnimation: any = propertiesStagesAnimation(`#${styles["cloudy"]}`, 'easeInQuad', 1000, {
+            scale: [0, 1],
+        }, false);
         //rain animation
 
+        //cloud stroke animation
+        
+        //cloud fill animation
+
+        //timeline adding
+        timeline.add(cloudExpandAnimation);
     }
     const setUp = () => {
         
