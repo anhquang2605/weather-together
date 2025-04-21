@@ -9,13 +9,18 @@ interface CloudyProps {
 
 const Cloudy: React.FC<CloudyProps> = ({}) => {
     const startAnimation = () => {
+        //animation constants
+        const CLOUD_STROKE_DURATION = 1000;
+        const CLOUD_EXPAND_DURATION = 1000;
+        const RAIN_DURATION = 1000;
+        //timeline set up
         const timeline = anime.timeline({});
         //cloud expand animation
-        const cloudExpandAnimation: any = propertiesStagesAnimation(`.${styles["cloudy"]}`, 'spring', 1000, {
+        const cloudExpandAnimation: any = propertiesStagesAnimation(`.${styles["cloudy"]}`, 'spring', CLOUD_EXPAND_DURATION, {
             scale: [0, 1],
         }, false);
         //cloud stroke animation
-        const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'easeInQuad', 1000, false);
+        const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
 
         //rain animation
         
