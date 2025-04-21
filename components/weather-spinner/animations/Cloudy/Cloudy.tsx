@@ -23,12 +23,13 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
 
         //rain animation
-        const rainAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]}`, 'linear', RAIN_DURATION, {
-            
-        })
+        const rainAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
+            strokeDasharray: [0, 10, 20, 30],
+        }, false);
         //timeline adding
         timeline.add(cloudExpandAnimation);
         timeline.add(cloudStrokeAnimation);
+        timeline.add(rainAnimation);
     }
     const setUp = () => {
         
