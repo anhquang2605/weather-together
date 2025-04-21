@@ -23,7 +23,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
 
         //rain animation
-        
+        const rainAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]}`, 'linear', RAIN_DURATION, {
+            
+        })
         //timeline adding
         timeline.add(cloudExpandAnimation);
         timeline.add(cloudStrokeAnimation);
