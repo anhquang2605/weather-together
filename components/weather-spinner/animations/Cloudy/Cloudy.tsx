@@ -26,7 +26,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const rainAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
-            strokeDasharray: 4,
+            strokeDasharray: [100,4],
             loop: 2
         }, false);
         //timeline adding
