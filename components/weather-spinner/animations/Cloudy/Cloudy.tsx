@@ -16,7 +16,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         //timeline set up
         const timeline = anime.timeline({});
         //cloud expand animation
-
+        const cloudExpandAnimation: any = propertiesStagesAnimation(`.${styles["cloudy-circle"]}`, 'spring', CLOUD_EXPAND_DURATION, {
+            scale: [0, 4],
+        })
         //cloud stroke animation
         const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
 
@@ -33,7 +35,8 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(raindropAnimation);
     }
     const setUp = () => {
-        
+        //cloudy-circle random spawner
+
     }
     useEffect(() => {
         startAnimation();
