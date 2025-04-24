@@ -20,8 +20,25 @@
     transform: scale(3.65);
 }
 .cloudy-circle{
-    background-color: blue;
+    background-color: #5300d4;
     width: 10px;
     height: 10px;
+    transform: scale(0);
+    transform-origin: center;
     border-radius: 50%;
+    &:nth-of-type(1){
+        position: absolute;
+        top: 12px;
+        left: 33px;
+    }
+    &:nth-of-type(2){
+        position: absolute;
+        top: 14px;
+        left: 20px;
+    }
+    &:nth-of-type(3){
+        position: absolute;
+        top: 7px;
+        left: 11px;
+    }
 }
