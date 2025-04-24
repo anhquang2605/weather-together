@@ -1,5 +1,5 @@
 .cloudy{
-    
+    position: relative;
 }
 #cloudy-rain{
 
@@ -11,14 +11,13 @@
 
 }
 #cloudy-circles-container{
-    transform: scale(3.5);
-    background-color: white;
     clip-path: path('m40.94 22.547-28.469-0.19862c-2.2069-0.0154-3.9936-3.0653-3.9063-5.6939 0.18141-5.4599 3.3137-7.5398 4.6345-8.5408 1.7614-1.3348 5.8669-2.093 8.2097-1.5228 2.9774 0.72471 5.2479 2.5839 6.9518 4.767 2.1686 2.7783 1.589 4.4359 1.589 4.4359 0.97762-2.7787 3.9083-4.4654 6.8856-4.5021 3.0538-0.03771 4.9238 1.6992 6.2897 4.2373 1.1794 2.2147 1.0703 6.8856-2.1849 7.018z');
     position: absolute;
-    width: 100px;
-    height: 100px;
-    top: 0;
-    left: 0;
+    width: 100%;
+    height: 100%;
+    top: 133.5%;
+    left: 134%;
+    transform: scale(3.65);
 }
 .cloudy-circle{
     background-color: blue;
