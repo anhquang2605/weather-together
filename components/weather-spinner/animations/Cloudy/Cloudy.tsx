@@ -30,10 +30,10 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             strokeDasharray: [0, "3 15"],
         }, false);
         //timeline adding
-        timeline.add(cloudStrokeAnimation);
-        timeline.add(cloudExpandAnimation);
-        timeline.add(rainAnimation);
-        //timeline.add(raindropAnimation);
+        //timeline.add(cloudStrokeAnimation);
+        //timeline.add(cloudExpandAnimation);
+        //timeline.add(rainAnimation);
+        timeline.add(raindropAnimation);
     }
     const setUp = () => {
         //cloudy-circle random spawner
