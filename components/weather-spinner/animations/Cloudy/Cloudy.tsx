@@ -10,15 +10,15 @@ interface CloudyProps {
 const Cloudy: React.FC<CloudyProps> = ({}) => {
     const startAnimation = () => {
         //animation constants
-        const CLOUD_STROKE_DURATION = 1000;
-        const CLOUD_EXPAND_DURATION = 2000;
-        const RAIN_DURATION = 1000;
+        const CLOUD_STROKE_DURATION = 700;
+        const CLOUD_EXPAND_DURATION = 1000;
+        const RAIN_DURATION = 500;
         //timeline set up
         const timeline = anime.timeline({});
         //cloud expand animation
         const cloudExpandAnimation: any = propertiesStagesAnimation(`.${styles["cloudy-circle"]}`, 'easeInExpo', CLOUD_EXPAND_DURATION, {
             scale: [0, 3],
-            delay: anime.stagger(300, {from: 'center'})
+            delay: anime.stagger(200, {from: 'center'})
         },false)
         //cloud stroke animation
         const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
