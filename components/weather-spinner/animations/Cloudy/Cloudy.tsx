@@ -33,7 +33,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(cloudStrokeAnimation);
         timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
-        timeline.add(raindropAnimation);
+        //timeline.add(raindropAnimation);
     }
     const setUp = () => {
         //cloudy-circle random spawner
@@ -51,9 +51,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 </div>
             <svg id={styles['cloudy-svg']} width="50mm" height="40mm" version="1.1" viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
                 <g id={styles['cloudy-rain']} fill="none" stroke="#4eb0e8" stroke-linecap="round" stroke-width="1.3229">
-                    <path d="m13.664 22.885-2.815 5.057"/>
-                    <path d="m26.773 22.985-2.4815 5.057"/>
-                    <path d="m39.882 23.018-2.4815 5.057"/>
+                    <path d="m13.664 22.885-3.815 9.057"/>
+                    <path d="m26.773 22.985-3.4815 9.057"/>
+                    <path d="m39.882 23.018-3.4815 9.057"/>
                 </g>
               
                 <clipPath id="cloudy-filled-clip">
