@@ -2,6 +2,7 @@ import React, { use, useEffect } from 'react';
 import styles from './cloudy.module.css';
 import anime from 'animejs';
 import { pathRevealAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { resourceUsage } from 'process';
 
 interface CloudyProps {
 
@@ -59,6 +60,10 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
     }
     useEffect(() => {
         startAnimation();
+        const timeout = animationRainDropDashArray(3000);
+        return () => {
+            clearTimeout(timeout);
+        }
     },[])
     return (
         <div className={styles['cloudy']}>
