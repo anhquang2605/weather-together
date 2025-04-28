@@ -39,6 +39,20 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         //timeline.add(raindropAnimation);
         //timeline.add(rainDropAnimation2);
     }
+    const animationRainDropDashArray = (timeoutDur: number) => {
+        const timeout = setTimeout(() => {
+            const anim = anime({
+                targets: `#${styles["cloudy-rain"]} path`,
+                strokeDasharray: [ "3 2"],
+                easing: 'linear',
+                duration: 500,
+                loop: 3,
+                delay: anime.stagger(100, {start: 0}),
+                direction: 'reverse',
+            });
+        }, timeoutDur);
+        return timeout
+    }
     const setUp = () => {
         //cloudy-circle random spawner
 
