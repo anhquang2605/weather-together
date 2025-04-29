@@ -44,11 +44,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const timeout = setTimeout(() => {
             const anim = anime({
                 targets: `#${styles["cloudy-rain"]} path`,
-                strokeDasharray: [ "1 2 3"],
+                strokeDasharray: [ "3 2 1"],
                 easing: 'linear',
                 duration: 1000,
-                loop: 3,
-                delay: 300,
             });
         }, timeoutDur);
         return timeout
