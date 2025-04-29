@@ -26,6 +26,12 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
 
         //rain animation
         const rainAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
+        rainAnimation.changeComplete =  () => {
+            const path: NodeListOf<SVGPathElement> = document.querySelectorAll(`#${styles["cloudy-rain"]} path`);
+            for (let i = 0; i < path.length; i++) {
+                path[i].style.transform = "rotate(180deg)";
+            }
+        }
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             strokeDasharray: [ "3 2"],
