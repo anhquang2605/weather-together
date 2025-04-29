@@ -1,7 +1,7 @@
 import React, { use, useEffect } from 'react';
 import styles from './cloudy.module.css';
 import anime from 'animejs';
-import { pathRevealAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 import { resourceUsage } from 'process';
 
 interface CloudyProps {
@@ -32,6 +32,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 path[i].style.transform = "rotate(180deg)";
             }
         }
+        const pathUnRevealAnimation: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             strokeDasharray: [ "3 2"],
@@ -43,7 +44,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         //timeline.add(cloudStrokeAnimation);
         //timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
-        timeline.add(rainAnimation, "+=" + "1000");
+        timeline.add(pathUnRevealAnimation, "+=" + "2000");
         
         //timeline.add(raindropAnimation);
         //timeline.add(rainDropAnimation2);
