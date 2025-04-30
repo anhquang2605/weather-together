@@ -35,7 +35,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const pathUnRevealAnimation: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
-            strokeDasharray: [ "3 2"],
+            strokeDasharray: [ "3"],
         }, false);
         const rainDropAnimation2: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             strokeDasharray: [ "3 2 1"],
@@ -44,7 +44,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         //timeline.add(cloudStrokeAnimation);
         //timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
-        timeline.add(pathUnRevealAnimation, "+=" + "2000");
+        timeline.add(raindropAnimation, "+=" + "2000");
         
         //timeline.add(raindropAnimation);
         //timeline.add(rainDropAnimation2);
@@ -68,10 +68,10 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
     }
     useEffect(() => {
         startAnimation();
-        const timeout = animationRainDropDashArray(3000);
+        /*const timeout = animationRainDropDashArray(3000);
         return () => {
             clearTimeout(timeout);
-        }
+        } */
     },[])
     return (
         <div className={styles['cloudy']}>
