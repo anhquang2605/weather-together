@@ -32,23 +32,16 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 path[i].style.transform = "rotate(180deg)";
             }
         }
-        const pathUnRevealAnimation: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             strokeDashOffset: [0, anime.setDashoffset],
             strokeDasharray: [ "3"],
         }, false);
-        const rainDropAnimation2: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
-            strokeDasharray: [ "3 2 1"],
-        }, false);
         //timeline adding
-        //timeline.add(cloudStrokeAnimation);
-        //timeline.add(cloudExpandAnimation);
+        timeline.add(cloudStrokeAnimation);
+        timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
         timeline.add(raindropAnimation);
-        
-        //timeline.add(raindropAnimation);
-        //timeline.add(rainDropAnimation2);
     }
     const animationRainDropDashArray = (timeoutDur: number) => {
         const timeout = setTimeout(() => {
