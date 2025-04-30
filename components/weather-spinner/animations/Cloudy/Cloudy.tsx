@@ -34,6 +34,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         }
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
+            opacity: [0, 1],
             strokeDashOffset: [0, anime.setDashoffset],
             strokeDasharray: [ "3"],
         }, false);
