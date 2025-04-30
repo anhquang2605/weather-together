@@ -3,6 +3,7 @@ import styles from './cloudy.module.css';
 import anime from 'animejs';
 import { pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 import { resourceUsage } from 'process';
+import { time } from 'console';
 
 interface CloudyProps {
 
@@ -26,29 +27,30 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
 
         //rain animation
         const rainAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
+        const path: NodeListOf<SVGPathElement> = document.querySelectorAll(`#${styles["cloudy-rain"]} path`);
         rainAnimation.changeComplete =  () => {
-            const path: NodeListOf<SVGPathElement> = document.querySelectorAll(`#${styles["cloudy-rain"]} path`);
             for (let i = 0; i < path.length; i++) {
                 path[i].style.transform = "rotate(180deg)";
+                path[i].style.opacity = "1";
             }
         }
+        const rainAnimation2: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
-            opacity: [0, 1],
-            strokeDashOffset: [0, anime.setDashoffset],
-            strokeDasharray: [ "3"],
+            strokeDasharray: "2",
         }, false);
         //timeline adding
-        timeline.add(cloudStrokeAnimation);
-        timeline.add(cloudExpandAnimation);
+        //timeline.add(cloudStrokeAnimation);
+        //timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
         timeline.add(raindropAnimation);
+        timeline.add(rainAnimation2)
     }
     const animationRainDropDashArray = (timeoutDur: number) => {
         const timeout = setTimeout(() => {
             const anim = anime({
                 targets: `#${styles["cloudy-rain"]} path`,
-                strokeDasharray: [ "3"
+                strokeDasharray: [ 0 ,"3"
                 ],
                 easing: 'linear',
                 
@@ -77,9 +79,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 </div>
             <svg id={styles['cloudy-svg']} width="50mm" height="40mm" version="1.1" viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
                 <g id={styles['cloudy-rain']} fill="none" stroke="#4eb0e8" stroke-linecap="round" stroke-width="1.3229">
-                    <path d="m13.664 22.885-3.815 9.057"/>
-                    <path d="m26.773 22.985-3.4815 9.057"/>
-                    <path d="m39.882 23.018-3.4815 9.057"/>
+                    <path d="m13.773 22.885-3.815 9.057"/>
+                    <path d="m26.773 22.885-3.815 9.057"/>
+                    <path d="m39.882 22.885-3.815 9.057"/>
                 </g>
               
                 <clipPath id="cloudy-filled-clip">
