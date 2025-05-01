@@ -44,7 +44,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(cloudStrokeAnimation);
         timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
-        timeline.add(raindropAnimation);
+        //timeline.add(raindropAnimation);
         timeline.add(rainAnimation2);
         timeline.add(rainAnimation3);
     }
