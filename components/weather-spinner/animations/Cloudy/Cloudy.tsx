@@ -38,15 +38,17 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const rainAnimation3: any = {...rainAnimation2};
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
+            
             strokeDasharray: "2",
+            
         }, false);
         //timeline adding
-        timeline.add(cloudStrokeAnimation);
-        timeline.add(cloudExpandAnimation);
-        timeline.add(rainAnimation);
-        //timeline.add(raindropAnimation);
-        timeline.add(rainAnimation2);
-        timeline.add(rainAnimation3);
+        //timeline.add(cloudStrokeAnimation);
+        //timeline.add(cloudExpandAnimation);
+        timeline.add(rainAnimation, 999999000);
+        timeline.add(raindropAnimation);
+        //timeline.add(rainAnimation2);
+        //timeline.add(rainAnimation3);
     }
 
     const setUp = () => {
@@ -68,7 +70,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 <g id={styles['cloudy-rain']} fill="none" stroke="#4eb0e8" stroke-linecap="round" stroke-width="1.3229">
                     <path d="m13.773 22.885-3.815 9.057"/>
                     <path d="m26.773 22.885-3.815 9.057"/>
-                    <path d="m39.882 22.885-3.815 9.057"/>
+                    <path d="m39.773 22.885-3.815 9.057"/>
                 </g>
               
                 <clipPath id="cloudy-filled-clip">

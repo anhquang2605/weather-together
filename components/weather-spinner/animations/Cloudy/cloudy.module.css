@@ -14,7 +14,7 @@
     transform-origin: 25px 27.5px;
 }
 #cloud-stroke{
-    
+    display:none;
 }
 #cloud-filled{
 
