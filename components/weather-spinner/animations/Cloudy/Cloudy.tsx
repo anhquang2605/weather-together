@@ -35,16 +35,18 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             }
         }
         const rainAnimation2: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
+        const rainAnimation3: any = {...rainAnimation2};
         //rain drop
         const raindropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             strokeDasharray: "2",
         }, false);
         //timeline adding
-        //timeline.add(cloudStrokeAnimation);
-        //timeline.add(cloudExpandAnimation);
+        timeline.add(cloudStrokeAnimation);
+        timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
         timeline.add(raindropAnimation);
-        timeline.add(rainAnimation2)
+        timeline.add(rainAnimation2);
+        timeline.add(rainAnimation3);
     }
     const animationRainDropDashArray = (timeoutDur: number) => {
         const timeout = setTimeout(() => {
