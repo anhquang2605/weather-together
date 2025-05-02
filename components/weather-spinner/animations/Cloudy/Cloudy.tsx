@@ -43,9 +43,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             
         }, false);
         //timeline adding
-        //timeline.add(cloudStrokeAnimation);
-        //timeline.add(cloudExpandAnimation);
-        timeline.add(rainAnimation, 99999);
+        timeline.add(cloudStrokeAnimation);
+        timeline.add(cloudExpandAnimation);
+        timeline.add(rainAnimation);
         timeline.add(raindropAnimation);
         //timeline.add(rainAnimation2);
         //timeline.add(rainAnimation3);
@@ -68,9 +68,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 </div>
             <svg id={styles['cloudy-svg']} width="50mm" height="40mm" version="1.1" viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
                 <g id={styles['cloudy-rain']} fill="none" stroke="#4eb0e8" stroke-linecap="round" stroke-width="1.3">
-                    <path d="m13.664 22.885-5.4815 9.057"/>
-                    <path d="m26.773 22.885-5.4815 9.057"/>
-                    <path d="m39.882 22.885-5.4815 9.057"/>
+                    <path d="m13.773 22.885-3.815 9.057"/>
+                    <path d="m26.773 22.885-3.815 9.057"/>
+                    <path d="m39.773 22.885-3.815 9.057"/>
                 </g>
               
                 <clipPath id="cloudy-filled-clip">

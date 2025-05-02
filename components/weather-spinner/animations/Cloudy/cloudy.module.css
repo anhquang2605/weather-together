@@ -11,10 +11,10 @@
 
 }
 #cloudy-rain path{
-    transform-origin: 24.5px 27.5px;
+    transform-origin: 25px 27.5px;
 }
 #cloud-stroke{
-    display: none;
+    display:none;
 }
 #cloud-filled{
 
