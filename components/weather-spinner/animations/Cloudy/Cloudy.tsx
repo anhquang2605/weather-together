@@ -67,7 +67,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                     <div className={styles['cloudy-circle']}></div>
                 </div>
             <svg id={styles['cloudy-svg']} width="50mm" height="40mm" version="1.1" viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
-                <g id={styles['cloudy-rain']} fill="none" stroke="#4eb0e8" stroke-linecap="round" stroke-width="1">
+                <g id={styles['cloudy-rain']} fill="none" stroke="#4eb0e8" stroke-linecap="round" stroke-width="1,3">
                     <path d="m13.773 22.885-3.815 9.057"/>
                     <path d="m26.773 22.885-3.815 9.057"/>
                     <path d="m39.773 22.885-3.815 9.057"/>
