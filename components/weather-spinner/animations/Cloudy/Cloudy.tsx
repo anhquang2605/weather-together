@@ -45,7 +45,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         //timeline adding
         //timeline.add(cloudStrokeAnimation);
         //timeline.add(cloudExpandAnimation);
-        timeline.add(rainAnimation, 99999);
+        timeline.add(rainAnimation);
         timeline.add(raindropAnimation);
         //timeline.add(rainAnimation2);
         //timeline.add(rainAnimation3);
@@ -53,7 +53,8 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
 
     const setUp = () => {
         //cloudy-circle random spawner
-
+        const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:nth-child(1)`);
+        thatOneRainDrop.transform.opacity = "0";
     }
     useEffect(() => {
         startAnimation();
