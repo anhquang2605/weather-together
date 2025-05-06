@@ -53,14 +53,8 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(rainAnimation3);
     }
 
-    const setUp = () => {
-        //cloudy-circle random spawner
-        const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:first-child`);
-        console.log(thatOneRainDrop);
-        thatOneRainDrop.style.opacity = "0";
-    }
     useEffect(() => {
-        setUp();
+        //setUp();
         startAnimation();
        
     },[])
