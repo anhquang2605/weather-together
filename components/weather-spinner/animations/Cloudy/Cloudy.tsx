@@ -25,6 +25,9 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         },false)
         //cloud stroke animation
         const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
+        cloudStrokeAnimation.changeStart = () => {
+            thatOneRainDrop.style.opacity = "0";
+        }
         cloudStrokeAnimation.changeComplete = () => {
             thatOneRainDrop.style.opacity = "1";
         }
