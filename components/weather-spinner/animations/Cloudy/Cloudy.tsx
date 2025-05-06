@@ -31,13 +31,14 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             }
           
         }
-        cloudStrokeAnimation.changeComplete = () => {
+       
+        //rain animation
+        const rainAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
+        rainAnimation.begin = () => {
             if (theCloudyRain) {
                 theCloudyRain.classList.remove(styles['hidden'])
             }
         }
-        //rain animation
-        const rainAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         const path: NodeListOf<SVGPathElement> = document.querySelectorAll(`#${styles["cloudy-rain"]} path`);
         rainAnimation.changeComplete =  () => {
             for (let i = 0; i < path.length; i++) {
@@ -53,6 +54,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             
         }, false);
         //timeline adding
+        //forward phase
         timeline.add(cloudStrokeAnimation);
         timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
