@@ -12,7 +12,7 @@ interface CloudyProps {
 const Cloudy: React.FC<CloudyProps> = ({}) => {
     const startAnimation = () => {
         //animation constants
-        const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:nth-child(1)`);
+        const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:first-child`);
         const CLOUD_STROKE_DURATION = 700;
         const CLOUD_EXPAND_DURATION = 1000;
         const RAIN_DURATION = 500;
@@ -34,7 +34,6 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         rainAnimation.changeComplete =  () => {
             for (let i = 0; i < path.length; i++) {
                 path[i].style.transform = "rotate(180deg)";
-                path[i].style.opacity = "1";
             }
         }
         const rainAnimation2: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
@@ -57,6 +56,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
     const setUp = () => {
         //cloudy-circle random spawner
         const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:first-child`);
+        console.log(thatOneRainDrop);
         thatOneRainDrop.style.opacity = "0";
     }
     useEffect(() => {
