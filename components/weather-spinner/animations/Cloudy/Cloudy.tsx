@@ -56,8 +56,8 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
 
     const setUp = () => {
         //cloudy-circle random spawner
-        const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:nth-child(1)`);
-        thatOneRainDrop.transform.opacity = "0";
+        const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:first-child`);
+        thatOneRainDrop.style.opacity = "0";
     }
     useEffect(() => {
         setUp();
