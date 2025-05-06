@@ -12,7 +12,7 @@ interface CloudyProps {
 const Cloudy: React.FC<CloudyProps> = ({}) => {
     const startAnimation = () => {
         //animation constants
-        const thatOneRainDrop: any = document.querySelector(`#${styles["cloudy-rain"]} path:first-child`);
+        const theCloudyRain: HTMLElement | null = document.getElementById(`${styles["cloudy-rain"]}`);
         const CLOUD_STROKE_DURATION = 700;
         const CLOUD_EXPAND_DURATION = 1000;
         const RAIN_DURATION = 500;
@@ -26,10 +26,16 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         //cloud stroke animation
         const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
         cloudStrokeAnimation.changeStart = () => {
-            thatOneRainDrop.style.opacity = "0";
+            if (theCloudyRain) {
+                console.log("here");
+                theCloudyRain.classList.add(styles['hidden'])
+            }
+          
         }
         cloudStrokeAnimation.changeComplete = () => {
-            thatOneRainDrop.style.opacity = "1";
+            if (theCloudyRain) {
+                theCloudyRain.classList.remove(styles['hidden'])
+            }
         }
         //rain animation
         const rainAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
