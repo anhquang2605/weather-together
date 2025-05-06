@@ -43,12 +43,12 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             
         }, false);
         //timeline adding
-        //timeline.add(cloudStrokeAnimation);
-        //timeline.add(cloudExpandAnimation);
+        timeline.add(cloudStrokeAnimation);
+        timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
         timeline.add(raindropAnimation);
-        //timeline.add(rainAnimation2);
-        //timeline.add(rainAnimation3);
+        timeline.add(rainAnimation2);
+        timeline.add(rainAnimation3);
     }
 
     const setUp = () => {
