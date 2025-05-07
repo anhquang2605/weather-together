@@ -38,7 +38,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         }
        //cloud stroke animation reverse
         const cloudStrokeAnimationReverse: any = pathShrinkAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
-        cloudStrokeAnimationReverse.complete = () => {
+        cloudStrokeAnimationReverse.begin = () => {
             if (theCloudyRain) {
                 theCloudyRain.classList.add(styles['hidden'])
             }
@@ -50,6 +50,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 theCloudyRain.classList.remove(styles['hidden'])
             }
         }
+        //
         const path: NodeListOf<SVGPathElement> = document.querySelectorAll(`#${styles["cloudy-rain"]} path`);
         rainAnimation.changeComplete =  () => {
             for (let i = 0; i < path.length; i++) {
