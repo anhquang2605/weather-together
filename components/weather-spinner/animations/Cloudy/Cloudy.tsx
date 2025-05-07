@@ -59,8 +59,8 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         }
         const rainReverseAnimation: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         rainReverseAnimation.begin = () => {
-            if (theCloudyRain) {
-                theCloudyRain.classList.remove(styles['hidden'])
+            for (let i = 0; i < path.length; i++) {
+                path[i].style.transform = "rotate(180deg)";
             }
         }
         const rainAnimation2: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
