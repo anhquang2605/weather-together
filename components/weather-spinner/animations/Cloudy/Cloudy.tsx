@@ -27,7 +27,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const cloudShrinkAnimation: any = propertiesStagesAnimation(`.${styles["cloudy-circle"]}`, 'easeInExpo', CLOUD_EXPAND_DURATION, {
             scale: [3, 0],
             delay: anime.stagger(200, {from: 'center'})
-        })
+        }, false)
         //cloud stroke animation
         const cloudStrokeAnimation: any = pathRevealAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
         cloudStrokeAnimation.begin = () => {
@@ -74,6 +74,8 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(rainAnimation2);
         timeline.add(rainAnimation3);
         //reverse phase
+        timeline.add(cloudShrinkAnimation);
+        timeline.add(cloudStrokeAnimationReverse);
     }
 
     useEffect(() => {
