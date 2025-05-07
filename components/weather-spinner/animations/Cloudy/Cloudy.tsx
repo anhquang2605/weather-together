@@ -36,7 +36,13 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             }
           
         }
-       
+       //cloud stroke animation reverse
+        const cloudStrokeAnimationReverse: any = pathShrinkAnimation(`#${styles["cloud-stroke"]}`, 'linear', CLOUD_STROKE_DURATION, false);
+        cloudStrokeAnimationReverse.complete = () => {
+            if (theCloudyRain) {
+                theCloudyRain.classList.add(styles['hidden'])
+            }
+        }
         //rain animation
         const rainAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         rainAnimation.begin = () => {
