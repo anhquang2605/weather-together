@@ -16,6 +16,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         const CLOUD_STROKE_DURATION = 700;
         const CLOUD_EXPAND_DURATION = 1000;
         const RAIN_DURATION = 500;
+        const REVERSE_PHASE_DELAY = 1000;
         //timeline set up
         const timeline = anime.timeline({});
         //cloud expand animation
@@ -86,7 +87,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(rainAnimation2);
         timeline.add(rainAnimation3);
         //reverse phase
-        timeline.add(rainReverseDropAnimation, "+=1000");
+        timeline.add(rainReverseDropAnimation, "+=" + REVERSE_PHASE_DELAY);
         timeline.add(rainReverseAnimation);
         timeline.add(cloudShrinkAnimation);
         timeline.add(cloudStrokeAnimationReverse);
