@@ -89,7 +89,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(rainAnimation2);
         timeline.add(rainAnimation3);
         //reverse phase
-        timeline.add(rainReverseDropAnimation);
+        //timeline.add(rainReverseDropAnimation);
         timeline.add(rainReverseAnimation)
         //timeline.add(rainReverseAnimation3);
         //timeline.add(rainReverseDropAnimation, "+=" + REVERSE_PHASE_DELAY);
