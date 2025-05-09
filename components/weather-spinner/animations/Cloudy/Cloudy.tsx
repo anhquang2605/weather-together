@@ -58,6 +58,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 path[i].style.transform = "rotate(180deg)";
             }
         }
+        
 /*         const rainReverseAnimation: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         const rainReverseAnimation2: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false)
         const rainReverseAnimation3: any = {...rainReverseAnimation2};
@@ -66,9 +67,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
                 path[i].style.transform = "rotate(180deg)";
             }
         } */
-       const rainReverseAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
-        const rainReverseAnimation2: any = {...rainReverseAnimation};        
-        const rainReverseAnimation3: any = {...rainReverseAnimation};
+     
         const rainAnimation2: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         const rainAnimation3: any = {...rainAnimation2};
         //rain drop
@@ -77,6 +76,8 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             strokeDasharray: "2",
             
         }, false);
+        const rainReverseAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
+        const rainReverseAnimation2: any = {...rainReverseAnimation};   
         const rainReverseDropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             
             strokeDasharray: "0",
@@ -100,7 +101,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(rainReverseAnimation)
         timeline.add(rainReverseAnimation2);
         timeline.add(rainReverseDropAnimation);
-        timeline.add(rainReverseAnimation3);
+        
         //timeline.add(rainReverseDropAnimation, "+=" + REVERSE_PHASE_DELAY);
         //timeline.add(rainReverseAnimation);
         //timeline.add(cloudShrinkAnimation);
