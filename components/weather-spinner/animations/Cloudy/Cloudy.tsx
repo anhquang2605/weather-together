@@ -86,10 +86,10 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             
         }, false);
         const rainLength = getPathLength(`#${styles["cloudy-rain"]} path:first-child`);
-        console.log(rainLength);
         const rainReverseDropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             
-            strokeDasharray: `${rainLength / 2} 0`,
+            strokeDasharray: 'none',
+            strokeDashoffset: anime.setDashoffset
             
         }, false);
         
