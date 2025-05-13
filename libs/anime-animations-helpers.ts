@@ -122,3 +122,8 @@ export const propertiesStagesAnimation = (targets: string, easing: string, durat
     }
 }
 
+export const getPathLength = (target: string) => {
+    const query: SVGGeometryElement | null = document.querySelector(target)
+    const pathLength = query?.getTotalLength() ?? 0;
+    return pathLength
+}

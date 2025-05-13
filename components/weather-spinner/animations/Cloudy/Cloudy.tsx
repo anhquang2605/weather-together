@@ -1,7 +1,7 @@
 import React, { use, useEffect } from 'react';
 import styles from './cloudy.module.css';
 import anime from 'animejs';
-import { pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
+import { getPathLength, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 import { resourceUsage } from 'process';
 import { time } from 'console';
 
@@ -85,10 +85,11 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
             strokeDasharray: "2",
             
         }, false);
-      
+        const rainLength = getPathLength(`#${styles["cloudy-rain"]} path:first-child`);
+        console.log(rainLength);
         const rainReverseDropAnimation: any = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             
-            strokeDasharray: `${anime.setDashoffset} 0`,
+            strokeDasharray: `${rainLength} 0`,
             
         }, false);
         
