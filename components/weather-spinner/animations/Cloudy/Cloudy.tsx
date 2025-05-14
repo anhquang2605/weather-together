@@ -96,7 +96,9 @@ const Cloudy: React.FC<CloudyProps> = ({toStart}) => {
     }
 
     useEffect(() => {
+                    console.log(toStart);
         if(toStart){
+
             startAnimation();
         }
     },[toStart])

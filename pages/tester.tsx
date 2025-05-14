@@ -7,6 +7,7 @@ import SnowCloud from "../components/activity/post/post-engagement/engagement-ba
 import PostEngagement from "../components/activity/post/post-engagement/PostEngagement"
 import Loading from "../components/loading"
 import LoadingIcon from "../components/plugins/loading-icon/LoadingIcon"
+import { start } from "repl"
 /* this page is for testing purposes only */
 /* export const getStaticProps = async () => {
     const user = await getUserDataByUserName('anhquang2605');
@@ -25,7 +26,7 @@ export default function Tester(userJSON:any) {
         'anhquang2605': faker.image.avatar(),
         'chuquang2605': faker.image.avatar(),
     }
-    const interval = 1000;
+    const interval = 5000;
     const mockTimeEvent = (interval: number) => {
         const theinterval = setInterval(() => {
             setStartUpdate((prev) => !prev);
@@ -85,6 +86,9 @@ export default function Tester(userJSON:any) {
        
       }
     }, []); */
+    useEffect(() => {
+        console.log("startUpdate", startUpdate);
+    },[startUpdate])
     return (
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">

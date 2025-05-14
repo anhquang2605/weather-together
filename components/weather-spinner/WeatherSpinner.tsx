@@ -4,10 +4,10 @@ import anime from 'animejs';
 import Cloudy from './animations/cloudy/Cloudy';
 
 interface WeatherSpinnerProps {
-
+    startUpdate?: boolean;
 }
 
-const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({}) => {
+const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({startUpdate}) => {
     const startAnimation = () => {
         const timeline = anime.timeline({});
     }
@@ -25,7 +25,7 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({}) => {
     },[])
     return (
         <div className={style['weather-spinner']}>
-            <Cloudy/>
+            <Cloudy toStart={startUpdate}/>
         </div>
     );
 };

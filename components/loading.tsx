@@ -11,3 +11,5 @@ const Loading: React.FC<LoadingProps> = ({ startUpdate }: LoadingProps) => {
         </div>
     )
 }
+
+export default Loading;
