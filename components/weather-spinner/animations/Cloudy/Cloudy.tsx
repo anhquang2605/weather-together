@@ -1,9 +1,7 @@
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './cloudy.module.css';
 import anime from 'animejs';
 import { getPathLength, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
-import { resourceUsage } from 'process';
-import { time } from 'console';
 
 interface CloudyProps {
 
