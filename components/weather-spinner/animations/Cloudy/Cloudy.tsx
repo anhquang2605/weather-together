@@ -4,10 +4,10 @@ import anime from 'animejs';
 import { getPathLength, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 
 interface CloudyProps {
-
+    toStart?: boolean;
 }
 
-const Cloudy: React.FC<CloudyProps> = ({}) => {
+const Cloudy: React.FC<CloudyProps> = ({toStart}) => {
     const startAnimation = () => {
         //animation constants
         const theCloudyRain: HTMLElement | null = document.getElementById(`${styles["cloudy-rain"]}`);
@@ -96,10 +96,10 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
     }
 
     useEffect(() => {
-        //setUp();
-        startAnimation();
-       
-    },[])
+        if(toStart){
+            startAnimation();
+        }
+    },[toStart])
     return (
         <div className={styles['cloudy']}>
               <div id={styles['cloudy-circles-container']} clip-path="url(#cloudy-filled-clip)">
