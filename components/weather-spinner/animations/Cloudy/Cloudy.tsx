@@ -65,11 +65,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
      
         const rainAnimation2: any = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
         const rainAnimation3: any = {...rainAnimation2};
-        const rainReverseAnimation: any = pathRevealAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
-        const rainReverseAnimation2: any = {...rainReverseAnimation};
-        /* const rainRerverseAnimation3: any  = pathShrinkAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, false);
-        const rainRerverseAnimation4: any = {...rainRerverseAnimation3}; */
-        const rainReverseAnimation3 = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
+        const rainReverseAnimation = propertiesStagesAnimation(`#${styles["cloudy-rain"]} path`, 'linear', RAIN_DURATION, {
             strokeDashoffset: anime.setDashoffset,
         }, false); 
         //rain drop
@@ -104,7 +100,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         timeline.add(rainAnimation3);
         //reverse phase
         timeline.add(rainReverseDropAnimation, "+=" + REVERSE_PHASE_DELAY);
-        timeline.add(rainReverseAnimation3);
+        timeline.add(rainReverseAnimation);
         timeline.add(cloudShrinkAnimation);
         timeline.add(cloudStrokeAnimationReverse);
 
