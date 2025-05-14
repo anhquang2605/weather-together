@@ -92,7 +92,7 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
 
         }, false);
         
-        rainReverseDropAnimation.begin = () => {
+        rainReverseDropAnimation.complete = () => {
             for (let i = 0; i < path.length; i++) {
                 path[i].style.transform = "rotate(0deg)";
             }
@@ -104,13 +104,11 @@ const Cloudy: React.FC<CloudyProps> = ({}) => {
         //timeline.add(cloudExpandAnimation);
         timeline.add(rainAnimation);
         timeline.add(raindropAnimation);
-        /*timeline.add(rainAnimation2);
-        timeline.add(rainAnimation3); */
+        timeline.add(rainAnimation2);
+        timeline.add(rainAnimation3);
         //reverse phase
-        /* timeline.add(rainReverseAnimation)
-        timeline.add(rainReverseAnimation2); */
-        timeline.add(rainReverseDropAnimation);
-        timeline.add(rainReverseAnimation3, "+=" + 100);
+        timeline.add(rainReverseDropAnimation, "+=" + REVERSE_PHASE_DELAY);
+        timeline.add(rainReverseAnimation3);
         //timeline.add(rainRerverseAnimation4);
         //timeline.add(rainReverseDropAnimation, "+=" + REVERSE_PHASE_DELAY);
         //timeline.add(rainReverseAnimation);
