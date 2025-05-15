@@ -3,10 +3,10 @@ import style from './windy.module.css';
 import anime from 'animejs';
 import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation,  propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
-
+    toStart: boolean;
 }
 
-const Windy: React.FC<WindyProps> = ({}) => {
+const Windy: React.FC<WindyProps> = ({toStart}) => {
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const setUp = () => {
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
@@ -177,13 +177,15 @@ const Windy: React.FC<WindyProps> = ({}) => {
         }
     }
     useEffect(() => {
-        setUp();
-        startAnimation();
+        if(toStart){
+                    setUp();
+            startAnimation();
+        }
        return () => {
             if(timeout.current){    
                 clearTimeout(timeout.current)};
             }
-    },[])
+    },[toStart])
     return (
         <div className={style['windy']}>
             <svg  width="60mm" height="60mm" version="1.1" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
