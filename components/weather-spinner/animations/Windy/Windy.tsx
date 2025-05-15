@@ -4,9 +4,10 @@ import anime from 'animejs';
 import { multiPathExpandBackwardAnimation, multiPathShrinkForwardAnimation, pathRevealAnimation,  propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 interface WindyProps {
     toStart: boolean;
+    setWindyFinished: (finished: boolean) => void;
 }
 
-const Windy: React.FC<WindyProps> = ({toStart}) => {
+const Windy: React.FC<WindyProps> = ({toStart, setWindyFinished}) => {
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const setUp = () => {
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);

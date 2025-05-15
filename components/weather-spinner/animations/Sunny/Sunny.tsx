@@ -7,9 +7,10 @@ import background from '../../../weather-widgets/weather-bar/animated-bar-backgr
 import { be } from 'date-fns/locale';
 interface SunnyProps {
     toStart: boolean;
+    setSunnyFinished?: (finished: boolean) => void;
 }
 
-const Sunny: React.FC<SunnyProps> = ({toStart}) => {
+const Sunny: React.FC<SunnyProps> = ({toStart, setSunnyFinished}) => {
     //CONSTANTS
     const SUN_SPIN_DURATION = 2000;
     const SUN_SIZE_CHANGE_DURATION = 1000;

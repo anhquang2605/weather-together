@@ -4,10 +4,11 @@ import anime from 'animejs';
 import { getPathLength, pathRevealAnimation, pathShrinkAnimation, propertiesStagesAnimation } from '../../../../libs/anime-animations-helpers';
 
 interface CloudyProps {
-    toStart?: boolean;
+    toStart: boolean;
+    setCloudyFinished: (finished: boolean) => void;
 }
 
-const Cloudy: React.FC<CloudyProps> = ({toStart}) => {
+const Cloudy: React.FC<CloudyProps> = ({toStart, setCloudyFinished}) => {
     const startAnimation = () => {
         //animation constants
         const theCloudyRain: HTMLElement | null = document.getElementById(`${styles["cloudy-rain"]}`);
