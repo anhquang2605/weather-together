@@ -6,10 +6,10 @@ import { time } from 'console';
 import background from '../../../weather-widgets/weather-bar/animated-bar-background/background/Background';
 import { be } from 'date-fns/locale';
 interface SunnyProps {
-
+    toStart: boolean;
 }
 
-const Sunny: React.FC<SunnyProps> = ({}) => {
+const Sunny: React.FC<SunnyProps> = ({toStart}) => {
     //CONSTANTS
     const SUN_SPIN_DURATION = 2000;
     const SUN_SIZE_CHANGE_DURATION = 1000;
@@ -114,9 +114,12 @@ const Sunny: React.FC<SunnyProps> = ({}) => {
         }
     }
     useEffect(()=>{
-        setUp();
-        sunnyAnimation();
-    },[])
+        if(toStart){
+                    setUp();
+            sunnyAnimation();
+        }
+
+    },[toStart])
     return (
         <div className={style['sunny']}>
             <svg width="60mm" height="60mm" version="1.1" viewBox="0 0 60 60"  xmlns="http://www.w3.org/2000/svg">
