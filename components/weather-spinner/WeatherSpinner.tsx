@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import style from './weather-spinner.module.css';
 import anime from 'animejs';
 import Cloudy from './animations/cloudy/Cloudy';
+import Sunny from './animations/sunny/Sunny';
+import Windy from './animations/windy/Windy';
 
 interface WeatherSpinnerProps {
     startUpdate?: boolean;
@@ -14,21 +16,15 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({startUpdate = false}) =>
     const startAnimation = () => {
         const timeline = anime.timeline({});
     }
-    const sunnyAnimation = () => {
-        
-    }
-    const cloudyAnimation = () => {
-        
-    }
-    const windyAnimation = () => {
-        
-    }
+
     useEffect(()=> {
         setStartRain(startUpdate );
     },[])
     return (
         <div className={style['weather-spinner']}>
             <Cloudy toStart={startUpdate}/>
+            <Sunny toStart={startUpdate}/>
+            <Windy toStart={startUpdate}/>
         </div>
     );
 };
