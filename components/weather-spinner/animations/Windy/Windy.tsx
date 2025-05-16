@@ -111,49 +111,14 @@ const Windy: React.FC<WindyProps> = ({toStart, setWindyFinished}) => {
                             }
                            }
                            ,
-                         /*   update: (anim: AnimeInstance) => {
-                               const progress = anim.progress;
-                               if(progress == 0.5){
-                                    anim.pause();
-                                    alternatedAnims.push(anim);
-                               }
-                           }
-                            */
                         } 
                         ,false));
-                 //leavses flying back
-/*                 leavesBackwardAnimations.push(propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
-                    {
-                        direction: 'reverse',
-                        translateX: paths[index]('x'),
-                        translateY: paths[index]('y'),
-                        rotate: paths[index]('angle'),
-                        scale: [0,1.2],
-                       
-                         changeBegin: () => {
-                            const leaf = document.querySelector(`#leave_${index + 1} svg`);
-                            if (leaf) {
-                                leaf.classList.remove(style['leave_floating']);
-                            }
-                           }, 
-                    }
-                    )); */
-                        
+                 //leavses flying back                 
                 })
                 
                 for (let i = 0; i < leavesAnimations.length; i++) {
                     timeline.add(leavesAnimations[i], LEAVES_DELAY * i);
                 }
-/*                  for (let i = 0; i < leavesBackwardAnimations.length; i++) {
-                    timeline.add(leavesBackwardAnimations[i]);
-                } */
-                
-/*                timeout.current = setTimeout(() => {
-                 for(const anim of alternatedAnims){
-                    console.log('play');
-                     anim.play();
-                 }
-               }, LEAVES_DELAY + LEAVES_DURATION); */
           
                timeout.current = setTimeout(() => {
                 
