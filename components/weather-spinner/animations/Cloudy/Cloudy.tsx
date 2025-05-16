@@ -20,12 +20,12 @@ const Cloudy: React.FC<CloudyProps> = ({toStart, setCloudyFinished}) => {
         const timeline = anime.timeline({});
         //cloud expand animation
         const cloudExpandAnimation: any = propertiesStagesAnimation(`.${styles["cloudy-circle"]}`, 'easeInExpo', CLOUD_EXPAND_DURATION, {
-            scale: [0, 3],
+            scale: [0, 3.5],
             delay: anime.stagger(200, {from: 'center'})
         },false)
         //cloud shrink animation
         const cloudShrinkAnimation: any = propertiesStagesAnimation(`.${styles["cloudy-circle"]}`, 'easeInExpo', CLOUD_EXPAND_DURATION, {
-            scale: [3, 0],
+            scale: [3.5, 0],
             delay: anime.stagger(200, {from: 'center'})
         }, false)
         //cloud stroke animation
