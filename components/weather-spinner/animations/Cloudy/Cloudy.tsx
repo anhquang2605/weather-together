@@ -86,6 +86,13 @@ const Cloudy: React.FC<CloudyProps> = ({toStart, setCloudyFinished}) => {
             }
         }
         //timeline adding
+        //starting point here
+        cloudStrokeAnimation.begin = () => {
+            const cloudy = document.getElementsByClassName(styles['cloudy'])[0] as HTMLElement;
+            if (cloudy) {
+                cloudy.style.display = 'block';
+            }
+        }
         //forward phase
         timeline.add(cloudStrokeAnimation);
         timeline.add(cloudExpandAnimation);

@@ -77,6 +77,13 @@ const Sunny: React.FC<SunnyProps> = ({toStart, setSunnyFinished}) => {
                 }
             }
         }, false)
+        //starting point here
+        sunStrokeExpandingAnime.begin = () => {
+            const sunny: HTMLElement | null = document.getElementsByClassName(style['sunny'])[0] as HTMLElement; 
+            if (sunny) {
+                sunny.style.display = 'block';
+            } 
+        }
         timeline1.add(sunStrokeExpandingAnime);
         timeline1.add(sunFillExpandingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
         timeline1.add(sunPathMoveOutAnime); 

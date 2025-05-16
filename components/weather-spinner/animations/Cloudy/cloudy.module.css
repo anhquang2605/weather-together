@@ -2,6 +2,7 @@
     position: absolute;
     top: 50px;
     left: 15px;
+    display: none;
 }
 #cloudy-circles-container{
     z-index: -1;

@@ -36,6 +36,12 @@ const Windy: React.FC<WindyProps> = ({toStart, setWindyFinished}) => {
                         ring.style.opacity = '0';
                     }        
                 },
+                begin: () => {
+                    const windy: HTMLElement | null = document.querySelector(`.${style['windy']}`);
+                    if(windy){
+                        windy.style.display = 'block';
+                    }
+                }
             }, false);
             timeline.add(ringStrokeAnimation);
         }
