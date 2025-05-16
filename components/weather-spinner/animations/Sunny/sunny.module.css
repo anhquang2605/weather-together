@@ -1,5 +1,7 @@
 .sunny{
-    position: relative;
+    position: position;
+    top: 0;
+    left: 0;
 }
 #sunny-sun_path{
      transform-origin: center;
