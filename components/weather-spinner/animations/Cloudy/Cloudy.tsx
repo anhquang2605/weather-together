@@ -79,7 +79,12 @@ const Cloudy: React.FC<CloudyProps> = ({toStart, setCloudyFinished}) => {
                 theCloudyRain.classList.add(styles['hidden'])
             }
         }
-
+        //finished setter
+        cloudStrokeAnimationReverse.complete = () => {
+            if (setCloudyFinished) {
+                setCloudyFinished(true);
+            }
+        }
         //timeline adding
         //forward phase
         timeline.add(cloudStrokeAnimation);
