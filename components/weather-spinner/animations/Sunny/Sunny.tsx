@@ -70,7 +70,12 @@ const Sunny: React.FC<SunnyProps> = ({toStart, setSunnyFinished}) => {
             scale: [1, 0]
         }, false)
         const sunFillShrinkingAnime: AnimeAnimParams = propertiesStagesAnimation('#' + style['sunny-filled_sun'] , 'easeInElastic', SUN_SIZE_CHANGE_DURATION, {
-            scale : [1, 0]
+            scale : [1, 0],
+            complete: () => {
+                if (setSunnyFinished) {
+                    setSunnyFinished(true);
+                }
+            }
         }, false)
         timeline1.add(sunStrokeExpandingAnime);
         timeline1.add(sunFillExpandingAnime, `-=${SUN_SIZE_DURATION_OFFSET}`);
