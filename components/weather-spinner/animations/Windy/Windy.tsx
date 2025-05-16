@@ -123,8 +123,7 @@ const Windy: React.FC<WindyProps> = ({toStart, setWindyFinished}) => {
                timeout.current = setTimeout(() => {
                 
                 leaves.forEach((leaf, index) => {
-                    const anim = propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
-                        {
+                    const animationObj: any = {
                             direction: 'reverse',
                             translateX: paths[index]('x'),
                             translateY: paths[index]('y'),
@@ -136,7 +135,17 @@ const Windy: React.FC<WindyProps> = ({toStart, setWindyFinished}) => {
                                     leaf.classList.remove(style['leave_floating']);
                                 }
                             }, 
-                        }, true)
+                        };
+                    if(index === leavesAnimations.length - 1){
+                        animationObj.complete = () => {
+                            if (setWindyFinished) {
+                                setWindyFinished(true);
+                            }
+                        }
+                    }
+                    const anim = propertiesStagesAnimation(`#leave_${index + 1}`, 'easeInExpo', LEAVES_DURATION,
+                        animationObj, true)
+                    
                 })
               }, SHRUNK_BACK_TIMEOUT); 
             }
