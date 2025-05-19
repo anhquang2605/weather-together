@@ -45,8 +45,8 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = () => {
     }, [windFinished]);
     return (
         <div className={style['weather-spinner']}>
-            {/* <Cloudy toStart={startRain} setCloudyFinished={setRainFinished}/>
-            <Sunny toStart={startSun} setSunnyFinished={setSunFinished}/> */}
+            <Cloudy toStart={startRain} setCloudyFinished={setRainFinished}/>
+            <Sunny toStart={startSun} setSunnyFinished={setSunFinished}/>
             <Windy toStart={startWind} setWindyFinished={setWindFinished}/>
         </div>
     );
