@@ -28,18 +28,22 @@ const Windy: React.FC<WindyProps> = ({toStart, setWindyFinished}) => {
         //wind ring scale expansion animation
         const ringStroke: HTMLElement | null = document.getElementById(`${style["wind_stroke_ring"]}`);
         if (ringStroke) {
+            const ring = document.getElementById(`${style["wind_stroke_ring"]}`);
             const ringStrokeAnimation: any = propertiesStagesAnimation(`#${style["wind_stroke_ring"]}`, 'easeInQuad', RING_STROKE_DURATION, {
                 scale: [0, 1],
                 changeComplete: () => {
-                    const ring = document.getElementById(`${style["wind_stroke_ring"]}`);
+
                     if (ring) {
-                        ring.style.opacity = '0';
+                        ring.style.opacity = "0";
                     }        
                 },
                 begin: () => {
                     const windy: HTMLElement | null = document.querySelector(`.${style['windy']}`);
                     if(windy){
                         windy.style.display = 'block';
+                    }
+                    if (ring) {
+                        ring.style.opacity = "1";
                     }
                 }
             }, false);
