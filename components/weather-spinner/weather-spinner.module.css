@@ -2,6 +2,10 @@
     position: relative;
     transform: scale(0.8);
     transform-origin: center;
+    .leaves{
+        position: absolute;
+        
+    }
 }
 
 @media screen and (max-width: 768px){
