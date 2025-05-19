@@ -13,7 +13,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    transform-origin: -5%;
+    transform-origin: 75% 150%;
 }
 .leave_floating{
     animation-name: leave_floating;
@@ -21,9 +21,7 @@
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
 }
-.leave_group{
-    /* transform: translate(20%); */
-}
+
 #wind_stroke_ring{
     transform-box: view-box;
     transform-origin: center;
