@@ -53,3 +53,10 @@
 #wind_path_3{
 
 }
+
+@media screen and (max-width: 480px){
+    .leaves{
+        transform-origin: 100% 245%;
+    }        
+    
+}
