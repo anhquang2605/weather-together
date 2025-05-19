@@ -2,10 +2,9 @@
     position: relative;
     transform: scale(0.8);
     transform-origin: center;
-    .leaves{
-        position: absolute;
-        
-    }
+}
+.leave_group{
+    transform: translateX(20%);
 }
 
 @media screen and (max-width: 768px){
