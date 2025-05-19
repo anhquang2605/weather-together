@@ -10,7 +10,7 @@ interface WeatherSpinnerProps {
 
 const WeatherSpinner: React.FC<WeatherSpinnerProps> = () => {
     const [startRain, setStartRain] = useState(false);
-    const [startWind, setStartWind] = useState(true);
+    const [startWind, setStartWind] = useState(false);
     const [startSun, setStartSun] = useState(false);
     const [rainFinished, setRainFinished] = useState(true);
     const [windFinished, setWindFinished] = useState(true);
@@ -48,6 +48,9 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = () => {
             <Cloudy toStart={startRain} setCloudyFinished={setRainFinished}/>
             <Sunny toStart={startSun} setSunnyFinished={setSunFinished}/>
             <Windy toStart={startWind} setWindyFinished={setWindFinished}/>
+            <div className={style['weather-spinner__text']}>
+                <h1>Loading</h1>
+            </div>
         </div>
     );
 };

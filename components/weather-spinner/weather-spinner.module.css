@@ -17,3 +17,9 @@
         transform: scale(0.5);
     }        
 }
+.weather-spinner__text{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 100;
+    text-transform: uppercase;
+}
