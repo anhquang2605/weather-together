@@ -1,6 +1,7 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "no-shadow": ["error", {"allow": ["this"]}]
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error"
   }
 }
