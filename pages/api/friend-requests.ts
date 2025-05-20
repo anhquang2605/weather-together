@@ -22,9 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   return;
                 } 
                 const fieldToMatch = active === 'true' ? 'username' : 'targetUsername';
-
-               /*  const fieldToLookup = active === 'true' ? 'targetUsername' : 'username';
-                const lookupAs = active === 'true' ? 'senderUser' : 'receiverUser'; */
                 try{
 /*                     const active_aggregate = [
                         {
