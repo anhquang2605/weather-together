@@ -91,20 +91,6 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                     $limit: theLimit + 1
                 },
                 { $sort: { createdDate: -1 } },
-        /*                 {
-                            $group: {
-                                _id: {
-                                    targetId: "$targetId",
-                                    targetParentId: "$targetParentId",
-                                },
-                                latestDocument: { $first: "$$ROOT" }
-                            }
-                        }, 
-                        {
-                            $replaceRoot: { newRoot: "$latestDocument" } // Replace the root with the latest document
-                        },  */
-
-                //put the document whose username is equal to the username at the top, then sort by createdDate
             ]
             const feeds = await db
                 .collection("feeds")
@@ -119,11 +105,6 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 return;
             }
             let hasMore = false;  
-           /*  feeds.sort((a,b)=>{ //push the document whose username is equal to the username at the top
-                if (a.username === username) return -1;
-                if (b.username === username) return 1;
-                return 0;
-            }) */
             if(feeds.length > theLimit ){
                 hasMore = true;
                 feeds.pop();
