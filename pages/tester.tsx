@@ -2,12 +2,8 @@ import { useEffect, useState } from "react"
 import { MockContext } from "./MockContext"
 import { faker } from "@faker-js/faker"
 import { getPostByUsernamesString } from "../libs/posts"
-import SunCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/sun-cloud/SunCloud"
-import SnowCloud from "../components/activity/post/post-engagement/engagement-background/animation-components/default-bg-theme/snow-cloud/SnowCloud"
-import PostEngagement from "../components/activity/post/post-engagement/PostEngagement"
 import Loading from "../components/loading"
-import LoadingIcon from "../components/plugins/loading-icon/LoadingIcon"
-import { start } from "repl"
+
 
 export default function Tester(userJSON:any) {
     //const user:User = JSON.parse(userJSON);
