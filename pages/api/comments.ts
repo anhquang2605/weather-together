@@ -217,19 +217,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   });
                 }  
               
-  /*   
-  const docId = changeEvent.documentKey._id.toString(0);
-  const FullDocument = changeEvent.FullDocument;
-  const commentLevel = fullDocument.level;
-  const theDb = context.services.get("Cluster0").db("weather");
-  const commentCollection = theDb.collection("comments");
-  if(commentLevel <= 1){
-    const childrenLevel = commentLevel + 1;
-    await commentCollection.deleteMany({
-      "level": childrenLevel,
-      "targetId": docId,
-    })
-  } */
                 break;
             }
             default:
