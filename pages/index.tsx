@@ -80,7 +80,6 @@ export default function Home(props: any) {
                 <title>Home</title>
             </Head>
             <div className="center w-full overflow-y-auto p-8">
-{/*                 <Banner/> */}
                     <PostEngagement
                         username={username}
                     /> 
@@ -107,9 +106,6 @@ export default function Home(props: any) {
                     }
                     
             </div>
-{/*             <div className="right-side relative">
-                {<WeatherSummarySide />}
-            </div> */}
         </>
     )
 }
