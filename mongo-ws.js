@@ -4,8 +4,6 @@ require('dotenv').config({ path: '.env.local' });
 const express = require('express');
 const next = require('next');
 const WebSocket = require('ws');
-const url = require('url');
-const mongoose = require('mongoose');
 const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT || 3001;
 const dev = process.env.NEXT_PUBLIC_NODE_ENV !== 'production';
 const nextApp = next({ dev });
