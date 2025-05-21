@@ -9,7 +9,7 @@ interface featuredWeatherFilterProps {
 
 }
 
-const featuredWeatherFilter: React.FC<featuredWeatherFilterProps> = ({}) => {
+const FeaturedWeatherFilter: React.FC<featuredWeatherFilterProps> = ({}) => {
     const {setFilter} = useFilter();
     const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
     const options = WEATHERS.map((weather, index) => {
@@ -35,4 +35,4 @@ const featuredWeatherFilter: React.FC<featuredWeatherFilterProps> = ({}) => {
     );
 };
 
-export default featuredWeatherFilter;
+export default FeaturedWeatherFilter;
