@@ -8,7 +8,7 @@ interface backgroundProps {
     weatherType: string;
     isDisabled?: boolean;
 }
-const background: React.FC<backgroundProps> = ({weatherType}) => {
+const Background: React.FC<backgroundProps> = ({weatherType}) => {
     const {isAnimated, isExpanded, variation} = useWeatherBarContext();
     const [coreSVGClassname, setCoreSVGClassname] = useState("");
     const currentHour = new Date().getHours();
@@ -28,4 +28,4 @@ const background: React.FC<backgroundProps> = ({weatherType}) => {
         </div>
     );
 };
-export default background;
+export default Background;
