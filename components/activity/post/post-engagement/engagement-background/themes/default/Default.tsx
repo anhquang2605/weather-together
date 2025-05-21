@@ -11,11 +11,11 @@ interface DefaultProps {
 
 }
 const CloudComponents = [
-    <SnowCloud />,
-    <SunCloud />,
-    <RainBowCloud />,
-    <ThunderCloud />,
-    <RainCloud />
+    <SnowCloud key="snow" />,
+    <SunCloud key="sun" />,
+    <RainBowCloud key="rb" />,
+    <ThunderCloud key="thunder" />,
+    <RainCloud key="rain" />
 ]
 const SVG_CLOUD_GENERATOR = (CloudComponents: JSX.Element[]) => {
     const backbones = [];
