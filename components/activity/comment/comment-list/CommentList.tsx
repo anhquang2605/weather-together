@@ -22,7 +22,8 @@ interface CommentListProps {
 }
 
 const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, daChildren, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList, fetchingMoreCommentStatus, isPreviewed}) => {
-    const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
+    const defaultRef = useRef<HTMLDivElement | null>(null);
+    const commentListRef = topLevelListContainer ?? defaultRef;
     const commentsJSX = 
         () => {
             if(waterFall){
