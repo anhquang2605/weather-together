@@ -23,7 +23,7 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
         <div className={style['post-engagement'] + " p-8 w-full relative overflow-hidden feed-page-main-components mx-auto rounded-3xl"}>
             <EngagementBackground />
               <h3 className={style["engagement-title"]}>
-                Weather outside or in, what's on your mind?
+                Weather outside or in, what&apos;s on your mind?
               </h3>
               <button onClick={()=> {
                     setRevealForm(!revealForm)
@@ -43,10 +43,12 @@ const PostEngagement: React.FC<PostEngagementProps> = ({username}) => {
                             childSlidesContent={
                                 [
                                     <PostForm
+                                    key="post-form-1"
                                     setRevealModal={setRevealForm}
                                     username={username}
                                     />,
                                     <BuddyTagForm
+                                    key="buddy-tag-form-1"
                                         username={username}
                                     />
                                 ]
