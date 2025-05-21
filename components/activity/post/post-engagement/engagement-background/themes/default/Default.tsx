@@ -10,17 +10,6 @@ import RainCloud from '../../animation-components/default-bg-theme/rain-cloud/Ra
 interface DefaultProps {
 
 }
-
-/* const SVGWrapperGenerator = (fileNames: string[]) => {
-    const backbones = [];
-    const SHARED_CLASS = style['svg-cloud'];
-    for (const fileName of fileNames) {
-        const theSVG = <SVGWrapper className={SHARED_CLASS} key={fileName} fileName={fileName} />
-        backbones.push(theSVG);
-    }
-
-    return backbones;
-} */
 const CloudComponents = [
     <SnowCloud />,
     <SunCloud />,
@@ -33,7 +22,7 @@ const SVG_CLOUD_GENERATOR = (CloudComponents: JSX.Element[]) => {
     const orders = generateAndShuffleRange(0, CloudComponents.length-1);
     for (let i = 0; i < CloudComponents.length; i++) {
         const theSVG = CloudComponents[i];
-        backbones.push(<div className={style['svg-cloud'] + " " + style['cloud-' + (orders[i] + 1)]} key={i}>{theSVG}</div>);
+        backbones.push(<div key={`cloud-${i}`} className={style['svg-cloud'] + " " + style['cloud-' + (orders[i] + 1)]} >{theSVG}</div>);
     }
     return backbones;
 }
