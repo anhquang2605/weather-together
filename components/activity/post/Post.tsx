@@ -465,7 +465,8 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                             childSlidesContent={
                                 [
                                     
-                                            <PostForm
+                                        <PostForm
+                                        key={"post-form"}
                                         setRevealModal={setRevealEditForm}
                                         username={author}
                                         post = {post}
@@ -474,6 +475,7 @@ export default function Post({postProp,username, preview, previewCommentId, onFi
                                         />
                                         ,
                                     <BuddyTagForm
+                                        key={"post-form-buddy-tag"}
                                         username={author}
                                     />
                                 ]
