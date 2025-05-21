@@ -31,7 +31,7 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed, willFetchContent}) =
             if(post){
                 setFeedJSX(       
                     <div className={style['feed-header']}>
-                        <Post post={post} username={myUsername} preview={true}/>
+                        <Post postProp={post} username={myUsername} preview={true}/>
                     </div>
                     
                 );
@@ -53,7 +53,7 @@ const FeedComponent: React.FC<FeedComponentProps> = ({feed, willFetchContent}) =
                     <div className={style['feed-header']}>
 
                     </div>
-                    <Post post={post} username={myUsername} preview={true} previewCommentId={thisComment} />
+                    <Post postProp={post} username={myUsername} preview={true} previewCommentId={thisComment} />
                     </>
                 )
             }else{

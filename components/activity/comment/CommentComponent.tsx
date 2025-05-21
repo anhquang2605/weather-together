@@ -239,12 +239,11 @@ export default function CommentComponent(
                         comments={waterFall && waterFallComments && !childComments.length ? waterFallComments : childComments}
                         commentorToAvatarMap={commentorToAvatar}
                         topLevelListContainer={commentListRef}
-                        children={commentChildrenSummary || {}}
+                        daChildren={commentChildrenSummary || {}}
                         commentor={commentorUsername}
                         usernamesToNames={usernameToName}
                         waterFall={waterFall && childComments.length === 0}
                         curLevel={curLevel !== undefined? curLevel - 1 : 0}
-
                     />
                 }   
             </div>  

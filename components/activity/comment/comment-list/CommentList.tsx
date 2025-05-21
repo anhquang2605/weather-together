@@ -9,7 +9,7 @@ interface CommentListProps {
     comments : Comment[];
     commentorToAvatarMap: UsernameToProfilePicturePathMap;
     commentor: string;
-    children: CommentChildrenSummary;
+    daChildren: CommentChildrenSummary;
     topLevelListContainer?: React.MutableRefObject<HTMLDivElement | null>;
     scrollable: boolean;
     usernamesToNames?: {[username: string]: string};
@@ -21,7 +21,7 @@ interface CommentListProps {
     isPreviewed?: boolean;
 }
 
-const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, children, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList, fetchingMoreCommentStatus, isPreviewed}) => {
+const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap, commentor, daChildren, topLevelListContainer, scrollable, usernamesToNames,waterFall, curLevel, postID, setEndOfList, fetchingMoreCommentStatus, isPreviewed}) => {
     const commentListRef = topLevelListContainer ?? useRef<HTMLDivElement| null>(null)
     const commentsJSX = 
         () => {
@@ -35,13 +35,13 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
                         commentorUsername={commentor}
                         commentListRef={commentListRef}
                         usernamesToNames={usernamesToNames || {}}
-                        childrenNo={children[comment._id?.toString() || '']}
+                        childrenNo={daChildren[comment._id?.toString() || '']}
                         lastChild={true}
                         waterFallComments={comments}
                         waterFall={waterFall}
                         curLevel={curLevel || 0}
                         isPreviewed={isPreviewed}
-                        childrenSummaryWaterFall={children}
+                        childrenSummaryWaterFall={daChildren}
                     />]
                 )
             }else{
@@ -54,7 +54,7 @@ const CommentList: React.FC<CommentListProps> = ({comments, commentorToAvatarMap
                             commentorUsername={commentor}
                             commentListRef={commentListRef}
                             usernamesToNames={usernamesToNames || {}}
-                            childrenNo={children[comment._id?.toString() || '']}
+                            childrenNo={daChildren[comment._id?.toString() || '']}
                             lastChild={index === comments.length - 1}
                             isPreviewed={isPreviewed}
                         />
