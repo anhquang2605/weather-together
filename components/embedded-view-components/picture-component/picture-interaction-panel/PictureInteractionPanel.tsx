@@ -143,7 +143,7 @@ const PictureInteractionPanel: React.FC<PictureInteractionPanelProps> = ({pictur
             </div>
             {comments && comments.length > 0 && <CommentList 
                  scrollable={false}
-                 children={commentChildrenSummary} commentor={myUsername} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
+                 daChildren={commentChildrenSummary} commentor={myUsername} comments={comments} commentorToAvatarMap={commentorToAvatar} />}
                 <CommentForm 
                     _id={picture._id?.toString()!}
                     targetType="pictures"
