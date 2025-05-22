@@ -341,7 +341,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         }
     },[isExpanded])
     useEffect(() => {
-        let timeout = null;
+        let timeout : NodeJS.Timeout | null | undefined = null;
         if(chosen !== ""){
             timeout = delayUpdateChosenWeather(chosen);    
         }
