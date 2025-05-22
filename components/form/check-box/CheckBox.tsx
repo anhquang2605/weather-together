@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import style from './check-box.module.css'
 import {IoCheckmark} from 'react-icons/io5'
-import { Strings } from 'aws-sdk/clients/opsworkscm';
 interface CheckBoxProps {
     label: string;
     labelJSX?: React.ReactNode;
