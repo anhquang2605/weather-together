@@ -319,7 +319,7 @@ const FavWeatherWheel: React.FC<FavWeatherWheelProps> = ({size, weatherName, isE
         //get reference to the options
         const weatherOptionsElement = weatherOptionRef.current = document.getElementsByClassName(style['weather-options'])[0] as HTMLElement;
         weatherOptionRef.current = weatherOptionsElement;
-        let timeout = null;        
+        let timeout: NodeJS.Timeout | null | undefined = null;        
         if(isExpanded){            
             timeout = toggleZeroDelayClass(true);
             initiatingAnimation();
