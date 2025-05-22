@@ -12,15 +12,19 @@ import {  UserFilter, useFilter } from './FilterContext';
 import {IoArrowBack, IoFilter} from 'react-icons/io5';
 import FilterGroup from './filter-group/FilterGroup';
 
-function debounce(func:Function, duration:number) {
-    let timer: ReturnType<typeof setTimeout>;
-    return  (...args: any[]) => {
-        let context = this;//will be referring to the component instance that calls the debounced function not the closure, the closure here is to store the timer variable so we can clear it when the function is called again
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            func.apply(context, args);
-        },duration);
-    }
+function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  duration: number
+): (...args: Parameters<T>) => void {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  
+  return function(this: any, ...args: Parameters<T>) {
+    const context = this;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(context, args);
+    }, duration);
+  };
 }
 interface FindFriendsProps {
     
@@ -243,7 +247,7 @@ export default function FindFriends({}:FindFriendsProps) {
         const response = await fetch(`/api/user/atlas-search?${params.toString()}`);
         return response;
     }
-    const handleFetchMore = async (filter: UserFilter, lastCursor: Date) => {
+    const handleFetchMore = async (filter: UserFilter, lastCursor: Date | undefined) => {
         if(!lastCursor){
             return;
         }

@@ -11,7 +11,7 @@ import { init } from 'next/dist/compiled/@vercel/og/satori';
 interface FriendSearchResultListProps {
     results: UserInSearch[];
     apiStatus: "idle" | "loading" | "success" | "error";
-    infiniteFetcher: (filter: UserFilter, lastCursor?: Date) => void;
+    infiniteFetcher: (filter: UserFilter, lastCursor: Date | undefined) => void;
     lastCursor: Date | undefined;
     initiallyFetched: boolean;
     hasMore: boolean;
@@ -34,7 +34,7 @@ const FriendSearchResultList: React.FC<FriendSearchResultListProps> = ({results,
             }
         });
     }
-    const handleOnIntersected = async (lastCursor?: Date) => {
+    const handleOnIntersected = async (lastCursor: Date | undefined) => {
         setIsFetching(true);
         try{
             console.log(lastCursor);
