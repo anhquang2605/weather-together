@@ -3,7 +3,7 @@ import React, {useEffect, useState, createContext, useContext, ReactNode, useCal
 import PostModal from './post-modal/PostModal';
 import { set } from 'lodash';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
-import { Post as PostType } from '../../../../types/Post';
+import { PostType } from '../../../../types/Post';
 import { Emoji } from '../../../../types/Emoji';
 import Post from '../Post';
 import LoadingBox from '../../../skeletons/loading-box/LoadingBox';
