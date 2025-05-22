@@ -5,7 +5,7 @@ import {MdPublic, MdPeople, MdLock} from 'react-icons/md'
 import AttachmentButtonGroup from './attachment-button-group/AttachmentButtonGroup';
 import { usePostFormContext } from '../post-engagement/usePostFormContext';
 import { Picture } from '../../../../types/Picture';
-import { Post} from '../../../../types/Post';
+import { PostType} from '../../../../types/Post';
 import PostInsertionStatusBox from './post-insertion-status-box/PostInsertionStatusBox';
 import { getImageDimensions } from '../../../../libs/pictures';
 import { fetchFromGetAPI } from '../../../../libs/api-interactions';
@@ -16,9 +16,9 @@ import { is } from 'date-fns/locale';
 interface PostFormProps {
     username: string;
     setRevealModal: React.Dispatch<React.SetStateAction<boolean>>;
-    post?: Post;
+    post?: PostType;
     revealed?: boolean;
-    setPost?: React.Dispatch<React.SetStateAction<Post>>;
+    setPost?: React.Dispatch<React.SetStateAction<PostType>>;
 }
 export default function PostForm ({username, setRevealModal, post, revealed, setPost}: PostFormProps) {
     const [fetchingAttachedImages, setFetchingAttachedImages] = useState<boolean>(false);
@@ -44,7 +44,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
         [
             ["idle", ""],
             ["loading", "Uploading..."],
-            ["success", "Post " + (isEditing? "updated" : "uploaded")  + " successfully!"],
+            ["success", "PostType " + (isEditing? "updated" : "uploaded")  + " successfully!"],
             ["error", "Error uploading post!"]
         ]
     );
@@ -158,7 +158,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
             return null;
         }
     }
-    const handleInsertPostToDb = async (post:Post) => {
+    const handleInsertPostToDb = async (post:PostType) => {
         const path = '/api/post/add-post';
         const options = {
             method: 'POST',
@@ -221,7 +221,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
             return false;
         }
     }
-    const handleUpdatePostToDb = async (post:Post) => {
+    const handleUpdatePostToDb = async (post:PostType) => {
         const path = '/api/post/update-post';
         const options = {
             method: 'PUT',
@@ -275,7 +275,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
                 uploadedImagesURLs = response.urls;
             } 
         }
-        const postData:Post = {
+        const postData:PostType = {
             content,
             taggedUsernames,
             createdDate: isEditing ? post?.createdDate as Date : new Date(),
@@ -363,7 +363,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
             console.log(result.error);
         }
     }
-    const handleFillFormForEditPost = async (post: Post) => {
+    const handleFillFormForEditPost = async (post: PostType) => {
         setContent(post.content);
         setSelectedVisibilityIndex(visibilityOptions.findIndex((option) => option.value === post.visibility));
         if(post.pictureAttached){
@@ -469,7 +469,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
     },[isEditing])
     return (
         <div className="post-form w-full relative">
-            <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        
+            <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "PostType Creation"}</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
             <textarea 
@@ -507,7 +507,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
             <div className="btn-group">
                 <button onClick={()=>{
                     handleUploadPost();
-                }} className="action-btn w-full">{isEditing ? "Finish Edit" : "Post"}</button>
+                }} className="action-btn w-full">{isEditing ? "Finish Edit" : "PostType"}</button>
             </div>
 { uploadingStatus !== 'idle' &&            <PostInsertionStatusBox
                 apiStatusAndMessageMap={apiStatusAndMessageMap}
