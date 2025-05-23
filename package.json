@@ -34,7 +34,7 @@
     "mongodb": "^5.6.0",
     "mongoose": "^7.3.2",
     "multer": "^1.4.5-lts.1",
-    "next": "13.4.4",
+    "next": "^15.1.8",
     "next-auth": "^4.22.3",
     "next-connect": "^0.10.2",
     "next-redux-wrapper": "^8.1.0",
