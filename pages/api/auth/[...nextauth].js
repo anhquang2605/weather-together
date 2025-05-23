@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { UserInSession } from '../../../types/user';
 const url = process.env.NEXTAUTH_URL;
 const expiration = process.env.NEXTAUTH_JWT_EXPIRATION;
 export default NextAuth({
