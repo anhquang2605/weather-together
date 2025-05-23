@@ -23,6 +23,11 @@ interface UserProfileProps {
 
 export const getStaticProps: GetStaticProps = async ({ params }) =>  {
     const theuser = await getUserDataByUserName(params?.username as string);
+    if(!theuser){
+        return {
+            notFound: true,
+        }
+    }
     return {
       props: {
         userJSON: JSON.stringify(theuser),
@@ -40,6 +45,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) =>  {
 } */
 export const getStaticPaths: GetStaticPaths = async () => {
     const paths = await getUsernamePaths()
+    
     return {
       paths,
       fallback: false
