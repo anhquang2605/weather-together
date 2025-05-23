@@ -10,6 +10,7 @@ interface CloudyProps {
 
 const Cloudy: React.FC<CloudyProps> = ({toStart, setCloudyFinished}) => {
     const startAnimation = () => {
+        //testing push
         //animation constants
         const theCloudyRain: HTMLElement | null = document.getElementById(`${styles["cloudy-rain"]}`);
         const CLOUD_STROKE_DURATION = 700;
