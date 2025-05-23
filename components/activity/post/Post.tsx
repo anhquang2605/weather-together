@@ -2,7 +2,7 @@ import { PostType } from "../../../types/Post";
 import PostTitle from "./post-title/PostTitle";
 import style from "./post.module.css"
 import { use, useContext, useEffect, useRef, useState } from "react";
-import { MockContext } from "../../../pages/MockContext";
+import { MockContext } from "../../../context/MockContext";
 import ReactionsBar from "../reaction/reactions-bar/ReactionsBar";
 import { deleteFromDeleteAPI, fetchFromGetAPI, insertToPostAPI } from "../../../libs/api-interactions";
 import InteractionsBtns from "../interactions-btns/InteractionsBtns";

@@ -7,7 +7,7 @@ import FriendSearchResultList from './result-list/FriendSearchResultList';
 import { getCitiesFromLongLat, getNearbyCityNamesByLongLatName } from '../../../libs/geodb';
 import SuggestionDropDown from '../../plugins/search-bar/suggestion-drop-down/SuggestionDropDown';
 import UserSearchCard from '../../user/user-search-card/UserSearchCard';
-import { FriendsContext } from '../../../pages/buddies/FriendsContext';
+import { FriendsContext } from '../../../context/FriendsContext';
 import {  UserFilter, useFilter } from './FilterContext';
 import {IoArrowBack, IoFilter} from 'react-icons/io5';
 import FilterGroup from './filter-group/FilterGroup';

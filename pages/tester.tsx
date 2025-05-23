@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { MockContext } from "./MockContext"
+import { MockContext } from "../context/MockContext"
 import { faker } from "@faker-js/faker"
 import { getPostByUsernamesString } from "../libs/posts"
 import Loading from "../components/loading"

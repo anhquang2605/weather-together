@@ -5,7 +5,7 @@ import MiniAvatar from '../mini-avatar/MiniAvatar';
 import FeaturedWeatherBadge from '../featured-weather-badge/FeaturedWeatherBadge';
 import { useRouter } from 'next/router';
 import {LiaUserFriendsSolid} from 'react-icons/lia';
-import { FriendsContext } from '../../../pages/buddies/FriendsContext';
+import { FriendsContext } from '../../../context/FriendsContext';
 import { RiPassPendingLine } from 'react-icons/ri';
 import { useSession } from 'next-auth/react';
 import { set } from 'lodash';

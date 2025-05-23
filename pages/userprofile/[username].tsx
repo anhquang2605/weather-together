@@ -8,7 +8,7 @@ import style from './user-profile.module.scss'
 import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
 import CityLandScape from "../../components/profile/city-landscape/CityLandscape";
 import ProfileContent from "../../components/profile/profile-content/ProfileContent";
-import { UserEditProfileContextProvider } from "./edit/useUserEditProfileContext";
+import { UserEditProfileContextProvider } from "../../context/useUserEditProfileContext";
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import { RiPassPendingLine } from "react-icons/ri";
 import { useSession } from "next-auth/react";

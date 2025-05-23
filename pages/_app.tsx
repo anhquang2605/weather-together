@@ -8,7 +8,7 @@ import {fas} from "@fortawesome/free-solid-svg-icons";
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import {SessionProvider} from "next-auth/react";
 import AllModalProvider from "../components/all-modal-provider/AllModalProider";
-import { WeatherContextProvider } from "./weatherContext";
+import { WeatherContextProvider } from "../context/weatherContext";
 
 const {library, config} = require('@fortawesome/fontawesome-svg-core')// Do this for fontawesome to work with nextjs
 library.add(fas);

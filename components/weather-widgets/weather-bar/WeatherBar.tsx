@@ -3,7 +3,7 @@ import style from './weather-bar.module.css';
 import DateInfo from './date-info/DateInfo';
 import WeatherStatus from './weather-status/WeatherStatus';
 import AnimatedBarBackground from './animated-bar-background/AnimatedBarBackground';
-import { useWeatherContext } from '../../../pages/weatherContext';
+import { useWeatherContext } from '../../../context/weatherContext';
 import LoadingBox from '../../skeletons/loading-box/LoadingBox';
 import { useWeatherBarContext } from './useWeatherBarContext';
 

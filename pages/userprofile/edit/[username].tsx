@@ -18,7 +18,7 @@ import withAuthStatic from "../../authentication/with-auth-static";
 import {subscribe, unSubcribe} from "../../../utils/websocket-service";
 import style from './edit-profile.module.scss';
 import SkyScroller from "../../../components/profile/sky-scroller/SkyScroller";
-import { UserEditProfileContextProvider } from "./useUserEditProfileContext";
+import { UserEditProfileContextProvider } from "../../../context/useUserEditProfileContext";
 /* import { useSelector, useDispatch } from 'react-redux';
 import { fetchUser } from './../../store/features/user/userSlice'; */
 interface UserProfileProps {

@@ -8,7 +8,7 @@ import NotificationCenter from './notifications/notification-center/Notification
 import { useSession } from 'next-auth/react'
 import style from './layout.module.css'
 import { redirect } from 'react-router-dom'
-import { useWeatherContext } from '../pages/weatherContext'
+import { useWeatherContext } from '../context/weatherContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({

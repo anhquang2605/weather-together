@@ -7,7 +7,7 @@ import withAuth from '../authentication/with-auth';
 import { getCitiesFromLongLat } from '../../libs/geodb';
 import { useSession } from 'next-auth/react';
 import { subscribe, unSubcribe } from '../../utils/websocket-service';
-import {FriendsContext} from './FriendsContext';
+import {FriendsContext} from '../../context/FriendsContext';
 import { FilterContext, FilterProvider } from '../../components/friends-tab-content/find-friends/FilterContext';
 import BuddyRequestTabContent from '../../components/friends-tab-content/buddy-requests';
 import BuddyList from '../../components/friends-tab-content/buddy-list/BuddyList';

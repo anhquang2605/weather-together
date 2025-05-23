@@ -4,7 +4,7 @@ import WeatherDailyTable from "../pluggins/weather-daily-table/weatherDaillyTabl
 import WeatherSummary from "../weather-summary/weathersummary";
 import { useSession } from "next-auth/react";
 import { Value } from "../../../types/WeatherData";
-import { useWeatherContext } from "../../../pages/weatherContext";
+import { useWeatherContext } from "../../../context/weatherContext";
 interface WeatherSummarySideProps {
 
 }
