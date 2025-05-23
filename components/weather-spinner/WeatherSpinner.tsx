@@ -1,9 +1,9 @@
 import React, { use, useEffect, useState } from 'react';
 import style from './weather-spinner.module.css';
 import anime from 'animejs';
-import Cloudy from './animations/cloudy/Cloudy';
-import Sunny from './animations/sunny/Sunny';
-import Windy from './animations/windy/Windy';
+import Cloudy from './animations/cloudy/Cloudy.tsx';
+import Sunny from './animations/sunny/Sunny.tsx';
+import Windy from './animations/windy/Windy.tsx';
 
 interface WeatherSpinnerProps {
 }
