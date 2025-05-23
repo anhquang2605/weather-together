@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectDB, client } from '../../libs/mongodb'
 import { Collection, ObjectId, WithId } from 'mongodb';
-import {Post} from '../../types/Post';
 import { deleteFromDeleteAPI } from '../../libs/api-interactions';
-import { mongo } from 'mongoose';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req;
