@@ -67,7 +67,6 @@ export default function Login() {
                 redirect: false
             });
             if(result){
-                console.log(result);
                 if(result.error) {
                     setApiStatus({
                         type: "error",
