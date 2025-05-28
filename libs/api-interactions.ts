@@ -1,5 +1,7 @@
+const { NEXTAUTH_URL } = process.env;
+const DEFAULT_API_URL = "";
 export function fetchFromGetAPI (path: string, options: any){
-    const baseURL = process.env.NEXTAUTH_URL ;
+    const baseURL = NEXTAUTH_URL || DEFAULT_API_URL;
     const url = `${baseURL}/api/${path}`;
     const params = new URLSearchParams(options).toString();
     return fetch(`${url}?${params}`, {}).then(res => {
@@ -12,7 +14,7 @@ export function fetchFromGetAPI (path: string, options: any){
 }
 
 export function updateToPutAPI(path: string, body: any){
-    const baseURL = process.env.NEXTAUTH_URL ;
+    const baseURL = NEXTAUTH_URL || DEFAULT_API_URL;
     const url = `${baseURL}/api/${path}`;
     return fetch(url, {
         method: "PUT",
@@ -30,7 +32,7 @@ export function updateToPutAPI(path: string, body: any){
 }
 
 export function insertToPostAPI(path: string, body: any){
-    const baseURL = process.env.NEXTAUTH_URL;
+    const baseURL = NEXTAUTH_URL || DEFAULT_API_URL;
     const url = `${baseURL}/api/${path}`;
     return fetch(url, {
         method: "POST",
@@ -47,7 +49,7 @@ export function insertToPostAPI(path: string, body: any){
     });
 }
 export function uploadFileToPostAPI(path: string, file: any){
-    const baseURL = process.env.NEXTAUTH_URL ;
+    const baseURL = NEXTAUTH_URL || DEFAULT_API_URL;
     const url = `${baseURL}/api/${path}`;
     const formData = new FormData();
     formData.append('file', file);
@@ -63,7 +65,7 @@ export function uploadFileToPostAPI(path: string, file: any){
     });
 }
 export function deleteFromDeleteAPI(path: string, params: any){
-    const baseURL = process.env.NEXTAUTH_URL ;
+    const baseURL = NEXTAUTH_URL || DEFAULT_API_URL;
     const url = `${baseURL}/api/${path}`;
     const paramsString = new URLSearchParams(params).toString();
     return fetch(`${url}?${paramsString}`, {
