@@ -178,7 +178,7 @@ function closeMongoConnection() {
  */
 server.listen(PORT, (err) => {
   if (err) throw err;
-  console.log('> Ready on http://localhost:'+PORT);
+  console.log('> Ready on '+PORT);
 });
 
   //npm install --save-dev npm-run-all
