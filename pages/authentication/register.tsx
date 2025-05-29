@@ -360,7 +360,7 @@ export default function Register() {
                     </div>
 
                   
-                    <!-- <div className="form-row grow mr-4">
+                    {/* <div className="form-row grow mr-4">
                         <label>
                             Your country
                         </label>
@@ -372,7 +372,7 @@ export default function Register() {
                             )}
                         </select>
                         <p className={"text-red-400 " + (validCountry && "opacity-0")}>Please select a country before you can enter your zip code!</p>
-                    </div> -->
+                    </div> */}
 
                     <div className="form-row w-auto">
                         <h5  className={/* countrySelected ? "" : "text-gray-300" */ ""}>Enter Your zip code</h5>
