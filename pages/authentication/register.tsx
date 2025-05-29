@@ -76,14 +76,14 @@ export default function Register() {
         setEmail(target?.value ?? '')
 
     }
-    const handleCountriesSelect = (e: ChangeEvent) => {
+/*     const handleCountriesSelect = (e: ChangeEvent) => {
             const country = (e.target as HTMLSelectElement).value;
             if(country == "") return;
             setCountry(country)
             setCountrySelected(true)
             setCountryFound(true)
         
-    }
+    } */
     const handleZipCodeChange = (event:ChangeEvent) => {
         const target = event.target as HTMLInputElement;
         const zipcode = target?.value ?? ''
@@ -101,12 +101,12 @@ export default function Register() {
         const zipcode = target?.value ?? ''
         if (zipcode.length <= 2) return;
         setZipApiStatus("loading");
-        const loc = await getDataByZipcode(zipcode, country);
+        const loc = await getDataByZipcode(zipcode, "US");//PUT AS US for now until the zip code base search is back
         if(!loc) {setZipCodeFound(false), setZipApiStatus("failed"); return;}
         setZipCodeFound(true)
         setZipApiStatus("success");
         setLocation(loc);
-        setCity(loc.city)
+        setCity(loc.name)
     }
 /*     const handleLookUpCity = async (city:string) => {
         //setSuggestionOn(true)
@@ -139,14 +139,14 @@ export default function Register() {
         setPasswordTouched(false)
         setConfirmPasswordTouched(false)
         setEmailTouched(false)
-        setCountry('')
+       //setCountry('')
         setZipCode('')
         setCity('')
-        setCountrySelected(false)
-        setCountryFound(false)
+        //setCountrySelected(false)
+        //setCountryFound(false)
         setZipCodeFound(false)
         setValidZipCode(false)
-        setValidCountry(false)
+        //setValidCountry(false)
         setZipApiStatus("idle");
         setShowAPIPop(false);
     }
@@ -222,16 +222,16 @@ export default function Register() {
     } 
     
     const handleSubmit = (event:any) => {
-        const touched = userNameTouched && passwordTouched && confirmPasswordTouched && emailTouched && countrySelected && zipCodeTouched
+        const touched = userNameTouched && passwordTouched && confirmPasswordTouched && emailTouched  && zipCodeTouched
         if(!touched){
             setUserNameTouched(true)
             setPasswordTouched(true)
             setConfirmPasswordTouched(true)
             setEmailTouched(true)
             setZipCodeTouched(true)
-            setCountrySelected(true)
+            //setCountrySelected(true)
         }
-        const valid = passwordMatch && usernameLength && passwordLength && emailValid && !usernameExists && !emailExists && countryFound && zipCodeFound
+        const valid = passwordMatch && usernameLength && passwordLength && emailValid && !usernameExists && !emailExists  && zipCodeFound
         if (valid) {
             const newUser = {
                 username: username,
@@ -293,9 +293,9 @@ export default function Register() {
     useEffect(() => {
         setValidZipCode(!zipCodeTouched || zipCodeFound);
     }, [zipCodeTouched, zipCodeFound])
-    useEffect(() => {
+/*     useEffect(() => {
         setValidCountry(!countrySelected || (countryFound && country !== ""));
-    }, [countrySelected, countryFound, country])
+    }, [countrySelected, countryFound, country]) */
     return (
         <>
             <ApiStatusPop  redirectPageName='Login' redirectDuration={3} status={apiStatus} setApiStatus={setApiStatus} show={showAPIPop} setReveal={setShowAPIPop}redirectButtonText='Go to Login Page' redirect="/authentication/login"/>
@@ -360,7 +360,7 @@ export default function Register() {
                     </div>
 
                   
-                    <div className="form-row grow mr-4">
+                    <!-- <div className="form-row grow mr-4">
                         <label>
                             Your country
                         </label>
@@ -372,12 +372,12 @@ export default function Register() {
                             )}
                         </select>
                         <p className={"text-red-400 " + (validCountry && "opacity-0")}>Please select a country before you can enter your zip code!</p>
-                    </div>
+                    </div> -->
 
                     <div className="form-row w-auto">
-                        <h5  className={countrySelected ? "" : "text-gray-300"}>Enter Your zip code</h5>
+                        <h5  className={/* countrySelected ? "" : "text-gray-300" */ ""}>Enter Your zip code</h5>
                         <label></label>
-                        <input type="text" className={"p-4 border rounded " + (validZipCode ? "" : "border-red-400") } disabled={!countrySelected}  value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />
+                        <input type="text" className={"p-4 border rounded " + (validZipCode ? "" : "border-red-400") }   value={zipCode} placeholder="Zip code" onBlur={handleLookupZipCode} onChange={(event) => { handleZipCodeChange(event) }} />
                         {zipApiStatus == "loading" && <p className="text-blue-400">Looking up city...</p>}
                         {zipApiStatus == "failed" && <p className="text-red-400">Error! cannot find the city</p>}
                         {zipApiStatus == "success" && <p className="text-green-400">City found! Your location is <span>{city}</span></p>}
