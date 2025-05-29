@@ -25,6 +25,8 @@ Weather Together isn’t just about forecasts—it’s about sharing the sky’s
 
 ##### How to use?
 
+⚠️ IMPORTANT NOTE ⚠️ (Please read before proceed): for now, we only support locations at United States. When register for new account, please use zipcodes originated from the U.S. 
+
 Ready to make weather social? Join the vibe at https://weather-together-km7k.onrender.com/ ! #SkyVibesOnly #WeatherWithFriends
 
 
