@@ -20,7 +20,7 @@ export default function Register() {
     const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
     const [emailTouched, setEmailTouched] = useState(false)
     const [zipCodeTouched, setZipCodeTouched] = useState(false)
-    const [country, setCountry] = useState('')
+    //const [country, setCountry] = useState('')
     const [zipCode, setZipCode] = useState('')
     const [city, setCity] = useState('')
     //const [cities, setCities] = useState<string[]>()
@@ -32,9 +32,9 @@ export default function Register() {
     const [emailValid, setEmailValid] = useState(false)
     const [usernameExists, setUsernameExists] = useState(false)
     const [emailExists, setEmailExists] = useState(false)
-    const [countrySelected, setCountrySelected] = useState(false)
+    //const [countrySelected, setCountrySelected] = useState(false)
     const [zipCodeFound, setZipCodeFound] = useState(false)
-    const [countryFound, setCountryFound] = useState(false)
+    //const [countryFound, setCountryFound] = useState(false)
 /*     const [suggestionOn, setSuggestionOn] = useState(false)
     const [citiesSuggestion, setCitiesSuggestion] = useState<string[]>([]) */
     //password validation states
@@ -47,7 +47,7 @@ export default function Register() {
     const [validEmail, setValidEmail] = useState(false)
     const [validPasswordMatch, setValidPasswordMatch] = useState(false)
     const [validZipCode, setValidZipCode] = useState(false)
-    const [validCountry, setValidCountry] = useState(false)
+    //const [validCountry, setValidCountry] = useState(false)
     //api status
     const [apiStatus, setApiStatus] = useState({
         type: "idle",
