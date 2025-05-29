@@ -20,7 +20,7 @@ const options:RequestInit = {
     }
 }
 export async function getDataByZipcode(zipcode: string, country_code: string){
-    const url = `${API_BASE_URL}/search?codes=${zipcode}&country=${country_code}`;
+    const url = `${API_BASE_URL}/summary/${zipcode}`;
     const response = await fetch(url, options);
     const data = await response.json();
     if(data){
