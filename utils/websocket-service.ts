@@ -11,7 +11,7 @@ interface SubcriberMap {
 }
 
 const subcribersMap: SubcriberMap = {};
-const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT;
+const PORT = process.env.NEXT_PUBLIC_WS_SERVER_PORT || 3000;
 const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
 export function setUpWSConnection (type: string, token: string) {
     if(ws){
