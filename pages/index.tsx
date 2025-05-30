@@ -10,11 +10,8 @@ import FeedsBoard, { getFeedsByUsernames } from '../components/activity/feed/Fee
 import { FeedContextProvider, useFeedContext } from '../components/activity/feed/FeedsContext';
 import { Feed, FeedGroup } from '../types/Feed';
 interface HomeProps {
-    feedGroups: FeedGroup[];
-    hasMore: boolean;
     username: string;
     apiStatus: string;
-    lastCursor: Date;
     buddiesUsernames: string[];
 }
 interface Result{
@@ -50,21 +47,14 @@ export async function getServerSideProps(context: any) {
     }
    
     const props:HomeProps = {
-        feedGroups: [],
-        hasMore: false,
         username: "",
         apiStatus: 'failed',
-        lastCursor: new Date(),
         buddiesUsernames: []
     }
     if( results && results.success){
         //get list of unique usernames from this list of feeds from results.feeds
-        const groups = await results.feedGroups;
-        props.feedGroups = groups;
-        props.hasMore = results.hasMore;
         props.username = username;
         props.apiStatus = 'success';
-        props.lastCursor = results.lastCursor;
         props.buddiesUsernames = usernames;
     }
     return {
@@ -73,7 +63,7 @@ export async function getServerSideProps(context: any) {
 }
 export default function Home(props: any) {
 
-    const {feedGroups, hasMore, username, apiStatus, lastCursor,buddiesUsernames} = props;
+    const {username, apiStatus,buddiesUsernames} = props;
     return (
         <>
             <Head>
