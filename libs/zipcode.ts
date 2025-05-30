@@ -24,8 +24,8 @@ export async function getDataByZipcode(zipcode: string, country_code: string){
     const response = await fetch(url, options);
     const data = await response.json();
     if(data){
-        const result = data.results[zipcode];
-        return result ? result[0] : null;
+        const result = data;
+        return result ? result : null;
     }else {
         return null;
     }
