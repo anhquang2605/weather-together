@@ -61,7 +61,7 @@ const DefaultProfilePicture: React.FC<DefaultProfilePictureProps> = ({username, 
         <div style={{
             backgroundColor: color
         }} className={style['default-profile-picture'] + " " + style['text-'+size] + (getingName ? ' ' + style['loading'] : '')} >
-            { name && name.length > 0 ? generateAbreviation(name) :
+            { name && (name !== " ") ? generateAbreviation(name) :
                username?.substring(0, 2).toUpperCase()
             }
         </div>
