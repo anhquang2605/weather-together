@@ -324,10 +324,10 @@ export default function Register() {
                             validateEmailExists()
                         }} />
                         {<p className={"text-red-400 " + (validEmail && "opacity-0")}>{
-                            emailExists && "Email already existed!"
+                            emailExists && "Email already existed! "
                         }
                         {
-                            !emailValid ? "Email is not valid!" : "it is oke to use this email!"
+                            (!emailValid || emailExists)  ? "Email is not valid!" : "it is oke to use this email!"
                         }
                         </p>}
                     </div>
