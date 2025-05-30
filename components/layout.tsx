@@ -43,7 +43,7 @@ export default function RootLayout({
   },[status]);
   useEffect(()=>{
     if(user){
-      getWeatherData(user.location?.city ?? "");
+      getWeatherData(user.location?.city || user.location?.name || "");
     }
   },[user])
   return (

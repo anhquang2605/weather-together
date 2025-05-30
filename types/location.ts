@@ -7,4 +7,5 @@ export interface Location {
     country_code: string,
     latitude: string,
     longitude: string,
+    name?: string
 }
