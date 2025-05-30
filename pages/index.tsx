@@ -118,6 +118,6 @@ const getBuddiesUsernames = async (username: string) => {
     if(res.success){
         return res.data;
     }else{
-        throw new Error(res.message);
+        return [];
     }
 }
