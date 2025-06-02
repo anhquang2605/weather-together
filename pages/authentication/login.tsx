@@ -88,7 +88,7 @@ export default function Login() {
     return (
         <>
             <div className="glass flex flex-row grow justify-center items-center">  
-                <div className={"mx-auto form-container bg-transparent flex flex-wrap xl:w-1/4 lg:w-1/2 md:w-2/5 w-9/12 my-auto"}>
+                <form className={"mx-auto form-container bg-transparent flex flex-wrap xl:w-1/4 lg:w-1/2 md:w-2/5 w-9/12 my-auto"}>
                     <h3 className="form-title w-full">Login</h3>
                     <div className="form-row dark w-full mb-4">
                         <label className={"block text-gray-700 text-sm font-bold mb-2 form-title" + style['']}htmlFor="username">Username</label>
@@ -113,7 +113,7 @@ export default function Login() {
                     </div>
                     <Link className="w-full text-center mt-4" href="/authentication/register">Create an account</Link>
   
-                </div>
+                </form>
             </div>
             <ApiStatusPop setApiStatus={setApiStatus} redirectPageName="Home" redirectDuration={3} status={apiStatus} redirect="/" redirectButtonText="Return Home" setReveal={setReveal} show={reveal}/>
         </>
