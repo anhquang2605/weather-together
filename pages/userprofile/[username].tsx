@@ -62,10 +62,6 @@ export default function UserProfile({userJSON}:UserProfileProps){
   const handleSettingDimensionWhenResize = () => {
     const profilePage = document.querySelector(`.${style['profile-page']}`);
     if(containerRef.current && profilePage){
-/*       setDimension({
-        width: containerRef.current.clientWidth,
-        height: containerRef.current.scrollHeight
-      }); */
       const padding = profilePage.clientWidth - profilePage.scrollWidth;
       setDimension({
         width: profilePage.clientWidth,
