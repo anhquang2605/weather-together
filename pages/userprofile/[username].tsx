@@ -9,13 +9,9 @@ import SkyScroller from "../../components/profile/sky-scroller/SkyScroller";
 import CityLandScape from "../../components/profile/city-landscape/CityLandscape";
 import ProfileContent from "../../components/profile/profile-content/ProfileContent";
 import { UserEditProfileContextProvider } from "../../context/useUserEditProfileContext";
-import { LiaUserFriendsSolid } from "react-icons/lia";
-import { RiPassPendingLine } from "react-icons/ri";
 import { useSession } from "next-auth/react";
 import { fetchFromGetAPI } from "../../libs/api-interactions";
-import { get } from "lodash";
-/* import { useSelector, useDispatch } from 'react-redux';
-import { fetchUser } from './../../store/features/user/userSlice'; */
+
 interface UserProfileProps {
     username: string;
     userJSON: any;
@@ -36,13 +32,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) =>  {
 
    
   }
-/* export const getStaticPaths : GetStaticPaths = async () => {
-    const paths = getUserIds();
-    return {
-        paths,
-        fallback: false,
-    };
-} */
+
 export const getStaticPaths: GetStaticPaths = async () => {
     const paths = await getUsernamePaths()
     
