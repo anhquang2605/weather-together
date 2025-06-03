@@ -60,7 +60,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                 </> : */}
                 
               
-                <div className={style['no-feeds']}>
+                <div className={style['no-feed']}>
                     No feeds yet, make some buddies to see their feeds!
                 </div>
             
