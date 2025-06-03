@@ -54,6 +54,7 @@ export default function Login() {
            
         }
         const handleLogin = async (e:any) => {
+            e.preventDefault();
             setApiStatus({
                 type: "loading",
                 message: "Logging in..."
