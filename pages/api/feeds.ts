@@ -8,6 +8,7 @@ interface FindArgs{
 export default async (req: NextApiRequest, res:NextApiResponse) => {
     const db = await connectDB();
     if(db){
+        //GET feeds using usernames
         if (req.method === 'GET') {
             // Assuming you pass an array of usernames as a query parameter
             let usernamesString = req.query.usernames as string;
@@ -155,7 +156,20 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 i++;
             }
             // Get the list of usernames for which feeds were found
-            res.status(200).json({ feedGroups, hasMore, success: true, lastCursor });
+            if(feedGroups.length === 0){
+                res.status(200).json({ success: false, feeds: [], hasMore: false, message: "No feed for now" });
+                return;
+            } else if(feedGroups.length > 0){
+                res.status(200).json({
+                    success: true,
+                    feedGroups: feedGroups,
+                    hasMore: hasMore,
+                    lastCursor: lastCursor,
+                    message: "Feeds fetched successfully"
+                });
+            } else {
+                res.status(500).json({ success: false, message: "Database error" });
+            }
         } else if (req.method === 'POST') {
             const usernames = req.body;
             const feeds = db.collection('feeds');
@@ -170,10 +184,12 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 }
             ]
             const results = await feeds.aggregate(agg).toArray();
-            if(results.length >= 0){
+            if(results.length > 0){
                 res.status(200).json({success: true, feeds:results});
-            }else{
-                res.status(200).json({success: false, feeds: [], hasMore: false, message: "No more feeds"});
+            }else if(results.length === 0){
+                res.status(200).json({success: true, feeds: [], hasMore: false, message: "No more feeds"});
+            } else {
+                res.status(500).json({success: false, message: "Database error"});
             }
         } else if (req.method === 'DELETE') {
             //delete all feeds associated with the activityId (post, post_tag, comment, reaction)

@@ -41,12 +41,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
 
             //setEndOfList(false);
        }
-       else if(response && !response.success){
-            setFetchingStatus('empty');
-            addFeeds([], true);
-            setHasMore(false);
-            setLastCursor(new Date());
-       } else {
+        else {
             setFetchingStatus('error');
        }
     },500)
