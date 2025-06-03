@@ -44,7 +44,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
     ]);
     return (
         <div className={style['feed-list']}>
-            {
+            {/* 
                 feedGroups && feedGroups.length > 0 ?
                 <>
                     {feedGroups.sort((a,b) => {
@@ -57,12 +57,13 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                             />
                         )
                     })}
-                </>
-                :
+                </> : */}
+                
+              
                 <div className={style['no-feeds']}>
                     No feeds yet, make some buddies to see their feeds!
                 </div>
-            }
+            
             {fetchingStatus === 'loading' &&
                 <div className={style['loading'] + " h-vh"}>
                     <LoadingIndicator fluid={true}/>

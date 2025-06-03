@@ -3,6 +3,7 @@ import { MockContext } from "../context/MockContext"
 import { faker } from "@faker-js/faker"
 import { getPostByUsernamesString } from "../libs/posts"
 import Loading from "../components/loading"
+import FeedList from "../components/activity/feed/feed-list/FeedList"
 
 
 export default function Tester(userJSON:any) {
@@ -35,7 +36,7 @@ export default function Tester(userJSON:any) {
         <MockContext.Provider value={{profilePicturePaths}}>
         <div className="w-full h-full overflow-y-scroll">
             <h1>Tester</h1>
-            <Loading/>
+            <FeedList setIsEndOfList={setStartUpdate} onRendered={(isRendered) => {}}/>
         <div>
 
         </div>
