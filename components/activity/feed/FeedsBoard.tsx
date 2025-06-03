@@ -40,8 +40,11 @@ export default function FeedsBoard (props: FeedsBoardProps) {
             },2000)
 
             //setEndOfList(false);
-       }else{
-            setFetchingStatus('failed');
+       }
+       else if(response && !response.success){
+            setFetchingStatus('empty');
+       } else {
+            setFetchingStatus('error');
        }
     },500)
     useEffect(() => {
