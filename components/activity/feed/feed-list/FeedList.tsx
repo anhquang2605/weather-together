@@ -59,9 +59,9 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                     })}
                 </>
                 :
-                <>
+                <div className={style['no-feeds']}>
                     No feeds yet, make some buddies to see their feeds!
-                </>
+                </div>
             }
             {fetchingStatus === 'loading' &&
                 <div className={style['loading'] + " h-vh"}>
