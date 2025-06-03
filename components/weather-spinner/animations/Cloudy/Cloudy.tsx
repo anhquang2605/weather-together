@@ -110,7 +110,6 @@ const Cloudy: React.FC<CloudyProps> = ({toStart, setCloudyFinished}) => {
     }
 
     useEffect(() => {
-                    console.log(toStart);
         if(toStart){
 
             startAnimation();
