@@ -70,7 +70,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                 </div> 
                 
             }
-            {fetchingStatus === 'failed' && <div>Failed to load, please try again.</div>}
+            {fetchingStatus === 'error' && <div>Failed to load, please reload and try again.</div>}
             <div className={style['lazy-target']}>
                       
             </div>

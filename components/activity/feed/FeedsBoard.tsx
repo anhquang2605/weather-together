@@ -4,7 +4,7 @@ import { FeedGroup } from '../../../types/Feed';
 import { fetchFromGetAPI } from '../../../libs/api-interactions';
 import { useFeedContext } from './FeedsContext';
 import FeedList from './feed-list/FeedList';
-import { debounce } from 'lodash';
+import { debounce, set } from 'lodash';
 
 interface FeedsBoardProps {
     username: string;
@@ -43,6 +43,9 @@ export default function FeedsBoard (props: FeedsBoardProps) {
        }
        else if(response && !response.success){
             setFetchingStatus('empty');
+            addFeeds([], true);
+            setHasMore(false);
+            setLastCursor(new Date());
        } else {
             setFetchingStatus('error');
        }
