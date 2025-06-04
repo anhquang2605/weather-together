@@ -31,7 +31,9 @@ export default function FeedsBoard (props: FeedsBoardProps) {
        const response = await getFeedsByUsernames(buddiesUsernames, username, lastCursor)
        console.log("response", response);
        if(response && response.success){
-            addFeeds(response.feedGroups, true);
+            if(response.feedGroups.length > 0){
+                addFeeds(response.feedGroups, true);
+            }
             setHasMore(response.hasMore);
             setLastCursor(new Date(response.lastCursor));
             setFetchingStatus('success');
@@ -62,7 +64,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
           ws.onmessage = (message) => {
             const payload = JSON.parse(message.data);
               if(payload.type === 'feeds-changestream'){
-                  
+                  if(payload.data.length === 0) return;
                   addFeeds(payload.data, false);
               } 
   
