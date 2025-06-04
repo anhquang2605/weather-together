@@ -5,3 +5,18 @@
         width: max-content;
     }
 }
+@media (min-width: 1280px) {
+    .feeds-boards {
+        width: 750px;
+    }
+}
+@media (min-width: 1024px) {
+    .feeds-boards {
+        width: 700px;
+    }
+}
+@media (min-width: 768px) {
+    .feeds-boards {
+        width: 640px;
+    }
+}
