@@ -35,7 +35,7 @@ export async function getServerSideProps(context: any) {
    }
     username = session?.user?.username || "";   
     let results:Result = {
-        success: false,
+        success: true,
         feedGroups: [],
         hasMore: false,
         lastCursor: new Date()
