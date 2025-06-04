@@ -29,6 +29,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     const fetchMore = debounce(async (username: string, lastCursor: Date) => {
        setFetchingStatus('loading');
        const response = await getFeedsByUsernames(buddiesUsernames, username, lastCursor)
+       console.log("response", response);
        if(response && response.success){
             addFeeds(response.feedGroups, true);
             setHasMore(response.hasMore);

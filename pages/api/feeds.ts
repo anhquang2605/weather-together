@@ -99,7 +99,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 .toArray();
             if (feeds.length === 0) {
                 res.status(200).json({
-                    success: false,
+                    success: true,
                     feeds: [],
                     hasMore: false,     
                 });
@@ -156,10 +156,7 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
                 i++;
             }
             // Get the list of usernames for which feeds were found
-            if(feedGroups.length === 0){
-                res.status(200).json({ success: false, feeds: [], hasMore: false, message: "No feed for now" });
-                return;
-            } else if(feedGroups.length > 0){
+            if(feedGroups.length > 0){
                 res.status(200).json({
                     success: true,
                     feedGroups: feedGroups,
