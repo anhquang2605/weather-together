@@ -1,6 +1,6 @@
 .feeds-board{
     width: 100%;
-    @apply mx-auto mt-8;
+    @apply mx-auto mt-16;
     @screen md{
         width: max-content;
     }
