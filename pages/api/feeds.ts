@@ -100,8 +100,9 @@ export default async (req: NextApiRequest, res:NextApiResponse) => {
             if (feeds.length === 0) {
                 res.status(200).json({
                     success: true,
-                    feeds: [],
-                    hasMore: false,     
+                    feedGroups: [],
+                    hasMore: false,
+                    lastCursor: "",    
                 });
                 return;
             }
