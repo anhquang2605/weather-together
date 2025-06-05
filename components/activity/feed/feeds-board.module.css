@@ -2,6 +2,11 @@
     width: 100%;
     @apply mx-auto mt-16;
 }
+@media (min-width: 1536px) {
+    .feeds-boards {
+        width: 900px;
+    }
+}
 @media (min-width: 1280px) {
     .feeds-boards {
         width: 750px;
