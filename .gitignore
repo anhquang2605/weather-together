@@ -36,3 +36,4 @@ next-env.d.ts
 
 #tester
 tester.tsx
+tester.module.css
