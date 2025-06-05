@@ -41,8 +41,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
             setTimeout(()=>{
                 setEndOfList(false);
             },2000)
-
-            //setEndOfList(false);
        }
         else {
             setFetchingStatus('error');
