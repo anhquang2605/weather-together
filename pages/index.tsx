@@ -67,7 +67,7 @@ export default function Home(props: any) {
     return (
         <>
             <Head>
-                <title>Home</title>
+                <title>Weather Together</title>
             </Head>
             <div className="center w-full overflow-y-auto p-8">
                     <PostEngagement
