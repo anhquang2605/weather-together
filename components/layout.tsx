@@ -49,17 +49,22 @@ export default function RootLayout({
   return (
     <>
 
-
-      <div className={style["layout"]}>
+      {
+        status !== 'unauthenticated' ?
+        <div className={style["layout"]}>
             
             { (!asPath.includes("login") && !asPath.includes("register")) &&<Navigation/>}
             { (!asPath.includes("login") && !asPath.includes("register")) && user &&<NotificationCenter/>}
             <div className="remaining-estate overflow-y-hidden flex w-full h-full">
               {children}
             </div>
-            
-          {loading && <Loading/>}
-      </div>
-    </>
+        </div>
+        :
+        <div className="flex items-center justify-center h-screen">
+          <h1 className="text-4xl font-semibold">NOT AUTHENTICATED. PLEASE LOG IN</h1>
+        </div>        
+      }
+      {loading && <Loading/>}
+          </>
   )
 }
