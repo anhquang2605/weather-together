@@ -3,7 +3,7 @@ import style from './feed-list.module.css';
 import { useFeedContext } from '../FeedsContext';
 import FeedGroupComponent from '../feed-group-component/FeedGroupComponent';
 import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
-
+import { IoSadOutline } from "react-icons/io5";
 interface FeedListProps {
     setIsEndOfList: React.Dispatch<React.SetStateAction<boolean>>;
     onRendered: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,6 +57,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                 </> 
                 : 
                 <div className={style['no-feed']}>
+                    <IoSadOutline />
                     No feeds yet, make some buddies to see their feeds!
                 </div>
             }
