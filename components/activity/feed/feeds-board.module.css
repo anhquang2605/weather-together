@@ -2,22 +2,22 @@
     width: 100%;
     @apply mx-auto mt-16;
 }
-@media (min-width: 1536px) {
+@media (min-width: 1536px)  {
     .feeds-board {
         width: 900px;
     }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (max-width: 1535px) {
     .feeds-board {
         width: 750px;
     }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1024px) and (max-width: 1279px) {
     .feeds-board {
         width: 700px;
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 768px ) and (max-width: 1023px) {
     .feeds-board {
         width: 640px;
     }
