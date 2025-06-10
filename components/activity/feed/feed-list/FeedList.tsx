@@ -57,8 +57,8 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                 </> 
                 : 
                 <div className={style['no-feed']}>
-                    <IoSadOutline />
-                    No feeds yet, make some buddies to see their feeds!
+                    <IoSadOutline size={40} />
+                    <span className={style['no-feed-text']}>No feeds yet, make some buddies to see their feeds!</span>
                 </div>
             }
             {fetchingStatus === 'loading' &&
