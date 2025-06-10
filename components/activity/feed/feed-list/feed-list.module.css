@@ -1,6 +1,7 @@
 .feed-list{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .lazy-target{
     width: 100%;
