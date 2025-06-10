@@ -1,6 +1,6 @@
 .feeds-board{
     width: 100%;
-    @apply mx-auto mt-16;
+    @apply mx-auto mt-8;
 }
 @media (min-width: 1536px)  {
     .feeds-board {

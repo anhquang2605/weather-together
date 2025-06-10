@@ -1,4 +1,5 @@
 .post-engagement{
+    width: 100%;
    border: 1px solid lightgray;
    box-shadow: inset 0px 0px 3px 3px rgba(0, 0, 0,1);
 }
@@ -92,5 +93,25 @@
     }
     100%{
       clip-path: circle(0% at 0% 50%);
+    }
+}
+@media (min-width: 1536px)  {
+    .post-engagement {
+        width: 900px;
+    }
+}
+@media (min-width: 1280px) and (max-width: 1535px) {
+    .post-engagement {
+        width: 750px;
+    }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .post-engagement {
+        width: 700px;
+    }
+}
+@media (min-width: 768px ) and (max-width: 1023px) {
+    .post-engagement {
+        width: 640px;
     }
 }

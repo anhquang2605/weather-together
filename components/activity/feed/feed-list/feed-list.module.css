@@ -9,7 +9,7 @@
     overflow: hidden;
 }
 .no-feed{
-    @apply w-full h-full flex flex-col items-center justify-center rounded-md px-8 py-32 text-xl;
+    @apply w-full h-full flex flex-col items-center justify-center rounded-3xl px-8 py-32 text-xl;
     
 }
 .no-feed-text{
