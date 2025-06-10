@@ -56,7 +56,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                     })}
                 </> 
                 : 
-                <div className={style['no-feed']}>
+                <div className={style['no-feed'] + " glass-lighter"}>
                     <IoSadOutline size={40} />
                     <span className={style['no-feed-text']}>No feeds yet, make some buddies to see their feeds!</span>
                 </div>
