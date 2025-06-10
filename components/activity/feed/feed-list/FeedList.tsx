@@ -1,9 +1,6 @@
-import React, { use, useEffect, useState } from 'react';
+import React, {useEffect} from 'react';
 import style from './feed-list.module.css';
 import { useFeedContext } from '../FeedsContext';
-import { Feed, FeedGroup } from '../../../../types/Feed';
-import FeedComponent from '../feed-component/FeedComponent';
-import { set } from 'lodash';
 import FeedGroupComponent from '../feed-group-component/FeedGroupComponent';
 import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
 
