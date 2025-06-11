@@ -44,7 +44,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
         [
             ["idle", ""],
             ["loading", "Uploading..."],
-            ["success", "PostType " + (isEditing? "updated" : "uploaded")  + " successfully!"],
+            ["success", "Post " + (isEditing? "updated" : "uploaded")  + " successfully!"],
             ["error", "Error uploading post!"]
         ]
     );
