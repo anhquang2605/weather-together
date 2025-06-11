@@ -469,7 +469,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
     },[isEditing])
     return (
         <div className="post-form w-full relative">
-            <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "PostType Creation"}</h3>        
+            <h3 className="form-title mb-4">{isEditing ? "Change your mind?" : "Post Creation"}</h3>        
             <CustomSelect outerClassName={'mb-4'}  selectedOptionClassName='option-selected' setSelected={setSelectedVisibilityIndex} optionTemplate={optionTemplate} options={visibilityOptions} selectedId={selectedVisibilityIndex} />
             
             <textarea 
@@ -507,7 +507,7 @@ export default function PostForm ({username, setRevealModal, post, revealed, set
             <div className="btn-group">
                 <button onClick={()=>{
                     handleUploadPost();
-                }} className="action-btn w-full">{isEditing ? "Finish Edit" : "PostType"}</button>
+                }} className="action-btn w-full">{isEditing ? "Finish Edit" : "Post"}</button>
             </div>
 { uploadingStatus !== 'idle' &&            <PostInsertionStatusBox
                 apiStatusAndMessageMap={apiStatusAndMessageMap}
