@@ -48,7 +48,7 @@ export async function getServerSideProps(context: any) {
    
     const props:HomeProps = {
         username: "",
-        apiStatus: 'failed',
+        apiStatus: 'idle',
         buddiesUsernames: []
     }
     if( results && results.success){
@@ -61,9 +61,9 @@ export async function getServerSideProps(context: any) {
        props
     }
 }
-export default function Home(props: any) {
+export default function Home( props: any) {
 
-    const {username, apiStatus,buddiesUsernames} = props;
+    const {username, apiStatus = 'idle',buddiesUsernames} = props;
     return (
         <>
             <Head>
@@ -72,7 +72,14 @@ export default function Home(props: any) {
             <div className="center w-full overflow-y-auto p-8">
                     <PostEngagement
                         username={username}
-                    /> 
+                    />
+                    {
+                        apiStatus === 'idle'
+                        &&
+                        <div className="text-center text-2xl font-bold slate-200 px-16 py-8">
+                            Loading feeds...
+                        </div>
+                    } 
                     {
                         apiStatus === 'success'
                         &&
@@ -87,7 +94,7 @@ export default function Home(props: any) {
                     {
                         apiStatus === 'failed'
                         &&
-                        <div className="text-center text-2xl font-bold text-gray-500">
+                        <div className="text-center text-2xl font-bold slate-200">
                             Failed to load feeds
                         </div>
                     }
