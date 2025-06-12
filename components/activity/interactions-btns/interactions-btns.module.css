@@ -21,6 +21,7 @@
 .interaction-btn{
     @apply rounded-3xl;
     transition: all 0.2s ease-in-out;
+    color: var(--light-text-color);
     &:hover{
         background-color: white;
         color: var(--btn-color);
