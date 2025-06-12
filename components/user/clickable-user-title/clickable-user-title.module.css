@@ -1,4 +1,5 @@
 .clickable-user-title{
+    color: var(--light-text-color);
     @apply font-semibold;
     &:hover{
         cursor: pointer;
