@@ -50,6 +50,7 @@ body {
   --sm-screen: 640px;
   --short-transition: all 0.2s ease-in-out;
   --long-transition: all 0.5s ease-in-out;
+  --light-text-color: white;
 }
 
 .glass{
