@@ -1,5 +1,4 @@
 import { useSession } from "next-auth/react";
-import { use, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 interface BannerProps {
