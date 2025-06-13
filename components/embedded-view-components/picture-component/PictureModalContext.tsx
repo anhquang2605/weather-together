@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+
 import {createContext, useState, useContext, ReactNode, useEffect} from 'react';
 import { usernameToProfilePicturePathMap } from '../../../pages/api/users';
 import { Picture } from '../../../types/Picture';
