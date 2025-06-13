@@ -1,11 +1,9 @@
 import { useState, useEffect} from 'react';
 import style from './feeds-board.module.css';
-import { FeedGroup } from '../../../types/Feed';
 import { fetchFromGetAPI } from '../../../libs/api-interactions';
 import { useFeedContext } from './FeedsContext';
 import FeedList from './feed-list/FeedList';
-import { debounce, set } from 'lodash';
-import LoadingIndicator from '../../loading-indicator/LoadingIndicator';
+import { debounce} from 'lodash';
 
 interface FeedsBoardProps {
     username: string;
