@@ -83,7 +83,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
                     fetchingStatus === 'loading' ? 
                         <div className="w-full h-full flex items-center justify-center py-16 px-8">
                             <LoadingIndicator />
-                            <div>Fetching Feeds</div>
                         </div>
                     :
                     <FeedList setIsEndOfList={setEndOfList} onRendered={setListRendered}/>

@@ -2,8 +2,6 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { Feed, FeedGroup } from '../../../types/Feed';
 import { insertToPostAPI } from '../../../libs/api-interactions';
 import { UserBasic } from '../../../types/User';
-import { current } from '@reduxjs/toolkit';
-import { set } from 'lodash';
 type FeedsContextType = {
     hasMore: boolean,
     fetchingStatus: string,
