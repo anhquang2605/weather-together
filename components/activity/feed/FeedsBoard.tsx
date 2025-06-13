@@ -5,6 +5,7 @@ import { fetchFromGetAPI } from '../../../libs/api-interactions';
 import { useFeedContext } from './FeedsContext';
 import FeedList from './feed-list/FeedList';
 import { debounce, set } from 'lodash';
+import LoadingIndicator from '../../loading-indicator/LoadingIndicator';
 
 interface FeedsBoardProps {
     username: string;
@@ -20,7 +21,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
         buddiesUsernames
     } = props;
 
-    const {addFeeds, setHasMore, setFetchingStatus, hasMore, setLastCursor, lastCursor,  setUsername} = useFeedContext();
+    const {addFeeds, setHasMore, setFetchingStatus, hasMore, setLastCursor, lastCursor,  setUsername , fetchingStatus} = useFeedContext();
     const [endOfList, setEndOfList] = useState<boolean>(false);
     const [listRendered, setListRendered] = useState<boolean>(false);
     const SERVER_HOST = process.env.NEXT_PUBLIC_WS_SERVER_HOST;
@@ -78,7 +79,16 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     },[endOfList])
     return (
             <div className={style["feeds-board"]}>
-                <FeedList setIsEndOfList={setEndOfList} onRendered={setListRendered}/>
+                {
+                    fetchingStatus === 'loading' ? 
+                        <div className="w-full h-full flex items-center justify-center py-16 px-8">
+                            <LoadingIndicator />
+                            <div>Fetching Feeds</div>
+                        </div>
+                    :
+                    <FeedList setIsEndOfList={setEndOfList} onRendered={setListRendered}/>
+                }
+                
             </div>
     )
 }
