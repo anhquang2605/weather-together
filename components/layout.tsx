@@ -1,13 +1,11 @@
 import { Inter } from 'next/font/google'
 import Navigation from './navigation/navigation'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
-import {  use, useEffect, useState} from 'react'
+import {  useEffect, useState} from 'react'
 import Loading from './loading'
 import NotificationCenter from './notifications/notification-center/NotificationCenter'
 import { useSession } from 'next-auth/react'
 import style from './layout.module.css'
-import { redirect } from 'react-router-dom'
 import { useWeatherContext } from '../context/weatherContext'
 const inter = Inter({ subsets: ['latin'] })
 
