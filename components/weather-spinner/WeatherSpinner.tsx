@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './weather-spinner.module.css';
 import anime from 'animejs';
 import Cloudy from './animations/Cloudy/Cloudy.tsx';
