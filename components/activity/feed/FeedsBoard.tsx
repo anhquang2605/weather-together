@@ -30,7 +30,6 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     const fetchMore = debounce(async (username: string, lastCursor: Date) => {
        setFetchingStatus('loading');
        const response = await getFeedsByUsernames(buddiesUsernames, username, lastCursor)
-       console.log("response", response);
        if(response && response.success){
             if(response.feedGroups.length > 0){
                 addFeeds(response.feedGroups, true);
@@ -79,9 +78,7 @@ export default function FeedsBoard (props: FeedsBoardProps) {
     },[endOfList])
     return (
             <div className={style["feeds-board"]}>
-
                     <FeedList setIsEndOfList={setEndOfList} onRendered={setListRendered}/>
-                
             </div>
     )
 }
