@@ -1,7 +1,6 @@
 import { Value } from "../../../../types/WeatherData"
-import {useSelector, useDispatch} from "react-redux"
-import { fetchWeatherDaily, selectAllWeatherDaily} from "../../../../store/features/weather/weatherSlice"
-import { use, useEffect, useState } from "react"
+import { useDispatch} from "react-redux"
+import { useEffect, useState } from "react"
 import { AppDispatch } from "../../../../store/store"
 interface WeatherDailyTableProps {
     listOfDailyWeather: Value[]
