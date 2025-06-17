@@ -39,6 +39,9 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
         onRendered(feedGroups && feedGroups.length > 0);
     },[
     ]);
+    useEffect(() => {
+        console.log(feedGroups);
+    }, [feedGroups] );
     return (
         <div className={style['feed-list']}>
             { 
