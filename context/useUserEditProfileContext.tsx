@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useState} from 'react';
+import {createContext, useContext} from 'react';
 
 type UserEditProfileContextType = {
     featuredWeather: string;

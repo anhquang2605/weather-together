@@ -14,7 +14,6 @@ import CommentForm from '../../../activity/comment/comment-form/CommentForm';
 import ContentSummary from '../../../activity/content-summary/ContentSummary';
 import ReactionsBar from '../../../activity/reaction/reactions-bar/ReactionsBar';
 import { Picture } from '../../../../types/Picture';
-import { fi } from 'date-fns/locale';
 import LoadingIcon from '../../../plugins/loading-icon/LoadingIcon';
 interface PictureInteractionPanelProps {
     author: UserInClient;

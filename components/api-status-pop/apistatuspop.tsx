@@ -1,5 +1,5 @@
 
-import { use, useEffect, useState} from 'react';
+import {  useEffect, useState} from 'react';
 import {useRouter} from 'next/router';//use with next js
 import {IoClose} from 'react-icons/io5';
 import style from './api-status-pop.module.css';

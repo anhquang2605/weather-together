@@ -1,4 +1,4 @@
-import { createContext, use, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { CurrentConditions, Value } from "../types/WeatherData";
 import { getWeather } from "../libs/weather";
 
