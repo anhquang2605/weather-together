@@ -1,4 +1,3 @@
-import { useState } from "react";
 import WeatherSpinner from "./weather-spinner/WeatherSpinner";
 
 
