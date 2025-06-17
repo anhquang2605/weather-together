@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import style from './buddy-card.module.css';
 
 import MiniAvatar from '../mini-avatar/MiniAvatar';
