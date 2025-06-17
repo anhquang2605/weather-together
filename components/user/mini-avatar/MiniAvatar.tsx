@@ -1,11 +1,9 @@
 import Image from 'next/image'
 import style from './mini-avatar.module.scss';
 import DefaultProfilePicture from '../../profile/default-profile-picture/DefaultProfilePicture';
-import WeatherIcon from '../../weather-widgets/pluggins/weather-icon/WeatherIcon';
 import { TbCameraPlus } from "react-icons/tb";
 import { useState } from 'react';
-import { updateToPutAPI } from '../../../libs/api-interactions';
-import { useUserEditProfileContext, UserEditProfileContext } from '../../../context/useUserEditProfileContext';
+import { useUserEditProfileContext} from '../../../context/useUserEditProfileContext';
 import FavWeatherWheel from '../../profile/fav-weather-wheel/FavWeatherWheel';
 import { cp } from 'fs';
 interface MiniAvatarProps {
