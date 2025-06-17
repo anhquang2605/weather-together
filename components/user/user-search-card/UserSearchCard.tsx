@@ -1,14 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, {useState } from 'react';
 import style from './user-search-card.module.css';
 import { UserInSearch } from '../../../types/User';
 import MiniAvatar from '../mini-avatar/MiniAvatar';
 import FeaturedWeatherBadge from '../featured-weather-badge/FeaturedWeatherBadge';
 import { useRouter } from 'next/router';
 import {LiaUserFriendsSolid} from 'react-icons/lia';
-import { FriendsContext } from '../../../context/FriendsContext';
 import { RiPassPendingLine } from 'react-icons/ri';
 import { useSession } from 'next-auth/react';
-import { set } from 'lodash';
 
 interface UserSearchCardProps {
     user: UserInSearch;
