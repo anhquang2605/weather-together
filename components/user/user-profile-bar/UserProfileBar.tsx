@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import style from './user-profile-bar.module.css';
 import UserMiniProfile from '../user-mini-profile/UserMiniProfile';
-import { UserBasic, UserWithFriendStatus } from '../../../types/User';
+import { UserWithFriendStatus } from '../../../types/User';
 import UserFriendStatus from '../user-friend-status/UserFriendStatus';
 
 interface UserProfileBarProps {
