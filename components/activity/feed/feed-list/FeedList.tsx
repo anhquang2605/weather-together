@@ -42,6 +42,11 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
     useEffect(() => {
         console.log(feedGroups);
     }, [feedGroups] );
+    /**
+     * Feedlist debug log
+     * Issue: feedgroups is set to empty array when no feed is available, we want to show that we are fetching feeds, not empty. only after fetching is done, we set feedGroups to null.
+     * 
+     */
     return (
         <div className={style['feed-list']}>
             { 
