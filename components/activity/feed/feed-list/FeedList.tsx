@@ -11,6 +11,7 @@ interface FeedListProps {
 
 const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
     const {fetchingStatus, feedGroups} = useFeedContext();
+    const [initialLoad, setInitialLoad] = React.useState<boolean>(true);
     useEffect(()=>{
         if(feedGroups){
             const option = {
