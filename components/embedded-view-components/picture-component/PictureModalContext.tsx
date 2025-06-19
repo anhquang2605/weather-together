@@ -69,9 +69,9 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
         }    
         if(notificationComponent){
             if(notiZIndex >= 31){
-                notificationComponent.style.zIndex = (notiZIndex - 21).toString();
-            } else if(notiZIndex <= 10){
-                notificationComponent.style.zIndex = (notiZIndex + 21).toString();
+                notificationComponent.style.zIndex = (notiZIndex - 20).toString();
+            } else if(notiZIndex <= 11){
+                notificationComponent.style.zIndex = (notiZIndex + 20).toString();
             }
         }
     }
