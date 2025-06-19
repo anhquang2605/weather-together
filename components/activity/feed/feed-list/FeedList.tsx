@@ -46,12 +46,6 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
             setInitialLoad(true);
         }
     }, [fetchingStatus]);
-    /**
-     * Feedlist debug log
-     * Issue: feedgroups is set to empty array when no feed is available, we want to show that we are fetching feeds, not empty. 
-     * Suggestion: only after fetching is done, we set feedGroups to null.
-     * Approach: has initialLoad state to determine if we are still fetching feeds, if so, we show loading indicator.
-     */
 
         return (
             <div className={style['feed-list']}>
