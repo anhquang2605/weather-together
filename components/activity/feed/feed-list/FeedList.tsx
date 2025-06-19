@@ -4,6 +4,7 @@ import { useFeedContext } from '../FeedsContext';
 import FeedGroupComponent from '../feed-group-component/FeedGroupComponent';
 import LoadingIndicator from '../../../loading-indicator/LoadingIndicator';
 import { IoSadOutline } from "react-icons/io5";
+import LoadingIcon from '../../../plugins/loading-icon/LoadingIcon';
 interface FeedListProps {
     setIsEndOfList: React.Dispatch<React.SetStateAction<boolean>>;
     onRendered: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,7 +43,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
     ]);
     useEffect(() => {
         if (fetchingStatus === 'success' || fetchingStatus === 'error') {
-            setInitialLoad(true);
+            //setInitialLoad(true);
         }
     }, [fetchingStatus]);
     /**
@@ -60,7 +61,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
                     <div>
                         Working on it, please wait...
                     </div>
-                    <LoadingIndicator fluid={true}/>
+                    <LoadingIcon />
                 </div>
                 : 
                 feedGroups && feedGroups.length > 0 ?
