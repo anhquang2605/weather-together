@@ -41,7 +41,6 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
     },[
     ]);
     useEffect(() => {
-        console.log('fetchingStatus changed:', fetchingStatus);
         if (fetchingStatus === 'success' || fetchingStatus === 'error') {
             setInitialLoad(true);
         }
