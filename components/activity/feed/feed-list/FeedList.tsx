@@ -41,6 +41,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
     },[
     ]);
     useEffect(() => {
+        console.log('fetchingStatus changed:', fetchingStatus);
         if (fetchingStatus === 'success' || fetchingStatus === 'error') {
             setInitialLoad(true);
         }
@@ -51,56 +52,52 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
      * Suggestion: only after fetching is done, we set feedGroups to null.
      * Approach: has initialLoad state to determine if we are still fetching feeds, if so, we show loading indicator.
      */
-    if (!initialLoad ) {
-        return (
-          
-            <div className={style['loading-feed-list']}>
-                <div>
-                    Working on it, please wait...
-                </div>
-                <LoadingIndicator fluid={true}/>
-            </div> 
-    
-        )
-    } else {
+
         return (
             <div className={style['feed-list']}>
             { 
-            feedGroups && feedGroups.length > 0 ?
-            <>
-                {feedGroups.sort((a,b) => {
-                    return new Date(b.lastestCreatedDate).getTime() - new Date(a.lastestCreatedDate).getTime();
-                }).map((feedGroup, index) => {
-                    return(
-                        <FeedGroupComponent 
-                            key={index}
-                            feedGroup={feedGroup}
-                        />
-                    )
-                })}
-            </> 
-            : 
-            <div className={style['no-feed'] + " glass-lighter"}>
-                <IoSadOutline size={40} />
-                <span className={style['no-feed-text']}>No feed yet, post something or make some buddies to see feeds!</span>
-            </div>
+                !initialLoad ?
+                <div className={style['loading-feed-list']}>
+                    <div>
+                        Working on it, please wait...
+                    </div>
+                    <LoadingIndicator fluid={true}/>
+                </div>
+                : 
+                feedGroups && feedGroups.length > 0 ?
+                <>
+                    {feedGroups.sort((a,b) => {
+                        return new Date(b.lastestCreatedDate).getTime() - new Date(a.lastestCreatedDate).getTime();
+                    }).map((feedGroup, index) => {
+                        return(
+                            <FeedGroupComponent 
+                                key={index}
+                                feedGroup={feedGroup}
+                            />
+                        )
+                    })}
+                </> 
+                : 
+                <div className={style['no-feed'] + " glass-lighter"}>
+                    <IoSadOutline size={40} />
+                    <span className={style['no-feed-text']}>No feed yet, post something or make some buddies to see feeds!</span>
+                </div>
             }
-            {fetchingStatus === 'loading' &&
-            <div className={style['loading'] + " h-vh"}>
-                <LoadingIndicator fluid={true}/>
-            </div> 
-
-            }
-            {fetchingStatus === 'error' && <div>Failed to load, please reload and try again.</div>}
-            <div className={style['lazy-target']}>
+                {
+                    fetchingStatus === 'loading' && initialLoad &&
+                    <div className={style['loading'] + " h-vh"}>
+                        <LoadingIndicator fluid={true}/>
+                    </div> 
+                }
+                {
+                    fetchingStatus === 'error' && 
+                    <div>Failed to load, please reload and try again.</div>
+                }
+                <div className={style['lazy-target']}>
                     
+                </div>
             </div>
-            </div>
-            );
-    } 
-
-
-    
+        );
 };
 
 export default FeedList;
