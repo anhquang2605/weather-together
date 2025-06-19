@@ -14,13 +14,9 @@ body {
   }
 }
 
-/* @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-} */
-
-/* ! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com */
+/*
+! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com
+*/
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -849,6 +845,10 @@ video {
   height: min-content;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
@@ -1057,10 +1057,6 @@ video {
 
 .overflow-y-hidden {
   overflow-y: hidden;
-}
-
-.overflow-y-scroll {
-  overflow-y: scroll;
 }
 
 .whitespace-pre-wrap {
@@ -1308,6 +1304,11 @@ video {
   padding-bottom: 1rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -1412,11 +1413,6 @@ video {
 .text-gray-300 {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
-}
-
-.text-gray-500 {
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
 .text-gray-700 {
@@ -1635,6 +1631,7 @@ video {
   --sm-screen: 640px;
   --short-transition: all 0.2s ease-in-out;
   --long-transition: all 0.5s ease-in-out;
+  --light-text: white;
 }
 
 .glass {

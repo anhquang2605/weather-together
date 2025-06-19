@@ -57,7 +57,7 @@ const FeedList: React.FC<FeedListProps> = ({ setIsEndOfList, onRendered}) => {
             <div className={style['feed-list']}>
             { 
                 !initialLoad ?
-                <div className={style['loading-feed-list']}>
+                <div className={style['loading-feed-list'] + ' glass-lighter'}>
                     <div>
                         Working on it, please wait...
                     </div>
