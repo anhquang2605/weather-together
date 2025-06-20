@@ -66,8 +66,6 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
         let notiZIndex = 0;
         if(notificationComponent){
             notiZIndex = parseInt(window.getComputedStyle(notificationComponent).zIndex);
-        }    
-        if(notificationComponent){
             if(notiZIndex >= 31){
                 notificationComponent.style.zIndex = (notiZIndex - 21).toString();
             } else if(notiZIndex <= 10){
