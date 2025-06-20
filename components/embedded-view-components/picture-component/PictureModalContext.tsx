@@ -75,6 +75,7 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
     }
     const changeNavBarZIndex = (show: boolean) => {
         const navBar = document.getElementById('nav-menu');
+        console.log(navBar);
         let navBarZIndex = 0;   
         if(navBar){
             navBarZIndex = parseInt(window.getComputedStyle(navBar).zIndex);
