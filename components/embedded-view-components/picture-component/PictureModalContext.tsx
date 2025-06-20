@@ -77,11 +77,9 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
     }
     const changeNavBarZIndex = (show: boolean) => {
         const navBar = document.getElementById('nav-menu');
-        let navBarZIndex = 0;
+        let navBarZIndex = 0;   
         if(navBar){
             navBarZIndex = parseInt(window.getComputedStyle(navBar).zIndex);
-        }    
-        if(navBar){
             if(navBarZIndex >= 20){
                 navBar.style.zIndex = (navBarZIndex - 19).toString();
             } else if(navBarZIndex <= 1){
@@ -103,7 +101,6 @@ export const PictureModalProvider = ({children}: IPictureModalProviderProps) => 
         if(!show){
             resetStates();
         }
-        console.log('show', show);
         changeNotificationZIndex(show);
         changeNavBarZIndex(show);
     },[show])
